@@ -10,19 +10,17 @@ test('resume print styles hide the Lumen skip link', async ({ page }) => {
   await expect(skipLink).toBeHidden()
 })
 
-test.describe('Organization carousel Lumen Button controls', () => {
-  test('previous and next controls are real buttons with accessible names and 44px targets', async ({ page }) => {
+test.describe('Organization index Lumen Button controls', () => {
+  test('organization selectors are real buttons with accessible names and 44px targets', async ({ page }) => {
     await page.setViewportSize({ width: 800, height: 900 })
     await page.goto('/about/')
 
-    const carousel = page.locator('[data-organization-carousel]')
-    const previousButton = carousel.getByRole('button', { name: 'Show previous organizations' })
-    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
+    const buttons = page.getByRole('navigation', { name: 'Choose an organization' }).getByRole('button')
 
-    await expect(previousButton).toHaveAttribute('aria-controls', 'organization-carousel-items')
-    await expect(nextButton).toHaveAttribute('aria-controls', 'organization-carousel-items')
-
-    for (const button of [previousButton, nextButton]) {
+    await expect(buttons).toHaveCount(9)
+    for (const button of await buttons.all()) {
+      await expect(button).toHaveAttribute('aria-controls', 'organization-carousel-items')
+      await expect(button).toHaveAccessibleName(/\S/u)
       const box = await button.boundingBox()
 
       expect(box?.width).toBeGreaterThanOrEqual(44)
@@ -30,26 +28,26 @@ test.describe('Organization carousel Lumen Button controls', () => {
     }
   })
 
-  test('previous control disables at the first page and keyboard paging keeps it in sync', async ({ page }) => {
+  test('keyboard selection keeps the active organization and focus in sync', async ({ page }) => {
     await page.setViewportSize({ width: 800, height: 900 })
     await page.goto('/about/')
 
-    const carousel = page.locator('[data-organization-carousel]')
-    const previousButton = carousel.getByRole('button', { name: 'Show previous organizations' })
-    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
+    const index = page.getByRole('navigation', { name: 'Choose an organization' })
+    const first = index.getByRole('button', { name: '01 Void', exact: true })
+    const last = index.getByRole('button', { name: '09 ReactJS Colombia', exact: true })
 
-    await expect(previousButton).toBeDisabled()
-    await expect(nextButton).toBeEnabled()
-
-    await nextButton.focus()
-    await page.keyboard.press('ArrowRight')
-
-    await expect(previousButton).toBeEnabled()
-
-    await previousButton.focus()
-    await page.keyboard.press('ArrowLeft')
-
-    await expect(previousButton).toBeDisabled()
+    await expect(first).toHaveAttribute('aria-pressed', 'true')
+    await expect(last).toHaveAttribute('aria-pressed', 'false')
+    await last.focus()
+    await page.keyboard.press('Space')
+    await expect(last).toHaveAttribute('aria-pressed', 'true')
+    await expect(last).toBeFocused()
+    await expect(first).toHaveAttribute('aria-pressed', 'false')
+    await first.focus()
+    await page.keyboard.press('Enter')
+    await expect(first).toHaveAttribute('aria-pressed', 'true')
+    await expect(first).toBeFocused()
+    await expect(index.locator('[aria-pressed="true"]')).toHaveCount(1)
   })
 })
 

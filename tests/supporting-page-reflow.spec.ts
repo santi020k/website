@@ -140,20 +140,18 @@ for (const width of [320, 390, 1440]) {
           await expect(page.getByRole('heading', { level: 1 })).toContainText('React.js')
         })
 
-        test('organization logos and paging controls fit and keep keyboard focus', async ({ page, browserName }) => {
+        test('organization logos and name controls fit and keep keyboard focus', async ({ page, browserName }) => {
           await openPage(page, '/about/', textSize)
           const carousel = page.locator('[data-organization-carousel]')
-          const next = carousel.getByRole('button', { name: 'Show next organizations' })
-          const previous = carousel.getByRole('button', { name: 'Show previous organizations' })
+          const selectors = carousel.getByRole('navigation', { name: 'Choose an organization' }).getByRole('button')
           const status = carousel.locator('[data-carousel-status]')
           const firstStatus = await status.textContent()
 
           await expectWholeWords(status)
           await expectInside(carousel.locator('[data-carousel-controls] > *'))
           await expectInside(carousel.locator('[data-carousel-controls] button'))
-          await tabTo(page, next, browserName)
 
-          // Visit every page: logos have different aspect ratios and limits.
+          // Visit every organization: logos have different aspect ratios and limits.
           const logos = carousel.locator('[data-carousel-item]:visible [data-carousel-logo] > img:not([aria-hidden])')
           const copy = carousel.locator('[data-carousel-item]:visible [data-carousel-copy]')
           const expectReadableSheets = async () => {
@@ -179,22 +177,21 @@ for (const width of [320, 390, 1440]) {
           await expectLoadedLogos(logos)
           await expectInside(logos)
           await expectReadableSheets()
-          while (await next.isEnabled()) {
+          for (const [position, button] of (await selectors.all()).entries()) {
+            await tabTo(page, button, browserName)
+            await expect(button).toBeFocused()
             await page.keyboard.press('Enter')
+            await expect(button).toHaveAttribute('aria-pressed', 'true')
+            await expect(carousel.locator('[data-carousel-item]').nth(position)).toBeVisible()
+            await expectOutline(button)
             await expectLoadedLogos(logos)
             await expectInside(logos)
             await expectReadableSheets()
           }
-          await expect(next).toBeDisabled()
-          await expect(previous).toBeFocused()
-          await expectOutline(previous)
+          await selectors.first().focus()
           await page.keyboard.press('Enter')
-          await expect(next).toBeEnabled()
-          while (await previous.isEnabled()) {
-            await page.keyboard.press('Enter')
-          }
           await expect(status).toHaveText(firstStatus ?? '')
-          await expect(next).toBeFocused()
+          await expect(selectors.first()).toBeFocused()
 
           const firstCaseStudy = carousel.getByRole('link', { name: /^Void /u })
 

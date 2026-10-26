@@ -8,6 +8,8 @@
 
 ### Minor Changes
 
+- Replace About organization carousel arrows with a numbered name index. Keep all nine organizations discoverable, preserve focused case-study links during resizing, and retain complete access without JavaScript.
+
 - Add Reading brief to project openings with automatically calculated narrative reading estimates and section counts.
 
 - Clarify project availability, update PostLens 2 launch status, and publish its launch article with an original editorial cover.

@@ -286,34 +286,36 @@ for (const theme of ['light', 'dark'] as const) {
   })
 }
 
-test('organization paging keeps keyboard focus operable at either end', async ({ page }) => {
+test('organization selection keeps keyboard focus operable at either end', async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 900 })
   await page.goto('/about/')
-  const previous = page.getByRole('button', { name: 'Show previous organizations' })
-  const next = page.getByRole('button', { name: 'Show next organizations' })
+  const index = page.getByRole('navigation', { name: 'Choose an organization' })
+  const first = index.getByRole('button', { name: '01 Void', exact: true })
+  const last = index.getByRole('button', { name: '09 ReactJS Colombia', exact: true })
 
-  await next.focus()
-
-  for (let index = 0; index < 4; index += 1) await page.keyboard.press('Enter')
-
-  await expect(next).toBeDisabled()
-  await expect(previous).toBeFocused()
-
-  for (let index = 0; index < 4; index += 1) await page.keyboard.press('Enter')
-
-  await expect(previous).toBeDisabled()
-  await expect(next).toBeFocused()
-  await next.press('ArrowRight')
+  await last.focus()
+  await page.keyboard.press('Enter')
+  await expect(last).toBeEnabled()
+  await expect(last).toBeFocused()
+  await expect(last).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('[data-carousel-status]')).toHaveText('Showing 8–9 of 9')
+  await first.focus()
+  await page.keyboard.press('Enter')
+  await expect(first).toBeEnabled()
+  await expect(first).toBeFocused()
+  await expect(first).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('[data-carousel-status]')).toHaveText('Showing 1–2 of 9')
+  await index.getByRole('button', { name: '03 Datagran', exact: true }).press('Space')
   await expect(page.locator('[data-carousel-status]')).toHaveText('Showing 3–4 of 9')
 })
 
-test('organization paging follows available card width and preserves focused content', async ({ page }) => {
+test('organization selection follows available card width and preserves focused content', async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 900 })
   await openPage(page, '/about/')
   const items = page.locator('[data-carousel-item]:visible')
 
   await expect(items).toHaveCount(1)
-  await page.getByRole('button', { name: 'Show next organizations' }).click()
+  await page.getByRole('button', { name: '02 Optic Power', exact: true }).click()
   const link = items.first().getByRole('link')
   const href = requireValue(await link.getAttribute('href'))
 
@@ -340,7 +342,7 @@ test('About carousel rebinds once after client navigation', async ({ page }) => 
   await expect(page).toHaveURL('/about/')
   expect(await initialDocument.evaluate(node => node === document)).toBe(true)
   await initialDocument.dispose()
-  await page.getByRole('button', { name: 'Show next organizations' }).click()
+  await page.getByRole('button', { name: '03 Datagran', exact: true }).click()
   await expect(page.locator('[data-carousel-status]')).toHaveText('Showing 3–4 of 9')
   await page.evaluate(() => {
     document.documentElement.style.fontSize = '200%'

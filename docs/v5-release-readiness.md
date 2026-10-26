@@ -146,3 +146,25 @@ The article-reference and fresh-recommendation suites then passed 20 cases acros
 Chromium and WebKit with retries disabled, including native keyboard navigation
 and HTML without JavaScript. The existing archives were reassembled from their
 unchanged builds. Full release gates remain reserved for final publication.
+
+## Named organization index follow-up
+
+The approved `feature/about-organization-index` commit `bc8f20bc` is contained
+through local merge `3a53e415`. Nine named Lumen buttons replace the previous/next
+arrows, expose the selected organization, and keep the corresponding case study
+visible across layout changes. Native Tab, Enter and Space remain usable;
+without JavaScript all organization cards remain visible. Imagery comparisons
+remain proposals and do not change the release candidate's images.
+
+The new note is folded into 5.0.0 while preserving the published changelog.
+Resume PDFs were regenerated because the shared About stylesheet participates
+in their source fingerprint; the freshness check passed.
+
+Scoped integration validation passed: zero-warning ESLint, `check:current` with
+no errors, warnings or hints, and the current-site production build and OG audit
+for 452 pages. The About and named-index suites passed 32 Chromium/WebKit cases.
+Three older browser suites were updated to use named selectors while retaining
+their keyboard, resize, client-navigation, logo and enlarged-text coverage;
+all 34 affected cases passed. After simplifying a test's keyboard traversal to
+reuse its existing helper, its 24 responsive cases passed again with retries
+disabled. The original whole-release gate remains recorded above at `0711988b`.
