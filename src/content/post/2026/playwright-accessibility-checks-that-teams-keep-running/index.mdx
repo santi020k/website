@@ -13,7 +13,7 @@ seriesId: "building-a-production-nextjs-app"
 seriesOrder: 8
 ---
 
-import { Code } from '@santi020k/lumen-astro'
+import ArticleCode from '@/components/atoms/ArticleCode.astro'
 import scanExample from '../../../../../tests/accessibility-guide/scan.spec.ts?raw'
 import dialogExample from '../../../../../tests/accessibility-guide/dialog.spec.ts?raw'
 import skipLinkExample from '../../../../../tests/accessibility-guide/skip-link.spec.ts?raw'
@@ -43,7 +43,7 @@ For an existing Playwright project, install `@axe-core/playwright` as a developm
 
 This example waits for a visible page heading and loaded fonts, then checks the article in light and dark themes. It requests axe's WCAG 2.0, 2.1, and 2.2 A/AA rule tags. A passing assertion means those enabled rules found no violations in the scanned state; it does not establish WCAG conformance.
 
-<Code className="not-prose" theme="santi020k" code={scanExample} language="typescript" label="tests/accessibility-guide/scan.spec.ts" codeLabel="Page accessibility scan example" variant="block" copy />
+<ArticleCode code={scanExample} language="typescript" label="tests/accessibility-guide/scan.spec.ts" codeLabel="Page accessibility scan example" />
 
 Keep the `incomplete` results for human review: they are checks axe could not decide automatically. The attachment also preserves violation details for diagnosis. Use synthetic accounts and data in authenticated tests, because reports and traces can contain page content.
 
@@ -57,7 +57,7 @@ The first test below uses an empty search index, leaving two tabbable controls: 
 
 Calling `focus()` deliberately isolates this component test. It does not prove that a visitor can reach the opener from the page's first Tab stop. The skip-link example in the next section starts from a fresh page without that shortcut.
 
-<Code className="not-prose" theme="santi020k" code={dialogExample} language="typescript" label="tests/accessibility-guide/dialog.spec.ts" codeLabel="Dialog focus and failure-state examples" variant="block" copy />
+<ArticleCode code={dialogExample} language="typescript" label="tests/accessibility-guide/dialog.spec.ts" codeLabel="Dialog focus and failure-state examples" />
 
 The second test scans the visible failure state, including the retry control. Its `include()` limits the audit to the dialog; keep the full-page scan as well. Checking that the retry action exists does not prove retry recovery or its announcement: those need their own interaction and assistive-technology checks.
 
@@ -71,7 +71,7 @@ This is the interaction contract behind [Lumen's shared accessibility foundation
 
 This example uses only keyboard input after navigation. It checks the first stop, activates the skip link, verifies focus on the main landmark, then continues to the first link in that landmark. A changed URL fragment alone would not prove this behavior.
 
-<Code className="not-prose" theme="santi020k" code={skipLinkExample} language="typescript" label="tests/accessibility-guide/skip-link.spec.ts" codeLabel="Keyboard-only skip link example" variant="block" copy />
+<ArticleCode code={skipLinkExample} language="typescript" label="tests/accessibility-guide/skip-link.spec.ts" codeLabel="Keyboard-only skip link example" />
 
 The final link expectation is specific to this homepage. In another application, name the first meaningful control after the skip destination. For a purchase, sign-in, or publishing journey, extend the sequence through completion and recovery without using `click()`, `focus()`, or `fill()` to bypass keyboard access.
 

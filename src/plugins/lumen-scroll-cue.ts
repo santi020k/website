@@ -6,7 +6,7 @@ const iconNode = ([tagName, properties, children = []]: LumenIconNode): Element 
 })
 
 /** Public Lumen scroll-cue markup for build-time Markdown rendering. */
-export const createLumenScrollCue = (id: string, label: string): Element => ({
+export const createLumenScrollCue = (id: string | undefined, label: string): Element => ({
   children: [{
     children: getLumenIcon('move-horizontal')?.node.map(iconNode) ?? [],
     properties: {

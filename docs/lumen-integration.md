@@ -619,6 +619,14 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   The original Shiki code children and authored line-number offsets remain intact.
   The Husky article uses the same fenced-code pipeline for its four standalone
   examples; package-manager groups retain the real Astro `CodeTabs` component.
+  Imported source uses the site-owned `ArticleCode` composition. It builds a literal
+  code node and runs the same Pretty Code themes and `rehypeLumenCode` adapter at
+  build time. This keeps the approved Code folio header and line numbers in one
+  renderer while preserving the Lumen copy and scroll runtime. Source notation
+  comments remain literal, filenames are escaped, and imported cue IDs are assigned
+  by Lumen when the assembled page is enhanced. No new dependency or client script
+  is added. Use this composition for standalone imported article examples; the real
+  `Code` primitive remains available outside that site-owned editorial context.
   Scroll cue uses Lumen's shared `data-ui-scroll-cue` contract inside each standalone
   article figure. The runtime observes the existing code region and content, showing a
   footer and accessible description only on horizontal overflow. It cleans up on Astro

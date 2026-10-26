@@ -352,6 +352,7 @@
 
   & [data-article-code-folio] [data-line-numbers] > [data-line]::before {
     content: counter(line) / "";
+    box-sizing: content-box;
     width: 2ch;
     margin-inline-end: 1.125rem;
     padding-inline-end: 0.875rem;

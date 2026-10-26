@@ -4,15 +4,6 @@ import path from 'node:path'
 import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
-import {
-  santi020kDarkShikiTheme,
-  santi020kLightShikiTheme
-} from '@santi020k/theme/shiki'
-import {
-  transformerMetaHighlight,
-  transformerNotationDiff,
-  transformerNotationFocus
-} from '@shikijs/transformers'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
 import icon from 'astro-icon'
@@ -24,6 +15,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 // Remark plugins
 import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
+import { codeHighlightingOptions } from './src/plugins/code-highlighting'
 import { rehypeArticleFigures } from './src/plugins/rehype-article-figures'
 import { rehypeArticleHeadings } from './src/plugins/rehype-article-headings'
 import { rehypeArticleOpening } from './src/plugins/rehype-article-opening'
@@ -226,34 +218,7 @@ export default defineConfig({
           }
         ],
 
-        [
-          rehypePrettyCode,
-          {
-            theme: {
-              light: {
-                ...santi020kLightShikiTheme,
-                tokenColors: [
-                  ...santi020kLightShikiTheme.tokenColors,
-                  // Keep comments readable on the website's light code surface.
-                  {
-                    scope: ['comment', 'punctuation.definition.comment'],
-                    settings: {
-                      foreground: santi020kLightShikiTheme.colors.descriptionForeground,
-                      fontStyle: 'italic'
-                    }
-                  }
-                ]
-              },
-              dark: santi020kDarkShikiTheme
-            },
-
-            transformers: [
-              transformerNotationDiff(),
-              transformerMetaHighlight(),
-              transformerNotationFocus()
-            ]
-          }
-        ],
+        [rehypePrettyCode, codeHighlightingOptions],
         rehypeLumenCode,
         rehypeArticleQuotes,
         rehypeReadableTables,
