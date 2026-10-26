@@ -67,61 +67,6 @@ const settleReadingLayout = async (page: Page) => {
   })
 }
 
-const delayProjectFonts = async (page: Page) => {
-  let releaseFonts: (() => void) | undefined
-  const fonts = new Promise<void>(resolve => {
-    releaseFonts = resolve
-  })
-
-  await page.setViewportSize({ width: 375, height: 900 })
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.route('**/fonts/*.woff2', async route => {
-    await fonts
-    await route.continue()
-  })
-
-  return () => {
-    if (!releaseFonts) throw new Error('Expected the font request gate to be initialized')
-    releaseFonts()
-  }
-}
-
-test('a fresh project fragment lands below the header after delayed fonts load', async ({ page }) => {
-  const releaseFonts = await delayProjectFonts(page)
-
-  try {
-    await page.goto('/portfolio/lumen-ui/#technical-highlights', { waitUntil: 'domcontentloaded' })
-    releaseFonts()
-    await page.waitForLoadState('load')
-    await settleReadingLayout(page)
-    await expect.poll(() => page.locator('#technical-highlights').evaluate(element => {
-      const padding = Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)
-
-      return Math.abs(element.getBoundingClientRect().top - padding)
-    })).toBeLessThanOrEqual(1)
-  } finally {
-    releaseFonts()
-  }
-})
-
-test('font loading preserves a reader who scrolls away from a project fragment', async ({ page }) => {
-  const releaseFonts = await delayProjectFonts(page)
-
-  try {
-    await page.goto('/portfolio/lumen-ui/#technical-highlights', { waitUntil: 'domcontentloaded' })
-    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(1000)
-    await page.keyboard.press('Home')
-    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
-    releaseFonts()
-    await page.waitForLoadState('load')
-    await settleReadingLayout(page)
-    await expect(page.locator('#technical-highlights')).not.toBeInViewport()
-    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
-  } finally {
-    releaseFonts()
-  }
-})
-
 for (const theme of ['light', 'dark'] as const) {
   for (const { width, textSize } of [
     { width: 320, textSize: 100 },

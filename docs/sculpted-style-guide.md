@@ -997,9 +997,9 @@ fragment listener when Astro removes the component. Keep native disclosures and 
 usable without JavaScript.
 
 When an expanded mobile index is above the viewport, preserve the reading position as its
-automatic chapters change height. Fresh project fragment arrivals realign once the web font
-has loaded, unless the reader has interacted; leave history, reloads, and client navigation
-under native browser and Astro control.
+automatic chapters change height. Preview fallback links and enhanced buttons share their
+width, wrapping, and minimum height so activating the viewer cannot shift a section below it.
+Allow their labels to wrap within the available width when text is enlarged.
 
 Below 16rem of rail width, tighten panel and link insets. Below 9rem, tighten them
 again so enlarged text can wrap. Preserve visible keyboard focus in short, independently
