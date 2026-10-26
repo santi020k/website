@@ -638,6 +638,13 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   Site-owned rules provide the open row, responsive stack, and keyboard outlines.
   Lumen still owns clipboard feedback and the existing no-script rule hides inert
   copy controls. The Blog breadcrumb provides the archive destination.
+- `SeriesNavigator` uses Series close when there is no next published chapter:
+  a latest-chapter heading, linked series title, and compact previous-chapter row
+  precede the existing Lumen `Collapsible` chapter index and series overview link.
+  A single-chapter series omits the previous row and earlier-chapter invitation.
+  First and middle chapters retain Continuation fold. The shared component owns
+  the responsive typography and dividers using semantic tokens; no client script,
+  completion tracking, or separate navigation component is added.
 - `ProjectHeroStack` composes Sculpted band with public unstyled `Card`, inherit-style
   `Link`, and `Icon` primitives. The site owns the ink margin, wrapping technology list,
   semantic-token colors, responsive insets, and project-colored hover/focus states.
