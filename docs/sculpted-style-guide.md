@@ -2344,9 +2344,15 @@ to the Chapter opener and stacks project context below the prose instead of sque
 the default 1024px layout keeps both columns. Under that same
 condition the semantic sidebar `<aside>` stays sticky, caps its height to the viewport below the
 header, and scrolls natively; inline padding keeps the table of contents' active marker and focus
-rings visible. Otherwise rails stay in normal flow. The generic `editorial-rail` utility, such as
-the 404 suggestions, never becomes a scrolling region. Hero metadata grids use a named
-`editorial-meta` container: article publication dates and reading statistics form two groups,
+rings visible. Otherwise rails stay in normal flow. The article's Reading boundary limits its
+contents rail to the prose row. Series navigation, comments, and sharing continue below in the
+same reading column; the shared contents component and mobile Chapter opener retain their behavior.
+A stretched grid cell contains the sticky aside, so the rail leaves the viewport naturally as
+the reader reaches the article's closing sections.
+The rail precedes the closing flow in source order, keeping keyboard navigation in reading order.
+The generic `editorial-rail` utility, such as the 404 suggestions, never becomes a scrolling region.
+Hero metadata grids use a named `editorial-meta` container: article publication dates and reading
+statistics form two groups,
 which stack below 16rem. Project roles span both supporting facts below 37rem, and all project
 facts stack below 22.5rem, so enlarged labels never split mid-word. Project covers keep artwork
 clear of duplicate facts and captions at every width. Pills, resume

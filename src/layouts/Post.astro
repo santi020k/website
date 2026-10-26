@@ -118,8 +118,8 @@ mainClass="remaining-pages remaining-pages--reading"
       class="grid grid-cols-1 gap-10"
       data-reading-body
     >
-      <!-- Left: article prose, series navigator, share -->
-      <div class="min-w-0 space-y-10">
+      <!-- The reading rail shares a boundary with prose, before the closing flow. -->
+      <div class="min-w-0 space-y-10" data-post-story>
         {hasContents && (
           <div data-post-mobile-toc>
             <ReadingChapterOpener headings={headings} />
@@ -132,7 +132,18 @@ mainClass="remaining-pages remaining-pages--reading"
           {figureCaptions.length > 0 && <ArticleFigureViewers captions={figureCaptions} />}
           <ArticleSectionReferences headings={headings} url={localURL.href} />
         </div>
+      </div>
 
+      <!-- A stretched grid cell bounds the sticky contents to the prose row. -->
+      {hasContents && (
+        <div class="min-w-0" data-post-rail-boundary>
+          <aside aria-label="Article navigation" class="min-w-0 space-y-5" data-post-desktop-toc data-reading-rail>
+            <ReadingContents headings={headings} />
+          </aside>
+        </div>
+      )}
+
+      <div class="min-w-0 space-y-10" data-post-continuation>
         {seriesContext && (
           <SeriesNavigator
             currentPostId={post.id}
@@ -153,13 +164,6 @@ mainClass="remaining-pages remaining-pages--reading"
           <ShareButtons title={title} url={localURL.href} variant="colophon" />
         </div>
       </div>
-
-      <!-- Right: sticky TOC — only rendered when the post has headings -->
-      {hasContents && (
-        <aside aria-label="Article navigation" class="min-w-0 space-y-5" data-post-desktop-toc data-reading-rail>
-          <ReadingContents headings={headings} />
-        </aside>
-      )}
     </section>
   </article>
 
@@ -185,7 +189,10 @@ mainClass="remaining-pages remaining-pages--reading"
   }
   [data-article-prose] :global([data-series-connection]) { margin-block-end: 0; }
   [data-reading-body] :global(.e-content:has([data-series-connection])) { margin-block-end: 0; }
-  [data-reading-body] :global(.e-content:has([data-series-connection]) + [data-series-content]) {
+  [data-reading-body]:has(:global([data-series-content])) {
+    row-gap: 0;
+  }
+  [data-reading-body]:has(:global([data-series-connection])) [data-post-continuation] :global([data-series-content]) {
     margin-block-start: 1.25rem;
   }
   [data-article-prose] :global([data-reference-header]) {
