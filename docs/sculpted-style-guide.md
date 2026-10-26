@@ -1454,6 +1454,16 @@ surface or client behavior. Keep exactly one page-end navigation landmark.
 recommendations proceeds directly from sharing to the return row without an empty
 section. Preserve the native `/blog/` and `#main` destinations and wrapping controls.
 
+### Article progress
+
+Retain the thin purple Lumen progress indicator at the viewport edge. Measure only the
+article prose: begin at its reading position below the sticky header, finish when its last
+line is visible, and remain complete through the series continuation and page closing.
+Scrolling back into the prose reduces progress again. Keep the accessible percentage in
+sync with the visible bar, including resized viewports and enlarged text. Do not add a
+visible percentage badge, second indicator, or new card. Project pages keep their existing
+document progress.
+
 ### Margin imprint article publication details
 
 Article headers use one semantic description list between fine horizontal rules.
