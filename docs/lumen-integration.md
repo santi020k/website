@@ -397,6 +397,10 @@ enlarged text sizes. No new client controller is introduced.
   navigation region, with optional authored chapter fragments and no client script.
   Lumen reuses this trail for capabilities, technical highlights, and website examples,
   with its three existing fragments authored in MDX and native same-page navigation.
+  Outcome chapter supplies Lumen's Markdown heading through the card's slot and
+  `headingId`, allowing Astro's collected outline to populate both contents surfaces.
+  The `#outcomes` heading labels the region; the wrapper retains `#sidebar-outcomes`.
+  Other projects retain the default generated heading and existing fragments.
   Focus and Outcomes share small purple labels, right-aligned icons, and plain surfaces.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.

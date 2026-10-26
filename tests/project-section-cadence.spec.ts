@@ -78,7 +78,7 @@ for (const theme of ['light', 'dark']) {
       await expect(heading).toHaveAttribute('id', section.id)
       await expect(page.locator(`[data-project-desktop-toc] [data-reading-contents] a[href="#${section.id}"]`)).toHaveCount(1)
     }
-    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(7)
+    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(8)
     await expect(page.getByRole('heading', { name: 'Inside the product', exact: true })).toHaveCount(1)
     await expect(page.getByRole('heading', { name: 'Outcomes', exact: true })).toHaveCount(1)
 
