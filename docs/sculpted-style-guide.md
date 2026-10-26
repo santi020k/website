@@ -683,6 +683,17 @@ Contacts precede both native PDF downloads in reading and keyboard order. The la
 at narrow or enlarged-text widths; all contact and download targets remain at least 44px tall.
 These screen-only rules preserve the existing print header and the two-page and full CV PDFs.
 
+### Margin index resume navigation
+
+Place the four section links directly below Identity spread, sharing its closing rule.
+Align On this page with the header's 8.125rem margin and use a two-column ordered list
+beside it, with decorative accent numbers and plain 0.875rem links. Keep the 2.25rem
+column gap, 1.25rem vertical padding, bottom rule, and 3rem space before Experience.
+The margin contracts with the identity grid; below 36rem, stack the label and four links.
+Each link has a 2.75rem minimum target, visible focus, and a hover underline.
+Use the existing section fragments and native links without a scroll controller or
+active-section tracker. Hide the entire navigation in print and both generated PDFs.
+
 ### Role folio resume experience
 
 Detailed Experience and Community entries on `/resume/` use Role folio: a date margin beside the

@@ -144,7 +144,7 @@
   .remaining-pages [data-resume-shell] h1 { font-weight: 500; line-height: 1.1; }
   [data-resume-header] > * { max-width: 100%; min-width: 0; }
   /* Identity spread is screen-only; the existing header remains intact in print. */
-  [data-resume-header] { display: block; padding-block: 1.75rem; border-block: 1px solid hsl(var(--line)); }
+  [data-resume-header] { display: block; margin-bottom: 0; padding-block: 1.75rem; border-block: 1px solid hsl(var(--line)); }
   [data-resume-identity] { display: grid; grid-template-columns: 8.125rem minmax(0, 1fr); column-gap: 2.25rem; }
   [data-resume-identity] .section-label {
     grid-row: 1 / 4;
@@ -197,6 +197,20 @@
     .remaining-pages [data-resume-identity] h1 { font-size: 1.75rem; }
     [data-resume-contacts] > p > a { display: block; overflow-wrap: anywhere; }
     [data-resume-contact-icon] { display: none; }
+  }
+  [data-resume-index] { display: grid; grid-template-columns: 8.125rem minmax(0, 1fr); column-gap: 2.25rem; margin-bottom: 3rem; padding-block: 1.25rem; border-bottom: 1px solid hsl(var(--line)); }
+  [data-resume-index] > p { margin: 0; padding-top: 0.625rem; color: hsl(var(--accent)); font-size: 0.75rem; line-height: 1.7; }
+  [data-resume-index] ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1rem; margin: 0; padding: 0; list-style: none; }
+  [data-resume-index] li { min-width: 0; }
+  [data-resume-index] a { display: flex; align-items: baseline; gap: 0.625rem; min-height: 2.75rem; padding-block: 0.625rem; color: hsl(var(--ink)); font-size: 0.875rem; font-weight: 400; line-height: 1.6; text-decoration: none; }
+  [data-resume-index] a span { flex: none; color: hsl(var(--accent)); font-size: 0.6875rem; }
+  [data-resume-index] a:is(:hover, :focus-visible) { color: hsl(var(--accent)); text-decoration: underline; text-underline-offset: 0.3125rem; }
+  [data-resume-index] a:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 3px; }
+  @container resume (width < 48.75rem) { [data-resume-index] { grid-template-columns: 6.25rem minmax(0, 1fr); column-gap: 1.5rem; } }
+  @container resume (width < 36rem) {
+    [data-resume-index] { grid-template-columns: minmax(0, 1fr); row-gap: 0.75rem; }
+    [data-resume-index] > p { padding-top: 0; }
+    [data-resume-index] ol { grid-template-columns: minmax(0, 1fr); }
   }
   /* Role folio and Compact folio share a screen grid; print keeps its own contract. */
   :is(#resume-experience, #resume-earlier-experience, #resume-community, #resume-skills) { scroll-margin-top: 7rem; }

@@ -391,6 +391,10 @@ enlarged text sizes. No new client controller is introduced.
 - The resume print stylesheet hides Lumen's `SkipLink` through its documented `data-slot`
   attribute (`[data-slot="skip-link"]`) rather than the private `.ui-skip-link` class Lumen
   happens to render it with.
+- Resume Margin index uses public Lumen `Link` with `variant="inherit"` inside a named
+  navigation landmark and ordered list. Decorative numbers stay out of accessible names;
+  native fragment links reach the four existing sections without a controller. The index
+  is screen-only and is excluded from both PDF variants.
 
 ## Intentional site-owned controllers
 

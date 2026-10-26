@@ -40,6 +40,14 @@ const earlierWork = selectResumeProjects([
 ])
 
 const communityWork = selectResumeProjects(['react-js-colombia'])
+
+const resumeSections = [
+  { id: 'resume-experience', label: 'Experience' },
+  { id: 'resume-earlier-experience', label: 'Earlier experience' },
+  { id: 'resume-community', label: 'Community' },
+  { id: 'resume-skills', label: 'Skills & expertise' }
+]
+
 const resumeTechnologyLimit = 8
 // Keep one crawlable PDF URL across deployments. The response revalidates at
 // the edge, so cache busting does not need to create a new query URL per build.
@@ -232,6 +240,20 @@ data-resume-contact-icon
         </p>
       </div>
     </div>
+
+    <nav id="resume-index" class="print:hidden" aria-labelledby="resume-index-label" data-resume-index data-print-hidden>
+      <p id="resume-index-label">On this page</p>
+      <ol role="list">
+        {resumeSections.map((section, index) => (
+          <li>
+            <Link href={`#${section.id}`} variant="inherit">
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              {section.label}
+            </Link>
+          </li>
+        ))}
+      </ol>
+    </nav>
 
     <section
 id="resume-experience"
