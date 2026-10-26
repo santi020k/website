@@ -20,16 +20,16 @@ const evidence = project.data.typesId === 'professional' ? project.data.impactMe
 <Card as="article" class="studio-project" variant="unstyled" data-home-supporting-project style={getProjectBrandStyle(project.data.brand)}>
   <a class="studio-project-link" href={getPortfolioPath(project.id)} data-showcase-item>
     <div data-supporting-heading>
-      <div data-supporting-masthead>
+      <div data-supporting-identity>
         <span data-supporting-number aria-hidden="true">{String(position).padStart(2, '0')}</span>
-        {logo && (
-          <div data-supporting-mark data-logo-surface={project.data.coverImage?.logoSurface} data-logo-aspect={project.data.coverImage?.logoAspect}>
-            <Image src={logo} alt="" width={96} widths={[96, 192]} sizes="4rem" loading="lazy" />
-          </div>
-        )}
+        <h3>{project.data.title}</h3>
+        <p data-supporting-role>{project.data.role}</p>
       </div>
-      <h3>{project.data.title}</h3>
-      <p data-supporting-role>{project.data.role}</p>
+      {logo && (
+        <div data-supporting-mark data-logo-surface={project.data.coverImage?.logoSurface} data-logo-aspect={project.data.coverImage?.logoAspect}>
+          <Image src={logo} alt="" width={96} widths={[96, 192]} sizes="4rem" loading="lazy" />
+        </div>
+      )}
     </div>
     <div data-supporting-body>
       <p data-supporting-description>{project.data.description}</p>
@@ -54,16 +54,20 @@ const evidence = project.data.typesId === 'professional' ? project.data.impactMe
   .studio-project-link { display: flex; flex-direction: column; }
 
   [data-supporting-heading] {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
     min-width: 0;
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 0;
     border-top: 3px solid hsl(var(--project-primary));
-    background: color-mix(in srgb, hsl(var(--project-primary)) 5%, hsl(var(--surface)));
+    background: transparent;
   }
 
-  [data-supporting-masthead] { display: flex; min-height: 4rem; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.375rem; }
-  [data-supporting-number] { color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; font-variant-numeric: tabular-nums; }
-  [data-supporting-mark] { display: flex; flex: none; align-items: center; justify-content: center; width: 5.25rem; height: 4rem; padding: 0.5rem; border-radius: 0.75rem; background: hsl(var(--surface-muted)); }
-  [data-supporting-mark][data-logo-aspect='square'] { width: 4rem; }
+  [data-supporting-identity] { min-width: 0; }
+  [data-supporting-number] { display: block; margin-bottom: 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; font-variant-numeric: tabular-nums; }
+  [data-supporting-mark] { display: flex; flex: none; align-items: center; justify-content: center; width: 4.75rem; height: 3.5rem; padding: 0.5rem; border-radius: 0.75rem; background: hsl(var(--surface-muted)); }
+  [data-supporting-mark][data-logo-aspect='square'] { width: 3.5rem; }
   [data-supporting-mark][data-logo-surface='dark'] { background: hsl(var(--project-surface)); }
   [data-supporting-mark][data-logo-surface='light'] { background: var(--color-white); }
   [data-supporting-mark] img { display: block; min-width: 0; min-height: 0; width: 100%; height: 100%; object-fit: contain; }
@@ -71,7 +75,7 @@ const evidence = project.data.typesId === 'professional' ? project.data.impactMe
   h3 { font-size: 1.625rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.055em; }
   .studio-project-link:hover h3 { color: var(--studio-emphasis); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3rem; }
   [data-supporting-role] { margin-top: 0.625rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; }
-  [data-supporting-body] { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 1.5rem; padding: 1.5rem; }
+  [data-supporting-body] { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 1.25rem; padding: 1.5rem; }
   [data-supporting-description] { color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; }
   [data-supporting-evidence] { display: flex; align-items: flex-start; gap: 0.625rem; color: hsl(var(--ink)); font-size: 0.75rem; line-height: 1.7; }
   [data-supporting-evidence] :global(svg) { flex: none; width: 1rem; height: 1rem; margin-top: 0.125rem; color: var(--studio-emphasis); }
@@ -79,19 +83,25 @@ const evidence = project.data.typesId === 'professional' ? project.data.impactMe
   [data-supporting-action] { font-size: 0.75rem; font-weight: 500; line-height: 1.8; }
   [data-supporting-arrow] { display: grid; place-items: center; flex: none; }
 
+  @container supporting-project (width >= 36rem) {
+    .studio-project-link { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
+    [data-supporting-heading] { padding: 1.75rem; border-top: 0; border-left: 3px solid hsl(var(--project-primary)); }
+    [data-supporting-body] { padding: 1.75rem; }
+  }
+
   @container supporting-project (width < 20rem) {
-    [data-supporting-heading], [data-supporting-body] { padding: 1.25rem; }
+    [data-supporting-heading] { padding: 1.25rem 1.25rem 0; }
+    [data-supporting-body] { padding: 1.25rem; }
   }
 
   @container supporting-project (width < 16rem) {
     [data-supporting-heading], [data-supporting-body] { padding-inline: 0.75rem; }
-    [data-supporting-mark], [data-supporting-mark][data-logo-aspect='square'] { width: 3.75rem; height: 2.75rem; padding: 0.5rem; }
+    [data-supporting-mark], [data-supporting-mark][data-logo-aspect='square'] { width: 2.75rem; height: 2.75rem; padding: 0.5rem; }
     h3 { font-size: 1.5rem; }
   }
 
   @container supporting-project (width < 12rem) {
     [data-supporting-mark] { display: none; }
-    [data-supporting-masthead] { min-height: 0; margin-bottom: 0.875rem; }
     h3 { font-size: 1.25rem; }
   }
 </style>

@@ -5,7 +5,7 @@ for (const theme of ['light', 'dark'] as const) {
     test.use({ colorScheme: theme, reducedMotion: 'reduce' })
 
     test('the opening, sections, and footer share one spacing rhythm', async ({ page }) => {
-      for (const width of [390, 1440]) {
+      for (const width of [320, 375, 768, 1024, 1440]) {
         await page.setViewportSize({ width, height: 1000 })
         await page.goto('/')
         await page.evaluate(() => document.fonts.ready)
