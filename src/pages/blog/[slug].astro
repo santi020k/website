@@ -1,4 +1,6 @@
 ---
+import { z } from 'astro/zod'
+
 import type { CollectionEntry } from 'astro:content'
 import { render } from 'astro:content'
 
@@ -21,9 +23,10 @@ interface Props {
 }
 
 const { post } = Astro.props
-const { Content, headings } = await render(post)
+const { Content, headings, remarkPluginFrontmatter } = await render(post)
+const figureCaptions = z.array(z.string()).parse(remarkPluginFrontmatter.articleFigureCaptions ?? [])
 ---
 
-<PostLayout post={post} headings={headings}>
+<PostLayout post={post} headings={headings} figureCaptions={figureCaptions}>
   <Content />
 </PostLayout>

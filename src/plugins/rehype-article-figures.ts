@@ -13,7 +13,7 @@ export const rehypeArticleFigures: Plugin<[], Root> = () => (tree, file) => {
 
   if (!sourcePath || !/(?:^|\/)src\/content\/post\//u.test(sourcePath) || /(?:^|\/)apps\//u.test(sourcePath)) return
 
-  let number = 0
+  const captions: string[] = []
 
   tree.children = tree.children.map(node => {
     // Only standalone images opt in; existing figures, inline images and linked artwork retain their semantics.
@@ -23,11 +23,11 @@ export const rehypeArticleFigures: Plugin<[], Root> = () => (tree, file) => {
 
     if (!caption) return node
 
-    number += 1
+    const number = captions.push(caption)
 
     delete node.properties.title
 
-    return element('figure', { dataArticleFigure: '' }, [
+    return element('figure', { dataArticleFigure: String(number) }, [
       node,
       element('figcaption', {}, [
         element('div', { dataFigureCopy: '' }, [
@@ -38,4 +38,12 @@ export const rehypeArticleFigures: Plugin<[], Root> = () => (tree, file) => {
       ])
     ])
   })
+
+  if (captions.length > 0) {
+    file.data.astro ??= { frontmatter: {} }
+
+    file.data.astro.frontmatter ??= {}
+
+    file.data.astro.frontmatter.articleFigureCaptions = captions
+  }
 }

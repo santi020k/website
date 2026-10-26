@@ -1,4 +1,4 @@
-class ProjectPreviewViewerElement extends HTMLElement {
+class GalleryViewerElement extends HTMLElement {
   #events: AbortController | undefined
   #binding: MutationObserver | undefined
   #image: HTMLImageElement | null = null
@@ -27,6 +27,10 @@ class ProjectPreviewViewerElement extends HTMLElement {
 
     if (!button || !recovery || !status) return
 
+    if (!failed && this.#image?.naturalWidth) {
+      this.style.setProperty('--viewer-image-width', `${this.#image.naturalWidth}px`)
+    }
+
     button.disabled = failed
 
     button.hidden = failed
@@ -41,8 +45,18 @@ class ProjectPreviewViewerElement extends HTMLElement {
     const canvas = this.querySelector('[data-gallery-canvas]')
     const status = this.querySelector('[data-gallery-status]')
     const button = this.querySelector<HTMLButtonElement>('[data-gallery-zoom]')
+    const content = template?.content.cloneNode(true) ?? this.closest('figure')?.querySelector(':scope > img')?.cloneNode(true)
 
-    if (!template || !canvas || !status || !button) return
+    if (!content || !canvas || !status || !button) return
+
+    if (content instanceof HTMLImageElement) {
+      content.loading = 'eager'
+
+      content.removeAttribute('id')
+
+      // Preserve Astro's optimized source; use the intrinsic size for detail inspection.
+      content.sizes = `${content.width}px`
+    }
 
     this.#setZoom(false)
 
@@ -52,9 +66,13 @@ class ProjectPreviewViewerElement extends HTMLElement {
 
     status.textContent = 'Loading image…'
 
-    canvas.replaceChildren(template.content.cloneNode(true))
+    canvas.replaceChildren(content)
 
     this.#image = canvas.querySelector('img')
+
+    const recovery = this.querySelector<HTMLAnchorElement>('[data-gallery-error-link]')
+
+    if (!template && recovery && this.#image) recovery.href = this.#image.src
 
     if (this.#image?.complete) this.#imageState(this.#image.naturalWidth === 0)
   }
@@ -70,7 +88,7 @@ class ProjectPreviewViewerElement extends HTMLElement {
     const zoom = this.querySelector<HTMLButtonElement>('[data-gallery-zoom]')
     const canvas = this.querySelector<HTMLElement>('[data-gallery-canvas]')
 
-    if (!opener || !fallback || !dialog || !zoom || !canvas) return
+    if (!opener || !dialog || !zoom || !canvas) return
 
     this.#events = new AbortController()
 
@@ -81,7 +99,7 @@ class ProjectPreviewViewerElement extends HTMLElement {
 
       opener.hidden = false
 
-      fallback.hidden = true
+      if (fallback) fallback.hidden = true
 
       this.#binding?.disconnect()
     }
@@ -149,6 +167,6 @@ class ProjectPreviewViewerElement extends HTMLElement {
   }
 }
 
-if (!customElements.get('project-preview-viewer')) {
-  customElements.define('project-preview-viewer', ProjectPreviewViewerElement)
+if (!customElements.get('gallery-viewer')) {
+  customElements.define('gallery-viewer', GalleryViewerElement)
 }

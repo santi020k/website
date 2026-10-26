@@ -70,7 +70,7 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
         await expect(dialog.getByRole('button', { name: 'Close', exact: true })).toBeFocused()
         await expect(dialog.locator('[data-gallery-status]')).toHaveText('Complete image')
         const image = dialog.getByRole('img')
-        const canvas = dialog.getByRole('region', { name: /^Screenshot:/u })
+        const canvas = dialog.getByRole('region', { name: /^Image:/u })
         const fitted = await image.boundingBox()
         const available = await canvas.boundingBox()
 

@@ -2327,13 +2327,22 @@ The caption uses 1.25–1.75rem medium type; the figure label uses 0.6875rem and
 Below 25rem of figure width, reduce the number column and spacing. Below 18rem, reduce the type
 and number column again; below 12rem, stack the number below the complete caption. This also
 supports enlarged text. Keep descriptive alt text, native image dimensions, lazy loading, and
-Astro image processing. These reading images have no hover effect or added client JavaScript.
+Astro image processing. The artwork stays passive; its image and caption render without JavaScript.
 
 Author a short visible caption with the standard Markdown image title:
 `![Descriptive alt text](./figure.webp "Short caption.")`. The current-site article adapter
 converts standalone captioned images into native `figure` / `figcaption` markup. Images without captions,
 inline images, linked artwork, and already-authored figures retain their existing markup. Project content and
 historical sites use their existing image treatment.
+
+Gallery viewer adds the approved outlined View larger action beneath the caption, aligned to the
+right across both caption columns. Preserve the artwork, caption typography, and numbered mount.
+Reuse the project viewer's native Lumen dialog: the authored caption names the dialog, the entire
+image fits initially, and Inspect detail reveals its intrinsic size in a scrollable canvas. Keep Close
+visible, support Escape and keyboard panning, and return focus to the same illustration's control.
+Do not duplicate the caption inside the dialog or make the artwork itself a hidden interaction target.
+Only captioned standalone illustrations opt in; without JavaScript they retain the complete passive
+Caption spread. Use the same Gallery viewer component and controller for articles and projects.
 
 ### Cover spread article and project openings
 

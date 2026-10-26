@@ -38,7 +38,7 @@ describe('article Caption spread figures', () => {
     expect(artwork.properties).toEqual(original)
     expect(tree.children[0]).toMatchObject({
       tagName: 'figure',
-      properties: { dataArticleFigure: '' },
+      properties: { dataArticleFigure: '1' },
       children: [
         artwork,
         { tagName: 'figcaption',
@@ -59,6 +59,23 @@ describe('article Caption spread figures', () => {
     expect(tree.children[0]).toMatchObject({ children: [expect.anything(), { children: [expect.anything(), { children: [{ value: '01' }] }] }] })
     expect(tree.children[2]).toMatchObject({ children: [expect.anything(), { children: [expect.anything(), { children: [{ value: '02' }] }] }] })
     expect(transform([image()]).children[0]).toMatchObject({ children: [expect.anything(), { children: [expect.anything(), { children: [{ value: '01' }] }] }] })
+  })
+
+  test('shares ordered captions with the layout for Markdown and MDX without changing asset paths', () => {
+    for (const extension of ['md', 'mdx']) {
+      const captions: string[] = []
+      const data = { astro: { frontmatter: { title: 'Article', articleFigureCaptions: captions } } }
+      const tree: Root = { type: 'root', children: [image(), image('Second figure.')] }
+      const processor = unified().use(rehypeArticleFigures)
+      const file = { path: `/repo/src/content/post/example/index.${extension}`, data }
+
+      processor.runSync(tree, file)
+      processor.runSync(tree, file)
+      expect(data.astro.frontmatter).toEqual({
+        title: 'Article', articleFigureCaptions: ['From layers to flat config.', 'Second figure.']
+      })
+      expect(tree.children[1]).toMatchObject({ properties: { dataArticleFigure: '2' } })
+    }
   })
 
   test('leaves images without captions, inline images, links and existing figures unchanged', () => {

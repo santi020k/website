@@ -358,8 +358,8 @@ enlarged text sizes. No new client controller is introduced.
   Contextual gallery is authored inside the project's MDX chapter with a Markdown h3
   slot so Astro collects its actual navigation position. The component reads validated
   collection preview data and preserves the legacy gallery fragment.
-  `ProjectPreviewViewer` adds Gallery viewer through Lumen `Dialog`, `DialogTitle`,
-  `DialogClose`, `Button`, and `ButtonLink`. Lumen owns native modal controls and focus
+  `ProjectPreviewViewer` adapts project assets to the shared `GalleryViewer`, built with Lumen
+  `Dialog`, `DialogTitle`, `DialogClose`, `Button`, and `ButtonLink`. Lumen owns native modal controls and focus
   return. The site custom element inserts an optimized full-size `Image` from an inert
   template, handles load/error states and keyboard detail panning, and aborts listeners
   on disconnection. The original-image link stays available until the public trigger
@@ -783,8 +783,18 @@ It converts standalone article images with an authored Markdown title into nativ
 figures, retaining the same image node for Astro's asset transform. The title becomes a plain-text
 caption, not an HTML string or tooltip. Descriptive alt text remains separate. Figure labels are
 numbered per article; the decorative large number is hidden from assistive technology.
-The site owns this editorial composition in `prose.css`; no Lumen image contract or client runtime
-is replaced. Inline images, linked images, existing figures, project content and archives are unchanged.
+The site owns this editorial composition in `prose.css`. Inline images, linked images, existing
+figures, project content and archives keep their own composition.
+
+The same transform supplies ordered `articleFigureCaptions` in Astro's render metadata. The article
+route validates that list and `ArticleFigureViewers` renders shared `GalleryViewer` instances outside
+the prose, then places their existing controls below each caption. This lets the single Lumen runtime
+bind before or after placement, without cloned controls or a second modal implementation. Gallery
+viewer uses the same dialog, fit/detail controls, keyboard handling, load/error states, and focus
+return as project previews. On demand it clones the already optimized article image, preserving its
+source and alternative text; it does not request a separate image rendition or replace the inline asset.
+Without JavaScript, the complete Caption spread illustration remains readable and inactive controls
+stay hidden. Project viewers retain their direct-image fallback links and full-size inert templates.
 
 ## Article and project cover composition
 

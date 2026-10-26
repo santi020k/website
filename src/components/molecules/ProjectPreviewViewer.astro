@@ -1,7 +1,9 @@
 ---
 import { getImage } from 'astro:assets'
 
-import { Button, ButtonLink, Dialog, DialogClose, DialogTitle, Icon, Image } from '@santi020k/lumen-astro'
+import GalleryViewer from '@/components/molecules/GalleryViewer.astro'
+
+import { Image } from '@santi020k/lumen-astro'
 
 import type { ProjectPreviewImage } from '@/types'
 
@@ -14,86 +16,8 @@ const { id, preview } = Astro.props
 const fullImage = await getImage({ src: preview.src, fit: 'contain', format: 'webp', quality: 90, width: preview.src.width })
 ---
 
-<project-preview-viewer style={`--viewer-image-width: ${preview.src.width}px`}>
-  <div data-gallery-actions>
-    <ButtonLink
-      ariaLabel={`View larger: ${preview.title}`}
-      data-gallery-fallback
-      data-gallery-control
-      href={fullImage.src}
-      newTab
-      variant="unstyled"
-    ><Icon name="expand" class="size-4" />View larger</ButtonLink>
-    <Button
-      aria-label={`View larger: ${preview.title}`}
-      data-gallery-control
-      data-gallery-open
-      data-ui-dialog-trigger={id}
-      hidden
-      variant="outline"
-    ><Icon name="expand" class="size-4" />View larger</Button>
-  </div>
-
-  <Dialog aria-labelledby={`${id}-title`} data-gallery-dialog id={id}>
-    <div data-gallery-heading>
-      <DialogTitle id={`${id}-title`}>{preview.title}</DialogTitle>
-      <DialogClose autofocus data-gallery-control variant="outline">
-        <Icon name="x" class="size-4" />Close
-      </DialogClose>
-    </div>
-    <div
-      aria-label={`Screenshot: ${preview.title}`}
-      data-gallery-canvas
-      data-zoomed="false"
-      id={`${id}-canvas`}
-      role="region"
-      tabindex="0"
-    ></div>
-    <div data-gallery-tools>
-      <p aria-live="polite" data-gallery-status>Loading image…</p>
-      <Button aria-controls={`${id}-canvas`} data-gallery-control data-gallery-zoom variant="outline">
-        <Icon name="zoom-in" class="size-4" /><span data-gallery-zoom-label>Inspect detail</span>
-      </Button>
-      <ButtonLink data-gallery-error-link data-gallery-control hidden href={fullImage.src} newTab variant="unstyled">
-        <Icon name="arrow-up-right" class="size-4" />Open original image
-      </ButtonLink>
-    </div>
-    <p data-gallery-caption>{preview.caption}</p>
-  </Dialog>
-
-  <template data-gallery-template>
+<project-preview-viewer>
+  <GalleryViewer id={id} title={preview.title} caption={preview.caption} source={{ kind: 'asset', src: fullImage.src, width: preview.src.width }}>
     <Image alt={preview.alt} fit="contain" format="webp" loading="eager" quality={90} radius="none" src={preview.src} width={preview.src.width} />
-  </template>
+  </GalleryViewer>
 </project-preview-viewer>
-
-<script>
-  import './project-preview-viewer'
-</script>
-
-<style>
-  project-preview-viewer { display: block; font-size: 1rem; }
-  [data-gallery-actions] { display: flex; justify-content: flex-end; margin-top: 1rem; }
-  [data-gallery-control] { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 2.75rem; max-width: 100%; white-space: normal; text-align: center; padding: 0.5rem 0.875rem; border: 1px solid hsl(var(--line)); border-radius: 0.75rem 0.75rem 0.25rem 0.75rem; background: hsl(var(--surface)); color: hsl(var(--ink)); font: 500 0.8125rem/1.5 var(--font-sans); letter-spacing: normal; text-decoration: none; }
-  [data-gallery-control] :global(.ui-button__content) { min-width: 0; }
-  [data-gallery-control]:hover { color: hsl(var(--brand)); border-color: currentColor; }
-  :global(:root[data-theme='dark']) [data-gallery-control]:hover { color: hsl(var(--accent)); }
-  [data-gallery-control][hidden] { display: none; }
-  [data-gallery-dialog] { inset: 0; translate: none; transform: none; width: min(72rem, calc(100% - 2rem)); max-width: none; max-height: calc(100dvh - 2rem); margin: auto; padding: 1.5rem; overflow: auto; overscroll-behavior: contain; border: 1px solid hsl(var(--line)); border-radius: var(--radius-sheet); background: hsl(var(--surface)); color: hsl(var(--ink)); }
-  [data-gallery-dialog][open] { display: flex; flex-direction: column; gap: 1rem; }
-  [data-gallery-dialog] > * { margin-block: 0; }
-  [data-gallery-heading] { position: sticky; top: -1.5rem; z-index: 1; display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding-block: 0.25rem; background: hsl(var(--surface)); }
-  [data-gallery-heading] :global([data-slot='dialog-title']) { flex: 1 1 14rem; margin: 0; padding: 0; border: 0; color: hsl(var(--ink)); font: 500 1.25rem/1.5 var(--font-sans); letter-spacing: -0.025em; }
-  [data-gallery-heading] :global([data-slot='dialog-title'])::after { content: none; }
-  [data-gallery-heading] [data-gallery-control] { flex-shrink: 0; }
-  [data-gallery-canvas] { display: grid; place-items: center; min-height: 8rem; flex: 0 0 auto; max-height: min(65dvh, 48rem); overflow: auto; overscroll-behavior: contain; background: hsl(var(--brand-soft) / 0.35); }
-  [data-gallery-canvas] :global(img) { display: block; width: auto; height: auto; max-width: 100%; max-height: max(8rem, min(65dvh, calc(100dvh - 18rem))); object-fit: contain; }
-  [data-gallery-canvas][data-zoomed='true'] { display: block; place-items: start; height: min(65dvh, 48rem); }
-  [data-gallery-canvas][data-zoomed='true'] :global(img) { width: var(--viewer-image-width); max-width: none; max-height: none; }
-  [data-gallery-tools] { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
-  [data-gallery-status] { flex: 1 1 12rem; margin: 0; color: hsl(var(--ink-soft)); font: 400 0.75rem/1.7 var(--font-sans); }
-  [data-gallery-caption] { margin: 0; color: hsl(var(--ink-soft)); font: 400 0.8125rem/1.75 var(--font-sans); }
-  @media (width < 30rem) {
-    [data-gallery-dialog] { width: calc(100% - 1.5rem); max-height: calc(100dvh - 1.5rem); padding: 1rem; }
-    [data-gallery-heading] { top: -1rem; }
-  }
-</style>
