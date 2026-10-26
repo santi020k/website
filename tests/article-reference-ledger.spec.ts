@@ -10,6 +10,51 @@ const repositoryURL = 'https://github.com/santi020k/eslint-config-basic'
 test.use({ reducedMotion: 'reduce' })
 
 for (const theme of ['light', 'dark'] as const) {
+  test(`series connection uses the shared ledger while the next chapter stays distinct in ${theme}`, async ({ page }) => {
+    // Remote comments have separate lifecycle coverage; keep this reading-layout audit deterministic.
+    await page.route('https://giscus.app/**', route => route.abort())
+    await page.addInitScript(value => {
+      localStorage.setItem('theme', value)
+    }, theme)
+    await page.goto(earlierURL)
+    const connection = page.getByRole('navigation', { name: 'Related reading', exact: true })
+    const link = connection.getByRole('link')
+
+    await expect(link).toHaveAttribute('href', route)
+    await expect(link).not.toHaveAttribute('target')
+    await expect(connection.locator('[data-reference-kind]')).toHaveText('Another series')
+    await expect(connection.locator('[data-reference-source]')).toHaveText('ESLint in Practice')
+    await expect(page.locator('[data-series-adjacent="next"]')).toHaveAttribute('href', '/blog/playwright-accessibility-checks-that-teams-keep-running/')
+    expect(await connection.evaluate(element => {
+      const conclusion = document.getElementById('conclusions')
+      const continuation = document.getElementById('series-navigation')
+
+      return conclusion && continuation &&
+        Boolean(conclusion.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) &&
+        Boolean(element.compareDocumentPosition(continuation) & Node.DOCUMENT_POSITION_FOLLOWING)
+    })).toBe(true)
+    for (const { width, size } of [{ width: 320, size: 100 }, { width: 390, size: 200 }, { width: 1440, size: 100 }]) {
+      await page.setViewportSize({ width, height: 1000 })
+      await page.evaluate(size => {
+        document.documentElement.style.fontSize = `${size}%`
+      }, size)
+      expect(await link.evaluate(element => {
+        const bounds = element.getBoundingClientRect()
+
+        return bounds.height >= 44 && bounds.left >= 0 && bounds.right <= innerWidth &&
+          element.scrollWidth <= element.clientWidth + 1 &&
+          document.documentElement.scrollWidth <= innerWidth
+      })).toBe(true)
+    }
+    await link.focus()
+    await expect(link).toHaveCSS('outline-style', 'solid')
+    await expectNoUnexpectedAccessibilityViolations(page)
+    await link.press('Enter')
+    await expect(page).toHaveURL(route)
+  })
+}
+
+for (const theme of ['light', 'dark'] as const) {
   test(`references reflow with the introduction in ${theme}`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: theme })
     await page.goto(route)

@@ -5,7 +5,7 @@ import type { Plugin } from 'unified'
 interface Reference {
   paragraph: Element
   link: Element
-  kind: 'Related guide' | 'Repository' | 'Earlier article'
+  kind: 'Related guide' | 'Repository' | 'Earlier article' | 'Another series'
   title: string
   source?: string
 }
@@ -32,7 +32,7 @@ const icon = (name: LumenIconName): Element => element('svg', {
 }, getLumenIcon(name)?.node.map(iconNode) ?? [])
 
 const readReference = (paragraph: Element): Reference | undefined => {
-  // Only the legacy, explicitly labeled standalone references opt in.
+  // Only explicitly labeled standalone references opt in.
   if (paragraph.tagName !== 'p' || Object.keys(paragraph.properties).length > 0) return
 
   const content = paragraph.children.filter(child => child.type !== 'text' || child.value.trim())
@@ -49,6 +49,12 @@ const readReference = (paragraph: Element): Reference | undefined => {
 
   const related = /^Related post:\s*(\S.*)$/iu.exec(label)
   const earlier = /^(?:Read the )?Previous post:\s*(\S.*)$/iu.exec(label)
+  const series = /^Related series:\s*(\S.*)$/iu.exec(label)
+  const seriesTitle = link.properties.title
+
+  if (series?.[1] && typeof seriesTitle === 'string' && seriesTitle.trim()) {
+    return { paragraph, link, kind: 'Another series', title: series[1], source: seriesTitle.trim() }
+  }
 
   if (related?.[1]) return { paragraph, link, kind: 'Related guide', title: related[1] }
 
@@ -75,29 +81,8 @@ const readReference = (paragraph: Element): Reference | undefined => {
   }
 }
 
-/** Group opening references without reinterpreting inline links or links within chapters. */
-export const rehypeArticleReferences: Plugin<[], Root> = () => (tree, file) => {
-  const path = file.history.at(-1)?.replace(/\\/gu, '/')
-
-  if (!path || !/(?:^|\/)src\/content\/post\//u.test(path) || /(?:^|\/)apps\//u.test(path)) return
-
-  if (tree.children.some(node => node.type === 'element' && node.properties.dataArticleReferences !== undefined)) return
-
-  const firstHeading = tree.children.find(node => node.type === 'element' && /^h[1-6]$/u.test(node.tagName))
-  const opening = firstHeading ? tree.children.slice(0, tree.children.indexOf(firstHeading)) : tree.children
-
-  const references = opening.flatMap(node => {
-    const reference = node.type === 'element' ? readReference(node) : undefined
-
-    return reference ? [reference] : []
-  })
-
-  if (references.length === 0) return
-
-  const order: Record<Reference['kind'], number> = { 'Related guide': 0, Repository: 1, 'Earlier article': 2 }
-  const paragraphs = new Set(references.map(reference => reference.paragraph))
-
-  const rows = references.sort((a, b) => order[a.kind] - order[b.kind]).map(({ link, kind, title, source }) => {
+const createLedger = (references: Reference[], label: string, ariaLabel: string): Element => {
+  const rows = references.map(({ link, kind, title, source }) => {
     const titleContent = [text(title)]
 
     if (source) titleContent.push(element('span', { dataReferenceSource: '' }, [text(source)]))
@@ -113,16 +98,51 @@ export const rehypeArticleReferences: Plugin<[], Root> = () => (tree, file) => {
     return element('li', {}, [link])
   })
 
-  const ledger = element('nav', {
-    ariaLabel: 'References for this article', className: ['not-prose'], dataArticleReferences: ''
+  return element('nav', {
+    ariaLabel, className: ['not-prose'], dataArticleReferences: ''
   }, [
     element('div', { dataReferenceHeader: '' }, [
-      element('p', {}, [text('With this guide')]),
+      element('p', {}, [text(label)]),
       element('span', { ariaHidden: 'true', dataReferenceRule: '' }, []),
       icon('waypoints')
     ]),
     element('ul', { role: 'list' }, rows)
   ])
+}
+
+/** Reuse one static ledger for opening references and explicitly authored closing series connections. */
+export const rehypeArticleReferences: Plugin<[], Root> = () => (tree, file) => {
+  const path = file.history.at(-1)?.replace(/\\/gu, '/')
+
+  if (!path || !/(?:^|\/)src\/content\/post\//u.test(path) || /(?:^|\/)apps\//u.test(path)) return
+
+  if (tree.children.some(node => node.type === 'element' && node.properties.dataArticleReferences !== undefined)) return
+
+  const last = tree.children.filter(node => node.type !== 'text' || node.value.trim()).at(-1)
+  const closing = last?.type === 'element' ? readReference(last) : undefined
+
+  if (closing?.kind === 'Another series') {
+    const connection = createLedger([closing], 'Related reading', 'Related reading')
+
+    connection.properties.dataSeriesConnection = ''
+
+    tree.children[tree.children.indexOf(closing.paragraph)] = connection
+  }
+
+  const firstHeading = tree.children.find(node => node.type === 'element' && /^h[1-6]$/u.test(node.tagName))
+  const opening = firstHeading ? tree.children.slice(0, tree.children.indexOf(firstHeading)) : tree.children
+
+  const references = opening.flatMap(node => {
+    const reference = node.type === 'element' ? readReference(node) : undefined
+
+    return reference && reference.kind !== 'Another series' ? [reference] : []
+  })
+
+  if (references.length === 0) return
+
+  const order: Record<Reference['kind'], number> = { 'Related guide': 0, Repository: 1, 'Earlier article': 2, 'Another series': 3 }
+  const paragraphs = new Set(references.map(reference => reference.paragraph))
+  const ledger = createLedger(references.sort((a, b) => order[a.kind] - order[b.kind]), 'With this guide', 'References for this article')
 
   tree.children = tree.children.filter(node => node.type !== 'element' || !paragraphs.has(node))
 

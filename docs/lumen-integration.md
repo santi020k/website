@@ -656,8 +656,12 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   Lumen's public icon data supplies decorative waypoints and direction arrows.
   The article layout owns the responsive rows and semantic colors, with no client
   script or additional card surface. Inline links, annotated or formatted links,
-  chapter references, and closing links stay in their authored positions. Margin
+  chapter references, and unmarked closing links stay in their authored positions. Margin
   lead skips standalone link paragraphs so the actual introduction receives emphasis.
+  **Series connection** reuses that same renderer and article-scoped CSS for a final
+  standalone Related series link. Its Markdown link title supplies the series name;
+  the closing row says Another series under Related reading, while Continuation fold
+  keeps the actual next chapter. This adds no component, controller, or duplicated style.
 - `ProjectFooterNav` composes Return folio with public unstyled `Card`, inherit-style
   `Link`, and decorative `Icon` components. A native named navigation landmark keeps
   parent, top, named website, preview chapter, and repository destinations available without JavaScript.
