@@ -197,6 +197,12 @@ The site owns the brand-soft opening treatment and responsive footer; the existi
 Lumen `ButtonLink` retains GitHub's external-link contract. No new controller is
 needed. The catalog's project selection, ranking, fragments, and schema are unchanged.
 
+The category headings compose **Chapter links** from the shared `SectionHeader`,
+native navigation lists, Lumen `Link`, and decorative `Icon` arrows. The Projects
+page owns the ruled layout and responsive stacking. Each heading links to the other
+nonempty purpose groups using the catalog's IDs and counts; existing focusable
+section anchors work without additional JavaScript. A single category needs no links.
+
 The optional `ProjectsGallery.productFirst` applies **Product first** on Projects.
 Its neutral body reuses the existing gallery layout. Lumen `ButtonLink` with
 `newTab` renders the named external destination, and `Link` renders the quieter

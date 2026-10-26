@@ -9,7 +9,7 @@ import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects, collectionRelevanceSortProjects } from '@/utils/date'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
-import { ButtonLink as LumenButtonLink, Icon } from '@santi020k/lumen-astro'
+import { ButtonLink as LumenButtonLink, Icon, Link } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import { projectPurposeIds, projectPurposes } from '@/data/project-purposes'
@@ -103,11 +103,39 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       id={group.id}
       tabindex="-1"
     >
-      <SectionHeader
-        description={group.description}
-        eyebrow={`${group.projects.length} ${group.projects.length === 1 ? 'project story' : 'project stories'}`}
-        title={group.title}
-      />
+      <div data-project-chapter>
+        <div data-project-chapter-heading>
+          <SectionHeader
+            description={group.description}
+            eyebrow={`${group.projects.length} ${group.projects.length === 1 ? 'project story' : 'project stories'}`}
+            title={group.title}
+          />
+          {purposeGroups.length > 1 && (
+            <nav aria-label={`Explore beyond ${group.title}`} data-project-chapter-links>
+              <p>Keep exploring</p>
+              <ul>
+                {purposeGroups.filter(destination => destination.id !== group.id).map(destination => (
+                  <li>
+                    <Link
+                      data-project-chapter-link
+                      href={`#${destination.id}`}
+                      variant="inherit"
+                    >
+                      <span data-project-chapter-label>
+                        <span>{destination.title}</span>{' '}
+                        <span data-project-chapter-count>
+                          {destination.projects.length}<span class="sr-only"> {destination.projects.length === 1 ? 'project' : 'projects'}</span>
+                        </span>
+                      </span>
+                      <Icon name="arrow-right" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </div>
+      </div>
       <ProjectsGallery productFirst projects={group.projects} />
     </section>
   ))}
@@ -123,3 +151,55 @@ class="section-container-wide page-section-space"
     />
   </section>
 </PageLayout>
+
+<style>
+  [data-project-chapter] { container: project-chapter / inline-size; }
+  [data-project-chapter-heading] {
+    display: grid;
+    gap: 1.75rem;
+    border-top: 1px solid hsl(var(--line));
+    padding-top: 1.75rem;
+    overflow-wrap: anywhere;
+  }
+  [data-project-chapter-heading]:has(nav) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 15rem);
+    align-items: end;
+    column-gap: 3rem;
+  }
+  [data-project-chapter-links] {
+    min-width: 0;
+    border-left: 1px solid hsl(var(--line));
+    padding-left: 1.75rem;
+  }
+  [data-project-chapter-links] p {
+    margin-bottom: 0.5rem;
+    color: hsl(var(--ink-muted));
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+  [data-project-chapter-links] ul { display: grid; }
+  [data-project-chapter-links] :global([data-project-chapter-link]) {
+    display: grid;
+    min-height: 2.75rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid hsl(var(--line));
+    padding-block: 0.75rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.875rem;
+    line-height: 1.6;
+    text-decoration: none;
+  }
+  [data-project-chapter-links] :global([data-project-chapter-link]:hover) { color: hsl(var(--brand)); }
+  [data-project-chapter-label] { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; }
+  [data-project-chapter-count] { color: hsl(var(--ink-muted)); font-size: 0.75rem; }
+  @container project-chapter (width < 44rem) {
+    [data-project-chapter-heading]:has(nav) { grid-template-columns: minmax(0, 1fr); }
+    [data-project-chapter-links] { border-left: 0; padding-left: 0; }
+    [data-project-chapter-links] ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+  }
+  @container project-chapter (width < 28rem) {
+    [data-project-chapter-links] ul { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  }
+</style>

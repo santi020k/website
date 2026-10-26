@@ -313,8 +313,22 @@ statement with the native external GitHub link.
 Below 34rem, give each category a full row and stack the footer. Below 14rem, place
 the count below its label and let enlarged text wrap within the available width. The hero
 statistics and generic Explore projects action are replaced by these direct paths;
-there is only one category navigation. Preserve the catalog's projects fragment,
+this remains the opening category navigation. Preserve the catalog's projects fragment,
 purpose sections, project ranking, and structured data.
+
+### Chapter links Projects category headings
+
+Retain each category's SectionHeader, count, title, and description. A fine top rule
+opens the chapter; a quiet Keep exploring navigation sits alongside the copy, separated
+by a left rule. Link only to the other published categories, with counts derived from
+the same purpose groups as the cards. Use Lumen Link, plain count text, and decorative
+forward arrows. Native fragment links stay in the same tab and target the existing
+focusable category sections; no client controller or sticky navigation is added.
+
+Below 44rem of available width, stack the links beneath the introduction and remove
+the left rule. The links form two columns until 28rem, then separate full-width rows.
+Keep 2.75rem minimum targets, visible focus outlines, and wrapping labels at enlarged
+text sizes. Omit this navigation when only one category has projects.
 
 ### Product first Projects cards
 
