@@ -27,9 +27,9 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
             class="absolute inset-0 size-full object-cover"
             fallbackFormat="webp"
             formats={['avif']}
-            height={150}
+            height={240}
             loading="lazy"
-            sizes="(min-width: 768px) 112px, 76px"
+            sizes="(min-width: 1024px) 112px, 80px"
             src={cover}
             width={240}
             widths={[120, 240, 360]}
@@ -39,13 +39,16 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
 <Icon class="size-6" name="code-2" />}
       </div>
       <div data-related-heading>
-        <h3>{project.data.title}</h3>
         <p data-related-role>{project.data.role ?? 'Engineering'}</p>
+        <h3>{project.data.title}</h3>
       </div>
     </div>
     <p data-related-description>{project.data.description}</p>
     <div data-related-footer>
-      <span data-related-action>Read case study <Icon class="size-4" name="arrow-up-right" /></span>
+      <span data-related-action>
+        Read case study
+        <span data-related-arrow><Icon class="size-4" name="arrow-right" /></span>
+      </span>
     </div>
   </div>
   <a data-related-link href={getPortfolioPath(project.id)} aria-label={`Read case study: ${project.data.title}`}></a>
@@ -62,39 +65,46 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
     min-width: 0;
     padding: 0;
     border: 1px solid hsl(var(--line) / 0.65);
-    border-radius: 1.5rem 1.5rem 0.375rem 1.5rem;
+    border-radius: var(--radius-sheet);
     background: hsl(var(--surface));
   }
   :global(:root[data-theme='dark']) [data-related-project] { --related-emphasis: var(--accent); --related-project-ink: var(--project-primary-readable-dark); }
-  [data-related-body] { display: flex; flex: 1; flex-direction: column; gap: 1.25rem; min-width: 0; padding: 1.5rem; }
-  [data-related-identity] { display: grid; grid-template-columns: 7rem minmax(0, 1fr); align-items: center; gap: 1.25rem; }
-  [data-related-artwork] { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 0.75rem; background: hsl(var(--brand-soft)); color: hsl(var(--related-emphasis)); }
+  [data-related-body] { display: grid; flex: 1; grid-template-columns: 7rem minmax(0, 1fr); grid-template-rows: auto 1fr auto; gap: 0.875rem 1.5rem; min-width: 0; padding: 1.5rem; }
+  [data-related-identity] { display: contents; }
+  [data-related-artwork] { position: relative; display: grid; grid-row: span 2; align-self: start; place-items: center; aspect-ratio: 1; overflow: hidden; border-radius: 1rem; background: hsl(var(--brand-soft)); color: hsl(var(--related-emphasis)); }
   [data-related-heading] { min-width: 0; }
-  [data-related-heading] h3 { margin: 0; color: hsl(var(--ink)); font-size: 1.6875rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.04em; overflow-wrap: break-word; }
-  [data-related-role] { margin: 0.5rem 0 0; color: hsl(var(--related-emphasis)); font-size: 0.75rem; line-height: 1.7; overflow-wrap: break-word; }
+  [data-related-heading] h3 { margin: 0; color: hsl(var(--ink)); font-size: 1.5rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.04em; overflow-wrap: anywhere; }
+  [data-related-role] { margin: 0 0 0.375rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; overflow-wrap: break-word; }
   [data-related-description] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; text-wrap: pretty; overflow-wrap: break-word; }
-  [data-related-footer] { margin-top: auto; }
+  [data-related-footer] { grid-column: 1 / -1; margin-top: 0.375rem; }
   [data-related-action] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; padding-top: 1rem; border-top: 1px solid hsl(var(--line) / 0.65); color: hsl(var(--ink)); font-size: 0.8125rem; font-weight: 500; line-height: 1.7; }
-  [data-related-action] > :global(svg) { flex-shrink: 0; }
+  [data-related-arrow] { display: grid; flex-shrink: 0; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: hsl(var(--surface-muted)); }
   [data-related-link] { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+  [data-related-link]:focus-visible { outline: 2px solid hsl(var(--related-project-ink)); outline-offset: 4px; }
   [data-related-project]:is(:hover, :focus-within) { border-color: hsl(var(--related-project-ink)); }
   [data-related-project]:is(:hover, :focus-within) :is(h3, [data-related-role], [data-related-action]) { color: hsl(var(--related-project-ink)); }
   @media (prefers-reduced-motion: no-preference) {
     [data-related-project] { transition: border-color 160ms ease; }
     [data-related-heading] h3, [data-related-role], [data-related-action] { transition: color 160ms ease; }
   }
-  @container related-card (width < 26rem) {
-    [data-related-body] { gap: 1.125rem; padding: 1.375rem; }
-    [data-related-identity] { grid-template-columns: 4.75rem minmax(0, 1fr); gap: 1.125rem; }
+  @container related-card (width < 30rem) {
+    [data-related-body] { grid-template-columns: 5rem minmax(0, 1fr); gap: 1.125rem; padding: 1.375rem; }
+    [data-related-artwork] { grid-row: auto; }
+    [data-related-heading] { align-self: center; }
+    [data-related-description] { grid-column: 1 / -1; }
     [data-related-heading] h3 { font-size: 1.4375rem; }
   }
   @container related-card (width < 18rem) {
-    [data-related-identity] { grid-template-columns: 3.5rem minmax(0, 1fr); gap: 0.875rem; }
+    [data-related-body] { grid-template-columns: 3.5rem minmax(0, 1fr); gap: 0.875rem; padding: 1rem; }
+    [data-related-heading] h3 { font-size: 1.25rem; }
+  }
+  @container related-card (18rem <= width < 22rem) {
+    [data-related-body] { grid-template-columns: 4rem minmax(0, 1fr); }
     [data-related-heading] h3 { font-size: 1.25rem; }
   }
   @container related-card (width < 14rem) {
-    [data-related-body] { padding: 1rem; }
-    [data-related-identity] { grid-template-columns: minmax(0, 1fr); }
+    [data-related-body] { grid-template-columns: minmax(0, 1fr); }
     [data-related-artwork] { width: min(100%, 4.75rem); }
+    [data-related-arrow] { display: none; }
   }
 </style>

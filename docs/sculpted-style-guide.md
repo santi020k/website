@@ -835,22 +835,26 @@ retain the original wording for screen readers. Project colors highlight the tit
 role, action, and sheet rules on hover and keyboard focus without moving the artwork.
 Keep a complete outer focus outline, readable light/dark colors, and reduced-motion support.
 
-### Continuation shelf related projects
+### Related projects
 
-Project detail pages end with compact related-project cards beneath the existing
-Chapter tab shelf header. Use an opaque unstyled Lumen Card, 1.5rem corners, and a
-0.375rem lower-right corner. A small 16:10 horizontal artwork sits beside the complete
-title and role; the full description and ruled Read case study action span the card.
-Omit the portfolio card's dates, status, outcomes, and technology inventory here.
-Keep the existing related-project selection, order, and destinations.
+Project detail pages end with an open, ruled heading and compact related-project
+cards. The header pairs its small uppercase label, full title, and short description
+with the browse action on wide containers; below 44rem, the action follows the copy.
+Keep the original project-type heading, fragment, and parent destination.
 
-Use 1.5rem insets and a 7rem thumbnail at wider card sizes; below 26rem, tighten the
-insets and use a 4.75rem thumbnail. Below 18rem, reduce the thumbnail and title;
-below 14rem, stack the identity to accommodate enlarged text. Never clamp content.
-Align the actions across a desktop row using flexible card bodies. One named native
-link covers each card; preserve the full focus outline and project-colored hover
-and keyboard emphasis without movement. Use reduced-motion-safe color transitions.
-The portfolio index retains its Layered editorial cards.
+Use one opaque unstyled Lumen Card and the shared sheet radius. Square project
+artwork sits beside the role and full title. Above 30rem of card width, the description
+aligns beneath the title beside the 7rem artwork. Smaller cards use a 5rem image and
+let the description span the card. Below 22rem, tighten the image and title; below
+18rem, reduce the inset. Below 14rem, stack the identity and omit the decorative arrow.
+Never clamp content. Keep the existing selection, order, descriptions, and destinations
+without adding dates or technology inventories.
+
+Align the ruled Read case study actions across a desktop row. The decorative forward
+arrow sits on a quiet circular background. Each card retains one named native link,
+a complete outer focus outline, and project-colored hover and keyboard emphasis
+without movement. Color transitions respect reduced motion. The portfolio index
+retains its Layered editorial cards.
 
 ### Hero-led project facts
 
@@ -2085,11 +2089,9 @@ uses Contact folio: a tinted label strip, a larger invitation, an underlined ema
 a separate ruled note for dates and response expectations. Keep the policy-specific email
 subjects and full wording. Its narrow-container rules preserve complete words with enlarged text.
 
-Related-work shelf headers use Chapter tab: a tinted label attached to the top edge,
-a balanced title and description, and a ruled browse action below the copy. The action
-aligns right on desktop and starts at the left on narrow layouts. Keep each project type's
-heading and parent destination, native navigation, and complete words with enlarged text.
-Other `SectionHeader` variants retain their open layout.
+Related-work shelf headers use the open, ruled composition described under Related
+projects. Keep the full project-type heading, parent destination, and native navigation
+at enlarged text sizes. Other `SectionHeader` variants retain their existing layout.
 
 ### Margin continuation related-writing headers
 

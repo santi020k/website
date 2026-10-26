@@ -14,17 +14,16 @@ const headers = [
 ]
 
 for (const theme of ['light', 'dark'] as const) {
-  test.describe(`Chapter tab in ${theme}`, () => {
+  test.describe(`Related-work heading in ${theme}`, () => {
     test.use({ viewport: { width: 320, height: 844 }, colorScheme: theme, reducedMotion: 'reduce' })
     for (const header of headers) {
-      // At 200% text the 12px tab becomes large text, so only default sizing
-      // exercises the 4.5:1 normal-text contrast threshold.
+      // Default sizing exercises the normal-text contrast threshold.
       test(`${header.route} keeps normal-size chapter emphasis readable`, async ({ page }) => {
         await page.goto(header.route)
         await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
         const tab = page.getByRole('region', { name: header.title }).locator('[data-chapter-tab]')
         await expect(tab).toHaveText('Related work')
-        await expect(tab).toHaveCSS('font-size', '12px')
+        await expect(tab).toHaveCSS('font-size', '11px')
         await expectNoUnexpectedAccessibilityViolations(page)
       })
 
@@ -72,7 +71,7 @@ for (const theme of ['light', 'dark'] as const) {
   })
 }
 
-test.describe('Chapter tab without JavaScript', () => {
+test.describe('Related-work heading without JavaScript', () => {
   test.use({ javaScriptEnabled: false })
   for (const header of headers) {
     test(`${header.route} keeps its browse destination usable`, async ({ page }) => {
