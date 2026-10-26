@@ -555,11 +555,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   The original Shiki code children and authored line-number offsets remain intact.
   The Husky article uses the same fenced-code pipeline for its four standalone
   examples; package-manager groups retain the real Astro `CodeTabs` component.
-  Scroll cue uses a site-owned custom element inside each standalone article
-  figure. It observes the existing code region and content, showing a footer and
-  accessible description only on horizontal overflow. Its observer disconnects
-  with the element during Astro navigation. Lumen still owns copy and code tabs;
-  no replacement scrolling or copy controller is introduced.
+  Scroll cue uses Lumen's shared `data-ui-scroll-cue` contract inside each standalone
+  article figure. The runtime observes the existing code region and content, showing a
+  footer and accessible description only on horizontal overflow. It cleans up on Astro
+  navigation and preserves other descriptions. The website's custom element is removed;
+  Lumen owns overflow guidance, copy, and code tabs.
 - Project prose lists use Ownership ledger. `rehype-project-ledger.ts` separates an authored
   leading `strong` from its explanation at build time, preserving links, code, nested lists,
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
@@ -637,7 +637,14 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   12-character minimum width, keeping explanatory sentences readable. Compact insets and wrapping
   headers below 18rem of container width keep complete cells readable with enlarged text.
   The four-column measurement table fits the desktop reading column and retains horizontal scrolling
-  on narrow screens. `tests/legacy-article-content.spec.ts` checks normal and enlarged text.
+  on narrow screens. Article tables opt into the same Lumen Scroll cue controller as
+  code examples: a stationary “Scroll horizontally to compare” strip above the named
+  viewport appears only while columns overflow. Project tables retain their existing markup.
+  The opt-in Astro `Code`/`Table` API and runtime are tracked upstream for Lumen 4.4.0;
+  the version-pinned 4.1.0 patch carries this additive change until publication. The cue
+  stays hidden without JavaScript, leaving native table semantics and keyboard scrolling.
+  `tests/article-table-scroll-cue.spec.ts` covers resize, themes, text zoom, and navigation.
+  `tests/legacy-article-content.spec.ts` checks normal and enlarged text.
   Prose styles use site ink tokens for cells and Lumen's code foreground token for language badges in both themes.
 - Article endings use Reader colophon. `CommentsSection` owns a semantic heading and
   open margin layout with a decorative Lumen `Icon` on its native GitHub reply link.

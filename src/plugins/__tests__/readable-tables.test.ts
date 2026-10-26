@@ -13,6 +13,28 @@ const transform = (children: ElementContent[]): Root => unified()
   .runSync({ children, type: 'root' })
 
 describe('readable Markdown tables', () => {
+  test('adds one stationary Lumen cue to article tables and preserves project markup', () => {
+    const table = element('table', [element('tbody', [element('tr', [element('td', [text('Evidence')])])])])
+    const processor = unified().use(rehypeReadableTables)
+    const file = { path: '/site/src/content/post/2026/example/index.md' }
+    const tree = processor.runSync({ children: [table], type: 'root' }, file)
+    const surface = tree.children[0]
+
+    expect(surface).toMatchObject({ properties: { dataArticleTableFolio: '', dataUiScrollCue: '' } })
+    if (surface?.type !== 'element') throw new Error('Missing table surface')
+    expect(surface.children[0]).toMatchObject({ properties: {
+      dataScrollCueMessage: '', hidden: true, id: 'article-table-scroll-cue-1'
+    } })
+    expect(surface.children[1]).toMatchObject({ children: [table],
+      properties: {
+        ariaLabel: 'Table 1', dataProseTable: '', dataScrollCueViewport: '', role: 'region', tabIndex: 0
+      } })
+    const before = structuredClone(tree)
+    processor.runSync(tree, file)
+    expect(tree).toEqual(before)
+    expect(JSON.stringify(transform([table]))).not.toContain('dataUiScrollCue')
+  })
+
   test('preserves native table structure inside a named keyboard scroll region', () => {
     const table = element('table', [element('thead', [element('tr', [element('th', [text('Name')])])])])
     const heading = element('h2', [text('Compare '), element('em', [text('options')])])
