@@ -1,5 +1,5 @@
 diff --git a/README.md b/README.md
-index 21a05befc68ae34601b84b0b5407e38a05ba56de..f853eba507358080d8561eaf85b0adfb1014641b 100644
+index 21a05befc68ae34601b84b0b5407e38a05ba56de..79485dc79a6d14b648f39ba4982c804e4846d9dd 100644
 --- a/README.md
 +++ b/README.md
 @@ -324,9 +324,21 @@ import { Button, Icon } from '@santi020k/lumen-astro'
@@ -45,6 +45,96 @@ index 21a05befc68ae34601b84b0b5407e38a05ba56de..f853eba507358080d8561eaf85b0adfb
  Lumen's Astro `Image` delegates to `astro:assets`, so imported image metadata, responsive layouts,
  generated `srcset` values, output formats, quality, and remote-size inference stay available. It
  loads lazily by default. Use `loading="eager"` and `fetchpriority="high"` only for the single image
+@@ -589,6 +608,35 @@ For keyboard scrolling before JavaScript loads, give that `pre` `tabindex="0"`,
+ `role="region"`, and an accessible name; existing attributes are preserved.
+ Wrapped blocks do not add an extra tab stop.
+ 
++Opt into `scrollCue` on an unwrapped block `Code` or a `Table` with the default
++`layout="scroll"`. The default messages are “Scroll horizontally to read more” and
++“Scroll horizontally to compare”; pass a string to localize either message. Inline
++or wrapped Code and records-layout Table ignore the option. Import `styles.css` and
++mount `UIPrimitives` once in the root layout; it includes the cue stylesheet. The cue is hidden without JavaScript.
++It appears only when content overflows, stays outside the scrolling viewport, and
++updates after resizing, font loading, hidden-panel changes, and Astro navigation.
++Native scrolling and existing accessible descriptions are preserved.
++
++```astro
++<Code variant="block" code={source} language="ts" copy scrollCue />
++<Table scrollCue="Scroll horizontally to compare" aria-label="Plan comparison">
++  <table><!-- Native caption, header and body cells --></table>
++</Table>
++```
++
++A cue-enabled Table supplies `role="region"`, `tabindex="0"`, and the fallback name
++“Table”; pass a meaningful `aria-label` or `aria-labelledby` for each table. With the
++option off, Table retains its original markup and runtime-free behavior. Style the
++optional message with `[data-slot="scroll-cue"]`.
++
++Markdown renderers can emit the same contract: an outer `[data-ui-scroll-cue]`, a
++native scrolling `[data-scroll-cue-viewport]` containing a `table` or `code`, and a
++sibling `[data-scroll-cue-message][data-slot="scroll-cue"]` with `hidden`. The runtime
++also finds Code's `pre` automatically, assigns a unique message ID if omitted, and
++adds only its own description token while the message is visible. Keep the viewport
++named and focusable in server HTML, and provide a decorative icon and localized text.
++
++
+ `NavigationMenu` contains ordinary site links, so every enabled link remains in
+ native Tab order. Use `Menubar` or `Toolbar` for their documented composite-widget
+ keyboard behavior. A `ThemeToggle` with `controlled` respects the host theme at
+diff --git a/components/Code.astro b/components/Code.astro
+index 51b202e1e3fa6351d41d941409c599d02cc43cb7..35273bd0b1c6ddb19c72c0285bcee4958581bbd0 100644
+--- a/components/Code.astro
++++ b/components/Code.astro
+@@ -3,6 +3,8 @@ import type { HTMLAttributes } from 'astro/types'
+ 
+ import { renderLumenCodeHtml, renderLumenIconSvg, resolveLumenAstroProps } from '@santi020k/lumen-core'
+ 
++import ScrollCue from '../internal/ScrollCue.astro'
++
+ type CodeTheme = 'auto' | 'lumen' | 'santi020k'
+ 
+ type CodeVariant = 'block' | 'inline'
+@@ -19,6 +21,7 @@ interface Props extends HTMLAttributes<'code'> {
+   highlighted?: boolean
+   label?: string
+   language?: string
++  scrollCue?: boolean | string
+   theme?: CodeTheme
+   variant?: CodeVariant
+   wrap?: boolean
+@@ -36,6 +39,7 @@ const {
+   highlighted = false,
+   label,
+   language,
++  scrollCue = false,
+   theme = 'auto',
+   variant = 'inline',
+   wrap = false,
+@@ -54,6 +58,8 @@ const { classList: inlineClassList } = resolveLumenAstroProps(rest, [
+ ], classProp, className)
+ 
+ const shouldShowHeader = variant === 'block' && Boolean(copy || label || language)
++const cueLabel = typeof scrollCue === 'string' ? scrollCue : 'Scroll horizontally to read more'
++const showCue = Boolean(scrollCue) && !wrap
+ const hasCode = code !== undefined
+ const renderedCode = hasCode ? renderLumenCodeHtml(code, language) : ''
+ ---
+@@ -67,6 +73,7 @@ const renderedCode = hasCode ? renderLumenCodeHtml(code, language) : ''
+       data-language={language}
+       data-slot="code"
+       data-ui-code
++      data-ui-scroll-cue={showCue ? '' : undefined}
+       {...passthrough}
+     >
+       {shouldShowHeader && (
+@@ -102,6 +109,7 @@ const renderedCode = hasCode ? renderLumenCodeHtml(code, language) : ''
+       {highlighted && <slot />}
+       {!highlighted && hasCode && <pre aria-label={!wrap ? codeLabel : undefined} role={!wrap ? 'region' : undefined} tabindex={!wrap ? 0 : undefined}><code set:html={renderedCode}></code></pre>}
+       {!highlighted && !hasCode && <pre aria-label={!wrap ? codeLabel : undefined} role={!wrap ? 'region' : undefined} tabindex={!wrap ? 0 : undefined}><code><slot /></code></pre>}
++      {showCue && <ScrollCue label={cueLabel} />}
+     </figure>
+   ) :
+   (
 diff --git a/components/CoverImage.astro b/components/CoverImage.astro
 index 1e4ff0dcf6250c42c2fd27026eac14a84a342b0f..24828b39b78c1dadc091b72f8c312d71b103fceb 100644
 --- a/components/CoverImage.astro
@@ -111,11 +201,126 @@ index 35ef8ecc991a69b46e94373d05e9fd1d915195f8..abaa725e47fdc5ebf8eecaf82d6a12e0
    role="progressbar"
    {...passthrough}
  >
+diff --git a/components/Table.astro b/components/Table.astro
+index e6ff8ea58785bec24f36fcd12b59193448ff9e1d..5750f4f512e11d94e2f7e41afe6350be6d8dfca5 100644
+--- a/components/Table.astro
++++ b/components/Table.astro
+@@ -3,21 +3,31 @@ import type { HTMLAttributes } from 'astro/types'
+ 
+ import { resolveLumenAstroProps } from '@santi020k/lumen-core'
+ 
++import ScrollCue from '../internal/ScrollCue.astro'
++
+ interface Props extends HTMLAttributes<'div'> {
+   class?: string | null
+   className?: string
+   glass?: boolean | 'subtle' | 'strong'
+   layout?: 'records' | 'scroll'
++  scrollCue?: boolean | string
+ }
+ 
+ const {
++  'aria-label': ariaLabel,
++  role,
++  tabindex,
+   class: classProp = '',
+   className = '',
+   glass = false,
+   layout = 'scroll',
++  scrollCue = false,
+   ...rest
+ } = Astro.props
+ 
++const showCue = Boolean(scrollCue) && layout === 'scroll'
++const cueLabel = typeof scrollCue === 'string' ? scrollCue : 'Scroll horizontally to compare'
++
+ const { classList, passthrough } = resolveLumenAstroProps(rest, [
+   'ui-table-wrap',
+   layout === 'records' && 'ui-table-wrap--records',
+@@ -27,10 +37,25 @@ const { classList, passthrough } = resolveLumenAstroProps(rest, [
+ ], classProp, className)
+ ---
+ 
+-<div
+-  class:list={classList}
+-  data-slot="table"
+-  {...passthrough}
+->
+-  <slot />
+-</div>
++{showCue ?
++(
++  <div class="ui-table-scroll" data-ui-scroll-cue>
++    <ScrollCue label={cueLabel} />
++    <div
++      class:list={classList}
++      data-scroll-cue-viewport
++      data-slot="table"
++      role={role ?? 'region'}
++      tabindex={tabindex ?? 0}
++      aria-label={ariaLabel ?? (Astro.props['aria-labelledby'] ? undefined : 'Table')}
++      {...passthrough}
++    >
++      <slot />
++    </div>
++  </div>
++) :
++(
++  <div aria-label={ariaLabel} role={role} tabindex={tabindex} class:list={classList} data-slot="table" {...passthrough}>
++    <slot />
++  </div>
++)}
+diff --git a/internal/ScrollCue.astro b/internal/ScrollCue.astro
+new file mode 100644
+index 0000000000000000000000000000000000000000..3d0d843bbe8ebbf6d9ad00e2b554afcbc4d9c5cd
+--- /dev/null
++++ b/internal/ScrollCue.astro
+@@ -0,0 +1,14 @@
++---
++import { renderLumenIconSvg } from '@santi020k/lumen-core'
++
++interface Props {
++  label: string
++}
++
++const { label } = Astro.props
++---
++
++<div class="ui-scroll-cue" data-scroll-cue-message data-slot="scroll-cue" hidden>
++  <Fragment set:html={renderLumenIconSvg('move-horizontal')} />
++  <span>{label}</span>
++</div>
+diff --git a/package.json b/package.json
+index 2496b8d4b619bec96051822447a3a044dee9c576..2eb8fe5fedbcca0d7143335d4548a35b82a8b9ba 100644
+--- a/package.json
++++ b/package.json
+@@ -9,6 +9,7 @@
+   "sideEffects": [
+     "./styles/lumen.css",
+     "./styles/critical.css",
++    "./styles/scroll-cue.css",
+     "./styles.css"
+   ],
+   "types": "./index.ts",
 diff --git a/runtime/UIPrimitives.astro b/runtime/UIPrimitives.astro
-index 5c8c088e6a118e8aecae49c36b89f136870185f8..1a49916359dffc699623c65c5f3111a49ba34d18 100644
+index 5c8c088e6a118e8aecae49c36b89f136870185f8..222cb8958da890cb674d7904c07220d8c750ceff 100644
 --- a/runtime/UIPrimitives.astro
 +++ b/runtime/UIPrimitives.astro
-@@ -957,6 +957,9 @@ const initListBoxes = (scope: ParentNode): void => {
+@@ -1,4 +1,5 @@
+ ---
++import '../styles/scroll-cue.css'
+ 
+ /**
+  * Astro UI primitives controller.
+@@ -40,6 +41,7 @@ import { bindListBoxProxy } from './controllers/list-box-proxy'
+ import { initMessageFeeds } from './controllers/message-scroller'
+ import { initOptionalMediaControllers } from './controllers/optional-media'
+ import { initProgress } from './controllers/progress'
++import { clearScrollCues, initScrollCues } from './controllers/scroll-cue'
+ 
+ /* eslint-disable complexity */
+ /* Stateful DOM handlers stay local so Astro consumers do not need a framework runtime. */
+@@ -957,6 +959,9 @@ const initListBoxes = (scope: ParentNode): void => {
    }
  }
  
@@ -125,7 +330,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..1a49916359dffc699623c65c5f3111a4
  const initTabs = (scope: ParentNode): void => {
    for (const root of scope.querySelectorAll<HTMLElement>('[data-ui-tabs]')) {
      if (root.dataset.uiBound === 'true') continue
-@@ -1003,7 +1006,7 @@ const initTabs = (scope: ParentNode): void => {
+@@ -1003,7 +1008,7 @@ const initTabs = (scope: ParentNode): void => {
        }
      }
  
@@ -134,7 +339,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..1a49916359dffc699623c65c5f3111a4
        const value = tab.dataset.value ?? ''
        const wasSelected = tab.getAttribute('aria-selected') === 'true'
  
-@@ -1023,13 +1026,14 @@ const initTabs = (scope: ParentNode): void => {
+@@ -1023,13 +1028,14 @@ const initTabs = (scope: ParentNode): void => {
  
        root.dataset.value = value
  
@@ -153,7 +358,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..1a49916359dffc699623c65c5f3111a4
          try {
            localStorage.setItem(storageKey, value)
          } catch {
-@@ -1044,7 +1048,8 @@ const initTabs = (scope: ParentNode): void => {
+@@ -1044,7 +1050,8 @@ const initTabs = (scope: ParentNode): void => {
            const matchingTab = [...otherRoot.querySelectorAll<HTMLElement>('[role="tab"]')]
              .find(candidate => candidate.closest('[data-ui-tabs]') === otherRoot && candidate.dataset.value === value)
  
@@ -163,7 +368,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..1a49916359dffc699623c65c5f3111a4
          }
        }
  
-@@ -1072,7 +1077,9 @@ const initTabs = (scope: ParentNode): void => {
+@@ -1072,7 +1079,9 @@ const initTabs = (scope: ParentNode): void => {
          undefined
      ) ?? tabs.find(tab => tab.getAttribute('aria-selected') === 'true') ?? tabs[0]
  
@@ -174,6 +379,23 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..1a49916359dffc699623c65c5f3111a4
  
      for (const tab of tabs) {
        tab.addEventListener('click', () => activate(tab))
+@@ -1784,6 +1793,7 @@ const initCommand = (scope: ParentNode): void => {
+ }
+ 
+ document.addEventListener('astro:before-swap', clearComboboxes)
++document.addEventListener('astro:before-swap', clearScrollCues)
+ 
+ const initSelects = (scope: ParentNode): void => {
+   for (const root of scope.querySelectorAll<HTMLElement>('[data-ui-select]')) {
+@@ -5463,6 +5473,8 @@ const initUiPrimitives = (scope: ParentNode = document): void => {
+ 
+   initCodeRegions(scope)
+ 
++  initScrollCues(scope)
++
+   initCopyButtons(scope)
+ 
+   initProgress(scope)
 diff --git a/runtime/controllers/document-navigation.ts b/runtime/controllers/document-navigation.ts
 index 6f616c13e406958847d5bb1485d25208e2db5a67..95cbc3c9c542874962fff0136a2be5ba9e0d1b2a 100644
 --- a/runtime/controllers/document-navigation.ts
@@ -305,3 +527,113 @@ index 6f616c13e406958847d5bb1485d25208e2db5a67..95cbc3c9c542874962fff0136a2be5ba
  }
  
  export const initDocumentNavigationControllers = (scope: ParentNode): void => {
+diff --git a/runtime/controllers/scroll-cue.ts b/runtime/controllers/scroll-cue.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..23bbec647e4900b8a4abd8c48817a3d273976dda
+--- /dev/null
++++ b/runtime/controllers/scroll-cue.ts
+@@ -0,0 +1,86 @@
++const bindings = new Map<HTMLElement, () => void>()
++let nextId = 0
++
++const updateDescription = (viewport: HTMLElement, id: string, visible: boolean): void => {
++  const ids = new Set(viewport.getAttribute('aria-describedby')?.split(/\s+/u).filter(Boolean))
++
++  if (visible) ids.add(id)
++  else ids.delete(id)
++
++  if (ids.size) viewport.setAttribute('aria-describedby', [...ids].join(' '))
++  else viewport.removeAttribute('aria-describedby')
++}
++
++export const clearScrollCues = (): void => {
++  for (const cleanup of bindings.values()) cleanup()
++
++  bindings.clear()
++}
++
++const bindScrollCue = (root: HTMLElement): void => {
++  const viewport = root.querySelector<HTMLElement>('[data-scroll-cue-viewport], pre')
++  const content = viewport?.querySelector<HTMLElement>('table, code')
++  const message = root.querySelector<HTMLElement>('[data-scroll-cue-message]')
++
++  if (!viewport || !content || !message) return
++
++  if (!message.id) {
++    let candidate: string
++
++    do {
++      nextId += 1
++
++      candidate = `ui-scroll-cue-${nextId}`
++    } while (root.ownerDocument.getElementById(candidate))
++
++    message.id = candidate
++  }
++
++  const id = message.id
++  let active = true
++
++  const update = (): void => {
++    if (!active || !root.isConnected) return
++
++    const visible = viewport.clientWidth > 0 && viewport.scrollWidth > viewport.clientWidth + 1
++
++    message.hidden = !visible
++
++    updateDescription(viewport, id, visible)
++  }
++
++  const observer = new ResizeObserver(update)
++
++  observer.observe(viewport)
++
++  observer.observe(content)
++
++  bindings.set(root, () => {
++    active = false
++
++    observer.disconnect()
++
++    message.hidden = true
++
++    updateDescription(viewport, id, false)
++  })
++
++  void root.ownerDocument.fonts.ready.then(update)
++
++  update()
++}
++
++/** Enhance the documented Code/Table markup without owning native scrolling or focus. */
++export const initScrollCues = (scope: ParentNode): void => {
++  for (const [root, cleanup] of bindings) {
++    if (!root.isConnected) {
++      cleanup()
++
++      bindings.delete(root)
++    }
++  }
++
++  for (const root of scope.querySelectorAll<HTMLElement>('[data-ui-scroll-cue]')) {
++    if (!bindings.has(root)) bindScrollCue(root)
++  }
++}
+diff --git a/styles/scroll-cue.css b/styles/scroll-cue.css
+new file mode 100644
+index 0000000000000000000000000000000000000000..b1676cb5fe3c78b1fed80adbaf36f88f99e20f8b
+--- /dev/null
++++ b/styles/scroll-cue.css
+@@ -0,0 +1,12 @@
++@layer lumen.components {
++/* Opt-in overflow guidance remains outside the native scrolling content. */
++.ui-scroll-cue:not([hidden]) { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; color: hsl(var(--ink-soft)); font: 400 0.75rem/1.6 var(--font-sans, sans-serif); }
++.ui-scroll-cue > svg { flex: none; width: 1rem; height: 1rem; color: hsl(var(--brand)); }
++.ui-scroll-cue > span { min-width: 0; overflow-wrap: anywhere; }
++.ui-code > .ui-scroll-cue { border-block-start: 1px solid hsl(var(--line)); }
++.ui-table-scroll { min-width: 0; border: var(--ui-border-width, 1px) solid hsl(var(--line)); border-radius: var(--ui-radius); background: hsl(var(--surface)); }
++.ui-table-scroll > .ui-scroll-cue { border-block-end: 1px solid hsl(var(--line)); }
++.ui-table-scroll > .ui-table-wrap { border: 0; border-radius: inherit; }
++.ui-table-scroll:has(> .ui-scroll-cue:not([hidden])) > .ui-table-wrap { border-start-start-radius: 0; border-start-end-radius: 0; }
++.ui-table-scroll > .ui-table-wrap:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 2px; }
++}

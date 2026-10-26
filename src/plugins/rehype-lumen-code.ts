@@ -4,6 +4,8 @@ import type { Plugin } from 'unified'
 import type { Node } from 'unist'
 import { visit } from 'unist-util-visit'
 
+import { createLumenScrollCue } from './lumen-scroll-cue'
+
 const element = (
   tagName: string,
   properties: Element['properties'] = {},
@@ -195,6 +197,8 @@ const convertFigure = (figure: Element, exampleNumber: number, folio: boolean): 
     }
   }
 
+  if (folio && pre) figure.properties.dataUiScrollCue = ''
+
   if (pre) {
     pre.properties.tabIndex = 0
 
@@ -210,10 +214,7 @@ const convertFigure = (figure: Element, exampleNumber: number, folio: boolean): 
       dataProperty(child, 'rehype-pretty-code-title') === undefined
     )),
     ...(folio && pre ?
-      [element('article-code-scroll-cue', {
-        hidden: true,
-        id: `article-code-scroll-cue-${exampleNumber}`
-      }, [codeIcon('move-horizontal'), element('span', {}, [text('Scroll horizontally to read more')])])] :
+      [createLumenScrollCue(`article-code-scroll-cue-${exampleNumber}`, 'Scroll horizontally to read more')] :
       [])
   ]
 }

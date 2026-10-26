@@ -50,9 +50,9 @@ describe('article Code folio', () => {
     if (icon?.type !== 'element') throw new Error('Missing icon')
     expect(icon.children.length).toBeGreaterThan(0)
     const cue = block.children.at(-1)
-    expect(cue).toMatchObject({ tagName: 'article-code-scroll-cue',
+    expect(cue).toMatchObject({ tagName: 'div',
       properties: {
-        hidden: true, id: 'article-code-scroll-cue-1'
+        dataScrollCueMessage: '', hidden: true, id: 'article-code-scroll-cue-1'
       } })
     expect(serialized).toContain('Scroll horizontally to read more')
     expect(pre.properties.ariaDescribedBy).toBeUndefined()
