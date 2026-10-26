@@ -278,6 +278,10 @@
 
 ### Patch Changes
 
+- Refine article copy and share controls with rounded outlines, tinted icon compartments, consistent result states, and tighter spacing beneath Topics. Preserve keyboard access, clipboard feedback, and native sharing.
+
+- Center logos vertically in generated horizontal and portrait project covers, including the square crops used by compact project cards.
+
 - Keep project subsection headings readable in narrow layouts and with enlarged text by giving them the decorative rule's space. Remove duplicate fragment offsets from project headings and evidence briefs so section navigation uses one shared header clearance. Preserve reading position when mobile chapter groups resize, and keep preview links and enhanced controls the same size so loading interactions cannot move the page.
 
 - Keep featured project images and copy full width when galleries stack on mobile or with enlarged text, matching the other cards' image proportions while preserving the desktop composition. Keep archive-match badges readable in dark mode.

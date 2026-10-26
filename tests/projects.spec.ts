@@ -14,13 +14,13 @@ for (const width of [320, 375, 768, 1440]) {
       const projects = screen.locator('[data-project-gallery-card]')
       expect(await projects.count()).toBeGreaterThan(1)
 
-      const explore = screen.getByRole('link', { name: 'Explore projects', exact: true })
+      const explore = screen.locator('[data-projects-page]').getByRole('navigation', { name: 'Browse projects by purpose' }).getByRole('link', { name: /Developer tools/u })
       await explore.focus()
       await expect(explore).toBeFocused()
       await screen.keyboard.press('Enter')
-      await expect(screen).toHaveURL(/\/projects\/#projects$/)
+      await expect(screen).toHaveURL(/\/projects\/#developer-tools$/)
 
-      const project = projects.first().getByRole('link')
+      const project = projects.first().getByRole('link', { name: 'Read the case study: Lumen UI', exact: true })
       await project.focus()
       await expect(project).toBeFocused()
       await expect(project).toHaveAttribute('href', /\/portfolio\/.+\/$/)
@@ -38,13 +38,14 @@ for (const width of [320, 375, 768, 1440]) {
   }
 }
 
-test('editorial project cards keep concise copy and a single named destination', async ({ page: screen }) => {
+test('product-first cards keep concise copy and distinguish the website from the case study', async ({ page: screen }) => {
   await screen.goto('/projects/')
   const postlens = screen.locator('[data-project-gallery-card]').filter({
     has: screen.getByRole('heading', { name: 'PostLens', exact: true })
   })
-  const project = postlens.getByRole('link', { name: /PostLens.*View project/ })
-  await expect(project).toHaveCount(1)
+  const project = postlens.getByRole('link', { name: 'Read the case study: PostLens', exact: true })
+  await expect(postlens.getByRole('link')).toHaveCount(2)
+  await expect(postlens.getByRole('link', { name: 'Visit PostLens', exact: true })).toHaveAttribute('href', 'https://postlens.santi020k.com/')
   await expect(project).toHaveAttribute('href', '/portfolio/postlens/')
   await expect(postlens.locator('p')).toHaveText(
     'A private photo studio for iPhone and iPad. Choose your best shots, refine them, and compose layouts ready to share.'
@@ -70,11 +71,14 @@ test('editorial project cards retain their full text and link at enlarged mobile
     document.documentElement.style.fontSize = '200%'
   })
 
-  const project = screen.getByRole('link', { name: /Between Contractions.*View project/ })
+  const card = screen.locator('[data-project-gallery-card]').filter({
+    has: screen.getByRole('heading', { name: 'Between Contractions', exact: true })
+  })
+  const project = card.getByRole('link', { name: 'Read the case study: Between Contractions', exact: true })
   await project.focus()
   await expect(project).toBeFocused()
-  await expect(project.getByRole('heading')).toHaveText('Between Contractions')
-  await expect(project.locator('p')).toHaveText(
+  await expect(card.getByRole('heading')).toHaveText('Between Contractions')
+  await expect(card.locator('p')).toHaveText(
     'A calm, private contraction timer. Track each contraction, review your rhythm, and share the moment with your partner.'
   )
   const layout = await project.evaluate(element => {
@@ -95,4 +99,43 @@ test('editorial project cards retain their full text and link at enlarged mobile
   expect(await screen.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   await screen.keyboard.press('Enter')
   await expect(screen).toHaveURL(/\/portfolio\/between-contractions\/$/)
+})
+
+test('product-first destinations open a protected new tab and missing destinations retain a case study', async ({ page, context }) => {
+  await page.goto('/projects/')
+  const destinations = page.locator('[data-project-visit]')
+  await expect(destinations).toHaveCount(13)
+  for (const destination of await destinations.all()) {
+    await expect(destination).toHaveAttribute('target', '_blank')
+    const rel = (await destination.getAttribute('rel'))?.split(/\s+/u) ?? []
+    expect(rel).toEqual(expect.arrayContaining(['noopener', 'noreferrer']))
+  }
+  const caseStudies = page.locator('[data-project-case-study]')
+  await expect(caseStudies).toHaveCount(14)
+  for (const caseStudy of await caseStudies.all()) {
+    await expect(caseStudy).not.toHaveAttribute('target', '_blank')
+  }
+  await expect(page.locator('[data-project-gallery-card] a a')).toHaveCount(0)
+  const coolstead = page.locator('[data-project-gallery-card]').filter({
+    has: page.getByRole('heading', { name: 'Coolstead', exact: true })
+  })
+  await expect(coolstead.getByRole('link')).toHaveCount(1)
+  await expect(coolstead.getByRole('link')).toHaveAttribute('href', '/portfolio/coolstead/')
+
+  await context.route('https://lumen.santi020k.com/', route => route.fulfill({
+    contentType: 'text/html',
+    body: '<title>Lumen destination test</title>'
+  }))
+  const visit = page.getByRole('link', { name: 'Visit Lumen UI', exact: true })
+  await visit.focus()
+  await expect(visit).toHaveCSS('outline-style', 'solid')
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.keyboard.press('Enter')
+  ])
+  await popup.waitForLoadState('domcontentloaded')
+  await expect(popup).toHaveURL('https://lumen.santi020k.com/')
+  expect(await popup.evaluate(() => window.opener === null)).toBe(true)
+  await popup.close()
+  await expect(page).toHaveURL(/\/projects\/$/u)
 })

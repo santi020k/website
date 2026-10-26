@@ -95,6 +95,8 @@ The integration guide records the version-pinned Anchor, synchronized code tabs,
 
 Collection helpers in `src/utils/content.ts` cache published entries during a build and return
 an independent array to each caller, so page-specific sorting cannot reorder another page.
+Project frontmatter can curate up to two `relatedWriting` post references; the shared Story pair
+section omits drafts, scheduled posts, and missing entries in every environment.
 Article and project routes render their collection entry once and pass its typed headings to the
 layout, keeping the reading sidebar aligned with the rendered content.
 The current site uses its own posts and project schemas; historical integrations and styles

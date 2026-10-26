@@ -119,7 +119,7 @@ for (const theme of ['light', 'dark'] as const) {
           await page.setViewportSize({ width, height: 900 })
           await openPage(page, route)
           await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-          await expectTextOnScreen(page.locator('main h1, main h2, main h3, .projects-intro-ledger, .projects-editorial-copy, [data-portfolio-project]'))
+          await expectTextOnScreen(page.locator('main h1, main h2, main h3, .projects-intro-paths, .projects-intro-footer, .projects-editorial-copy, [data-portfolio-project]'))
           await expectWordsUnbroken(page.locator('.projects-editorial-copy h3'))
         })
       }
@@ -360,16 +360,18 @@ test('enlarged Projects content stacks before its columns become cramped', async
     const copy = first?.querySelector('.projects-editorial-copy')?.getBoundingClientRect()
     const secondBox = second?.getBoundingClientRect()
     const thirdBox = third?.getBoundingClientRect()
-    const ledger = [...document.querySelectorAll('.projects-intro-ledger > div')]
+    const paths = [...document.querySelectorAll('.projects-intro-paths a')]
       .map(element => element.getBoundingClientRect())
 
     return {
       cards: !!secondBox && !!thirdBox && secondBox.bottom <= thirdBox.top &&
         Math.abs(secondBox.left - thirdBox.left) < 1,
       featured: !!image && !!copy && image.bottom <= copy.top + 1,
-      ledger: ledger.every((item, index) => index === 0 || (ledger[index - 1]?.bottom ?? Infinity) <= item.top)
+      paths: paths.length === 3 && paths.every((item, index) => (
+        index === 0 || (paths[index - 1]?.bottom ?? Infinity) <= item.top
+      ))
     }
   })
 
-  expect(stacked).toEqual({ cards: true, featured: true, ledger: true })
+  expect(stacked).toEqual({ cards: true, featured: true, paths: true })
 })
