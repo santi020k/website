@@ -324,6 +324,10 @@ enlarged text sizes. No new client controller is introduced.
   and decorative `Icon` captions to each authored lane. The typed profile data owns
   the chapter destinations; native links work without JavaScript and keep the
   surrounding article passive.
+- About's engineering-principle **Practice captions** use optional source data on
+  the shared `PrincipleCard`, with Lumen `Link` and `Icon`. Only the editorial
+  appearance renders the caption; the default DX-page cards retain their existing
+  presentation. Profile data owns the six published article destinations.
 - Articles and projects share `ReadingContents`, derived from Smith's approved Chapter
   groups and Captioned chapters. It composes Lumen `Anchor` and native `Collapsible`
   chapters from `getReadingChapters`; sections without children remain direct links.

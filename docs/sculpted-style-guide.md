@@ -650,6 +650,19 @@ then stack the numeral above the copy below 33.75rem. Remove the vertical rule i
 the stacked layout. Preserve reading order, all authored copy, and text-driven
 row heights when text is enlarged.
 
+### Practice captions About principles
+
+Retain the three-column editorial grid, numbered headings, and complete principle
+copy. Add one quiet “Read the approach” caption with a related published article
+below each principle. Keep the sources in the typed profile data and link to
+published articles that support the corresponding principle.
+
+Use a flex column to anchor each caption below its copy, a fine rule, a 0.6875rem
+caption, and a 0.75rem Lumen link with a decorative arrow. Allow 1.5rem above the
+caption and a 4rem minimum link height to align the rules when labels wrap.
+Internal article links keep native navigation and visible focus. Preserve the
+existing mobile stack, and leave the default DX-page principle cards unchanged.
+
 ### Exhibition sheets About organizations
 
 The organization carousel uses tinted outer frames with 1.75rem corners and a

@@ -40,6 +40,7 @@ export interface Testimonial {
 
 export interface EngineeringPrinciple {
   body: string
+  source: { href: string, label: string }
   title: string
 }
 
@@ -226,26 +227,50 @@ export const speakingFormats: SpeakingCardContent[] = [
 export const engineeringPrinciples: EngineeringPrinciple[] = [
   {
     title: 'Automate the friction, not the thinking',
+    source: {
+      href: '/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/',
+      label: 'Automating quality checks'
+    },
     body: 'The best automation removes toil — repetitive, low-judgment work that slows teams down. It should never replace the thinking that makes products worth building.'
   },
   {
     title: 'DX is UX for your team',
+    source: {
+      href: '/blog/why-developer-experience-work-should-be-measured-like-product-work/',
+      label: 'Measuring developer experience'
+    },
     body: 'The developer experience of a codebase shapes how fast and confidently the team can move. Bad DX compounds. Good DX compounds too — invest early and measure it.'
   },
   {
     title: 'Leadership means fewer decisions under pressure',
+    source: {
+      href: '/blog/code-standards-that-scale-with-a-team/',
+      label: 'Standards that scale'
+    },
     body: 'A good tech lead reduces ambiguity before it becomes risk. Clear standards, good tooling, and systems that fail loudly are how you protect a team\'s velocity at scale.'
   },
   {
     title: 'Performance is a product decision',
+    source: {
+      href: '/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites/',
+      label: 'Fast content-heavy sites'
+    },
     body: 'Speed isn\'t a tech concern, it\'s a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections.'
   },
   {
     title: 'Boring tech is often the right call',
+    source: {
+      href: '/blog/building-aaronmgz-as-a-family-platform/',
+      label: 'Choosing tools for the job'
+    },
     body: 'The goal is to solve the problem, not to use the newest tool. Stable, well-understood solutions let the team focus on the actual product.'
   },
   {
     title: 'Consistency beats perfection',
+    source: {
+      href: '/blog/responsive-design-standards-that-scale-across-components/',
+      label: 'Shared responsive standards'
+    },
     body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
   }
 ]
