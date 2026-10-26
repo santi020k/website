@@ -17,6 +17,8 @@
  */
 import { type CollectionEntry, getCollection } from 'astro:content'
 
+import { getPostPath } from './links'
+
 /** Share pending build loads and retry failures; development always asks Astro for fresh content. */
 const cacheCollection = <Entry>(load: () => Promise<Entry[]>) => {
   let pending: Promise<Entry[]> | null = null
@@ -69,30 +71,56 @@ export const getProjectWriting = async (selections: CollectionEntry<'project'>['
   })
 }
 
+/** Compare reading destinations without tracking parameters, fragments, or trailing slashes. */
+const readingDestination = (href: string): string | undefined => {
+  try {
+    const url = new URL(href, import.meta.env.SITE)
+
+    if (url.protocol !== 'https:' && url.protocol !== 'http:') return
+
+    return url.origin + decodeURIComponent(url.pathname).replace(/\/+$/u, '')
+  } catch {
+    return undefined
+  }
+}
+
 /**
  * Returns posts that share at least one tag with the given tag list,
  * scored and sorted by number of shared tags then by publish date.
- * Excludes the current post and optionally an entire series.
+ * Excludes unpublished posts, the current post, and optional series/recommendation destinations.
  */
 export const getRelatedPosts = async ({
   currentPostId,
   excludeSeriesId,
+  excludeUrls = [],
   limit = 3,
   tags
 }: {
   currentPostId: string
   excludeSeriesId?: string
+  excludeUrls?: string[]
   limit?: number
   tags: string[]
 }): Promise<CollectionEntry<'post'>[]> => {
   const posts = await getCachedPosts()
   const tagSet = new Set(tags)
+  const now = new Date()
+  const excluded = new Set(excludeUrls.map(readingDestination).filter(url => url !== undefined))
 
   return posts
     .filter(p => {
       if (p.id === currentPostId) return false
 
+      if (p.data.draft || p.data.publishDate > now) return false
+
       if (excludeSeriesId && p.data.seriesId === excludeSeriesId) return false
+
+      if ([getPostPath(p.id), ...(p.data.canonicalUrl ? [p.data.canonicalUrl] : [])]
+        .some(href => {
+          const destination = readingDestination(href)
+
+          return destination !== undefined && excluded.has(destination)
+        })) return false
 
       return p.data.tags.some(t => tagSet.has(t))
     })

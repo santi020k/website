@@ -1,5 +1,6 @@
 import type { Element, ElementContent, Root, RootContent } from 'hast'
 import { unified } from 'unified'
+import { VFile } from 'vfile'
 import { describe, expect, test } from 'vitest'
 
 import { rehypeArticleOpening } from '../rehype-article-opening'
@@ -21,6 +22,55 @@ const contents = (node: Root | RootContent): string => {
 }
 
 describe('article Reference ledger', () => {
+  test('exports only rendered article recommendations, preserving other plugin metadata', () => {
+    const file = new VFile({ path, data: { astro: { frontmatter: { postType: 'Guide' } } } })
+    const tree: Root = { type: 'root',
+      children: [
+        reference('Related post: Related guide', '/blog/related/?source=guide#chapter'),
+        reference('Previous post: Related guide', '/blog/related/?source=guide#chapter'),
+        reference('GitHub Repository', 'https://github.com/santi020k/posts'),
+        element('p', [text('See '), element('a', [text('Inline reference')], { href: '/blog/inline/' })]),
+        element('h2'),
+        reference('Related post: Chapter reference', '/blog/chapter/'),
+        element('p', [element('a', [text('Related series: Another guide')], {
+          href: '/blog/another/', title: 'Another series'
+        })])
+      ] }
+
+    unified().use(rehypeArticleReferences).runSync(tree, file)
+
+    expect(file.data.astro?.frontmatter).toEqual({
+      postType: 'Guide', articleRecommendationUrls: ['/blog/related/?source=guide#chapter', '/blog/another/']
+    })
+    unified().use(rehypeArticleReferences).runSync(tree, file)
+    expect(file.data.astro?.frontmatter?.articleRecommendationUrls).toEqual(['/blog/related/?source=guide#chapter', '/blog/another/'])
+  })
+
+  test('exports a closing connection even without an opening ledger', () => {
+    const file = new VFile({ path })
+    const tree: Root = { type: 'root',
+      children: [element('h2'),
+        paragraph('Conclusion.'),
+        element('p', [element('a', [text('Related series: Another guide')], {
+          href: '/blog/another/', title: 'Another series'
+        })])
+      ] }
+
+    unified().use(rehypeArticleReferences).runSync(tree, file)
+
+    expect(file.data.astro?.frontmatter?.articleRecommendationUrls).toEqual(['/blog/another/'])
+  })
+
+  test('does not export unrendered references or archive recommendations', () => {
+    for (const sourcePath of [path, '/repo/apps/v4/src/content/post/example/index.md']) {
+      const file = new VFile({ path: sourcePath })
+      const tree: Root = { type: 'root', children: [element('h2'), reference('Related post: Chapter reference')] }
+
+      unified().use(rehypeArticleReferences).runSync(tree, file)
+      expect(file.data.astro?.frontmatter?.articleRecommendationUrls).toBeUndefined()
+    }
+  })
+
   test('shares the opening ledger renderer with a distinct closing series connection', () => {
     const connection = element('p', [element('a', [text('Related series: Migration guide')], {
       href: '/blog/migration-guide/', title: 'ESLint in Practice'

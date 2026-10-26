@@ -310,6 +310,9 @@ enlarged text sizes. No new client controller is introduced.
   responsive grid, optimized Astro cover images, complete editorial copy, numbered header, and focus treatment.
 - About-page supplementary cards use Lumen `Note` directly.
 - The About hero availability status uses Lumen `Marker`.
+- About's organization **Named index** uses Lumen `Button` with the public `ghost`
+  variant. The site owns the ruled index and responsive card selection; native
+  button activation, pressed state, focus preservation, and script-free cards remain intact.
 - About's **Linked counters** compose bare Lumen `Stat` articles with `Link` and
   decorative `Icon` source captions. The site retains its margin rails and responsive
   figures; links navigate natively to the Work timeline and matching Void.GG sections.
@@ -732,8 +735,14 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   a stacked `PageSection`. Native heading and paragraph markup provide the margin label
   and ruled copy; the existing Lumen-backed `ButtonLink` supplies the browse action.
   `RelatedPosts` owns the conditional section wrapper so empty recommendations leave
-  no section spacing. It retains its recommendation logic, series exclusions, two-card gallery,
-  and contextual destination. Project headers retain the separate approved `shelf` variant.
+  no section spacing. **Fresh recommendations** retains the shared-tag/date ranking,
+  series exclusions, two-card gallery, and contextual destination. The existing article
+  reference transform exports only the recommendations it renders in Reference ledger
+  or Series connection. Related writing excludes those destinations before taking two
+  results, matching local post paths and declared canonical URLs without query strings
+  or fragments. Ordinary prose links remain eligible. Drafts and scheduled posts stay
+  excluded even during development; fewer eligible posts produce fewer cards, with no
+  unrelated fallback. Project headers retain the separate approved `shelf` variant.
 
 ## Anchor runtime patch
 

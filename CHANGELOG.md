@@ -298,6 +298,8 @@
   Stack shared section introductions by available reading width and preserve whole heading words
   with enlarged text, while retaining the approved cards and their destinations.
 
+- Keep related writing fresh by excluding articles already recommended in the opening reference ledger or closing series connection, preserving the existing cards and topic ranking.
+
 - Select current-site static checks for ordinary source-only pull requests while retaining every unit and motion test.
   Keep full static validation for releases, shared changes, and unavailable Git history, with all production builds, browser tests, and Lighthouse checks unchanged.
 

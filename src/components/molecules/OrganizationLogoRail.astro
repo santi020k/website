@@ -155,43 +155,39 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
     })}
   </ul>
 
-  <div
-    class="mt-5 flex items-center justify-between gap-4"
-    data-carousel-controls
-    hidden
-  >
+  <div data-carousel-controls hidden>
     <p aria-live="polite" class="text-sm font-medium text-ink-muted" data-carousel-status />
-    <div class="flex items-center gap-2">
-      <Button
-        aria-controls="organization-carousel-items"
-        aria-label="Show previous organizations"
-        class="
-          btn-secondary inline-flex size-11 items-center justify-center p-0
-        "
-        data-carousel-previous
-        size="icon"
-        variant="secondary"
-      >
-        <Icon class="size-5" name="arrow-left" />
-      </Button>
-      <Button
-        aria-controls="organization-carousel-items"
-        aria-label="Show next organizations"
-        class="
-          btn-secondary inline-flex size-11 items-center justify-center p-0
-        "
-        data-carousel-next
-        size="icon"
-        variant="secondary"
-      >
-        <Icon class="size-5" name="arrow-right" />
-      </Button>
-    </div>
+    <nav aria-label="Choose an organization">
+      <ol data-organization-index>
+        {organizations.map(({ label }, index) => (
+          <li>
+            <Button aria-controls="organization-carousel-items" aria-pressed="false" data-organization-select={index} variant="ghost">
+              <span data-organization-label><span data-organization-number>{String(index + 1).padStart(2, '0')}</span>{' '}<span>{label}</span></span>
+            </Button>
+          </li>
+        ))}
+      </ol>
+    </nav>
   </div>
 </section>
 
 <style>
-  [data-carousel-controls] { flex-wrap: wrap; }
+  [data-carousel-controls] { margin-top: 1.25rem; }
+  [data-organization-carousel] { container: organization-rail / inline-size; }
+  [data-organization-index] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem 1rem; margin-top: 1rem; padding: 0; list-style: none; }
+  [data-organization-index] li { min-width: 0; }
+  [data-organization-select] { display: flex; align-items: center; justify-content: flex-start; gap: 0.625rem; min-height: 2.75rem; width: 100%; padding: 0.5rem 0; border: 0; border-top: 1px solid hsl(var(--line) / 0.65); border-radius: 0; background: transparent; color: hsl(var(--ink-soft)); font-size: 0.75rem; font-weight: 400; line-height: 1.6; text-align: left; white-space: normal; overflow-wrap: anywhere; box-shadow: none; }
+  [data-organization-label] { display: flex; align-items: center; gap: 0.625rem; min-width: 0; }
+  [data-organization-number] { flex-shrink: 0; font-size: 0.6875rem; }
+  [data-organization-select][aria-pressed="true"] { color: var(--about-accent, hsl(var(--brand))); border-top-color: currentColor; box-shadow: inset 0 1px currentColor; }
+  [data-organization-select]:hover { color: var(--about-accent, hsl(var(--brand))); text-decoration: underline; text-underline-offset: 0.25rem; }
+  [data-organization-select]:focus-visible { outline: 2px solid var(--about-accent, hsl(var(--brand))); outline-offset: 3px; }
+  @container organization-rail (width < 33.75rem) {
+    [data-organization-index] { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 0.75rem; }
+  }
+  @container organization-rail (width < 16rem) {
+    [data-organization-index] { grid-template-columns: minmax(0, 1fr); }
+  }
   [data-carousel-item] { container: organization-card / inline-size; }
   [data-carousel-item] > a {
     padding: 0 0.75rem 0.75rem;
@@ -248,74 +244,41 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
       const list = carousel.querySelector<HTMLElement>('[data-carousel-list]')
       const items = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-item]')]
       const controls = carousel.querySelector<HTMLElement>('[data-carousel-controls]')
-      const previousButton = carousel.querySelector<HTMLButtonElement>('[data-carousel-previous]')
-      const nextButton = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]')
+      const selectors = [...carousel.querySelectorAll<HTMLButtonElement>('[data-organization-select]')]
       const status = carousel.querySelector<HTMLElement>('[data-carousel-status]')
 
-      if (!list || !controls || !previousButton || !nextButton || !status || items.length === 0) continue
+      if (!list || !controls || !status || items.length === 0 || selectors.length !== items.length) continue
 
       carousel.dataset.carouselBound = 'true'
 
       const controller = new AbortController()
       const { signal } = controller
-      let startIndex = 0
+      let selectedIndex = 0
       let resizeFrame = 0
-    // The grid's resolved columns are the single source of the page size, so
+      // The grid's resolved columns are the single source of the page size, so
       // root text scaling and container width both apply.
       const getPageSize = (): number => Math.max(1, getComputedStyle(list).gridTemplateColumns.split(' ').filter(Boolean).length)
 
-      const getPageStarts = (pageSize: number): number[] => {
-        const maximumStart = Math.max(0, items.length - pageSize)
-        const pageStarts: number[] = []
-
-        for (let index = 0; index <= maximumStart; index += pageSize) pageStarts.push(index)
-
-        if (pageStarts.at(-1) !== maximumStart) pageStarts.push(maximumStart)
-
-        return pageStarts
-      }
-
-      const getPageIndex = (pageStarts: number[], anchorIndex = startIndex): number => {
-        let pageIndex = 0
-
-        for (const [index, pageStart] of pageStarts.entries()) {
-          if (pageStart > anchorIndex) break
-
-          pageIndex = index
-        }
-
-        return pageIndex
-      }
-
       const render = (): void => {
         const pageSize = getPageSize()
-        const pageStarts = getPageStarts(pageSize)
         const focusedElement = document.activeElement
         const focusedIndex = items.findIndex(item => item.contains(focusedElement))
-        const currentPageIndex = getPageIndex(pageStarts)
-        const currentPageStart = pageStarts[currentPageIndex] ?? 0
-
-        const focusOutsidePage = focusedIndex >= 0 &&
-          (focusedIndex < currentPageStart || focusedIndex >= currentPageStart + pageSize)
-
-        const pageIndex = focusOutsidePage ? getPageIndex(pageStarts, focusedIndex) : currentPageIndex
+        const maximumStart = Math.max(0, items.length - pageSize)
+        const currentStart = Math.min(selectedIndex, maximumStart)
 
         // Resizing may change the page size. Keep the focused case study visible
         // so a keyboard user never loses their place to a hidden card.
-        startIndex = pageStarts[pageIndex] ?? 0
+        if (focusedIndex >= 0 && (focusedIndex < currentStart || focusedIndex >= currentStart + pageSize)) {
+          selectedIndex = focusedIndex
+        }
+
+        const startIndex = Math.min(selectedIndex, maximumStart)
 
         for (const [index, item] of items.entries()) {
           item.hidden = index < startIndex || index >= startIndex + pageSize
         }
 
-        previousButton.disabled = pageIndex === 0
-
-        nextButton.disabled = pageIndex === pageStarts.length - 1
-
-        // Keep keyboard focus on an operable control at either end of the list.
-        if (focusedElement === previousButton && previousButton.disabled && !nextButton.disabled) nextButton.focus()
-
-        if (focusedElement === nextButton && nextButton.disabled && !previousButton.disabled) previousButton.focus()
+        for (const [index, selector] of selectors.entries()) selector.setAttribute('aria-pressed', String(index === selectedIndex))
 
         controls.hidden = items.length <= pageSize
 
@@ -332,34 +295,15 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
         }
       }
 
-      const move = (direction: -1 | 1): void => {
-        const pageSize = getPageSize()
-        const pageStarts = getPageStarts(pageSize)
-        const pageIndex = getPageIndex(pageStarts)
+      for (const [index, selector] of selectors.entries()) {
+        selector.addEventListener('click', () => {
+          selector.focus()
 
-        const nextPageIndex = Math.min(
-          pageStarts.length - 1,
-          Math.max(0, pageIndex + direction)
-        )
+          selectedIndex = index
 
-        startIndex = pageStarts[nextPageIndex] ?? 0
-
-        render()
+          render()
+        }, { signal })
       }
-
-      previousButton.addEventListener('click', () => move(-1), { signal })
-
-      nextButton.addEventListener('click', () => move(1), { signal })
-
-      carousel.addEventListener('keydown', event => {
-        if (event.target !== previousButton && event.target !== nextButton) return
-
-        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
-
-        event.preventDefault()
-
-        move(event.key === 'ArrowLeft' ? -1 : 1)
-      }, { signal })
 
       // Viewport and root text changes both resize the list, through its width or card heights.
       const resizeObserver = new ResizeObserver(() => {
