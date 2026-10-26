@@ -241,21 +241,24 @@ of available column width, stack previous before next. Keep an outward keyboard
 outline on these open links and matching title emphasis on hover and focus. Do
 not crop titles, add a second surface, or move content during interaction.
 
-### Tool ledger technology snapshot
+### Connected stack Projects ending
 
 On Projects, keep the technology snapshot in one opaque Lumen Card with 1.75rem
-corners and a 0.5rem lower-right corner. A soft purple header pairs the introduction
-with the highlighted and full-index totals. Use 1.75rem insets and a 1.375rem title
-at weight 500. Mix its emphasis color with 15% ink to retain readable contrast on
-the tinted header in both themes. Keep the existing interest order and the six featured technologies.
+corners and a 0.5rem lower-right corner. A soft purple header pairs “Behind the
+projects” and the level-two heading “Follow the stack.” with one total labeled
+“technologies used”. Use 1.75rem insets, a 2.125rem title, and a 2.5rem total at
+weight 500. Explain the selected technology count and personal-project scope above
+the lists; each row counts projects within that scope. Derive all totals from the
+published personal projects. Keep the existing interest order and six featured tools.
 
 Present tools as native links in ruled lists, with names on the left and project
 counts on the right. Featured names use 1.0625rem type; supporting names use
 0.875rem. Use three columns above 32rem of panel width, two below, and one below
 20rem, with smaller insets. Keep complete labels and readable totals at enlarged
 text sizes, singular and plural accessible count labels, and visible focus outlines.
-Place the full-index link beneath the lists. Hover and focus emphasize link text
-without moving content.
+Place one full-index link in a ruled footer beneath the lists. Stack the total
+below the heading under 36rem of panel width. Preserve the technology-snapshot and
+group fragments. Hover and focus emphasize link text without moving content.
 
 ### Margin catalog technology index
 
@@ -1605,6 +1608,12 @@ beside a 2px purple rail. Use 1.0625rem medium-weight text, fine link underlines
 small directional arrows, and 44px minimum targets. A fine bottom rule closes the
 composition. Keep every topic, its order, and its canonical archive destination.
 
+On standalone articles, place the article link action at the right of this same
+composition instead of giving it a separate bordered row. Below 48rem, pair it
+with the Topics heading above the links. Allow that header to wrap with enlarged
+text, and keep the action outside the named topic navigation. If an article has
+no topics, label the remaining utility group Share.
+
 Below 32.5rem of available width, place the label above the list. Tighten the rail
 inset and text at 18.75rem and 14rem; allow decorative arrows to wrap below a long
 label with enlarged text. Preserve complete labels, visible keyboard outlines,
@@ -1672,9 +1681,10 @@ preserve both clipboard controllers, their accessible feedback, and native shari
 
 Below 32rem of available width, stack the utility beneath the series and use a
 1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
-themes. Standalone articles keep only the utility, and syndicated articles retain
-Read on Medium in that position. The Blog breadcrumb replaces the redundant
-Browse blog button. No additional client behavior is needed.
+themes. Standalone articles place their utility in the Topics group instead;
+syndicated articles retain Read on Medium in the applicable utility position.
+The Blog breadcrumb replaces the redundant Browse blog button. No additional
+client behavior is needed.
 
 ### Margin lead article opening
 

@@ -28,7 +28,6 @@ const purposeGroups = projectPurposeIds.map(purpose => ({
 const showcaseProjects = purposeGroups.flatMap(group => group.projects)
 const allTechnologies = getUniqueTechnologiesWithCount(sideProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
-const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -113,18 +112,14 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
     </section>
   ))}
 
-  <section class="section-container-wide space-y-8 page-section-space">
-    <SectionHeader
-      description="Trusted foundations and tools I’m actively exploring across personal projects, open source, developer experience, and testing."
-      eyebrow="Technology map"
-      linkHref="/technologies/"
-      linkLabel="Browse the full stack index"
-      title="The stack I choose when curiosity leads."
-    />
+  <section
+aria-labelledby="technology-snapshot-heading"
+class="section-container-wide page-section-space"
+  >
     <TechnologyPillGrid
-      hiddenCount={hiddenTechnologyCount}
-      intro="Technologies from side projects and open-source contributions, ordered by interest."
+      projectCount={sideProjects.length}
       technologies={technologies}
+      totalTechnologyCount={allTechnologies.length}
     />
   </section>
 </PageLayout>

@@ -38,7 +38,8 @@ for (const javaScriptEnabled of [true, false]) {
             await expect(heading).toBeInViewport()
             const headerBottom = await page.locator('.site-header').evaluate(element => element.getBoundingClientRect().bottom)
 
-            expect((await heading.boundingBox())?.y).toBeGreaterThanOrEqual(headerBottom)
+            // Native fragment scrolling rounds to whole pixels; layout boxes retain fractions.
+            expect((await heading.boundingBox())?.y).toBeGreaterThanOrEqual(headerBottom - 0.5)
           }
         }
       } finally {

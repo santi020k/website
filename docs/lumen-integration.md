@@ -313,9 +313,12 @@ enlarged text sizes. No new client controller is introduced.
   shared reset no longer creates these implicit transitions.
 - The local `Pill` wrapper supplies project status labels to Lumen `Pill`. Linked topics
   and technology counts use `SculptedTag`; the retired hash-prefix and link props are removed.
-- The Projects technology snapshot composes Tool ledger from an unstyled Lumen `Card`,
-  `AnimatedNumber` totals, native linked lists, and a decorative `Icon`. Scoped container
-  queries reflow the featured and supporting tools without another controller.
+- The Projects technology snapshot composes Connected stack from an unstyled Lumen
+  `Card`, one `AnimatedNumber` total, native linked lists, and a Lumen `Link` with a
+  decorative `Icon` in its footer. The heading and count explanation replace the outer
+  introduction and duplicate index action. Personal-project and technology totals come
+  from the published collection. Scoped container queries reflow the featured and
+  supporting tools without another controller; existing fragments remain available.
 - `PolicySections` composes Evidence rows from one unstyled Lumen `Card` and the
   existing `RevealGroup`, with semantic sections and level-two headings inside.
   Local container queries stack heading and copy without changing policy text or

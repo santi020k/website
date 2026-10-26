@@ -42,8 +42,13 @@ for (const theme of ['light', 'dark']) {
       expect(hero.width).toBeCloseTo(navbar.width, 1)
       expect(hero.y).toBeCloseTo(navbar.y + navbar.height, 1)
       const heroSurface = await page.locator('.history-intro').evaluate(element => getComputedStyle(element).backgroundColor)
-      const brandSurface = await page.locator('.site-header-brand').evaluate(element => getComputedStyle(element).backgroundColor)
-      expect(heroSurface).toBe(brandSurface)
+      const brandSurface = await page.locator('.site-header-brand').evaluate(element => {
+        const shoulder = getComputedStyle(element, '::after')
+
+        return { color: shoulder.backgroundColor, opacity: shoulder.opacity }
+      })
+      expect(heroSurface).toBe(brandSurface.color)
+      expect(brandSurface.opacity).toBe('1')
 
       await expectNoUnexpectedAccessibilityViolations(page)
     }

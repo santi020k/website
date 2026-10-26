@@ -112,6 +112,7 @@
 .work-close [data-work-close-card="resume"] { background: hsl(var(--brand-soft)); }
 :root[data-theme="dark"] .work-close [data-work-close-card="resume"] { background: color-mix(in srgb, hsl(var(--brand-soft)) 55%, hsl(var(--surface))); }
 .work-close [data-work-close-category] { color: var(--work-accent); font-size: 0.75rem; font-weight: 500; line-height: 1.7; }
+:root[data-theme="dark"] .work-close [data-work-close-category] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
 .work-close h3 { margin-top: 0.875rem; color: hsl(var(--ink)); font-size: 1.5rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.045em; overflow-wrap: break-word; }
 .work-close [data-work-close-description] { margin-block: 0.75rem 1.375rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
 .work-close [data-work-close-arrow] { align-self: end; margin-top: auto; color: var(--work-accent); }

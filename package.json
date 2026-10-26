@@ -53,9 +53,9 @@
     "lint:content": "node scripts/js/content-lint.mjs",
     "lint:md": "node scripts/js/lint-markdown.mjs",
     "spellcheck": "cspell --quiet \"**/*.{md,mdx}\"",
-    "verify:quality": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content check:cv test test:motion",
+    "verify:quality": "pnpm run test:ci && npm-run-all --silent --serial spellcheck lint check lint:md lint:content check:cv test test:motion",
     "verify:fast": "npm-run-all --silent --serial verify:quality build",
-    "verify:full": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content check:cv test:coverage test:motion build && pnpm run lighthouse:full && pnpm run test:e2e:ci:stable",
+    "verify:full": "pnpm run test:ci && npm-run-all --silent --serial spellcheck lint check lint:md lint:content check:cv test:coverage test:motion build && pnpm run lighthouse:full && pnpm run test:e2e:ci:stable",
     "ci:verify": "pnpm run verify:full",
     "hooks:install": "node scripts/js/install-quality-hooks.mjs",
     "prepare": "pnpm run hooks:install",
@@ -70,7 +70,9 @@
     "lint:current": "SYNCKIT_TIMEOUT=180000 eslint . --max-warnings=0",
     "history:screenshots": "node scripts/js/capture-website-history.mjs",
     "audit:history": "node scripts/js/audit-website-history.mjs",
-    "test:motion": "pnpm --filter @santi020k/website-motion build && pnpm --filter @santi020k/website-motion test"
+    "test:motion": "pnpm --filter @santi020k/website-motion build && pnpm --filter @santi020k/website-motion test",
+    "test:ci": "node --test scripts/js/ci-scope.node-test.mjs",
+    "ci:check": "node scripts/js/check-ci.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "catalog:",

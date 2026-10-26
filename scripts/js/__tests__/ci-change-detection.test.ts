@@ -11,7 +11,7 @@ import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 interface Step {
   id?: unknown
   run?: unknown
-  shell?: unknown
+  env?: unknown
 }
 
 const execFileAsync = promisify(execFile)
@@ -51,9 +51,12 @@ const loadDetectionScript = async () => {
   const steps: unknown[] = isRecord(quality) && Array.isArray(quality.steps) ? quality.steps : []
   const step = steps.find((candidate): candidate is Step => isRecord(candidate) && candidate.id === 'changes')
 
-  if (step?.shell !== 'bash' || typeof step.run !== 'string') throw new TypeError('Expected the bash change-detection step')
+  if (step?.run !== 'node scripts/js/ci-scope.mjs' || !isRecord(step.env) ||
+    step.env.CI_BASE_SHA !== '${{ github.event.pull_request.base.sha }}' ||
+    step.env.CI_HEAD_SHA !== '${{ github.event.pull_request.head.sha }}')
+    throw new TypeError('Expected the Node change-detection step and pull request revisions')
 
-  return step.run
+  return path.resolve(import.meta.dirname, '../ci-scope.mjs')
 }
 
 describe('CI change detection', () => {
@@ -66,20 +69,19 @@ describe('CI change detection', () => {
   const classify = async (eventName: string, headSha = '', inherited: NodeJS.ProcessEnv = process.env) => {
     const runnerTemp = await mkdtemp(path.join(tmpdir(), 'website-ci-runner-'))
     const output = path.join(runnerTemp, 'output')
-    const scriptPath = path.join(runnerTemp, 'detect.sh')
 
     try {
       await writeFile(output, '')
-      await writeFile(scriptPath, script)
 
-      // Match GitHub's explicit `shell: bash` invocation, including pipeline failures.
-      await execFileAsync('bash', ['--noprofile', '--norc', '-e', '-o', 'pipefail', scriptPath], {
+      // Execute the same Node classifier selected by the workflow.
+      await execFileAsync(process.execPath, [script], {
         cwd: directory,
         env: isolatedEnvironment(inherited, {
-          BASE_SHA: baseSha,
-          EVENT_NAME: eventName,
+          CI_BASE_SHA: baseSha,
+          CI_HEAD_SHA: headSha,
+          GITHUB_EVENT_NAME: eventName,
+          GITHUB_HEAD_REF: 'ci/fixture',
           GITHUB_OUTPUT: output,
-          HEAD_SHA: headSha,
           RUNNER_TEMP: runnerTemp
         })
       })
@@ -136,27 +138,27 @@ describe('CI change detection', () => {
   })
 
   test.each([
-    ['og.audit.config.mjs', false, { checks: 'true', full: 'true' }],
-    ['og.audit.config.mjs', true, { checks: 'true', full: 'true' }],
-    ['.og-cache.json', false, { checks: 'true', full: 'true' }],
-    ['src/pages/index.astro', false, { checks: 'true', full: 'true' }],
-    ['apps/v1/src/pages/index.astro', false, { checks: 'true', full: 'true' }],
-    ['astro.config.ts', false, { checks: 'true', full: 'true' }],
-    ['.github/workflows/build.yml', false, { checks: 'true', full: 'true' }],
-    ['docs/deployment.md', false, { checks: 'true', full: 'false' }],
-    ['README.md', true, { checks: 'true', full: 'false' }],
-    ['.vscode/settings.json', false, { checks: 'false', full: 'false' }],
+    ['og.audit.config.mjs', false, { mode: 'full', checks: 'true', full: 'true' }],
+    ['og.audit.config.mjs', true, { mode: 'full', checks: 'true', full: 'true' }],
+    ['.og-cache.json', false, { mode: 'full', checks: 'true', full: 'true' }],
+    ['src/pages/index.astro', false, { mode: 'current', checks: 'true', full: 'true' }],
+    ['apps/v1/src/pages/index.astro', false, { mode: 'full', checks: 'true', full: 'true' }],
+    ['astro.config.ts', false, { mode: 'full', checks: 'true', full: 'true' }],
+    ['.github/workflows/build.yml', false, { mode: 'full', checks: 'true', full: 'true' }],
+    ['docs/deployment.md', false, { mode: 'docs', checks: 'true', full: 'false' }],
+    ['README.md', true, { mode: 'docs', checks: 'true', full: 'false' }],
+    ['.vscode/settings.json', false, { mode: 'full', checks: 'true', full: 'true' }],
     // Git quotes these paths in line output, so they must be read NUL-delimited.
-    ['src/content/post/café/index.md', false, { checks: 'true', full: 'true' }],
-    ['docs/café.md', false, { checks: 'true', full: 'false' }],
-    ['docs/line\nbreak.md', false, { checks: 'true', full: 'false' }],
-    ['src/line\nbreak.ts', false, { checks: 'true', full: 'true' }]
+    ['src/content/post/café/index.md', false, { mode: 'current', checks: 'true', full: 'true' }],
+    ['docs/café.md', false, { mode: 'docs', checks: 'true', full: 'false' }],
+    ['docs/line\nbreak.md', false, { mode: 'docs', checks: 'true', full: 'false' }],
+    ['src/line\nbreak.ts', false, { mode: 'current', checks: 'true', full: 'true' }]
   ])('classifies a pull request changing %j (removed: %s)', async (file, remove, expected) => {
     expect(await classify('pull_request', await commitChange(file, remove))).toEqual(expected)
   })
 
   test('runs every check for a manual dispatch without diffing', async () => {
-    expect(await classify('workflow_dispatch')).toEqual({ checks: 'true', full: 'true' })
+    expect(await classify('workflow_dispatch')).toEqual({ mode: 'full', checks: 'true', full: 'true' })
   })
 
   // A disposable decoy stands in for the checkout a pre-push hook would expose.
@@ -190,7 +192,7 @@ describe('CI change detection', () => {
       const before = await snapshot()
       const headSha = await commitChange('og.audit.config.mjs', false, hook)
 
-      expect(await classify('pull_request', headSha, hook)).toEqual({ checks: 'true', full: 'true' })
+      expect(await classify('pull_request', headSha, hook)).toEqual({ mode: 'full', checks: 'true', full: 'true' })
       expect(await git('rev-parse', 'HEAD')).toBe(headSha)
       expect(await snapshot()).toEqual(before)
     } finally {

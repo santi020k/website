@@ -4,13 +4,14 @@ import type { CollectionEntry } from 'astro:content'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
+import ArticleLinkAction from '@/components/molecules/ArticleLinkAction.astro'
 import CoverSpread from '@/components/molecules/CoverSpread.astro'
 
 import { getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingStats } from '@/utils/reading-time'
 
-import { Breadcrumb, CopyButton, Icon, Link } from '@santi020k/lumen-astro'
+import { Breadcrumb, Icon, Link } from '@santi020k/lumen-astro'
 
 import { getSeriesContext } from '@/data/series'
 import { siteConfig } from '@/site.config'
@@ -148,43 +149,56 @@ const eyebrowLabel = tags[0] ?? 'Article'
   </div>
 
   {/* ── Topics — Margin topics ─────────────────────────────── */}
-  {tags.length > 0 && (
+  {(tags.length > 0 || !seriesContext) && (
     <div
       class="
         animate-slide-up [animation-delay:200ms]
         motion-reduce:animate-none
       "
       data-article-topics-container
+      data-has-utility={!seriesContext}
     >
-      <nav aria-labelledby="article-topics-heading" data-article-topics>
+      <div data-article-topics-header>
         <div data-article-topics-heading>
-          <Icon name="hash" class="size-4.5 shrink-0" />
-          <h2 id="article-topics-heading">Topics</h2>
+          <Icon
+            name={tags.length > 0 ? 'hash' : 'share-2'}
+            class="size-4.5 shrink-0"
+          />
+          <h2 id="article-topics-heading">{tags.length > 0 ? 'Topics' : 'Share'}</h2>
         </div>
-        <ul>
-          {tags.map(tag => (
-            <li>
-              <Link href={getTagPath(tag)} variant="inherit" data-topic-link>
-                <span data-topic-label>{tag}</span>
-                <Icon name="arrow-up-right" class="size-3.5 shrink-0" />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+        {!seriesContext && (
+          <div data-topic-action>
+            <ArticleLinkAction {canonicalUrl} {copyUrl} />
+          </div>
+        )}
+      </div>
+      {tags.length > 0 && (
+        <nav aria-labelledby="article-topics-heading" data-article-topics>
+          <ul>
+            {tags.map(tag => (
+              <li>
+                <Link href={getTagPath(tag)} variant="inherit" data-topic-link>
+                  <span data-topic-label>{tag}</span>
+                  <Icon name="arrow-up-right" class="size-3.5 shrink-0" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
     </div>
   )}
 
   {/* ── Hero actions — Series byline ─────────────────────────── */}
-  <div
-    data-reading-actions
-    class="
-      animate-slide-up [animation-delay:240ms]
-      motion-reduce:animate-none
-    "
-  >
-    <div data-series-byline>
-      {seriesContext && (
+  {seriesContext && (
+    <div
+      data-reading-actions
+      class="
+        animate-slide-up [animation-delay:240ms]
+        motion-reduce:animate-none
+      "
+    >
+      <div data-series-byline>
         <div data-hero-series>
           <p data-hero-series-position>
             From the series · Post {seriesContext.position} of {seriesContext.total}
@@ -198,39 +212,10 @@ const eyebrowLabel = tags[0] ?? 'Article'
             <Icon name="arrow-right" class="size-4 shrink-0" data-hero-series-arrow />
           </Link>
         </div>
-      )}
-      {canonicalUrl && (
-        <Link href={canonicalUrl} newTab variant="inherit" data-article-utility>
-          <span>Read on Medium</span>
-          <Icon name="arrow-up-right" class="size-4 shrink-0" />
-        </Link>
-      )}
-      {!canonicalUrl && (
-        <CopyButton
-          variant="outline"
-          class="article-copy-action"
-          data-article-copy
-          copiedLabel="Copied! Article link copied"
-          errorLabel="Copy link failed. Select and copy the address manually."
-          label="Copy link to article"
-          value={copyUrl}
-        >
-          <span data-copy-action-content>
-            <span data-copy-label>Copy link</span>
-            <span data-copy-action-icon><Icon class="size-4" data-copy-icon name="link" /></span>
-          </span>
-          <span slot="copied" data-copy-action-content>
-            <span data-copied-label>Copied!</span>
-            <span data-copy-action-icon><Icon class="size-4" name="check" /></span>
-          </span>
-          <span slot="error" data-copy-action-content>
-            <span>Copy failed</span>
-            <span data-copy-action-icon><Icon class="size-4" name="circle-alert" /></span>
-          </span>
-        </CopyButton>
-      )}
+        <ArticleLinkAction {canonicalUrl} {copyUrl} />
+      </div>
     </div>
-  </div>
+  )}
 
 </section>
 
@@ -270,7 +255,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
     text-decoration: none;
   }
 
-  [data-series-byline] :global([data-article-utility]) {
+  [data-article-opening] :global([data-article-utility]) {
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
@@ -298,16 +283,16 @@ const eyebrowLabel = tags[0] ?? 'Article'
   :global([data-article-utility] > span) { min-width: 0; overflow-wrap: anywhere; }
   :global([data-hero-series-arrow]),
   [data-series-byline] :global(a:hover),
-  [data-series-byline] :global([data-article-utility]:hover) { color: hsl(var(--brand)); }
-  [data-series-byline] :global(:is(a, button):focus-visible) {
+  [data-article-opening] :global([data-article-utility]:hover) { color: hsl(var(--brand)); }
+  [data-article-opening] :global(:is(a, button):focus-visible) {
     outline: 2px solid hsl(var(--brand));
     outline-offset: 4px;
   }
 
   :global(:root[data-theme='dark'] [data-hero-series-arrow]),
   :global(:root[data-theme='dark']) [data-series-byline] :global(a:hover),
-  :global(:root[data-theme='dark']) [data-series-byline] :global([data-article-utility]:hover) { color: hsl(var(--accent)); }
-  :global(:root[data-theme='dark']) [data-series-byline] :global(:is(a, button):focus-visible) { outline-color: hsl(var(--accent)); }
+  :global(:root[data-theme='dark']) [data-article-opening] :global([data-article-utility]:hover) { color: hsl(var(--accent)); }
+  :global(:root[data-theme='dark']) [data-article-opening] :global(:is(a, button):focus-visible) { outline-color: hsl(var(--accent)); }
 
   @container reading-actions (width < 32rem) {
     [data-series-byline] { flex-direction: column; align-items: flex-start; gap: 1rem; }
@@ -350,15 +335,20 @@ const eyebrowLabel = tags[0] ?? 'Article'
     [data-article-opening] [data-editorial-summary] { font-size: 0.9375rem; }
   }
 
-  [data-article-topics-container] { container: article-topics / inline-size; }
-
-  [data-article-topics] {
+  [data-article-topics-container] {
+    container: article-topics / inline-size;
     display: grid;
     grid-template-columns: 6.75rem minmax(0, 1fr);
+    align-items: start;
     gap: 1.375rem;
     padding-bottom: 1.375rem;
     border-bottom: 1px solid hsl(var(--line));
   }
+
+  [data-article-topics-container][data-has-utility='true'] { grid-template-columns: 6.75rem minmax(0, 1fr) auto; }
+  [data-article-topics-header] { display: contents; }
+  [data-topic-action] { grid-column: 3; grid-row: 1; min-width: 0; max-width: 100%; }
+  [data-article-topics] { grid-column: 2; grid-row: 1; min-width: 0; }
 
   [data-article-topics-heading] {
     display: flex;
@@ -417,8 +407,16 @@ const eyebrowLabel = tags[0] ?? 'Article'
   :global(:root[data-theme='dark']) [data-article-topics] ul { border-color: hsl(var(--accent)); }
   :global(:root[data-theme='dark'] [data-topic-link]:focus-visible) { outline-color: hsl(var(--accent)); }
 
-  @container article-topics (width < 32.5rem) {
-    [data-article-topics] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  @container article-opening (width < 48rem) {
+    [data-article-topics-container][data-has-utility='true'] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    [data-has-utility='true'] [data-article-topics-header] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+    [data-has-utility='true'] [data-article-topics-heading] { padding-top: 0; }
+    [data-has-utility='true'] [data-article-topics] { grid-column: 1; grid-row: 2; }
+  }
+
+  @container article-opening (width < 32.5rem) {
+    [data-article-topics-container] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    [data-article-topics] { grid-column: 1; grid-row: 2; }
     [data-article-topics-heading] { padding-top: 0; }
   }
 
