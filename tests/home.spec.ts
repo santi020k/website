@@ -72,10 +72,16 @@ test('homepage presents four readable impact measures', async ({ page }) => {
   await page.goto('/')
 
   const stats = page.locator('#home-stats article')
+  const values = ['12+', '14', '-75%', '100+']
 
   await expect(stats).toHaveCount(4)
-  await stats.first().scrollIntoViewIfNeeded()
-  await expect(stats.locator('[data-ui-animated-number-output]')).toHaveText(['12+', '14', '-75%', '100+'])
+  for (const [index, value] of values.entries()) {
+    const stat = stats.nth(index)
+
+    await stat.scrollIntoViewIfNeeded()
+    await expect(stat.locator('[data-ui-animated-number-output]')).toHaveText(value)
+  }
+  await expect(stats.locator('[data-ui-animated-number-output]')).toHaveText(values)
   await expect(stats).toContainText(['Years building', 'People, one team', 'Release cycle time', 'People learning together'])
 })
 

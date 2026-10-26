@@ -209,3 +209,27 @@ errors, warnings or hints; affected lint, production build and the 452-page OG
 audit passed. Resume PDFs were regenerated for the updated profile/token source
 fingerprint and their freshness check passed. Full release gates remain reserved
 for final publication, with the original baseline qualification recorded above.
+
+## Homepage integration follow-up
+
+The completed homepage work in `99c38862`, updated with earlier v5 work at
+`74d84698`, is included in this consolidation. Home now owns one opening and
+closing spacing rhythm. Shared section introductions respond to their reading
+width and keep whole words at enlarged text sizes. Cards, content order and native
+destinations remain unchanged. The source branch's refreshed mobile and WebKit
+visual references are included.
+
+Release-note conflicts retain both sets of completed work. Resume artifacts were
+regenerated from the combined source instead of choosing either branch's generated
+files. The screenshot generator refreshed V5's History capture; all archived
+captures remained byte-identical.
+
+The merged homepage suite initially passed 110 of 112 cases across Chromium,
+WebKit, Mobile Chrome and Mobile Safari. Two mobile failures came from a test
+scrolling only the first statistic into view before expecting all four viewport-
+triggered counters to finish. The test now visits and checks each statistic,
+then verifies that all values remain complete. All four browser profiles passed
+three repetitions of that case, with retries disabled. Animation behavior was
+preserved. Affected lint, the production build, OG freshness and PDF freshness
+passed. Source-branch full-gate evidence remains attached to its own recorded
+revision and is not represented as a new whole-release run.

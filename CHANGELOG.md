@@ -303,6 +303,10 @@
 - Connect the History page's current preview and Today caption with a shared frame,
   aligned version label, and compact status pill that reflows with enlarged text.
 
+- Align homepage section spacing from the hero through the footer, removing accumulated layout gaps.
+  Stack shared section introductions by available reading width and preserve whole heading words
+  with enlarged text, while retaining the approved cards and their destinations.
+
 - Keep related writing fresh by excluding articles already recommended in the opening reference ledger or closing series connection, preserving the existing cards and topic ranking.
 
 - Select current-site static checks for ordinary source-only pull requests while retaining every unit and motion test.
