@@ -21,6 +21,25 @@ test.describe('Speaking page', () => {
     await expect(page.getByRole('heading', { name: /Available formats/i, level: 2 })).toBeVisible()
   })
 
+  test('statistic captions connect to supporting work in the same tab', async ({ page, request }) => {
+    const sources = page.locator('[data-stats-section] [data-stat-source]').getByRole('link')
+    await expect(sources).toHaveText(['Career timeline', 'ReactJS Colombia', 'Read the articles'])
+
+    for (const source of await sources.all()) {
+      await expect(source).not.toHaveAttribute('target', '_blank')
+      const href = await source.evaluate((anchor: HTMLAnchorElement) => anchor.pathname)
+      expect((await request.get(href)).status()).toBe(200)
+    }
+
+    const career = sources.first()
+    await career.focus()
+    await expect(career).toBeFocused()
+    await expect(career).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL('/work/#experience-heading')
+    await expect(page.locator('#experience-heading')).toBeInViewport()
+  })
+
   test('should expose the invite CTA with a WhatsApp href', async ({ page }) => {
     const ctaLinks = page.getByRole('link', { name: /Invite me to speak/i })
     await expect(ctaLinks.first()).toBeVisible()

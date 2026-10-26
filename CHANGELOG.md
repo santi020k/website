@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Connect Speaking statistics to supporting career, community, and writing pages with accessible source captions while preserving dynamic values and statistics without sources.
+
 - Explain related writing with links to topics actually shared by the displayed recommendations, preserving the approved editorial header and article selection.
 
 - Present speaking topics and session formats before the complete talk history, community work, and booking actions while preserving all content and destinations.

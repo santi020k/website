@@ -445,3 +445,24 @@ with no errors. Published changelog entries remain unchanged.
 
 The complete workspace gate remains recorded at `16b66665`; these later visual
 iterations received scoped integration checks rather than repeating that gate.
+
+## Speaking Evidence captions follow-up
+
+The approved source `a13d3b3d` adds three native source captions to Speaking
+statistics: Career timeline, ReactJS Colombia, and Read the articles. The shared
+StatCard footer is optional. Existing dynamic experience and post values, card
+appearance, and statistics without sources remain intact. The patch note is
+folded into 5.0.0 while published changelog entries remain unchanged.
+
+All 54 scoped Chromium/WebKit Speaking and statistics-card cases passed with
+retries disabled. The existing reflow matrix now checks source-footer clipping
+and verifies that other statistics consumers have no added footer. Additional
+checks covered 320, 768, and 1440px at normal and 200% text, with minimum link
+targets and visible focus. All three destinations resolve, and keyboard
+navigation reaches the Work timeline fragment. Matched desktop/mobile captures
+in both themes preserve the exact displayed values.
+
+Affected lint passed with zero warnings, the current production build and
+452-page OG audit passed, and resume freshness passed without regeneration.
+The complete workspace gate remains recorded at `16b66665`; this focused
+iteration received scoped integration validation.

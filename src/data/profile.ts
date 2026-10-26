@@ -12,6 +12,7 @@ export interface ProfileHighlight {
   icon: string
   label: string
   prefix?: string
+  source: { href: string, label: string }
   suffix?: string
   value: string
 }
@@ -150,6 +151,7 @@ export const speakingHighlights: ProfileHighlight[] = [
     description: 'A decade-plus of shipping across product engineering, architecture, and leadership roles.',
     icon: 'briefcase-business',
     label: 'Experience',
+    source: { href: '/work/#experience-heading', label: 'Career timeline' },
     value: YEARS_OF_EXPERIENCE
   },
   {
@@ -157,12 +159,14 @@ export const speakingHighlights: ProfileHighlight[] = [
     icon: 'users',
     label: 'Community',
     prefix: 'Since',
+    source: { href: '/portfolio/react-js-colombia/', label: 'ReactJS Colombia' },
     value: '2017'
   },
   {
     description: 'Public articles on DX, tooling, architecture, and workflow topics that overlap with my talks.',
     icon: 'notebook-pen',
     label: 'Published writing',
+    source: { href: '/blog/', label: 'Read the articles' },
     suffix: 'posts',
     value: '26'
   }

@@ -19,6 +19,7 @@ for (const theme of ['light', 'dark']) {
           const cards = page.locator('[data-sculpted-stat]')
 
           expect(await cards.count()).toBeGreaterThan(0)
+          await expect(cards.locator('[data-stat-source]')).toHaveCount(route === '/speaking/' ? 3 : 0)
           await cards.first().scrollIntoViewIfNeeded()
           for (const card of await cards.all()) {
             await expect(card.locator('[data-slot="stat-label"]')).toBeVisible()
@@ -27,7 +28,7 @@ for (const theme of ['light', 'dark']) {
             const overflow = await card.evaluate(element => {
               const cardBounds = element.getBoundingClientRect()
 
-              return [...element.querySelectorAll('[data-stat-masthead], [data-stat-metric], [data-slot="stat-label"], [data-stat-description]')].some(child => {
+              return [...element.querySelectorAll('[data-stat-masthead], [data-stat-metric], [data-slot="stat-label"], [data-stat-description], [data-stat-source], [data-stat-source] a')].some(child => {
                 const bounds = child.getBoundingClientRect()
 
                 return bounds.left < cardBounds.left - 1 ||
@@ -71,6 +72,7 @@ test('archive summaries use the full row for their actual number of statistics',
   for (const route of ['/blog/series/', '/blog/tags/', '/blog/tags/developer-experience/', '/blog/tags/gaming/']) {
     await page.goto(route)
     const cards = page.locator('[data-sculpted-stat]')
+    await expect(cards.locator('[data-stat-source]')).toHaveCount(0)
     const lastCard = cards.last()
     const alignment = await lastCard.evaluate(element => {
       const card = element.getBoundingClientRect()
