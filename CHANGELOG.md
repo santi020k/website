@@ -285,6 +285,11 @@
 - Stop the service worker from answering an offline navigation to a file, such as `robots.txt`, an
   icon, or a build image, with the offline HTML page; files use only their own cached copy. Name the
   project preview zoom button by its next action without also announcing it as a pressed toggle.
+  Start each project story link's accessible name with its visible action, followed by the post title.
+
+- Refine article copy and share controls with rounded outlines, tinted icon compartments, consistent result states, and tighter spacing beneath Topics. Preserve keyboard access, clipboard feedback, and native sharing.
+
+- Center logos vertically in generated horizontal and portrait project covers, including the square crops used by compact project cards.
 
 - Keep project subsection headings readable in narrow layouts and with enlarged text by giving them the decorative rule's space. Remove duplicate fragment offsets from project headings and evidence briefs so section navigation uses one shared header clearance. Preserve reading position when mobile chapter groups resize, and keep preview links and enhanced controls the same size so loading interactions cannot move the page.
 

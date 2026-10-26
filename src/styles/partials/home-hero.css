@@ -367,3 +367,37 @@
   .maker-hero-visual { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
   .maker-hero-portrait-frame { width: 4.5rem; max-width: 100%; }
 }
+
+/* Phones lead with the maker's identity, then the work and its destinations. */
+@media (max-width: 47.999rem) {
+  .signature-frame[data-home-hero] { padding-top: 1.5rem; }
+  [data-home-hero] .maker-hero-eyebrow { display: none; }
+  [data-home-hero] h1 { font-size: clamp(2rem, 9.6vw, 4.5rem); line-height: 1.08; letter-spacing: -0.06em; }
+  [data-home-hero] .maker-hero-description { margin-top: 1.25rem; line-height: 1.65; }
+  [data-home-hero] .maker-hero-actions { margin-top: 1.25rem; }
+  .maker-hero-visual { order: -1; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 0.875rem; }
+  .maker-hero-portrait-frame { width: 3.5rem; }
+  .maker-hero-caption [data-home-portrait-name] { font-size: 0.875rem; font-weight: 600; }
+
+  @container home-hero (width >= 15rem) {
+    .maker-hero-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 0.75rem; }
+    .maker-hero-shelf-label { padding-bottom: 0; }
+    .maker-hero-project { grid-template-columns: 1.75rem minmax(0, 1fr); align-content: start; gap: 0.75rem 0.5rem; padding-block: 0.75rem; }
+    .maker-hero-project + .maker-hero-project { padding-left: 0.75rem; border-top: 0; border-left: 1px solid var(--hero-rule); }
+    .maker-hero-project-logo { width: 1.75rem; height: 1.75rem; border-radius: 0.375rem; }
+    .maker-hero-project > [data-home-product-copy] { display: contents; }
+    .maker-hero-project strong { align-self: center; font-size: 0.875rem; white-space: nowrap; }
+    .maker-hero-project strong + span { grid-column: 1 / -1; margin-top: 0; line-height: 1.6; }
+    .maker-hero-project-arrow { display: none; }
+  }
+
+  @container home-hero (width < 18rem) {
+    [data-home-hero] .maker-hero-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+    [data-home-hero] .maker-hero-primary { justify-content: space-between; }
+    [data-home-hero] .maker-hero-secondary { justify-self: start; min-height: 2.75rem; }
+  }
+
+  @container home-hero (width < 14rem) {
+    .maker-hero-visual { grid-template-columns: minmax(0, 1fr); }
+  }
+}

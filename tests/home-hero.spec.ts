@@ -9,7 +9,7 @@ test('the hero connects products, personal background, and the full portfolio', 
 
   await expect(page.locator('h1')).toHaveCount(1)
   await expect(hero.locator('h1')).toContainText('I build products.')
-  await expect(hero.locator('.maker-hero-description')).toHaveText('Engineering lead, product builder, and creator of Lumen UI. I build commerce platforms, native apps, and tools for developers.')
+  await expect(hero.locator('.maker-hero-description')).toHaveText('Engineering lead and creator of Lumen UI. I build commerce platforms, native apps, and developer tools.')
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAccessibleName('See selected work')
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAttribute('href', '/portfolio/')
   await expect(hero.locator('a[href="/portfolio/lumen-ui/"]')).toHaveAttribute('href', '/portfolio/lumen-ui/')
@@ -66,7 +66,16 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(hero.getByRole('link', { name: 'About me', exact: true })).toBeInViewport({ ratio: 1 })
     await expect(hero.getByText('Medellín, Colombia', { exact: true })).toBeInViewport({ ratio: 1 })
     await expect(hero.getByRole('link', { name: 'Lumen UI Web and native components' })).toBeInViewport({ ratio: 1 })
+    await expect(hero.getByRole('link', { name: 'PostLens Private photo editing for iPhone' })).toBeInViewport({ ratio: 1 })
+    await expect(hero.getByRole('link', { name: 'Explore all projects' })).toBeInViewport({ ratio: 1 })
     await expect.poll(() => portrait.evaluate(image => image.getBoundingClientRect().height)).toBeLessThanOrEqual(100)
+    const portraitBounds = await portrait.boundingBox()
+    const headingBounds = await hero.locator('h1').boundingBox()
+
+    expect(portraitBounds).not.toBeNull()
+    expect(headingBounds).not.toBeNull()
+    expect((portraitBounds?.y ?? 0) + (portraitBounds?.height ?? 0)).toBeLessThan(headingBounds?.y ?? 0)
+    await expectNoUnexpectedAccessibilityViolations(page)
   })
 
   test(`hero product links keep complete text and logos at enlarged sizes in ${theme} mode`, async ({ page }) => {
@@ -151,6 +160,17 @@ for (const theme of ['light', 'dark'] as const) {
       await expect.poll(() => page.locator('.maker-hero-portrait').evaluate(
         image => image.getBoundingClientRect().height
       )).toBeLessThanOrEqual(100)
+      for (const title of await page.locator('.maker-hero-project strong').all()) {
+        const lineCount = await title.evaluate(element => {
+          const range = document.createRange()
+
+          range.selectNodeContents(element)
+
+          return range.getClientRects().length
+        })
+
+        expect(lineCount).toBe(1)
+      }
     }
   })
 }

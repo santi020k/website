@@ -298,6 +298,36 @@ same responsive spacing, stacking below 18rem of topic-index width. Preserve the
 search and sort controls, zero-result announcement, search focus, and restoration
 of all topic links when the query is cleared. Keep automatic hyphenation disabled.
 
+### Purpose first Projects opening
+
+Keep the signature frame and Built for the love of it headline. The eyebrow gives
+its live project total; the shorter introduction leads directly to the existing
+SculptedTag category shortcuts. Derive each count and fragment from the same
+published purpose groups as the catalog. Use a brand-soft tag surface and quiet
+count compartments inside this opening only. A ruled footer pairs the short maker
+statement with the native external GitHub link.
+
+Below 34rem, give each category a full row and stack the footer. Below 14rem, place
+the count below its label and let enlarged text wrap within the available width. The hero
+statistics and generic Explore projects action are replaced by these direct paths;
+there is only one category navigation. Preserve the catalog's projects fragment,
+purpose sections, project ranking, and structured data.
+
+### Product first Projects cards
+
+The Projects page keeps its Refined editorial covers, metadata, descriptions, and
+technology labels. Put the named product destination first in a brand-soft action
+with a 0.875rem radius and 0.25rem lower-right corner. Place the quieter Read the case
+study link below it. Use the existing primary-destination helper for website,
+archive, and repository labels; do not invent missing URLs. External links open a
+new tab with noopener and noreferrer. Case studies stay in the current tab.
+
+Use sibling links inside a neutral card body so interactive elements are never
+nested. Keep project-colored hover and keyboard emphasis, visible individual focus
+outlines, and wrapping labels at enlarged text sizes. When no destination exists,
+show only the case-study link. Enable this treatment only on Projects; technology
+archives retain their single-link Matched stack cards.
+
 ### Evidence paths technology ending
 
 The technology index closes with an open editorial section: Beyond the toolkit,
@@ -1498,7 +1528,8 @@ Align Comments and Share in a 5.375rem margin with a 1.5rem
 column gap. The discussion invitation uses a 2px purple rail, a 1.5rem text inset,
 and a 1.4375rem lead. Use a quiet underlined Reply on GitHub link with a 44px target.
 Sharing pairs Pass it on with the existing copy or native share action, followed
-by its three social destinations. Fine bottom rules separate the sections.
+by its three social destinations. The copy action uses the shared outlined article
+button, with a tinted icon compartment and stable width across result states. Fine bottom rules separate the sections.
 
 Stack the margin above the content below 32rem of available width,
 reduce the discussion inset below 18rem, and let actions wrap at enlarged text
@@ -1633,8 +1664,12 @@ After Topics, use an open row with the series position above its linked title an
 a quiet Copy link action alongside it. The metadata reads From the series followed
 by the current post number and series total. Use 0.75rem muted metadata, a 1.3125rem
 medium-weight title, a purple directional arrow, and a fine bottom rule with 1.5rem
-of breathing room. Copy link uses a transparent 0.8125rem label and a subtle underline,
-retaining its success and error feedback and at least a 2.75rem target.
+of breathing room. Separate the action row from Topics by 1.5rem. Copy link uses
+the shared `article-copy-action` treatment: an opaque surface, a fine outline,
+0.875rem corners, a 0.8125rem label, and a tinted link icon compartment. Keep its
+10.5rem width within the available space across idle, copied, and failed states,
+with at least a 2.75rem target. Use the same treatment for closing share actions;
+preserve both clipboard controllers, their accessible feedback, and native sharing.
 
 Below 32rem of available width, stack the utility beneath the series and use a
 1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
@@ -1797,7 +1832,10 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   continuous surface, with a short row reveal and 7px blur behind it. Keep the
   backdrop and scroll lock through the exit animation; reopening cancels the exit.
 - Use Lumen's menu icon and show Menu/Close labels on phones when the header has
-  at least 21rem of width. Keep icon controls at 44px when text or width needs more room.
+  at least 21rem of width. Separate phone utility controls with a 0.5rem gap so
+  hover and pressed backgrounds never touch. Below 21rem of header width, keep
+  icon controls at 44px to preserve that space with enlarged text. Below 12rem,
+  compact the gap to 0.25rem along with the existing outer inset.
   The current mobile destination retains its underline and gains a quiet Current label,
   omitted below 18rem of menu width. Internal destinations use right arrows.
   At 34rem of menu width, arrange links and footer actions in two columns, keeping
@@ -1814,6 +1852,8 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   technology. Rem-based container queries adapt to enlarged text, with icon-only
   controls retaining a 44px target. When enlarged text leaves less than 20rem
   of width, omit decorative result thumbnails so titles keep a readable column.
+  Below 12rem, reduce the input field's horizontal padding so typed text keeps
+  enough room beside the clear button.
 - Search results use Cover ledger: a contained cover tile, an accent content-type label,
   a larger title, and the complete description. Ruled rows use the same soft tint for hover
   and keyboard selection. A decorative Lumen arrow sits inside the row's 1rem end inset
@@ -1867,7 +1907,7 @@ mode may show drafts and scheduled articles; judge the public content against a 
 
 ### Refined maker homepage hero
 
-Keep the personal greeting and three-line headline, with purple emphasis on “tools”.
+Keep the three-line headline, with purple emphasis on “tools”, and the desktop greeting.
 The introduction names engineering leadership, Lumen UI, commerce platforms, native apps,
 and developer tools. “See selected work” opens the portfolio; “About me” opens About.
 Preserve the shared header, its controls, and the joined Signature frame.
@@ -1875,15 +1915,21 @@ Preserve the shared header, its controls, and the joined Signature frame.
 On desktop, use an open two-column layout with a 22rem-wide, 4:5 portrait, centered
 40% crop, 1.5rem corners, and a plain name and location caption. The headline reaches
 5rem; primary and secondary actions use 0.875rem labels and retain generous hit areas.
-On phones below 768px and below 41rem of Home container width with enlarged text, move the portrait
-into a compact identity row with a 4.5rem image. Below 18rem, put the complete caption
-beneath that image. Keep the optimized responsive image sources and eager loading.
+On phones below 768px, lead with a compact identity row and a 3.5rem portrait, then
+the stronger headline, concise introduction, and actions. The name and location replace
+the separate greeting. Below 14rem of available width, put the complete caption beneath
+the image so enlarged text remains readable. Below 18rem, make the primary action full
+width and put the secondary action beneath it. Tablet and desktop containers below 41rem
+retain the compact 4.5rem portrait after the copy, with the caption below it under 18rem.
+Keep optimized responsive image sources and eager loading.
 
 End the hero with an open, ruled “Selected products” strip containing Lumen UI and
 PostLens in that order, with descriptive summaries in 0.75rem type. Retain the named
 product navigation, existing case-study links, `hero-products` fragment, and visible
-“All projects” action. At narrow widths, stack the complete product links with fine
-rules; enlarged text can move logos above their copy. Preserve visible keyboard focus,
+“All projects” action. Phones with at least 15rem of available width show two open
+product columns, with smaller logos beside titles and complete descriptions beneath.
+A fine rule separates the columns. Narrower containers stack the complete product links;
+enlarged text can move logos above their copy. Preserve visible keyboard focus,
 reduced motion, and both themes. Do not add decorative cards or client JavaScript.
 
 ### Sculpted ledger homepage statistics
@@ -2136,7 +2182,7 @@ use two columns below 28rem and one below 20rem. Below 20rem, project and writin
 rows place their copy beneath the number and arrow, and community insets tighten
 to preserve reading space. Featured cards use their own container rules above.
 About's `about-page` container and the `projects-intro` container stack their columns below 40rem
-the same way, and the Projects ledger stacks below 17.5rem. Below 14rem, About tightens its frame
+the same way. Projects purpose shortcuts fill separate rows below 34rem. Below 14rem, About tightens its frame
 inset and scales headings to the container so whole words fit. Editorial project cards stay in two
 columns only while each keeps 20rem, and the featured card stacks below 40rem. Below 14rem a card
 hides its decorative title arrow so the full title gets the row. Portfolio cards
