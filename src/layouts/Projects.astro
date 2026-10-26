@@ -25,6 +25,7 @@ import {
   getProjectStageLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
+import { addProjectReadingBrief } from '@/utils/project-reading-brief'
 import { getSocialImageURL } from '@/utils/social-image'
 
 import { RevealGroup, ScrollProgress } from '@santi020k/lumen-astro'
@@ -39,6 +40,7 @@ interface Props {
 }
 
 const { headings, project, relatedProjects = [] } = Astro.props
+const narrative = addProjectReadingBrief(await Astro.slots.render('default') ?? '')
 const relatedWriting = await getProjectWriting(project.data.relatedWriting)
 const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
 const metaDescription = project.data.seoDescription ?? project.data.description
@@ -153,7 +155,7 @@ mainClass="remaining-pages remaining-pages--reading"
           <ProjectCaseStudy rows={caseStudyRows} />
 
           <div class="prose-santi prose-project max-w-none">
-            <slot />
+            <Fragment set:html={narrative} />
           </div>
         </div>
       </div>
