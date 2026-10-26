@@ -1875,6 +1875,15 @@ quiet text links. At less than 32rem of hero width, stack the index into count,
 label, and arrow rows. Keep visible focus, enlarged-text reflow, and heading
 clearance below the fixed navigation; no client script is needed.
 
+Section introductions use **Evidence chapters**. Place the selected technology and
+the collection-derived count on one wrapping metadata line, then pair one concise
+category heading with its description in equal columns. Use the existing heading
+IDs for the opening index and incoming fragments. Keep Projects, Community, and
+Work experience in their existing order, with singular count labels where needed.
+Use a fine closing rule, 1.75rem lower inset, and a 2rem column gap; below 40rem of
+chapter width, stack the heading above the description with a 1.25rem gap. Retain
+the shared gallery and its spacing below the introduction.
+
 Featured portfolio cards combine Layered editorial with the horizontal overlap of
 Home's Offset spread. At 56rem of card width, artwork occupies the left side while
 the content sheet overlaps its right edge. The complete description, metrics, and

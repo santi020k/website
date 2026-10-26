@@ -2,6 +2,49 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 for (const theme of ['light', 'dark'] as const) {
+  test(`Evidence chapters preserve readable section context in ${theme}`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+    await page.goto('/technologies/react-js/')
+    const chapters = page.locator('[data-technology-chapter]')
+
+    await expect(chapters.getByRole('heading', { level: 2 })).toHaveText(['Projects', 'Community', 'Work experience'])
+    await expect(chapters.locator('[data-technology-chapter-label]')).toHaveText(['React.js', 'React.js', 'React.js'])
+    await expect(chapters.locator('[data-technology-chapter-count]')).toHaveText(['4 independent projects', '1 community initiative', '7 professional roles'])
+    for (const width of [320, 390, 768, 1440]) {
+      for (const size of [100, 200]) {
+        await page.setViewportSize({ width, height: 1000 })
+        await page.evaluate(async value => {
+          document.documentElement.style.fontSize = `${value}%`
+          await document.fonts.ready
+        }, size)
+        const overflow = await chapters.evaluateAll(elements => elements.flatMap(element => {
+          const bounds = element.getBoundingClientRect()
+
+          return [...element.querySelectorAll('h2, p')].filter(copy => {
+            const range = document.createRange()
+
+            range.selectNodeContents(copy)
+            return [...range.getClientRects()].some(rect => rect.width > 0 && (
+              rect.left < bounds.left - 1 || rect.right > bounds.right + 1 || rect.bottom > bounds.bottom + 1
+            ))
+          }).map(copy => copy.textContent)
+        }))
+
+        expect(overflow, `Chapter copy must fit at ${width}px and ${size}%`).toEqual([])
+      }
+    }
+    const audit = await new AxeBuilder({ page }).include('[data-technology-chapter]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
+
+    expect(audit.violations).toEqual([])
+    await page.goto('/technologies/model-context-protocol/')
+    await expect(page.locator('[data-technology-chapter-count]')).toHaveText('1 independent project')
+    await page.setViewportSize({ width: 320, height: 1000 })
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = '200%'
+    })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320)
+  })
+
   test(`Technology evidence index is readable and keyboard usable in ${theme}`, async ({ page, browserName }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto('/technologies/react-js/')
