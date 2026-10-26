@@ -84,3 +84,24 @@ export const getUniqueTechnologiesWithCount = (
     ])
     .sort((a, b) => b[1] - a[1])
 }
+
+/** Related technologies in the supplied published archive entries, counted once per entry. */
+export const getTechnologyConnections = (
+  projects: CollectionEntry<'project'>[],
+  technology: string
+): [string, number][] => {
+  const selectedSlug = getTechnologySlug(technology)
+
+  const matchingProjects = projects
+    .filter(project => !project.data.draft && project.data.technologies.some(
+      label => getTechnologySlug(label) === selectedSlug
+    ))
+    .map(project => ({
+      ...project,
+      data: { ...project.data, technologies: getUniqueTechnologies([project]) }
+    }))
+
+  return getUniqueTechnologiesWithCount(matchingProjects)
+    .filter(([label]) => getTechnologySlug(label) !== selectedSlug)
+    .sort(([leftLabel, leftCount], [rightLabel, rightCount]) => rightCount - leftCount || getTechnologySlug(leftLabel).localeCompare(getTechnologySlug(rightLabel), 'en'))
+}
