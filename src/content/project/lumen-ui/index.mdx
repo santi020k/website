@@ -69,6 +69,8 @@ import ProjectConsumerTrail from '@/components/molecules/ProjectConsumerTrail.as
 
 import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
 
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+
 <ProjectContextLead projectId="lumen-ui" headingId="a-shared-language-for-web-and-native-interfaces">
 
 ## A shared language for web and native interfaces
@@ -229,6 +231,12 @@ records the upgrade contract for other consumers.
 
 </ProjectSectionHeading>
 
-Lumen makes interface decisions reusable without moving application policy into a design system.
-A developer can discover a real component contract, a designer can work from the same foundations,
-and a coding agent can retrieve source-backed guidance instead of inventing an API.
+<ProjectPrincipleClose
+  lead="Lumen makes interface decisions reusable."
+  emphasis="Applications keep their policy."
+  perspectives={[
+    { label: 'Developers', description: 'Discover a real component contract.' },
+    { label: 'Designers', description: 'Work from the same foundations.' },
+    { label: 'Coding agents', description: 'Retrieve source-backed guidance instead of inventing an API.' }
+  ]}
+/>

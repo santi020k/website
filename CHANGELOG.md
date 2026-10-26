@@ -268,6 +268,8 @@
 
 - Present Lumen technical highlights as Architecture brief. Give Astro, React and Web Components a clear adapter entry point, then retain the shared foundation, styling, CSS and verification claims in responsive definition rows.
 
+- Present the Lumen Why it matters section as Principle close, with an emphasized application-policy takeaway and open, responsive perspectives for developers, designers and coding agents.
+
 ### Patch Changes
 
 - Keep featured project images and copy full width when galleries stack on mobile or with enlarged text, matching the other cards' image proportions while preserving the desktop composition. Keep archive-match badges readable in dark mode.

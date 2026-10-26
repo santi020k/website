@@ -1225,6 +1225,20 @@ Internal examples use native same-tab navigation; the migration guide opens safe
 in a new tab. Keep all visible example text in each accessible link name and preserve visible keyboard focus,
 and the existing chapter navigation. No card fill or client controller is needed.
 
+### Principle close project takeaway
+
+Lumen's Why it matters section retains its Section cadence heading and fragment.
+Give the central principle a 1.6875rem lead with 1.5 line height, -0.025em tracking,
+and a 23em measure. The application-policy sentence uses semantic accent color and
+weight 500. Keep the composition open, without a card fill or decorative icon.
+
+Below the lead, place the three audience perspectives in equal columns with 1.5rem
+gaps and 2rem separation. Each has a fine neutral top rule, 1.25rem top inset,
+a 1rem weight-500 h4, and 0.9375rem secondary copy at 1.8 line height. Use a native
+list; its audience labels do not become chapter links. Below 35rem of available
+width, stack the perspectives and reduce the lead to 1.4375rem. Preserve all three
+benefits and the distinction between reusable interfaces and application policy.
+
 ### Synthesis spread closing reflection
 
 Close a multi-client case study with an open composition: a small What carries forward
