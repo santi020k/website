@@ -14,11 +14,11 @@ for (const width of [320, 375, 768, 1440]) {
       const projects = screen.locator('[data-project-gallery-card]')
       expect(await projects.count()).toBeGreaterThan(1)
 
-      const explore = screen.getByRole('link', { name: 'Explore projects', exact: true })
+      const explore = screen.locator('[data-projects-page]').getByRole('navigation', { name: 'Browse projects by purpose' }).getByRole('link', { name: /Developer tools/u })
       await explore.focus()
       await expect(explore).toBeFocused()
       await screen.keyboard.press('Enter')
-      await expect(screen).toHaveURL(/\/projects\/#projects$/)
+      await expect(screen).toHaveURL(/\/projects\/#developer-tools$/)
 
       const project = projects.first().getByRole('link')
       await project.focus()

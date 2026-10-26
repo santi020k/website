@@ -25,7 +25,7 @@ const collectionSchema = z.object({
 
 test('purpose groups show every published personal project once and match structured data', async ({ page }) => {
   await page.goto('/projects/')
-  const navigation = page.getByRole('navigation', { name: 'Browse projects by purpose' })
+  const navigation = page.locator('[data-projects-page]').getByRole('navigation', { name: 'Browse projects by purpose' })
   await expect(navigation.getByRole('link')).toHaveCount(3)
   await expect(page.locator('[data-project-purpose-group]')).toHaveCount(3)
 
@@ -46,7 +46,7 @@ test('purpose groups show every published personal project once and match struct
   await expect(cards).toHaveCount(14)
   await expect(cards.first().getByRole('heading')).toHaveText('Lumen UI')
   await expect(page.getByRole('heading', { name: 'Workspace Organizer', exact: true })).toHaveCount(0)
-  await expect(page.locator('.projects-intro-ledger dd').first()).toContainText('14')
+  await expect(page.locator('[data-projects-page] .maker-hero-eyebrow')).toContainText('14 projects')
 
   const visibleDestinations = await cards.locator(':scope > a').evaluateAll(links => links.map(link => (
     link instanceof HTMLAnchorElement ? link.pathname : ''
@@ -86,7 +86,7 @@ test.describe('without JavaScript', () => {
 
   test('purpose links and every project remain available', async ({ page }) => {
     await page.goto('/projects/')
-    const navigation = page.getByRole('navigation', { name: 'Browse projects by purpose' })
+    const navigation = page.locator('[data-projects-page]').getByRole('navigation', { name: 'Browse projects by purpose' })
     await navigation.getByRole('link', { name: /Experiments/u }).click()
     await expect(page).toHaveURL(/\/projects\/#experiments$/u)
     const experiment = page.getByRole('region', { name: 'Experiments', exact: true })
