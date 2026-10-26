@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Bound article contents rails to the prose so series navigation, comments, and sharing close the page without a pinned chapter list.
+
 - Refine About recommendations with Quote sleeve cards, placing each complete quote before a ruled author footer while preserving Reading rows, all attribution details, and responsive accessibility.
 
 - Keep article comments behind Discussion fold, loading the existing widget on activation while preserving direct comment links, keyboard access, theme updates, and the GitHub fallback.

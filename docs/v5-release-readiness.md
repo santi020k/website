@@ -335,3 +335,22 @@ captures in both themes were reviewed. Zero-warning affected lint, the current
 production build and 452-page OG audit passed. Resume PDFs were regenerated for
 the shared-token fingerprint and passed their freshness check. The patch note is
 folded into 5.0.0 while the published changelog remains unchanged.
+
+## Reading boundary follow-up
+
+The approved article rail boundary from `3d18203c` is integrated through
+`77006921`. The sticky contents now share the prose row's boundary, while series
+navigation, comments and sharing continue below in the same reading column.
+The shared contents component, project rail and mobile chapter opener retain
+their existing behavior. Source order keeps keyboard navigation moving from the
+contents into the series and from sharing into related writing.
+
+All 70 scoped Chromium/WebKit cases passed with retries disabled: the new reading
+boundary suite plus existing post navigation and article closing coverage. These
+check series and standalone posts, native fragments, Back navigation, reading
+progress, no JavaScript, closing spacing, mobile and enlarged text, and keyboard
+order. Matched desktop/mobile captures in both themes were reviewed. Affected
+lint passed with zero warnings; the current production build and 452-page OG
+audit passed. Resume PDFs were regenerated for the shared-style fingerprint and
+passed freshness checks. The patch note is folded into 5.0.0 with published
+changelog entries unchanged.
