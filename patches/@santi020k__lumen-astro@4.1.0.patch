@@ -1,8 +1,8 @@
 diff --git a/README.md b/README.md
-index 21a05befc68ae34601b84b0b5407e38a05ba56de..75dea1fc739fc5fe2859dd9e12a5a5e2b98ee7e3 100644
+index 21a05befc68ae34601b84b0b5407e38a05ba56de..f853eba507358080d8561eaf85b0adfb1014641b 100644
 --- a/README.md
 +++ b/README.md
-@@ -324,6 +324,11 @@ import { Button, Icon } from '@santi020k/lumen-astro'
+@@ -324,9 +324,21 @@ import { Button, Icon } from '@santi020k/lumen-astro'
  
  `Anchor` accepts heading `depth`, `index`, and `description` metadata plus an `activationOffset`.
  Its current link stays synchronized on click and scroll, including at the end of the document.
@@ -14,7 +14,17 @@ index 21a05befc68ae34601b84b0b5407e38a05ba56de..75dea1fc739fc5fe2859dd9e12a5a5e2
  `ScrollProgress` derives reading progress from the document and pins the indicator to the top or
  bottom viewport edge. Both use the single root `UIPrimitives` runtime.
  
-@@ -424,6 +429,9 @@ icons during development.
++Pass `targetId` to `ScrollProgress` to measure one content element instead. Progress starts when
++the element reaches the root scroll-padding landing line and finishes when its bottom enters the
++viewport. Targets shorter than that reading area finish once fully visible; empty targets remain
++at zero. Values stay between zero and 100 while scrolling beyond the target. An omitted or missing
++target retains document progress. The runtime recalculates on scroll, resize, and content reflow,
++and reconnects its resize observer after page navigation. No second controller is needed.
++
+ ```astro
+ ---
+ import { Anchor, CopyButton, ScrollProgress } from '@santi020k/lumen-astro'
+@@ -424,6 +436,9 @@ icons during development.
  Use `CodeTabs` for related install commands, language variants, or configuration examples. Each
  item supplies a stable value, visible label, code string, and optional language. A shared
  `storageKey` keeps matching instances synchronized and remembers the reader's selection.
@@ -24,7 +34,7 @@ index 21a05befc68ae34601b84b0b5407e38a05ba56de..75dea1fc739fc5fe2859dd9e12a5a5e2
  
  ```astro
  ---
-@@ -444,6 +452,10 @@ const installCommands = [
+@@ -444,6 +459,10 @@ const installCommands = [
  
  ## Optimized images
  
@@ -73,6 +83,34 @@ index 1e4ff0dcf6250c42c2fd27026eac14a84a342b0f..24828b39b78c1dadc091b72f8c312d71
      height={targetHeight}
      loading={loading}
      sizes={sizes}
+diff --git a/components/ScrollProgress.astro b/components/ScrollProgress.astro
+index 35ef8ecc991a69b46e94373d05e9fd1d915195f8..abaa725e47fdc5ebf8eecaf82d6a12e0b9ae8925 100644
+--- a/components/ScrollProgress.astro
++++ b/components/ScrollProgress.astro
+@@ -7,6 +7,7 @@ interface Props extends HTMLAttributes<'div'> {
+   class?: string | null
+   className?: string
+   position?: 'bottom' | 'top'
++  targetId?: string
+ }
+ 
+ const {
+@@ -14,6 +15,7 @@ const {
+   class: classProp = '',
+   className = '',
+   position = 'top',
++  targetId,
+   ...rest
+ } = Astro.props
+ 
+@@ -31,6 +33,7 @@ const { classList, passthrough } = resolveLumenAstroProps(rest, [
+   class:list={classList}
+   data-position={position}
+   data-ui-scroll-progress
++  data-ui-scroll-progress-target={targetId}
+   role="progressbar"
+   {...passthrough}
+ >
 diff --git a/runtime/UIPrimitives.astro b/runtime/UIPrimitives.astro
 index 5c8c088e6a118e8aecae49c36b89f136870185f8..1a49916359dffc699623c65c5f3111a49ba34d18 100644
 --- a/runtime/UIPrimitives.astro
@@ -137,7 +175,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..1a49916359dffc699623c65c5f3111a4
      for (const tab of tabs) {
        tab.addEventListener('click', () => activate(tab))
 diff --git a/runtime/controllers/document-navigation.ts b/runtime/controllers/document-navigation.ts
-index 6f616c13e406958847d5bb1485d25208e2db5a67..3b6e14b2dddab28808f5c6402c445ffdbec5e698 100644
+index 6f616c13e406958847d5bb1485d25208e2db5a67..95cbc3c9c542874962fff0136a2be5ba9e0d1b2a 100644
 --- a/runtime/controllers/document-navigation.ts
 +++ b/runtime/controllers/document-navigation.ts
 @@ -7,6 +7,16 @@ const decodeFragment = (fragment: string): string => {
@@ -186,3 +224,84 @@ index 6f616c13e406958847d5bb1485d25208e2db5a67..3b6e14b2dddab28808f5c6402c445ffd
            if (item.target.getBoundingClientRect().top > offset) break
  
            active = item.link
+@@ -113,6 +137,31 @@ const initAnchors = (scope: ParentNode): void => {
+ }
+ 
+ let scrollProgressFrame = 0
++let scrollProgressObserver: ResizeObserver | undefined
++
++const getProgressTarget = (root: HTMLElement): HTMLElement | null => {
++  const id = root.dataset.uiScrollProgressTarget
++
++  return id ? root.ownerDocument.getElementById(id) : null
++}
++
++const getTargetProgress = (target: HTMLElement, scrollingElement: Element): number => {
++  const bounds = target.getBoundingClientRect()
++
++  if (bounds.height <= 0) return 0
++
++  const viewportHeight = scrollingElement.clientHeight
++  const scrollTop = scrollingElement.scrollTop
++  const top = bounds.top + scrollTop
++  const padding = readScrollLength(getComputedStyle(scrollingElement).scrollPaddingTop, viewportHeight)
++  const end = top + bounds.height - viewportHeight
++  const start = Math.min(top - Math.max(0, padding), end)
++
++  // A short target is complete once its final line fits in the viewport.
++  if (end <= start) return scrollTop >= end - 1 ? 100 : 0
++
++  return Math.min(100, Math.max(0, ((scrollTop - start) / (end - start)) * 100))
++}
+ 
+ const updateScrollProgress = (): void => {
+   scrollProgressFrame = 0
+@@ -120,12 +169,14 @@ const updateScrollProgress = (): void => {
+   const scrollingElement = document.scrollingElement ?? document.documentElement
+   const maximum = scrollingElement.scrollHeight - scrollingElement.clientHeight
+ 
+-  const percentage = maximum > 0 ?
++  const documentPercentage = maximum > 0 ?
+     Math.min(100, Math.max(0, (scrollingElement.scrollTop / maximum) * 100)) :
+     0
+ 
+   for (const root of document.querySelectorAll<HTMLElement>('[data-ui-scroll-progress]')) {
+     const bar = root.querySelector<HTMLElement>('.ui-scroll-progress__bar')
++    const target = getProgressTarget(root)
++    const percentage = target ? getTargetProgress(target, scrollingElement) : documentPercentage
+ 
+     root.setAttribute('aria-valuenow', `${Math.round(percentage)}`)
+ 
+@@ -140,10 +191,23 @@ const requestScrollProgressUpdate = (): void => {
+ }
+ 
+ const initScrollProgress = (scope: ParentNode): void => {
++  scrollProgressObserver?.disconnect()
++
+   if (!scope.querySelector('[data-ui-scroll-progress]')) return
+ 
+   requestScrollProgressUpdate()
+ 
++  if (typeof ResizeObserver !== 'undefined') {
++    scrollProgressObserver = new ResizeObserver(requestScrollProgressUpdate)
++    scrollProgressObserver.observe(document.body)
++
++    for (const root of document.querySelectorAll<HTMLElement>('[data-ui-scroll-progress]')) {
++      const target = getProgressTarget(root)
++
++      if (target) scrollProgressObserver.observe(target)
++    }
++  }
++
+   if (document.documentElement.dataset.uiScrollProgressBound === 'true') return
+ 
+   document.documentElement.dataset.uiScrollProgressBound = 'true'
+@@ -151,6 +215,8 @@ const initScrollProgress = (scope: ParentNode): void => {
+   window.addEventListener('resize', requestScrollProgressUpdate, { passive: true })
+ 
+   window.addEventListener('scroll', requestScrollProgressUpdate, { passive: true })
++
++  document.addEventListener('astro:before-swap', () => scrollProgressObserver?.disconnect())
+ }
+ 
+ export const initDocumentNavigationControllers = (scope: ParentNode): void => {

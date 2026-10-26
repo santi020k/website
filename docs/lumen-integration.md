@@ -346,6 +346,10 @@ enlarged text sizes. No new client controller is introduced.
   build time. Native headings, generated fragments, and inline links remain intact;
   a span keeps formatted titles together beside a CSS rule. The article prose container
   adapts the typography and rule spacing without client code or a second Lumen runtime.
+- `ProjectIntentBrief` presents Lumen's four goals as a named native list with continuous
+  statements and accent opening phrases. The site owns the open rules and responsive
+  reading scale; the authored Section cadence heading remains the source of its name
+  and fragment. No replacement Lumen control or client controller is added.
 - `ProjectCapabilitySpread` and `ProjectCapabilityEntry` compose Lumen's six capabilities
   as a named native list with open ruled entries, decorative numbers, and h4 labels.
   They preserve authored MDX descriptions and inline code, use semantic tokens, and stack
@@ -406,7 +410,8 @@ enlarged text sizes. No new client controller is introduced.
 - Testimonial identities use Lumen `Avatar`; optimized Astro images remain slotted inside it.
 - Site-specific interface icons use Lumen `Icon` when Lucide provides the mark. Third-party brand
   logos remain on `astro-icon` because Lucide intentionally excludes brand assets.
-- Reading layouts use Lumen `ScrollProgress` directly.
+- Reading layouts use Lumen `ScrollProgress` directly. Articles pass `targetId="article-content"`
+  to measure the prose alone; project layouts retain document progress.
 - `ProjectReplacementNotice.astro` composes Lumen `Callout`, inherit-style `Link`,
   and decorative `Icon` for the Successor spread notice in project MDX. The site
   owns its open context column, soft destination surface, responsive rules, and
@@ -626,6 +631,24 @@ under the sticky header. Remove the Anchor portion of the patch when a published
 landing-line activation. If `lumen-astro` changes version first, regenerate the version-specific
 patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
 text-size marker cases in `tests/responsive-reading.spec.ts`.
+
+## Article progress runtime patch
+
+Article progress preserves the existing Lumen indicator and its accessible value. The
+version-pinned `lumen-astro` patch adds an optional `targetId` prop and measurement inside
+the existing document-navigation controller. `Post.astro` targets only the authored prose,
+excluding the hero, series navigation, comments, sharing, recommendations, and footer.
+
+Progress begins when the prose reaches the root scroll-padding landing line and reaches
+100% when the final line enters the viewport. A short article becomes complete once fully
+visible; an empty target remains at zero. An absent or unresolved target preserves document
+progress. Scroll, viewport resizing, font and content reflow update the same indicator;
+resize observation reconnects after Astro navigation and disconnects before a page swap.
+
+Remove this portion of the patch when a published Lumen release supports the same scoped
+measurement contract. `tests/article-progress.spec.ts` covers completion, scrolling back,
+enlarged text, both themes, reflow, short/empty content, client navigation, restored history,
+and document fallback. No site-owned parallel scroll controller is introduced.
 
 ## Article quotations
 

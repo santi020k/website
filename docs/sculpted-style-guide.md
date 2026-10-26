@@ -1055,6 +1055,18 @@ and standalone emphasized claims use the full row, without inventing a missing c
 Keep nested lists and ordered-list numbering semantic. This passive composition has
 no card fill, shadow, decorative dots, or hover feedback.
 
+### Intent brief project goals
+
+Lumen's Goals retain their Section cadence heading and fragment. Present each complete
+goal as one continuous statement in a named native list, with its opening phrase at
+weight 500 in the semantic accent color. Use 1.1875rem text, 1.75 line height,
+-0.01em tracking, and a 37em measure; the remaining text uses `ink-soft`.
+
+Frame the list with fine neutral top and bottom rules, separate statements with the
+same rule, and use 1.5rem vertical insets. Keep the composition open and preserve all
+four authored goals. Below 35rem of available width, reduce text to 1.0625rem while
+keeping each sentence in normal flow. No extra headings, icons, or controls are added.
+
 ### Capability spread project entries
 
 Lumen's six capability entries use an open two-column spread with 1.75rem gaps.
@@ -1451,6 +1463,16 @@ surface or client behavior. Keep exactly one page-end navigation landmark.
 `RelatedPosts` owns its conditional section wrapper, so an article without
 recommendations proceeds directly from sharing to the return row without an empty
 section. Preserve the native `/blog/` and `#main` destinations and wrapping controls.
+
+### Article progress
+
+Retain the thin purple Lumen progress indicator at the viewport edge. Measure only the
+article prose: begin at its reading position below the sticky header, finish when its last
+line is visible, and remain complete through the series continuation and page closing.
+Scrolling back into the prose reduces progress again. Keep the accessible percentage in
+sync with the visible bar, including resized viewports and enlarged text. Do not add a
+visible percentage badge, second indicator, or new card. Project pages keep their existing
+document progress.
 
 ### Margin imprint article publication details
 
