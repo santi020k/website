@@ -98,3 +98,33 @@ describe('fresh related writing', () => {
     expect(await getRelatedPosts({ ...options, excludeUrls: ['/blog/only-eligible/', '/blog/missing/'] })).toEqual([])
   })
 })
+
+describe('related topic context', () => {
+  test('represents both displayed recommendations in the source topic order', async () => {
+    const { getRelatedTopics } = await import('../content')
+
+    expect(getRelatedTopics(['accessibility', 'playwright', 'testing', 'developer-experience'], [
+      post('delivery', { tags: ['testing', 'developer-experience'] }),
+      post('doctor', { tags: ['accessibility', 'developer-experience'] })
+    ])).toEqual(['accessibility', 'testing'])
+  })
+
+  test('deduplicates topics and fills a spare connection only from displayed posts', async () => {
+    const { getRelatedTopics } = await import('../content')
+
+    expect(getRelatedTopics(['react', 'react', 'typescript', 'auth', 'unrelated'], [
+      post('one', { tags: ['react', 'typescript', 'extra'] }),
+      post('two', { tags: ['react', 'auth'] })
+    ])).toEqual(['react', 'typescript'])
+    expect(getRelatedTopics(['react', 'unrelated'], [post('one', { tags: ['react'] })]))
+      .toEqual(['react'])
+  })
+
+  test('does not invent connections for missing or unrelated recommendations', async () => {
+    const { getRelatedTopics } = await import('../content')
+
+    expect(getRelatedTopics(['react'], [])).toEqual([])
+    expect(getRelatedTopics([], [post('one')])).toEqual([])
+    expect(getRelatedTopics(['react'], [post('one')])).toEqual([])
+  })
+})

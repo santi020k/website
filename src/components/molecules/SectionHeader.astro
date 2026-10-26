@@ -47,7 +47,9 @@ const headingId = id ? `${id}-heading` : undefined
         {eyebrow && <p data-margin-header-label>{eyebrow}</p>}
         <div data-margin-header-copy>
           <HeadingTag id={headingId}>{title}</HeadingTag>
-          {description && <p data-margin-header-description>{description}</p>}
+          <slot name="description">
+            {description && <p data-margin-header-description>{description}</p>}
+          </slot>
           {linkHref && linkLabel && (
             <ButtonLink href={linkHref} showArrow variant="inline">
               {linkLabel}
@@ -71,7 +73,9 @@ const headingId = id ? `${id}-heading` : undefined
         <header data-chapter-copy>
           {eyebrow && <p data-chapter-tab>{eyebrow}</p>}
           <HeadingTag id={headingId} data-chapter-heading>{title}</HeadingTag>
-          {description && <p data-chapter-description>{description}</p>}
+          <slot name="description">
+            {description && <p data-chapter-description>{description}</p>}
+          </slot>
         </header>
         {linkHref && linkLabel && (
           <div data-chapter-footer>
@@ -101,16 +105,18 @@ const headingId = id ? `${id}-heading` : undefined
         `}
         >{title}
         </HeadingTag>
-        {description && (
-          <p
-            class:list={[
-              'max-w-2xl section-copy',
-              align === 'center' && 'mx-auto'
-            ]}
-          >
-            {description}
-          </p>
-        )}
+        <slot name="description">
+          {description && (
+            <p
+              class:list={[
+                'max-w-2xl section-copy',
+                align === 'center' && 'mx-auto'
+              ]}
+            >
+              {description}
+            </p>
+          )}
+        </slot>
       </div>
       {linkHref && linkLabel && (
         <ButtonLink

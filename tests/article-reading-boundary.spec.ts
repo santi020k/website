@@ -130,7 +130,7 @@ test('keyboard reading continues from the contents into the closing flow', async
   await expect(page.locator('#series-navigation').getByRole('link').first()).toBeFocused()
   await page.getByRole('link', { name: 'Share on WhatsApp', exact: true }).focus()
   await page.keyboard.press(nextKey)
-  await expect(page.locator('#related-writing').getByRole('link')).toBeFocused()
+  await expect(page.locator('#related-writing').getByRole('link').first()).toBeFocused()
 })
 
 test('the rail boundary and section links work without JavaScript', async ({ browser }) => {

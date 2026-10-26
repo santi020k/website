@@ -2,7 +2,10 @@
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
 
-import { getRelatedPosts } from '@/utils/content'
+import { getRelatedPosts, getRelatedTopics } from '@/utils/content'
+import { getTagPath } from '@/utils/links'
+
+import { Link } from '@santi020k/lumen-astro'
 
 import SectionHeader from './SectionHeader.astro'
 
@@ -35,20 +38,80 @@ const relatedPosts = await getRelatedPosts({
   limit: 2,
   tags
 })
+
+const relatedTopics = getRelatedTopics(tags, relatedPosts)
 ---
 
 {relatedPosts.length > 0 && (
   <PageSection layout="stacked">
     <SectionHeader
-      description="More writing from a similar lane — overlapping topics, tooling choices, and the tradeoffs behind the article you just read."
       eyebrow="Related writing"
       id="related-writing"
       linkHref={belongsToDeveloperExperienceHub ? '/developer-experience/' : '/blog/'}
       linkLabel={belongsToDeveloperExperienceHub ? 'Explore the developer experience guide' : 'Browse all posts'}
       title="Keep reading in the same thread."
       variant="margin"
-    />
+    >
+      {relatedTopics.length > 0 && (
+        <div slot="description" data-related-topic-context>
+          <p>Connected through</p>
+          <nav aria-label="Topics shared with these recommendations">
+            <ul data-related-topic-list>
+              {relatedTopics.map((topic, index) => (
+                <li>
+                  {index > 0 && <span aria-hidden="true">·</span>}
+                  <Link href={getTagPath(topic)} variant="inherit">{topic}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      )}
+    </SectionHeader>
 
     <PostsGallery columns={2} posts={relatedPosts} />
   </PageSection>
 )}
+
+<style>
+  [data-related-topic-context] { margin-top: 1.5rem; }
+  [data-related-topic-context] p {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
+  [data-related-topic-list] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.875rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  [data-related-topic-list] li {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    min-width: 0;
+    max-width: 100%;
+  }
+  [data-related-topic-list] span { color: hsl(var(--ink-soft)); }
+  [data-related-topic-list] :global(a) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    min-width: 0;
+    color: var(--margin-emphasis);
+    font-size: 0.9375rem;
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--line));
+    text-underline-offset: 0.3125rem;
+    overflow-wrap: anywhere;
+  }
+  [data-related-topic-list] :global(a:hover) { color: hsl(var(--ink)); }
+  [data-related-topic-list] :global(a:focus-visible) {
+    outline: 2px solid var(--margin-emphasis);
+    outline-offset: 4px;
+  }
+</style>
