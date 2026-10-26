@@ -313,9 +313,12 @@ enlarged text sizes. No new client controller is introduced.
   shared reset no longer creates these implicit transitions.
 - The local `Pill` wrapper supplies project status labels to Lumen `Pill`. Linked topics
   and technology counts use `SculptedTag`; the retired hash-prefix and link props are removed.
-- The Projects technology snapshot composes Tool ledger from an unstyled Lumen `Card`,
-  `AnimatedNumber` totals, native linked lists, and a decorative `Icon`. Scoped container
-  queries reflow the featured and supporting tools without another controller.
+- The Projects technology snapshot composes Connected stack from an unstyled Lumen
+  `Card`, one `AnimatedNumber` total, native linked lists, and a Lumen `Link` with a
+  decorative `Icon` in its footer. The heading and count explanation replace the outer
+  introduction and duplicate index action. Personal-project and technology totals come
+  from the published collection. Scoped container queries reflow the featured and
+  supporting tools without another controller; existing fragments remain available.
 - `PolicySections` composes Evidence rows from one unstyled Lumen `Card` and the
   existing `RevealGroup`, with semantic sections and level-two headings inside.
   Local container queries stack heading and copy without changing policy text or
@@ -566,11 +569,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   The original Shiki code children and authored line-number offsets remain intact.
   The Husky article uses the same fenced-code pipeline for its four standalone
   examples; package-manager groups retain the real Astro `CodeTabs` component.
-  Scroll cue uses a site-owned custom element inside each standalone article
-  figure. It observes the existing code region and content, showing a footer and
-  accessible description only on horizontal overflow. Its observer disconnects
-  with the element during Astro navigation. Lumen still owns copy and code tabs;
-  no replacement scrolling or copy controller is introduced.
+  Scroll cue uses Lumen's shared `data-ui-scroll-cue` contract inside each standalone
+  article figure. The runtime observes the existing code region and content, showing a
+  footer and accessible description only on horizontal overflow. It cleans up on Astro
+  navigation and preserves other descriptions. The website's custom element is removed;
+  Lumen owns overflow guidance, copy, and code tabs.
 - Project prose lists use Ownership ledger. `rehype-project-ledger.ts` separates an authored
   leading `strong` from its explanation at build time, preserving links, code, nested lists,
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
@@ -648,7 +651,19 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   12-character minimum width, keeping explanatory sentences readable. Compact insets and wrapping
   headers below 18rem of container width keep complete cells readable with enlarged text.
   The four-column measurement table fits the desktop reading column and retains horizontal scrolling
-  on narrow screens. `tests/legacy-article-content.spec.ts` checks normal and enlarged text.
+  on narrow screens. Article tables opt into the same Lumen Scroll cue controller as
+  code examples: a stationary “Scroll horizontally to compare” strip above the named
+  viewport appears only while columns overflow. Project tables retain their existing markup.
+  The opt-in Astro `Code`/`Table` API and runtime are tracked upstream for Lumen 4.4.0;
+  the version-pinned 4.1.0 patch carries this additive change until publication. The cue
+  stays hidden without JavaScript, leaving native table semantics and keyboard scrolling.
+  Anchored comparison keeps the article table's first column at the inline start during
+  horizontal scrolling, using opaque cells and the existing first-column tint. Separate
+  cell borders travel with the pinned labels. Below 12rem of table space (including enlarged
+  text), labels scroll with the values so the pinned column cannot crowd out the viewport.
+  This is article styling; project tables and the shared Lumen component stay unchanged.
+  `tests/article-table-scroll-cue.spec.ts` covers resize, themes, text zoom, and navigation.
+  `tests/legacy-article-content.spec.ts` checks normal and enlarged text.
   Prose styles use site ink tokens for cells and Lumen's code foreground token for language badges in both themes.
 - Article endings use Reader colophon. `CommentsSection` owns a semantic heading and
   open margin layout with a decorative Lumen `Icon` on its native GitHub reply link.
