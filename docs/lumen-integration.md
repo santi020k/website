@@ -197,6 +197,12 @@ The site owns the brand-soft opening treatment and responsive footer; the existi
 Lumen `ButtonLink` retains GitHub's external-link contract. No new controller is
 needed. The catalog's project selection, ranking, fragments, and schema are unchanged.
 
+The category headings compose **Chapter links** from the shared `SectionHeader`,
+native navigation lists, Lumen `Link`, and decorative `Icon` arrows. The Projects
+page owns the ruled layout and responsive stacking. Each heading links to the other
+nonempty purpose groups using the catalog's IDs and counts; existing focusable
+section anchors work without additional JavaScript. A single category needs no links.
+
 The optional `ProjectsGallery.productFirst` applies **Product first** on Projects.
 Its neutral body reuses the existing gallery layout. Lumen `ButtonLink` with
 `newTab` renders the named external destination, and `Link` renders the quieter
@@ -313,9 +319,12 @@ enlarged text sizes. No new client controller is introduced.
   shared reset no longer creates these implicit transitions.
 - The local `Pill` wrapper supplies project status labels to Lumen `Pill`. Linked topics
   and technology counts use `SculptedTag`; the retired hash-prefix and link props are removed.
-- The Projects technology snapshot composes Tool ledger from an unstyled Lumen `Card`,
-  `AnimatedNumber` totals, native linked lists, and a decorative `Icon`. Scoped container
-  queries reflow the featured and supporting tools without another controller.
+- The Projects technology snapshot composes Connected stack from an unstyled Lumen
+  `Card`, one `AnimatedNumber` total, native linked lists, and a Lumen `Link` with a
+  decorative `Icon` in its footer. The heading and count explanation replace the outer
+  introduction and duplicate index action. Personal-project and technology totals come
+  from the published collection. Scoped container queries reflow the featured and
+  supporting tools without another controller; existing fragments remain available.
 - `PolicySections` composes Evidence rows from one unstyled Lumen `Card` and the
   existing `RevealGroup`, with semantic sections and level-two headings inside.
   Local container queries stack heading and copy without changing policy text or
@@ -576,12 +585,13 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
   this composition; native list semantics remain intact without client JavaScript. Root lists
   use neutral dividers and purple lead rules, with a single column when reading space is narrow.
-- `PostHero` uses Margin imprint for article publication details: a native description
-  list with a larger publication date, reading statistics, and an optional update row.
+- `PostHero` uses Reading imprint for article publication details: two native description
+  lists group the published and optional updated dates beside reading time and word count.
   The existing `FormattedDate` wrapper preserves Lumen's native `time` output. Site-owned
   attributes and semantic tokens handle the responsive margin rules without a card
-  primitive or client script. `ProjectHero` applies the same Margin imprint language
-  to its role, timeline, and duration, keeping the existing `ProjectTimeline` native
+  primitive or client script. The groups stay side by side on phones and stack below
+  16rem of available width for enlarged text. `ProjectHero` retains Margin imprint
+  for its role, timeline, and duration, keeping the existing `ProjectTimeline` native
   dates and duration helper. Its wider role column and project-specific container
   breakpoints preserve long role names.
 - Article Topics use the site-owned Margin topics composition: a named native `nav`,

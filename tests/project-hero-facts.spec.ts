@@ -20,7 +20,8 @@ for (const theme of ['light', 'dark']) {
 
           await expect(card).toBeVisible()
           await expect(page.getByRole('region', { name: 'At a glance', exact: true })).toHaveCount(0)
-          await expect(page.locator('[data-project-sidebar] dt')).toHaveCount(0)
+          // The sidebar's scope ledger has its own terms; the hero facts occur once.
+          await expect(page.locator('dt').filter({ hasText: /^(?:Role|Timeline|Duration)$/u })).toHaveCount(3)
           await expect(card.locator('dt')).toHaveText(['Role', 'Timeline', 'Duration'])
           await expect(card.locator('dd').first()).toHaveText(slug === 'smith-commerce' ? 'Senior Front End Developer' : 'Creator')
           await expect(page.locator('[data-project-opening] [data-site-eyebrow]')).toHaveText(slug === 'smith-commerce' ? 'Professional work' : 'Personal project')

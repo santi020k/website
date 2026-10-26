@@ -84,47 +84,22 @@ const expectInsideViewport = async (target: Locator) => {
   expect(bounds.right).toBeLessThanOrEqual(bounds.width + 1)
 }
 
-const partiallyExposeTopic = async (target: Locator) => {
-  const clipped = await target.evaluate(element => {
-    const filter = element.closest<HTMLElement>('[data-blog-tag-filter]')
-
-    if (!filter || filter.scrollWidth <= filter.clientWidth) return
-    // Model a horizontally swiped strip with only the beginning of a topic showing.
-    const visibleStart = filter.getBoundingClientRect().right - 100
-
-    filter.scrollLeft += element.getBoundingClientRect().left - visibleStart
-    return { right: element.getBoundingClientRect().right, edge: filter.getBoundingClientRect().right }
-  })
-
-  if (clipped) expect(clipped.right).toBeGreaterThan(clipped.edge)
-}
-
-const clickVisibleTopicStart = async (page: Page, target: Locator) => {
-  // The leading decorative hash is fully visible; coordinate clicks cannot auto-scroll.
+const clickVisibleTopicLabel = async (page: Page, target: Locator) => {
+  // Activate the inner label to exercise pointer focus restoration after the swap.
   await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition')
-  const box = await target.locator('span').first().boundingBox()
+  const label = target.locator('[data-sculpted-tag-label]')
+  const box = await label.boundingBox()
 
   if (!box) throw new Error('Expected a visible topic label')
-  await expectInsideViewport(target.locator('span').first())
+  await expectInsideViewport(label)
   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2)
 }
 
-const expectNearestTopic = async (target: Locator) => {
-  const position = await target.evaluate(element => {
-    const filter = element.closest<HTMLElement>('[data-blog-tag-filter]')
+const expectWrappingTopics = async (filter: Locator) => {
+  const overflow = await filter.evaluate(element => element.scrollWidth - element.clientWidth)
 
-    if (!filter || filter.scrollWidth <= filter.clientWidth) return
-    return {
-      right: element.getBoundingClientRect().right,
-      edge: filter.getBoundingClientRect().right - Number.parseFloat(getComputedStyle(filter).scrollPaddingRight)
-    }
-  })
-
-  if (position) expect(position.right).toBeCloseTo(position.edge, 0)
-}
-
-const expectScrolledStrip = (width: number, scrollLeft: number) => {
-  if (width === 390) expect(scrollLeft).toBeGreaterThan(0)
+  expect(overflow, 'All topic links remain available without horizontal scrolling').toBeLessThanOrEqual(1)
+  for (const link of await filter.getByRole('link').all()) await expectInsideViewport(link)
 }
 
 for (const width of [390, 1440]) {
@@ -133,7 +108,7 @@ for (const width of [390, 1440]) {
       test.describe(`Older surfaces ${width}px / ${textSize}% / ${theme}`, () => {
         test.use({ viewport: { width, height: width === 390 ? 844 : 900 }, colorScheme: theme })
 
-        test('topic navigation preserves keyboard position and the mobile scroll strip', async ({ page, browserName }) => {
+        test('wrapping topic navigation preserves keyboard focus and vertical position', async ({ page, browserName }) => {
           await page.emulateMedia({ reducedMotion: 'reduce' })
           await setTextSize(page, textSize)
           await page.goto('/blog/')
@@ -152,7 +127,7 @@ for (const width of [390, 1440]) {
             left: element.scrollLeft
           }))
 
-          expectScrolledStrip(width, position.left)
+          await expectWrappingTopics(filter)
           await page.keyboard.press('Enter')
           await expect(page).toHaveURL('/blog/tags/react/')
           await expect(react).toHaveAttribute('aria-current', 'page')
@@ -172,21 +147,20 @@ for (const width of [390, 1440]) {
           const nextTopic = filter.locator('a[href="/blog/tags/nextjs/"]')
 
           await expect(nextTopic).toBeFocused()
-          await partiallyExposeTopic(nextTopic)
+          await expectWrappingTopics(filter)
           const nextPosition = await filter.evaluate(element => ({
             top: element.getBoundingClientRect().top,
             left: element.scrollLeft
           }))
 
           // Pointer activation of an inner label also restores the selected link.
-          await clickVisibleTopicStart(page, nextTopic)
+          await clickVisibleTopicLabel(page, nextTopic)
           await expect(page).toHaveURL('/blog/tags/nextjs/')
           await expect(nextTopic).toHaveAttribute('aria-current', 'page')
           await expect(nextTopic).toBeFocused()
           await expectInsideViewport(nextTopic)
-          // A partly visible pointer target may move just enough to reveal its full outline.
-          expect(await filter.evaluate(element => element.scrollLeft)).toBeGreaterThanOrEqual(nextPosition.left)
-          await expectNearestTopic(nextTopic)
+          await expect.poll(() => filter.evaluate(element => element.scrollLeft)).toBeCloseTo(nextPosition.left, 0)
+          await expectWrappingTopics(filter)
           await expect.poll(async () => {
             const top = await filter.evaluate(element => element.getBoundingClientRect().top)
 

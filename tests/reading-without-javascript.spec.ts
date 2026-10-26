@@ -53,7 +53,7 @@ const hasNoDocumentOverflow = (page: Page): Promise<boolean> => page.evaluate(()
   document.documentElement.scrollWidth <= document.documentElement.clientWidth
 ))
 
-const openContents = async (page: Page) => {
+const openNativeContents = async (page: Page) => {
   const opener = page.locator('[data-post-mobile-toc] [data-toc-opener]')
 
   if (await opener.isVisible()) {
@@ -113,7 +113,7 @@ for (const viewport of viewports) {
         await expect(share).toHaveAttribute('rel', 'noopener noreferrer')
       }
 
-      await openContents(page)
+      await openNativeContents(page)
 
       await page
         .getByRole('navigation', { name: 'Table of contents' })

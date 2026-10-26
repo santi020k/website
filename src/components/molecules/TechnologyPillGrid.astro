@@ -1,12 +1,12 @@
 ---
 import { getTechnologyPath } from '@/utils/links'
 
-import { AnimatedNumber, Card, Icon } from '@santi020k/lumen-astro'
+import { AnimatedNumber, Card, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
-  hiddenCount?: number
-  intro: string
+  projectCount: number
   technologies: [string, number][]
+  totalTechnologyCount: number
 }
 
 interface TechnologyLedgerGroup {
@@ -17,10 +17,9 @@ interface TechnologyLedgerGroup {
   technologies: [string, number][]
 }
 
-const { hiddenCount = 0, intro, technologies } = Astro.props
+const { projectCount, technologies, totalTechnologyCount } = Astro.props
 const featuredTechnologies = technologies.slice(0, 6)
 const supportingTechnologies = technologies.slice(6)
-const totalTechnologyCount = technologies.length + hiddenCount
 
 const ledgerGroups: TechnologyLedgerGroup[] = [
   {
@@ -46,30 +45,27 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
   variant="unstyled"
 >
   <div data-technology-snapshot-header>
-    <div class="max-w-2xl space-y-2">
-      <p data-technology-snapshot-title>Stack snapshot</p>
-      <p class="text-sm/6 text-ink-soft">{intro}</p>
+    <div class="space-y-3">
+      <p data-technology-snapshot-eyebrow>Behind the projects</p>
+      <h2 data-technology-snapshot-title id="technology-snapshot-heading">Follow the stack.</h2>
     </div>
 
     <dl data-technology-snapshot-stats>
       <div>
-        <dt class="text-xs text-ink-muted">Highlighted</dt>
-        <dd class="mt-1 text-xl font-medium tracking-[-0.055em] text-ink"><AnimatedNumber locale="en-US" value={technologies.length} /></dd>
-      </div>
-      <div>
-        <dt class="text-xs text-ink-muted">Full index</dt>
-        <dd class="mt-1 text-xl font-medium tracking-[-0.055em] text-ink"><AnimatedNumber locale="en-US" value={totalTechnologyCount} /></dd>
+        <dt>technologies used</dt>
+        <dd><AnimatedNumber locale="en-US" value={totalTechnologyCount} /></dd>
       </div>
     </dl>
   </div>
 
   <div data-technology-snapshot-body>
+    <p data-technology-snapshot-scope>
+      {technologies.length} selected {technologies.length === 1 ? 'technology' : 'technologies'} from {projectCount} personal {projectCount === 1 ? 'project' : 'projects'}.
+      Each count shows how many of those projects use the tool.
+    </p>
     {ledgerGroups.filter(group => group.ledger === 'featured' || group.technologies.length > 0).map(group => (
       <div class="space-y-3">
-        <div class="
-          flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1
-        "
-        >
+        <div class="space-y-1">
           <h3 class="site-label" id={group.headingId}>{group.label}</h3>
           <p class="text-xs/5 text-ink-muted">{group.copy}</p>
         </div>
@@ -85,12 +81,12 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
         </ul>
       </div>
     ))}
-    {hiddenCount > 0 && (
-      <a data-technology-snapshot-more href="/technologies/">
-        <span>Explore {hiddenCount} more</span>
-        <Icon name="arrow-right" size="sm" />
-      </a>
-    )}
+  </div>
+  <div data-technology-snapshot-footer>
+    <Link data-technology-snapshot-more href="/technologies/" variant="inherit">
+      <span>Explore the full technology index</span>
+      <Icon name="arrow-right" size="sm" />
+    </Link>
   </div>
 </Card>
 
@@ -113,19 +109,18 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
     background: hsl(var(--brand-soft));
   }
   [data-technology-snapshot-title] {
-    color: color-mix(in srgb, hsl(var(--technology-ledger-accent)) 85%, hsl(var(--ink)));
-    font-size: 1.375rem;
-    line-height: 1.875rem;
+    color: hsl(var(--ink));
+    font-size: 2.125rem;
+    line-height: 1.2;
     font-weight: 500;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.055em;
   }
+  [data-technology-snapshot-eyebrow] { color: color-mix(in srgb, hsl(var(--technology-ledger-accent)) 85%, hsl(var(--ink))); font-size: 0.75rem; line-height: 1.6; }
   [data-technology-snapshot-body] { display: grid; gap: 1.75rem; padding: 1.75rem; }
-  [data-technology-snapshot-stats] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
-  [data-technology-snapshot-stats] dd { font-size: 1.5rem; line-height: 2rem; }
-  [data-technology-snapshot-stats] > div + div {
-    border-inline-start: 1px solid hsl(var(--line) / 0.65);
-    padding-inline-start: 1.5rem;
-  }
+  [data-technology-snapshot-scope] { max-width: 54rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; }
+  [data-technology-snapshot-stats] > div { display: flex; flex-direction: column; gap: 0.375rem; }
+  [data-technology-snapshot-stats] dt { color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.6; }
+  [data-technology-snapshot-stats] dd { order: -1; color: hsl(var(--technology-ledger-accent)); font-size: 2.5rem; line-height: 1.2; font-weight: 500; letter-spacing: -0.055em; }
   [data-technology-ledger] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 1.5rem; }
   [data-technology-ledger] li { min-width: 0; border-bottom: 1px solid hsl(var(--line)); }
   [data-technology-ledger] a {
@@ -145,37 +140,36 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
   [data-technology-ledger='featured'] a { font-size: 1.0625rem; line-height: 1.625rem; }
   [data-technology-count] { flex-shrink: 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.25rem; }
   [data-technology-ledger='featured'] [data-technology-count] { color: hsl(var(--technology-ledger-accent)); }
-  [data-technology-snapshot-more] {
+  [data-technology-snapshot-footer] { border-top: 1px solid hsl(var(--line)); padding: 0.75rem 1.75rem; }
+  [data-technology-snapshot-footer] :global([data-technology-snapshot-more]) {
     display: flex;
     align-items: center;
-    justify-self: start;
+    justify-content: space-between;
     gap: 0.75rem;
     min-height: 2.75rem;
-    color: hsl(var(--technology-ledger-accent));
+    color: hsl(var(--ink));
     font-size: 0.875rem;
-    font-weight: 500;
+    line-height: 1.6;
+    font-weight: 400;
+    text-decoration: none;
   }
   [data-technology-ledger] a:is(:hover, :focus-visible) { color: hsl(var(--technology-ledger-accent)); }
-  [data-technology-snapshot-more]:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-technology-snapshot-footer] :global([data-technology-snapshot-more]:is(:hover, :focus-visible)) { color: hsl(var(--technology-ledger-accent)); text-decoration: underline; text-underline-offset: 0.25em; }
   @container technology-snapshot (width >= 36rem) {
     [data-technology-snapshot-header] { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
     [data-technology-snapshot-stats] { text-align: end; }
+  }
+  @container technology-snapshot (width < 36rem) {
+    [data-technology-snapshot-stats] > div { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 0.75rem; }
   }
   @container technology-snapshot (width < 32rem) {
     [data-technology-ledger] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @container technology-snapshot (width < 20rem) {
     [data-technology-snapshot-header], [data-technology-snapshot-body] { padding: 1.25rem; }
+    [data-technology-snapshot-footer] { padding-inline: 1.25rem; }
+    [data-technology-snapshot-title] { font-size: 1.875rem; }
     [data-technology-ledger] { grid-template-columns: minmax(0, 1fr); }
     [data-technology-ledger='featured'] a { font-size: 1rem; }
-  }
-  @container technology-snapshot (width < 18rem) {
-    [data-technology-snapshot-stats] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
-    [data-technology-snapshot-stats] > div + div {
-      border-inline-start: 0;
-      border-top: 1px solid hsl(var(--line) / 0.65);
-      padding-inline-start: 0;
-      padding-top: 1rem;
-    }
   }
 </style>

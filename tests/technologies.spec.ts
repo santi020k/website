@@ -26,7 +26,7 @@ test.describe('Technologies index page', () => {
 
   test('should render technology group labels', async ({ page }) => {
     // At least the Core group should always be present given the real data
-    await expect(page.locator('[data-technology-group]').getByText('Core', { exact: true })).toBeVisible()
+    await expect(page.locator('[data-technology-title]').filter({ hasText: /^Core\s*$/u })).toBeVisible()
   })
 
   test('should render grouped technology links with project counts', async ({ page }) => {

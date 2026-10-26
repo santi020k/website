@@ -28,7 +28,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.evaluate(() => document.fonts.ready)
       const stats = page.locator('#career-at-a-glance, #about-profile-highlights')
 
-      expect(requireValue(await stats.boundingBox()).height).toBeLessThan(600)
+      await expect(stats.locator('article')).toHaveCount(route === '/work/' ? 4 : 3)
       for (const stat of await stats.locator('article').all()) {
         const figure = requireValue(await stat.locator(':scope > p').boundingBox())
         const copy = requireValue(await stat.locator(':scope > div').boundingBox())
@@ -49,6 +49,8 @@ for (const theme of ['light', 'dark'] as const) {
 
           expect(copy.y).toBeGreaterThan(figure.y + figure.height)
           expect(copy.width).toBeCloseTo(row.width, 0)
+          expect(copy.y + copy.height).toBeLessThanOrEqual(row.y + row.height + 0.5)
+          expect(await stat.evaluate(element => element.scrollHeight - element.clientHeight)).toBeLessThanOrEqual(1)
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
       }
@@ -68,7 +70,9 @@ test('reading introductions use one responsive interval after the hero', async (
           await document.fonts.ready
         }, size)
         const opening = requireValue(await page.locator('[data-project-opening], [data-article-opening]').boundingBox())
-        const firstContent = page.locator('[data-project-mobile-toc]:visible, [data-post-mobile-toc]:visible, [data-content-notes]').first()
+        // The body starts with the mobile contents opener or the current reading
+        // introduction; articles and context-led projects no longer use notes headers.
+        const firstContent = page.locator('[data-reading-body] > div:first-child > :visible').first()
         const content = requireValue(await firstContent.boundingBox())
         const interval = (content.y - opening.y - opening.height) / (size / 100 * 16)
 

@@ -67,7 +67,8 @@ for (const width of [320, 390, 768, 1024, 1440]) {
 
         test('project actions fit their controls and the related-work shelf', async ({ page }) => {
           await openWithTextSize(page, '/portfolio/lumen-ui/', textSize)
-          await expectControlsFit(page.locator('main [data-slot="button-link"]'))
+          // Enhanced galleries hide their fallback anchors and expose dialog buttons.
+          await expectControlsFit(page.locator('main [data-slot="button-link"]:visible, main [data-gallery-control]:visible'))
           const browse = page.getByRole('link', { name: 'Browse all projects', exact: true })
 
           await page.keyboard.press('Tab')
@@ -81,7 +82,7 @@ for (const width of [320, 390, 768, 1024, 1440]) {
 
         test('article actions fit and the series title has one continuous focus outline', async ({ page }) => {
           await openWithTextSize(page, article, textSize)
-          await expectControlsFit(page.locator('main [data-slot="button-link"]'))
+          await expectControlsFit(page.locator('main [data-slot="button-link"]:visible'))
           const title = page.locator('[data-series-navigator-title]')
 
           await page.keyboard.press('Tab')
@@ -109,25 +110,46 @@ for (const route of ['/privacy/', '/terms/']) {
   }
 }
 
-for (const width of [1024, 1152, 1440]) {
-  test(`related-work header keeps its action below the copy at ${width}px`, async ({ page }) => {
+const expectRelatedWorkLayout = async (page: Page, stacked: boolean) => {
+  const layout = await page.locator('[data-section-header-shelf]').evaluate(element => {
+    const copy = element.querySelector('[data-chapter-copy]')
+    const footer = element.querySelector('[data-chapter-footer]')
+    const action = footer?.querySelector('a')
+
+    if (!copy || !footer || !action) throw new Error('Expected chapter copy, footer and action')
+    return {
+      copyLeft: copy.getBoundingClientRect().left,
+      copyRight: copy.getBoundingClientRect().right,
+      copyBottom: copy.getBoundingClientRect().bottom,
+      footerTop: footer.getBoundingClientRect().top,
+      footerLeft: footer.getBoundingClientRect().left,
+      footerBottom: footer.getBoundingClientRect().bottom,
+      footerRight: footer.getBoundingClientRect().right,
+      actionLeft: action.getBoundingClientRect().left,
+      actionRight: action.getBoundingClientRect().right
+    }
+  })
+
+  if (stacked) {
+    expect(layout.footerTop).toBeGreaterThan(layout.copyBottom)
+    expect(layout.actionLeft).toBeCloseTo(layout.copyLeft, 0)
+  } else {
+    expect(layout.footerLeft).toBeGreaterThan(layout.copyRight)
+    expect(layout.footerBottom).toBeCloseTo(layout.copyBottom, 0)
+    expect(layout.actionRight).toBeCloseTo(layout.footerRight, 0)
+  }
+}
+
+for (const { width, stacked } of [
+  { width: 390, stacked: true },
+  { width: 1024, stacked: false },
+  { width: 1152, stacked: false },
+  { width: 1440, stacked: false }
+]) {
+  test(`related-work header keeps its action beside or below readable copy at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await openWithTextSize(page, '/portfolio/lumen-ui/', 100)
-    const layout = await page.locator('[data-section-header-shelf]').evaluate(element => {
-      const copy = element.querySelector('[data-chapter-copy]')
-      const footer = element.querySelector('[data-chapter-footer]')
-      const action = footer?.querySelector('a')
-
-      if (!copy || !footer || !action) throw new Error('Expected chapter copy, footer and action')
-      return {
-        copyBottom: copy.getBoundingClientRect().bottom,
-        footerTop: footer.getBoundingClientRect().top,
-        footerRight: footer.getBoundingClientRect().right,
-        actionRight: action.getBoundingClientRect().right
-      }
-    })
-
-    expect(layout.footerTop).toBeGreaterThan(layout.copyBottom)
-    expect(Math.abs(layout.footerRight - layout.actionRight)).toBeLessThan(1)
+    await expect(page.locator('[data-section-header-shelf]')).toBeVisible()
+    await expectRelatedWorkLayout(page, stacked)
   })
 }

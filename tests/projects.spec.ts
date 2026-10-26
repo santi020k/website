@@ -38,6 +38,49 @@ for (const width of [320, 375, 768, 1440]) {
   }
 }
 
+for (const javaScriptEnabled of [true, false]) {
+  test.describe(`Project chapter links with JavaScript ${javaScriptEnabled ? 'enabled' : 'disabled'}`, () => {
+    test.use({ javaScriptEnabled })
+
+    test('connect category headings with accurate counts and keyboard-operable fragments', async ({ page }) => {
+      await page.setViewportSize({ height: 900, width: 320 })
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.goto('/projects/#developer-tools')
+      await page.evaluate(() => {
+        document.documentElement.style.fontSize = '200%'
+      })
+
+      const categories = [
+        { id: 'developer-tools', title: 'Developer tools' },
+        { id: 'apps', title: 'Apps' },
+        { id: 'experiments', title: 'Experiments' }
+      ]
+      for (const category of categories) {
+        const navigation = page.getByRole('navigation', { name: `Explore beyond ${category.title}` })
+        await expect(navigation.getByRole('link')).toHaveCount(categories.length - 1)
+        for (const destination of categories.filter(item => item.id !== category.id)) {
+          const count = await page.locator(`#${destination.id} [data-project-gallery-card]`).count()
+          const link = navigation.getByRole('link', { name: `${destination.title} ${count} ${count === 1 ? 'project' : 'projects'}`, exact: true })
+          await expect(link).toHaveAttribute('href', `#${destination.id}`)
+          await expect(link).not.toHaveAttribute('target', '_blank')
+          expect(await link.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true)
+        }
+      }
+
+      for (const [from, to] of [['Developer tools', 'apps'], ['Apps', 'experiments'], ['Experiments', 'developer-tools']] as const) {
+        const link = page.getByRole('navigation', { name: `Explore beyond ${from}` }).locator(`a[href="#${to}"]`)
+        await link.focus()
+        await expect(link).toBeFocused()
+        await expect(link).toHaveCSS('outline-style', 'solid')
+        await page.keyboard.press('Enter')
+        await expect(page).toHaveURL(new RegExp(`/projects/#${to}$`, 'u'))
+        await expect(page.locator(`#${to}`)).toBeFocused()
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320)
+    })
+  })
+}
+
 test('product-first cards keep concise copy and distinguish the website from the case study', async ({ page: screen }) => {
   await screen.goto('/projects/')
   const postlens = screen.locator('[data-project-gallery-card]').filter({
