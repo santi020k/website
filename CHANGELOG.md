@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Refine About recommendations with Quote sleeve cards, placing each complete quote before a ruled author footer while preserving Reading rows, all attribution details, and responsive accessibility.
+
 - Keep article comments behind Discussion fold, loading the existing widget on activation while preserving direct comment links, keyboard access, theme updates, and the GitHub fallback.
 
 - Arrange About recommendations as full-width reading rows while preserving every quote, attribution, and shared testimonial card.

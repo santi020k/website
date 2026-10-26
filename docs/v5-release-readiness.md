@@ -318,3 +318,20 @@ two mobile-browser counter checks. Coverage includes content preservation, nativ
 destinations, keyboard use, shared spacing, statistics and enlarged-text layouts.
 Affected lint passed with zero warnings. Matched full-page desktop and mobile
 captures in both themes were reviewed.
+
+## Quote sleeve follow-up
+
+The approved About recommendation cards from `67f83c68` are integrated through
+`fbf55d99`. Quote sleeve places the complete quote before a ruled author footer,
+using the existing Lumen Card, Icon and Avatar with two shared shape/shadow tokens.
+Reading rows and the LinkedIn destination remain unchanged. No attribution data,
+component props or client behavior changed.
+
+All 42 scoped Chromium/WebKit cases passed with retries disabled, covering About
+accessibility, profile content, enlarged-text reflow and passive-card behavior.
+Additional desktop/mobile checks compared the rendered quotes, names, roles and
+relationships exactly against the source data; all four matched. Before-and-after
+captures in both themes were reviewed. Zero-warning affected lint, the current
+production build and 452-page OG audit passed. Resume PDFs were regenerated for
+the shared-token fingerprint and passed their freshness check. The patch note is
+folded into 5.0.0 while the published changelog remains unchanged.
