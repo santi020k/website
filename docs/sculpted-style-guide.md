@@ -860,10 +860,15 @@ with 0.75rem corners, and the role, complete 1.75rem title, full description, an
 Keep a 2.5rem column gap and 2rem vertical padding. The project color accents the
 index, uppercase role, and plain forward reading action.
 
-The list owns the `related-list` container. Below 56rem, tighten the columns;
-below 42rem, put the copy beneath the numbered artwork and use a 16:9 image.
-Below 22rem, use a 1.5rem title. Below 16rem, omit the decorative index and reduce
-the title to 1.25rem; below 14rem, omit the decorative arrow.
+The list owns the `related-list` container. Below 56rem, tighten the columns.
+Below 42rem, pair a 5.5rem square thumbnail with the role and 1.375rem title.
+Place the decorative index at the end of the role line, reserving space so long
+roles cannot overlap it. Give the full description its own full-width row with
+1.75 leading, followed by a 44px-minimum action with the arrow at the far edge.
+Use 1rem gaps, 1.5rem top padding, and 1rem bottom padding for a compact reading rhythm.
+Below 20rem, use a 4.5rem thumbnail and 1.25rem title. Below 16rem, omit the
+decorative artwork and index so enlarged text has the full width;
+below 14rem, omit the decorative arrow.
 Never clamp content. Keep the existing selection, order, descriptions, and destinations
 without adding dates or technology inventories.
 
