@@ -1648,6 +1648,17 @@ backticks, HTML, and notation comments; do not turn source into Markdown or tabs
 Let Lumen assign imported cue IDs across the page so they cannot collide with fenced
 examples. No separate client controller or visual variant is needed.
 
+Example fold applies to standalone article examples longer than 24 lines, ignoring
+trailing blank lines when counting. Show the first 12 lines below a native disclosure
+with “Show full example” and the complete line count. Opening replaces that preview
+with the complete highlighted source; closing restores the preview. Keep Copy in
+the existing header and always copy the full example. The summary remains reachable
+by keyboard, and each visible code region retains horizontal scrolling and its cue.
+Use the same behavior for Markdown fences and imported files, with independent
+Lumen scroll-cue regions and no custom disclosure controller. Preserve short examples,
+package-manager tabs, project code, line offsets, and all source content. Native
+disclosure works without JavaScript; print exposes full code without the preview.
+
 Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
 when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
 and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match

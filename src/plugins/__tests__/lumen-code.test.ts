@@ -21,6 +21,28 @@ const transform = (children: Element[], path = '/repo/src/content/post/example/i
   .runSync({ children, type: 'root' }, { path })
 
 describe('article Code folio', () => {
+  test('folds grid-style lines without literal newlines while retaining code and unique targets', () => {
+    const block = figure()
+    const pre = block.children[0]
+    if (pre?.type !== 'element') throw new Error('Missing pre')
+    const code = pre.children[0]
+    if (code?.type !== 'element') throw new Error('Missing code')
+    const lines = Array.from({ length: 25 }, (_, index) => `const value${index} = ${index}`)
+    code.properties.style = 'counter-set: line 19'
+    code.children = lines.map((line, index) => element('span', { dataLine: '', id: `line-${index}` }, [text(line)]))
+    const original = structuredClone(code.children)
+
+    transform([block])
+
+    const serialized = JSON.stringify(block)
+    expect(serialized).toContain('dataExampleFold')
+    expect(serialized).toContain('25 lines')
+    expect(serialized.match(/"id":"line-0"/gu)).toHaveLength(1)
+    expect(code.children).toEqual(original)
+    expect(code.properties.style).toBe('counter-set: line 19')
+    expect(serialized).toContain(JSON.stringify(lines.join('\n')))
+  })
+
   test('preserves authored code, highlighting, and filenames while providing accessible copy states', () => {
     const block = figure('<script>literal & safe</script>', 'html', 'a/long/example.html')
     const pre = block.children.find(node => node.type === 'element' && node.tagName === 'pre')

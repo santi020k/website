@@ -187,12 +187,72 @@ interface Options {
   imported?: ImportedCodeMetadata
 }
 
+const FOLD_AFTER_LINES = 24
+const PREVIEW_LINES = 12
+
+const codeSource = (code: Element): string => code.children
+  .filter(child => isElement(child) && dataProperty(child, 'line') !== undefined)
+  .map(nodeText)
+  .join('\n')
+
+const createExampleFold = (pre: Element, lineCount: number): Element[] => {
+  const preview = structuredClone(pre)
+  const previewCode = preview.children.find(child => child.type === 'element' && child.tagName === 'code')
+
+  if (previewCode?.type !== 'element') return [pre]
+
+  let lines = 0
+  const previewChildren: ElementContent[] = []
+
+  for (const child of previewCode.children) {
+    previewChildren.push(child)
+
+    if (isElement(child) && dataProperty(child, 'line') !== undefined) lines += 1
+
+    if (lines === PREVIEW_LINES) break
+  }
+
+  previewCode.children = previewChildren
+
+  // A preview must not duplicate authored fragment targets or descriptions.
+  visit(preview, 'element', node => {
+    delete node.properties.id
+
+    delete node.properties.ariaDescribedBy
+  })
+
+  preview.properties.ariaLabel = `Preview, first ${PREVIEW_LINES} lines: ${String(pre.properties.ariaLabel)}`
+
+  pre.properties.dataCodeComplete = ''
+
+  const region = (content: Element, properties: Element['properties'] = {}) => element('div', {
+    dataCodeFoldRegion: '', dataUiScrollCue: '', ...properties
+  }, [content, createLumenScrollCue(undefined, 'Scroll horizontally to read more')])
+
+  return [
+    element('details', { dataExampleFold: '', dataUiCollapsible: '' }, [
+      element('summary', {}, [
+        element('span', { dataFoldExpand: '' }, [text('Show full example')]),
+        element('span', { dataFoldCollapse: '' }, [text('Collapse example')]),
+        element('span', { dataFoldCount: '' }, [text(`${lineCount} lines · Copy includes the complete example`)])
+      ]),
+      region(pre)
+    ]),
+    region(preview, { dataCodePreview: '' })
+  ]
+}
+
 const convertFigure = (
   figure: Element, exampleNumber: number, folio: boolean, imported?: ImportedCodeMetadata
 ): void => {
   const metadata = getCodeMetadata(figure)
   const { language, pre } = metadata
   const label = imported?.label ?? metadata.label
+  const code = getCodeElement(figure)
+  // Pretty Code's grid output has line elements without literal newline nodes.
+  const source = code ? codeSource(code) : ''
+  const lineCount = source.trimEnd().split('\n').length
+  const fold = folio && pre && code && lineCount > FOLD_AFTER_LINES
 
   figure.properties.className = [...classNames(figure), 'ui-code', 'ui-code--block']
 
@@ -205,14 +265,12 @@ const convertFigure = (
   if (folio) {
     figure.properties.dataArticleCodeFolio = ''
 
-    const code = getCodeElement(figure)
-
     if (code && dataProperty(code, 'line-numbers') === undefined) {
       code.properties.dataLineNumbers = ''
     }
   }
 
-  if (folio && pre) figure.properties.dataUiScrollCue = ''
+  if (folio && pre && !fold) figure.properties.dataUiScrollCue = ''
 
   if (pre) {
     pre.properties.tabIndex = 0
@@ -223,12 +281,14 @@ const convertFigure = (
   }
 
   figure.children = [
-    createHeader(language, label, folio, imported?.copyValue),
-    ...figure.children.filter(child => (
+    createHeader(language, label, folio, imported?.copyValue ?? (fold ? source : undefined)),
+    ...figure.children.flatMap(child => (
+      fold && child === pre ? createExampleFold(pre, lineCount) : [child]
+    )).filter(child => (
       child.type !== 'element' ||
       dataProperty(child, 'rehype-pretty-code-title') === undefined
     )),
-    ...(folio && pre ?
+    ...(folio && pre && !fold ?
       [createLumenScrollCue(imported ? undefined : `article-code-scroll-cue-${exampleNumber}`, 'Scroll horizontally to read more')] :
       [])
   ]
