@@ -35,5 +35,12 @@
     "WEBMENTION_URL",
     "WEBMENTION_PINGBACK",
     "npm_lifecycle_event"
+  ],
+  "globalPassThroughEnv": [
+    "CI_BASE_SHA",
+    "CI_HEAD_SHA",
+    "GITHUB_EVENT_NAME",
+    "GITHUB_HEAD_REF",
+    "GITHUB_OUTPUT"
   ]
 }

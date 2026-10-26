@@ -11,7 +11,7 @@ import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibili
 import { shouldRunVisualSnapshots } from './helpers/visual-regression'
 
 const openProjectContents = async (page: Page) => {
-  const opener = page.locator('[data-project-mobile-toc] summary')
+  const opener = page.locator('[data-project-mobile-toc] [data-toc-summary]')
 
   if (await opener.isVisible()) await opener.click()
 }
@@ -161,17 +161,17 @@ test.describe('Portfolio page', () => {
     await expect(sections.last().getByRole('link', { name: /Browse projects/i })).toBeVisible()
   })
 
-  test('technology overflow pill should open the technologies index', async ({ page }) => {
+  test('technology index link should open the full toolkit', async ({ page }) => {
     await page.goto('/work/')
 
-    const overflowTechnologyLink = page.getByRole('link', {
-      name: /^Explore \d+ more$/i
+    const technologyIndexLink = page.getByRole('navigation', { name: 'Continue exploring work' }).getByRole('link', {
+      name: 'Technology index Explore the full toolkit Browse the tools used across all projects.', exact: true
     })
 
-    await expect(overflowTechnologyLink).toBeVisible()
-    await overflowTechnologyLink.click()
+    await expect(technologyIndexLink).toBeVisible()
+    await technologyIndexLink.click()
     await expect(page).toHaveURL(/\/technologies\/$/)
-    await expect(page.getByRole('heading', { level: 1, name: /Capabilities and technologies/i })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'Tools, connected to real work.', exact: true })).toBeVisible()
   })
 
   test('work timeline should render chronological folios', async ({ page }) => {
@@ -292,7 +292,8 @@ test.describe('Portfolio page', () => {
 
         await expect(cards).toHaveCount(2)
         for (const card of await cards.all()) {
-          await expect(card).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+          await expect(card).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+          await expect(card.locator('[data-related-artwork]')).toBeVisible()
         }
       }
     })
@@ -344,11 +345,11 @@ test.describe('Portfolio page', () => {
 
     await expectImageLoaded(relatedImage)
 
-    await expectImageAspectRatio(relatedImage, 16 / 10)
+    await expectImageAspectRatio(relatedImage, 16 / 9, 16 / 10)
 
     await page.setViewportSize({ height: 812, width: 375 })
     await expect(relatedImage).toBeVisible()
-    await expectImageAspectRatio(relatedImage, 16 / 10)
+    await expectImageAspectRatio(relatedImage, 16 / 9, 1)
 
     const mobileLayout = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,

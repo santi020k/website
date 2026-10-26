@@ -9,7 +9,8 @@ for (const theme of ['light', 'dark']) {
         await page.addInitScript(value => {
           localStorage.setItem('theme', value)
         }, theme)
-        for (const route of ['/speaking/', '/technologies/', '/developer-experience/']) {
+        // Technology pages use their own evidence ledger/index, covered in those suites.
+        for (const route of ['/speaking/', '/developer-experience/']) {
           await page.goto(route)
           await page.evaluate(size => {
             document.documentElement.style.fontSize = `${size}%`
@@ -53,8 +54,10 @@ test('statistics retain word qualifiers, text values, and accessible animated nu
 
   await expect(community.locator('[data-stat-metric]')).toHaveText(/Since\s+2017/u)
   await expect(writing.locator('[data-stat-metric]')).toHaveText(/\d+\s+posts/u)
-  await page.goto('/technologies/')
-  await expect(cards.locator('[data-stat-value]').filter({ hasText: 'Full stack' })).toBeVisible()
+  await page.goto('/blog/tags/developer-experience/')
+  const pagination = cards.filter({ has: page.locator('[data-slot="stat-label"]', { hasText: 'Page' }) })
+
+  await expect(pagination.locator('[data-stat-value]')).toHaveText(/^1 \/ [1-9]\d*$/u)
   await page.goto('/developer-experience/')
   const outcome = cards.filter({ has: page.locator('[data-slot="stat-label"]', { hasText: 'Delivery outcome' }) })
 
@@ -65,7 +68,7 @@ test('statistics retain word qualifiers, text values, and accessible animated nu
 test('archive summaries use the full row for their actual number of statistics', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  for (const route of ['/blog/series/', '/blog/tags/', '/blog/tags/developer-experience/', '/blog/tags/gaming/', '/technologies/react-js/', '/technologies/3rd-party-apis/']) {
+  for (const route of ['/blog/series/', '/blog/tags/', '/blog/tags/developer-experience/', '/blog/tags/gaming/']) {
     await page.goto(route)
     const cards = page.locator('[data-sculpted-stat]')
     const lastCard = cards.last()

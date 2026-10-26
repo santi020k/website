@@ -1600,20 +1600,19 @@ Keep Reading measure, native markers, numbering, authored links and emphasis,
 and the existing list spacing and indentation rules. Preserve list markup and
 embedded component layouts without a transform or client script.
 
-### Margin imprint article publication details
+### Reading imprint article publication details
 
-Article headers use one semantic description list between fine horizontal rules.
-Give the published date a purple left rule, 1.4375rem type, and a wider first column.
-Read time and word count sit beside it with neutral margin rules, 0.75rem sentence-case
-labels, and 1rem values. An optional update date occupies a quiet row beneath those
-two details; omit that row and its space when no update date exists. Keep native
-Lumen `FormattedDate` output and the existing reading-stat calculations.
+Article headers group two native description lists between fine horizontal rules.
+The wider left group holds the published date and its optional update line beside a
+purple rule. The right group holds Reading, the reading duration, and a quiet word
+count beside a neutral rule. Keep native Lumen `FormattedDate` output and the existing
+reading-stat calculations. Omit the update line and its spacing when no update exists.
 
-Use 1.5rem vertical insets and column gaps, with 1.125rem inside each margin rule.
-Below 32rem of available width, put the published date above two reading-detail
-columns and let the update line span the full width. Below 16rem, stack all details
-and the update label. Preserve whole labels, complete values, and both theme palettes
-with enlarged text. This passive composition adds no client JavaScript.
+Use 1.375rem main values, 0.75rem labels and secondary details, 1.5rem vertical insets
+and column gaps, and 1.125rem inside each margin rule. Below 32rem, reduce main values
+to 1.25rem and the gap to 1rem. Below 20rem, use 1.125rem values and a 0.75rem gap.
+Keep both groups beside each other on phones; below 16rem of available width, stack
+them so enlarged text remains readable. This passive composition adds no client JavaScript.
 
 ### Margin topics article links
 
@@ -1622,6 +1621,12 @@ label in a 6.75rem margin. Put the existing topic links in a wrapping semantic l
 beside a 2px purple rail. Use 1.0625rem medium-weight text, fine link underlines,
 small directional arrows, and 44px minimum targets. A fine bottom rule closes the
 composition. Keep every topic, its order, and its canonical archive destination.
+
+On standalone articles, place the article link action at the right of this same
+composition instead of giving it a separate bordered row. Below 48rem, pair it
+with the Topics heading above the links. Allow that header to wrap with enlarged
+text, and keep the action outside the named topic navigation. If an article has
+no topics, label the remaining utility group Share.
 
 Below 32.5rem of available width, place the label above the list. Tighten the rail
 inset and text at 18.75rem and 14rem; allow decorative arrows to wrap below a long
@@ -1690,9 +1695,10 @@ preserve both clipboard controllers, their accessible feedback, and native shari
 
 Below 32rem of available width, stack the utility beneath the series and use a
 1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
-themes. Standalone articles keep only the utility, and syndicated articles retain
-Read on Medium in that position. The Blog breadcrumb replaces the redundant
-Browse blog button. No additional client behavior is needed.
+themes. Standalone articles place their utility in the Topics group instead;
+syndicated articles retain Read on Medium in the applicable utility position.
+The Blog breadcrumb replaces the redundant Browse blog button. No additional
+client behavior is needed.
 
 ### Margin lead article opening
 
@@ -2181,8 +2187,8 @@ condition the semantic sidebar `<aside>` stays sticky, caps its height to the vi
 header, and scrolls natively; inline padding keeps the table of contents' active marker and focus
 rings visible. Otherwise rails stay in normal flow. The generic `editorial-rail` utility, such as
 the 404 suggestions, never becomes a scrolling region. Hero metadata grids use a named
-`editorial-meta` container: article publication dates move above two reading-detail columns below 32rem
-and stack below 16rem. Project roles span both supporting facts below 37rem, and all project
+`editorial-meta` container: article publication dates and reading statistics form two groups,
+which stack below 16rem. Project roles span both supporting facts below 37rem, and all project
 facts stack below 22.5rem, so enlarged labels never split mid-word. Project covers keep artwork
 clear of duplicate facts and captions at every width. Pills, resume
 contacts, history actions, and talk links wrap inside their containers with enlarged text.
@@ -2306,7 +2312,7 @@ historical sites use their existing image treatment.
 
 ### Cover spread article and project openings
 
-Place the headline and artwork before the summary, author, Margin imprint publication
+Place the headline and artwork before the summary, author, Reading imprint publication
 facts, Margin topics links, and existing article actions. Project openings use the same shared
 `CoverSpread` layout, retain the project title gradient, and place the description, Margin imprint
 project facts, actions, and Sculpted band technology strip below the artwork. Landscape artwork keeps its native
