@@ -19,18 +19,33 @@ interface Props {
 
 const { currentPostId, next, position, posts, previous, series, total } = Astro.props
 const seriesPath = getSeriesPath(series.id)
+const isLatestChapter = !next
 ---
 
-<section class="not-prose mt-16 py-8" data-series-content id="series-navigation">
+<section class="not-prose mt-16 py-8" data-series-content data-series-close={isLatestChapter || undefined} id="series-navigation">
   <header data-series-intro>
     <div data-series-context>
-      <span>Continue the series</span>
+      <span>{isLatestChapter ? 'Latest published chapter' : 'Continue the series'}</span>
       <span data-series-position>Post {position} of {total}</span>
     </div>
-    <h2 data-series-heading>
-      <a data-series-navigator-title href={seriesPath}>{series.data.title}</a>
-    </h2>
-    <p data-series-description>{series.data.description}</p>
+    {isLatestChapter ?
+(
+      <>
+        <h2 data-series-heading>At the latest chapter.</h2>
+        <a data-series-navigator-title href={seriesPath}>{series.data.title}</a>
+        <p data-series-description>
+          {previous ? 'Revisit an earlier chapter, or explore the series overview.' : 'Explore the series overview.'}
+        </p>
+      </>
+    ) :
+(
+      <>
+        <h2 data-series-heading>
+          <a data-series-navigator-title href={seriesPath}>{series.data.title}</a>
+        </h2>
+        <p data-series-description>{series.data.description}</p>
+      </>
+    )}
   </header>
 
   {(previous ?? next) && (
@@ -45,7 +60,15 @@ const seriesPath = getSeriesPath(series.id)
           href={getPostPath(previous.id)}
           rel="prev"
         >
-          <span data-series-adjacent-direction>
+          {isLatestChapter ?
+(
+            <span data-series-close-meta>
+              <span data-series-adjacent-direction>Previous<span class="sr-only"> in series</span></span>
+              <span data-series-adjacent-part>Part {String(position - 1).padStart(2, '0')}</span>
+            </span>
+          ) :
+(
+            <span data-series-adjacent-direction>
             <Icon
 class="
   size-4.5 shrink-0 text-brand
@@ -54,9 +77,22 @@ class="
 name="arrow-left"
             />
             <span>Previous in series</span>
-          </span>
+            </span>
+          )}
           <h3 data-series-adjacent-title>{previous.data.title}</h3>
-          <span data-series-adjacent-part>Part {String(position - 1).padStart(2, '0')}</span>
+          {isLatestChapter ?
+(
+            <Icon
+class="
+  size-4 shrink-0 text-brand
+  dark:text-accent
+"
+name="arrow-left"
+            />
+          ) :
+(
+            <span data-series-adjacent-part>Part {String(position - 1).padStart(2, '0')}</span>
+          )}
         </a>
       )}
 
@@ -300,6 +336,50 @@ name="arrow-right"
     color: hsl(var(--ink-soft));
     font-size: 0.75rem;
     line-height: 1.25rem;
+  }
+
+  [data-series-close] [data-series-navigator-title] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  [data-series-close] [data-series-description] { margin-block-start: 0.25rem; }
+  [data-series-close] [data-series-adjacent] {
+    display: grid;
+    grid-template-columns: 4.75rem minmax(0, 1fr) 1rem;
+    align-items: center;
+    gap: 1.25rem;
+    padding-block: 1.5rem;
+  }
+  [data-series-close-meta] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  [data-series-close] [data-series-adjacent-direction] { color: var(--series-emphasis); }
+  [data-series-close] [data-series-adjacent-part] { margin: 0; padding: 0; }
+  [data-series-close] [data-series-adjacent-title] {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.55;
+  }
+  [data-series-close] [data-series-pagination] + [data-series-fold] { margin-block-start: 0.5rem; }
+
+  @container series-navigation (width < 32.5rem) {
+    [data-series-close] [data-series-adjacent] {
+      grid-template-columns: minmax(0, 1fr) 1rem;
+      gap: 0.75rem 1rem;
+    }
+    [data-series-close-meta] {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.875rem;
+    }
   }
 
   @container series-navigation (width < 25rem) {
