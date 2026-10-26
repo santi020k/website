@@ -318,6 +318,11 @@ enlarged text sizes. No new client controller is introduced.
   build time. Native headings, generated fragments, and inline links remain intact;
   a span keeps formatted titles together beside a CSS rule. The article prose container
   adapts the typography and rule spacing without client code or a second Lumen runtime.
+- `ProjectCapabilitySpread` and `ProjectCapabilityEntry` compose Lumen's six capabilities
+  as a named native list with open ruled entries, decorative numbers, and h4 labels.
+  They preserve authored MDX descriptions and inline code, use semantic tokens, and stack
+  below 35rem of available width. No Lumen control or client controller is needed for this
+  passive editorial composition; other project lists retain Ownership ledger.
 - `ProjectEvidenceBrief` groups authored qualifications with named external references in
   an open semantic section. Lumen `Link` supplies safe new-tab behavior and `Icon` supplies
   decorative arrows. Keep the reference URLs and qualifications in the project content;

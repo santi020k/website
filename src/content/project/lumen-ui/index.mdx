@@ -61,6 +61,10 @@ import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.
 
 import ProjectEvidenceBrief from '@/components/molecules/ProjectEvidenceBrief.astro'
 
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+
 <ProjectContextLead projectId="lumen-ui" headingId="a-shared-language-for-web-and-native-interfaces">
 
 ## A shared language for web and native interfaces
@@ -102,18 +106,45 @@ Applications keep their business rules, data, routing, and recovery policy.
 
 </ProjectSectionHeading>
 
-- **Accessible controls and feedback:** buttons, disclosures, dialogs, fields, clipboard actions,
-  progress, and error states with explicit interaction contracts.
-- **Operational interfaces:** data tables, calendars, Kanban layouts, navigation, and complete
-  dashboard templates that applications compose around their own state and workflows.
-- **Data and presentation:** charts, `WorldMap`, `DeviceFrame`, and image comparison for readable
-  product stories, analytics, and media experiences.
-- **Motion with restraint:** reveal groups, animated numbers, and layout motion with stable content
-  and reduced-motion paths.
-- **Native foundations:** React Native, SwiftUI, and Compose adapters, alongside focused WidgetKit
-  and Wear OS surfaces that respect their host platforms.
-- **Design and AI resources:** a Figma library, portable agent skill, MCP catalog, CLI recipes,
-  `llms.txt`, and machine-readable component and styling contracts.
+<ProjectCapabilitySpread labelledBy="what-lumen-4-brings-together">
+
+<ProjectCapabilityEntry number={1} title="Accessible controls and feedback">
+
+buttons, disclosures, dialogs, fields, clipboard actions, progress, and error states with explicit interaction contracts.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title="Operational interfaces">
+
+data tables, calendars, Kanban layouts, navigation, and complete dashboard templates that applications compose around their own state and workflows.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title="Data and presentation">
+
+charts, `WorldMap`, `DeviceFrame`, and image comparison for readable product stories, analytics, and media experiences.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title="Motion with restraint">
+
+reveal groups, animated numbers, and layout motion with stable content and reduced-motion paths.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title="Native foundations">
+
+React Native, SwiftUI, and Compose adapters, alongside focused WidgetKit and Wear OS surfaces that respect their host platforms.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title="Design and AI resources">
+
+a Figma library, portable agent skill, MCP catalog, CLI recipes, `llms.txt`, and machine-readable component and styling contracts.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
 
 <ProjectSectionHeading>
 

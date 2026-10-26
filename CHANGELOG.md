@@ -262,6 +262,8 @@
 
 - Consolidate Lumen closing destinations with Unified return. Move the existing playground link into the page-end navigation, preserve the website, previews and repository links, and remove the duplicate narrative invitation while retaining the closing takeaway.
 
+- Present Lumen capabilities as Capability spread. Keep all six descriptions and inline code in an open two-column list with numbered entries, clear headings and a single-column layout on narrow screens.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

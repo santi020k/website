@@ -1038,6 +1038,19 @@ and standalone emphasized claims use the full row, without inventing a missing c
 Keep nested lists and ordered-list numbering semantic. This passive composition has
 no card fill, shadow, decorative dots, or hover feedback.
 
+### Capability spread project entries
+
+Lumen's six capability entries use an open two-column spread with 1.75rem gaps.
+Each entry starts with a fine neutral rule, 1.5rem top inset, and a decorative
+0.75rem accent number. Use a 1.25rem, weight-500 h4 with 1.4 line height, then
+the complete description at 0.9375rem with 1.733 leading. Leave 0.75rem between
+number, title, and copy. Preserve inline code and the authored entry order.
+
+Below 35rem of available width, stack the entries in one column. Keep native
+list semantics and associate the list with its existing Section cadence heading.
+Entry headings do not add chapter navigation destinations. Use no card fill,
+hover behavior, or client script; other project lists retain Ownership ledger.
+
 ### Gallery sheet product previews
 
 Contextual gallery places the existing Gallery sheets inside the relevant story
