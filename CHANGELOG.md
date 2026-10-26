@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Clarify the Speaking booking invitation with a full-width WhatsApp introduction action and a secondary LinkedIn link for a fuller brief, preserving the existing briefing URL and complete session notes.
+
 - Add purpose notes and native planning links to the four Speaking formats while preserving complete descriptions and directing visitors to the existing booking brief.
 
 - Render imported article examples with the shared Code folio, retaining literal source, complete filenames, accessible copy states, line numbers, and horizontal scroll guidance.

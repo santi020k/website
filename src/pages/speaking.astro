@@ -16,7 +16,7 @@ import SpeakerPortrait from '@/assets/photos/originals/me-1-square.webp'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { getPortfolioPath } from '@/utils/links'
 
-import { Card, Icon, RevealGroup } from '@santi020k/lumen-astro'
+import { Card, Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
 
 import { speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
 import {
@@ -292,10 +292,19 @@ class="size-6.5"
             Include the event, audience, date range, preferred format, and the outcome
             you want attendees to leave with.
           </p>
-          <div class="section-actions" data-invitation-action>
-            <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
-              Start the conversation
-            </ButtonLink>
+          <div data-invitation-action>
+            <div>
+              <p data-invitation-channel-label>For a quick introduction</p>
+              <ButtonLink className="w-full justify-between" href={speakingWhatsAppHref} newTab showArrow>
+                Message on WhatsApp
+              </ButtonLink>
+            </div>
+            <div data-invitation-secondary>
+              <p data-invitation-channel-label>Prefer a fuller brief?</p>
+              <Link data-invitation-link href={siteConfig.contact.linkedin} newTab variant="inherit">
+                <span>Connect on LinkedIn</span><Icon data-invitation-link-icon name="arrow-up-right" size="sm" />
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -454,7 +463,14 @@ class="size-6.5"
     letter-spacing: 0;
   }
 
-  [data-invitation-action] { max-width: 100%; margin-top: auto; }
+  [data-invitation-action] { width: 100%; max-width: 100%; margin-top: auto; }
+  [data-speaking-invitation] [data-invitation-channel-label] { margin-bottom: 0.5rem; font-size: 0.6875rem; line-height: 1.8; }
+  [data-invitation-secondary] { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid hsl(var(--line)); }
+  [data-invitation-link] { display: flex; min-height: 2.75rem; align-items: center; justify-content: space-between; gap: 0.75rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; line-height: 1.8; text-decoration: none; }
+  [data-invitation-link] span { min-width: 0; overflow-wrap: anywhere; }
+  [data-invitation-link] :global([data-invitation-link-icon]) { flex-shrink: 0; color: hsl(var(--brand)); }
+  [data-invitation-link]:hover span { text-decoration: underline; text-underline-offset: 0.25rem; }
+  [data-invitation-link]:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 0.25rem; }
   [data-invitation-notes] { min-width: 0; padding: 0.625rem 1.625rem; }
   [data-invitation-note] { padding-block: 1.4375rem; }
   [data-invitation-note] + [data-invitation-note] { border-top: 1px solid hsl(var(--line)); }
@@ -469,6 +485,7 @@ class="size-6.5"
   }
 
   :global([data-theme='dark']) [data-invitation-icon] { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-invitation-link] :global([data-invitation-link-icon]) { color: hsl(var(--accent)); }
 
   @container speaking-booking (width >= 32rem) {
     [data-invitation-grid] { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }

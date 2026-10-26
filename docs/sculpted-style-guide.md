@@ -818,6 +818,14 @@ above the notes; reduce insets below 20rem and 14rem so enlarged text retains ro
 Preserve the WhatsApp briefing URL, new-tab protection, visible keyboard focus, and
 the existing reduced-motion-aware note reveals. Keep these styles scoped to Speaking.
 
+Use **Contact captions** in the tinted invitation column. Place “For a quick
+introduction” above the full-width “Message on WhatsApp” action, preserving its
+existing briefing URL. Below a fine rule, add “Prefer a fuller brief?” and a quiet
+“Connect on LinkedIn” Lumen link using the shared contact configuration. Both
+destinations open in protected new tabs. Keep the secondary link at least 44px
+high, with a decorative accent arrow and visible keyboard focus. Preserve the
+complete briefing prompt, all three notes, and the existing responsive layout.
+
 ### Quote sleeve About recommendation cards
 
 Use one opaque Lumen Card with a fine accent-tinted border, 2.5rem corners except

@@ -68,14 +68,16 @@ test.describe('Speaking page', () => {
     })).toBe(true)
   })
 
-  test('should keep the booking brief and protected contact action accessible', async ({ page }) => {
+  test('should keep the booking brief and protected contact actions accessible', async ({ browserName, page }) => {
     const booking = page.getByRole('region', { name: 'Start with a brief.' })
     await expect(booking).toContainText('Include the event, audience, date range, preferred format, and the outcome')
     for (const name of ['Best fit', 'Helpful details', 'Tailoring']) {
       await expect(booking.getByRole('heading', { name, exact: true })).toBeVisible()
     }
 
-    const contact = booking.getByRole('link', { name: 'Start the conversation' })
+    await expect(booking).toContainText('For a quick introduction')
+    await expect(booking).toContainText('Prefer a fuller brief?')
+    const contact = booking.getByRole('link', { name: 'Message on WhatsApp' })
     const href = await contact.getAttribute('href')
     expect(href).not.toBeNull()
     const destination = new URL(href ?? '')
@@ -88,6 +90,15 @@ test.describe('Speaking page', () => {
     await contact.focus()
     await expect(contact).toBeFocused()
     await expect(contact).toHaveCSS('outline-style', 'solid')
+
+    const linkedIn = booking.getByRole('link', { name: 'Connect on LinkedIn', exact: true })
+    await expect(linkedIn).toHaveAttribute('href', 'https://linkedin.com/in/santi020k')
+    await expect(linkedIn).toHaveAttribute('target', '_blank')
+    await expect(linkedIn).toHaveAttribute('rel', /\bnoopener\b/)
+    await expect(linkedIn).toHaveAttribute('rel', /\bnoreferrer\b/)
+    await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+    await expect(linkedIn).toBeFocused()
+    await expect(linkedIn).toHaveCSS('outline-style', 'solid')
   })
 
   test('should present ReactJS Colombia as community work', async ({ browserName, page }) => {
@@ -249,6 +260,7 @@ test.describe('Speaking page', () => {
       await expect(link).toHaveAttribute('href', '#speaking-booking-heading')
       await expect(link).not.toHaveAttribute('target', '_blank')
     }
+    await links.first().scrollIntoViewIfNeeded()
     await links.first().focus()
     await expect(links.first()).toHaveCSS('outline-style', 'solid')
     await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
@@ -256,7 +268,7 @@ test.describe('Speaking page', () => {
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL('/speaking/#speaking-booking-heading')
     await expect(page.locator('#speaking-booking-heading')).toBeInViewport()
-    await expect(page.getByRole('link', { name: 'Start the conversation', exact: true })).toBeInViewport()
+    await expect(page.getByRole('link', { name: 'Message on WhatsApp', exact: true })).toBeInViewport()
   })
 
   test('should pass accessibility audit', async ({ page }) => {

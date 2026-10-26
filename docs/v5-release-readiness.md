@@ -539,6 +539,31 @@ cumulative built-page audit passed across 1,740 documents and 8,129 local target
 with zero errors. Published changelog entries remain unchanged. This focused
 iteration used scoped checks; the full workspace gate remains `16b66665`.
 
+## Speaking Contact captions follow-up
+
+Approved source `40af504d`, based on `351fbce2`, adds a full-width Message on
+WhatsApp action for quick introductions and a quiet Connect on LinkedIn action
+for a fuller brief. Both use protected new tabs. The complete prompt, three
+session notes, WhatsApp briefing URL, and topic/format markup remain unchanged.
+The patch note is folded into 5.0.0.
+
+All 30 scoped Chromium/WebKit Speaking cases passed with retries disabled. Six
+reflow checks covered 320, 768, and 1440px at normal and 200% text; both contacts
+remained available without JavaScript. Matched mobile/desktop captures in both
+themes verified the preserved content and URL, usable targets, and no clipping.
+
+The source's booking-jump test now brings its starting card into view before
+keyboard focus. All destination assertions remain intact. Its earlier isolated
+offscreen failure was not reproduced in ten integration diagnostics that retained
+the original outline and focus assertions and recorded 90 rendered frames per
+run. Every run ended with the complete heading visible at 111.625px. No shared
+navigation runtime was changed for this iteration.
+
+Affected lint passed with zero warnings, the current production build and
+452-page OG audit passed, and PDF freshness passed without regeneration.
+Published changelog entries remain unchanged. This follow-up uses scoped checks;
+the full workspace gate remains `16b66665`.
+
 ## Related article Reading rows follow-up
 
 The approved `44106dd9` reuses `PostsGallery` with its existing chapter layout
