@@ -1867,7 +1867,7 @@ Preserve the shared header, its controls, and the joined Signature frame.
 On desktop, use an open two-column layout with a 22rem-wide, 4:5 portrait, centered
 40% crop, 1.5rem corners, and a plain name and location caption. The headline reaches
 5rem; primary and secondary actions use 0.875rem labels and retain generous hit areas.
-Below 39.5rem of Home container width, including with enlarged text, move the portrait
+On phones below 768px and below 41rem of Home container width with enlarged text, move the portrait
 into a compact identity row with a 4.5rem image. Below 18rem, put the complete caption
 beneath that image. Keep the optimized responsive image sources and eager loading.
 
@@ -2119,7 +2119,7 @@ The screen resume has no rounded clipping boundary, so its edge labels and focus
 The footer colophon reserves the Back to Top corner wherever the two would meet.
 The phone homepage hero also reflows its heading, actions, and project shelf when text grows.
 On tablets and desktops, the Home frame's `home-hero` container adopts the phone layout for the
-stage, portrait, caption, and actions below 39.5rem, keeping the viewport's type scale,
+stage, portrait, caption, and actions below 41rem, keeping the viewport's type scale,
 so enlarged headings never split words or run into the portrait. The default desktop and 768px
 tablet compositions are unchanged, and the frame's own padding still follows the viewport.
 These rules apply only inside Home; other `maker-hero` pages are unaffected.

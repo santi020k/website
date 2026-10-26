@@ -115,7 +115,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
 
-    for (const width of [320, 375, 640, 768, 1024, 1440]) {
+    for (const width of [320, 375, 640, 767, 768, 1024, 1440]) {
       await page.setViewportSize({ width, height: 900 })
       // Wait for responsive styles and fonts before measuring the resized hero.
       await page.evaluate(async () => {
@@ -144,5 +144,12 @@ for (const theme of ['light', 'dark'] as const) {
     }
 
     await expectNoUnexpectedAccessibilityViolations(page)
+
+    for (const width of [320, 375, 640, 767]) {
+      await page.setViewportSize({ width, height: 900 })
+      await expect.poll(() => page.locator('.maker-hero-portrait').evaluate(
+        image => image.getBoundingClientRect().height
+      )).toBeLessThanOrEqual(100)
+    }
   })
 }

@@ -49,13 +49,15 @@
 .maker-hero h1 {
   position: relative;
   width: max-content;
-  max-width: 100%;
+  max-width: 112%;
   margin: 0;
-  font-size: clamp(3.125rem, 5.7vw, 5rem);
+  font-size: clamp(3.125rem, 6.1vw, 5.5rem);
   font-weight: 600;
   line-height: 1.02;
   letter-spacing: -0.073em;
 }
+
+[data-home-hero] h1 { max-width: 100%; font-size: clamp(3.125rem, 5.7vw, 5rem); }
 
 .maker-hero h1 > span {
   display: block;
@@ -310,7 +312,8 @@
     padding-top: 1rem;
   }
 
-  .maker-hero h1 { font-size: clamp(2.625rem, 5.6vw, 4.5rem); }
+  .maker-hero h1 { font-size: clamp(2.625rem, 6.2vw, 4.5rem); }
+  [data-home-hero] h1 { font-size: clamp(2.625rem, 5.6vw, 4.5rem); }
   .maker-hero-actions { gap: 0.75rem 1.25rem; }
 }
 
@@ -318,7 +321,9 @@
   .signature-frame[data-home-hero] { padding-top: 1.75rem; }
   .maker-hero-stage {
     grid-template-columns: minmax(0, 1fr);
-    padding-block: 0 1.25rem;
+    gap: 1.5rem;
+    min-height: 0;
+    padding-block: 0 1.5rem;
   }
 
   .maker-hero-eyebrow {
@@ -340,13 +345,16 @@
   }
 
   .maker-hero-actions { margin-top: 1.5rem; }
+  .maker-hero-visual { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: center; gap: 1rem; width: 100%; margin: 0; }
+  .maker-hero-portrait-frame { border-radius: 0.75rem; }
+  .maker-hero-caption { margin: 0; }
 }
 
 /* Viewport breakpoints ignore root text scaling. When enlarged text leaves the
    Home frame too narrow to share a row with the portrait, adopt the phone
    composition's layout while keeping the viewport's type scale. The frame's own
    padding still follows the viewport because a container cannot query itself. */
-@container home-hero (width < 39.5rem) {
+@container home-hero (width < 41rem) {
   .maker-hero-stage { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; min-height: 0; padding-block: 0 1.5rem; }
   .maker-hero h1 { max-width: 100%; }
   [data-home-hero] .maker-hero-actions { gap: 0.75rem 0.5rem; }
