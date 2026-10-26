@@ -27,4 +27,5 @@ const { number, title } = Astro.props
   [data-project-capability] h4 { margin: 0 0 0.75rem; color: hsl(var(--ink)); font: 500 1.25rem/1.4 var(--font-sans); letter-spacing: -0.02em; }
   [data-capability-copy] :global(p) { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.733; }
   [data-capability-copy] :global(code) { border-radius: 0.25rem; background: hsl(var(--brand-soft)); padding: 0.125rem 0.25rem; color: hsl(var(--capability-accent)); font-size: 0.9em; overflow-wrap: anywhere; }
+  :global([data-theme='dark']) [data-capability-copy] :global(code) { color: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
 </style>
