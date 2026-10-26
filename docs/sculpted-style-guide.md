@@ -924,11 +924,23 @@ intact independently of the text height. At intermediate widths, a 2:1 artwork p
 sits above the sheet. Below 36.25rem of card width, use a 4:3 crop, a
 2.375rem overlap, and tighter insets.
 Below 20rem, scale long headings and let outcome columns stack. Never clamp descriptions
-or outcomes. Explicit before/after and percentage-drop
-statements may become value/label pairs; preserve all other statements verbatim and
-retain the original wording for screen readers. Project colors highlight the title,
+or outcomes. Project colors highlight the title,
 role, action, and sheet rules on hover and keyboard focus without moving the artwork.
 Keep a complete outer focus outline, readable light/dark colors, and reduced-motion support.
+
+### Evidence ledger Portfolio card outcomes
+
+Within the approved Layered editorial sheet, use a 2px brand-colored left rule,
+1.125rem inset, and a quiet Selected outcome label. Explicit numeric results use
+2.5rem medium-weight values with 0.875rem explanations; qualitative outcomes use
+1.0625rem prose in the primary text color. Preserve the existing one- or two-outcome
+selection, responsive stacking, technology list, and single case-study link.
+
+Reuse the project outcome formatter for unqualified leading percentages and counts,
+while preserving the Portfolio's complete before/after pairs and percentage-drop
+wording. Keep qualifiers, client attribution, and prose intact; the original claim
+remains available to screen readers. The margin rule follows the project's hover
+and focus color. Add no invented metrics, separate cards, or extra links.
 
 ### Related projects
 

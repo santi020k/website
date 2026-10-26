@@ -13,6 +13,17 @@ describe('portfolio metric display', () => {
   })
 
   test.each([
+    ['35% better system performance', '35%', 'Better system performance'],
+    ['56+ pull requests merged across two codebases', '56+', 'Pull requests merged across two codebases'],
+    ['95%+ sprint velocity', '95%+', 'Sprint velocity'],
+    ['35% better performance on selected pages', '35%', 'Better performance on selected pages']
+  ])('emphasizes an explicit leading result without removing context: %s', (summary, value, label) => {
+    expect(getPortfolioMetricDisplay(summary)).toEqual({ label, value })
+  })
+
+  test.each([
+    '',
+    '2019 event sold out',
     'Connects web and native interfaces through shared tokens',
     'Up to 70% organic traffic growth for selected clients',
     'Time to Interactive dropped by 75% on selected pages',

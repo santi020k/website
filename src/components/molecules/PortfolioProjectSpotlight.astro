@@ -68,7 +68,8 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
       {impactMetrics.length > 0 && (
         <ul data-portfolio-outcomes aria-label="Project outcomes">
           {impactMetrics.map(metric => (
-            <li data-portfolio-metric>
+            <li data-portfolio-metric={metric.value ? 'measured' : 'qualitative'}>
+              <span data-portfolio-evidence-label aria-hidden="true">Selected outcome</span>
               {metric.value ?
 (
                 <>
@@ -125,9 +126,11 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
   [data-portfolio-role] { margin: 0.5rem 0 0; color: hsl(var(--portfolio-emphasis)); font-size: 0.75rem; line-height: 1.667; }
   [data-portfolio-description] { margin: 1.25rem 0 0; max-width: 75ch; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; text-wrap: pretty; }
   [data-portfolio-outcomes] { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 1.5rem; margin: 1.5rem 0; padding: 0; list-style: none; }
-  [data-portfolio-metric] { display: flex; flex-direction: column; gap: 0.3125rem; min-width: 0; padding-top: 0.875rem; border-top: 2px solid hsl(var(--line) / 0.65); overflow-wrap: break-word; }
-  [data-portfolio-value] { color: hsl(var(--ink)); font-size: 1.625rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.04em; }
-  [data-portfolio-label] { color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.75; }
+  [data-portfolio-metric] { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; padding-left: 1.125rem; border-left: 2px solid hsl(var(--portfolio-emphasis)); overflow-wrap: break-word; }
+  [data-portfolio-evidence-label] { margin-bottom: 0.125rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.8; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-portfolio-value] { color: hsl(var(--ink)); font-size: 2.5rem; font-weight: 500; line-height: 1.1; letter-spacing: -0.06em; }
+  [data-portfolio-label] { color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.7; }
+  [data-portfolio-metric='qualitative'] [data-portfolio-label] { color: hsl(var(--ink)); font-size: 1.0625rem; line-height: 1.6; letter-spacing: -0.02em; }
   [data-portfolio-footer] { margin-top: auto; padding-top: 1.5rem; }
   [data-portfolio-outcomes] + [data-portfolio-footer] { padding-top: 0; }
   [data-portfolio-technologies] { display: flex; flex-wrap: wrap; gap: 0.4375rem 0.875rem; margin: 0; padding: 0 0 1.4375rem; list-style: none; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.667; }
@@ -167,8 +170,7 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
     [data-project-status] { top: 1.0625rem; left: 1.0625rem; }
     [data-portfolio-project-body] { margin: -2.375rem 0.625rem 0; padding: 1.4375rem 1.25rem 0; }
     [data-portfolio-title] { font-size: 1.875rem; }
-    [data-portfolio-outcomes] { gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr)); }
-    [data-portfolio-value] { font-size: 1.5rem; }
+    [data-portfolio-outcomes] { gap: 1.25rem; }
   }
   @container portfolio-card (width < 20rem) {
     [data-portfolio-project-body] { margin-inline: 0.375rem; padding-inline: 1rem; }
