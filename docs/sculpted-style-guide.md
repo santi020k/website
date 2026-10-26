@@ -1476,6 +1476,17 @@ sync with the visible bar, including resized viewports and enlarged text. Do not
 visible percentage badge, second indicator, or new card. Project pages keep their existing
 document progress.
 
+### Reading measure
+
+Keep ordinary article paragraphs and top-level lists aligned to the left reading edge,
+with a maximum inline size of 40rem (640px at the default text size). Let the available
+column width constrain them naturally on narrow screens; the rem-based measure expands
+with enlarged root text. Preserve the approved Margin lead opening, Section cadence
+headings, quotations, code, tables, and illustrations at their existing widths. Keep the
+contents rail, series continuation, and closing sections in their established positions.
+Scope the measure to authored prose inside `data-article-prose`, leaving project pages
+and embedded component layouts independent. No wrapper or client behavior is added.
+
 ### Margin imprint article publication details
 
 Article headers use one semantic description list between fine horizontal rules.

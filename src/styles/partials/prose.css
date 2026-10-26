@@ -17,6 +17,8 @@
 
   /* Section cadence preserves native headings, fragments, and inline formatting. */
   &[data-article-prose] { container: article-prose / inline-size; }
+  /* Reading measure keeps prose compact while editorial and technical blocks stay wide. */
+  &[data-article-prose] > :is(p, ul, ol, dl) { max-inline-size: 40rem; }
   & h2[data-article-section-heading] {
     display: flex;
     align-items: center;
