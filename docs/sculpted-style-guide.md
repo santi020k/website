@@ -81,9 +81,9 @@ reading and keyboard order when columns collapse.
 Home owns the spacing between its assembled sections. The hero-to-statistics gap is
 7rem on wide layouts and 4.5rem below 48rem of content width; subtract the Base
 layout's existing flow gap before adding the statistics inset. Use the same section
-spacing for Work, Projects, Writing, and Community. The closing community panel adds
-no bottom margin: Home supplies a single 7rem closing gap (4.5rem on phones), and
-suppresses the shared footer's extra top margin only on this route.
+spacing for Work, Projects, Writing, and Community. The community panel owns the
+closing gap with the same 48rem content-width threshold. Home removes its main
+bottom padding and the shared footer's extra top margin so that gap is counted once.
 
 Section introductions stack below 48rem of content width, including enlarged text,
 and retain the same left edge as their cards. Below 20rem, 16rem, and 12rem, reduce
@@ -2109,21 +2109,17 @@ A fine rule separates the columns. Narrower containers stack the complete produc
 enlarged text can move logos above their copy. Preserve visible keyboard focus,
 reduced motion, and both themes. Do not add decorative cards or client JavaScript.
 
-### Sculpted ledger homepage statistics
+### Homepage proof strip
 
-The homepage's four experience and impact statistics use Lumen Stat articles with
-tinted number panels, small decorative icons, and separate label and description
-sections. Keep the existing values, suffixes, descriptions, and AnimatedNumber
-behavior, including static accessible text and reduced-motion support.
+The four experience and impact measures form an open strip between the hero and selected work.
+Use bare Lumen Stat articles, a fine top rule, purple values, and quiet decorative icons.
+Keep every value, suffix, label, description, and AnimatedNumber behavior, including static
+accessible text and reduced-motion support. These passive measures support the featured work;
+they do not need separate tinted number panels or enclosing card surfaces.
 
-Use fine borders, opaque surfaces, and 1.75rem corners except for the 0.5rem
-lower-right corner. Values use brand emphasis in light mode and accent emphasis
-in dark mode. Cards stay passive, without hover or navigation affordances.
-The `home-content` container changes four columns to two below 53.125rem. Below 33.75rem,
-use four horizontal rows with a 6.5rem tinted number rail beside each label and description.
-Omit the decorative icons, reduce the number scale to 2rem, and keep every description in full.
-Below 18rem of available width, stack the number panel above the copy so enlarged text stays
-readable. Keep numbers and units together.
+Use four columns, two below a 53.125rem `home-content` container, and one below 18rem.
+Below 33.75rem, omit the icons and use 2.5rem values. Keep numbers and units together and
+let the full descriptions wrap. Preserve the shared opening and closing section rhythm.
 
 ### Offset spread featured work
 
@@ -2159,25 +2155,26 @@ project mark and tighten padding. Preserve the outer keyboard focus outline and 
 
 ### Supporting project cards
 
-Supporting professional work and independent projects use individual Lumen cards with a quiet
-brand-colored title panel above the full description and “Read case study” action. A numbered
-masthead pairs the continuing project number with its optimized logo on the required light or
-dark brand surface. Professional work also shows its first authored impact metric. Preserve
-project order, full copy, one native link per card, and the outer keyboard focus outline.
+Supporting professional work and independent projects retain individual sculpted Lumen cards,
+a thin brand-colored edge, optimized logos, full descriptions, and case-study actions.
+Group the number, title, and role beside the small logo on one opaque surface, without a
+separate tinted masthead. Professional work also shows its first authored impact metric.
+Preserve project order, one native link per card, and the outer keyboard focus outline.
 
 Professional work forms three columns above a 58rem `home-content` container and stacks below it.
 Independent supporting projects retain two columns until the 44rem threshold, with a 768px
-viewport fallback. Below 20rem of card width, reduce insets; below 16rem, tighten the logo and
-heading scale; below 12rem, omit the decorative logo. Let copy grow at enlarged text sizes and
-keep the action row aligned at the bottom. Hover underlines the heading without moving the card.
+viewport fallback. A card at least 36rem wide puts identity beside the description and action;
+narrower cards stack them. Below 20rem, reduce insets; below 16rem, tighten the logo and heading;
+below 12rem, omit the decorative logo. Keep full copy and bottom-aligned actions. Hover underlines
+the heading without moving the card. Featured Smith, Lumen, and PostLens compositions stay distinct.
 
 ### Editorial spread latest writing
 
 The homepage writing section opens with one wide featured article: dimensional cover artwork
 beside its title, complete excerpt, date, reading time, and a solid reading action. Follow it
-with three open, image-led articles in one desktop row. Use an unstyled Lumen Card per article,
+with three open image-and-copy rows separated by fine rules. Use an unstyled Lumen Card per article,
 one native link per card, and the collection's chronological order. The lead card has an opaque
-surface and sculpted corners; supporting articles use the page canvas with a fine action rule.
+surface and sculpted corners; supporting articles use the page canvas with a rule across the complete row.
 Avoid a second notebook frame, nested borders, or text laid over the artwork.
 
 Select the three curated Start here recommendations first, then fill latest writing with the
@@ -2190,23 +2187,28 @@ lazy loading, and the central subject of each image. Keep the supporting images 
 article label, all post types, decorative numbers, and metadata remain outside the image.
 
 Below a 64rem `home-writing` container, stack the lead artwork and copy to preserve the complete
-cover and a comfortable title width on laptops. Below 56rem, show the remaining articles as
-image-and-copy rows. Below 38rem, stack every article's image and text. Tighten the
+cover and a comfortable title width on laptops. Below 56rem, reduce the row gutters.
+Below 38rem, stack every article's image and text. Tighten the
 lead's insets and title below 20rem and 16rem for enlarged text. Keep the complete excerpts,
 visible keyboard outlines, and stationary hover behavior. All four recent links, three Start
-here recommendations, and the RSS action remain available without JavaScript.
+here recommendations, and the RSS action remain available without JavaScript. Give Start here
+its own stronger subheading and full-width rule; keep the RSS invitation on a quiet closing rule.
+Preserve all seven articles and their order. Page length is not a design constraint.
 
 ### Community folio homepage panel
 
-The homepage community panel uses a tinted Lumen card with an introduction beside an opaque
-reading sheet. Numbered destination rows keep their complete descriptions, role labels, and
+The homepage community panel uses one tinted Lumen surface with an introduction beside open
+destination rows, separated by a vertical rule. Do not add an inset white card. Use ink
+for action labels and numbers so they retain contrast on the tint in both themes. Numbered
+destination rows keep their complete descriptions, role labels, and
 explicit actions. Preserve the external community link, internal speaking links, section heading,
 and shared footer action. Each row remains a native link with a fully visible focus outline.
 
-The `home-community` container stacks the sheet below the introduction under 48rem and hides the
-decorative conversation symbol. Tighten insets below 21.25rem, then reduce heading sizes and omit
+The `home-community` container stacks the destinations below the introduction under 48rem,
+changes the vertical separator to a horizontal rule, and hides the decorative conversation symbol.
+Tighten insets below 21.25rem, then reduce heading sizes and omit
 decorative arrows below 16rem for enlarged text. Keep the action labels, descriptions, and all
-destinations visible. Hover changes the title color and underline without moving the card.
+destinations visible. Hover underlines the title without moving the card.
 
 ### Closing statement footer invitation
 

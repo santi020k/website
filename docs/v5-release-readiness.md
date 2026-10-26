@@ -294,3 +294,27 @@ passed with zero warnings. The current-site type check reported no diagnostics
 across 478 files, and the final production build and 452-page OG audit passed.
 The existing resume artifacts passed freshness checks; no regeneration was needed.
 Matched desktop and mobile captures were reviewed.
+
+## Full homepage composition follow-up
+
+The approved homepage composition from `6c959f3e` is integrated after `4a2f4247`.
+All eight projects, seven articles, complete descriptions and section order are
+preserved. The impact measures use an open strip, supporting projects have quieter
+identities, writing uses distinct image-and-copy rows, and community uses one
+surface. Page length is not a design constraint. Section and footer spacing now
+use the same available-width rule, including tablet layouts.
+
+The source branch passed its complete verification gate, including 907 unit tests
+and 48 focused browser cases. Merged validation is scoped to the changed surfaces,
+following the requested iteration workflow. Generated resume conflicts were
+resolved by rendering both PDFs from the combined source, then checking freshness.
+All ten History captures were regenerated: only the two v5 images changed; the
+eight v1-v4 captures remain byte-identical. The final production build includes
+those assets and passed its 452-page OG audit. The assembled-site audit passed
+across 1,740 documents and 8,129 local targets.
+
+All 100 merged Chromium/WebKit homepage cases passed with retries disabled, plus
+two mobile-browser counter checks. Coverage includes content preservation, native
+destinations, keyboard use, shared spacing, statistics and enlarged-text layouts.
+Affected lint passed with zero warnings. Matched full-page desktop and mobile
+captures in both themes were reviewed.
