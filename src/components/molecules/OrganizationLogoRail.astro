@@ -3,13 +3,13 @@ import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import { getPortfolioPath } from '@/utils/links'
-import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectBrandStyle } from '@/utils/project-brand'
 
 import { Button, Icon } from '@santi020k/lumen-astro'
 
-interface OrganizationLogoRailItem {
-  context: string
-  label: string
+import type { SocialProofItem } from '@/data/profile'
+
+interface OrganizationLogoRailItem extends SocialProofItem {
   project: CollectionEntry<'project'>
 }
 
@@ -19,22 +19,7 @@ interface Props {
 
 type LogoAspect = 'square' | 'tall' | 'wide'
 
-type LogoSurface = 'dark' | 'light' | 'neutral'
-
 const { organizations } = Astro.props
-
-const logoFrameClass = {
-  square: 'max-h-24 max-w-[min(100%,8rem)]',
-  tall: 'max-h-24 max-w-[min(100%,5rem)]',
-  wide: 'max-h-16 max-w-[min(100%,13rem)]'
-} satisfies Record<LogoAspect, string>
-
-const logoSurfaceClass = {
-  dark: 'bg-linear-to-br from-ink via-ink to-brand/35',
-  light: 'bg-linear-to-br from-white via-surface to-brand-soft/65 dark:from-white dark:via-white/95 dark:to-brand-soft',
-  neutral: 'bg-linear-to-br from-surface-strong via-surface-muted to-brand-soft/65 dark:from-white dark:via-white/92 dark:to-brand-soft'
-} satisfies Record<LogoSurface, string>
-
 const logoFrameWidth = { square: 8, tall: 5, wide: 13 } satisfies Record<LogoAspect, number>
 
 const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Set([displayWidth, displayWidth * 2, maximumWidth])]
@@ -53,17 +38,16 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
     data-carousel-list
     id="organization-carousel-items"
   >
-    {organizations.map(({ context, label, project }, index) => {
+    {organizations.map(({ context, label, logoSurface, project }, index) => {
       const logo = project.data.coverImage?.logo
-      const cover = getProjectCoverForUsage(project.data.coverImage, 'background')
       const logoAspect: LogoAspect = project.data.coverImage?.logoAspect ?? 'square'
-      const logoSurface: LogoSurface = project.data.coverImage?.logoSurface ?? 'neutral'
+      const surface = logoSurface ?? project.data.coverImage?.logoSurface ?? 'dark'
       const logoDisplayWidth = logoFrameWidth[logoAspect] * 16
       const logoWidth = logo ? Math.min(logo.width, logoDisplayWidth * 4) : 0
       const logoWidths = getLogoWidths(logoDisplayWidth, logoWidth)
 
       return (
-        <li class="min-w-0" data-carousel-item>
+        <li class="min-w-0" data-carousel-item style={getProjectBrandStyle(project.data.brand)}>
           <a
             class="
               group flex h-full flex-col overflow-hidden
@@ -74,51 +58,14 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
           >
             <span
               data-carousel-logo
-              class:list={[
-                `
-                  relative flex shrink-0 items-center justify-center
-                  overflow-hidden
-                `,
-                logoSurfaceClass[logoSurface]
-              ]}
+              data-logo-aspect={logoAspect}
+              data-logo-surface={surface}
             >
-              {cover && (
-                <Image
-                  alt=""
-                  aria-hidden="true"
-                  class="
-                    absolute inset-0 size-full scale-105 object-cover opacity-58
-                    saturate-125 transition duration-500
-                    group-hover:opacity-72
-                    motion-safe:group-hover:scale-110
-                    motion-reduce:transition-none
-                  "
-                  loading="lazy"
-                  sizes="320px"
-                  src={cover}
-                  widths={[320, 640]}
-                />
-              )}
-              <span
-                aria-hidden="true"
-                class="
-                  absolute inset-0 bg-linear-to-b from-white/4 via-transparent
-                  to-canvas/18
-                "
-              />
               {logo ?
                 (
                   <Image
                     alt=""
-                    class:list={[
-                      `
-                        relative object-contain drop-shadow-md transition
-                        duration-300
-                        motion-safe:group-hover:scale-105
-                        motion-reduce:transition-none
-                      `,
-                      logoFrameClass[logoAspect]
-                    ]}
+                    data-carousel-mark
                     loading="lazy"
                     sizes={`${logoFrameWidth[logoAspect]}rem`}
                     src={logo}
@@ -127,7 +74,11 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
                   />
                 ) :
                 (
-                  <span aria-hidden="true" class="text-xl font-bold text-ink">
+                  <span
+                    aria-hidden="true"
+                    class="text-xl font-bold"
+                    data-carousel-mark
+                  >
                     {label.charAt(0)}
                   </span>
                 )}
@@ -197,7 +148,50 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
     color: hsl(var(--ink));
     text-decoration: none;
   }
-  [data-carousel-logo] { height: 10.75rem; margin-inline: -0.75rem; padding: 1.5rem 1.5rem 2.5rem; }
+  [data-carousel-logo] {
+    --organization-logo-surface: hsl(var(--project-surface));
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    height: 11rem;
+    margin-inline: -0.75rem;
+    padding-bottom: 1rem;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 10% 50%, hsl(var(--project-primary) / 0.06), transparent 70%), var(--organization-logo-surface);
+    color: var(--color-portrait-ink);
+  }
+  [data-logo-surface="light"], [data-logo-surface="neutral"] {
+    --organization-logo-surface: var(--color-logo-paper);
+    color: var(--color-portrait-scrim);
+  }
+  [data-carousel-logo]::before {
+    content: '';
+    position: absolute;
+    width: 78%;
+    aspect-ratio: 1;
+    right: -39%;
+    bottom: -75%;
+    border-radius: 40%;
+    transform: rotate(-25deg);
+    background: color-mix(in srgb, hsl(var(--project-primary)) 54%, var(--organization-logo-surface));
+    box-shadow: 0 0 0 1.0625rem color-mix(in srgb, hsl(var(--project-primary)) 31%, var(--organization-logo-surface)), 0 0 0 2.1875rem color-mix(in srgb, hsl(var(--project-primary)) 16%, var(--organization-logo-surface)), 0 0 0 3.3125rem color-mix(in srgb, hsl(var(--project-primary)) 7%, var(--organization-logo-surface));
+  }
+  [data-carousel-logo]::after {
+    content: '';
+    position: absolute;
+    width: 5rem;
+    aspect-ratio: 1;
+    left: -3.75rem;
+    top: -3.375rem;
+    border: 1px solid color-mix(in srgb, hsl(var(--project-primary)) 20%, var(--organization-logo-surface));
+    border-radius: 50%;
+    box-shadow: 0 0 0 0.75rem color-mix(in srgb, hsl(var(--project-primary)) 5%, var(--organization-logo-surface));
+  }
+  [data-carousel-mark] { position: relative; z-index: 1; width: auto; height: auto; max-width: 60%; max-height: 4.625rem; object-fit: contain; }
+  [data-logo-aspect="square"] [data-carousel-mark] { max-height: 6.25rem; }
+  [data-logo-aspect="tall"] [data-carousel-mark] { max-width: 30%; max-height: 5.75rem; }
   [data-carousel-copy] {
     position: relative;
     display: flex;
@@ -220,7 +214,6 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
     [data-carousel-item] > a { padding-inline: 0.5rem; padding-bottom: 0.5rem; }
     [data-carousel-copy] { padding: 1rem 0.75rem; }
     [data-carousel-logo] { margin-inline: -0.5rem; }
-    [data-carousel-logo] { padding-inline: 1rem; }
   }
   @container organization-card (width < 14rem) {
     [data-carousel-title] { font-size: 1.125rem; }
