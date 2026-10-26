@@ -788,6 +788,15 @@ On narrower cards, stack the author header above the quote, using 1rem text with
 and stack the avatar above the identity when needed. Preserve all quoted words,
 use readable metadata in both themes, and keep the cards passive on hover.
 
+### Reading rows About recommendations
+
+Arrange the four About recommendations in one full-width column with 1.25rem
+between rows. Preserve their authored order and the shared Split editorial card:
+author beside the quote when the card is wide enough, author above it on narrow
+screens and with enlarged text. Retain every quote, role, and relationship, and
+keep the shared LinkedIn destination after the list. This layout is specific to
+the About page; other testimonial placements retain their existing composition.
+
 ### Sculpted statistics cards
 
 The shared `StatCard` uses an opaque Lumen Stat surface with a fine border, subtle
