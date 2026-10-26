@@ -252,3 +252,18 @@ behavior, both themes and enlarged-text layouts. The current-site production
 build and 452-page OG audit passed; unchanged archives were reassembled.
 Resume PDFs were regenerated for the profile and stylesheet fingerprint and
 passed their freshness check. Matched mobile and desktop captures were reviewed.
+
+## Reading rows follow-up
+
+The approved About recommendations layout is integrated from `84d6b4e1`
+through `d88005ca`. All four testimonials now use full-width reading rows.
+Their quotations, authors, roles, relationships, order and LinkedIn action are
+unchanged, and the shared testimonial component retains its existing contract.
+The patch note is folded into 5.0.0 without changing the published changelog.
+
+Scoped merged validation passed: zero-warning affected lint, 30 Chromium/WebKit
+checks with retries disabled, the current-site production build and the 452-page
+OG audit. The browser checks cover profile content, About reflow in both themes
+with enlarged text, and accessibility. Desktop and mobile captures were reviewed.
+Unchanged archives were reassembled; resume PDFs were regenerated for the
+stylesheet fingerprint and passed the freshness check.
