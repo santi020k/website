@@ -2244,9 +2244,14 @@ both downloadable PDF variants remain authoritative.
 
 ### Search dock technology index controls
 
-The technology index uses **Search dock** above the Margin catalog groups. Keep the
-Stack snapshot label above a single shaped bar, with a quiet search field and a
-separate surface for the live technology count. Place the explanatory copy below.
+The technology index uses **Search dock** within the **Catalog first** opening,
+immediately after the compact headline and description. Keep the shaped bar,
+quiet search field, and separate live-count surface. The introduction supplies the
+search context; omit the former Stack snapshot eyebrow and repeated explanation.
+Follow the dock with three ruled group shortcuts, each showing its live catalog
+size and recurrence threshold. Stack those shortcuts into rows on narrow screens,
+and hide them during a search. Quiet Work and Portfolio links close the opening.
+Preserve native fragment destinations and visible keyboard focus.
 The count moves below the field on narrow containers; remove the decorative search
 icon only when needed to preserve input width. Keep visible focus, complete labels,
 singular and plural counts, and the full result sentence for screen readers.
