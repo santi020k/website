@@ -1157,6 +1157,22 @@ Lumen uses Section cadence for Goals, What Lumen 4 brings together, Technical hi
 Used in this website, and Why it matters. Preserve their authored content and fragments;
 the product gallery and Outcomes keep their existing composed headings.
 
+### Evidence brief project references
+
+Lumen's compatibility and validation note uses an open Evidence brief beneath Technical
+highlights. Keep its two qualifications intact, with a fine top rule, 1.5rem top inset,
+and a 0.8125rem accent label. The main paragraph uses 1.125rem type and 1.8 line height;
+the second uses 0.9375rem `ink-soft` text with 1.25rem separation.
+
+Place the two existing references below in equal columns with a 1.5rem gap. Each native
+link has a top rule, a 0.9375rem underlined name, a 0.8125rem description, and a decorative
+arrow. Give links 1.5rem top and 1rem bottom insets, visible keyboard focus, and safe
+new-tab behavior. Below 35rem of available width, stack links and use a 1.0625rem main
+paragraph. Below 16rem, omit only the decorative arrows to preserve room for enlarged text.
+The note is a named section; its label adds no entry to the chapter navigation.
+When it follows an Ownership ledger, reuse that list's closing rule and bottom spacing
+instead of adding a second divider.
+
 ### Synthesis spread closing reflection
 
 Close a multi-client case study with an open composition: a small What carries forward
