@@ -621,6 +621,13 @@ narrow-column insets. Cards remain passive, without hover changes. Use the same
 phrase boundary without removing words or punctuation. Keep About's open editorial
 principles in their existing presentation.
 
+Speaking topics add **Practice captions** beneath the complete description. Keep
+the card surface and hierarchy, then bottom-align a quiet footer with a fine rule,
+an uppercase “Read the approach” label, and one descriptive reading link. Use Lumen
+Link and a decorative accent arrow, a 44px minimum target, and visible keyboard
+focus. Match each topic to a published article or relevant case study; internal
+links stay in the same tab. Format cards retain the passive presentation.
+
 ### Linked counters About profile highlights
 
 The three profile highlights use bare Lumen Stat articles in full-width, ruled rows.

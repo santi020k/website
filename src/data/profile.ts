@@ -23,6 +23,10 @@ export interface SpeakingCardContent {
   title: string
 }
 
+export interface SpeakingTopic extends SpeakingCardContent {
+  source: { href: string, label: string }
+}
+
 export interface CollaborationLane {
   description: string
   fit: string
@@ -172,34 +176,58 @@ export const speakingHighlights: ProfileHighlight[] = [
   }
 ]
 
-export const speakingTopics: SpeakingCardContent[] = [
+export const speakingTopics: SpeakingTopic[] = [
   {
     description: 'How standards, automation, and delivery systems reduce pressure and help teams make better decisions sooner.',
+    source: {
+      href: '/blog/code-standards-that-scale-with-a-team/',
+      label: 'Standards that scale'
+    },
     subtitle: 'for teams that still ship',
     title: 'Engineering leadership'
   },
   {
     description: 'Practical ways to improve tooling, feedback loops, and everyday developer ergonomics without overengineering the process.',
+    source: {
+      href: '/blog/why-developer-experience-work-should-be-measured-like-product-work/',
+      label: 'Measuring developer experience'
+    },
     subtitle: 'that compounds',
     title: 'Developer experience'
   },
   {
     description: 'Patterns for growing React and TypeScript codebases without turning them into a maze of exceptions and accidental complexity.',
+    source: {
+      href: '/blog/atomic-module-component-structure-for-react/',
+      label: 'Structuring React projects'
+    },
     subtitle: 'for real teams',
     title: 'Frontend architecture'
   },
   {
     description: 'Testing, linting, and CI/CD systems that teams actually keep because they improve confidence instead of slowing work down.',
+    source: {
+      href: '/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/',
+      label: 'Automating quality checks'
+    },
     subtitle: 'that fit the workflow',
     title: 'Quality systems'
   },
   {
     description: 'Choosing the right level of abstraction across frontend, backend, and platform work when products need to move fast.',
+    source: {
+      href: '/blog/building-aaronmgz-as-a-family-platform/',
+      label: 'Building a family platform'
+    },
     subtitle: 'with technical range',
     title: 'Full-stack delivery'
   },
   {
     description: 'What community work has taught me about mentoring, accessibility, and helping more people feel ready to share what they know.',
+    source: {
+      href: '/portfolio/react-js-colombia/',
+      label: 'Growing ReactJS Colombia'
+    },
     subtitle: 'and first-time speakers',
     title: 'Community building'
   }

@@ -178,6 +178,45 @@ test.describe('Speaking page', () => {
     for (const title of titles) expect(schema.join('\n')).toContain(JSON.stringify(title))
   })
 
+  test('topic captions connect each subject to relevant reading in the same tab', async ({ browserName, page, request }) => {
+    const topics = page.locator('[data-talk-card="topic"]')
+    const sources = topics.getByRole('link')
+    await expect(sources).toHaveText([
+      'Standards that scale',
+      'Measuring developer experience',
+      'Structuring React projects',
+      'Automating quality checks',
+      'Building a family platform',
+      'Growing ReactJS Colombia'
+    ])
+    const paths = [
+      '/blog/code-standards-that-scale-with-a-team/',
+      '/blog/why-developer-experience-work-should-be-measured-like-product-work/',
+      '/blog/atomic-module-component-structure-for-react/',
+      '/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/',
+      '/blog/building-aaronmgz-as-a-family-platform/',
+      '/portfolio/react-js-colombia/'
+    ]
+
+    for (const [index, path] of paths.entries()) {
+      const card = topics.nth(index)
+      const source = card.getByRole('link')
+      await expect(card).toContainText('Read the approach')
+      await expect(source).toHaveAttribute('href', path)
+      await expect(source).not.toHaveAttribute('target', '_blank')
+      expect((await request.get(path)).status()).toBe(200)
+    }
+    await expect(page.locator('[data-talk-card="format"]').getByRole('link')).toHaveCount(0)
+
+    await sources.first().focus()
+    await expect(sources.first()).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+    await expect(sources.nth(1)).toBeFocused()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(paths[1] ?? '')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Why Developer Experience Work Should Be Measured Like Product Work')
+  })
+
   test('should preserve complete format headings and structured data', async ({ page }) => {
     const cards = page.locator('[data-talk-card="format"]')
     const titles = [
