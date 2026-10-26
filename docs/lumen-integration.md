@@ -326,7 +326,8 @@ enlarged text sizes. No new client controller is introduced.
 - `ProjectEvidenceBrief` groups authored qualifications with named external references in
   an open semantic section. Lumen `Link` supplies safe new-tab behavior and `Icon` supplies
   decorative arrows. Keep the reference URLs and qualifications in the project content;
-  descriptions supplement accessible link names, with no controller or new chapter heading.
+  each native link name includes its visible title and description without redundant ARIA
+  overrides. No controller or new chapter heading is added.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter
@@ -550,6 +551,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   retain the default Dispatch sleeve and Return folio variants. No additional client
   behavior or external service is introduced.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
+- Related writing uses `SectionHeader`'s `margin` variant (Margin continuation) inside
+  a stacked `PageSection`. Native heading and paragraph markup provide the margin label
+  and ruled copy; the existing Lumen-backed `ButtonLink` supplies the browse action.
+  `RelatedPosts` retains its recommendation logic, series exclusions, two-card gallery,
+  and contextual destination. Project headers retain the separate approved `shelf` variant.
 
 ## Anchor runtime patch
 

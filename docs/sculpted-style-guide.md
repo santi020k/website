@@ -2082,6 +2082,22 @@ aligns right on desktop and starts at the left on narrow layouts. Keep each proj
 heading and parent destination, native navigation, and complete words with enlarged text.
 Other `SectionHeader` variants retain their open layout.
 
+### Margin continuation related-writing headers
+
+Article recommendations use the shared `SectionHeader` with `variant="margin"`, above
+the existing two-column `PostsGallery` in a stacked `PageSection`. Keep Related writing
+in a 6rem margin column, with a 1.625rem gap before the copy. A fine neutral vertical
+rule and a 2px, 3.375rem accent segment mark the copy's edge; inset it by 1.75rem.
+Use a 2.25rem, weight-500 title with balanced lines, a 0.875rem description, and the
+existing inline browse action. Keep the header open, without another card surface.
+
+Below 35rem of available width, place the label above the copy and reduce the title
+to 1.875rem and the inset to 1.25rem. Below 18rem, use a 1.5rem title and a 0.625rem
+inset so enlarged text and long action labels remain whole. Use accent in dark mode,
+retain visible keyboard focus, and preserve the blog or developer-experience destination.
+Recommendation selection, series exclusion, article cards, and project shelf headers stay
+with their existing components and contracts. No client script is required.
+
 Article and project headers use
 lighter titles and open metadata rows; project titles retain their readable project-brand
 accent. Long-form prose, code controls, reading progress, and sticky table-of-contents links
