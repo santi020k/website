@@ -1,0 +1,57 @@
+---
+interface Props {
+  label: string
+  introduction: string
+  adapters: {
+    label: string
+    packageName: string
+  }[]
+}
+
+const { label, introduction, adapters } = Astro.props
+---
+
+<div class="not-prose" data-project-architecture>
+  <div data-architecture-lead>
+    <p data-architecture-label>{label}</p>
+    <p data-architecture-introduction>{introduction}</p>
+    <ul aria-label={label} role="list" data-architecture-adapters>
+      {adapters.map(adapter => (
+        <li>
+          <span>{adapter.label}</span>
+          <code>{adapter.packageName}</code>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <dl data-architecture-notes><slot /></dl>
+</div>
+
+<style>
+  [data-project-architecture] {
+    --architecture-accent: var(--brand);
+    container: architecture-brief / inline-size;
+    margin-block: 1.5rem;
+    color: hsl(var(--ink));
+  }
+  :global([data-theme='dark']) [data-project-architecture] { --architecture-accent: var(--accent); }
+  [data-architecture-lead] { border-top: 1px solid hsl(var(--architecture-accent)); padding-block: 1.5rem; }
+  [data-architecture-label] { margin: 0 0 0.75rem; color: hsl(var(--architecture-accent)); font-size: 0.8125rem; font-weight: 500; line-height: 1.75; }
+  [data-architecture-introduction] { max-width: 26em; margin: 0; color: hsl(var(--ink)); font-size: 1.3125rem; line-height: 1.5; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+  [data-architecture-adapters] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+  [data-architecture-adapters] li { min-width: 0; border-top: 1px solid hsl(var(--line)); padding-top: 0.875rem; }
+  [data-architecture-adapters] span { display: block; margin-bottom: 0.5rem; color: hsl(var(--ink)); font-size: 1rem; font-weight: 500; line-height: 1.5; overflow-wrap: anywhere; }
+  [data-architecture-adapters] code { display: block; border-radius: 0; background: none; padding: 0; color: hsl(var(--architecture-accent)); font-size: 0.75rem; line-height: 1.7; overflow-wrap: anywhere; }
+  [data-architecture-notes] { margin: 0; }
+  [data-architecture-notes] > :global(div) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 1.5rem; border-top: 1px solid hsl(var(--line)); padding-block: 1.5rem; }
+  [data-architecture-notes] :global(dt) { min-width: 0; color: hsl(var(--ink)); font-size: 1.0625rem; font-weight: 500; line-height: 1.5; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+  [data-architecture-notes] :global(dd) { min-width: 0; margin: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.75; overflow-wrap: anywhere; }
+  [data-architecture-notes] :global(code) { border-radius: 0.25rem; background: hsl(var(--brand-soft) / 0.45); padding: 0.125rem 0.25rem; color: hsl(var(--architecture-accent)); font-size: 0.85em; }
+
+  @container architecture-brief (width < 35rem) {
+    [data-architecture-adapters] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    [data-architecture-adapters] span { margin-bottom: 0.25rem; }
+    [data-architecture-adapters] code { font-size: 0.8125rem; }
+    [data-architecture-notes] > :global(div) { grid-template-columns: minmax(0, 1fr); gap: 0.625rem; }
+  }
+</style>
