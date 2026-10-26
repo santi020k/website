@@ -1519,6 +1519,15 @@ contents rail, series continuation, and closing sections in their established po
 Scope the measure to authored prose inside `data-article-prose`, leaving project pages
 and embedded component layouts independent. No wrapper or client behavior is added.
 
+### List rhythm
+
+Article lists follow the paragraph reading scale: 1rem below the shared `sm`
+breakpoint and 1.125rem above it, with a 1.625 line height. Apply this to direct
+unordered and ordered lists in article prose; nested list items inherit the scale.
+Keep Reading measure, native markers, numbering, authored links and emphasis,
+and the existing list spacing and indentation rules. Preserve list markup and
+embedded component layouts without a transform or client script.
+
 ### Margin imprint article publication details
 
 Article headers use one semantic description list between fine horizontal rules.

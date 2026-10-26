@@ -484,6 +484,9 @@
   }
 
   @apply prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-brand prose-li:my-2;
+  &[data-article-prose] > :is(ul, ol) {
+    @apply text-base leading-relaxed sm:text-lg;
+  }
   @apply prose-th:whitespace-nowrap prose-th:text-ink prose-td:text-ink-soft;
   & [data-prose-table] {
     --table-folio-accent: hsl(var(--brand));

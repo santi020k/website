@@ -657,6 +657,10 @@ text-size marker cases in `tests/responsive-reading.spec.ts`.
 
 ## Article prose typography
 
+Direct article lists use List rhythm: the same responsive text size and relaxed
+line height as paragraphs. Nested items inherit the scale. Native lists, numbering,
+links, inline code, and component compositions remain intact without new markup.
+
 Direct article h3 elements use Subsection cadence through the prose stylesheet:
 smaller, medium-weight headings with spacing that keeps them attached to their
 content. The existing article container controls the narrow layout. Native
