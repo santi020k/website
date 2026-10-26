@@ -155,6 +155,7 @@
   & :not(pre) > code {
     @apply text-brand bg-brand/10 px-1.5 py-0.5 rounded-md font-medium;
   }
+  &[data-article-prose] :not(pre) > code { font-family: var(--font-code); }
   /* ─── Lumen Code / Shiki ─────────────────────────────────────────────────── */
 
   & > [data-ui-code],

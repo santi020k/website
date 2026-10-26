@@ -642,7 +642,11 @@ landing-line activation. If `lumen-astro` changes version first, regenerate the 
 patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
 text-size marker cases in `tests/responsive-reading.spec.ts`.
 
-## Article reading measure
+## Article prose typography
+
+Article inline code uses Code accent: the site's existing `font-code` token with
+the established purple treatment. This article-scoped prose rule leaves Lumen's
+fenced code and package-manager tab components unchanged.
 
 Article composition also applies Reading measure through the site's prose styles:
 top-level paragraphs and lists have a 40rem maximum inline size. Lumen code and table

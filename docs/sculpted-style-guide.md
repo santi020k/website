@@ -1354,6 +1354,14 @@ initials when no photo exists, and the complete list. With zero likes, omit the
 strip; replies and mentions remain independent. Use accent in dark mode and add
 no client controller, additional data requests, or hover motion.
 
+### Code accent inline code
+
+Article inline code uses the existing `font-code` monospace token, matching fenced
+examples while keeping the purple text, soft brand background, rounded corners,
+padding, weight, and relative size of the current treatment. Preserve native `code`
+semantics and wrapping in paragraphs, lists, headings, quotations, and tables.
+Scope this font change to article prose; retain Code folio and Tab folio layouts.
+
 ### Code folio article examples
 
 Standalone article code blocks use a soft brand toolbar, a small Lumen code icon,
