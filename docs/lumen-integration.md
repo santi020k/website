@@ -197,6 +197,13 @@ The site owns the brand-soft opening treatment and responsive footer; the existi
 Lumen `ButtonLink` retains GitHub's external-link contract. No new controller is
 needed. The catalog's project selection, ranking, fragments, and schema are unchanged.
 
+The optional `ProjectsGallery.productFirst` applies **Product first** on Projects.
+Its neutral body reuses the existing gallery layout. Lumen `ButtonLink` with
+`newTab` renders the named external destination, and `Link` renders the quieter
+case-study action. `getProjectPrimaryDestination` supplies the existing URL and
+website, archive, or repository label. Missing destinations omit the external action.
+Technology archives keep the default single-link card and Matched stack behavior.
+
 ## Technology index search
 
 `TechnologyEvidenceLedger` replaces the index's four statistics with **Evidence ledger**

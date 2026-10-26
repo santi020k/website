@@ -313,6 +313,21 @@ statistics and generic Explore projects action are replaced by these direct path
 there is only one category navigation. Preserve the catalog's projects fragment,
 purpose sections, project ranking, and structured data.
 
+### Product first Projects cards
+
+The Projects page keeps its Refined editorial covers, metadata, descriptions, and
+technology labels. Put the named product destination first in a brand-soft action
+with a 0.875rem radius and 0.25rem lower-right corner. Place the quieter Read the case
+study link below it. Use the existing primary-destination helper for website,
+archive, and repository labels; do not invent missing URLs. External links open a
+new tab with noopener and noreferrer. Case studies stay in the current tab.
+
+Use sibling links inside a neutral card body so interactive elements are never
+nested. Keep project-colored hover and keyboard emphasis, visible individual focus
+outlines, and wrapping labels at enlarged text sizes. When no destination exists,
+show only the case-study link. Enable this treatment only on Projects; technology
+archives retain their single-link Matched stack cards.
+
 ### Evidence paths technology ending
 
 The technology index closes with an open editorial section: Beyond the toolkit,
