@@ -210,8 +210,17 @@ and the same image, metadata, and single native link as the regular editorial gr
 Use a 14rem artwork column, then 10rem below 46rem of gallery width; stack the artwork
 above the copy below 34rem. Narrow enlarged-text rows use 1.125rem titles below 20rem.
 Preserve complete titles, sequence, native navigation, focus outlines, and readable
-fallbacks without JavaScript. The regular Blog, topic archives, DX, and related-writing
-shelves retain their editorial grid.
+fallbacks without JavaScript. The regular Blog, topic archives, and DX shelves retain
+their editorial grid.
+
+### Reading rows related articles
+
+Article recommendations reuse the same `PostsGallery` chapter layout without sequence
+numbers. Keep the approved Topic context header above it, then show each recommendation
+as compact artwork beside its complete title, description, metadata, topics, and native
+reading action. Reuse the chapter rows' rules, responsive image widths, mobile stack,
+and focus treatment. Do not add another component or change recommendation selection.
+An article with one recommendation uses one complete row; an empty set stays omitted.
 
 ### Reading index chapter navigation
 
