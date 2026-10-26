@@ -9,14 +9,14 @@ brand:
   surface: "#05051f"
 role: "Creator"
 startingDate: "14 Jul 2026"
-updatedDate: "20 Oct 2026"
+updatedDate: "25 Oct 2026"
 liveDemoUrl: "https://postlens.santi020k.com/"
 typesId: "personal"
 purpose: "apps"
 draft: false
 relevanceWeight: 99
 previews:
-  description: "PostLens 2.0 development captures, not the current App Store UI. AI-generated sample photos and illustrative gallery scores."
+  description: "PostLens 2 workflow previews captured during development. Sample photos are AI-generated and gallery scores are illustrative; appearance may vary from the released app."
   images:
     - src: "./preview-photos.webp"
       alt: "PostLens development gallery showing generated sample photos with illustrative scores and photo-selection controls."
@@ -25,7 +25,7 @@ previews:
     - src: "./preview-editor.webp"
       alt: "PostLens development editor displaying a generated mountain-lake sample, original comparison, format selection, and editing tools."
       title: "Refine it in one focused editor"
-      caption: "Framing, adjustments, and the original comparison stay close to the photo. The preview includes the text and retouch tools being prepared for version 2.0."
+      caption: "Framing, adjustments, and the original comparison stay close to the photo. This capture shows the editing workflow developed for PostLens 2."
 impactMetrics: ["Keeps core photo analysis, scoring, editing, and caption preparation on the device", "Supports reusable formats for Instagram, Pinterest, LinkedIn, and generic exports", "Provides the app, permission language, StoreKit catalog, landing page, and support hub in English and Spanish"]
 technologies: ["Swift", "SwiftUI", "iOS", "PhotoKit", "PhotosPicker", "Vision", "Core Image", "Foundation Models", "Image Playground", "StoreKit", "Astro", "TypeScript", "Privacy Engineering", "Accessibility", "On-device AI", "Image Processing", "Localization", "Testing"]
 coverImage:
@@ -56,6 +56,7 @@ import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
 import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
 import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectReleaseSplit from '@/components/molecules/ProjectReleaseSplit.astro'
 import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
 
 
@@ -63,9 +64,9 @@ import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.
 
 ## Building a private visual content studio for iPhone and iPad
 
-PostLens helps people choose strong photos, improve them with explainable edits, compose social-ready layouts, and export the result. Its workflow is intentionally narrow: **Select → Enhance → Compose → Export**.
+PostLens 2 is available for iPhone and iPad. It helps people choose strong photos, improve them with explainable edits, compose social-ready layouts, and export the result. Its workflow is intentionally narrow: **Select → Enhance → Compose → Export**.
 
-Optional Supporter tools add private planning with local reminders. Plans stay on the device and do not publish automatically. Instagram account connection and direct publishing remain disabled for a later release; analytics and engagement tracking stay outside the product.
+Optional Supporter tools add private planning with local reminders. Plans stay on the device and do not publish automatically. Instagram account connection and direct publishing remain unavailable while we await Meta approval for production. Analytics and engagement tracking stay outside the product.
 
 </ProjectContextLead>
 
@@ -234,11 +235,33 @@ privacy manifests, source-size checks, native tests, SEO checks, and a release p
 
 <ProjectSectionHeading>
 
-### Available today and in development
+### Release status
 
 </ProjectSectionHeading>
 
-PostLens is available for iPhone and iPad on the [App Store](https://apps.apple.com/app/id6804601300). The development previews show upcoming PostLens 2 editing tools; they do not represent the current store release. Local planning and manual sharing remain separate from the deferred Instagram integration.
+<span id="available-today-and-in-development" aria-hidden="true" />
+
+<ProjectReleaseSplit
+  labelledBy="release-status"
+  states={[
+    {
+      label: "Available now",
+      title: "PostLens 2",
+      description: "The photo studio is live on iPhone and iPad: select photos, edit, compose, and export. Private planning uses local reminders and does not publish automatically.",
+      link: { label: "Get PostLens on the App Store", href: "https://apps.apple.com/app/id6804601300" }
+    },
+    {
+      label: "Awaiting Meta approval",
+      title: "Instagram publishing",
+      description: "Instagram connection and direct publishing are not available in the production app. They remain separate from the launched v2 workflow while we await Meta approval.",
+      link: { label: "Read the PostLens 2 launch note", href: "/blog/postlens-2-is-live/" }
+    }
+  ]}
+>
+
+Export and manual sharing are available now. Meta approval and a separately verified release are still required before direct Instagram publishing can become available.
+
+</ProjectReleaseSplit>
 
 <ProjectSectionHeading>
 

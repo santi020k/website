@@ -349,10 +349,16 @@
       "fingerprint": "66de66571720ee9eac1f44d595fb0258b75fdeca702ea96e0d51aabce1810d1c",
       "output": "blog/playwright-accessibility-checks-that-teams-keep-running.webp"
     },
+    "blog/postlens-2-is-live.webp": {
+      "baseDirectory": "public/og",
+      "digest": "f4873e067b97675135566e057ee68a8cf061076dbc8cf685db5b8cbb37a2e9be",
+      "fingerprint": "afc40bf6a44016b7dd517500003357856b319ddd5322686bc29eea7f2981c1bb",
+      "output": "blog/postlens-2-is-live.webp"
+    },
     "blog/postlens-private-on-device-content-studio.webp": {
       "baseDirectory": "public/og",
       "digest": "8f9004a59ef7b32a170e9c39a607641b6dffaee67410a7e4a15c0ffbe31fd59f",
-      "fingerprint": "03da3cc5ab09f756681d273c5b1b7f4b7aa3c3d2d981ee774255295bf6e855bf",
+      "fingerprint": "48b23721b2c6a928df006ed1d449705edc84b75986be8bc0ad8ed2673ad9f672",
       "output": "blog/postlens-private-on-device-content-studio.webp"
     },
     "blog/run-repo-on-mac-with-silo-dxmt.webp": {
@@ -412,7 +418,7 @@
     "pages/blog--4.webp": {
       "baseDirectory": "public/og",
       "digest": "b6c38cb5369f85b15d03972e4bd643f3f432e40f018172af1cf2f5dca61867cd",
-      "fingerprint": "666d8805e925f2ed6c54d0a6dad22567c66b773874fe2b7389d0e4264f9554f3",
+      "fingerprint": "fcccc5f595a584c450d2d0a3f8aa3539ebae73cf74858dc7820ff88a5a1adf63",
       "output": "pages/blog--4.webp"
     },
     "pages/blog--tags--development.webp": {
@@ -802,7 +808,7 @@
     "pages/blog--tags--swiftui.webp": {
       "baseDirectory": "public/og",
       "digest": "73c7d735d395217dde4d85bfcca95aa9b8148a7d0aac371222c01287754e711c",
-      "fingerprint": "80105574a3fbd1bd2d14c0584ba1b6eb78daca502ca9b55018550e9d89af75f0",
+      "fingerprint": "ac741e717f6c191d275688d21e225e68bee81de0af6a05256c9569d572994a23",
       "output": "pages/blog--tags--swiftui.webp"
     },
     "pages/blog--tags--android.webp": {
@@ -1006,25 +1012,25 @@
     "pages/blog--tags--ios.webp": {
       "baseDirectory": "public/og",
       "digest": "b579d6c6001961d7ee37c8ba8ff9f62be05fb6cd9f97db8d34742ab3486df57b",
-      "fingerprint": "dc49a9c64610341e345d06f88b8fc270cb21fedf6ee64e16fbddff6ed1a74f6e",
+      "fingerprint": "9829b96ab81db224d7835a54b50ba5f48ff2dbeb937db36f0d1bd11857dc6e23",
       "output": "pages/blog--tags--ios.webp"
     },
     "pages/blog--tags--on-device-ai.webp": {
       "baseDirectory": "public/og",
       "digest": "504602e3ef52ad4d42f457d4b071d703048e47c1d17063ce178c1dbba6451f22",
-      "fingerprint": "1e4643852a111c9b33cdbb37ec1c9b1fb1b010140a831b3d36ab358ac3b121e6",
+      "fingerprint": "00f03bcb2e24f8c102cc07e0e4665f7a92756b8e9a67f2cd51eba801f78416ba",
       "output": "pages/blog--tags--on-device-ai.webp"
     },
     "pages/blog--tags--privacy.webp": {
       "baseDirectory": "public/og",
       "digest": "33031a026738ba901ac780cd6ddab28f3909d2eab8f69fbefbdc744be11dad40",
-      "fingerprint": "110687220bf50ecf7e7c7790d6d34ab3908f271fb5c8971f1b1a9ba07d0163a8",
+      "fingerprint": "2116c10cb5ffaacaa5501266f450b2353eb3e8039a23dfa2c57fbd448ef4ecfd",
       "output": "pages/blog--tags--privacy.webp"
     },
     "pages/blog--tags--photography.webp": {
       "baseDirectory": "public/og",
       "digest": "38f3c906b930224eb91f9895ab170974ef7f9a57cb8ee1d90df84bbc7c8e6d32",
-      "fingerprint": "9e30596669ce11ff4f1c318bad4a0688dbf4ac704166f579a9d045a66c68933f",
+      "fingerprint": "f0f13cd77d8e0cce43f50c68c519781a9de51fabca94e46a5071053b1297acb6",
       "output": "pages/blog--tags--photography.webp"
     },
     "pages/blog--tags--apple-silicon.webp": {
@@ -1282,13 +1288,13 @@
     "portfolio/postlens-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "b038135352037b461b4ee7b4ff665ad199f57ff436f7844c12fd796f935e585b",
-      "fingerprint": "0fa3e246cb04605cecb2f4bb6fd60f571d673b2e461f7d263c4f0c595fa92026",
+      "fingerprint": "0de9ed9b86aaf6c9f0baab4da9910e506e003f200ea57a5828026bc0622e7b3a",
       "output": "portfolio/postlens-logo.webp"
     },
     "portfolio/postlens.webp": {
       "baseDirectory": "public/og",
       "digest": "b038135352037b461b4ee7b4ff665ad199f57ff436f7844c12fd796f935e585b",
-      "fingerprint": "0fa3e246cb04605cecb2f4bb6fd60f571d673b2e461f7d263c4f0c595fa92026",
+      "fingerprint": "0de9ed9b86aaf6c9f0baab4da9910e506e003f200ea57a5828026bc0622e7b3a",
       "output": "portfolio/postlens.webp"
     },
     "portfolio/quality-logo.webp": {
@@ -1318,13 +1324,13 @@
     "portfolio/roadscore-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "3b3ddb9d5380cea2f3281aaa63f717a3530f826130abe82645939178be7c9fb3",
-      "fingerprint": "5ce8fcd22441a9cf4ee1cdceed839fcd450df76ad6cc2e012088837e71e897e7",
+      "fingerprint": "7ff39f2576acd78cc6c46177b99045fa184978166fc6852ef34b805872ce75dd",
       "output": "portfolio/roadscore-logo.webp"
     },
     "portfolio/roadscore.webp": {
       "baseDirectory": "public/og",
       "digest": "3b3ddb9d5380cea2f3281aaa63f717a3530f826130abe82645939178be7c9fb3",
-      "fingerprint": "5ce8fcd22441a9cf4ee1cdceed839fcd450df76ad6cc2e012088837e71e897e7",
+      "fingerprint": "7ff39f2576acd78cc6c46177b99045fa184978166fc6852ef34b805872ce75dd",
       "output": "portfolio/roadscore.webp"
     },
     "portfolio/santi020k-theme-logo.webp": {

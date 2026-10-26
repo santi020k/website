@@ -18,21 +18,21 @@ import PostLensLogo from '@/content/project/postlens/logo.webp'
       </p>
       <h1 id="home-heading" data-home-hero-heading>
         <span>I build products.</span>
-        <span>And the tools</span>
-        <span class="maker-hero-emphasis">behind them.</span>
+        <span>And the <span class="maker-hero-emphasis">tools</span></span>
+        <span>behind them.</span>
       </h1>
       <p class="maker-hero-description">
-        Engineer, maker, and technical lead.
-        I turn complex problems into useful software,
-        with care for every detail.
+        Engineering lead, product builder, and creator of{' '}
+        <span class="whitespace-nowrap">Lumen UI</span>.
+        I build commerce platforms, native apps, and tools for developers.
       </p>
       <div class="maker-hero-actions">
         <ButtonLink class="maker-hero-primary" href="/portfolio/" variant="unstyled">
-          Explore my work
+          See selected work
           <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-up-right" /></span>
         </ButtonLink>
         <ButtonLink class="maker-hero-secondary" href="/about/" variant="unstyled">
-          A little about me <Icon name="arrow-right" />
+          About me <Icon name="arrow-right" />
         </ButtonLink>
       </div>
     </div>
@@ -43,8 +43,8 @@ import PostLensLogo from '@/content/project/postlens/logo.webp'
           alt="Portrait of Santiago Molina, smiling"
           class="maker-hero-portrait"
           src={HeroPortrait}
-          widths={[320, 360, 400, 480, 600, 640, 800]}
-          sizes="(min-width: 1024px) 384px, (min-width: 768px) 36vw, (min-width: 430px) 352px, calc(100vw - 78px)"
+          widths={[72, 144, 216, 288, 352, 480, 600, 704, 800]}
+          sizes="(min-width: 1024px) 352px, (min-width: 768px) 36vw, 4.5rem"
           width={800}
           height={1200}
           format="webp"
@@ -54,25 +54,22 @@ import PostLensLogo from '@/content/project/postlens/logo.webp'
         />
       </div>
       <figcaption class="maker-hero-caption">
-        <div data-home-portrait-identity>
-          <span class="maker-hero-handle">@santi020k</span>
-          <span data-home-portrait-name>Santiago Molina</span>
-        </div>
-        <span class="maker-hero-location">Medellín, Colombia</span>
+        <span data-home-portrait-name>Santiago Molina</span>
+        <span>Medellín, Colombia</span>
       </figcaption>
     </figure>
   </div>
 
   <nav class="maker-hero-shelf" aria-label="Featured products" id="hero-products">
-    <p class="maker-hero-shelf-label">A few things I’m building <Icon name="arrow-down-right" /></p>
+    <p class="maker-hero-shelf-label">Selected products</p>
     <a class="maker-hero-project" href="/portfolio/lumen-ui/">
       <Image alt="" class="maker-hero-project-logo" src={LumenLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
-      <span><strong>Lumen UI</strong><span>One system. Many platforms.</span></span>
+      <span><strong>Lumen UI</strong><span>Web and native components</span></span>
       <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
     </a>
     <a class="maker-hero-project" href="/portfolio/postlens/">
       <Image alt="" class="maker-hero-project-logo" src={PostLensLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
-      <span><strong>PostLens</strong><span>A little more from every photo.</span></span>
+      <span><strong>PostLens</strong><span>Private photo editing for iPhone</span></span>
       <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
     </a>
     <ButtonLink class="maker-hero-index" href="/projects/" aria-label="Explore all projects" variant="unstyled">All projects <Icon name="plus" /></ButtonLink>

@@ -23,7 +23,7 @@ Use weight and scale for hierarchy, with sentence case for headings.
 
 | Role | Size | Weight | Treatment |
 | --- | --- | --- | --- |
-| Home hero | Responsive, up to 5.5rem | 600 | Tight tracking, 1.02 line height |
+| Home hero | Responsive, up to 5rem | 600 | Tight tracking, 1.02 line height |
 | Section heading | 2.25–3.75rem | 500 | −0.065em tracking, 1.08 line height |
 | Project title | 1.5–2rem | 500 | −0.055em tracking |
 | Article title | 1.125–1.5rem | 500 | 1.4 line height; show the complete title |
@@ -1878,31 +1878,26 @@ navigation, social, and legal links stay consistent across routes.
 Keep project ordering and article visibility under the existing content utilities. Development
 mode may show drafts and scheduled articles; judge the public content against a production build.
 
-### Portrait spread homepage profile
+### Refined maker homepage hero
 
-The homepage portrait shares About's curved caption treatment at a quieter scale.
-Keep its existing 4:5 frame, centered 40% crop, responsive image sources, and eager
-loading. Give the frame a 1.875rem upper-left corner, a 0.375rem upper-right corner,
-and a straight lower edge. Below it, place the handle above a 1.4375rem name at
-weight 500. The 7rem location mount uses `brand-soft`, a 1.5rem inverse curve, and
-a 1.875rem lower-right corner. Use the active theme's accent for the handle.
+Keep the personal greeting and three-line headline, with purple emphasis on “tools”.
+The introduction names engineering leadership, Lumen UI, commerce platforms, native apps,
+and developer tools. “See selected work” opens the portfolio; “About me” opens About.
+Preserve the shared header, its controls, and the joined Signature frame.
 
-Below 20rem of portrait width, tighten the name and location column. Below
-16.25rem, move the location into a small right-aligned tab beneath the complete
-name. Preserve the native figure, image description, hero actions, and product
-bookmarks; do not add an overlay or animation to the portrait.
+On desktop, use an open two-column layout with a 22rem-wide, 4:5 portrait, centered
+40% crop, 1.5rem corners, and a plain name and location caption. The headline reaches
+5rem; primary and secondary actions use 0.875rem labels and retain generous hit areas.
+On phones below 768px and below 41rem of Home container width with enlarged text, move the portrait
+into a compact identity row with a 4.5rem image. Below 18rem, put the complete caption
+beneath that image. Keep the optimized responsive image sources and eager loading.
 
-### Project bookmarks hero shortcuts
-
-The homepage hero ends with a named product navigation containing two native project links.
-Each bookmark pairs an optimized logo on a tinted rail with its title and complete short
-summary. Keep Lumen UI and PostLens in their existing order and preserve their case-study
-links. The separate “All projects” action remains visible at every width.
-
-Use the `home-hero` container to stack the pair below 39.5rem. Tighten the rail and insets below
-21.25rem and place the logo above the copy below 16rem for enlarged text. Keep full text,
-visible focus, and stationary cards on hover. The hero headline, portrait, and primary actions
-retain their existing layout.
+End the hero with an open, ruled “Selected products” strip containing Lumen UI and
+PostLens in that order, with descriptive summaries in 0.75rem type. Retain the named
+product navigation, existing case-study links, `hero-products` fragment, and visible
+“All projects” action. At narrow widths, stack the complete product links with fine
+rules; enlarged text can move logos above their copy. Preserve visible keyboard focus,
+reduced motion, and both themes. Do not add decorative cards or client JavaScript.
 
 ### Sculpted ledger homepage statistics
 
@@ -2145,7 +2140,7 @@ The screen resume has no rounded clipping boundary, so its edge labels and focus
 The footer colophon reserves the Back to Top corner wherever the two would meet.
 The phone homepage hero also reflows its heading, actions, and project shelf when text grows.
 On tablets and desktops, the Home frame's `home-hero` container adopts the phone layout for the
-stage, portrait, caption, and actions below 39.5rem, keeping the viewport's type scale,
+stage, portrait, caption, and actions below 41rem, keeping the viewport's type scale,
 so enlarged headings never split words or run into the portrait. The default desktop and 768px
 tablet compositions are unchanged, and the frame's own padding still follows the viewport.
 These rules apply only inside Home; other `maker-hero` pages are unaffected.

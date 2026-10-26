@@ -9,7 +9,8 @@ test('the hero connects products, personal background, and the full portfolio', 
 
   await expect(page.locator('h1')).toHaveCount(1)
   await expect(hero.locator('h1')).toContainText('I build products.')
-  await expect(hero.locator('a[href="/portfolio/"]')).toHaveAccessibleName('Explore my work')
+  await expect(hero.locator('.maker-hero-description')).toHaveText('Engineering lead, product builder, and creator of Lumen UI. I build commerce platforms, native apps, and tools for developers.')
+  await expect(hero.locator('a[href="/portfolio/"]')).toHaveAccessibleName('See selected work')
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAttribute('href', '/portfolio/')
   await expect(hero.locator('a[href="/portfolio/lumen-ui/"]')).toHaveAttribute('href', '/portfolio/lumen-ui/')
   await expect(hero.locator('a[href="/portfolio/postlens/"]')).toHaveAttribute('href', '/portfolio/postlens/')
@@ -28,7 +29,7 @@ test('the hero connects products, personal background, and the full portfolio', 
   await expect(page.locator('[data-particles-bg]')).toBeVisible()
 })
 
-test('hero product bookmarks preserve destinations and keyboard navigation', async ({ page, browserName }) => {
+test('hero product links preserve destinations and keyboard navigation', async ({ page, browserName }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
 
@@ -36,8 +37,8 @@ test('hero product bookmarks preserve destinations and keyboard navigation', asy
   const links = products.getByRole('link')
 
   await expect(links).toHaveCount(3)
-  await expect(links.nth(0)).toHaveAccessibleName('Lumen UI One system. Many platforms.')
-  await expect(links.nth(1)).toHaveAccessibleName('PostLens A little more from every photo.')
+  await expect(links.nth(0)).toHaveAccessibleName('Lumen UI Web and native components')
+  await expect(links.nth(1)).toHaveAccessibleName('PostLens Private photo editing for iPhone')
   await expect(links.nth(2)).toHaveAccessibleName('Explore all projects')
   await expect(links.nth(2)).toBeVisible()
   await expect(links.nth(2)).toHaveAttribute('href', '/projects/')
@@ -52,7 +53,23 @@ test('hero product bookmarks preserve destinations and keyboard navigation', asy
 })
 
 for (const theme of ['light', 'dark'] as const) {
-  test(`hero product bookmarks keep complete text and logos at enlarged sizes in ${theme} mode`, async ({ page }) => {
+  test(`the refined mobile opening brings selected products into view in ${theme} mode`, async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+    await page.goto('/')
+    await page.evaluate(() => document.fonts.ready)
+
+    const hero = page.locator('[data-home-hero]')
+    const portrait = hero.getByRole('img', { name: 'Portrait of Santiago Molina, smiling' })
+
+    await expect(hero.getByRole('link', { name: 'See selected work', exact: true })).toBeInViewport({ ratio: 1 })
+    await expect(hero.getByRole('link', { name: 'About me', exact: true })).toBeInViewport({ ratio: 1 })
+    await expect(hero.getByText('Medellín, Colombia', { exact: true })).toBeInViewport({ ratio: 1 })
+    await expect(hero.getByRole('link', { name: 'Lumen UI Web and native components' })).toBeInViewport({ ratio: 1 })
+    await expect.poll(() => portrait.evaluate(image => image.getBoundingClientRect().height)).toBeLessThanOrEqual(100)
+  })
+
+  test(`hero product links keep complete text and logos at enlarged sizes in ${theme} mode`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
 
     for (const width of [320, 390, 768, 1440]) {
@@ -99,7 +116,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
 
-    for (const width of [320, 375, 640, 768, 1024, 1440]) {
+    for (const width of [320, 375, 640, 767, 768, 1024, 1440]) {
       await page.setViewportSize({ width, height: 900 })
       // Wait for responsive styles and fonts before measuring the resized hero.
       await page.evaluate(async () => {
@@ -128,5 +145,12 @@ for (const theme of ['light', 'dark'] as const) {
     }
 
     await expectNoUnexpectedAccessibilityViolations(page)
+
+    for (const width of [320, 375, 640, 767]) {
+      await page.setViewportSize({ width, height: 900 })
+      await expect.poll(() => page.locator('.maker-hero-portrait').evaluate(
+        image => image.getBoundingClientRect().height
+      )).toBeLessThanOrEqual(100)
+    }
   })
 }

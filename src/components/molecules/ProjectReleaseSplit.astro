@@ -1,0 +1,69 @@
+---
+import { Icon, Link } from '@santi020k/lumen-astro'
+
+interface ReleaseState {
+  label: string
+  title: string
+  description: string
+  link?: { label: string, href: string }
+}
+
+interface Props {
+  labelledBy: string
+  states: [ReleaseState, ReleaseState]
+}
+
+const { labelledBy, states } = Astro.props
+---
+
+<section aria-labelledby={labelledBy} class="not-prose" data-project-release-split>
+  <div data-release-columns>
+    {states.map(state => (
+      <div data-release-state>
+        <p data-release-label>{state.label}</p>
+        <h4>{state.title}</h4>
+        <p data-release-description>{state.description}</p>
+        {state.link && (
+          <Link
+            href={state.link.href}
+            newTab={/^https?:\/\//u.test(state.link.href)}
+            variant="inherit"
+            data-release-link
+          >
+            <span>{state.link.label}</span>
+            <Icon name={/^https?:\/\//u.test(state.link.href) ? 'arrow-up-right' : 'arrow-right'} size="sm" />
+          </Link>
+        )}
+      </div>
+    ))}
+  </div>
+  {Astro.slots.has('default') && <div data-release-note><slot /></div>}
+</section>
+
+<style>
+  [data-project-release-split] {
+    --release-accent: var(--brand);
+    container: release-split / inline-size;
+    margin-block: 1.75rem 2.5rem;
+    color: hsl(var(--ink));
+  }
+
+  :global([data-theme='dark']) [data-project-release-split] { --release-accent: var(--accent); }
+  [data-release-columns] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem; }
+  [data-release-state] { min-width: 0; border-top: 1px solid hsl(var(--line)); padding-top: 1.25rem; }
+  [data-release-label] { margin: 0 0 0.875rem; color: hsl(var(--release-accent)); font-size: 0.75rem; font-weight: 500; line-height: 1.6; }
+  h4 { margin: 0 0 1rem; font-size: 1.625rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.035em; overflow-wrap: anywhere; }
+  [data-release-description] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.8; }
+  [data-release-link][data-slot='link'] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; margin-top: 1rem; padding-block: 0.5rem; color: hsl(var(--release-accent)); font-size: 0.8125rem; font-weight: 500; line-height: 1.7; text-decoration: none; }
+  [data-release-link] span { min-width: 0; overflow-wrap: anywhere; text-decoration: underline; text-decoration-color: hsl(var(--line)); text-underline-offset: 0.3rem; }
+  [data-release-link] :global(svg) { flex-shrink: 0; }
+  [data-release-link]:is(:hover, :focus-visible) span { text-decoration-color: currentColor; }
+  [data-release-link]:focus-visible { outline: 2px solid hsl(var(--release-accent)); outline-offset: 4px; }
+  [data-release-note] { margin-top: 1.5rem; border-top: 1px solid hsl(var(--line)); padding-top: 1.25rem; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
+  [data-release-note] :global(p) { margin: 0; color: inherit; font-size: 0.8125rem; line-height: 1.8; }
+  [data-release-note] :global(a) { color: hsl(var(--release-accent)); text-underline-offset: 0.25rem; }
+
+  @container release-split (width < 35rem) {
+    [data-release-columns] { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
