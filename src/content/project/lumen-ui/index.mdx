@@ -71,6 +71,8 @@ import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitecture
 
 import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
 
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+
 <ProjectContextLead projectId="lumen-ui" headingId="a-shared-language-for-web-and-native-interfaces">
 
 ## A shared language for web and native interfaces
@@ -100,11 +102,15 @@ Applications keep their business rules, data, routing, and recovery policy.
 
 </ProjectSectionHeading>
 
-- **Share product language** across web and native interfaces without forcing a common runtime.
-- **Make accessible interaction repeatable** through semantics, keyboard paths, focus management,
-  readable status feedback, and reduced-motion support.
-- **Support real product work** with forms, data presentation, operational layouts, and recovery states.
-- **Make design decisions discoverable** for developers, designers, and coding agents.
+<ProjectIntentBrief
+  labelledBy="goals"
+  goals={[
+    { lead: 'Share product language', detail: 'across web and native interfaces without forcing a common runtime.' },
+    { lead: 'Make accessible interaction repeatable', detail: 'through semantics, keyboard paths, focus management, readable status feedback, and reduced-motion support.' },
+    { lead: 'Support real product work', detail: 'with forms, data presentation, operational layouts, and recovery states.' },
+    { lead: 'Make design decisions discoverable', detail: 'for developers, designers, and coding agents.' }
+  ]}
+/>
 
 <ProjectSectionHeading>
 

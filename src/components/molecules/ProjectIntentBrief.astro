@@ -1,0 +1,38 @@
+---
+interface Props {
+  labelledBy: string
+  goals: {
+    lead: string
+    detail: string
+  }[]
+}
+
+const { labelledBy, goals } = Astro.props
+---
+
+<div class="not-prose" data-project-intent>
+  <ul aria-labelledby={labelledBy} role="list">
+    {goals.map(goal => (
+      <li><p><strong>{goal.lead}</strong> {goal.detail}</p></li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  [data-project-intent] {
+    --intent-accent: var(--brand);
+    container: intent-brief / inline-size;
+    margin-block: 1.5rem;
+    color: hsl(var(--ink-soft));
+  }
+  :global([data-theme='dark']) [data-project-intent] { --intent-accent: var(--accent); }
+  [data-project-intent] ul { margin: 0; border-block: 1px solid hsl(var(--line)); padding: 0; list-style: none; }
+  [data-project-intent] li { margin: 0; padding-block: 1.5rem; }
+  [data-project-intent] li + li { border-top: 1px solid hsl(var(--line)); }
+  [data-project-intent] p { max-width: 37em; margin: 0; color: hsl(var(--ink-soft)); font-size: 1.1875rem; line-height: 1.75; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+  [data-project-intent] strong { color: hsl(var(--intent-accent)); font-weight: 500; }
+
+  @container intent-brief (width < 35rem) {
+    [data-project-intent] p { font-size: 1.0625rem; }
+  }
+</style>
