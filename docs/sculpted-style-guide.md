@@ -1633,6 +1633,13 @@ and 18rem of card width for mobile and enlarged text. Retain Shiki highlighting,
 Lumen copy success/error announcements, visible copy states, and a 44px target.
 Package-manager tabs use the related Tab folio treatment and shared runtime.
 
+Imported article examples use `ArticleCode` and the same Code folio renderer, styles,
+Shiki themes, copy states, and scroll cue as Markdown fences. Supply the complete
+filename and a descriptive `codeLabel`. Keep imported content literal, including
+backticks, HTML, and notation comments; do not turn source into Markdown or tabs.
+Let Lumen assign imported cue IDs across the page so they cannot collide with fenced
+examples. No separate client controller or visual variant is needed.
+
 Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
 when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
 and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match

@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Render imported article examples with the shared Code folio, retaining literal source, complete filenames, accessible copy states, line numbers, and horizontal scroll guidance.
+
 - Stop unfinished outgoing smooth scrolling when navigation begins so keyboard-activated links preserve the next page's fragment and history positions.
 
 - Connect each Speaking topic to a relevant article or case study through an accessible Practice caption, preserving complete descriptions and passive format cards.

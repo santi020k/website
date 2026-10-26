@@ -495,6 +495,30 @@ their fingerprint, then passed freshness checks. Published changelog entries
 remain unchanged. The complete workspace gate remains recorded at `16b66665`;
 this follow-up received the scoped integration checks above.
 
+## Imported article Code folio follow-up
+
+Approved source `102138ea` renders the three imported accessibility-guide examples
+through the shared Code folio pipeline. Literal source, complete filenames,
+descriptive region labels, copy feedback, and overflow guidance are preserved.
+Imported notation comments stay literal and cue IDs are assigned across the
+assembled page. Markdown keeps its existing highlighting options, and the shared
+line-number gutter now accommodates two-digit numbers. No dependency or client
+controller was added. The patch note is folded into 5.0.0.
+
+All 914 unit tests and 36 scoped Chromium/WebKit code, copy-feedback, tab, and
+guide-content cases passed with retries disabled. Four rendered checks covered
+mobile and desktop in both themes with exact imported source, complete filenames,
+zero accessibility violations, no horizontal page overflow, and no runtime errors.
+Before-and-after captures were reviewed. The temporary accessibility harness was
+adjusted to use an explicit browser context as required by axe; application code
+did not need a repair.
+
+Affected lint passed with zero warnings, the current production build and
+452-page OG audit passed, and both resumes were regenerated for the shared prose
+stylesheet change before passing freshness checks. Published changelog entries
+remain unchanged. The last complete workspace gate remains `16b66665`; navigation
+was subsequently validated with 134 cases at `822f788a`.
+
 ## Related article Reading rows follow-up
 
 The approved `44106dd9` reuses `PostsGallery` with its existing chapter layout

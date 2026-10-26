@@ -1,0 +1,15 @@
+---
+import { renderArticleCode } from '@/utils/article-code'
+
+interface Props {
+  code: string
+  codeLabel: string
+  label: string
+  language: string
+}
+
+const { code, codeLabel, label, language } = Astro.props
+const html = await renderArticleCode({ code, codeLabel, label, language })
+---
+
+<Fragment set:html={html} />

@@ -24,7 +24,8 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(cue).toBeVisible()
     await expect(pre).toHaveAccessibleDescription(cueText)
     await pre.focus()
-    await page.keyboard.press('ArrowRight')
+    // WebKit scrolls while the key is held; an instantaneous down/up may not move it.
+    await page.keyboard.press('ArrowRight', { delay: 100 })
     await expect.poll(() => pre.evaluate(element => element.scrollLeft)).toBeGreaterThan(0)
     await expect(pre).toBeFocused()
     await pre.evaluate(element => {

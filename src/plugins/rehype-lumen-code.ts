@@ -136,7 +136,7 @@ const codeIcon = (name = 'code-xml'): Element => element('svg', {
   viewBox: '0 0 24 24'
 }, getLumenIcon(name)?.node.map(iconNode) ?? [])
 
-const createHeader = (language: string, label: string, folio: boolean): Element => {
+const createHeader = (language: string, label: string, folio: boolean, copyValue?: string): Element => {
   const metadata: ElementContent[] = []
 
   if (language || folio) {
@@ -162,6 +162,7 @@ const createHeader = (language: string, label: string, folio: boolean): Element 
       dataCopyCopiedLabel: COPIED_LABEL,
       dataCopyErrorLabel: COPY_ERROR_LABEL,
       dataCopyLabel: COPY_LABEL,
+      dataCopyValue: copyValue,
       dataState: 'idle',
       dataUiCodeCopy: '',
       title: COPY_LABEL,
@@ -176,8 +177,22 @@ const createHeader = (language: string, label: string, folio: boolean): Element 
   ])
 }
 
-const convertFigure = (figure: Element, exampleNumber: number, folio: boolean): void => {
-  const { label, language, pre } = getCodeMetadata(figure)
+export interface ImportedCodeMetadata {
+  codeLabel: string
+  copyValue?: string
+  label: string
+}
+
+interface Options {
+  imported?: ImportedCodeMetadata
+}
+
+const convertFigure = (
+  figure: Element, exampleNumber: number, folio: boolean, imported?: ImportedCodeMetadata
+): void => {
+  const metadata = getCodeMetadata(figure)
+  const { language, pre } = metadata
+  const label = imported?.label ?? metadata.label
 
   figure.properties.className = [...classNames(figure), 'ui-code', 'ui-code--block']
 
@@ -204,17 +219,17 @@ const convertFigure = (figure: Element, exampleNumber: number, folio: boolean): 
 
     pre.properties.role = 'region'
 
-    pre.properties.ariaLabel = `Code example ${exampleNumber}: ${label || language || 'plain text'}`
+    pre.properties.ariaLabel = imported?.codeLabel ?? `Code example ${exampleNumber}: ${label || language || 'plain text'}`
   }
 
   figure.children = [
-    createHeader(language, label, folio),
+    createHeader(language, label, folio, imported?.copyValue),
     ...figure.children.filter(child => (
       child.type !== 'element' ||
       dataProperty(child, 'rehype-pretty-code-title') === undefined
     )),
     ...(folio && pre ?
-      [createLumenScrollCue(`article-code-scroll-cue-${exampleNumber}`, 'Scroll horizontally to read more')] :
+      [createLumenScrollCue(imported ? undefined : `article-code-scroll-cue-${exampleNumber}`, 'Scroll horizontally to read more')] :
       [])
   ]
 }
@@ -367,11 +382,12 @@ const groupPackageManagerAlternatives = (tree: Root): void => {
  * Adapts Rehype Pretty Code output to Lumen's Code and CodeTabs public DOM
  * contracts while retaining Shiki's syntax-highlighted children.
  */
-export const rehypeLumenCode: Plugin<[], Root> = () => (tree, file) => {
-  groupPackageManagerAlternatives(tree)
+export const rehypeLumenCode: Plugin<[Options?], Root> = (options = {}) => (tree, file) => {
+  // Imported files are literal examples, not authored package-manager alternatives.
+  if (!options.imported) groupPackageManagerAlternatives(tree)
 
   const sourcePath = file.history.at(-1)?.replace(/\\/gu, '/') ?? ''
-  const isArticle = /(?:^|\/)src\/content\/post\//u.test(sourcePath)
+  const isArticle = Boolean(options.imported) || /(?:^|\/)src\/content\/post\//u.test(sourcePath)
   let exampleNumber = 0
 
   visit(tree, 'element', (node, _index, parent) => {
@@ -381,6 +397,6 @@ export const rehypeLumenCode: Plugin<[], Root> = () => (tree, file) => {
 
     const isTabPanel = parent?.type === 'element' && parent.properties.role === 'tabpanel'
 
-    convertFigure(node, exampleNumber, isArticle && !isTabPanel)
+    convertFigure(node, exampleNumber, isArticle && !isTabPanel, options.imported)
   })
 }
