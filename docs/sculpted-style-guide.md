@@ -1706,6 +1706,9 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   ends in a quiet diagonal step; do not add a second signature label above it.
 - Mark the current desktop route with a fine accent underline and `aria-current`,
   leaving its surface open. Hover adds a quiet neutral fill.
+- Center the desktop links in the space between identity and utilities, with
+  0.875rem labels and generous hit areas. At 64rem of header width, show the Search
+  label and its `/` shortcut; narrower headers retain the same icon button.
 - Keep the landing-page navigation strip open above the opaque hero frame. Scrolling
   fills the dock and adds modest depth. Separate desktop utilities with a fine
   vertical rule only when the contact action is visible.
@@ -1713,6 +1716,14 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   keyboard behavior, and reduced-motion support. Opening fills the header into one
   continuous surface, with a short row reveal and 7px blur behind it. Keep the
   backdrop and scroll lock through the exit animation; reopening cancels the exit.
+- Use Lumen's menu icon and show Menu/Close labels on phones when the header has
+  at least 21rem of width. Keep icon controls at 44px when text or width needs more room.
+  The current mobile destination retains its underline and gains a quiet Current label,
+  omitted below 18rem of menu width. Internal destinations use right arrows.
+  At 34rem of menu width, arrange links and footer actions in two columns, keeping
+  row-first reading and keyboard order; enlarged text restores the single column.
+  Below 14rem, omit decorative row numbers and arrows, including the contact
+  arrow compartment, so labels stay inside their actions.
 - Search uses **Search cover**: an asymmetric solid sheet, a tinted title area,
   and a bordered search field overlapping the lower edge of that title area. Keep
   the close control on its own surface, the blurred backdrop, and the existing
@@ -1749,8 +1760,8 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   destination focused. Canceled actions leave the menu available. Below 500px of
   viewport height, compact header spacing and icon controls to leave room for a
   full navigation row, including with enlarged text.
-- Use real outlines and borders for forced-colors focus, the mobile menu symbol,
-  and the desktop current-page marker. Shared header styles own the search and
+- Use real outlines and borders for forced-colors focus and current-page markers;
+  menu icons inherit the control's text color. Shared header styles own the search and
   theme controls; do not restore the retired conic borders or spring effects.
 
 Opt into this composition with `headerVariant="signature"` on `Base` and the
