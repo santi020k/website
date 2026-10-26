@@ -20,10 +20,8 @@ const { id, label, references } = Astro.props
         newTab
         variant="inherit"
         data-evidence-link
-        aria-labelledby={`${id}-reference-${index}`}
-        aria-describedby={`${id}-description-${index}`}
       >
-        <strong id={`${id}-reference-${index}`}>{reference.label}</strong>
+        <strong id={`${id}-reference-${index}`}>{reference.label}</strong>{' '}
         <span id={`${id}-description-${index}`} data-evidence-description>{reference.description}</span>
         <span data-evidence-arrow><Icon name="arrow-up-right" size="sm" /></span>
       </Link>

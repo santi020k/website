@@ -22,13 +22,15 @@ for (const theme of ['light', 'dark']) {
     await expect(links).toHaveCount(2)
     await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(7)
     for (const reference of references) {
-      const link = brief.getByRole('link', { name: reference.name, exact: true })
+      const link = brief.getByRole('link', { name: reference.name })
 
       await expect(link).toHaveAttribute('href', reference.href)
       await expect(link).toHaveAttribute('target', '_blank')
       await expect(link).toHaveAttribute('rel', /noopener/u)
       await expect(link).toHaveAttribute('rel', /noreferrer/u)
-      await expect(link).toHaveAccessibleDescription(/.+/u)
+      const description = await link.locator('[data-evidence-description]').innerText()
+
+      await expect(link).toHaveAccessibleName(`${reference.name} ${description}`)
     }
     for (const width of [320, 390, 1440]) {
       await page.setViewportSize({ width, height: 1000 })
@@ -81,7 +83,7 @@ test('Lumen evidence destinations open without JavaScript', async ({ browser }) 
   for (const reference of references) {
     const destination = page.waitForEvent('popup')
 
-    await brief.getByRole('link', { name: reference.name, exact: true }).focus()
+    await brief.getByRole('link', { name: reference.name }).focus()
     await page.keyboard.press('Enter')
     const popup = await destination
 
