@@ -17,31 +17,29 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
 ---
 
 <Card as="article" variant="unstyled" data-related-project style={getProjectBrandStyle(project.data.brand)}>
-  <div data-related-body>
-    <div data-related-identity>
-      <div data-related-artwork>
-        {cover ?
+  <div data-related-artwork>
+    {cover ?
 (
-          <Picture
-            alt=""
-            class="absolute inset-0 size-full object-cover"
-            fallbackFormat="webp"
-            formats={['avif']}
-            height={240}
-            loading="lazy"
-            sizes="(min-width: 1024px) 112px, 80px"
-            src={cover}
-            width={240}
-            widths={[120, 240, 360]}
-            fit="cover"
-          />
-        ) :
-<Icon class="size-6" name="code-2" />}
-      </div>
-      <div data-related-heading>
-        <p data-related-role>{project.data.role ?? 'Engineering'}</p>
-        <h3>{project.data.title}</h3>
-      </div>
+      <Picture
+        alt=""
+        class="absolute inset-0 size-full object-cover"
+        fallbackFormat="webp"
+        formats={['avif']}
+        height={450}
+        loading="lazy"
+        sizes="auto, (min-width: 1280px) 564px, (min-width: 768px) 50vw, 100vw"
+        src={cover}
+        width={800}
+        widths={[400, 600, 800, 1200]}
+        fit="cover"
+      />
+    ) :
+<Icon class="size-12" name="code-2" />}
+  </div>
+  <div data-related-body>
+    <div data-related-heading>
+      <p data-related-role>{project.data.role ?? 'Engineering'}</p>
+      <h3>{project.data.title}</h3>
     </div>
     <p data-related-description>{project.data.description}</p>
     <div data-related-footer>
@@ -61,50 +59,42 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
     container: related-card / inline-size;
     position: relative;
     display: flex;
+    flex-direction: column;
     height: 100%;
     min-width: 0;
     padding: 0;
-    border: 1px solid hsl(var(--line) / 0.65);
-    border-radius: var(--radius-sheet);
-    background: hsl(var(--surface));
+    border: 0;
+    border-radius: 1.5rem;
+    background: transparent;
   }
   :global(:root[data-theme='dark']) [data-related-project] { --related-emphasis: var(--accent); --related-project-ink: var(--project-primary-readable-dark); }
-  [data-related-body] { display: grid; flex: 1; grid-template-columns: 7rem minmax(0, 1fr); grid-template-rows: auto 1fr auto; gap: 0.875rem 1.5rem; min-width: 0; padding: 1.5rem; }
-  [data-related-identity] { display: contents; }
-  [data-related-artwork] { position: relative; display: grid; grid-row: span 2; align-self: start; place-items: center; aspect-ratio: 1; overflow: hidden; border-radius: 1rem; background: hsl(var(--brand-soft)); color: hsl(var(--related-emphasis)); }
+  [data-related-artwork] { position: relative; display: grid; flex-shrink: 0; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 1.5rem; background: hsl(var(--brand-soft)); color: hsl(var(--related-emphasis)); }
+  [data-related-body] { position: relative; display: grid; flex: 1; grid-template-rows: auto 1fr auto; gap: 1rem; min-width: 0; margin: -2rem 1rem 0; padding: 1.5rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: var(--radius-sheet); background: hsl(var(--surface)); }
   [data-related-heading] { min-width: 0; }
-  [data-related-heading] h3 { margin: 0; color: hsl(var(--ink)); font-size: 1.5rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.04em; overflow-wrap: anywhere; }
-  [data-related-role] { margin: 0 0 0.375rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; overflow-wrap: break-word; }
+  [data-related-heading] h3 { margin: 0; color: hsl(var(--ink)); font-size: 1.75rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.055em; overflow-wrap: anywhere; }
+  [data-related-role] { margin: 0 0 0.5rem; color: hsl(var(--related-project-ink)); font-size: 0.6875rem; font-weight: 500; line-height: 1.7; overflow-wrap: break-word; }
   [data-related-description] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; text-wrap: pretty; overflow-wrap: break-word; }
-  [data-related-footer] { grid-column: 1 / -1; margin-top: 0.375rem; }
+  [data-related-footer] { margin-top: 0.5rem; }
   [data-related-action] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; padding-top: 1rem; border-top: 1px solid hsl(var(--line) / 0.65); color: hsl(var(--ink)); font-size: 0.8125rem; font-weight: 500; line-height: 1.7; }
-  [data-related-arrow] { display: grid; flex-shrink: 0; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: hsl(var(--surface-muted)); }
+  [data-related-arrow] { display: grid; flex-shrink: 0; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 0.75rem 0.75rem 0.375rem 0.75rem; background: hsl(var(--surface-muted)); color: hsl(var(--related-project-ink)); }
   [data-related-link] { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
   [data-related-link]:focus-visible { outline: 2px solid hsl(var(--related-project-ink)); outline-offset: 4px; }
-  [data-related-project]:is(:hover, :focus-within) { border-color: hsl(var(--related-project-ink)); }
+  [data-related-project]:is(:hover, :focus-within) [data-related-body] { border-color: hsl(var(--related-project-ink)); }
   [data-related-project]:is(:hover, :focus-within) :is(h3, [data-related-role], [data-related-action]) { color: hsl(var(--related-project-ink)); }
   @media (prefers-reduced-motion: no-preference) {
-    [data-related-project] { transition: border-color 160ms ease; }
+    [data-related-body] { transition: border-color 160ms ease; }
     [data-related-heading] h3, [data-related-role], [data-related-action] { transition: color 160ms ease; }
   }
-  @container related-card (width < 30rem) {
-    [data-related-body] { grid-template-columns: 5rem minmax(0, 1fr); gap: 1.125rem; padding: 1.375rem; }
-    [data-related-artwork] { grid-row: auto; }
-    [data-related-heading] { align-self: center; }
-    [data-related-description] { grid-column: 1 / -1; }
-    [data-related-heading] h3 { font-size: 1.4375rem; }
+  @container related-card (width < 26rem) {
+    [data-related-body] { margin: -1.5rem 0.75rem 0; padding: 1.25rem; }
+    [data-related-heading] h3 { font-size: 1.5rem; }
   }
   @container related-card (width < 18rem) {
-    [data-related-body] { grid-template-columns: 3.5rem minmax(0, 1fr); gap: 0.875rem; padding: 1rem; }
-    [data-related-heading] h3 { font-size: 1.25rem; }
-  }
-  @container related-card (18rem <= width < 22rem) {
-    [data-related-body] { grid-template-columns: 4rem minmax(0, 1fr); }
+    [data-related-body] { margin-inline: 0.375rem; padding: 1rem; }
     [data-related-heading] h3 { font-size: 1.25rem; }
   }
   @container related-card (width < 14rem) {
-    [data-related-body] { grid-template-columns: minmax(0, 1fr); }
-    [data-related-artwork] { width: min(100%, 4.75rem); }
+    [data-related-body] { margin: 0.75rem 0 0; padding: 0.875rem; }
     [data-related-arrow] { display: none; }
   }
 </style>
