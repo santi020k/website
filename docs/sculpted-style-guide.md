@@ -1265,6 +1265,15 @@ text flow. It applies only to top-level h2 elements in current article content.
 Nested component headings, project prose, and archives retain their existing
 treatments. The rule is decorative and adds no navigation label.
 
+Section reference adds a 2.75rem Lumen copy control after the trailing rule. Keep the
+button outside the native heading so its accessible name and contents label remain
+unchanged. Use a neutral border, canvas fill, brand/accent icon, and 0.75rem corners
+with a 0.25rem lower-right corner. Show a check and “Copied” after success, and a
+clear failure state with accessible recovery guidance. Preserve the visible focus
+outline. Below 32rem, reduce the row gap to 0.75rem; below 16rem, give the heading
+the full line and align the control beneath it at the end. Without JavaScript,
+leave the original Section cadence layout and native contents navigation intact.
+
 Article body h3 elements use Subsection cadence: 1.3125rem type at weight 500,
 1.4 line height, and -0.025em tracking. Leave 2.25rem before a subsection and
 0.75rem before its content. Below 32rem of prose width, use 1.1875rem type.

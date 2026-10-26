@@ -394,7 +394,12 @@ enlarged text sizes. No new client controller is introduced.
 - `rehypeArticleHeadings` applies Section cadence to current article body h2 elements at
   build time. Native headings, generated fragments, and inline links remain intact;
   a span keeps formatted titles together beside a CSS rule. The article prose container
-  adapts the typography and rule spacing without client code or a second Lumen runtime.
+  adapts the typography and rule spacing. `ArticleSectionReferences` adds Section reference
+  by moving server-rendered Lumen `CopyButton` controls beside these headings. It uses the
+  local article URL and existing fragments, including syndicated posts. Controls remain
+  hidden without JavaScript; native headings and contents links still work. The shared
+  runtime owns clipboard handling, success/error feedback, and announcements. Placement
+  runs idempotently on Astro page loads without a second clipboard controller or runtime.
 - `ProjectIntentBrief` presents project goals as a named native list with continuous
   statements and accent opening phrases. The site owns the open rules and responsive
   reading scale; the authored Section cadence heading remains the source of its name

@@ -1,0 +1,144 @@
+---
+import type { MarkdownHeading } from 'astro'
+
+import { CopyButton, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  headings: MarkdownHeading[]
+  url: string
+}
+
+const { headings, url } = Astro.props
+const sections = headings.filter(heading => heading.depth === 2)
+---
+
+<!-- Move these existing Lumen controls beside their headings after enhancement.
+     Keeping them outside templates lets the shared runtime bind in either order. -->
+<div hidden data-section-reference-controls>
+  {sections.map(({ slug, text }) => {
+    const destination = new URL(url)
+
+    destination.hash = slug
+
+    return (
+      <span data-section-reference-for={slug}>
+        <CopyButton
+          data-section-copy
+          size="icon"
+          variant="outline"
+          label={`Copy link to section: ${text}`}
+          copiedLabel={`Copied link to section: ${text}`}
+          errorLabel="Could not copy the section link. Open this section from the contents and copy the address."
+          title="Copy section link"
+          value={destination.href}
+        >
+          <Icon name="link" />
+          <span slot="copied">
+            <Icon name="check" />
+            <span data-section-copy-feedback>Copied</span>
+          </span>
+          <span slot="error">
+            <Icon name="circle-alert" />
+            <span data-section-copy-feedback>Copy failed</span>
+          </span>
+        </CopyButton>
+      </span>
+    )
+  })}
+</div>
+
+<script>
+  const placeSectionReferences = () => {
+    for (const control of document.querySelectorAll<HTMLElement>('[data-section-reference-controls] > [data-section-reference-for]')) {
+      const heading = document.getElementById(control.dataset.sectionReferenceFor ?? '')
+
+      if (!heading?.matches('[data-article-prose] > h2[data-article-section-heading]')) continue
+
+      const row = document.createElement('div')
+
+      row.dataset.sectionReferenceRow = ''
+
+      heading.before(row)
+
+      row.append(heading, control)
+    }
+  }
+
+  placeSectionReferences()
+
+  document.addEventListener('astro:page-load', placeSectionReferences)
+</script>
+
+<style>
+  :global([data-article-prose] > [data-section-reference-row]) {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-block: 2.5rem 1.5rem;
+  }
+
+  :global([data-section-reference-row] > h2[data-article-section-heading]) {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+  }
+
+  [data-section-reference-for] { flex: 0 0 auto; }
+
+  [data-section-reference-for] :global([data-section-copy]) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: .75rem .75rem .25rem .75rem;
+    background: hsl(var(--canvas));
+    color: hsl(var(--brand));
+    box-shadow: none;
+    transform: none;
+  }
+
+  [data-section-reference-for] :global([data-section-copy]:hover) {
+    border-color: currentColor;
+    background: hsl(var(--brand-soft));
+  }
+
+  [data-section-reference-for] :global([data-section-copy]:focus-visible) {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  :global([data-theme='dark']) [data-section-reference-for] :global([data-section-copy]) { color: hsl(var(--accent)); }
+  [data-section-reference-for] :global(svg) { width: 1rem; height: 1rem; }
+  [data-section-reference-for] :global([data-slot^='copy-']:not([hidden])),
+  [data-section-reference-for] :global([data-slot^='copy-'] > span) { display: flex; align-items: center; justify-content: center; }
+
+  [data-section-copy-feedback] {
+    position: absolute;
+    inset-inline-end: 0;
+    top: calc(100% + .1875rem);
+    font-size: .75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  @container article-prose (width < 32rem) {
+    :global([data-article-prose] > [data-section-reference-row]) { gap: .75rem; }
+  }
+
+  @container article-prose (width < 16rem) {
+    :global([data-article-prose] > [data-section-reference-row]) { flex-wrap: wrap; gap: .5rem; }
+    :global([data-section-reference-row] > h2[data-article-section-heading]) { flex-basis: 100%; }
+    [data-section-reference-for] { margin-inline-start: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-section-reference-for] :global([data-section-copy]) { transition: none; }
+  }
+</style>
