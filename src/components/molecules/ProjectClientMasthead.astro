@@ -17,7 +17,7 @@ const { sequence } = Astro.props
   [data-client-sequence]::after { content: ''; flex: 1; height: 1px; background: hsl(var(--line)); }
   :global([data-theme='dark']) [data-client-sequence] { color: hsl(var(--accent)); }
   /* The authored Markdown heading remains the source of its name and fragment. */
-  [data-client-masthead] :global(h2) { margin: 0; border: 0; padding: 0; color: hsl(var(--ink)); font: 500 2.375rem/1.1 var(--font-sans); letter-spacing: -0.045em; overflow-wrap: anywhere; scroll-margin-top: 9rem; }
+  [data-client-masthead] :global(h2) { margin: 0; border: 0; padding: 0; color: hsl(var(--ink)); font: 500 2.375rem/1.1 var(--font-sans); letter-spacing: -0.045em; overflow-wrap: anywhere; }
   [data-client-masthead] :global(h2::after) { content: none; }
   [data-client-masthead] :global([data-client-name]) { display: block; }
   [data-client-masthead] :global([data-client-subtitle]) { display: block; margin-top: 0.75rem; color: hsl(var(--ink-soft)); font-size: 1.25rem; line-height: 1.5; letter-spacing: -0.015em; }

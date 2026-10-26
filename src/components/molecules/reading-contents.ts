@@ -20,6 +20,15 @@ class ReadingContentsElement extends HTMLElement {
     const chapter = parent instanceof HTMLDetailsElement ? parent : null
     const previous = this.#automaticChapter
 
+    // An expanded mobile index sits above the story. Updating an offscreen
+    // chapter must not move the section the reader has just scrolled to.
+    const target = this.querySelector('[data-contents-embedded]') && this.checkVisibility() &&
+      this.getBoundingClientRect().bottom <= 0 ?
+      document.getElementById(link.getAttribute('href')?.slice(1) ?? '') :
+      null
+
+    const targetTop = target?.getBoundingClientRect().top
+
     if (
       previous && previous !== chapter && !this.#manualChapters.has(previous) &&
       !previous.contains(document.activeElement)
@@ -30,6 +39,12 @@ class ReadingContentsElement extends HTMLElement {
     if (chapter) chapter.open = true
 
     this.#automaticChapter = chapter
+
+    if (target && targetTop !== undefined) {
+      const shift = target.getBoundingClientRect().top - targetTop
+
+      if (shift) window.scrollBy({ top: shift, behavior: 'instant' })
+    }
   }
 
   #openFragment = () => {

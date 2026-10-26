@@ -274,6 +274,8 @@
 
 ### Patch Changes
 
+- Keep project subsection headings readable in narrow layouts and with enlarged text by giving them the decorative rule's space. Remove duplicate fragment offsets from project headings and evidence briefs so section navigation uses one shared header clearance. Preserve reading position when mobile chapter groups resize, and realign fresh project section links after font loading without overriding reader input or history restoration.
+
 - Keep featured project images and copy full width when galleries stack on mobile or with enlarged text, matching the other cards' image proportions while preserving the desktop composition. Keep archive-match badges readable in dark mode.
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
