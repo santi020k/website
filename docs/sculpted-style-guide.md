@@ -1084,19 +1084,19 @@ no card fill, shadow, decorative dots, or hover feedback.
 
 ### Intent brief project goals
 
-Lumen's Goals retain their Section cadence heading and fragment. Present each complete
+Project goals retain their Section cadence heading and fragment. Present each complete
 goal as one continuous statement in a named native list, with its opening phrase at
 weight 500 in the semantic accent color. Use 1.1875rem text, 1.75 line height,
 -0.01em tracking, and a 37em measure; the remaining text uses `ink-soft`.
 
 Frame the list with fine neutral top and bottom rules, separate statements with the
 same rule, and use 1.5rem vertical insets. Keep the composition open and preserve all
-four authored goals. Below 35rem of available width, reduce text to 1.0625rem while
+authored goals. Below 35rem of available width, reduce text to 1.0625rem while
 keeping each sentence in normal flow. No extra headings, icons, or controls are added.
 
 ### Capability spread project entries
 
-Lumen's six capability entries use an open two-column spread with 1.75rem gaps.
+Product capability entries use an open two-column spread with 1.75rem gaps.
 Each entry starts with a fine neutral rule, 1.5rem top inset, and a decorative
 0.75rem accent number. Use a 1.25rem, weight-500 h4 with 1.4 line height, then
 the complete description at 0.9375rem with 1.733 leading. Leave 0.75rem between
@@ -1105,7 +1105,7 @@ number, title, and copy. Preserve inline code and the authored entry order.
 Below 35rem of available width, stack the entries in one column. Keep native
 list semantics and associate the list with its existing Section cadence heading.
 Entry headings do not add chapter navigation destinations. Use no card fill,
-hover behavior, or client script; other project lists retain Ownership ledger.
+hover behavior, or client script; responsibilities and results retain Ownership ledger.
 
 ### Gallery sheet product previews
 
@@ -1192,11 +1192,11 @@ after 1.5rem at 1.125rem with 1.8 line height; below 35rem it uses 1.0625rem.
 
 Opt in with `notesLayout: context-lead` and `ProjectContextLead` around the Markdown
 heading and opening paragraphs. Give each paragraph the same reading scale and 1.5rem
-separation. Smith and Lumen use this treatment; Lumen retains both its product-language
-introduction and the following explanation of framework responsibilities.
+separation. All project entries use this treatment and retain their complete introductions.
+Follow the [shared authoring patterns](editorial/project-detail-patterns.md) for new entries.
 Derive the label and stage from the existing project metadata.
 Retain the original heading fragment, links, and claims; omit the generic preface rather
-than repeating it. Projects without this authored opening keep Margin preface.
+than repeating it. Margin preface remains available to other notes layouts.
 
 ### Section cadence narrative headings
 

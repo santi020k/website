@@ -16,7 +16,7 @@ for (const theme of ['light', 'dark']) {
     await expect(reflection.getByRole('listitem').nth(0)).toContainText('Centered on modernizing a storefront and improving performance and accessibility.')
     await expect(reflection.getByRole('listitem').nth(1)).toContainText('Added deeper work on purchasing rules, account permissions, product discovery, and content integration.')
     await expect(reflection.locator('[data-synthesis-takeaway]')).toHaveText('Together, they reflect the frontend work I enjoy most: making complex systems understandable for customers and maintainable for the teams building them.')
-    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(13)
+    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(14)
     await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a[href="#why-this-experience-matters"]')).toHaveCount(1)
 
     for (const width of [320, 390, 1440]) {

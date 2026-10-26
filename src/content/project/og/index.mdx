@@ -40,9 +40,19 @@ focusAreas:
     description: "Content-aware caching and bounded parallel work"
   - label: "Output safety"
     description: "Tracked cleanup and repeatable CI verification"
+notesLayout: "context-lead"
 ---
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="og" headingId="open-graph-generation-without-surrendering-the-design">
 
 ## Open Graph generation without surrendering the design
 
@@ -50,43 +60,179 @@ I built `@santi020k/og` to separate two concerns that are often bundled together
 
 The package handles paths, output formats, caching, concurrency, cleanup, and verification. The consuming project supplies its content, assets, fonts, card composition, and renderer. That boundary makes the pipeline reusable without turning every brand into a preset.
 
-<ProjectOutcomesCard projectId="og" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Technical highlights", href: "#technical-highlights" },
+    { label: "Results", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="og"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Goals
 
-- **Keep brand ownership inside each project** instead of prescribing a template or content model.
-- **Make committed social images verifiable** with deterministic fingerprints and a read-only CI command.
-- **Regenerate only what changed** across collections that may contain hundreds of cards.
-- **Stay framework-agnostic** so the same pipeline works with Astro, Next.js, Node.js, a CMS, or a static array.
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Keep brand ownership inside each project** instead of prescribing a template or content model.
+
+</li>
+
+<li>
+
+**Make committed social images verifiable** with deterministic fingerprints and a read-only CI command.
+
+</li>
+
+<li>
+
+**Regenerate only what changed** across collections that may contain hundreds of cards.
+
+</li>
+
+<li>
+
+**Stay framework-agnostic** so the same pipeline works with Astro, Next.js, Node.js, a CMS, or a static array.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
 
 ### What I built
 
-- **A typed configuration API and CLI** with `init`, `generate`, `check`, and force-generation workflows.
-- **Sharp and Satori entry points** for SVG-based designs, HTML-like templates, font loading, and raster encoding.
-- **Five output families** selected by extension: SVG, PNG, WebP, JPEG, and AVIF.
-- **Content-aware caching** that fingerprints card data, dimensions, output names, configuration, templates, fonts, logos, and declared source files.
-- **Bounded worker-thread generation** for large collections without letting native image work overwhelm CI memory.
-- **Tracked cleanup** that removes only obsolete outputs recorded by the previous manifest instead of scanning and deleting arbitrary files.
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A typed configuration API and CLI"}>
+
+with `init`, `generate`, `check`, and force-generation workflows.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Sharp and Satori entry points"}>
+
+for SVG-based designs, HTML-like templates, font loading, and raster encoding.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Five output families"}>
+
+selected by extension: SVG, PNG, WebP, JPEG, and AVIF.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Content-aware caching"}>
+
+that fingerprints card data, dimensions, output names, configuration, templates, fonts, logos, and declared source files.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Bounded worker-thread generation"}>
+
+for large collections without letting native image work overwhelm CI memory.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Tracked cleanup"}>
+
+that removes only obsolete outputs recorded by the previous manifest instead of scanning and deleting arbitrary files.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
 
 ### Technical highlights
 
-- **Renderer contract:** projects can return SVG, use the bundled Sharp or Satori adapters, or provide a completely custom renderer.
-- **Safe paths:** output files and the cache manifest are constrained to the project root to prevent traversal.
-- **Deterministic CI:** `santi-og check` reports missing or stale outputs without mutating the repository.
-- **Portable inputs:** card data can come from content collections, Markdown, CMS responses, framework loaders, or any serializable source.
-- **Parallel builds:** worker renderer modules support structured-cloneable data and automatic or fixed concurrency.
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Renderer contract</dt>
+  <dd>
+
+projects can return SVG, use the bundled Sharp or Satori adapters, or provide a completely custom renderer.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Safe paths</dt>
+  <dd>
+
+output files and the cache manifest are constrained to the project root to prevent traversal.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Deterministic CI</dt>
+  <dd>
+
+`santi-og check` reports missing or stale outputs without mutating the repository.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Portable inputs</dt>
+  <dd>
+
+card data can come from content collections, Markdown, CMS responses, framework loaders, or any serializable source.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Parallel builds</dt>
+  <dd>
+
+worker renderer modules support structured-cloneable data and automatic or fixed concurrency.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
 
 ### Results
+
+</ProjectSectionHeading>
 
 - **One generation workflow across different stacks** without adding a framework runtime.
 - **Faster repeat builds** because unchanged cards keep their existing output.
 - **Safer repository maintenance** through manifest-scoped cleanup and explicit path validation.
 - **Project-owned visuals** that remain free to evolve independently from the generator.
 
+<ProjectSectionHeading>
+
 ### Why it matters
 
-Social images are small artifacts backed by a surprisingly repetitive build system. The valuable shared abstraction is not a universal card design. It is a dependable way to discover inputs, detect changes, render in parallel, encode files, clean obsolete artifacts, and prove that committed output is current.
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Social images are small artifacts backed by a surprisingly repetitive build system."}>
+
+The valuable shared abstraction is not a universal card design. It is a dependable way to discover inputs, detect changes, render in parallel, encode files, clean obsolete artifacts, and prove that committed output is current.
+
+</ProjectPrincipleClose>
 
 `@santi020k/og` owns that machinery and stops at the boundary where a project's identity begins.
-
-[Read the documentation](https://og.santi020k.com/) or [explore the source on GitHub](https://github.com/santi020k/og).

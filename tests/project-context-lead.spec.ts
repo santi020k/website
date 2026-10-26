@@ -22,7 +22,7 @@ for (const theme of ['light', 'dark']) {
     await expect(company).toHaveAttribute('target', '_blank')
     await expect(company).toHaveAttribute('rel', /noopener/)
     await expect(company).toHaveAttribute('rel', /noreferrer/)
-    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(13)
+    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(14)
 
     for (const width of [320, 390, 1440]) {
       await page.setViewportSize({ width, height: 1000 })
@@ -62,11 +62,11 @@ test('opening fragment remains reachable without JavaScript', async ({ browser }
   await context.close()
 })
 
-test('projects without an authored context lead retain their preface', async ({ page }) => {
+test('PostLens uses the shared opening and retains its release qualifications', async ({ page }) => {
   await page.goto('/portfolio/postlens/')
-  await expect(page.locator('[data-content-notes]')).toHaveCount(1)
-  await expect(page.locator('[data-project-context-lead]')).toHaveCount(0)
-  await expect(page.locator('[data-notes-description]')).toContainText('A closer look')
+  await expect(page.locator('[data-content-notes]')).toHaveCount(0)
+  await expect(page.locator('[data-project-context-lead]')).toHaveCount(1)
+  await expect(page.locator('[data-project-context-lead]')).toContainText('Instagram account connection and direct publishing remain disabled for a later release')
 })
 
 for (const theme of ['light', 'dark']) {

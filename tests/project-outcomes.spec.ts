@@ -71,7 +71,7 @@ for (const theme of ['light', 'dark']) {
           await expect(card.getByRole('list')).toHaveCount(1)
           await expect(card.getByRole('listitem')).toHaveCount(summaries.length)
           await expect(card.locator('[data-outcome-attribution]')).toHaveCount(project === 'smith-commerce' ? 1 : 0)
-          await expect(card.getByRole('navigation')).toHaveCount(project === 'smith-commerce' ? 1 : 0)
+          await expect(card.getByRole('navigation')).toHaveCount(1)
           const accessibleText = await card.ariaSnapshot()
 
           for (const summary of summaries) {
@@ -151,6 +151,8 @@ test('project outcomes retain qualifiers, count suffixes, and mixed written clai
   await context.close()
 })
 
+const outcomeName = (project: string) => project === 'tedx-medellin' ? 'Outcome summary' : 'Outcomes'
+
 test('published projects place one Outcomes card in the story instead of the sidebar', async ({ page }) => {
   for (const project of [
     'aaronmgz',
@@ -179,13 +181,14 @@ test('published projects place one Outcomes card in the story instead of the sid
     'xgames'
   ]) {
     await page.goto(`/portfolio/${project}/`)
-    const card = page.getByRole('region', { name: 'Outcomes', exact: true })
+    const name = outcomeName(project)
+    const card = page.getByRole('region', { name, exact: true })
 
     await expect(card).toHaveCount(1)
     await expect(page.locator('.prose-project [data-project-outcomes]')).toHaveCount(1)
     await expect(page.locator('[data-project-sidebar] [data-project-outcomes]')).toHaveCount(0)
     await expect(card.getByRole('listitem')).toHaveCount(project === 'smith-commerce' ? 4 : 3)
-    await expect(card.getByRole('heading', { level: 3 })).toHaveText('Outcomes')
+    await expect(card.getByRole('heading', { level: 3 })).toHaveText(name)
     await expect(card.locator('[data-project-ledger]')).toHaveCount(0)
   }
 })
@@ -198,7 +201,7 @@ test('chapter evidence keeps its owning chapter, gallery order, and legacy fragm
     for (const { project, before, after, contextLinks } of [
       { project: 'smith-commerce', before: 'Marcone: rebuilding for a headless future', after: 'Core challenge', contextLinks: 2 },
       { project: 'lumen-ui', before: 'Inside the product', after: 'Goals', contextLinks: 3 },
-      { project: 'postlens', before: 'Inside the product', after: 'Goals', contextLinks: 0 }
+      { project: 'postlens', before: 'Inside the product', after: 'Goals', contextLinks: 3 }
     ]) {
       await page.goto(`/portfolio/${project}/#sidebar-outcomes`)
       const heading = page.getByRole('heading', { name: 'Outcomes', exact: true })

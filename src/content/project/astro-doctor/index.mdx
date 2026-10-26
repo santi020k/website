@@ -39,9 +39,19 @@ focusAreas:
     description: "Consistent findings in the CLI, editor, and CI"
   - label: "Team adoption"
     description: "Rule explanations, documentation, and agent skills"
+notesLayout: "context-lead"
 ---
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="astro-doctor" headingId="building-a-health-check-for-astro-projects">
 
 ## Building a health check for Astro projects
 
@@ -49,40 +59,178 @@ I built Astro Doctor to make Astro-specific code quality visible before it reach
 
 The tool scans `.astro` files and project configuration for patterns that affect performance, accessibility, security, and maintainability. It then reports actionable diagnostics, a project health score, and workflow-specific output for local development, editors, pull requests, and automation.
 
-<ProjectOutcomesCard projectId="astro-doctor" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Technical highlights", href: "#technical-highlights" },
+    { label: "Results", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="astro-doctor"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Goals
 
-- **Protect Astro's performance model** by catching eager hydration, raw images, blocking scripts, and missing image dimensions.
-- **Keep accessibility checks close to the code** with rules for image alt text, document language, and island fallback content.
-- **Make adoption practical** with a CLI, ESLint plugin, VS Code/Cursor extension, and GitHub Action instead of one rigid workflow.
-- **Help AI-assisted teams** by installing agent skills that teach the same Astro standards the scanner enforces.
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Protect Astro's performance model** by catching eager hydration, raw images, blocking scripts, and missing image dimensions.
+
+</li>
+
+<li>
+
+**Keep accessibility checks close to the code** with rules for image alt text, document language, and island fallback content.
+
+</li>
+
+<li>
+
+**Make adoption practical** with a CLI, ESLint plugin, VS Code/Cursor extension, and GitHub Action instead of one rigid workflow.
+
+</li>
+
+<li>
+
+**Help AI-assisted teams** by installing agent skills that teach the same Astro standards the scanner enforces.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
 
 ### What I built
 
-- **A CLI package** (`@santi020k/astro-doctor`) that scans projects, filters by category, emits JSON reports, explains individual findings, and returns a 0-100 health score.
-- **An ESLint plugin** (`@santi020k/eslint-plugin-astro-doctor`) for teams that want the rules inside their existing lint setup.
-- **A VS Code and Cursor extension** with live diagnostics, hover explanations, quick fixes, status updates, and a health sidebar.
-- **A GitHub Action** that can comment on pull requests and report only the new issues introduced by a change.
-- **A documentation site** at [doctor.santi020k.com](https://doctor.santi020k.com/) with quick-start guides, rule docs, and setup examples.
-- **Installable agent skills** so AI coding assistants can learn the expected Astro patterns directly from the repository.
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A CLI package"}>
+
+(`@santi020k/astro-doctor`) that scans projects, filters by category, emits JSON reports, explains individual findings, and returns a 0-100 health score.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"An ESLint plugin"}>
+
+(`@santi020k/eslint-plugin-astro-doctor`) for teams that want the rules inside their existing lint setup.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"A VS Code and Cursor extension"}>
+
+with live diagnostics, hover explanations, quick fixes, status updates, and a health sidebar.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"A GitHub Action"}>
+
+that can comment on pull requests and report only the new issues introduced by a change.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"A documentation site"}>
+
+at [doctor.santi020k.com](https://doctor.santi020k.com/) with quick-start guides, rule docs, and setup examples.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Installable agent skills"}>
+
+so AI coding assistants can learn the expected Astro patterns directly from the repository.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
 
 ### Technical highlights
 
-- **Rule engine:** `TypeScript`, `ESLint`, `astro-eslint-parser`, and Astro-aware rule metadata.
-- **Developer workflows:** local CLI scans, `doctor.config.ts`, JSON output, score thresholds, and CI presets.
-- **Editor integration:** a language-server-backed VS Code extension with diagnostics, hovers, quick fixes, and sidebar UI.
-- **CI integration:** GitHub Action support for changed-file scans, sticky PR comments, and configurable blocking behavior.
-- **Docs:** an Astro documentation site with rule pages, installation guides, and generated Open Graph assets.
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Rule engine</dt>
+  <dd>
+
+`TypeScript`, `ESLint`, `astro-eslint-parser`, and Astro-aware rule metadata.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Developer workflows</dt>
+  <dd>
+
+local CLI scans, `doctor.config.ts`, JSON output, score thresholds, and CI presets.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Editor integration</dt>
+  <dd>
+
+a language-server-backed VS Code extension with diagnostics, hovers, quick fixes, and sidebar UI.
+
+  </dd>
+</div>
+
+<div>
+  <dt>CI integration</dt>
+  <dd>
+
+GitHub Action support for changed-file scans, sticky PR comments, and configurable blocking behavior.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Docs</dt>
+  <dd>
+
+an Astro documentation site with rule pages, installation guides, and generated Open Graph assets.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
 
 ### Results
+
+</ProjectSectionHeading>
 
 - **One rule system across multiple surfaces:** CLI, ESLint, editor diagnostics, CI comments, and agent guidance all point back to the same Astro standards.
 - **Cleaner adoption path for existing projects:** teams can start with changed-file scans and avoid turning every pull request into a legacy cleanup project.
 - **A stronger AI-assisted workflow:** generated code can be scanned after the fact and guided before the next change is written.
 
+<ProjectSectionHeading>
+
 ### Why it matters
 
-Astro is fast by default, but defaults only help if the codebase keeps respecting them. Astro Doctor turns the patterns I look for during Astro reviews into repeatable tooling: fast feedback, clear explanations, and standards that can live in the repository instead of only in someone's head.
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Astro is fast by default, but defaults only help if the codebase keeps respecting them."}>
+
+Astro Doctor turns the patterns I look for during Astro reviews into repeatable tooling: fast feedback, clear explanations, and standards that can live in the repository instead of only in someone's head.
+
+</ProjectPrincipleClose>
 
 Read the [Astro Doctor launch story](/blog/astro-doctor-announcement/) for the reasoning behind the toolkit and the workflows it protects.
