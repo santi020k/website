@@ -936,6 +936,23 @@
       "pathname": "/blog/playwright-accessibility-checks-that-teams-keep-running/",
       "title": "Playwright Accessibility Checks That Teams Keep Running"
     },
+    "/blog/postlens-2-is-live/": {
+      "alt": "PostLens 2 is live: a more complete photo studio — Santiago Molina",
+      "description": "PostLens 2 is available for iPhone and iPad with focused editing, on-device retouching, and private planning. Instagram publishing awaits Meta production approval.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/postlens-2-is-live.webp",
+          "primary": true,
+          "url": "/og/blog/postlens-2-is-live.webp?v=afc40bf6a440",
+          "version": "afc40bf6a440",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/postlens-2-is-live/",
+      "title": "PostLens 2 is live: a more complete photo studio"
+    },
     "/blog/postlens-private-on-device-content-studio/": {
       "alt": "PostLens: A private on-device content studio — Santiago Molina",
       "description": "Why PostLens keeps selection, scoring, enhancement, composition, and caption preparation on the iPhone while making optional generative handoffs explicit.",
@@ -945,8 +962,8 @@
           "height": 630,
           "output": "blog/postlens-private-on-device-content-studio.webp",
           "primary": true,
-          "url": "/og/blog/postlens-private-on-device-content-studio.webp?v=03da3cc5ab09",
-          "version": "03da3cc5ab09",
+          "url": "/og/blog/postlens-private-on-device-content-studio.webp?v=48b23721b2c6",
+          "version": "48b23721b2c6",
           "width": 1200
         }
       ],
@@ -1115,8 +1132,8 @@
           "height": 630,
           "output": "pages/blog--4.webp",
           "primary": true,
-          "url": "/og/pages/blog--4.webp?v=666d8805e925",
-          "version": "666d8805e925",
+          "url": "/og/pages/blog--4.webp?v=fcccc5f595a5",
+          "version": "fcccc5f595a5",
           "width": 1200
         }
       ],
@@ -2220,8 +2237,8 @@
           "height": 630,
           "output": "pages/blog--tags--swiftui.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--swiftui.webp?v=80105574a3fb",
-          "version": "80105574a3fb",
+          "url": "/og/pages/blog--tags--swiftui.webp?v=ac741e717f6c",
+          "version": "ac741e717f6c",
           "width": 1200
         }
       ],
@@ -2798,8 +2815,8 @@
           "height": 630,
           "output": "pages/blog--tags--ios.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--ios.webp?v=dc49a9c64610",
-          "version": "dc49a9c64610",
+          "url": "/og/pages/blog--tags--ios.webp?v=9829b96ab81d",
+          "version": "9829b96ab81d",
           "width": 1200
         }
       ],
@@ -2815,8 +2832,8 @@
           "height": 630,
           "output": "pages/blog--tags--on-device-ai.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--on-device-ai.webp?v=1e4643852a11",
-          "version": "1e4643852a11",
+          "url": "/og/pages/blog--tags--on-device-ai.webp?v=00f03bcb2e24",
+          "version": "00f03bcb2e24",
           "width": 1200
         }
       ],
@@ -2832,8 +2849,8 @@
           "height": 630,
           "output": "pages/blog--tags--privacy.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--privacy.webp?v=110687220bf5",
-          "version": "110687220bf5",
+          "url": "/og/pages/blog--tags--privacy.webp?v=2116c10cb5ff",
+          "version": "2116c10cb5ff",
           "width": 1200
         }
       ],
@@ -2849,8 +2866,8 @@
           "height": 630,
           "output": "pages/blog--tags--photography.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--photography.webp?v=9e30596669ce",
-          "version": "9e30596669ce",
+          "url": "/og/pages/blog--tags--photography.webp?v=f0f13cd77d8e",
+          "version": "f0f13cd77d8e",
           "width": 1200
         }
       ],
@@ -3460,8 +3477,8 @@
           "height": 630,
           "output": "portfolio/postlens-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/postlens-logo.webp?v=0fa3e246cb04",
-          "version": "0fa3e246cb04",
+          "url": "/og/portfolio/postlens-logo.webp?v=0de9ed9b86aa",
+          "version": "0de9ed9b86aa",
           "width": 1200
         },
         {
@@ -3469,8 +3486,8 @@
           "height": 630,
           "output": "portfolio/postlens.webp",
           "primary": false,
-          "url": "/og/portfolio/postlens.webp?v=0fa3e246cb04",
-          "version": "0fa3e246cb04",
+          "url": "/og/portfolio/postlens.webp?v=0de9ed9b86aa",
+          "version": "0de9ed9b86aa",
           "width": 1200
         }
       ],
@@ -3538,8 +3555,8 @@
           "height": 630,
           "output": "portfolio/roadscore-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/roadscore-logo.webp?v=5ce8fcd22441",
-          "version": "5ce8fcd22441",
+          "url": "/og/portfolio/roadscore-logo.webp?v=7ff39f2576ac",
+          "version": "7ff39f2576ac",
           "width": 1200
         },
         {
@@ -3547,8 +3564,8 @@
           "height": 630,
           "output": "portfolio/roadscore.webp",
           "primary": false,
-          "url": "/og/portfolio/roadscore.webp?v=5ce8fcd22441",
-          "version": "5ce8fcd22441",
+          "url": "/og/portfolio/roadscore.webp?v=7ff39f2576ac",
+          "version": "7ff39f2576ac",
           "width": 1200
         }
       ],
