@@ -27,6 +27,10 @@ export interface SpeakingTopic extends SpeakingCardContent {
   source: { href: string, label: string }
 }
 
+export interface SpeakingFormat extends SpeakingCardContent {
+  outcome: { fit: string, label: string }
+}
+
 export interface CollaborationLane {
   description: string
   fit: string
@@ -233,24 +237,40 @@ export const speakingTopics: SpeakingTopic[] = [
   }
 ]
 
-export const speakingFormats: SpeakingCardContent[] = [
+export const speakingFormats: SpeakingFormat[] = [
   {
     description: 'Practical sessions for local communities and engineering groups that want useful takeaways, not slideware.',
+    outcome: {
+      fit: 'Introduce an idea and open a conversation.',
+      label: 'Plan a meetup'
+    },
     subtitle: 'and community talks',
     title: 'Meetups'
   },
   {
     description: 'Hands-on sessions around React, TypeScript, testing, tooling, and workflow design for teams that want to level up together.',
+    outcome: {
+      fit: 'Practice a technique with your team.',
+      label: 'Plan a workshop'
+    },
     subtitle: 'and live build sessions',
     title: 'Workshops'
   },
   {
     description: 'Architecture, DX, and delivery talks tailored for product teams, onboarding programs, or internal engineering initiatives.',
+    outcome: {
+      fit: 'Build a shared approach to an engineering challenge.',
+      label: 'Plan a team session'
+    },
     subtitle: 'enablement',
     title: 'Internal engineering'
   },
   {
     description: 'Good fit for panels, AMAs, and conversations about technical leadership, full-stack execution, and developer culture.',
+    outcome: {
+      fit: 'Explore perspectives and questions with your audience.',
+      label: 'Plan a panel'
+    },
     subtitle: 'and leadership conversations',
     title: 'Panels, Q&A,'
   }

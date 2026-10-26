@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Add purpose notes and native planning links to the four Speaking formats while preserving complete descriptions and directing visitors to the existing booking brief.
+
 - Render imported article examples with the shared Code folio, retaining literal source, complete filenames, accessible copy states, line numbers, and horizontal scroll guidance.
 
 - Stop unfinished outgoing smooth scrolling when navigation begins so keyboard-activated links preserve the next page's fragment and history positions.

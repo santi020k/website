@@ -206,7 +206,7 @@ test.describe('Speaking page', () => {
       await expect(source).not.toHaveAttribute('target', '_blank')
       expect((await request.get(path)).status()).toBe(200)
     }
-    await expect(page.locator('[data-talk-card="format"]').getByRole('link')).toHaveCount(0)
+    await expect(page.locator('[data-talk-card="format"] [data-talk-source]')).toHaveCount(0)
 
     await sources.first().focus()
     await expect(sources.first()).toHaveCSS('outline-style', 'solid')
@@ -233,6 +233,30 @@ test.describe('Speaking page', () => {
     const schema = await page.locator('script[type="application/ld+json"]').allTextContents()
 
     for (const title of titles) expect(schema.join('\n')).toContain(JSON.stringify(title))
+  })
+
+  test('format outcome captions lead to the booking brief with the keyboard', async ({ browserName, page }) => {
+    const cards = page.locator('[data-talk-card="format"]')
+    const links = cards.getByRole('link')
+    await expect(links).toHaveText(['Plan a meetup', 'Plan a workshop', 'Plan a team session', 'Plan a panel'])
+    await expect(cards.locator('[data-talk-fit]')).toHaveText([
+      'Introduce an idea and open a conversation.',
+      'Practice a technique with your team.',
+      'Build a shared approach to an engineering challenge.',
+      'Explore perspectives and questions with your audience.'
+    ])
+    for (const link of await links.all()) {
+      await expect(link).toHaveAttribute('href', '#speaking-booking-heading')
+      await expect(link).not.toHaveAttribute('target', '_blank')
+    }
+    await links.first().focus()
+    await expect(links.first()).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+    await expect(links.nth(1)).toBeFocused()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL('/speaking/#speaking-booking-heading')
+    await expect(page.locator('#speaking-booking-heading')).toBeInViewport()
+    await expect(page.getByRole('link', { name: 'Start the conversation', exact: true })).toBeInViewport()
   })
 
   test('should pass accessibility audit', async ({ page }) => {

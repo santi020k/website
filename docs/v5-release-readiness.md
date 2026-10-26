@@ -519,6 +519,26 @@ stylesheet change before passing freshness checks. Published changelog entries
 remain unchanged. The last complete workspace gate remains `16b66665`; navigation
 was subsequently validated with 134 cases at `822f788a`.
 
+## Speaking Outcome captions follow-up
+
+Approved source `a4fdca0d`, based on `822f788a`, adds Good fit purpose notes and
+native planning links to all four Speaking format cards. Every link reaches the
+existing booking brief in the same tab. Complete format text and exact topic
+markup are preserved, with no contact launch or automatic format selection. The patch
+note is folded into 5.0.0.
+
+All 38 scoped Chromium/WebKit Speaking and tall-reveal cases passed with retries
+disabled. Six reflow checks covered 320, 768, and 1440px at normal and 200% text,
+retaining usable link targets without clipping or page overflow. Native booking
+navigation reached the visible brief without JavaScript. Matched mobile/desktop
+captures in both themes were reviewed against the previous complete card copy.
+
+Affected lint passed with zero warnings, the current production build and
+452-page OG audit passed, and PDF freshness passed without regeneration. The
+cumulative built-page audit passed across 1,740 documents and 8,129 local targets
+with zero errors. Published changelog entries remain unchanged. This focused
+iteration used scoped checks; the full workspace gate remains `16b66665`.
+
 ## Related article Reading rows follow-up
 
 The approved `44106dd9` reuses `PostsGallery` with its existing chapter layout
