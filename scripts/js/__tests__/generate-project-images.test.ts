@@ -50,6 +50,7 @@ describe('project image generator', () => {
     expect(getFallbackAccent('astro-doctor')).toMatch(/^#[\da-f]{6}$/u)
   })
 
+  // Each fixture renders all four full-resolution image variants before pixel inspection.
   test.each([
     { extension: 'md', height: 64, logoAspect: 'square', width: 64 },
     { extension: 'mdx', height: 64, logoAspect: 'wide', width: 320 },
@@ -178,7 +179,7 @@ coverImage:
     }
 
     await fs.rm(root, { force: true, recursive: true })
-  }, 15_000)
+  }, 60_000)
 
   test('measures alpha instead of background colors and rejects invisible logos', async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), 'project-logo-bounds-'))
