@@ -1405,6 +1405,15 @@ and 18rem of card width for mobile and enlarged text. Retain Shiki highlighting,
 Lumen copy success/error announcements, visible copy states, and a 44px target.
 Package-manager tabs use the related Tab folio treatment and shared runtime.
 
+Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
+when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
+and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match
+the code insets as the card narrows. Keep the cue stable while scrolling and hide
+it when the example fits. Associate visible guidance with the code region through
+`aria-describedby`; preserve native scrolling, keyboard focus, and Lumen copy.
+Recalculate after resizing and font loading, and disconnect observation when the
+figure leaves the page. Without JavaScript, leave the cue hidden and code readable.
+
 ### Tab folio package-manager commands
 
 Use the same asymmetric corners and fine outline as Code folio, with an underlined

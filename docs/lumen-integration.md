@@ -538,6 +538,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   The original Shiki code children and authored line-number offsets remain intact.
   The Husky article uses the same fenced-code pipeline for its four standalone
   examples; package-manager groups retain the real Astro `CodeTabs` component.
+  Scroll cue uses a site-owned custom element inside each standalone article
+  figure. It observes the existing code region and content, showing a footer and
+  accessible description only on horizontal overflow. Its observer disconnects
+  with the element during Astro navigation. Lumen still owns copy and code tabs;
+  no replacement scrolling or copy controller is introduced.
 - Project prose lists use Ownership ledger. `rehype-project-ledger.ts` separates an authored
   leading `strong` from its explanation at build time, preserving links, code, nested lists,
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives

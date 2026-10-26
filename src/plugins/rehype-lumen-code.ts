@@ -122,7 +122,7 @@ const iconNode = ([tagName, attributes, children = []]: LumenIconNode): Element 
   tagName, { ...attributes }, children.map(iconNode)
 )
 
-const codeIcon = (): Element => element('svg', {
+const codeIcon = (name = 'code-xml'): Element => element('svg', {
   ariaHidden: 'true',
   dataCodeFolioIcon: '',
   fill: 'none',
@@ -132,7 +132,7 @@ const codeIcon = (): Element => element('svg', {
   strokeLinejoin: 'round',
   strokeWidth: '2',
   viewBox: '0 0 24 24'
-}, getLumenIcon('code-xml')?.node.map(iconNode) ?? [])
+}, getLumenIcon(name)?.node.map(iconNode) ?? [])
 
 const createHeader = (language: string, label: string, folio: boolean): Element => {
   const metadata: ElementContent[] = []
@@ -208,7 +208,13 @@ const convertFigure = (figure: Element, exampleNumber: number, folio: boolean): 
     ...figure.children.filter(child => (
       child.type !== 'element' ||
       dataProperty(child, 'rehype-pretty-code-title') === undefined
-    ))
+    )),
+    ...(folio && pre ?
+      [element('article-code-scroll-cue', {
+        hidden: true,
+        id: `article-code-scroll-cue-${exampleNumber}`
+      }, [codeIcon('move-horizontal'), element('span', {}, [text('Scroll horizontally to read more')])])] :
+      [])
   ]
 }
 
