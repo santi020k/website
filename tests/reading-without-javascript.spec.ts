@@ -54,11 +54,13 @@ const hasNoDocumentOverflow = (page: Page): Promise<boolean> => page.evaluate(()
 ))
 
 const openNativeContents = async (page: Page) => {
-  const opener = page.locator('[data-post-mobile-toc] [data-toc-summary]')
+  const opener = page.locator('[data-post-mobile-toc] [data-toc-opener]')
 
   if (await opener.isVisible()) {
-    await opener.click()
-    await expect(page.locator('[data-post-mobile-toc] [data-toc-opener]')).toHaveAttribute('open', '')
+    await expect(opener).not.toHaveAttribute('open')
+    await opener.locator('[data-toc-summary]').focus()
+    await page.keyboard.press('Enter')
+    await expect(opener).toHaveAttribute('open', '')
   }
 }
 
@@ -112,6 +114,7 @@ for (const viewport of viewports) {
       }
 
       await openNativeContents(page)
+
       await page
         .getByRole('navigation', { name: 'Table of contents' })
         .getByRole('link', { name: 'Conclusions', exact: true })

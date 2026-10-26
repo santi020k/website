@@ -175,6 +175,9 @@ built file, matching [Cloudflare Pages redirect precedence](https://developers.c
 It checks redirect destinations and their fragments even when an old file still exists at the
 source URL. Status-200 proxy rules check only their immediate local target, without following
 another redirect rule.
+Malformed path encoding is reported as a missing target without aborting the remaining audit.
+Fragment checks try literal IDs before forgiving percent decoding, preserving valid percent signs
+and Unicode fragments while still reporting missing destinations.
 
 The full Lighthouse audit covers Home, About, Work, Projects, Portfolio, Travel,
 Blog, and Accessibility. `pnpm run lighthouse` is the faster homepage smoke audit;

@@ -27,6 +27,10 @@ Article JSON-LD, Open Graph, and Twitter metadata share the manifest's content-v
 image URL. Keep the `?v=` fingerprint when referencing generated artwork: `/og/` is
 immutable, so an unversioned URL can retain an older image after the content changes.
 
+Technology archives resolve artwork from the canonical technology route in the manifest,
+including paginated pages. Display labels can vary in case across projects and sort orders;
+they must not determine the generated filename or replace its content fingerprint.
+
 ## Service worker
 
 The service worker uses network-first for document navigations and for every

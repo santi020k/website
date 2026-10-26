@@ -1,5 +1,6 @@
 import { readdir, readFile, stat } from 'node:fs/promises'
 import path from 'node:path'
+import { unescape as decodeFragment } from 'node:querystring'
 import { pathToFileURL } from 'node:url'
 
 import { JSDOM, VirtualConsole } from 'jsdom'
@@ -147,7 +148,17 @@ export const auditBuiltPages = async directory => {
    * @returns {Promise<string | null>}
    */
   const getLocalTarget = async pathname => {
-    const target = path.join(root, decodeURIComponent(pathname))
+    let decodedPath
+
+    try {
+      decodedPath = decodeURIComponent(pathname)
+    } catch {
+      return null
+    }
+
+    if (decodedPath.includes('\0')) return null
+
+    const target = path.join(root, decodedPath)
     const relative = path.relative(root, target)
 
     if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) return null
@@ -209,9 +220,13 @@ export const auditBuiltPages = async directory => {
     if (resolved === null) {
       issues.push({ route: reference.route, kind: 'missing-target', target: pathname })
     } else if (reference.hash && anchors.has(resolved)) {
-      const id = decodeURIComponent(reference.hash.slice(1))
+      const fragment = reference.hash.slice(1)
+      const ids = anchors.get(resolved)
+      // HTML checks the literal fragment before forgiving UTF-8 percent decoding.
+      // Unlike form parsing, querystring.unescape preserves literal plus signs.
+      const id = ids.has(fragment) ? fragment : decodeFragment(fragment)
 
-      if (id && !anchors.get(resolved).has(id)) issues.push({ route: reference.route, kind: 'missing-fragment', target: `${pathname}${reference.hash}` })
+      if (id && !ids.has(id)) issues.push({ route: reference.route, kind: 'missing-fragment', target: `${pathname}${reference.hash}` })
     }
   }
 

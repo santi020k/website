@@ -875,6 +875,22 @@ vertical padding. Keep every description, date, role, technology label, and case
 link visible. Company hover colors, keyboard focus, reduced motion, and the final
 marker endpoint remain shared with the full entries.
 
+### Case study paths Portfolio opening
+
+Keep the Work that shipped / Built to hold up headline and the shared compact
+PageHero typography. Its eyebrow gives the number of selected case studies, derived
+from the two displayed collections. Below the introduction, place two open, ruled
+Lumen links: Client work and Independent builds. Each pairs its live count with a
+short description and a decorative downward arrow. Use 1.25rem titles, 0.8125rem
+counts and descriptions, 1.25rem vertical insets, and a 1.5rem column gap.
+
+Below 36rem of available width, stack the paths and use one shared dividing rule.
+The quiet footer pairs Problem → decisions → outcome with the View work history link.
+Replace the former action buttons and discipline labels with this composition.
+Keep both collections rendered in full: links navigate to the focusable selected-work
+and independent-builds sections in the current tab, without filtering or client code.
+Retain the curated project order and Layered editorial cards.
+
 ### Layered editorial portfolio cards
 
 Portfolio spotlights use one full-card link and an unstyled Lumen

@@ -12,10 +12,11 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
-import { getSocialImagePath } from '@/utils/social-image'
+import { getSocialImageURL } from '@/utils/social-image'
 
 import { Icon, Link } from '@santi020k/lumen-astro'
 
+import { ogManifest } from '@/data/og-manifest'
 import { createProjectCollectionSchema, getUniqueTechnologies } from '@/data/project'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
@@ -78,7 +79,7 @@ const meta = {
   breadcrumbs,
   description: `Projects and case studies where ${technology} shaped the architecture, ` +
     'delivery workflow, or product experience.',
-  ogImage: getSocialImagePath(`/technologies/${encodeURIComponent(technology)}/`),
+  ogImage: getSocialImageURL(getTechnologyPath(technology), Astro.site, undefined, ogManifest),
   structuredData: technologyListSchema,
   title: `${technology} · Technology`
 }

@@ -15,9 +15,12 @@ export const createWebsiteConfig = root => defineConfig({
   rules: {
     'better-tailwindcss/no-unknown-classes': ['error', {
       ignore: [
+        // Microformats2 properties and roots are metadata, not styling utilities.
         'e-content',
+        'h-card',
         'h-entry',
         'not-prose',
+        'p-author',
         'p-name',
         'p-summary',
         'post-meta-card',
