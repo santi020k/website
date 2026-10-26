@@ -891,6 +891,22 @@ Keep both collections rendered in full: links navigate to the focusable selected
 and independent-builds sections in the current tab, without filtering or client code.
 Retain the curated project order and Layered editorial cards.
 
+### Editorial bridge Portfolio collection headings
+
+Keep the Client and product work and Independent builds labels, original headlines,
+and full descriptions. A short brand-colored rule introduces each label; a quiet
+count at the other edge comes from the displayed collection. Set the headline at
+3rem with medium weight, tight tracking, and its final phrase on a separate brand-colored
+line. Below it, pair the description with a native browse link separated by a fine
+vertical rule. Full work history leads to Work; All independent projects leads to Projects.
+A neutral bottom rule connects the introduction to its existing Layered editorial cards.
+
+Below 38.75rem of available width, reduce the headline to 2.375rem and stack the
+description and link, removing the vertical rule. Below 23.125rem, use a 2.125rem
+headline and place the count beneath the label. Keep links at least 2.75rem tall,
+with visible keyboard focus. Preserve the collection anchors, card order, and
+native navigation; this composition adds no client JavaScript.
+
 ### Layered editorial portfolio cards
 
 Portfolio spotlights use one full-card link and an unstyled Lumen
