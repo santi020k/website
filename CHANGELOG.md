@@ -296,6 +296,8 @@
 
 ### Patch Changes
 
+- Keep article comments behind Discussion fold, loading the existing widget on activation while preserving direct comment links, keyboard access, theme updates, and the GitHub fallback.
+
 - Arrange About recommendations as full-width reading rows while preserving every quote, attribution, and shared testimonial card.
 
 - Connect each About engineering principle to related published writing through a practice caption, preserving the default Developer Experience cards.

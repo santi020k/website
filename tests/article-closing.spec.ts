@@ -2,13 +2,20 @@ import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 const article = '/blog/responsive-design-standards-that-scale-across-components/'
+const nextKeys = {
+  chromium: 'Tab',
+  firefox: 'Tab',
+  webkit: process.platform === 'darwin' ? 'Alt+Tab' : 'Tab'
+}
 
 test.use({ reducedMotion: 'reduce' })
 
 for (const width of [320, 1440]) {
   for (const textSize of [100, 200]) {
     for (const theme of ['light', 'dark'] as const) {
-      test(`reader colophon preserves its destinations at ${width}px, ${textSize}% text, ${theme}`, async ({ page }) => {
+      test(`reader colophon preserves its destinations at ${width}px, ${textSize}% text, ${theme}`, async ({ page, browserName }) => {
+        const nextKey = nextKeys[browserName]
+
         await page.setViewportSize({ width, height: 1000 })
         await page.emulateMedia({ colorScheme: theme })
         await page.route('https://giscus.app/**', route => route.abort())
@@ -27,7 +34,7 @@ for (const width of [320, 1440]) {
         await expect(finalReturn.getByRole('link', { name: 'Back to Blog' })).toHaveCount(1)
 
         await closing.scrollIntoViewIfNeeded()
-        await closing.locator('[data-discussion-summary]').click()
+        await closing.locator('[data-discussion-summary]').press('Enter')
         await expect(closing.getByRole('heading', { name: 'Comments', exact: true })).toBeVisible()
         await expect(closing.getByRole('heading', { name: 'Share', exact: true })).toBeVisible()
         await expect(reply).toHaveAttribute('href', 'https://github.com/santi020k/website/discussions')
@@ -59,15 +66,16 @@ for (const width of [320, 1440]) {
                 control.scrollWidth <= control.clientWidth + 1
             })
         })).toBe(true)
-        await page.keyboard.press('Tab')
-        await reply.focus()
+        await closing.locator('[data-discussion-summary]').focus()
+        await page.keyboard.press(nextKey)
+        await expect(reply).toBeFocused()
         await expect(reply).toHaveCSS('outline-style', 'solid')
-        await page.keyboard.press('Tab')
+        await page.keyboard.press(nextKey)
         await expect(copy).toBeFocused()
         await expect(copy).toHaveCSS('outline-style', 'solid')
         await navigation.getByRole('link', { name: 'Back to Blog' }).focus()
         await expect(navigation.getByRole('link', { name: 'Back to Blog' })).toHaveCSS('outline-style', 'solid')
-        await page.keyboard.press('Tab')
+        await page.keyboard.press(nextKey)
         await expect(navigation.getByRole('link', { name: 'Back to top' })).toBeFocused()
         const scan = await new AxeBuilder({ page }).include('[data-article-closing]').include('[data-post-final-return]').analyze()
 

@@ -476,8 +476,6 @@ const { giscus } = siteConfig
 
   document.addEventListener('click', onCommentsLink, true)
 
-  document.addEventListener('astro:page-load', revealLinkedDiscussion)
-
   // Iframe load does not bubble, so observe it during capture.
   document.addEventListener('load', onFrameLoad, true)
 
@@ -491,6 +489,7 @@ const { giscus } = siteConfig
     frameSourceObserver = undefined
   })
 
-  // Re-mount after View Transitions swaps in a new post body.
-  document.addEventListener('astro:after-swap', prepareGiscus)
+  // Wait until Astro finishes running the new page's scripts. Mounting during
+  // after-swap lets its script runner replace and execute our client again.
+  document.addEventListener('astro:page-load', prepareGiscus)
 </script>

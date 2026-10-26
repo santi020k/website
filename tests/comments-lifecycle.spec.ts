@@ -190,7 +190,10 @@ test('direct comments fragments and client navigation open the disclosure', asyn
   await page.getByRole('link', { name: 'Open article comments', exact: true }).click()
   await expect(page).toHaveURL(`${path}#comments`)
   await expect(page.locator('[data-discussion-fold]')).toHaveAttribute('open')
+  await expect(page.locator('#comments script')).toHaveCount(1)
+  await expect(page.locator('iframe.giscus-frame')).toHaveCount(1)
   await expect(page.locator('iframe.giscus-frame')).toBeVisible()
+  await expect(page.locator('[data-giscus-loading]')).toBeHidden()
   await expect.poll(() => requests).toBe(2)
 })
 

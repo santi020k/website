@@ -267,3 +267,30 @@ OG audit. The browser checks cover profile content, About reflow in both themes
 with enlarged text, and accessibility. Desktop and mobile captures were reviewed.
 Unchanged archives were reassembled; resume PDFs were regenerated for the
 stylesheet fingerprint and passed the freshness check.
+
+## Discussion fold follow-up
+
+The approved article discussion is integrated from `1590a9f9` through `1e40c26d`.
+Lumen Collapsible opens the existing comments widget on activation or a direct
+comment link. Closing retains the same iframe. The GitHub fallback, no-script
+guidance, theme updates, loading status and polite error handling remain available.
+
+Merged WebKit coverage found a real navigation race: mounting during Astro's
+after-swap event allowed its script runner to execute the client again.
+Initialization now waits for the public page-load event. The regression checks
+require one client script, one iframe, a cleared loading status and one request
+per visited discussion. Keyboard coverage follows the repository's macOS WebKit
+convention and tabs from the summary through the GitHub and sharing controls.
+
+The patch note is folded into 5.0.0, preserving published changelog entries.
+
+Scoped validation covers 96 Chromium/WebKit cases. The final runtime run passed
+94; two remaining keyboard setup cases were corrected without weakening focus
+assertions, and all 18 colophon cases passed on the final targeted rerun. The
+320px, 200-percent WebKit cases also passed six repeat runs. Coverage includes
+fragment navigation, delayed widgets, theme changes, stale events, blocked-client
+recovery, no JavaScript, sharing and accessibility in both themes. Affected lint
+passed with zero warnings. The current-site type check reported no diagnostics
+across 478 files, and the final production build and 452-page OG audit passed.
+The existing resume artifacts passed freshness checks; no regeneration was needed.
+Matched desktop and mobile captures were reviewed.
