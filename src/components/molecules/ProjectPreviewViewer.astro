@@ -73,7 +73,8 @@ const fullImage = await getImage({ src: preview.src, fit: 'contain', format: 'we
 <style>
   project-preview-viewer { display: block; font-size: 1rem; }
   [data-gallery-actions] { display: flex; justify-content: flex-end; margin-top: 1rem; }
-  [data-gallery-control] { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.5rem 0.875rem; border: 1px solid hsl(var(--line)); border-radius: 0.75rem 0.75rem 0.25rem 0.75rem; background: hsl(var(--surface)); color: hsl(var(--ink)); font: 500 0.8125rem/1.5 var(--font-sans); letter-spacing: normal; text-decoration: none; }
+  [data-gallery-control] { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 2.75rem; max-width: 100%; white-space: normal; text-align: center; padding: 0.5rem 0.875rem; border: 1px solid hsl(var(--line)); border-radius: 0.75rem 0.75rem 0.25rem 0.75rem; background: hsl(var(--surface)); color: hsl(var(--ink)); font: 500 0.8125rem/1.5 var(--font-sans); letter-spacing: normal; text-decoration: none; }
+  [data-gallery-control] :global(.ui-button__content) { min-width: 0; }
   [data-gallery-control]:hover { color: hsl(var(--brand)); border-color: currentColor; }
   :global(:root[data-theme='dark']) [data-gallery-control]:hover { color: hsl(var(--accent)); }
   [data-gallery-control][hidden] { display: none; }

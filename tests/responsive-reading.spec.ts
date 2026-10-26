@@ -200,12 +200,12 @@ for (const theme of ['light', 'dark'] as const) {
           })
           const link = navigation.locator(`a[href="#${fragment}"]`)
 
+          await expect(link).toHaveAttribute('aria-current', 'location')
           await expect.poll(() => page.locator(`#${fragment}`).evaluate(heading => {
             const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)
 
             return Math.abs(heading.getBoundingClientRect().top - padding)
           })).toBeLessThanOrEqual(1)
-          await expect(link).toHaveAttribute('aria-current', 'location')
           await expect(navigation.locator('[aria-current="location"]')).toHaveCount(1)
         }
       })

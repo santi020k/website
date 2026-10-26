@@ -4,6 +4,43 @@ import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibili
 
 const route = '/portfolio/smith-commerce/'
 
+for (const width of [320, 375, 390, 1440]) {
+  for (const textSize of [100, 200]) {
+    test(`preview enhancement preserves control size at ${width}px with ${textSize}% text`, async ({ browser, page }) => {
+      const fallbackContext = await browser.newContext({ javaScriptEnabled: false, viewport: { width, height: 900 } })
+      const fallbackPage = await fallbackContext.newPage()
+
+      try {
+        await page.setViewportSize({ width, height: 900 })
+        const measureControls = async (target: Page, role: 'link' | 'button') => {
+          await target.goto('/portfolio/lumen-ui/')
+          await target.evaluate(async size => {
+            document.documentElement.style.fontSize = `${size}%`
+            await document.fonts.ready
+          }, textSize)
+          const controls = target.locator('[data-gallery-actions]').getByRole(role, { name: /^View larger:/u })
+
+          await expect(controls).toHaveCount(2)
+          await expect(controls.first()).toBeVisible()
+
+          return controls.evaluateAll(elements => elements.map(element => {
+            const bounds = element.getBoundingClientRect()
+
+            return { width: bounds.width, height: bounds.height, fits: bounds.left >= 0 && bounds.right <= innerWidth }
+          }))
+        }
+        const fallback = await measureControls(fallbackPage, 'link')
+        const enhanced = await measureControls(page, 'button')
+
+        expect(fallback.every(control => control.fits)).toBe(true)
+        expect(enhanced).toEqual(fallback)
+      } finally {
+        await fallbackContext.close()
+      }
+    })
+  }
+}
+
 const waitForPageLoad = (page: Page, pathname: string) => page.evaluate(destination => new Promise<void>(resolve => {
   const loaded = () => {
     if (location.pathname !== destination) return
