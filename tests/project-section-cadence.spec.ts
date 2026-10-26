@@ -34,7 +34,7 @@ for (const theme of ['light', 'dark']) {
       await expect(heading).toHaveAttribute('id', section.id)
       await expect(page.locator(`[data-project-desktop-toc] [data-reading-contents] a[href="#${section.id}"]`)).toHaveCount(1)
     }
-    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(13)
+    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(14)
     await expect(page.getByRole('heading', { name: 'Technical highlights', exact: true })).toBeAttached()
     await expect(page.getByRole('heading', { name: 'Inside the product', exact: true })).toBeAttached()
 

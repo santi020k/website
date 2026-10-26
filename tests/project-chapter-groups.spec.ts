@@ -26,7 +26,7 @@ for (const theme of ['light', 'dark']) {
     const marcone = rail.locator('details').nth(0)
     const webb = rail.locator('details').nth(1)
 
-    await expect(rail.locator('a')).toHaveCount(13)
+    await expect(rail.locator('a')).toHaveCount(14)
     await expect(marcone.locator('summary')).toHaveText('Marcone: rebuilding for a headless future')
     await expect(marcone.locator('[data-chapter-name]')).toHaveText('Marcone:')
     await expect(marcone.locator('[data-chapter-caption]')).toHaveText('rebuilding for a headless future')

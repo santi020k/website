@@ -37,45 +37,122 @@ focusAreas:
     description: "Web, mobile, and backend implementation"
   - label: "Performance"
     description: "API tuning, query improvements, and modular interfaces"
+notesLayout: "context-lead"
 ---
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="optic-power" headingId="shipping-across-gaming-saas-and-product-engineering-work">
 
 ## Shipping across gaming, SaaS, and product engineering work
 
 At [Optic Power](https://www.codepwr.com/), I worked within codepwr as a senior full-stack engineer across several products at once. The throughline was consistent: build dependable software for teams that needed product momentum, technical depth, and steady delivery in a fully remote environment.
 
-<ProjectOutcomesCard projectId="optic-power" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "My contribution", href: "#what-i-owned" },
+    { label: "Outcome details", href: "#key-outcomes" },
+    { label: "Tech stack", href: "#tech-stack" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="optic-power"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Core challenge
 
+</ProjectSectionHeading>
+
 The hard part was not just writing code across several stacks. It was keeping quality and momentum intact while context-switching between client products with different business models, technical constraints, and delivery expectations. The work had to stay adaptable without becoming fragmented.
 
+<ProjectSectionHeading>
+
 ### What I owned
+
+</ProjectSectionHeading>
 
 - **End-to-end product engineering** across architecture, implementation, testing, deployment, and monitoring for multiple clients in parallel.
 - **Frontend and backend delivery** spanning `React.js`, `Next.js`, `Node.js`, `GraphQL`, `PostgreSQL`, and `React Native`.
 - **Performance and maintainability work** around APIs, query bottlenecks, UI modularization, and state management.
 - **Cross-functional collaboration** with product, design, and distributed engineering teams shipping in agile sprints.
 
+<ProjectSectionHeading>
+
 ### Key outcomes
+
+</ProjectSectionHeading>
 
 - **40% better API performance** after refactoring bottlenecks and improving database-query efficiency.
 - **Faster front-end experiences** through lazy loading, modularization, and cleaner state normalization.
 - **Multiple production launches in parallel** without losing sight of testing, reliability, or developer experience.
 
+<ProjectSectionHeading>
+
 ### Project spotlight
+
+</ProjectSectionHeading>
 
 - **Team Liquid:** contributed to fan rewards and engagement systems tied to streams, events, and social activity, including YouTube and Twitch-related integrations.
 - **NurtureBoss:** worked on automated communication flows, third-party integrations, and the infrastructure behind email and SMS delivery.
 - **Stardust.gg:** helped build an OAuth-focused React component library and onboarding flows for gaming and Web3 products.
 
+<ProjectSectionHeading>
+
 ### Tech stack
 
-- **Frontend:** `React.js`, `Next.js`, `Redux`, `Redux Toolkit`, `Redux Sagas`, `Styled Components`, `TailwindCSS`
-- **Backend and data:** `Node.js`, `Express.js`, `GraphQL`, `MongoDB`, `PostgreSQL`, `Elixir`, `Phoenix`
-- **Mobile and delivery:** `React Native`, `Docker`, `AWS`, `GCP`, `CI/CD`, `Jest`, `Vitest`, `Sentry`
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Frontend</dt>
+  <dd>
+
+`React.js`, `Next.js`, `Redux`, `Redux Toolkit`, `Redux Sagas`, `Styled Components`, `TailwindCSS`
+
+  </dd>
+</div>
+
+<div>
+  <dt>Backend and data</dt>
+  <dd>
+
+`Node.js`, `Express.js`, `GraphQL`, `MongoDB`, `PostgreSQL`, `Elixir`, `Phoenix`
+
+  </dd>
+</div>
+
+<div>
+  <dt>Mobile and delivery</dt>
+  <dd>
+
+`React Native`, `Docker`, `AWS`, `GCP`, `CI/CD`, `Jest`, `Vitest`, `Sentry`
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
 
 ### Why it mattered
 
-Optic Power sharpened my full-stack range. It pushed me to move comfortably between front-end polish, backend performance, third-party integrations, and architecture while staying grounded in what each product actually needed.
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Optic Power sharpened my full-stack range."}>
+
+It pushed me to move comfortably between front-end polish, backend performance, third-party integrations, and architecture while staying grounded in what each product actually needed.
+
+</ProjectPrincipleClose>
