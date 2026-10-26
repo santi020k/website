@@ -145,6 +145,67 @@ mainClass="remaining-pages"
     ))}
   </StatsGrid>
 
+  <PageSection>
+    <SectionHeader
+      description="Each topic draws on real project experience — architecture choices made under constraint, delivery problems solved in production, and team dynamics at different scales."
+      eyebrow="Topics"
+      title="What I speak about."
+    />
+    <RevealGroup
+      class="
+        grid grid-cols-1 gap-6
+        sm:card-grid-2
+      "
+      stagger={70}
+      threshold={0}
+    >
+      {speakingTopics.map((topic, index) => (
+        <TalkCard
+          description={topic.description}
+          index={index}
+          subtitle={topic.subtitle}
+          title={topic.title}
+          variant="topic"
+        />
+      ))}
+    </RevealGroup>
+  </PageSection>
+
+  <PageSection>
+    <SectionHeader
+      description="Different formats fit different goals. Pick the one that matches your audience and the outcome you want from the session."
+      eyebrow="Formats"
+      title="Available formats."
+    />
+    <RevealGroup
+      class="
+        grid grid-cols-1 gap-6
+        sm:card-grid-2
+      "
+      stagger={70}
+      threshold={0}
+    >
+      {speakingFormats.map((format, index) => (
+        <TalkCard
+          description={format.description}
+          index={index}
+          subtitle={format.subtitle}
+          title={format.title}
+          variant="format"
+        />
+      ))}
+    </RevealGroup>
+  </PageSection>
+
+  <PageSection layout="stacked">
+    <SectionHeader
+      description="Every session I can recover so far, combining public event records with clearly labeled private and reconstructed talks from earlier in my career."
+      eyebrow="Speaking history"
+      title="The talks, in one timeline."
+    />
+    <SpeakingTimeline talks={talks} />
+  </PageSection>
+
   {communityWork && (
     <PageSection>
       <SectionHeader
@@ -202,67 +263,6 @@ mainClass="remaining-pages"
       </Card>
     </PageSection>
   )}
-
-  <PageSection layout="stacked">
-    <SectionHeader
-      description="Every session I can recover so far, combining public event records with clearly labeled private and reconstructed talks from earlier in my career."
-      eyebrow="Speaking history"
-      title="The talks, in one timeline."
-    />
-    <SpeakingTimeline talks={talks} />
-  </PageSection>
-
-  <PageSection>
-    <SectionHeader
-      description="Each topic draws on real project experience — architecture choices made under constraint, delivery problems solved in production, and team dynamics at different scales."
-      eyebrow="Topics"
-      title="What I speak about."
-    />
-    <RevealGroup
-      class="
-        grid grid-cols-1 gap-6
-        sm:card-grid-2
-      "
-      stagger={70}
-      threshold={0}
-    >
-      {speakingTopics.map((topic, index) => (
-        <TalkCard
-          description={topic.description}
-          index={index}
-          subtitle={topic.subtitle}
-          title={topic.title}
-          variant="topic"
-        />
-      ))}
-    </RevealGroup>
-  </PageSection>
-
-  <PageSection>
-    <SectionHeader
-      description="Different formats fit different goals. Pick the one that matches your audience and the outcome you want from the session."
-      eyebrow="Formats"
-      title="Available formats."
-    />
-    <RevealGroup
-      class="
-        grid grid-cols-1 gap-6
-        sm:card-grid-2
-      "
-      stagger={70}
-      threshold={0}
-    >
-      {speakingFormats.map((format, index) => (
-        <TalkCard
-          description={format.description}
-          index={index}
-          subtitle={format.subtitle}
-          title={format.title}
-          variant="format"
-        />
-      ))}
-    </RevealGroup>
-  </PageSection>
 
   <PageSection>
     <SectionHeader

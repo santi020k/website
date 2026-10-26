@@ -744,6 +744,14 @@ a compact two-column row. Below 11rem, stack the location facts. Preserve native
 figure semantics, descriptive alt text, responsive image sources, eager loading,
 and the existing hero's introduction and actions. The portrait stays passive.
 
+### Session first Speaking page flow
+
+After the hero and highlights, present Topics, Formats, Speaking history, Community,
+then Booking. Let organizers assess the session's subject and format before the
+complete talk archive. Keep this order in the document on every viewport; do not
+reorder with CSS. Preserve the approved cards, section introductions, complete
+history, community links, booking actions, and structured data.
+
 ### Portrait cover speaker profile
 
 The speaking hero uses an opaque Lumen Card with a fine border and asymmetric
