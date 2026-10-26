@@ -9,6 +9,7 @@ test('the hero connects products, personal background, and the full portfolio', 
 
   await expect(page.locator('h1')).toHaveCount(1)
   await expect(hero.locator('h1')).toContainText('I build products.')
+  await expect(hero.locator('.maker-hero-description')).toHaveText('Engineering lead, product builder, and creator of Lumen UI. I build commerce platforms, native apps, and tools for developers.')
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAccessibleName('See selected work')
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAttribute('href', '/portfolio/')
   await expect(hero.locator('a[href="/portfolio/lumen-ui/"]')).toHaveAttribute('href', '/portfolio/lumen-ui/')
