@@ -317,7 +317,7 @@
   }
 
   & [data-article-code-folio] [data-ui-code-copy][data-state="error"] {
-    color: hsl(var(--danger));
+    color: color-mix(in srgb, hsl(var(--danger)) 65%, hsl(var(--ink)));
   }
 
   & [data-article-code-folio] pre {

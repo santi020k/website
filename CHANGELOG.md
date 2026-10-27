@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Offer manual source selection after an article code copy fails, opening folded examples and retaining recovery guidance until copying succeeds. Improve the failure label's contrast in both themes.
+
 - Introduce Reading paths in the Blog opening, keeping the main writing action and pairing topic and series links with clear captions, responsive layouts, and keyboard focus.
 
 - Let readers collapse long article code examples from their bottom footer and return to the original opener, preserving complete-source copying and native disclosure behavior.

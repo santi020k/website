@@ -829,3 +829,30 @@ Affected zero-warning lint, documentation spelling, the production build,
 452-page OG audit, archive assembly, and PDF freshness check passed without PDF
 regeneration. Published changelog entries remain unchanged. This follow-up uses
 affected checks; the latest full workspace gate remains `3d0f6bb5`.
+
+## Article Copy recovery follow-up
+
+Approved source `c1c67a85`, based on `d17f76af`, listens to Lumen's existing public
+copy-error and copy-success events for standalone article Code folios. Failed
+copying exposes a persistent Lumen Select code action. That explicit action opens
+folded examples, focuses their complete code region, and uses native Range
+selection without line numbers or the duplicate preview. A successful retry
+removes recovery; manual selection does not claim clipboard success. Code tabs,
+projects, native no-JavaScript reading, and complete print output retain their
+existing behavior. The failure label also gains a semantic danger/ink color mix
+to correct its contrast. The patch note is folded into 5.0.0.
+
+All 48 affected Chromium/WebKit recovery, copying, and fold cases passed with
+retries disabled. Coverage includes missing and denied clipboard access, persistent
+guidance after timed feedback resets, successful retries, short/folded/imported
+source selection, keyboard focus, repeated initialization, both themes, enlarged
+text at 320/1440px, print, and no-JavaScript behavior. Four matched mobile/desktop
+failure states in both themes passed scoped accessibility scans with no violations
+or horizontal overflow. Headers, complete source, and copy values matched the
+preceding release across all four article examples. Representative before/after
+captures were visually reviewed.
+
+Affected zero-warning lint, documentation spelling, the production build,
+452-page OG audit, archive assembly, and regenerated PDF freshness checks passed.
+Published changelog entries remain unchanged. This follow-up uses affected checks;
+the latest full workspace gate remains `3d0f6bb5`.

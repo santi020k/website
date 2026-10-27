@@ -1718,6 +1718,14 @@ summary below the sticky header. Keep the original header, complete-source Copy,
 and 12-line preview intact. Add this action only after JavaScript initializes;
 without it, the native summary remains the control. Hide the footer in print.
 
+Copy recovery appears beneath the existing Code folio header only after a failed
+copy. Keep the explanation and Lumen “Select code” action available after the
+temporary Copy failed label resets. Selection opens a folded example, focuses its
+complete code region, and selects the source without line numbers or the duplicate
+preview. Announce how to copy the selection using the keyboard or device menu;
+do not claim that manual copying has succeeded. A successful retry removes the
+recovery row. Preserve normal copying and hide the recovery row in print.
+
 Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
 when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
 and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match
