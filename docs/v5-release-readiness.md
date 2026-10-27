@@ -688,3 +688,22 @@ content-cache cleanup, passed its 452-page OG audit, and assembled all four
 archives. Both resume PDFs were regenerated for the shared prose stylesheet and
 passed freshness checks. Published changelog entries remain unchanged. This
 iteration uses scoped checks; the full workspace gate remains `16b66665`.
+
+## Runtime reliability follow-up
+
+Source `0ac266c9` bounds comments initialization to fifteen seconds, exposes the
+existing GitHub recovery link on failure, and allows a late widget to recover.
+Navigation clears pending deadlines and ignores events from abandoned articles.
+Header and footer links distinguish the exact current page from its parent
+section while retaining visible active markers in both themes and forced colors.
+
+The shared post loader rejects duplicate published URLs with every conflicting
+entry ID. Remote sitemap requests delay retries for temporary failures and fail
+immediately on permanent HTTP errors while preserving the original error context.
+The patch note is folded into unpublished 5.0.0 and the resume PDFs are regenerated
+from the combined release sources.
+
+Regression coverage includes delayed and silent widgets, repeated initialization
+deadlines, article navigation, keyboard access, enlarged text, both browser
+engines, both themes, content filtering, and bounded network retries. The local
+integration refreshes the complete workspace gate without publishing the release.

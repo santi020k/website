@@ -4,13 +4,12 @@ import { fileURLToPath } from 'node:url'
 
 import { getSiteUrls } from '@santi020k/theme/site'
 
-import { collectSitemapEntries, deduplicateSitemapSources, renderSitemap } from './sitemap.mjs'
+import { collectSitemapEntries, deduplicateSitemapSources, fetchSitemapText, renderSitemap } from './sitemap.mjs'
 
 const rootDirectory = fileURLToPath(new URL('../..', import.meta.url))
 const outputDirectory = path.join(rootDirectory, 'dist')
 const rootOrigin = 'https://santi020k.com'
 const outputPath = path.join(outputDirectory, 'sitemap.xml')
-const retryCount = 3
 const themeSiteUrls = getSiteUrls()
 
 const sitemapSources = [
@@ -99,29 +98,6 @@ const readLocalSitemap = async sitemapUrl => {
   return readFile(filePath, 'utf8')
 }
 
-const fetchText = async url => {
-  let lastError
-
-  for (let attempt = 1; attempt <= retryCount; attempt += 1) {
-    try {
-      const response = await fetch(url, {
-        headers: { 'User-Agent': 'santi020k-cross-site-sitemap-builder/1.0' },
-        signal: AbortSignal.timeout(15_000)
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`)
-      }
-
-      return await response.text()
-    } catch (error) {
-      lastError = error
-    }
-  }
-
-  throw new Error(`Could not fetch ${url}: ${String(lastError)}`)
-}
-
 const rootEntries = await collectSitemapEntries(
   { origin: rootOrigin, sitemap: '/sitemap-index.xml' }, readLocalSitemap
 )
@@ -131,7 +107,7 @@ const sourceSummaries = [`root=${rootEntries.length}`]
 
 for (const source of deduplicateSitemapSources(sitemapSources)) {
   try {
-    const sourceEntries = await collectSitemapEntries(source, fetchText)
+    const sourceEntries = await collectSitemapEntries(source, fetchSitemapText)
 
     for (const entry of sourceEntries) entries.set(entry.url, entry)
 

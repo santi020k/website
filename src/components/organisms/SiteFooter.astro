@@ -1,4 +1,6 @@
 ---
+import { getNavigationCurrent } from '@/utils/links'
+
 import { ButtonLink, Icon } from '@santi020k/lumen-astro'
 
 import { menuLinks, siteConfig } from '@/site.config'
@@ -26,7 +28,7 @@ const resourceLinks = [
 ]
 
 const activePath = [...navLinks, ...resourceLinks]
-  .filter(link => link.path === '/' ? currentPath === '/' : currentPath.startsWith(link.path))
+  .filter(link => getNavigationCurrent(currentPath, link.path))
   .sort((a, b) => b.path.length - a.path.length)[0]?.path
 ---
 
@@ -63,7 +65,7 @@ const activePath = [...navLinks, ...resourceLinks]
         <p class="maker-footer-label">Explore</p>
         <ul>
           {navLinks.map(link => (
-            <li><a href={link.path} aria-current={activePath === link.path ? 'page' : undefined}>{link.title}</a></li>
+            <li><a href={link.path} aria-current={activePath === link.path ? getNavigationCurrent(currentPath, link.path) : undefined}>{link.title}</a></li>
           ))}
         </ul>
       </nav>
@@ -86,7 +88,7 @@ const activePath = [...navLinks, ...resourceLinks]
       <p>&copy; {year} {siteConfig.author}<span aria-hidden="true"> / </span><a href="https://lumen.santi020k.com" rel="noopener noreferrer" target="_blank">Built with Lumen</a></p>
       <nav aria-label="Site information">
         {resourceLinks.map(({ path, title }) => (
-          <a href={path} aria-current={activePath === path ? 'page' : undefined}>{title}</a>
+          <a href={path} aria-current={activePath === path ? getNavigationCurrent(currentPath, path) : undefined}>{title}</a>
         ))}
         <a href="https://github.com/santi020k/website/issues/new/choose" rel="noopener noreferrer" target="_blank">Report an issue</a>
       </nav>

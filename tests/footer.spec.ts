@@ -2,6 +2,29 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
+for (const theme of ['light', 'dark']) {
+  test(`footer distinguishes a parent section from the current page in ${theme}`, async ({ page }) => {
+    await page.addInitScript(value => {
+      localStorage.setItem('theme', value)
+    }, theme)
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/blog/')
+    const footer = page.locator('[data-site-footer]')
+    const blog = footer.getByRole('link', { name: 'Blog', exact: true })
+    const activeColor = await blog.evaluate(link => getComputedStyle(link).color)
+
+    await page.goto('/blog/git-best-practices-for-calm-collaboration/')
+    await expect(blog).toHaveAttribute('aria-current', 'true')
+    await expect(blog).toHaveCSS('color', activeColor)
+    await expect(blog).toHaveCSS('text-decoration-line', 'underline')
+    await expect(footer.locator('[aria-current="page"]')).toHaveCount(0)
+    await blog.click()
+    await expect(page).toHaveURL('/blog/')
+    await expect(blog).toHaveAttribute('aria-current', 'page')
+    await expect(footer.locator('[aria-current="true"]')).toHaveCount(0)
+  })
+}
+
 test('footer preserves contact destinations, profile identity, and keyboard navigation', async ({ page, browserName }) => {
   await page.goto('/')
   const footer = page.locator('[data-site-footer]')

@@ -5,6 +5,7 @@ import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
 import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
 import type { SiteLink } from '@/types/site'
+import { getNavigationCurrent } from '@/utils/links'
 
 import { Button, ButtonLink as NavigationLink, Icon } from '@santi020k/lumen-astro'
 
@@ -21,10 +22,7 @@ const isAvailableForBanner =
   siteConfig.showAvailabilityBanner !== false
 
 const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
-
-const isCurrentPage = (path: string) => path === '/' ?
-  Astro.url.pathname === '/' :
-  Astro.url.pathname.startsWith(path)
+const getAriaCurrent = (path: string) => getNavigationCurrent(Astro.url.pathname, path)
 
 ---
 
@@ -123,7 +121,7 @@ href="/"
         <nav aria-label="Main menu" class="site-desktop-nav">
           {navigationLinks.map((link: SiteLink) => (
             <a
-              aria-current={isCurrentPage(link.path) ? 'page' : undefined}
+              aria-current={getAriaCurrent(link.path)}
               class="site-desktop-nav-link"
               href={link.path}
             >
@@ -171,25 +169,25 @@ href="/"
       >
         <div class="site-mobile-nav-surface" data-mobile-nav-surface>
           <div class="grid" data-mobile-nav-links>
-            {navigationLinks.map((link: SiteLink, index: number) => (
-              <a
-                aria-current={isCurrentPage(link.path) ? 'page' : undefined}
-                class="site-mobile-nav-link"
-                data-mobile-nav-link
-                href={link.path}
-                style={`--nav-item-index: ${index}`}
-              >
-                <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                <span>{link.title}</span>
-                {isCurrentPage(link.path) ?
-(
-                  <span class="site-mobile-nav-current" aria-hidden="true">Current</span>
-                ) :
-(
-                  <Icon class="site-mobile-nav-arrow" name="arrow-right" />
-                )}
-              </a>
-            ))}
+            {navigationLinks.map((link: SiteLink, index: number) => {
+              const current = getAriaCurrent(link.path)
+
+              return (
+                <a
+                  aria-current={current}
+                  class="site-mobile-nav-link"
+                  data-mobile-nav-link
+                  href={link.path}
+                  style={`--nav-item-index: ${index}`}
+                >
+                  <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <span>{link.title}</span>
+                  {current === 'page' ?
+                    <span class="site-mobile-nav-current" aria-hidden="true">Current</span> :
+                    <Icon class="site-mobile-nav-arrow" name="arrow-right" />}
+                </a>
+              )
+            })}
           </div>
           <div data-mobile-nav-actions>
             <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">

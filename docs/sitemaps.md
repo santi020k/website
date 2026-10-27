@@ -20,6 +20,10 @@ The combined sitemap preserves source `lastmod` dates when supplied. It never
 substitutes the build time for a content modification date. Nested indexes are
 deduplicated, and URLs outside each source's HTTPS origin or invalid dates fail
 validation. Optional unavailable sources remain non-blocking.
+Remote loads retain a 15-second deadline per attempt. Network errors, request
+timeouts, rate limits, and server errors receive up to three attempts, waiting
+one second and then two seconds between attempts. Other HTTP errors fail
+immediately. Required sources still fail the build after retries are exhausted.
 Draft posts, scheduled posts, draft series, series without published posts, utility
 pages, and posts with an external canonical URL are excluded from the site's
 production sitemap. Draft and empty series remain available in development.

@@ -11,8 +11,10 @@
  * client runs update its pending attribute. Each widget document (lazy first
  * load, or a Giscus `src` reload such as sign-out) resyncs on its first ready
  * message. This script never reloads the discussion itself. If the client
- * fails to load, the mount is hidden and a polite status points readers to
- * the GitHub link.
+ * fails to load, or the client and widget are not ready within a bounded
+ * deadline, a polite status points readers to the GitHub link. The mount is
+ * hidden only when it has no frame, so a pending widget can still load and
+ * replace that status once it reports ready.
  */
 import { Collapsible, Icon } from '@santi020k/lumen-astro'
 
@@ -224,6 +226,9 @@ const { giscus } = siteConfig
   const GISCUS_ORIGIN = 'https://giscus.app'
   const GISCUS_CLIENT = `${GISCUS_ORIGIN}/client.js`
   const FRAME_SELECTOR = '#comments iframe.giscus-frame'
+  // Covers both the client script and the widget's first ready message.
+  const INIT_DEADLINE_MS = 15_000
+  const LOAD_FAILURE_MESSAGE = 'Comments could not load. You can still browse discussions on GitHub using the link below.'
 
   interface FrameThemeState {
     // Whether the current widget document has already been force-synced.
@@ -256,6 +261,44 @@ const { giscus } = siteConfig
 
     if (loading) loading.hidden = true
   }
+
+  const isCurrentSection = (section: HTMLElement): boolean => section.isConnected && document.getElementById('comments') === section
+  let initDeadline: number | undefined
+
+  const clearInitDeadline = () => {
+    window.clearTimeout(initDeadline)
+
+    initDeadline = undefined
+  }
+
+  // Point readers to the GitHub link that is already rendered. Keep an
+  // existing frame rendered: a hidden lazy frame never loads, and a hidden
+  // widget cannot measure a ready height.
+  const showLoadFailure = (section: HTMLElement, mount: HTMLElement) => {
+    clearInitDeadline()
+
+    if (!mount.querySelector('iframe.giscus-frame')) mount.hidden = true
+
+    finishLoading()
+
+    const status = section.querySelector('[data-giscus-error]')
+
+    if (status) status.textContent = LOAD_FAILURE_MESSAGE
+  }
+
+  // A ready widget supersedes any earlier deadline fallback.
+  const showDiscussion = () => {
+    clearInitDeadline()
+
+    finishLoading()
+
+    const status = document.querySelector('#comments [data-giscus-error]')
+
+    if (status?.textContent) status.textContent = ''
+  }
+
+  const containsCommentsFrame = (node: Node): boolean => node instanceof Element &&
+    (node.matches(FRAME_SELECTOR) || node.querySelector(FRAME_SELECTOR) !== null)
 
   // The widget posts `{ giscus: { resizeHeight } }` once it has initialized.
   const isReadyMessage = (data: unknown): boolean => {
@@ -311,7 +354,7 @@ const { giscus } = siteConfig
 
     if (!frame || event.source !== frame) return
 
-    finishLoading()
+    showDiscussion()
 
     const state = getFrameState(frame)
     const theme = getGiscusTheme()
@@ -382,30 +425,54 @@ const { giscus } = siteConfig
       script.setAttribute(name, value)
     }
 
-    // A blocked or offline client leaves only the reserved space behind, so
-    // swap it for guidance toward the GitHub link that is already rendered.
+    // A stalled client or a widget that never reports ready would otherwise
+    // leave the loading status up indefinitely.
+    const startInitDeadline = () => {
+      clearInitDeadline()
+
+      initDeadline = window.setTimeout(() => {
+        initDeadline = undefined
+
+        // The deadline may expire after Astro has swapped in another article.
+        if (isCurrentSection(section)) showLoadFailure(section, mount)
+      }, INIT_DEADLINE_MS)
+    }
+
+    // A blocked or offline client leaves only the reserved space behind.
     script.addEventListener('error', () => {
       // The failure may land after Astro has swapped in another article.
-      if (!section.isConnected || document.getElementById('comments') !== section) return
+      if (!isCurrentSection(section)) return
 
       if (mount.querySelector('iframe.giscus-frame')) return
 
-      mount.hidden = true
-
-      finishLoading()
-
-      const status = section.querySelector('[data-giscus-error]')
-
-      if (status) status.textContent = 'Comments could not load. You can still browse discussions on GitHub using the link below.'
+      showLoadFailure(section, mount)
     }, { once: true })
 
     frameSourceObserver?.disconnect()
 
     frameSourceObserver = new MutationObserver(records => {
-      for (const { target } of records) markFrameNavigated(target)
+      for (const { addedNodes, target } of records) {
+        markFrameNavigated(target)
+
+        // A client that runs after the deadline adds its lazy frame to the
+        // hidden mount, where it could never load. Give it one bounded attempt.
+        if (mount.hidden && Array.from(addedNodes).some(containsCommentsFrame)) {
+          mount.hidden = false
+
+          if (loading) loading.hidden = false
+
+          const status = section.querySelector('[data-giscus-error]')
+
+          if (status) status.textContent = ''
+
+          startInitDeadline()
+        }
+      }
     })
 
-    frameSourceObserver.observe(mount, { attributeFilter: ['src'], subtree: true })
+    frameSourceObserver.observe(mount, { attributeFilter: ['src'], childList: true, subtree: true })
+
+    startInitDeadline()
 
     mount.appendChild(script)
   }
@@ -483,6 +550,8 @@ const { giscus } = siteConfig
 
   document.addEventListener('astro:before-swap', () => {
     stopWaitingForComments()
+
+    clearInitDeadline()
 
     frameSourceObserver?.disconnect()
 

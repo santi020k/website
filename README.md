@@ -95,6 +95,8 @@ The integration guide records the version-pinned Anchor, synchronized code tabs,
 
 Collection helpers in `src/utils/content.ts` cache published entries during a build and return
 an independent array to each caller, so page-specific sorting cannot reorder another page.
+Blog slugs must be unique across year folders. The shared post loader rejects duplicate
+routes with all conflicting entry IDs; drafts and scheduled posts are excluded in production.
 Project frontmatter can curate up to two `relatedWriting` post references; the shared Story pair
 section omits drafts, scheduled posts, and missing entries in every environment.
 Article and project routes render their collection entry once and pass its typed headings to the

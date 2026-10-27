@@ -346,7 +346,7 @@
     "blog/playwright-accessibility-checks-that-teams-keep-running.webp": {
       "baseDirectory": "public/og",
       "digest": "f1b20c1cdfcd7c949d6c4e26ccf0f88188c3edd6e696e1e13e89dcb163293347",
-      "fingerprint": "66de66571720ee9eac1f44d595fb0258b75fdeca702ea96e0d51aabce1810d1c",
+      "fingerprint": "61e97295721b48b4be9b2c1b566ac17deb13ced20dd0c21bf3ce73ff525db981",
       "output": "blog/playwright-accessibility-checks-that-teams-keep-running.webp"
     },
     "blog/postlens-2-is-live.webp": {
@@ -418,7 +418,7 @@
     "pages/blog--4.webp": {
       "baseDirectory": "public/og",
       "digest": "b6c38cb5369f85b15d03972e4bd643f3f432e40f018172af1cf2f5dca61867cd",
-      "fingerprint": "fcccc5f595a584c450d2d0a3f8aa3539ebae73cf74858dc7820ff88a5a1adf63",
+      "fingerprint": "910d4344740bbdf5563a750872f26fcd3df7958171e01363be674bcf1ba4cd8a",
       "output": "pages/blog--4.webp"
     },
     "pages/blog--tags--development.webp": {
@@ -700,7 +700,7 @@
     "pages/blog--tags--developer-experience.webp": {
       "baseDirectory": "public/og",
       "digest": "64f1cfd2474ebd5eb54a35d1ad2c10920430351f0f78e82c461921af86ade797",
-      "fingerprint": "268fcf73d537efa2671dae762af59eeecd7b687a9634827ce4951ef98a5b52f4",
+      "fingerprint": "32e804a62a7a5be1d18b99926a63dee76723d8b4ebf2c29747a9335ef4cd8675",
       "output": "pages/blog--tags--developer-experience.webp"
     },
     "pages/blog--tags--developer-experience--2.webp": {
@@ -748,13 +748,13 @@
     "pages/blog--tags--testing.webp": {
       "baseDirectory": "public/og",
       "digest": "3eb380951423afaee17e1c834c7ba24950b18b9426efbf1aba53cc6b8dfa47b1",
-      "fingerprint": "29777f92da66d086d17e187b02f529544279b7edf58bd122af516260f9aaf1bc",
+      "fingerprint": "40e6ca3baa2e041e0ea850404d12284d43e8aa9a876aa0af4e55726bb632a6c4",
       "output": "pages/blog--tags--testing.webp"
     },
     "pages/blog--tags--e2e.webp": {
       "baseDirectory": "public/og",
       "digest": "ac3b4750d1947206c2466bcfdab60469d71e106dd7de401ac6392bb730e293c9",
-      "fingerprint": "47c5f7107e19f096124314bf603c519b6e6c7a6484d9e1afc3de1ee5f76bab41",
+      "fingerprint": "ee82faa152b04867cfbc1a45ec7dd1bc66303e2f8a32251a0a7991f2a91c3f8e",
       "output": "pages/blog--tags--e2e.webp"
     },
     "pages/blog--tags--astro.webp": {
@@ -778,7 +778,7 @@
     "pages/blog--tags--accessibility.webp": {
       "baseDirectory": "public/og",
       "digest": "1e60a6bf8baf009532523f2e31897910a6cf66bf55d490636c70e15e3680fb6b",
-      "fingerprint": "75e0cedeb2c080b5d5e8ab1b44c0457342c886a2c5142baf8bd6d10bba978b87",
+      "fingerprint": "f4054401ec933aa74e77d7c9f69d92c005e49289bb7a247dc231cd1a9f4b71ac",
       "output": "pages/blog--tags--accessibility.webp"
     },
     "pages/blog--tags--open-source.webp": {
@@ -1006,7 +1006,7 @@
     "pages/blog--tags--playwright.webp": {
       "baseDirectory": "public/og",
       "digest": "1641e7aec5d2c50248072cc51c4f756503cc763b0506d77c5c175c8693088d2d",
-      "fingerprint": "095e7c789c96602920dc09650c932b1bb695ad9072c4e98e84d60cbd9334dd8b",
+      "fingerprint": "a90522771db6628f29b31876bfa1838f532a0576d4eca3ecde0f17ad7de9a973",
       "output": "pages/blog--tags--playwright.webp"
     },
     "pages/blog--tags--ios.webp": {

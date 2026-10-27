@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright'
-import { expect, test } from '@playwright/test'
+import { expect, type Locator, type Page, test } from '@playwright/test'
 
 import { requireValue } from './helpers/assertions'
 
@@ -87,6 +87,106 @@ for (const theme of ['light', 'dark']) {
     expect(results.violations).toEqual([])
   })
 }
+
+type SectionState = 'page' | 'true' | null
+
+const blogSectionRoutes: { path: string, blog: SectionState }[] = [
+  { path: '/blog/', blog: 'page' },
+  { path: '/blog/git-best-practices-for-calm-collaboration/', blog: 'true' },
+  { path: '/blog/tags/git/', blog: 'true' },
+  { path: '/blog/series/the-santi020k-way/', blog: 'true' }
+]
+
+const expectPathname = async (page: Page, pathname: string) => {
+  await expect.poll(() => new URL(page.url()).pathname).toBe(pathname)
+}
+
+const expectCurrentLink = async (link: Locator, state: SectionState) => {
+  if (state) await expect(link).toHaveAttribute('aria-current', state)
+  else await expect(link).not.toHaveAttribute('aria-current')
+}
+
+const expectDesktopSection = async (page: Page, state: SectionState) => {
+  const navigation = page.locator('.site-desktop-nav')
+  const blog = navigation.locator('a[href="/blog/"]')
+
+  await expectCurrentLink(blog, state)
+  await expect(navigation.locator('[aria-current="page"]')).toHaveCount(state === 'true' ? 0 : 1)
+  await expect(navigation.locator('[aria-current="true"]')).toHaveCount(state === 'true' ? 1 : 0)
+  // Pages and their descendant routes share the same visible active marker.
+  expect(await blog.evaluate(element => getComputedStyle(element, '::after').content !== 'none')).toBe(state !== null)
+}
+
+const openMobileMenu = async (page: Page) => {
+  await page.locator('[data-mobile-nav-toggle]').click()
+  await expect(page.locator('#mobile-nav')).toBeVisible()
+}
+
+const expectMobileSection = async (page: Page, state: SectionState) => {
+  const navigation = page.locator('#mobile-nav')
+  const blog = navigation.locator('a[href="/blog/"]')
+
+  await expectCurrentLink(blog, state)
+  await expect(blog.locator(':scope > :nth-child(2)')).toHaveCSS('text-decoration-line', state ? 'underline' : 'none')
+  // "Current" names only the exact page, never a parent section.
+  await expect(blog.locator('.site-mobile-nav-current')).toHaveCount(state === 'page' ? 1 : 0)
+  await expect(navigation.locator('.site-mobile-nav-current')).toHaveCount(state === 'true' ? 0 : 1)
+  await expect(navigation.locator('[aria-current="page"] .site-mobile-nav-current')).toHaveCount(state === 'true' ? 0 : 1)
+}
+
+test('desktop navigation separates the current page from its current section', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+
+  for (const { path, blog } of blogSectionRoutes) {
+    await page.goto(path)
+    await expectDesktopSection(page, blog)
+  }
+
+  const results = await new AxeBuilder({ page }).include('header').analyze()
+
+  expect(results.violations).toEqual([])
+
+  const navigation = page.locator('.site-desktop-nav')
+
+  // Native header links update the semantics after each client-side swap.
+  await navigation.locator('a[href="/blog/"]').click()
+  await expectPathname(page, '/blog/')
+  await expectDesktopSection(page, 'page')
+
+  await navigation.locator('a[href="/about/"]').click()
+  await expectPathname(page, '/about/')
+  await expectDesktopSection(page, null)
+  await expect(navigation.locator('a[href="/about/"]')).toHaveAttribute('aria-current', 'page')
+})
+
+test('the phone menu labels only the exact route as Current', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+
+  for (const { path, blog } of blogSectionRoutes) {
+    await page.goto(path)
+    await openMobileMenu(page)
+    await expectMobileSection(page, blog)
+    await page.keyboard.press('Escape')
+    await expect(page.locator('#mobile-nav')).toBeHidden()
+  }
+
+  const navigation = page.locator('#mobile-nav')
+
+  await openMobileMenu(page)
+  await navigation.locator('a[href="/blog/"]').click()
+  await expectPathname(page, '/blog/')
+  await expect(navigation).toBeHidden()
+  await openMobileMenu(page)
+  await expectMobileSection(page, 'page')
+
+  await navigation.locator('a[href="/about/"]').click()
+  await expectPathname(page, '/about/')
+  await openMobileMenu(page)
+  await expectMobileSection(page, null)
+  await expect(navigation.locator('a[href="/about/"] .site-mobile-nav-current')).toBeVisible()
+})
 
 test('the open menu keeps header utilities and close reachable by keyboard', async ({ page, browserName }) => {
   await page.setViewportSize({ width: 390, height: 844 })

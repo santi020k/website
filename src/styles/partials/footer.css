@@ -207,8 +207,8 @@
 .maker-footer a { text-decoration: none; transition: color 180ms ease, background-color 180ms ease; }
 
 .maker-footer a:hover,
-.maker-footer a[aria-current="page"] { color: hsl(var(--brand)); }
-.maker-footer a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.4em; }
+.maker-footer a:is([aria-current="page"], [aria-current="true"]) { color: hsl(var(--brand)); }
+.maker-footer a:is([aria-current="page"], [aria-current="true"]) { text-decoration: underline; text-underline-offset: 0.4em; }
 .maker-footer a:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 5px; }
 
 @utility maker-footer-colophon {
@@ -241,7 +241,7 @@
 :root[data-theme="dark"] .maker-footer-invitation h2 span,
 :root[data-theme="dark"] .maker-footer-wordmark span,
 :root[data-theme="dark"] .maker-footer a:not(.maker-footer-action):hover,
-:root[data-theme="dark"] .maker-footer a[aria-current="page"] { color: hsl(var(--accent)); }
+:root[data-theme="dark"] .maker-footer a:is([aria-current="page"], [aria-current="true"]) { color: hsl(var(--accent)); }
 :root[data-theme="dark"] .maker-footer a:focus-visible { outline-color: hsl(var(--accent)); }
 
 @media (prefers-reduced-motion: reduce) {
