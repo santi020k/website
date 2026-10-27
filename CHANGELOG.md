@@ -8,6 +8,8 @@
 
 ### Minor Changes
 
+- Use readable shared topic labels in article openings and related writing while preserving topic archive URLs and ordering.
+
 - Connect mobile article opening sections with a tighter spacing rhythm while preserving wider layouts and shared navigation.
 
 - Place the article print shortcut beside the reading details with a quiet text treatment, clear keyboard focus, and responsive wrapping.

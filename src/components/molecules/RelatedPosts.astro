@@ -4,6 +4,7 @@ import PostsGallery from '@/components/organisms/PostsGallery.astro'
 
 import { getRelatedPosts, getRelatedTopics } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
+import { getBlogTopicLabel } from '@/utils/tags'
 
 import { Link } from '@santi020k/lumen-astro'
 
@@ -60,7 +61,7 @@ const relatedTopics = getRelatedTopics(tags, relatedPosts)
               {relatedTopics.map((topic, index) => (
                 <li>
                   {index > 0 && <span aria-hidden="true">·</span>}
-                  <Link href={getTagPath(topic)} variant="inherit">{topic}</Link>
+                  <Link href={getTagPath(topic)} variant="inherit">{getBlogTopicLabel(topic)}</Link>
                 </li>
               ))}
             </ul>

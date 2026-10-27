@@ -79,10 +79,10 @@ test('topic context explains the displayed articles and follows its archive link
   await page.goto('/blog/playwright-accessibility-checks-that-teams-keep-running/')
   const topics = page.locator('#related-writing').getByRole('navigation', { name: 'Topics shared with these recommendations' })
 
-  await expect(topics.getByRole('link')).toHaveText(['accessibility', 'testing'])
-  await expect(topics.getByRole('link', { name: 'accessibility', exact: true })).toHaveAttribute('href', '/blog/tags/accessibility/')
-  await expect(topics.getByRole('link', { name: 'testing', exact: true })).toHaveAttribute('href', '/blog/tags/testing/')
-  await topics.getByRole('link', { name: 'accessibility', exact: true }).press('Enter')
+  await expect(topics.getByRole('link')).toHaveText(['Accessibility', 'Testing'])
+  await expect(topics.getByRole('link', { name: 'Accessibility', exact: true })).toHaveAttribute('href', '/blog/tags/accessibility/')
+  await expect(topics.getByRole('link', { name: 'Testing', exact: true })).toHaveAttribute('href', '/blog/tags/testing/')
+  await topics.getByRole('link', { name: 'Accessibility', exact: true }).press('Enter')
   await expect(page).toHaveURL('/blog/tags/accessibility/')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('accessibility')
 })
@@ -92,7 +92,7 @@ test.describe('Topic context without JavaScript', () => {
 
   test('shared topics are usable native destinations', async ({ page }) => {
     await page.goto('/blog/playwright-accessibility-checks-that-teams-keep-running/')
-    await page.locator('#related-writing').getByRole('link', { name: 'testing', exact: true }).press('Enter')
+    await page.locator('#related-writing').getByRole('link', { name: 'Testing', exact: true }).press('Enter')
     await expect(page).toHaveURL('/blog/tags/testing/')
   })
 })

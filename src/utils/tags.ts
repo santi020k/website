@@ -19,9 +19,34 @@ export const getBlogBrowseTags = (tags: [string, number][]): [string, number][] 
 }
 
 const blogTopicNames = new Map([
+  ['ai', 'AI'],
+  ['ci-cd', 'CI/CD'],
+  ['cloudflare-workers', 'Cloudflare Workers'],
+  ['dxmt', 'DXMT'],
+  ['e2e', 'E2E'],
   ['eslint', 'ESLint'],
+  ['eslint-config', 'ESLint config'],
+  ['github-actions', 'GitHub Actions'],
+  ['ios', 'iOS'],
+  ['javascript', 'JavaScript'],
+  ['macos', 'macOS'],
+  ['mongo', 'MongoDB'],
   ['nextjs', 'Next.js'],
-  ['typescript', 'TypeScript']
+  ['nodejs', 'Node.js'],
+  ['on-device-ai', 'On-device AI'],
+  ['open-graph', 'Open Graph'],
+  ['pre-commit', 'Pre-commit'],
+  ['qa', 'QA'],
+  ['react-native', 'React Native'],
+  ['roadscore', 'RoadScore'],
+  ['swiftui', 'SwiftUI'],
+  ['tailwind', 'Tailwind CSS'],
+  ['testing-library', 'Testing Library'],
+  ['typescript', 'TypeScript'],
+  ['ui-engineering', 'UI engineering'],
+  ['vscode', 'VS Code'],
+  ['web-components', 'Web Components'],
+  ['websockets', 'WebSockets']
 ])
 
 /** Presentation labels only: the original tag remains the archive identifier. */

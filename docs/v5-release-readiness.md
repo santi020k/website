@@ -1225,3 +1225,38 @@ unchanged. Published changelog entries remain intact.
 
 This integration uses affected checks. The source chat owns the next canonical
 workspace gate on the completed combined commit, avoiding a duplicate full run.
+
+## Readable article topic labels follow-up
+
+Approved source `53b4a34a`, based on `afb64379`, reuses `getBlogTopicLabel` in
+article eyebrows, topic navigation, and related-writing context. The shared map
+preserves current technology names and acronyms, including E2E, CI/CD, JavaScript,
+iOS, and GitHub Actions. Original tags still drive archive URLs, matching, ranking,
+and ordering. The style guide records the presentation change and the Changeset
+is folded into unpublished 5.0.0. The later Topic continuity proposal remains
+unapproved and unimplemented.
+
+All 24 tag/related-post unit tests and all 64 selected Chromium/WebKit article
+hero, related-writing, and blog-topic-guide cases passed. Browser cases ran
+together with one worker and retries disabled. Focused lint passed with zero
+warnings; Astro checked 506 files with zero errors, warnings, or hints. The
+production build, 452-page OG audit, archive assembly, and CV freshness check
+passed without PDF regeneration.
+
+Ten matched before/after states cover series and standalone articles, both
+themes, 390px mobile, 320px with 200% text, and 768/1440px wider layouts. Every
+state avoids horizontal overflow and preserves the preceding opening gaps.
+Representative mobile and enlarged-text results were visually reviewed. Exact
+label/order/URL pairs were checked in the rendered article, and keyboard
+activation still reaches the existing developer-experience archive.
+
+All four application/test files match the approved source. The style guide
+combines its new paragraph with the existing text-link hover policy, whose
+implementation is preserved. Published changelog entries remain unchanged.
+
+The canonical workspace gate passed on the preceding hover integration
+`10c7050c`: 993 unit cases, seven motion checks, workspace lint/types/docs/content/
+CV freshness, all five builds, 1,288 archive pages, and 1,740 documents / 8,131
+local targets with zero errors. Its log was independently inspected. This later
+label-only follow-up uses the affected checks above; no duplicate full gate is
+queued.

@@ -1971,6 +1971,12 @@ beside a 2px purple rail. Use 1.0625rem medium-weight text, fine link underlines
 small directional arrows, and 44px minimum targets. A fine bottom rule closes the
 composition. Keep every topic, its order, and its canonical archive destination.
 
+Readable topics uses the shared `getBlogTopicLabel` formatter for the article
+eyebrow, topic navigation, and related-writing context. Replace slug separators
+with readable words and preserve names and acronyms such as Developer experience,
+JavaScript, GitHub Actions, iOS, and E2E. Keep raw tags for URLs, matching, and
+ordering; this changes presentation only and reuses the blog filter labels.
+
 On standalone articles, place the article link action at the right of this same
 composition instead of giving it a separate bordered row. Below 48rem, pair it
 with the Topics heading above the links. Allow that header to wrap with enlarged
