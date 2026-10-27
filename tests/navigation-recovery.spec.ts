@@ -201,7 +201,8 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
           expect(swapY).toBeGreaterThan(0)
           await expectSettledPosition(page, swapY)
           await expect(page.locator('#experience-heading')).toBeInViewport({ ratio: 1 })
-          await expect(page.locator('#main')).toBeFocused()
+          // The native fragment owns the focus starting point; see the keyboard suite below.
+          await expect(page.locator('#main')).not.toBeFocused()
           await expect(page.locator('html')).toHaveCSS('scroll-behavior', scrollBehavior)
         })
       }
@@ -256,6 +257,120 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
       await page.reload()
       await expect(page.locator('html')).toHaveAttribute('data-recovery-dcl-y', String(archiveY))
     })
+  })
+}
+
+// Describe where sequential navigation landed relative to the fragment target.
+const describeNextFocus = (page: Page, targetId: string) => page.evaluate(id => {
+  const target = document.getElementById(id)
+  const active = document.activeElement
+
+  if (!target || !(active instanceof HTMLElement)) throw new Error('Missing fragment target or focus')
+
+  const bounds = target.getBoundingClientRect()
+
+  return {
+    // Tab must reach a real control, not the page container or the document.
+    interactive: active.matches('a[href], button:not([disabled]), input:not([disabled]), select, textarea, summary, [tabindex="0"]'),
+    followsTarget: Boolean(target.compareDocumentPosition(active) & Node.DOCUMENT_POSITION_FOLLOWING) ||
+      target.contains(active),
+    inHeader: active.closest('header.site-header') !== null,
+    visible: active.getClientRects().length > 0,
+    // The reader stays in the section: the target remains on screen after Tab.
+    targetInView: bounds.bottom > 0 && bounds.top < window.innerHeight
+  }
+}, targetId)
+
+// Keyboard-activate a temporary in-page link so Astro handles it as a client navigation.
+const followInjectedLink = async (page: Page, href: string) => {
+  await page.evaluate(destination => {
+    const link = document.createElement('a')
+
+    link.href = destination
+    link.textContent = 'Injected destination'
+    link.dataset.injectedDestination = ''
+    document.getElementById('main')?.prepend(link)
+  }, href)
+
+  const link = page.locator('[data-injected-destination]')
+
+  await link.focus()
+  await page.keyboard.press('Enter')
+}
+
+for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+  test.describe(`cross-page fragment keyboard navigation (${reducedMotion} motion)`, () => {
+    test.use({ reducedMotion, viewport: { width: 1280, height: 800 } })
+
+    for (const fallback of [false, true]) {
+      test(`next Tab continues after the fragment target with ${fallback ? 'fallback' : 'native'} transitions`, async ({ browserName, page }) => {
+        await page.addInitScript(disableNativeTransitions => {
+          if (disableNativeTransitions) {
+            Object.defineProperty(document, 'startViewTransition', { value: undefined, configurable: true })
+          }
+        }, fallback)
+        await page.goto('/speaking/')
+        await expect(progress(page)).toHaveClass(/is-complete/u)
+        await armNavigation(page)
+        await page.getByRole('link', { name: 'Career timeline', exact: true }).focus()
+        await page.keyboard.press('Enter')
+        await expect(page).toHaveURL('/work/#experience-heading')
+        await expect(page.locator('html')).toHaveAttribute('data-recovery-loaded', '')
+
+        const swapY = Number(requireValue(await page.locator('html').getAttribute('data-recovery-swap-y')))
+
+        await expectSettledPosition(page, swapY)
+        await expect(page.locator('#experience-heading')).toBeInViewport()
+
+        await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+
+        expect(await describeNextFocus(page, 'experience-heading')).toEqual({
+          interactive: true,
+          followsTarget: true,
+          inHeader: false,
+          visible: true,
+          targetInView: true
+        })
+      })
+    }
+
+    test('an encoded fragment keeps sequential focus at its decoded target', async ({ browserName, page }) => {
+      await page.goto('/speaking/')
+      await expect(progress(page)).toHaveClass(/is-complete/u)
+      await armNavigation(page)
+      const fragment = 'experience-heading'.replace('e', '%65')
+
+      await followInjectedLink(page, `/work/#${fragment}`)
+      await expect(page.locator('html')).toHaveAttribute('data-recovery-loaded', '')
+
+      const swapY = Number(requireValue(await page.locator('html').getAttribute('data-recovery-swap-y')))
+
+      await expectSettledPosition(page, swapY)
+      await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+      expect(await describeNextFocus(page, 'experience-heading')).toEqual({
+        interactive: true,
+        followsTarget: true,
+        inHeader: false,
+        visible: true,
+        targetInView: true
+      })
+    })
+
+    for (const href of ['/work/', '/work/#no-such-section', '/work/#%E0%A4%A']) {
+      test(`client navigation to ${href} keeps focus on main content`, async ({ page }) => {
+        const errors: Error[] = []
+
+        page.on('pageerror', error => errors.push(error))
+        await page.goto('/speaking/')
+        await expect(progress(page)).toHaveClass(/is-complete/u)
+        await armNavigation(page)
+        await followInjectedLink(page, href)
+        await expect(page.locator('html')).toHaveAttribute('data-recovery-loaded', '')
+        expect(currentPath(page)).toBe('/work/')
+        await expect(page.locator('#main')).toBeFocused()
+        expect(errors).toEqual([])
+      })
+    }
   })
 }
 

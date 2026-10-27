@@ -47,9 +47,13 @@ for (const theme of ['light', 'dark']) {
       expect(await canvas.evaluate(element => element.scrollLeft)).toBeCloseTo(
         await canvas.evaluate(element => Math.min(100, element.scrollWidth - element.clientWidth)), 0
       )
-      await page.keyboard.press('/')
-      await page.keyboard.press('Control+k')
-      await expect(page.locator('dialog[open]')).toHaveCount(1)
+      // The viewer owns its keys, so neither search shortcut opens a second modal.
+      for (const shortcut of ['Control+k', 'Meta+k']) {
+        await page.keyboard.press(shortcut)
+        await expect(page.locator('dialog[open]')).toHaveCount(1)
+        await expect(page.locator('#site-search-dialog')).not.toHaveAttribute('open')
+        await expect(page.locator('[data-site-search-trigger]')).toHaveAttribute('aria-expanded', 'false')
+      }
       await dialog.getByRole('button', { name: 'Fit image', exact: true }).click()
       await expect(canvas).toHaveAttribute('data-zoomed', 'false')
       expect(await canvas.evaluate(element => element.scrollLeft + element.scrollTop)).toBe(0)

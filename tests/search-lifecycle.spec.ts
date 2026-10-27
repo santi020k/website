@@ -121,7 +121,7 @@ test('a delayed deep-link index renders the latest query and is reused after nav
   await expect(page.locator('[data-site-search-result-title]')).toHaveText('React guide')
   await page.locator('#site-search-input').press('Enter')
   await expect(page).toHaveURL(/\/work\/$/u)
-  await page.keyboard.press('/')
+  await page.keyboard.press('Control+k')
   await page.locator('#site-search-input').fill('Astro')
   await expect(page.locator('[data-site-search-result-title]')).toHaveText('Astro guide')
   expect(requestCount).toBe(1)
@@ -167,22 +167,23 @@ test('repeated search close requests cannot close a newly reopened dialog', asyn
   expect(new URL(page.url()).searchParams.get('q')).toBe('Astro')
 })
 
-for (const key of ['k', '/']) {
-  test(`${key} can reopen search before its close animation finishes`, async ({ page }) => {
+for (const modifier of ['Control', 'Meta'] as const) {
+  test(`${modifier}+K can reopen search before its close animation finishes`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' })
     await page.clock.install()
     await page.goto('/')
     await page.locator('[data-site-search-trigger]').click()
     await page.locator('#site-search-input').fill('Astro')
-    await page.locator('#site-search-input').evaluate((input, shortcut) => {
+    await page.locator('#site-search-input').evaluate((input, key) => {
       input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }))
       input.dispatchEvent(new KeyboardEvent('keydown', {
-        key: shortcut,
-        ctrlKey: shortcut === 'k',
+        key: 'k',
+        ctrlKey: key === 'Control',
+        metaKey: key === 'Meta',
         bubbles: true,
         cancelable: true
       }))
-    }, key)
+    }, modifier)
     await page.clock.runFor(600)
     await expect(page.locator('#site-search-dialog')).toBeVisible()
     await expect(page.locator('[data-site-search-trigger]')).toHaveAttribute('aria-expanded', 'true')
@@ -195,6 +196,70 @@ const searchIndex = [
   { title: 'Astro guide', path: '/about/', description: 'First topic', tags: [], type: 'post' },
   { title: 'React guide', path: '/work/', description: 'Second topic', tags: [], type: 'post' }
 ]
+
+test('a bare slash from the page or a focused link leaves search closed and the key unhandled', async ({ page }) => {
+  let requestCount = 0
+
+  await page.route('**/search-index.json', async route => {
+    requestCount += 1
+    await route.fulfill({ json: searchIndex })
+  })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+
+  const link = page.locator('a[href="#main"]').first()
+
+  await page.keyboard.press('/')
+  await link.focus()
+  await page.keyboard.press('/')
+  await expect(link).toBeFocused()
+
+  // dispatchEvent returns false only when a listener called preventDefault.
+  expect(await link.evaluate(element => [document.body, element].map(target => target.dispatchEvent(
+    new KeyboardEvent('keydown', { key: '/', bubbles: true, cancelable: true })
+  )))).toEqual([true, true])
+  await expect(page.locator('#site-search-dialog')).not.toHaveAttribute('open')
+  await expect(page.locator('[data-site-search-trigger]')).toHaveAttribute('aria-expanded', 'false')
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false)
+  expect(requestCount).toBe(0)
+})
+
+for (const shortcut of ['Control+k', 'Meta+k']) {
+  test(`${shortcut} opens search from the page and loads the index`, async ({ page }) => {
+    let requestCount = 0
+
+    await page.route('**/search-index.json', async route => {
+      requestCount += 1
+      await route.fulfill({ json: searchIndex })
+    })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/')
+    await page.keyboard.press(shortcut)
+    await expect(page.locator('#site-search-dialog')).toHaveAttribute('open')
+    await expect(page.locator('[data-site-search-trigger]')).toHaveAttribute('aria-expanded', 'true')
+    await expect(page.locator('#site-search-input')).toBeFocused()
+    await page.locator('#site-search-input').fill('Astro')
+    await expect(page.locator('[data-site-search-result-title]')).toHaveText('Astro guide')
+    expect(requestCount).toBe(1)
+  })
+}
+
+test('a slash typed in the search input stays literal query text', async ({ page }) => {
+  await page.route('**/search-index.json', route => route.fulfill({ json: searchIndex }))
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await page.keyboard.press('Control+k')
+
+  const input = page.locator('#site-search-input')
+
+  await expect(input).toBeFocused()
+  await page.keyboard.type('/ci/cd')
+  await expect(input).toHaveValue('/ci/cd')
+  await expect(input).toBeFocused()
+  await expect(page.locator('#site-search-dialog')).toHaveAttribute('open')
+  await expect(page.locator('#site-search-dialog')).not.toHaveAttribute('data-site-search-anim')
+  expect(new URL(page.url()).searchParams.get('q')).toBe('/ci/cd')
+})
 
 test.describe('search index deadline', () => {
   test.beforeEach(async ({ page }) => {

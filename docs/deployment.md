@@ -62,6 +62,18 @@ a 404 or a loop. Local Astro preview does not execute Cloudflare's redirect file
 
 ## Release flow
 
+### Future-dated content
+
+`publishDate` is evaluated during the static build. Reaching that date does not
+change the deployed site by itself, and this repository does not configure a
+scheduled production rebuild. A future-dated post becomes eligible for the next
+authorized deployment after its publication time; it is not a publishing timer.
+Plan that deployment through the release flow below, then verify the article,
+its feed entry, and sitemap entry in production. Adding automatic deployment
+triggers or shared deploy-hook secrets requires separate authorization.
+
+### Reviewed deployment
+
 The site uses GitHub Flow and has one production branch:
 
 1. Create a feature or fix branch from `main`.

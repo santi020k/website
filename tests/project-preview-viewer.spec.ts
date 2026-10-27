@@ -110,9 +110,14 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
         expect(horizontal.actual).toBeCloseTo(horizontal.expected, 0)
         await canvas.focus()
         await expect(canvas).not.toHaveCSS('outline-style', 'none')
-        await page.keyboard.press('/')
-        await page.keyboard.press('Control+k')
-        await expect(page.locator('dialog[open]')).toHaveCount(1)
+        // The viewer owns its keys, so neither search shortcut opens a second modal.
+        for (const shortcut of ['Control+k', 'Meta+k']) {
+          await page.keyboard.press(shortcut)
+          await expect(page.locator('dialog[open]')).toHaveCount(1)
+          await expect(page.locator('#site-search-dialog')).not.toHaveAttribute('open')
+          await expect(page.locator('[data-site-search-trigger]')).toHaveAttribute('aria-expanded', 'false')
+          await expect(canvas).toBeFocused()
+        }
         await fit.click()
         await expect(canvas).toHaveAttribute('data-zoomed', 'false')
         await expect(inspect).not.toHaveAttribute('aria-pressed')

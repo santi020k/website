@@ -16,7 +16,7 @@ test('search wraps focus in both directions and restores its opener', async ({ p
   await page.goto('/')
   await expect(page.locator('[data-site-search]')).toHaveAttribute('data-site-search-bound', 'true')
 
-  const opener = page.getByRole('button', { name: 'Open site search', exact: true })
+  const opener = page.getByRole('button', { name: 'Open site search (Ctrl/⌘ K)', exact: true })
   const dialog = page.getByRole('dialog', { name: 'Search', exact: true })
   const input = dialog.getByRole('searchbox')
   const close = dialog.getByRole('button', { name: 'Close search', exact: true })
@@ -53,7 +53,7 @@ test('search failure exposes an accessible retry action', async ({ page }) => {
   await page.route('**/search-index.json', route => route.fulfill({ status: 503, body: 'Unavailable' }))
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
-  await page.getByRole('button', { name: 'Open site search', exact: true }).click()
+  await page.getByRole('button', { name: 'Open site search (Ctrl/⌘ K)', exact: true }).click()
 
   const dialog = page.getByRole('dialog', { name: 'Search', exact: true })
   await expect(dialog.getByRole('heading', { name: 'Search unavailable' })).toBeVisible()
