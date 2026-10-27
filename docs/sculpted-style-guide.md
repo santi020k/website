@@ -2856,6 +2856,18 @@ Long labels wrap within their tag at enlarged text sizes, and focus outlines rem
 Selected links retain `aria-current="page"` on their own archive and `aria-current="true"`
 on later pages. Topic changes preserve keyboard focus and the filter's vertical position.
 
+Use **Topic guide** around the chooser on Blog and topic archive pages. A fine rule
+introduces Browse by topic and a native All topics link with the collection-derived
+total. Keep the existing filter order, counts, and slug destinations; present readable
+labels such as Developer experience, TypeScript, Next.js, and Open source.
+
+On hover or keyboard focus, inactive tags gain a soft accent wash, an accent-filled
+count compartment, an underlined label, and a subtle 3px lower shadow. Keep their
+hit areas and geometry stationary. Selected tags retain their reversed ink/surface
+colors with underline and shadow feedback. Keep the existing focus outline and disable
+color and shadow transitions for reduced motion. Scope this treatment to the Blog
+chooser so shared Projects, Work, and related-topic tags retain their own treatments.
+
 ### Reading controls
 
 - Package-manager tabs (`data-package-manager-code-tabs`) wrap onto extra rows instead of

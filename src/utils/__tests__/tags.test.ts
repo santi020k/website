@@ -1,8 +1,23 @@
 import { describe, expect, test } from 'vitest'
 
-import { getAllTags, getBlogBrowseTags } from '../tags'
+import { getAllTags, getBlogBrowseTags, getBlogTopicLabel } from '../tags'
 
 const makePosts = (tagSets: string[][]) => tagSets.map(tags => ({ data: { tags } }))
+
+describe('getBlogTopicLabel', () => {
+  test.each([
+    ['typescript', 'TypeScript'],
+    ['nextjs', 'Next.js'],
+    ['eslint', 'ESLint'],
+    ['developer-experience', 'Developer experience'],
+    ['open-source', 'Open source'],
+    ['reading', 'Reading'],
+    ['React', 'React'],
+    ['', '']
+  ])('formats %s as a readable topic label', (tag, label) => {
+    expect(getBlogTopicLabel(tag)).toBe(label)
+  })
+})
 
 describe('getAllTags', () => {
   test('returns every tag sorted by frequency descending', () => {
