@@ -60,7 +60,7 @@ test.describe('Pointer arrow exchange', () => {
     await expect(page.locator('[data-work-score] .lucide-arrow-right')).toHaveCount(1)
   })
 
-  for (const path of ['/', '/about/', '/work/', '/projects/', '/portfolio/', '/blog/', '/speaking/', '/technologies/', '/history/', '/travel/', '/resume/', '/portfolio/lumen-ui/']) {
+  for (const path of ['/', '/about/', '/work/', '/projects/', '/portfolio/', '/blog/', '/speaking/', '/technologies/', '/history/', '/travel/', '/resume/', '/portfolio/lumen-ui/', '/blog/migrate-eslint-8-or-less-to-eslint-9/']) {
     test(`navigation arrows are connected on ${path}`, async ({ page }) => {
       await page.goto(path)
       const missing = await page.locator('a svg[class*="lucide-arrow-"]').evaluateAll(arrows => arrows.filter(arrow => (
@@ -80,6 +80,27 @@ test.describe('Pointer arrow exchange', () => {
       await expect(action.locator('[data-arrow-track]').first()).toHaveCSS('animation-name', 'none')
     })
   }
+
+  test('Markdown reference arrows use the same exchange without moving the reference row', async ({ page }) => {
+    await page.goto('/blog/migrate-eslint-8-or-less-to-eslint-9/')
+    for (const direction of ['right', 'up-right']) {
+      const arrow = page.locator(`[data-reference-link] [data-arrow-exchange="${direction}"]`).first()
+      const action = arrow.locator('xpath=ancestor::a[1]')
+      await action.scrollIntoViewIfNeeded()
+      const resting = await arrowPosition(arrow)
+      await action.hover()
+      const track = arrow.locator('[data-arrow-track]')
+      await expect(track).toHaveCSS('animation-duration', '0.48s')
+      await expect.poll(() => track.evaluate(element => element.getAnimations()[0]?.playState)).toBe('finished')
+      const settled = await arrowPosition(arrow)
+
+      expect(settled.bounds).toEqual(resting.bounds)
+      expect(settled.glyphs[1]?.x).toBeCloseTo(resting.glyphs[0]?.x ?? NaN, 2)
+      expect(settled.glyphs[1]?.y).toBeCloseTo(resting.glyphs[0]?.y ?? NaN, 2)
+      await page.mouse.move(0, 0)
+      await expect(track).toHaveCSS('transform', 'none')
+    }
+  })
 
   test('project overlay links animate the visible arrow on keyboard focus', async ({ page }) => {
     for (const path of ['/portfolio/', '/portfolio/lumen-ui/']) {

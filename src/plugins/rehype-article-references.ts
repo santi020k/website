@@ -31,6 +31,14 @@ const icon = (name: LumenIconName): Element => element('svg', {
   viewBox: '0 0 24 24'
 }, getLumenIcon(name)?.node.map(iconNode) ?? [])
 
+// Match ArrowExchange's decorative track for Markdown-generated links.
+const arrowExchange = (direction: 'right' | 'up-right'): Element => element('span', {
+  ariaHidden: 'true', dataArrowExchange: direction
+}, [element('span', { dataArrowTrack: '' }, [
+  element('span', { dataArrowGlyph: '' }, [icon(`arrow-${direction}`)]),
+  element('span', { dataArrowGlyph: '', dataArrowIncoming: '' }, [icon(`arrow-${direction}`)])
+])])
+
 const readReference = (paragraph: Element): Reference | undefined => {
   // Only explicitly labeled standalone references opt in.
   if (paragraph.tagName !== 'p' || Object.keys(paragraph.properties).length > 0) return
@@ -92,7 +100,7 @@ const createLedger = (references: Reference[], label: string, ariaLabel: string)
     link.children = [
       element('span', { dataReferenceKind: '' }, [text(kind)]),
       element('span', { dataReferenceTitle: '' }, titleContent),
-      icon(link.properties.target === '_blank' ? 'arrow-up-right' : 'arrow-right')
+      arrowExchange(link.properties.target === '_blank' ? 'up-right' : 'right')
     ]
 
     return element('li', {}, [link])

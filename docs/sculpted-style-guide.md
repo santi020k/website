@@ -2122,6 +2122,8 @@ Keep native anchors for links wrapping a complete project or article.
   changing its layout footprint. Portfolio and related-project cards use `data-arrow-owner`
   because their visible arrow is a sibling of the stretched link. Leave passive
   comparison arrows and disabled pagination placeholders static.
+  Markdown reference links emit the same decorative track through
+  `rehypeArticleReferences`; both renderers use `partials/animations.css`.
 - Project action: the complete card or row is the link; the arrow is decorative.
 - Icon-only actions need a meaningful accessible name and at least a 44px target.
 - Use a visible 2px focus outline with space around the control. Inside clipped, rounded
