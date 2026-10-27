@@ -180,7 +180,7 @@ test.describe('Speaking page', () => {
     await expect(timeline.locator('[data-speaking-row][data-evidence="reconstructed"]')).toHaveCount(1)
     await expect(page.getByRole('heading', { name: 'Unit Testing with React' }))
       .toBeVisible()
-    await expect(page.getByRole('link', { name: /Event record/i }).first())
+    await expect(page.getByRole('link', { name: 'View record', exact: true }).first())
       .toHaveAttribute('href', /meetup\.com/)
 
     const first = rows.first()
@@ -206,6 +206,34 @@ test.describe('Speaking page', () => {
 
     const timelineTag = await timeline.evaluate(element => element.tagName)
     expect(timelineTag).toBe('OL')
+  })
+
+  test('history resource captions expose only available destinations in keyboard order', async ({ browserName, page }) => {
+    const rows = page.locator('[data-speaking-row]')
+    const interview = rows.filter({ hasText: 'Surviving Technical Interviews in React' })
+    const links = interview.getByRole('link')
+    await expect(interview.locator('[data-session-resource] > p')).toHaveText(['Event', 'Slides', 'Recording'])
+    await expect(links).toHaveText(['View record', 'Open deck', 'Watch talk'])
+    await expect(links.nth(0)).toHaveAttribute('href', 'https://www.meetup.com/react-js-medellin/events/298624910/')
+    await expect(links.nth(1)).toHaveAttribute('href', 'https://interviews.santi020k.com/1')
+    await expect(links.nth(2)).toHaveAttribute('href', 'https://www.youtube.com/watch?v=UtBZP93cOUs')
+
+    await expect(rows.first().locator('[data-session-resource] > p')).toHaveText(['Event', 'Slides'])
+    await expect(rows.filter({ hasText: 'Styling Server-Side Rendered Next.js Applications' }).locator('[data-session-resource] > p')).toHaveText(['Event', 'Recording'])
+    await expect(rows.filter({ has: page.getByRole('heading', { name: 'React Hooks', exact: true }) }).locator('[data-session-resource] > p')).toHaveText(['Event'])
+    for (const name of ['Company Talks and Client Workshops', 'CSS, Sass, and Preprocessors']) {
+      await expect(rows.filter({ hasText: name }).locator('[data-session-links]')).toHaveCount(0)
+    }
+
+    await links.first().scrollIntoViewIfNeeded()
+    await links.first().focus()
+    await expect(links.first()).toBeFocused()
+    await expect(links.first()).toHaveCSS('outline-style', 'solid')
+    for (const link of (await links.all()).slice(1)) {
+      await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+      await expect(link).toBeFocused()
+      await expect(link).toHaveCSS('outline-style', 'solid')
+    }
   })
 
   test('should preserve complete topic headings and matching expertise', async ({ page }) => {

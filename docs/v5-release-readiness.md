@@ -707,3 +707,26 @@ Regression coverage includes delayed and silent widgets, repeated initialization
 deadlines, article navigation, keyboard access, enlarged text, both browser
 engines, both themes, content filtering, and bounded network retries. The local
 integration refreshes the complete workspace gate without publishing the release.
+
+## Speaking Resource captions follow-up
+
+Approved source `0b1f73a4`, based on `3d0f6bb5`, clarifies the available resources
+in each Speaking history entry. Event / View record, Slides / Open deck, and
+Recording / Watch talk use public Lumen links with protected new tabs and visible
+keyboard focus. Equal desktop columns become ruled rows on narrow screens. Entries
+without public resources retain only their topics. The patch note is folded into
+5.0.0; no client controller or dependency was added.
+
+All six scoped Chromium/WebKit history, resource, and accessibility cases passed
+with retries disabled. Six reflow and keyboard checks covered 320, 768, and 1440px
+at normal and 200% text. All ten resource links retained their exact destinations,
+labels, and protected new tabs without JavaScript. Four matched mobile/desktop
+captures in both themes preserved all eight session bodies, dates, evidence,
+topics, and resource URLs, without horizontal overflow.
+
+Affected lint passed with zero warnings. The production build, 452-page OG audit,
+archive assembly, and PDF freshness check passed without regenerating the PDFs.
+Published changelog entries remain unchanged. The complete workspace gate was
+refreshed by the preceding reliability integration at `3d0f6bb5`, with 958 unit
+tests, 126 browser checks, and seven motion checks recorded in its validation
+report. This visual follow-up uses the affected checks above.
