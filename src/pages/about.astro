@@ -1,6 +1,7 @@
 ---
 import { getImage } from 'astro:assets'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import OrganizationLogoRail from '@/components/molecules/OrganizationLogoRail.astro'
 import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
 import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
@@ -11,7 +12,7 @@ import PageLayout from '@/layouts/Base.astro'
 import AboutMeImage from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
 import { getCachedProjects } from '@/utils/content'
 
-import { ButtonLink, Icon, Link, Stat } from '@santi020k/lumen-astro'
+import { ButtonLink, Link, Stat } from '@santi020k/lumen-astro'
 
 import { collaborationLanes, engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
 import {
@@ -162,7 +163,7 @@ const meta = {
             <h2 id={`about-stat-${index}`}>{label}</h2>
             <p data-about-stat-description>{statDescription}</p>
             <Link data-about-stat-source href={source.href} variant="inherit">
-              <span>{source.label}</span><Icon name="arrow-up-right" size="sm" />
+              <span>{source.label}</span><ArrowExchange direction="up-right" size="sm" />
             </Link>
           </div>
         </Stat>
@@ -211,7 +212,7 @@ const meta = {
             <div data-about-lane-source>
               <span>See it in practice</span>
               <Link href={source.href} variant="inherit">
-                <span>{source.label}</span><Icon name="arrow-up-right" size="sm" />
+                <span>{source.label}</span><ArrowExchange direction="up-right" size="sm" />
               </Link>
             </div>
           </article>
@@ -223,8 +224,8 @@ const meta = {
       <AboutSectionHeading index="03" eyebrow="Context" title="The people and products behind the work." description="Commerce, SaaS, gaming, real estate, and community. Each brought a different problem to solve." />
       <OrganizationLogoRail organizations={organizationRailItems} />
       <div class="about-actions">
-        <ButtonLink class="about-link" href="/portfolio/" variant="unstyled">Read the case studies<Icon name="arrow-right" /></ButtonLink>
-        <ButtonLink class="about-link" href={siteConfig.contact.linkedin} newTab variant="unstyled">Open LinkedIn<Icon name="arrow-up-right" /></ButtonLink>
+        <ButtonLink class="about-link" href="/portfolio/" variant="unstyled">Read the case studies<ArrowExchange direction="right" /></ButtonLink>
+        <ButtonLink class="about-link" href={siteConfig.contact.linkedin} newTab variant="unstyled">Open LinkedIn<ArrowExchange direction="up-right" /></ButtonLink>
       </div>
     </section>
 
@@ -245,7 +246,7 @@ const meta = {
         ))}
       </div>
       <div class="about-actions">
-        <ButtonLink class="about-link" href={siteConfig.contact.linkedin} newTab variant="unstyled">See all LinkedIn recommendations<Icon name="arrow-up-right" /></ButtonLink>
+        <ButtonLink class="about-link" href={siteConfig.contact.linkedin} newTab variant="unstyled">See all LinkedIn recommendations<ArrowExchange direction="up-right" /></ButtonLink>
       </div>
     </section>
 
@@ -259,12 +260,12 @@ const meta = {
         <ButtonLink class="about-explore-link" href="/portfolio/" variant="unstyled">
           <span aria-hidden="true" data-about-explore-index>01</span>
           <span data-about-explore-label><small>Project evidence</small><strong>View portfolio</strong></span>
-          <Icon name="arrow-up-right" size="lg" />
+          <ArrowExchange direction="up-right" size="lg" />
         </ButtonLink>
         <ButtonLink class="about-explore-link" href="/blog/" variant="unstyled">
           <span aria-hidden="true" data-about-explore-index>02</span>
           <span data-about-explore-label><small>Thinking behind the decisions</small><strong>Read the blog</strong></span>
-          <Icon name="arrow-right" size="lg" />
+          <ArrowExchange direction="right" size="lg" />
         </ButtonLink>
       </nav>
     </section>

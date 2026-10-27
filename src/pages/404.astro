@@ -1,4 +1,5 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -128,7 +129,7 @@ const meta = {
                 <p id={`recovery-${slug}-description`} data-recovery-description>{description}</p>
               </div>
               <span data-recovery-direction>
-                <Icon name="arrow-up-right" class="size-4" />
+                <ArrowExchange direction="up-right" class="size-4" />
               </span>
             </Link>
           ))}

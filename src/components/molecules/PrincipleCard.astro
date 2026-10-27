@@ -1,5 +1,7 @@
 ---
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Card, Link } from '@santi020k/lumen-astro'
 
 import type { EngineeringPrinciple } from '@/data/profile'
 
@@ -45,7 +47,7 @@ const formattedIndex = String(index + 1).padStart(2, '0')
     <div data-principle-source>
       <p>Read the approach</p>
       <Link href={source.href} variant="inherit">
-        <span>{source.label}</span><Icon name="arrow-up-right" size="sm" />
+        <span>{source.label}</span><ArrowExchange direction="up-right" size="sm" />
       </Link>
     </div>
   )}

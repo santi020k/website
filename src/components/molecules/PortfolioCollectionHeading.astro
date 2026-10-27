@@ -1,5 +1,7 @@
 ---
-import { Icon, Link } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Link } from '@santi020k/lumen-astro'
 
 interface Props {
   count: number
@@ -26,7 +28,7 @@ const { count, description, emphasis, eyebrow, headingId, href, linkLabel, title
       <p data-collection-description>{description}</p>
       <Link data-collection-link href={href} variant="inherit">
         <span>{linkLabel}</span>
-        <Icon name="arrow-right" />
+        <ArrowExchange direction="right" />
       </Link>
     </div>
   </header>

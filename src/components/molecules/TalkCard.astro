@@ -1,5 +1,7 @@
 ---
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Card, Link } from '@santi020k/lumen-astro'
 
 import type { SpeakingFormat, SpeakingTopic } from '@/data/profile'
 
@@ -45,7 +47,7 @@ const hasCaption = Boolean(readingSource ?? formatOutcome)
     <footer data-talk-source>
       <p>Read the approach</p>
       <Link href={readingSource.href} variant="inherit">
-        <span>{readingSource.label}</span><Icon data-talk-source-icon name="arrow-up-right" size="sm" />
+        <span>{readingSource.label}</span><ArrowExchange data-talk-source-icon direction="up-right" size="sm" />
       </Link>
     </footer>
   )}
@@ -54,7 +56,7 @@ const hasCaption = Boolean(readingSource ?? formatOutcome)
       <p>Good fit</p>
       <p data-talk-fit>{formatOutcome.fit}</p>
       <Link href={formatOutcome.href} variant="inherit">
-        <span>{formatOutcome.label}</span><Icon data-talk-outcome-icon name="arrow-down-right" size="sm" />
+        <span>{formatOutcome.label}</span><ArrowExchange data-talk-outcome-icon direction="down-right" size="sm" />
       </Link>
     </footer>
   )}

@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
 ---
 
@@ -16,18 +18,18 @@ import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
         <h3>ReactJS Colombia</h3>
         <p>Meetups, workshops, and a local community of people who care about building for the web.</p>
         <span data-community-action>Join the community</span>
-        <span data-community-arrow><Icon class="size-4.5" name="arrow-up-right" /></span>
+        <span data-community-arrow><ArrowExchange class="size-4.5" direction="up-right" /></span>
       </a>
       <a data-community-link href="/speaking/">
         <span data-community-eyebrow><span data-community-number aria-hidden="true">02</span><span>Speaking / Knowledge sharing</span></span>
         <h3>Lessons from the work</h3>
         <p>Practical talks on developer experience, architecture, automation, and leading engineering teams.</p>
         <span data-community-action>Explore speaking</span>
-        <span data-community-arrow><Icon class="size-4.5" name="arrow-up-right" /></span>
+        <span data-community-arrow><ArrowExchange class="size-4.5" direction="up-right" /></span>
       </a>
       <div data-community-footer>
         <ButtonLink href="/speaking/" variant="unstyled" data-community-footer-link>
-          Speaking &amp; Community <Icon class="size-4.5" name="arrow-right" />
+          Speaking &amp; Community <ArrowExchange class="size-4.5" direction="right" />
         </ButtonLink>
       </div>
     </div>

@@ -84,7 +84,7 @@ const meta = {
             <li>
               <a href={`#${era.id}`} data-history-current-era={era.current ? '' : undefined}>
                 <span class="history-hero-chapter-version">{era.id.toUpperCase()}</span>
-                <Icon data-history-chapter-icon name="arrow-down-right" />
+                <ArrowExchange data-history-chapter-icon direction="down-right" />
                 <time class="history-hero-chapter-date" datetime={era.date}>{formatDate(era.date)}</time>
                 <span class="history-hero-chapter-state">{era.current ? 'The current canvas' : 'An earlier idea'}</span>
               </a>
@@ -134,7 +134,7 @@ const meta = {
             </Card>
             <div class="history-era-actions">
               <ButtonLink data-history-era-action href={era.current ? '/' : `/${era.id}/`} {...archiveNavigation} variant="secondary">
-                {era.current ? 'Explore the current website' : `Open ${era.id.toUpperCase()}`}<Icon name="arrow-up-right" />
+                {era.current ? 'Explore the current website' : `Open ${era.id.toUpperCase()}`}<ArrowExchange direction="up-right" />
               </ButtonLink>
               <span>{era.current ? 'Still evolving.' : 'Browseable, with the content of its time.'}</span>
             </div>

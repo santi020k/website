@@ -1,4 +1,5 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ResumeEvidenceNote from '@/components/molecules/ResumeEvidenceNote.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -180,12 +181,12 @@ data-resume-contact-icon
             href={siteConfig.contact.linkedin}
             newTab
           >
-            <Icon
+            <ArrowExchange
 class="
   size-4 shrink-0
   print:hidden
 "
-name="arrow-up-right"
+direction="up-right"
 data-resume-contact-icon
             />
             linkedin.com/in/santi020k
@@ -200,12 +201,12 @@ data-resume-contact-icon
             href={siteConfig.contact.github}
             newTab
           >
-            <Icon
+            <ArrowExchange
 class="
   size-4 shrink-0
   print:hidden
 "
-name="arrow-up-right"
+direction="up-right"
 data-resume-contact-icon
             />
             github.com/santi020k

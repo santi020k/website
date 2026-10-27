@@ -427,7 +427,7 @@
   margin-left: auto;
   flex-shrink: 0;
   color: hsl(var(--ink-soft));
-  transition: transform 180ms ease, opacity 180ms ease;
+  transition: opacity 180ms ease;
 }
 
 @utility site-mobile-nav-current {
@@ -449,7 +449,6 @@
 }
 
 .site-mobile-nav-link:hover .site-mobile-nav-arrow {
-  transform: translateX(2px);
   opacity: 1;
 }
 
@@ -667,7 +666,6 @@
   .site-mobile-nav-link,
   .site-mobile-nav-arrow,
   .site-nav-contact-arrow { transition: none; }
-  .site-mobile-nav-link:hover .site-mobile-nav-arrow { transform: none; }
   [data-mobile-nav-panel]:not([hidden]),
   [data-mobile-nav-panel][data-nav-closing],
   [data-mobile-nav-panel]:not([hidden], [data-nav-closing]) [data-mobile-nav-link],

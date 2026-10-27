@@ -1,6 +1,8 @@
 ---
 import { getEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getProjectOutcomeDisplay, getProjectOutcomeLabel } from '@/utils/portfolio-metric'
 
 import { Card, Icon, Link } from '@santi020k/lumen-astro'
@@ -64,7 +66,7 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
         <span>Explore {attribution?.client ?? project.data.title}</span>
         {contextLinks.map(link => (
           <Link data-outcome-link href={link.href} variant="inherit">
-            <span>{link.label}</span><Icon data-outcome-arrow name="arrow-down-right" size="sm" />
+            <span>{link.label}</span><ArrowExchange data-outcome-arrow direction="down-right" size="sm" />
           </Link>
         ))}
       </nav>

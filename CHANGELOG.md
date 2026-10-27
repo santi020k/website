@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Extend the approved slow arrow exchange to project and article cards, footer actions, search results, pagination, and secondary navigation links. Preserve existing icon placement, link destinations, keyboard focus, reduced motion, and touch behavior.
+
 - Add an article-specific running title and page counters to the Print edition in browsers that support CSS page-margin boxes.
 
 - Add numbered reference notes and readable source URLs to the article print edition while preserving the screen layout and code editors.

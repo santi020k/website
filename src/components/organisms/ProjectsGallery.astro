@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import ProjectGalleryBody from '@/components/molecules/ProjectGalleryBody.astro'
 
@@ -90,7 +91,7 @@ const projectItems = projects.map(project => {
               {project.destination && (
                 <ButtonLink data-project-visit href={project.destination.href} newTab variant="unstyled">
                   <span>{project.destination.action}</span>
-                  <Icon name="arrow-up-right" />
+                  <ArrowExchange direction="up-right" />
                 </ButtonLink>
               )}
               <Link
@@ -100,14 +101,14 @@ const projectItems = projects.map(project => {
                 variant="inherit"
               >
                 <span>Read the case study</span>
-                <Icon name="arrow-right" />
+                <ArrowExchange direction="right" />
               </Link>
             </div>
           ) :
 (
             <span class="projects-editorial-action">
               View project
-              <Icon class="size-4.5 shrink-0" name="arrow-right" />
+              <ArrowExchange class="size-4.5 shrink-0" direction="right" />
             </span>
           )}
         </div>

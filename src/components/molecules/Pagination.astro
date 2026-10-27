@@ -1,6 +1,8 @@
 ---
 import type { Page } from 'astro'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getArchivePageUrl, getPaginationItems, PAGINATION_GAP } from '@/utils/pagination'
 
 import { ButtonLink, Icon, Link, Pagination } from '@santi020k/lumen-astro'
@@ -44,7 +46,7 @@ const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage 
             href={previousUrl}
             rel="prev"
             variant="inherit"
-          ><Icon name="arrow-left" size="sm" /></Link>
+          ><ArrowExchange direction="left" size="sm" /></Link>
         ) :
 (
           <span aria-hidden="true" data-pager-previous data-pagination-placeholder="previous">
@@ -61,7 +63,7 @@ const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage 
             variant="unstyled"
           >
             <span>Next page</span>
-            <span data-pager-arrow><Icon name="arrow-right" size="sm" /></span>
+            <span data-pager-arrow><ArrowExchange direction="right" size="sm" /></span>
           </ButtonLink>
         ) :
 (

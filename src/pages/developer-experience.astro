@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
@@ -16,7 +17,7 @@ import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 
-import { Card, Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
+import { Card, Link, RevealGroup } from '@santi020k/lumen-astro'
 
 import {
   createAuthorSchema,
@@ -230,7 +231,7 @@ label="Experience"
       <footer data-definition-footer>
         <Link data-definition-action href="/blog/why-developer-experience-work-should-be-measured-like-product-work/" variant="inherit">
           <span>Read the measurement framework</span>
-          <Icon class="shrink-0" name="arrow-up-right" size="sm" />
+          <ArrowExchange class="shrink-0" direction="up-right" size="sm" />
         </Link>
       </footer>
     </Card>

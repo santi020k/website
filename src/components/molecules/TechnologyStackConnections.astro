@@ -1,9 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getTechnologyPath } from '@/utils/links'
 
-import { Icon, Link } from '@santi020k/lumen-astro'
+import { Link } from '@santi020k/lumen-astro'
 
 import { getTechnologyConnections } from '@/data/project'
 
@@ -35,15 +37,15 @@ const entryContext = projects.length === 1 ? 'this entry' : `these ${projects.le
           <li>
             <Link href={getTechnologyPath(label)} variant="inherit">
               <span data-stack-connection-label>{label}</span>
-              <Icon name="arrow-right" />
+              <ArrowExchange direction="right" />
               <span data-stack-connection-count>{count} shared {count === 1 ? 'entry' : 'entries'}</span>
             </Link>
           </li>
         ))}
       </ul>
       <nav aria-label="Explore more work" data-stack-connections-return>
-        <Link href="/technologies/" variant="inherit">All technologies<Icon name="arrow-right" /></Link>
-        <Link href="/portfolio/" variant="inherit">Browse portfolio<Icon name="arrow-right" /></Link>
+        <Link href="/technologies/" variant="inherit">All technologies<ArrowExchange direction="right" /></Link>
+        <Link href="/portfolio/" variant="inherit">Browse portfolio<ArrowExchange direction="right" /></Link>
       </nav>
     </div>
   </section>

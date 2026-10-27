@@ -1,7 +1,9 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getTechnologyPath } from '@/utils/links'
 
-import { AnimatedNumber, Card, Icon, Link } from '@santi020k/lumen-astro'
+import { AnimatedNumber, Card, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   projectCount: number
@@ -85,7 +87,7 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
   <div data-technology-snapshot-footer>
     <Link data-technology-snapshot-more href="/technologies/" variant="inherit">
       <span>Explore the full technology index</span>
-      <Icon name="arrow-right" size="sm" />
+      <ArrowExchange direction="right" size="sm" />
     </Link>
   </div>
 </Card>

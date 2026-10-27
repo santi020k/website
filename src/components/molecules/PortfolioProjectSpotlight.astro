@@ -2,6 +2,8 @@
 import { Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getPortfolioPath } from '@/utils/links'
 import { getPortfolioMetricDisplay } from '@/utils/portfolio-metric'
 import { getProjectBrandStyle } from '@/utils/project-brand'
@@ -33,7 +35,7 @@ const previewTargetWidth = previewImage ? Math.min(1600, previewImage.width) : 0
 const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
 ---
 
-<Card as="article" variant="unstyled" data-portfolio-project={featured ? 'featured' : 'supporting'} style={getProjectBrandStyle(project.data.brand)}>
+<Card as="article" variant="unstyled" data-portfolio-project={featured ? 'featured' : 'supporting'} data-arrow-owner style={getProjectBrandStyle(project.data.brand)}>
   <div data-portfolio-composition>
     <div data-portfolio-visual>
       {previewImage ?
@@ -90,7 +92,10 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
             {technologies.map(technology => <li>{technology}</li>)}
           </ul>
         )}
-        <span data-portfolio-action>Read case study <Icon class="size-4" name="arrow-up-right" /></span>
+        <span data-portfolio-action>Read case study <ArrowExchange
+class="size-4"
+direction="up-right"
+                                                    /></span>
       </div>
     </div>
   </div>

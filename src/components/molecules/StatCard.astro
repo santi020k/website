@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { AnimatedNumber, Icon, Link, Stat } from '@santi020k/lumen-astro'
 
 interface Props {
@@ -41,7 +43,7 @@ const hasWordSuffix = /[a-z]/iu.test(suffix)
   {source && (
     <footer data-stat-source>
       <Link href={source.href} variant="inherit">
-        <span>{source.label}</span><Icon data-stat-source-icon name="arrow-up-right" size="sm" />
+        <span>{source.label}</span><ArrowExchange data-stat-source-icon direction="up-right" size="sm" />
       </Link>
     </footer>
   )}

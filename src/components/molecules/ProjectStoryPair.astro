@@ -1,9 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getPostPath } from '@/utils/links'
 
-import { Icon, Link } from '@santi020k/lumen-astro'
+import { Link } from '@santi020k/lumen-astro'
 
 interface Props {
   stories: { label: string, post: CollectionEntry<'post'> }[]
@@ -26,7 +28,7 @@ const { stories } = Astro.props
           <p data-writing-description>{post.data.cardDescription ?? post.data.description}</p>
           <Link href={getPostPath(post.id)} variant="inherit" aria-label={`Read ${label.toLowerCase()}: ${post.data.title}`} data-writing-link>
             <span>Read {label.toLowerCase()}</span>
-            <Icon name="arrow-right" size="sm" />
+            <ArrowExchange direction="right" size="sm" />
           </Link>
         </article>
       ))}

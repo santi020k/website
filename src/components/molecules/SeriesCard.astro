@@ -1,9 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getSeriesPath } from '@/utils/links'
 
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import { Card, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   postCount: number
@@ -35,7 +37,7 @@ const statusLabel = series.data.status === 'planned' ? 'Planned series' : 'Activ
     <div data-series-card-footer>
       <span data-series-card-action>
         <span>Explore series</span>
-        <Icon class="size-4.5 shrink-0" name="arrow-right" />
+        <ArrowExchange class="size-4.5 shrink-0" direction="right" />
       </span>
     </div>
   </Link>

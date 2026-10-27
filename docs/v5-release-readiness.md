@@ -1025,3 +1025,36 @@ long title, and enabled browser headers. Letter has 11 pages; the A4 variants
 have ten. The long title wraps cleanly within the footer, and browser headers
 remain separate. This follow-up uses affected checks; no integration repair
 was required.
+
+## Navigation arrow coverage follow-up
+
+Ready source `c0a883b4` contains `cf103751` and `13e4e56f`, plus the corrected
+Changeset package key. The approved 480ms arrow exchange now covers card links,
+article/project navigation, footer actions, search results, pagination, and
+secondary pages. Astro components and generated Markdown reference links share
+the same decorative track styling. Stretched sibling links declare their arrow
+owner; oversized footer arrows preserve their footprint. Passive comparison
+arrows and disabled pagination placeholders remain static. Reduced motion, touch
+hover, and print do not animate. Existing destinations and footer edge hit areas
+are preserved. The release note is folded into 5.0.0.
+
+The combined tree passed all 19 focused reference/imprint unit cases and all
+132 selected Chromium/WebKit cases without retries. Browser coverage includes
+arrow ownership and timing, keyboard focus, reduced motion, touch behavior,
+footer interactions and accessibility, homepage geometry, reference ledgers, and
+the complete affected print/reference/imprint cases. Current-site lint passed
+with zero warnings; Astro checked 503 files with zero errors, warnings, or hints.
+
+A forced Astro content sync preceded the production rebuild so generated
+Markdown links use the new renderer. The build, 452-page OG audit, archive
+assembly, regenerated CV freshness, and source comparison passed. All 67
+non-overlapping source files match exactly; the article layout and style guide
+retain the newer Reference notes and Page imprint work. Published changelog
+entries and frozen archive source remain unchanged.
+
+Twenty-four matched captures cover mobile/desktop and both themes across the
+homepage, footer, cards, and article references. Their dimensions are unchanged;
+representative pairs were visually reviewed, with differences confined to arrow
+rendering. All five regenerated resume PDF pages render identically to the
+preceding integration. No application repair was needed. This follow-up uses
+affected checks on the combined release.

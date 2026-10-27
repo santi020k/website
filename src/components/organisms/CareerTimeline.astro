@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getFormattedDate } from '@/utils/date'
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
@@ -65,8 +67,8 @@ class="size-4"
                 {item.technologies.map(technology => <li>{technology}</li>)}
               </ul>
             )}
-            <span data-career-action>Read case study <Icon
-name="arrow-right"
+            <span data-career-action>Read case study <ArrowExchange
+direction="right"
 class="size-4"
                                                      /></span>
           </div>

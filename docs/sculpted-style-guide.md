@@ -2133,12 +2133,20 @@ Keep native anchors for links wrapping a complete project or article.
 
 - Primary action: solid high-contrast rectangle with a distinct arrow compartment.
 - Secondary action: plain text with a visible arrow and a generous hit area.
-- Shared button arrows, header contact actions, hero actions, and homepage section
-  links use `ArrowExchange`: two decorative Lumen icons on one continuous track.
+- Navigation arrows use `ArrowExchange` across buttons, card and article links,
+  footer actions, search results, pagination, and secondary page links: two
+  decorative Lumen icons on one continuous track.
   Keep the existing icon size and direction, with a 480ms
   `cubic-bezier(0.25, 0.8, 0.25, 1)` exchange inside the arrow's footprint.
   Animate once on fine-pointer hover or keyboard focus; keep arrows still for
   reduced motion and touch hover. Preserve button surfaces, labels, and focus outlines.
+  Keep sizing classes and placement attributes on the outer Lumen icon. For an
+  oversized SVG, `--arrow-overflow` expands its clip and travel distance without
+  changing its layout footprint. Portfolio and related-project cards use `data-arrow-owner`
+  because their visible arrow is a sibling of the stretched link. Leave passive
+  comparison arrows and disabled pagination placeholders static.
+  Markdown reference links emit the same decorative track through
+  `rehypeArticleReferences`; both renderers use `partials/animations.css`.
 - Project action: the complete card or row is the link; the arrow is decorative.
 - Icon-only actions need a meaningful accessible name and at least a 44px target.
 - Use a visible 2px focus outline with space around the control. Inside clipped, rounded

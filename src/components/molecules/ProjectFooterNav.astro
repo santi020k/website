@@ -1,9 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getProjectPrimaryDestination } from '@/utils/project-destinations'
 
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import { Card, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   hasProductPreviews?: boolean
@@ -22,7 +24,7 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
     <nav aria-label="Page-end navigation">
       <div data-return-row>
         <Link href={parentPage.url} variant="inherit" data-return-link>
-          <span data-return-mark><Icon data-return-icon name="arrow-left" /></span>
+          <span data-return-mark><ArrowExchange data-return-icon direction="left" /></span>
           <span data-return-copy>
             <span data-return-kicker>Back to</span>
             <span data-return-destination>{parentPage.name}</span>
@@ -30,7 +32,7 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
         </Link>
         <Link href="#main" variant="inherit" data-return-top>
           <span>Back to top</span>
-          <Icon data-return-icon name="arrow-up" />
+          <ArrowExchange data-return-icon direction="up" />
         </Link>
       </div>
       {(liveDemoUrl || githubUrl || hasProductPreviews || closingLinks.length > 0) && (
@@ -38,25 +40,25 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
           {liveDemoUrl && destination && (
             <Link href={liveDemoUrl} newTab variant="inherit">
               <span>{destination.action}</span>
-              <Icon data-return-icon name="arrow-up-right" />
+              <ArrowExchange data-return-icon direction="up-right" />
             </Link>
           )}
           {closingLinks.map(link => (
             <Link href={link.href} newTab variant="inherit">
               <span>{link.label}</span>
-              <Icon data-return-icon name="arrow-up-right" />
+              <ArrowExchange data-return-icon direction="up-right" />
             </Link>
           ))}
           {hasProductPreviews && (
             <Link href="#inside-the-product" variant="inherit">
               <span>{previews?.linkLabel ?? 'View product previews'}</span>
-              <Icon data-return-icon name="arrow-up" />
+              <ArrowExchange data-return-icon direction="up" />
             </Link>
           )}
           {githubUrl && (
             <Link href={githubUrl} newTab variant="inherit">
               <span>Open repository</span>
-              <Icon data-return-icon name="arrow-up-right" />
+              <ArrowExchange data-return-icon direction="up-right" />
             </Link>
           )}
         </div>

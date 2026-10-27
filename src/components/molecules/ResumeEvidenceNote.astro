@@ -1,9 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getPortfolioPath } from '@/utils/links'
 
-import { Icon, Link } from '@santi020k/lumen-astro'
+import { Link } from '@santi020k/lumen-astro'
 
 interface Props {
   compact?: boolean
@@ -17,6 +19,6 @@ const { compact = false, project } = Astro.props
   {!compact && <p>The decisions behind these results</p>}
   <Link href={getPortfolioPath(project.id)} variant="inherit">
     <span data-resume-evidence-label>Read the {project.data.title} case study</span>
-    <span data-resume-evidence-arrow><Icon name="arrow-right" /></span>
+    <span data-resume-evidence-arrow><ArrowExchange direction="right" /></span>
   </Link>
 </div>

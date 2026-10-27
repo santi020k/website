@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import type { WebmentionsChildren } from '@/types/webmentions'
 import { parseContentDate } from '@/utils/content-date'
 import { getFormattedDate } from '@/utils/date'
@@ -152,7 +154,7 @@ const showSection = likes.length > 0 || replies.length > 0
                         variant="inherit"
                       >
                         View original
-                        <Icon class="size-3.5 shrink-0" name="arrow-up-right" />
+                        <ArrowExchange class="size-3.5 shrink-0" direction="up-right" />
                       </Link>
                     </div>
                   </Card>

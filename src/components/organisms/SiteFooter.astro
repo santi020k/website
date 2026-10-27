@@ -1,7 +1,9 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getNavigationCurrent } from '@/utils/links'
 
-import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+import { ButtonLink } from '@santi020k/lumen-astro'
 
 import { menuLinks, siteConfig } from '@/site.config'
 
@@ -44,14 +46,17 @@ const activePath = [...navLinks, ...resourceLinks]
         <div class="maker-footer-contact">
           <div class="maker-footer-action-sheet">
             <ButtonLink class="maker-footer-action" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
-              <Icon name="arrow-up-right" class="maker-footer-action-arrow" />
+              <ArrowExchange
+direction="up-right"
+class="maker-footer-action-arrow"
+              />
               <span class="maker-footer-action-copy"><span>Let’s talk</span><span>Start a conversation on WhatsApp</span></span>
             </ButtonLink>
           </div>
           <a class="maker-footer-email" href={`mailto:${siteConfig.contact.email}`}>
-            <span><span>Prefer email?</span><span>{siteConfig.contact.email}</span></span><Icon
+            <span><span>Prefer email?</span><span>{siteConfig.contact.email}</span></span><ArrowExchange
 class="maker-footer-email-arrow"
-name="arrow-up-right"
+direction="up-right"
                                                                                           />
           </a>
         </div>
@@ -63,7 +68,7 @@ name="arrow-up-right"
         <a class="maker-footer-wordmark" href="https://santi020k.com" aria-label="Santiago Molina — santi020k">santi020k<span>.</span></a>
         <p>Engineer. Maker. Always curious.</p>
         <p class="maker-footer-location">{siteConfig.location}</p>
-        <a class="maker-footer-resume" href={siteConfig.contact.resume}>View resume<Icon name="arrow-up-right" /></a>
+        <a class="maker-footer-resume" href={siteConfig.contact.resume}>View resume<ArrowExchange direction="up-right" /></a>
       </div>
 
       <nav class="maker-footer-navigation" aria-label="Footer navigation">
@@ -81,7 +86,7 @@ name="arrow-up-right"
           {siteConfig.socialLinks.map(({ href, indieAuthRelMe, label }) => (
             <li>
               <a href={href} target="_blank" rel={`noopener noreferrer${indieAuthRelMe === false ? '' : ' me'}`}>
-                {label}<Icon name="arrow-up-right" />
+                {label}<ArrowExchange direction="up-right" />
               </a>
             </li>
           ))}
@@ -97,7 +102,7 @@ name="arrow-up-right"
         ))}
         <a href="https://github.com/santi020k/website/issues/new/choose" rel="noopener noreferrer" target="_blank">Report an issue</a>
       </nav>
-      <a class="maker-footer-version" href="https://github.com/santi020k/website" rel="noopener noreferrer" target="_blank" aria-label={`v${version} — Website source`}>v{version}<Icon name="arrow-up-right" /></a>
+      <a class="maker-footer-version" href="https://github.com/santi020k/website" rel="noopener noreferrer" target="_blank" aria-label={`v${version} — Website source`}>v{version}<ArrowExchange direction="up-right" /></a>
     </div>
   </div>
 </footer>

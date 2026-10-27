@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
 import type { LumenIconName } from '@santi020k/lumen-core'
 
@@ -23,7 +25,7 @@ const { body, category, href, icon, linkLabel, title } = Astro.props
   <div data-system-footer>
     <ButtonLink data-system-action href={href} variant="unstyled">
       <span>{linkLabel}</span>
-      <Icon name="arrow-right" size="sm" />
+      <ArrowExchange direction="right" size="sm" />
     </ButtonLink>
   </div>
 </Card>

@@ -3,6 +3,7 @@ import type { GetStaticPaths, Page } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import TechnologyArchiveChapter from '@/components/molecules/TechnologyArchiveChapter.astro'
 import TechnologyStackConnections from '@/components/molecules/TechnologyStackConnections.astro'
@@ -14,7 +15,7 @@ import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
 import { getSocialImageURL } from '@/utils/social-image'
 
-import { Icon, Link } from '@santi020k/lumen-astro'
+import { Link } from '@santi020k/lumen-astro'
 
 import { ogManifest } from '@/data/og-manifest'
 import { createProjectCollectionSchema, getUniqueTechnologies } from '@/data/project'
@@ -98,13 +99,13 @@ const meta = {
         <Link data-technology-evidence-link href={group.href} variant="inherit">
           <span data-technology-evidence-count>{group.count}</span>{' '}
           <span data-technology-evidence-label>{group.label}</span>
-          <Icon data-technology-evidence-arrow name="arrow-down" />
+          <ArrowExchange data-technology-evidence-arrow direction="down" />
         </Link>
       ))}
     </nav>
     <div data-technology-archive-escape>
-      <Link href="/technologies/" variant="inherit">All technologies<Icon name="arrow-right" /></Link>
-      <Link href="/portfolio/" variant="inherit">Portfolio<Icon name="arrow-right" /></Link>
+      <Link href="/technologies/" variant="inherit">All technologies<ArrowExchange direction="right" /></Link>
+      <Link href="/portfolio/" variant="inherit">Portfolio<ArrowExchange direction="right" /></Link>
     </div>
   </PageHero>
 

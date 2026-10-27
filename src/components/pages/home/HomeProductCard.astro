@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import HomeProductPreview from '@/components/pages/home/HomeProductPreview.astro'
 
 import { getPortfolioPath } from '@/utils/links'
@@ -9,7 +10,7 @@ import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 
-import { Card, Icon } from '@santi020k/lumen-astro'
+import { Card } from '@santi020k/lumen-astro'
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -51,7 +52,10 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
         <span>{project.data.technologies.slice(0, 3).join(' / ')}</span>
         <span>{getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)}</span>
       </div>
-      <span data-product-action>Explore the project <Icon class="size-4" name="arrow-up-right" /></span>
+      <span data-product-action>Explore the project <ArrowExchange
+class="size-4"
+direction="up-right"
+                                                    /></span>
     </div>
   </a>
 </Card>
