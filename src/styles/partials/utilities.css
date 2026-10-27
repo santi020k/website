@@ -86,6 +86,7 @@
 
 @utility section-actions {
   @apply flex flex-col gap-3 sm:flex-row sm:flex-wrap;
+  container: site-actions / inline-size;
 }
 
 @utility section-label {
@@ -288,6 +289,19 @@
 @utility site-action-arrow {
   @apply inline-grid size-8 shrink-0 place-items-center rounded-lg;
 }
+
+@utility site-action-aligned {
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  text-align: start;
+  & > :first-child { min-width: 0; flex: 1; }
+
+  @container site-actions (width < 18rem) {
+    column-gap: 0.5rem;
+    padding-inline: 0.75rem;
+  }
+}
+
 .btn-primary .site-action-arrow {
   color: hsl(var(--ink));
   background: hsl(var(--surface));

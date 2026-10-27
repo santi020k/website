@@ -2168,6 +2168,14 @@ Keep native anchors for links wrapping a complete project or article.
 
 - Primary action: solid high-contrast rectangle with a distinct arrow compartment.
 - Secondary action: plain text with a visible arrow and a generous hit area.
+- Aligned edge gives non-inline site ButtonLink actions a flexible, start-aligned
+  label column and a separate arrow column. Stretched and stacked buttons share the
+  same trailing inset; compact desktop actions keep their intrinsic width. Let long
+  labels wrap beside the arrow at enlarged text sizes; tighten horizontal spacing
+  in action groups narrower than 18rem. Hidden decorative arrows leave their space
+  available to the label. Reuse `site-action-aligned`
+  for custom directional arrows, preserving the existing compartment, padding,
+  motion, focus outline, and destination. Inline text actions retain their own layout.
 - Navigation arrows use `ArrowExchange` across buttons, card and article links,
   footer actions, search results, pagination, and secondary page links: two
   decorative Lumen icons on one continuous track. Preserve non-arrow icons,

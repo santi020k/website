@@ -734,7 +734,7 @@
   [data-speaking-community] .site-action-arrow { display: none; }
 }
 @container speaking-booking (width < 12rem) {
-  [data-speaking-booking] .section-actions > a { padding-inline: 0.25rem; }
+  [data-speaking-booking] :is(.section-actions > a, .site-action-aligned) { padding-inline: 0.25rem; }
   [data-speaking-booking] .site-action-arrow { display: none; }
 }
 

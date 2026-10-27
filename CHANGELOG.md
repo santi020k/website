@@ -8,6 +8,8 @@
 
 ### Minor Changes
 
+- Align shared arrow-button labels and trailing icons consistently, keeping long labels beside their arrows and preserving compact desktop actions and existing motion.
+
 - Carry readable topic names into archive headings and metadata, with a concise post-count introduction and unchanged archive URLs and pagination.
 
 - Use readable shared topic labels in article openings and related writing while preserving topic archive URLs and ordering.

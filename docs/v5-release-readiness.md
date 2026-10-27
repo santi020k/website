@@ -1290,3 +1290,39 @@ The latest full workspace gate remains the successful `10c7050c` run recorded
 above. Readable topics and this template-copy follow-up use their affected
 checks; no duplicate full gate is queued. The arrow-button alignment comparison
 remains outside the repository and has not been applied.
+
+## Aligned edge shared arrow buttons follow-up
+
+Approved source `cce55902`, based on `29a4a6af`, gives non-inline site ButtonLink
+actions a flexible, start-aligned label beside a stable trailing arrow. Stacked
+buttons share the trailing inset; compact desktop dimensions are preserved.
+Narrow action groups reduce horizontal spacing, and the existing narrow Speaking
+booking exception lets its hidden decorative arrow leave room for readable words.
+The custom Speaking opener reuses the same treatment while retaining its
+down-right arrow. Inline text actions and existing arrow motion are preserved.
+The style guide and folded 5.0.0 Changeset record the selected treatment.
+
+All ten focused Chromium/WebKit arrow and inline-link cases passed together with
+one worker and retries disabled. Additional rendered verification passed 48
+layout states across both browsers and themes at 390/1440px and 320px with 200%
+text. Checks cover label/arrow edges, wrapping, non-overlap, 44px targets, hidden
+arrow space, overflow, keyboard navigation, stable hover dimensions, 480ms motion,
+reduced motion, arrow direction, and external-link attributes.
+
+Twenty-six matched before/after captures cover archives, Speaking actions, the
+blog opener, and inline series links. All labels and destinations are preserved,
+all states avoid horizontal overflow, and desktop button dimensions remain
+unchanged. The four inline captures are pixel-identical. Representative mobile,
+desktop, and enlarged-text results were visually reviewed. All six retained
+source files match exactly; no application repair was needed during integration.
+
+Focused lint passed with zero warnings; Astro checked 506 files with zero errors,
+warnings, or hints. The current production build, 452-page OG audit, and archive
+assembly passed. The CV freshness check correctly detected the updated shared
+style fingerprint; the documented generator refreshed both PDFs and metadata.
+The subsequent freshness check passed, and all five rendered resume pages are
+pixel-identical to the prior integrated candidate. Published changelog entries
+remain unchanged.
+
+The latest full workspace gate remains the successful `10c7050c` run. Subsequent
+approved follow-ups use affected checks; no duplicate full gate is queued.
