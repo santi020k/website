@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Add an article Print shortcut with native browser printing, responsive utility placement, and clearer hover and keyboard focus feedback.
+
 - Extend the approved slow arrow exchange to project and article cards, footer actions, search results, pagination, and secondary navigation links. Preserve existing icon placement, link destinations, keyboard focus, reduced motion, and touch behavior.
 
 - Add an article-specific running title and page counters to the Print edition in browsers that support CSS page-margin boxes.

@@ -1058,3 +1058,32 @@ representative pairs were visually reviewed, with differences confined to arrow
 rendering. All five regenerated resume PDF pages render identically to the
 preceding integration. No application repair was needed. This follow-up uses
 affected checks on the combined release.
+
+## Article Print shortcut follow-up
+
+Approved source `d94677c2`, based on `40d1228c`, adds a shared Lumen Print article
+button beneath the existing copy or Medium utility. Narrow openings wrap the
+actions into a row. The quiet resting state gains a soft fill, border, underline,
+and printer-icon emphasis on hover or keyboard focus. Reduced motion removes
+movement and transitions; the focus outline remains visible.
+
+Each button binds once across Astro navigation and delegates directly to the
+browser's native print command. The control stays hidden without JavaScript or
+print support and is omitted from the printed article. Existing copy/Medium
+actions and the print stylesheet remain unchanged. The release note is folded
+into unpublished 5.0.0.
+
+All 70 affected Chromium/WebKit cases passed together without retries: print
+shortcut, hero actions, and existing print-media regressions. They cover native
+command delegation, Enter/Space, duplicate lifecycle events, client navigation
+and history, missing print support, no JavaScript, reduced motion, keyboard
+order, contrast, and 320px/200% text wrapping. Tests stub the operating-system
+print dialog and verify the call; the existing printed-media checks cover the
+article rendering. No new PDF export or document review was needed.
+
+Current-site lint passed with zero warnings and Astro checked 504 files with
+zero errors, warnings, or hints. The production build, 452-page OG audit, archive
+assembly, and CV freshness check passed without regeneration. Matched series
+and standalone utility captures cover 390/1440px in both themes; Medium utility
+and hover states were also reviewed after integration. All four retained source
+files match exactly, and published changelog entries remain unchanged.

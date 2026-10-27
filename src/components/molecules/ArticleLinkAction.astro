@@ -1,7 +1,7 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { CopyButton, Icon, Link } from '@santi020k/lumen-astro'
+import { Button, CopyButton, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   canonicalUrl: string | undefined
@@ -11,6 +11,7 @@ interface Props {
 const { canonicalUrl, copyUrl } = Astro.props
 ---
 
+<div data-article-utilities>
 {canonicalUrl ?
 (
   <Link href={canonicalUrl} newTab variant="inherit" data-article-utility>
@@ -42,3 +43,121 @@ const { canonicalUrl, copyUrl } = Astro.props
     </span>
   </CopyButton>
 )}
+  <Button data-article-print hidden type="button" variant="ghost">
+    <span data-print-label>Print article</span>
+    <span data-print-icon><Icon class="size-4" name="printer" /></span>
+  </Button>
+</div>
+
+<script>
+  const initialized = new WeakSet<HTMLButtonElement>()
+
+  const initializePrintShortcuts = () => {
+    if (typeof window.print !== 'function') return
+
+    for (const button of document.querySelectorAll<HTMLButtonElement>('button[data-article-print]')) {
+      if (initialized.has(button)) continue
+
+      button.addEventListener('click', () => window.print())
+
+      initialized.add(button)
+
+      button.hidden = false
+    }
+  }
+
+  initializePrintShortcuts()
+
+  document.addEventListener('astro:page-load', initializePrintShortcuts)
+</script>
+
+<style>
+  [data-article-utilities] {
+    --print-accent: hsl(var(--brand));
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: .375rem;
+    width: 10.5rem;
+    max-width: 100%;
+  }
+
+  :global(:root[data-theme='dark']) [data-article-utilities] {
+    --print-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
+  }
+
+  [data-article-utilities] :global([data-article-print]) {
+    width: 100%;
+    min-width: 0;
+    min-height: 2.75rem;
+    height: auto;
+    padding: .375rem .375rem .375rem .875rem;
+    border: 1px solid transparent;
+    border-radius: .875rem;
+    background: transparent;
+    color: hsl(var(--ink-soft));
+    font: 500 .8125rem/1.6 var(--font-sans);
+    text-align: start;
+    white-space: normal;
+    box-shadow: none;
+    transform: none;
+    transition: background-color 180ms ease, border-color 180ms ease;
+  }
+
+  [data-article-utilities] :global([data-article-print][hidden]) { display: none; }
+  [data-article-utilities] :global([data-article-print] .ui-button__content) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: .625rem;
+    width: 100%;
+  }
+  [data-print-label] { min-width: 0; overflow-wrap: anywhere; }
+  [data-print-icon] {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: .5rem;
+    color: var(--print-accent);
+    transition: background-color 180ms ease;
+  }
+  [data-print-icon] :global(svg) { transition: transform 180ms ease; }
+
+  [data-article-utilities] :global([data-article-print]:is(:hover, :focus-visible)) {
+    background: hsl(var(--brand-soft));
+    border-color: color-mix(in srgb, var(--print-accent) 45%, hsl(var(--line)));
+    color: var(--print-accent);
+  }
+  [data-article-utilities] :global([data-article-print]:focus-visible) {
+    outline: 2px solid var(--print-accent);
+    outline-offset: 4px;
+  }
+  [data-article-utilities] :global([data-article-print]:is(:hover, :focus-visible) [data-print-label]) {
+    text-decoration: underline;
+    text-underline-offset: .25em;
+  }
+  [data-article-utilities] :global([data-article-print]:is(:hover, :focus-visible) [data-print-icon]) {
+    background: hsl(var(--surface));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-article-utilities] :global([data-article-print]:focus-visible [data-print-icon] svg) { transform: translateY(-2px); }
+    @media (hover: hover) and (pointer: fine) {
+      [data-article-utilities] :global([data-article-print]:hover [data-print-icon] svg) { transform: translateY(-2px); }
+    }
+  }
+
+  @container article-opening (width < 32rem) {
+    [data-article-utilities] { flex-direction: row; flex-wrap: wrap; width: auto; gap: .5rem; }
+    [data-article-utilities] :global([data-article-print]) { flex: 1 1 8.5rem; width: auto; max-width: min(100%, 10.5rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-article-utilities] :global([data-article-print]),
+    [data-print-icon], [data-print-icon] :global(svg) { transition: none; }
+  }
+
+  @media print {
+    [data-article-utilities] { display: none; }
+  }
+</style>
