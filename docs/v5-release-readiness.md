@@ -882,3 +882,34 @@ lint, documentation spelling, the production build, 452-page OG audit, archive
 assembly, and PDF freshness check passed without PDF regeneration. Published
 changelog entries remain unchanged. This follow-up uses affected checks; the
 latest full workspace gate remains `3d0f6bb5`.
+
+## Article Print edition follow-up
+
+Approved source `b34b82b4`, based on `17948214`, adds article-only print styles.
+The paper layout retains the title, description, author, dates, prose,
+illustrations, complete examples, and canonical source link. Code folios keep
+their editor frame, filename, light syntax colors, blank lines, and source line
+numbers while wrapping long lines. Web controls and decorative covers are hidden
+in print; screen behavior and source/clipboard text are preserved. Other page
+types retain their existing print styles. The patch note is folded into 5.0.0.
+
+All 42 affected Chromium/WebKit print, fold, and copy cases passed with retries
+disabled. Coverage includes both themes, complete folded/imported examples,
+source and clipboard preservation, selected package-manager commands, tables,
+no-JavaScript output, an open illustration viewer, and restoration of screen
+controls. Two additional browser diagnostics verified that an open site search
+does not print and that real client navigation to Work removes article-specific
+print behavior without a document reload.
+
+All nine pages of an actual A4 PDF were visually reviewed. Rendered pages and
+extracted text were identical between light- and dark-theme exports. Matched
+mobile captures in both themes and the desktop light capture were pixel-identical
+to the preceding release after waiting for paint. The initial desktop dark
+baseline had captured the cover before it loaded; a fresh fully loaded capture
+was visually reviewed, with differences confined to that image region. No
+production fix was required by these checks.
+
+Affected zero-warning lint, documentation spelling, the production build,
+452-page OG audit, archive assembly, and regenerated PDF freshness checks passed.
+Published changelog entries remain unchanged. This follow-up uses affected checks;
+the latest full workspace gate remains `3d0f6bb5`.

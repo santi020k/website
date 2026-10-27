@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Add an article print edition that preserves the code editor, full examples and source line numbers while wrapping code and tables, removing web controls, and retaining article details and a readable permalink.
+
 - Present Blog topic choices with readable labels and a nearby full-topic catalog link, plus accent count compartments and stable hover and keyboard feedback.
 
 - Offer manual source selection after an article code copy fails, opening folded examples and retaining recovery guidance until copying succeeds. Improve the failure label's contrast in both themes.

@@ -24,6 +24,8 @@ import { getReadingStats } from '@/utils/reading-time'
 import { getSocialImageURL } from '@/utils/social-image'
 import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 
+import '@/styles/article-print.css'
+
 import { ScrollProgress } from '@santi020k/lumen-astro'
 
 import { ogManifest } from '@/data/og-manifest'
@@ -169,6 +171,10 @@ mainClass="remaining-pages remaining-pages--reading"
         </div>
       </div>
     </section>
+    <p data-article-print-source>
+      <span>{title}</span>
+      <a href={localURL.href}>{localURL.href}</a>
+    </p>
   </article>
 
   <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} excludeUrls={recommendationUrls} tags={post.data.tags} />
