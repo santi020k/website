@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Present Blog topic choices with readable labels and a nearby full-topic catalog link, plus accent count compartments and stable hover and keyboard feedback.
+
 - Offer manual source selection after an article code copy fails, opening folded examples and retaining recovery guidance until copying succeeds. Improve the failure label's contrast in both themes.
 
 - Introduce Reading paths in the Blog opening, keeping the main writing action and pairing topic and series links with clear captions, responsive layouts, and keyboard focus.

@@ -856,3 +856,29 @@ Affected zero-warning lint, documentation spelling, the production build,
 452-page OG audit, archive assembly, and regenerated PDF freshness checks passed.
 Published changelog entries remain unchanged. This follow-up uses affected checks;
 the latest full workspace gate remains `3d0f6bb5`.
+
+## Blog Topic guide follow-up
+
+Approved source `0ad5ed06`, based on `0c181f39`, adds a Browse by topic caption and
+collection-derived catalog link to the Blog and topic archive chooser. Readable
+presentation labels retain the original slug destinations. Inactive tags gain a
+soft accent wash, filled count compartment, underline, and lower shadow on hover
+or keyboard focus. Their hit areas remain stationary; selected tags retain their
+existing colors. Reduced motion disables transitions. Other shared SculptedTag
+consumers and the existing focus/scroll restoration controller are unchanged.
+The patch note is folded into 5.0.0.
+
+All 17 affected tag utility tests passed. All 36 scoped Chromium/WebKit cases
+passed with retries disabled, covering stable hover edges, equivalent keyboard
+feedback, accessibility while hovered, reduced motion, 320–1440px layouts at
+normal and 200% text, native no-JavaScript links, current-page semantics, and
+focus/scroll restoration. The latter includes six rapid-navigation lifecycle
+checks that exercise cancellation and repeated destinations.
+
+Eight matched rest/hover captures across mobile/desktop and both themes preserved
+hero content, article markup, filter order, raw URLs, counts, and current states.
+Representative before/after pairs were visually reviewed. Affected zero-warning
+lint, documentation spelling, the production build, 452-page OG audit, archive
+assembly, and PDF freshness check passed without PDF regeneration. Published
+changelog entries remain unchanged. This follow-up uses affected checks; the
+latest full workspace gate remains `3d0f6bb5`.

@@ -119,7 +119,7 @@ const blogListSchema = {
       sm:mt-12
     "
     >
-      <TagFilter tags={topTags} />
+      <TagFilter tags={topTags} totalTopics={allTagsData.length} />
 
       <PostsGallery posts={page.data} />
 
