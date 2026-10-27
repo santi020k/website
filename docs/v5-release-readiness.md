@@ -780,3 +780,28 @@ build, 452-page OG audit, archive assembly, and regenerated PDF freshness checks
 passed. Published changelog entries remain unchanged. The preceding footer
 integration also passed the canonical current-site lint command; the latest full
 workspace gate remains `3d0f6bb5`.
+
+## Article Fold return follow-up
+
+Approved source `163c529d`, based on `1817b206`, adds a Lumen Button and Icon at
+the bottom of expanded long article examples. It shares the existing scroll-cue
+footer, closes only its own native disclosure, and immediately returns focus and
+the viewport to the original summary below the sticky header. Initialization is
+idempotent on Astro navigation. Native disclosure remains available without
+JavaScript; the enhanced footer is hidden in print. Original headers, complete
+source copying, and 12-line previews are preserved. The patch note is folded into
+5.0.0; no dependency was added.
+
+All 36 affected Chromium/WebKit fold, imported-code, and scroll-cue cases passed
+with retries disabled. They cover both motion preferences, keyboard focus return,
+independent disclosures, repeated initialization, enlarged text, clipboard success
+and failure, navigation, no-JavaScript behavior, and complete print output.
+Four matched mobile/desktop captures in both themes passed scoped accessibility
+scans with no violations or horizontal overflow. Code headers, source content,
+and copy values matched the preceding release across all four article examples;
+representative before/after captures were visually reviewed.
+
+Affected zero-warning lint, documentation spelling, the production build,
+452-page OG audit, archive assembly, and PDF freshness check passed. No PDF
+regeneration was needed. Published changelog entries remain unchanged. This
+follow-up uses affected checks; the latest full workspace gate remains `3d0f6bb5`.

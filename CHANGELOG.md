@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Let readers collapse long article code examples from their bottom footer and return to the original opener, preserving complete-source copying and native disclosure behavior.
+
 - Give article section headings more room on mobile by removing their short decorative rule and avoiding automatic word hyphenation, while preserving the desktop style and section copy controls.
 
 - Add Sculpted lift hover and keyboard feedback to the shared footer invitation, with stationary reduced-motion feedback and unchanged content, destinations, and resting layout.
