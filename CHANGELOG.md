@@ -302,7 +302,7 @@
 
 ### Patch Changes
 
-- Connect the homepage All projects link to the shared slow arrow exchange, including keyboard focus and reduced motion.
+- Restore the All projects plus icon and add a slow underline reveal with a gentle color fade to standalone text actions. Preserve existing icons, keyboard focus, current-page cues and reduced-motion behavior.
 
 - Add an article Print shortcut with native browser printing, responsive utility placement, and clearer hover and keyboard focus feedback.
 

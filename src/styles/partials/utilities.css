@@ -298,6 +298,43 @@
 [data-site-action='ghost'] { @apply btn-ghost; }
 [data-site-action='inline'] { @apply btn-inline; }
 
+/* Standalone text actions keep their icons and animate only the label rule. */
+a[data-text-link] {
+  --text-link-emphasis: hsl(var(--brand));
+  text-decoration: none;
+  transition: color 480ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+:root[data-theme='dark'] a[data-text-link] { --text-link-emphasis: hsl(var(--accent)); }
+a[data-text-link] > [data-text-link-label] {
+  min-width: 0;
+  box-decoration-break: clone;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 1px;
+  transition: background-size 480ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+a[data-text-link]:focus-visible {
+  color: var(--text-link-emphasis);
+}
+a[data-text-link]:focus-visible > [data-text-link-label] {
+  background-size: 100% 1px;
+}
+@media (hover: hover) and (pointer: fine) {
+  a[data-text-link]:hover { color: var(--text-link-emphasis); }
+  a[data-text-link]:hover > [data-text-link-label] { background-size: 100% 1px; }
+}
+a[data-text-link]:is([aria-current='page'], [aria-current='true']) > [data-text-link-label] { background-image: none; }
+@media (prefers-reduced-motion: reduce) {
+  a[data-text-link], a[data-text-link] > [data-text-link-label] { transition: none; }
+}
+@media (forced-colors: active) {
+  a[data-text-link]:not([aria-current]):is(:hover, :focus-visible) > [data-text-link-label] {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+}
+
 /* ─── Decorative ────────────────────────────────────────────────────────────── */
 
 @utility grid-fade {

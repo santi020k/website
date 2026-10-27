@@ -68,14 +68,14 @@ direction="up-right"
         <a class="maker-footer-wordmark" href="https://santi020k.com" aria-label="Santiago Molina — santi020k">santi020k<span>.</span></a>
         <p>Engineer. Maker. Always curious.</p>
         <p class="maker-footer-location">{siteConfig.location}</p>
-        <a class="maker-footer-resume" href={siteConfig.contact.resume}>View resume<ArrowExchange direction="up-right" /></a>
+        <a class="maker-footer-resume" data-text-link href={siteConfig.contact.resume}><span data-text-link-label>View resume</span><ArrowExchange direction="up-right" /></a>
       </div>
 
       <nav class="maker-footer-navigation" aria-label="Footer navigation">
         <p class="maker-footer-label">Explore</p>
         <ul>
           {navLinks.map(link => (
-            <li><a href={link.path} aria-current={activePath === link.path ? getNavigationCurrent(currentPath, link.path) : undefined}>{link.title}</a></li>
+            <li><a data-text-link href={link.path} aria-current={activePath === link.path ? getNavigationCurrent(currentPath, link.path) : undefined}><span data-text-link-label>{link.title}</span></a></li>
           ))}
         </ul>
       </nav>
@@ -85,8 +85,8 @@ direction="up-right"
         <ul>
           {siteConfig.socialLinks.map(({ href, indieAuthRelMe, label }) => (
             <li>
-              <a href={href} target="_blank" rel={`noopener noreferrer${indieAuthRelMe === false ? '' : ' me'}`}>
-                {label}<ArrowExchange direction="up-right" />
+              <a data-text-link href={href} target="_blank" rel={`noopener noreferrer${indieAuthRelMe === false ? '' : ' me'}`}>
+                <span data-text-link-label>{label}</span><ArrowExchange direction="up-right" />
               </a>
             </li>
           ))}
@@ -95,14 +95,14 @@ direction="up-right"
     </div>
 
     <div class="maker-footer-colophon">
-      <p>&copy; {year} {siteConfig.author}<span aria-hidden="true"> / </span><a href="https://lumen.santi020k.com" rel="noopener noreferrer" target="_blank">Built with Lumen</a></p>
+      <p>&copy; {year} {siteConfig.author}<span aria-hidden="true"> / </span><a data-text-link href="https://lumen.santi020k.com" rel="noopener noreferrer" target="_blank"><span data-text-link-label>Built with Lumen</span></a></p>
       <nav aria-label="Site information">
         {resourceLinks.map(({ path, title }) => (
-          <a href={path} aria-current={activePath === path ? getNavigationCurrent(currentPath, path) : undefined}>{title}</a>
+          <a data-text-link href={path} aria-current={activePath === path ? getNavigationCurrent(currentPath, path) : undefined}><span data-text-link-label>{title}</span></a>
         ))}
-        <a href="https://github.com/santi020k/website/issues/new/choose" rel="noopener noreferrer" target="_blank">Report an issue</a>
+        <a data-text-link href="https://github.com/santi020k/website/issues/new/choose" rel="noopener noreferrer" target="_blank"><span data-text-link-label>Report an issue</span></a>
       </nav>
-      <a class="maker-footer-version" href="https://github.com/santi020k/website" rel="noopener noreferrer" target="_blank" aria-label={`v${version} — Website source`}>v{version}<ArrowExchange direction="up-right" /></a>
+      <a class="maker-footer-version" data-text-link href="https://github.com/santi020k/website" rel="noopener noreferrer" target="_blank" aria-label={`v${version} — Website source`}><span data-text-link-label>v{version}</span><ArrowExchange direction="up-right" /></a>
     </div>
   </div>
 </footer>

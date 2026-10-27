@@ -2164,8 +2164,8 @@ Keep native anchors for links wrapping a complete project or article.
 - Secondary action: plain text with a visible arrow and a generous hit area.
 - Navigation arrows use `ArrowExchange` across buttons, card and article links,
   footer actions, search results, pagination, and secondary page links: two
-  decorative Lumen icons on one continuous track. The homepage’s “All projects”
-  index link uses a right-facing exchange instead of a static plus.
+  decorative Lumen icons on one continuous track. Preserve non-arrow icons,
+  including the homepage’s “All projects” plus and the RSS symbol.
   Keep the existing icon size and direction, with a 480ms
   `cubic-bezier(0.25, 0.8, 0.25, 1)` exchange inside the arrow's footprint.
   Animate once on fine-pointer hover or keyboard focus; keep arrows still for
@@ -2177,6 +2177,12 @@ Keep native anchors for links wrapping a complete project or article.
   comparison arrows and disabled pagination placeholders static.
   Markdown reference links emit the same decorative track through
   `rehypeArticleReferences`; both renderers use `partials/animations.css`.
+- Standalone text actions use `data-text-link` with a `data-text-link-label` span.
+  Reveal the label underline and fade color over 480ms, easing both entry and exit.
+  Apply it to hero text actions, section actions, inline ButtonLink variants, RSS
+  links, and footer directory links. Keep each existing icon and focus outline.
+  Current-page links retain their underline; reduced motion removes transitions,
+  touch hover leaves the rule hidden, and forced colors use a native underline.
 - Project action: the complete card or row is the link; the arrow is decorative.
 - Icon-only actions need a meaningful accessible name and at least a 44px target.
 - Use a visible 2px focus outline with space around the control. Inside clipped, rounded

@@ -1192,3 +1192,36 @@ The latest complete canonical workspace gate passed on `74cd2270`; the subsequen
 Reading utility and this spacing follow-up use affected checks in accordance with
 the requested scope. No further full gate is queued. The separate Readable topics
 proposal remains unapproved and unimplemented.
+
+## Standalone text-link hover correction
+
+Approved source `e70e29d3`, based on `89741276`, restores the All projects plus
+following the clarified icon preference. This supersedes the earlier project-index
+arrow change only; existing navigation arrow exchanges and RSS icons are retained.
+Standalone hero, section, inline, RSS, and footer directory actions now reveal and
+retract their label underline with a gentle color fade over 480ms. Keyboard focus,
+current-page underlines, reduced motion, touch navigation, and forced colors keep
+their existing or explicit accessible feedback. The obsolete unpublished arrow
+note is replaced by the new Changeset in 5.0.0.
+
+All 112 selected Chromium/WebKit arrow, footer, hero, newsletter/share, and text-link
+cases passed together with one worker and retries disabled. The initial run had
+two WebKit timeouts, covering the existing share-feedback reset and footer hover
+stability. Each passed three isolated repeats without application changes, relaxed
+assertions, or increased timeouts, followed by the complete successful rerun.
+
+Focused lint passed with zero warnings, and Astro checked 506 files with zero
+errors, warnings, or hints. The production build, 452-page OG audit, archive
+assembly, and CV freshness check passed. The refreshed source PDFs have five
+rendered pages pixel-identical to the prior integrated candidate.
+
+Twenty-four matched mobile/desktop captures cover both themes. Twenty are
+pixel-identical; the four homepage captures differ only in the restored plus
+icon's pixels, with every capture retaining its dimensions. Representative mobile
+and desktop results and six settled hover states were visually reviewed. All 14
+retained application/test/PDF files match the approved source. The style guide
+combines this correction with Connected opening; its article implementation is
+unchanged. Published changelog entries remain intact.
+
+This integration uses affected checks. The source chat owns the next canonical
+workspace gate on the completed combined commit, avoiding a duplicate full run.

@@ -28,8 +28,9 @@ import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
         <span data-community-arrow><ArrowExchange class="size-4.5" direction="up-right" /></span>
       </a>
       <div data-community-footer>
-        <ButtonLink href="/speaking/" variant="unstyled" data-community-footer-link>
-          Speaking &amp; Community <ArrowExchange class="size-4.5" direction="right" />
+        <ButtonLink href="/speaking/" variant="unstyled" data-community-footer-link data-text-link>
+          <span data-text-link-label>Speaking &amp; Community</span>
+          <ArrowExchange class="size-4.5" direction="right" />
         </ButtonLink>
       </div>
     </div>
@@ -71,7 +72,6 @@ import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
   [data-community-link]:hover h3 { color: hsl(var(--ink)); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3125rem; }
   [data-community-footer] { padding: 1rem 0 0; }
   [data-community-footer-link] { display: inline-flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; line-height: 1.6; text-decoration: none; }
-  [data-community-footer-link]:hover { text-decoration: underline; text-underline-offset: 0.3125rem; }
 
   @container home-content (width < 48rem) {
     [data-home-community] { margin-block: 4.5rem; }
