@@ -932,3 +932,45 @@ Affected zero-warning lint, production build, 452-page OG audit, archive assembl
 and regenerated PDF freshness passed here. Changelog conflicts retain both print
 and arrow notes; generated PDF conflicts were resolved by regeneration from the
 combined source. Published notes remain unchanged.
+
+## Keyboard navigation and archive boundary integration
+
+Ready source `57f800ba` includes `6d511824`. Cross-page fragments preserve their
+native sequential focus starting point; ordinary navigation and missing or
+malformed fragments retain the main-content fallback. The user-approved search
+shortcut is now Control/Command+K, with matching visible and accessible labels.
+Bare slash remains available to the page. Modal image viewers keep their shortcut
+boundary. Detailed article/case-study routes join the full Lighthouse config,
+and deployment documentation clarifies build-time publication eligibility.
+
+Archive finalization marks absolute same-origin exits for full document loads
+and adds immutable caching only to content-hashed archive assets. Audits and
+regression tests enforce both boundaries. The source review reproduced document
+reuse; it did not reproduce the hypothesized final-theme corruption or runtime
+exception. Frozen archive source files and all package versions remain unchanged.
+
+The combined tree passed `pnpm run lint:current` with zero warnings,
+`VITEST_MAX_WORKERS=2 pnpm test` with 984 tests, and `pnpm run check:current`
+with zero errors, warnings, or hints. The canonical `pnpm run build` rebuilt all
+five apps: the OG audit covered 452 pages, archive checks covered 1,288 pages,
+and the built-page audit covered 1,740 documents and 8,131 local targets with
+zero errors. Generated PDF conflicts were resolved by regeneration, and
+`pnpm run check:cv` passed. All five resume PDF pages rendered identically to
+the preceding release. Both pending Changesets are folded into unpublished
+5.0.0; published changelog entries remain unchanged.
+
+All 610 selected Chromium/WebKit cases passed with two workers and retries
+disabled. They cover fragment and history navigation, modifier shortcuts, search
+recovery/caching, modal viewers, header accessibility/reflow, home interactions
+and snapshots, view transitions, archive keyboard/reflow/exit behavior, and the
+integrated arrow, print, fold, and copy changes. Two additional print diagnostics
+also passed after the search label change. No tests were excluded from the
+selected files.
+
+Four matched homepage captures preserved mobile pixels exactly. Desktop
+differences were confined to the expected search hint and navigation spacing;
+the rendered result was reviewed. The nine-page article PDF was refreshed for
+its imported search examples. Only the two updated shortcut-label lines changed
+in the page raster comparison; those pages were reviewed, and both theme
+exports retained identical text. This integration uses affected validation on
+top of the independently recorded source workspace gates.

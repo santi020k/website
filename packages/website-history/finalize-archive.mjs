@@ -24,8 +24,46 @@ export const archiveUrl = (value, id) => {
   return `/${id}${value}`
 }
 
+export const archiveOrigin = 'https://santi020k.com'
+
+// Absolute and protocol-relative links to the production origin bypass local URL
+// scoping. Outside this archive they lead to another app, so they need a full load.
+/** @param {string} value @param {string} id */
+export const isArchiveExit = (value, id) => {
+  if (!/^(?:https?:)?\/\//i.test(value)) return false
+
+  /** @type {URL} */
+  let url
+
+  try {
+    url = new URL(value, archiveOrigin)
+  } catch {
+    return false
+  }
+
+  return url.origin === archiveOrigin && url.pathname !== `/${id}` && !url.pathname.startsWith(`/${id}/`)
+}
+
+// Astro's client router would otherwise swap the current site into the archive document.
 /** @param {string} html @param {string} id */
-export const archiveHtml = (html, id) => html
+const markArchiveExits = (html, id) => html.replace(/<a(?=[\s>])[^>]*>/gi, tag => {
+  const href = /\shref=(['"])([^'"]*)\1/i.exec(tag)?.[2]
+
+  if (href === undefined || !isArchiveExit(href, id) || /\sdata-astro-reload(?=[\s=/>])/i.test(tag)) return tag
+
+  return `<a data-astro-reload${tag.slice(2)}`
+})
+
+/** @param {string} id */
+export const archiveHeaderRules = id => [
+  `/${id}\n  X-Robots-Tag: noindex, follow\n`,
+  `/${id}/*\n  X-Robots-Tag: noindex, follow\n`,
+  // Astro content-hashes every emitted file in _astro, so archive bundles never change in place.
+  `/${id}/_astro/*\n  Cache-Control: public, max-age=31536000, immutable\n`
+].map(rule => `\n${rule}`).join('')
+
+/** @param {string} html @param {string} id */
+export const archiveHtml = (html, id) => markArchiveExits(html, id)
   .replace(/\b(href|src|action|poster|data-src)=(['"])([^'"]*)\2/g,
     /** @param {string} _ @param {string} attribute @param {string} quote @param {string} value */
     (_, attribute, quote, value) => {

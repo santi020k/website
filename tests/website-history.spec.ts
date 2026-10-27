@@ -142,6 +142,42 @@ for (const id of ['v1', 'v2', 'v3', 'v4']) {
   })
 }
 
+test('v4 production wordmark leaves the archive with a full document load', async ({ page }) => {
+  const errors: string[] = []
+
+  page.on('pageerror', error => {
+    errors.push(error.message)
+  })
+  await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' })
+  await page.goto('/v4/')
+  await page.evaluate(() => {
+    localStorage.setItem('website-v4-theme', 'light')
+    localStorage.setItem('theme', 'dark')
+  })
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  const wordmark = page.locator('footer .maker-footer-wordmark')
+
+  await expect(wordmark).toHaveAttribute('href', 'https://santi020k.com')
+  await expect(wordmark).toHaveAttribute('data-astro-reload', '')
+  // Same-origin only in production; keep the published path and move just its origin to the preview.
+  await wordmark.evaluate(element => {
+    if (!(element instanceof HTMLAnchorElement)) throw new Error('Expected the footer wordmark link')
+
+    const published = new URL(element.href)
+
+    element.href = `${location.origin}${published.pathname}${published.search}${published.hash}`
+    Reflect.set(window, 'websiteArchiveDocument', 'v4')
+  })
+  await wordmark.click()
+  await expect(page).toHaveURL('/')
+  expect(await page.evaluate(() => 'websiteArchiveDocument' in window), 'A full load discards the archive document').toBe(false)
+  await expect(page.locator('.website-archive-banner')).toHaveCount(0)
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  expect(await page.evaluate(() => [localStorage.getItem('theme'), localStorage.getItem('website-v4-theme')])).toEqual(['dark', 'light'])
+  expect(errors).toEqual([])
+})
+
 test('archive newsletter cannot submit', async ({ page }) => {
   await page.goto('/v3/newsletter/')
   for (const form of await page.locator('form').all()) {

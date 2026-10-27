@@ -135,9 +135,9 @@ test('homepage exposes IndieAuth.com discovery and rel=me on silo links', async 
   }
 })
 
-test('keyboard / opens site search dialog', async ({ page }) => {
+test('keyboard Ctrl+K opens site search dialog', async ({ page }) => {
   await page.goto('/')
-  await page.keyboard.press('/')
+  await page.keyboard.press('Control+k')
   const dialog = page.getByRole('dialog', { name: 'Search' })
   const trigger = page.getByRole('button', { name: 'Open site search' })
 
@@ -182,7 +182,7 @@ test('search input clear button clears the query and returns focus', async ({ pa
 
 test('keyboard navigation opens selected search result', async ({ page }) => {
   await page.goto('/')
-  await page.keyboard.press('/')
+  await page.keyboard.press('Meta+k')
 
   const dialog = page.getByRole('dialog', { name: 'Search' })
   const searchInput = page.locator('#site-search-input')

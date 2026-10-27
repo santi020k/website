@@ -1,4 +1,4 @@
-import { archiveHtml, archiveSearchIndex, archiveUrl } from '@santi020k/website-history/archive'
+import { archiveHeaderRules, archiveHtml, archiveSearchIndex, archiveUrl, isArchiveExit } from '@santi020k/website-history/archive'
 import { describe, expect, test } from 'vitest'
 
 describe('Website archive boundaries', () => {
@@ -25,6 +25,65 @@ describe('Website archive boundaries', () => {
     expect(result).toContain('content="noindex, follow"')
     expect(result).not.toContain('rel="sitemap"')
     expect(archiveHtml(result, 'v1')).toBe(result)
+  })
+
+  test.each([
+    ['https://santi020k.com', true],
+    ['https://santi020k.com/about/?q=astro#team', true],
+    ['//santi020k.com/blog/', true],
+    ['HTTPS://SANTI020K.COM/', true],
+    ['https://santi020k.com/v3/', true],
+    ['https://santi020k.com/v4', false],
+    ['https://santi020k.com/v4/blog/', false],
+    ['https://santi020k.com/v40/', true],
+    ['https://www.santi020k.com/', false],
+    ['https://lumen.santi020k.com/', false],
+    ['http://santi020k.com/', false],
+    ['https://example.com/', false],
+    ['https://[invalid/', false],
+    ['/about/', false],
+    ['#footer', false],
+    ['mailto:hi@santi020k.com', false]
+  ])('classifies %s as a v4 archive exit: %s', (value, expected) => {
+    expect(isArchiveExit(value, 'v4')).toBe(expected)
+  })
+
+  test('forces a full load only for same-origin anchors that leave the archive', () => {
+    const html = [
+      '<head></head><body>',
+      '<a class="maker-footer-wordmark" href="https://santi020k.com" aria-label="Santiago Molina — santi020k">santi020k</a>',
+      '<a href=\'//santi020k.com/blog/\'>Protocol relative</a>',
+      '<a href="https://santi020k.com/v4/blog/">Archived blog</a>',
+      '<a href="https://example.com/">Elsewhere</a>',
+      '<a href="#footer">Footer</a>',
+      '<a href="mailto:hi@santi020k.com">Email</a>',
+      '<a data-astro-reload="" href="https://santi020k.com/about/">Marked</a>',
+      '<abbr title="https://santi020k.com">abbr</abbr>',
+      '<link rel="canonical" href="https://santi020k.com/v4/">',
+      '</body>'
+    ].join('')
+    const result = archiveHtml(html, 'v4')
+
+    expect(result).toContain('<a data-astro-reload class="maker-footer-wordmark" href="https://santi020k.com" aria-label="Santiago Molina — santi020k">')
+    expect(result).toContain('<a data-astro-reload href=\'//santi020k.com/blog/\'>')
+    expect(result).toContain('<a href="https://santi020k.com/v4/blog/">')
+    expect(result).toContain('<a href="https://example.com/">')
+    expect(result).toContain('<a href="#footer">')
+    expect(result).toContain('<a href="mailto:hi@santi020k.com">')
+    expect(result).toContain('<a data-astro-reload="" href="https://santi020k.com/about/">')
+    expect(result).toContain('<abbr title="https://santi020k.com">')
+    expect(result).toContain('<link rel="canonical" href="https://santi020k.com/v4/">')
+    expect(result.match(/data-astro-reload/g)).toHaveLength(3)
+    expect(archiveHtml(result, 'v4')).toBe(result)
+  })
+
+  test('caches only hashed archive bundles immutably while excluding the archive from search indexing', () => {
+    const rules = archiveHeaderRules('v2')
+
+    expect(rules).toContain('\n/v2\n  X-Robots-Tag: noindex, follow\n')
+    expect(rules).toContain('\n/v2/*\n  X-Robots-Tag: noindex, follow\n')
+    expect(rules).toContain('\n/v2/_astro/*\n  Cache-Control: public, max-age=31536000, immutable\n')
+    expect(rules.match(/immutable/g)).toHaveLength(1)
   })
 
   test('keeps search result destinations and thumbnails inside the archive', () => {

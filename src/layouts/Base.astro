@@ -199,6 +199,7 @@ const isGenerousSpacing = mainSpacing === 'generous'
       import { TransitionBeforeSwapEvent } from 'astro:transitions/client'
 
       let anchoringFrame = 0
+      let followsFragment = false
 
       // Keyboard focus can still be scrolling the outgoing page. Stop that
       // animation before loading the next document so queued compositor updates
@@ -210,7 +211,13 @@ const isGenerousSpacing = mainSpacing === 'generous'
       // The route transition owns the entrance after navigation. Replaying each
       // hero's initial-load animation underneath it causes a second jump/fade.
       document.addEventListener('astro:before-swap', event => {
+        followsFragment = false
+
         if (event instanceof TransitionBeforeSwapEvent) {
+          // History traversal restores a saved position; other navigations to a
+          // hash let the browser follow the fragment before after-swap.
+          followsFragment = event.navigationType !== 'traverse' && event.to.hash !== ''
+
           event.newDocument.body.dataset.clientNavigation = ''
 
           // A queued adjustment from the outgoing document must not move Astro's
@@ -230,6 +237,21 @@ const isGenerousSpacing = mainSpacing === 'generous'
         document.documentElement.removeAttribute('data-instant-scroll')
       }
 
+      // Find an existing ID target, trying the literal fragment before decoding it.
+      const hasFragmentTarget = () => {
+        const fragment = window.location.hash.slice(1)
+
+        if (!fragment) return false
+
+        if (document.getElementById(fragment)) return true
+
+        try {
+          return document.getElementById(decodeURIComponent(fragment)) !== null
+        } catch {
+          return false
+        }
+      }
+
       // Restore SR/keyboard focus after a swap so the virtual cursor follows
       // the page change. Astro retains control of fragment and history scroll.
       document.addEventListener('astro:after-swap', () => {
@@ -244,6 +266,11 @@ const isGenerousSpacing = mainSpacing === 'generous'
             anchoringFrame = 0
           })
         })
+
+        // Astro has already followed the fragment natively, which set the
+        // sequential focus starting point at its target. Focusing main would
+        // send the next Tab back to the top of the page.
+        if (followsFragment && hasFragmentTarget()) return
 
         const main = document.getElementById('main')
 

@@ -127,7 +127,7 @@ class GalleryViewerElement extends HTMLElement {
 
     dialog.addEventListener('keydown', event => {
       // This modal owns its shortcuts; do not open site search over the viewer.
-      if (event.key === '/' || ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k')) {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault()
 
         event.stopPropagation()

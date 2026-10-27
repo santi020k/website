@@ -298,6 +298,10 @@
 
 ### Patch Changes
 
+- Keep keyboard navigation at the destination section after following cross-page fragment links. Retain Cmd/Ctrl+K for site search and remove the global slash shortcut, with an accurate visible hint and accessible name. Extend Lighthouse coverage to a long article and the Smith Commerce case study, and clarify that future-dated content requires a later authorized deployment.
+
+- Keep archive exits isolated by forcing a full document load for absolute same-origin links into the current site or another archive. Audit those boundaries and cache content-hashed archive assets immutably while preserving archive noindex rules.
+
 - Add an article print edition that preserves the code editor, full examples and source line numbers while wrapping code and tables, removing web controls, and retaining article details and a readable permalink.
 
 - Give button and action-link arrows a smooth, 480ms exchange on hover and keyboard focus. Preserve their existing appearance and destinations, and keep arrows still for reduced motion and touch input.
