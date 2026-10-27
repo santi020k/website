@@ -1762,13 +1762,15 @@ closing source line. Browser-supplied headers and footers are controlled separat
 in the print dialog. Verify actual A4 and Letter PDFs, page counts, both themes,
 long titles, and navigation away from an article.
 
-Print shortcut adds one Lumen `Print article` button below the existing hero copy
-or Medium utility. Use the shared article utility component for series and
-standalone posts. Keep the resting action quiet, then give hover and keyboard
-focus a soft brand fill, fine accent border, underlined label, and a surfaced
-printer icon. Move only the icon by 2px; remove transitions and movement for
-reduced motion. Preserve a 44px target and a separate visible focus outline.
-On narrow openings, let the utilities form a wrapping row without truncation.
+Reading utility places one shared Lumen `Print article` action beside the word
+count in the Reading imprint, across series, standalone, and Medium-linked posts.
+Keep the printer icon before the label, with quiet secondary text and no filled
+surface, border, icon tile, or movement. Hover and keyboard focus use the theme's
+accent color and an underlined label; retain a separate visible focus outline.
+Use a 44px minimum target, let the word count and action wrap independently when
+space is limited, and disable color transitions for reduced motion. Keep the
+native description-list meanings separate from the action. The Copy link or
+Medium utility stays in its existing series or topics placement.
 Call the browser's native print command without changing folds, theme, or reading
 position. Bind each button once across Astro navigation, and hide the shortcut
 without JavaScript or print support and in the printed edition itself.
@@ -1933,7 +1935,8 @@ card surface, checkbox state, or client JavaScript.
 
 ### Reading imprint article publication details
 
-Article headers group two native description lists between fine horizontal rules.
+Article headers group publication and reading facts between fine horizontal rules.
+Use native description lists for the dates, duration, and word count.
 The wider left group holds the published date and its optional update line beside a
 purple rule. The right group holds Reading, the reading duration, and a quiet word
 count beside a neutral rule. Keep native Lumen `FormattedDate` output and the existing
@@ -1943,7 +1946,8 @@ Use 1.375rem main values, 0.75rem labels and secondary details, 1.5rem vertical 
 and column gaps, and 1.125rem inside each margin rule. Below 32rem, reduce main values
 to 1.25rem and the gap to 1rem. Below 20rem, use 1.125rem values and a 0.75rem gap.
 Keep both groups beside each other on phones; below 16rem of available width, stack
-them so enlarged text remains readable. This passive composition adds no client JavaScript.
+them so enlarged text remains readable. The shared Reading utility provides the
+progressively enhanced print action beside the word count.
 
 ### Margin topics article links
 
