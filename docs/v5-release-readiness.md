@@ -1087,3 +1087,26 @@ assembly, and CV freshness check passed without regeneration. Matched series
 and standalone utility captures cover 390/1440px in both themes; Medium utility
 and hover states were also reviewed after integration. All four retained source
 files match exactly, and published changelog entries remain unchanged.
+
+## Arrow render-fixture correction
+
+The source author's canonical gate exposed an isolated render-fixture failure
+after shared arrows were added to webmentions. Focused source `ce7ec044`, based
+on `40d1228c`, imports Icon through Lumen's existing public component export and
+copies the actual ArrowExchange into the isolated Astro fixture with an explicit
+alias. Its safety, Unicode, date, and avatar-fetch assertions remain; a new
+assertion checks the decorative arrow. Product markup, styling, and motion are
+unchanged.
+
+Both affected render tests passed on the combined release, in America/Bogota
+and Asia/Tokyo, alongside zero-warning lint for the two changed source files.
+The production rebuild and 452-page OG audit passed, and archives were assembled.
+The initial CV freshness check correctly rejected the changed dependency
+fingerprint; the documented generator refreshed both PDFs and their metadata.
+The subsequent freshness check passed, and all five rendered resume pages were
+pixel-identical to the preceding candidate.
+
+The preceding Print shortcut integration retains its 70-case affected browser
+validation. This import-only correction does not repeat that suite. The source
+author will run the canonical workspace gate against the completed combined
+commit; its result is recorded separately when available.
