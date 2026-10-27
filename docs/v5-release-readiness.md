@@ -638,3 +638,25 @@ Affected lint passed with zero warnings. The current production build, 452-page
 OG audit, archive assembly, and PDF freshness check passed without regenerating
 the PDFs. Published changelog entries remain unchanged. This iteration uses
 scoped checks; the complete workspace gate remains recorded at `16b66665`.
+
+## Article Checklist ledger follow-up
+
+Approved source `8cad698e`, based on `abff330f`, reuses the project ledger composer
+for labeled article lists inside checklist sections. Every transformed item must
+have a bold label and an explanation. Ordinary lists, plain or mixed checklists,
+nested lists, and component content keep their existing composition. Native list
+numbering, authored punctuation, links, code, paragraphs, and project behavior
+remain intact. The patch note is folded into 5.0.0; no runtime was added.
+
+All 19 affected unit tests and 46 Chromium/WebKit article and project cases passed
+with retries disabled. The browser checks cover narrow and wide layouts, both
+themes, normal and 200% text, native semantics, keyboard focus, and no-JavaScript
+content. Four matched mobile/desktop captures in both themes passed scoped
+accessibility scans with no violations or horizontal overflow and were reviewed
+against the preceding rendering.
+
+Affected lint passed with zero warnings. The production build started with
+content-cache cleanup, passed its 452-page OG audit, and assembled all four
+archives. Both resume PDFs were regenerated for the shared prose stylesheet and
+passed freshness checks. Published changelog entries remain unchanged. This
+iteration uses scoped checks; the full workspace gate remains `16b66665`.

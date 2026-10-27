@@ -642,8 +642,12 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
 - Project prose lists use Ownership ledger. `rehype-project-ledger.ts` separates an authored
   leading `strong` from its explanation at build time, preserving links, code, nested lists,
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
-  this composition; native list semantics remain intact without client JavaScript. Root lists
+  the project composition; native list semantics remain intact without client JavaScript. Root lists
   use neutral dividers and purple lead rules, with a single column when reading space is narrow.
+- Article **Checklist ledger** reuses the project ledger composer and shared prose styles.
+  `rehype-article-checklists.ts` applies it only to labeled lists inside checklist sections;
+  ordinary article lists retain List rhythm. Native numbering, authored content, nested lists,
+  and paragraph structure remain intact, with no component runtime or new dependency.
 - `PostHero` uses Reading imprint for article publication details: two native description
   lists group the published and optional updated dates beside reading time and word count.
   The existing `FormattedDate` wrapper preserves Lumen's native `time` output. Site-owned

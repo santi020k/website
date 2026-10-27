@@ -653,6 +653,61 @@
     outline: 2px solid hsl(var(--accent));
     outline-offset: 4px;
   }
+  & :is([data-project-ledger], [data-checklist-ledger]) {
+    container: prose-ledger / inline-size;
+    margin-block: 1.5rem;
+    padding: 0;
+    border-block: 1px solid hsl(var(--line));
+  }
+  & ul:is([data-project-ledger], [data-checklist-ledger]) { list-style: none; }
+  & ol:is([data-project-ledger], [data-checklist-ledger]) { padding-inline-start: 1.5rem; list-style: decimal; }
+  & :is([data-project-ledger], [data-checklist-ledger]) > li { margin: 0; padding: 1.625rem 0; }
+  & :is([data-project-ledger], [data-checklist-ledger]) > li + li { border-top: 1px solid hsl(var(--line)); }
+  & :is([data-project-ledger-row], [data-checklist-ledger-row]) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.125rem; }
+  & :is([data-project-ledger-split], [data-checklist-ledger-split]) { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 2rem; }
+  & :is([data-project-ledger-lead], [data-checklist-ledger-lead]) {
+    min-width: 0;
+    border-inline-start: 3px solid hsl(var(--brand));
+    padding-inline-start: 1.125rem;
+    color: hsl(var(--ink));
+    font-size: 1.125rem;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  & :is([data-project-ledger-lead], [data-checklist-ledger-lead]) > strong { color: inherit; font-weight: inherit; }
+  & :is([data-project-ledger], [data-checklist-ledger]) :is(a, code) { @apply dark:text-accent; }
+  @variant dark {
+    & :is([data-project-ledger-lead], [data-checklist-ledger-lead]) { border-inline-start-color: hsl(var(--accent)); }
+    & [data-checklist-ledger] > li::marker { color: hsl(var(--accent)); }
+  }
+  & :is([data-project-ledger-detail], [data-checklist-ledger-detail]) { min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.733; }
+  & :is([data-project-ledger], [data-checklist-ledger]) :is([data-project-ledger-detail], [data-checklist-ledger-detail]) > p { margin: 0; color: inherit; font-size: inherit; line-height: inherit; }
+  & :is([data-project-ledger-detail], [data-checklist-ledger-detail]) > p + p { margin-top: 1rem; }
+  @container prose-ledger (width < 32.5rem) {
+    & :is([data-project-ledger-split], [data-checklist-ledger-split]) { grid-template-columns: minmax(0, 1fr); gap: 1.125rem; }
+    & :is([data-project-ledger-split], [data-checklist-ledger-split]) > :is([data-project-ledger-detail], [data-checklist-ledger-detail]) { padding-inline-start: calc(1.125rem + 3px); }
+  }
+  @container prose-ledger (width < 18rem) {
+    & :is([data-project-ledger-lead], [data-checklist-ledger-lead]) { padding-inline-start: 0.375rem; }
+    & :is([data-project-ledger-split], [data-checklist-ledger-split]) > :is([data-project-ledger-detail], [data-checklist-ledger-detail]) { padding-inline-start: calc(0.375rem + 3px); }
+  }
+
+  /* Checklist ledger keeps the shared composition with a smaller article label column. */
+  & [data-checklist-ledger] > li { padding: 1.4375rem 0 1.4375rem 0.5rem; }
+  & [data-checklist-ledger-split] { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.7fr); gap: 1.75rem; }
+  & [data-checklist-ledger-lead] { align-self: start; padding-inline-start: 1rem; }
+  & [data-checklist-ledger-detail] { font-size: 1rem; line-height: 1.7; }
+  @container prose-ledger (width < 32.5rem) {
+    & [data-checklist-ledger] > li { padding-block: 1.25rem; }
+    & [data-checklist-ledger-split] { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
+    & [data-checklist-ledger-split] > [data-checklist-ledger-detail] { padding-inline-start: calc(1rem + 3px); }
+  }
+  @container prose-ledger (width < 18rem) {
+    & [data-checklist-ledger-lead] { padding-inline-start: 0.375rem; }
+    & [data-checklist-ledger-split] > [data-checklist-ledger-detail] { padding-inline-start: calc(0.375rem + 3px); }
+  }
+
   @apply prose-hr:border-line prose-hr:my-16;
 }
 
@@ -682,45 +737,6 @@
 
   & p:first-of-type {
     @apply max-w-3xl text-lg/8 text-ink;
-  }
-
-  & [data-project-ledger] {
-    container: project-ledger / inline-size;
-    margin-block: 1.5rem;
-    padding: 0;
-    border-block: 1px solid hsl(var(--line));
-  }
-  & ul[data-project-ledger] { list-style: none; }
-  & ol[data-project-ledger] { padding-inline-start: 1.5rem; list-style: decimal; }
-  & [data-project-ledger] > li { margin: 0; padding: 1.625rem 0; }
-  & [data-project-ledger] > li + li { border-top: 1px solid hsl(var(--line)); }
-  & [data-project-ledger-row] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.125rem; }
-  & [data-project-ledger-split] { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 2rem; }
-  & [data-project-ledger-lead] {
-    min-width: 0;
-    border-inline-start: 3px solid hsl(var(--brand));
-    padding-inline-start: 1.125rem;
-    color: hsl(var(--ink));
-    font-size: 1.125rem;
-    line-height: 1.5;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-  }
-  & [data-project-ledger-lead] > strong { color: inherit; font-weight: inherit; }
-  & [data-project-ledger] :is(a, code) { @apply dark:text-accent; }
-  @variant dark {
-    & [data-project-ledger-lead] { border-inline-start-color: hsl(var(--accent)); }
-  }
-  & [data-project-ledger-detail] { min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.733; }
-  & [data-project-ledger-detail] > p { margin: 0; color: inherit; font-size: inherit; line-height: inherit; }
-  & [data-project-ledger-detail] > p + p { margin-top: 1rem; }
-  @container project-ledger (width < 32.5rem) {
-    & [data-project-ledger-split] { grid-template-columns: minmax(0, 1fr); gap: 1.125rem; }
-    & [data-project-ledger-split] > [data-project-ledger-detail] { padding-inline-start: calc(1.125rem + 3px); }
-  }
-  @container project-ledger (width < 18rem) {
-    & [data-project-ledger-lead] { padding-inline-start: 0.375rem; }
-    & [data-project-ledger-split] > [data-project-ledger-detail] { padding-inline-start: calc(0.375rem + 3px); }
   }
 
   & p + ul,

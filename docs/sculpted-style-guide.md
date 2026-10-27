@@ -1816,6 +1816,22 @@ Keep Reading measure, native markers, numbering, authored links and emphasis,
 and the existing list spacing and indentation rules. Preserve list markup and
 embedded component layouts without a transform or client script.
 
+### Checklist ledger
+
+Labeled article checklists reuse Ownership ledger's build-time composition and shared
+prose styles. Apply only to direct Markdown lists within a heading containing
+“checklist” or “checklists”, including its subsections, where every item begins with
+a bold label followed by an explanation. Keep ordinary lists, plain checklists,
+component content, and nested lists in List rhythm.
+
+Retain native ordered numbering and all authored punctuation, links, code, and
+paragraphs. Pair a narrow label column with a wider explanation, fine horizontal
+rules, and a purple margin rail. Explanations use 1rem text with a 1.7 line height;
+labels use 1.125rem medium text. Below 32.5rem of list width, stack the explanation
+beneath its label and align it with the rail's inner edge. At enlarged text sizes,
+the same container breakpoint preserves comfortable reading space. This adds no
+card surface, checkbox state, or client JavaScript.
+
 ### Reading imprint article publication details
 
 Article headers group two native description lists between fine horizontal rules.
