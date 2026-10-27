@@ -30,6 +30,7 @@ const {
     variant === 'secondary' && 'btn-secondary',
     variant === 'ghost' && 'btn-ghost',
     variant === 'inline' && 'btn-inline',
+    showArrow && variant !== 'inline' && 'site-action-aligned',
     className
   ]}
   data-text-link={variant === 'inline' ? '' : undefined}
@@ -37,7 +38,9 @@ const {
   newTab={newTab}
   variant="unstyled"
 >
-  {variant === 'inline' ? <span data-text-link-label><slot /></span> : <slot />}
+  {variant === 'inline' || showArrow ?
+    <span data-text-link-label={variant === 'inline' ? '' : undefined}><slot /></span> :
+    <slot />}
   {showArrow && (
     <span aria-hidden="true" class="site-action-arrow">
       <ArrowExchange direction={newTab ? 'up-right' : 'right'} size="sm" />
