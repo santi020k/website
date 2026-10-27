@@ -41,6 +41,13 @@ const postCount = (await getCachedPosts()).length
 const highlights = speakingHighlights.map(h => h.label === 'Published writing' ? { ...h, value: String(postCount) } : h)
 const communityWork = (await getCachedProjects()).find(project => project.data.typesId === 'community')
 
+const speakingChapters = [
+  { id: 'speaking-topics', label: 'Topics' },
+  { id: 'speaking-formats', label: 'Formats' },
+  { id: 'speaking-history', label: 'History' },
+  ...(communityWork ? [{ id: 'speaking-community', label: 'Community' }] : [])
+]
+
 const description =
   'Talks, workshops, and community work around developer experience, technical leadership, frontend architecture, and practical knowledge sharing.'
 
@@ -143,10 +150,30 @@ mainClass="remaining-pages"
     ))}
   </StatsGrid>
 
+  <div class="section-container-wide" data-speaking-guide-container>
+    <nav id="speaking-guide" aria-labelledby="speaking-guide-label" data-speaking-guide>
+      <p id="speaking-guide-label">Explore speaking</p>
+      <ol role="list">
+        {speakingChapters.map(({ id, label }, index) => (
+          <li>
+            <Link href={`#${id}`} variant="inherit">
+              <span data-speaking-guide-copy>
+                <span aria-hidden="true" data-speaking-guide-number>{String(index + 1).padStart(2, '0')}</span>
+                <span>{label}</span>
+              </span>
+              <Icon data-speaking-guide-arrow name="arrow-down-right" size="sm" />
+            </Link>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </div>
+
   <PageSection>
     <SectionHeader
       description="Each topic draws on real project experience — architecture choices made under constraint, delivery problems solved in production, and team dynamics at different scales."
       eyebrow="Topics"
+      id="speaking-topics"
       title="What I speak about."
     />
     <RevealGroup
@@ -174,6 +201,7 @@ mainClass="remaining-pages"
     <SectionHeader
       description="Different formats fit different goals. Pick the one that matches your audience and the outcome you want from the session."
       eyebrow="Formats"
+      id="speaking-formats"
       title="Available formats."
     />
     <RevealGroup
@@ -201,6 +229,7 @@ mainClass="remaining-pages"
     <SectionHeader
       description="Every session I can recover so far, combining public event records with clearly labeled private and reconstructed talks from earlier in my career."
       eyebrow="Speaking history"
+      id="speaking-history"
       title="The talks, in one timeline."
     />
     <SpeakingTimeline talks={talks} />
@@ -211,6 +240,7 @@ mainClass="remaining-pages"
       <SectionHeader
         description="Since 2017, I’ve helped create free events, practical learning opportunities, and a more connected local React ecosystem."
         eyebrow="Community"
+        id="speaking-community"
         title="ReactJS Colombia."
       />
 
@@ -320,6 +350,24 @@ class="size-6.5"
 </PageLayout>
 
 <style>
+  [data-speaking-guide-container] { container: speaking-guide / inline-size; }
+  [data-speaking-guide] { --guide-accent: var(--brand); margin-top: 2.5rem; }
+  :global(:root[data-theme='dark']) [data-speaking-guide] { --guide-accent: var(--accent); }
+  [data-speaking-guide] > p { color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.8; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-speaking-guide] ol { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin: 1rem 0 0; padding: 0; border-bottom: 1px solid hsl(var(--line)); list-style: none; }
+  [data-speaking-guide] li { min-width: 0; }
+  [data-speaking-guide] :global(a) { display: flex; align-items: center; justify-content: space-between; gap: 0.625rem; min-height: 4.25rem; padding: 0.875rem 1.25rem 0.875rem 0; border-top: 1px solid hsl(var(--line)); color: hsl(var(--ink)); font-size: 0.8125rem; font-weight: 500; line-height: 1.8; text-decoration: none; }
+  [data-speaking-guide-copy] { display: flex; align-items: center; gap: 0.625rem; min-width: 0; }
+  [data-speaking-guide-copy] > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+  [data-speaking-guide-number] { color: hsl(var(--guide-accent)); font-size: 0.6875rem; font-weight: 400; }
+  [data-speaking-guide] :global([data-speaking-guide-arrow]) { flex-shrink: 0; color: hsl(var(--guide-accent)); }
+  [data-speaking-guide] :global(a:hover) { color: hsl(var(--guide-accent)); text-decoration: underline; text-underline-offset: 0.25rem; }
+  [data-speaking-guide] :global(a:focus-visible) { outline: 2px solid hsl(var(--guide-accent)); outline-offset: 0.25rem; }
+  @container speaking-guide (width < 36rem) {
+    [data-speaking-guide] ol { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); }
+    [data-speaking-guide] :global(a) { min-height: 3rem; padding: 0.625rem 0; }
+  }
+
   [data-community-dossier][data-slot='card'] {
     padding: 0;
     border: 1px solid hsl(var(--line));

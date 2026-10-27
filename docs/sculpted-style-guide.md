@@ -788,6 +788,17 @@ into its own row below the photograph so enlarged text cannot cover the face.
 Retain eager image loading, descriptive alternative text, and the hero's existing
 responsive column layout. This profile stays passive and requires no client script.
 
+### Chapter guide Speaking navigation
+
+Place the open **Chapter guide** below the statistics and before Topics. “Explore
+speaking” labels four numbered native links: Topics, Formats, History, and
+Community. Each link pairs its decorative index with the section name and a
+down-right arrow between fine horizontal rules. Use the existing Lumen Link
+and theme accent, with visible keyboard focus and no client controller. Four
+desktop columns become full-width, 3rem-high rows below 36rem of container width.
+Only include Community when its section exists. Keep the section introductions,
+all approved cards, and the separate hero invitation to the booking brief intact.
+
 ### Session folio speaking history
 
 Use Lumen Timeline with native list items and individual unstyled Lumen Cards. Keep
