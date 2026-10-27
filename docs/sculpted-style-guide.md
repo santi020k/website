@@ -809,6 +809,14 @@ Preserve qualified date ranges for private and reconstructed entries, without in
 exact dates or resources. Below 32.5rem, move the date above the card. At enlarged text
 sizes, reduce insets before compromising readable titles or evidence labels.
 
+Use **Resource captions** below the topic list in each session's tinted footer.
+A fine rule introduces only the resources present in the entry: Event / “View
+record”, Slides / “Open deck”, and Recording / “Watch talk”. Use Lumen Link with
+protected new tabs, a decorative accent arrow, visible focus, and 44px targets.
+Available resources share equal columns; below 32.5rem, stack them into ruled
+rows. Entries without public resources keep only their topic list. Preserve
+every existing resource URL and all session content, dates, and evidence labels.
+
 ### Community dossier speaking card
 
 The ReactJS Colombia card pairs a tinted role-and-title cover with the complete
