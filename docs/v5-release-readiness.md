@@ -755,3 +755,28 @@ assembly, and regenerated PDF freshness checks passed. Published changelog entri
 remain unchanged. The installed Chrome application timed out launching, so these
 checks used the already-installed Playwright Chromium 153 and WebKit. The complete
 workspace gate remains `3d0f6bb5`; this interaction follow-up uses scoped checks.
+
+## Article Natural headings follow-up
+
+Approved source `1817b206`, based on `391733d0`, removes the decorative heading
+rule below 32rem of article prose width and uses manual hyphenation. Ordinary
+words now remain whole where space allows; emergency wrapping still accommodates
+long tokens. Desktop typography and its trailing rule remain intact, as do authored
+text, fragments, native contents navigation, and the existing 44px copy controls.
+Code example headers retain their existing design. The patch note is folded into
+5.0.0; no controller or dependency was added.
+
+All 32 affected Chromium/WebKit heading and section-reference cases passed with
+retries disabled, including normal and enlarged text, both themes, clipboard
+success and failure, page transitions, formatted headings, MDX, and no-JavaScript
+navigation. Twelve rendered checks covered both engines at 320, 390, and 1440px in
+both themes, with no scoped accessibility violations or horizontal overflow.
+Matched mobile and desktop heading captures were reviewed against the preceding
+release; the desktop rendering is retained and mobile words no longer split merely
+to reserve room for the decorative rule.
+
+Affected zero-warning lint and documentation spelling passed. The production
+build, 452-page OG audit, archive assembly, and regenerated PDF freshness checks
+passed. Published changelog entries remain unchanged. The preceding footer
+integration also passed the canonical current-site lint command; the latest full
+workspace gate remains `3d0f6bb5`.

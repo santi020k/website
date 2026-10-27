@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Give article section headings more room on mobile by removing their short decorative rule and avoiding automatic word hyphenation, while preserving the desktop style and section copy controls.
+
 - Add Sculpted lift hover and keyboard feedback to the shared footer invitation, with stationary reduced-motion feedback and unchanged content, destinations, and resting layout.
 
 - Clarify Speaking history resources with event, slides, and recording captions while preserving every existing destination and protected new-tab behavior.

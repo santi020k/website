@@ -429,7 +429,9 @@ enlarged text sizes. No new client controller is introduced.
 - `rehypeArticleHeadings` applies Section cadence to current article body h2 elements at
   build time. Native headings, generated fragments, and inline links remain intact;
   a span keeps formatted titles together beside a CSS rule. The article prose container
-  adapts the typography and rule spacing. `ArticleSectionReferences` adds Section reference
+  adapts the typography and rule spacing. Natural headings removes the decorative rule
+  below 32rem of prose width and uses manual hyphenation so mobile titles have room for
+  whole words beside the existing copy control. `ArticleSectionReferences` adds Section reference
   by moving server-rendered Lumen `CopyButton` controls beside these headings. It uses the
   local article URL and existing fragments, including syndicated posts. Controls remain
   hidden without JavaScript; native headings and contents links still work. The shared
