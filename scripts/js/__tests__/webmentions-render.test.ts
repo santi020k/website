@@ -64,6 +64,7 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('normalizes reader names and renders
     symlinkSync(join(projectRoot, 'node_modules'), join(root, 'node_modules'), 'dir')
     mkdirSync(join(root, 'src/pages'), { recursive: true })
     copyFileSync(join(projectRoot, 'src/components/molecules/WebmentionsSection.astro'), join(root, 'src/WebmentionsSection.astro'))
+    copyFileSync(join(projectRoot, 'src/components/atoms/ArrowExchange.astro'), join(root, 'src/ArrowExchange.astro'))
     writeFileSync(join(root, 'src/pages/index.astro'), [
       '---',
       'import WebmentionsSection from \'../WebmentionsSection.astro\'',
@@ -104,7 +105,15 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('normalizes reader names and renders
       cacheDir: join(root, 'cache'),
       configFile: relative(root, join(projectRoot, 'astro.config.ts')),
       logLevel: 'silent',
-      vite: { cacheDir: join(root, 'vite-cache'), resolve: { alias: { '@': join(projectRoot, 'src') } } }
+      vite: {
+        cacheDir: join(root, 'vite-cache'),
+        resolve: {
+          alias: {
+            '@/components/atoms/ArrowExchange.astro': join(root, 'src/ArrowExchange.astro'),
+            '@': join(projectRoot, 'src')
+          }
+        }
+      }
     }
     // Astro keeps prerender output inside outDir only when it sits under process.cwd().
     const result = spawnSync(process.execPath, [
@@ -166,7 +175,10 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('normalizes reader names and renders
     expect.soft(renderedReplies).toEqual(replyCases.map(reply => reply.expected))
     expect(renderedReplies.every(text => text.length <= 2000)).toBe(true)
     expect(replyItems).toHaveLength(replyCases.length)
-    for (const item of replyItems) expect(item.querySelector('[data-webmention-source]')?.textContent).toContain('View original')
+    for (const item of replyItems) {
+      expect(item.querySelector('[data-webmention-source]')?.textContent).toContain('View original')
+      expect(item.querySelector('[data-webmention-source] [data-arrow-exchange]')?.getAttribute('aria-hidden')).toBe('true')
+    }
     expect.soft(dom.querySelector('#summary [data-webmention-copy]')?.textContent).toBe('a'.repeat(1998))
     expect(dom.querySelectorAll('#bounded-replies script')).toHaveLength(0)
     expect.soft([...dom.querySelectorAll('#dates [data-webmention-item]')].map(reply => reply.querySelector('time')?.getAttribute('datetime') ?? null))
