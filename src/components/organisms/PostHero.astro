@@ -12,6 +12,7 @@ import CoverSpread from '@/components/molecules/CoverSpread.astro'
 import { getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingStats } from '@/utils/reading-time'
+import { getBlogTopicLabel } from '@/utils/tags'
 
 import { Breadcrumb, Icon, Link } from '@santi020k/lumen-astro'
 
@@ -35,7 +36,7 @@ const coverAspectRatio = post.data.coverImage ?
 
 const useWideCoverFrame = coverAspectRatio > 1.08
 // Use the first tag as an editorial eyebrow label, fallback to "Article"
-const eyebrowLabel = tags[0] ?? 'Article'
+const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : 'Article'
 
 ---
 
@@ -187,7 +188,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
             {tags.map(tag => (
               <li>
                 <Link href={getTagPath(tag)} variant="inherit" data-topic-link>
-                  <span data-topic-label>{tag}</span>
+                  <span data-topic-label>{getBlogTopicLabel(tag)}</span>
                   <ArrowExchange direction="up-right" class="size-3.5 shrink-0" />
                 </Link>
               </li>
