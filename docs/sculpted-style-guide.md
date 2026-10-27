@@ -1329,6 +1329,20 @@ Show the desktop rail only when the reading layout has both a 64rem viewport and
 keyboard and assistive technology. Preserve no-JavaScript navigation, enlarged-text
 reflow, and omission when no eligible headings exist.
 
+### Connected opening article spacing
+
+Below 40rem of available article width, connect the publication details, Topics,
+series byline, contents opener, and lead with a tighter vertical rhythm. Use a
+1.5rem gap from publication details to Topics and preserve the existing 1.5rem gap
+before the series byline. Use 1.75rem from the hero to the reading body and from
+the mobile contents opener to the prose.
+
+Keep the existing spacing at wider container sizes. This is article composition:
+reuse the shared navigation and hero components, retain their internal spacing,
+and leave project layouts unchanged. Use rem-based container queries so enlarged
+text receives the same narrow-layout treatment. Articles without eligible
+headings omit the opener and its trailing gap entirely.
+
 ### Margin chapters case study summaries
 
 Case study summaries use one opaque Lumen Card with asymmetric corners and a small

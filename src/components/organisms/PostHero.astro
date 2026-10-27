@@ -233,6 +233,12 @@ const eyebrowLabel = tags[0] ?? 'Article'
 
   [data-article-opening] > :has(+ [data-reading-actions]) { margin-block-end: 1.5rem; }
 
+  @container article-opening (width < 40rem) {
+    [data-editorial-meta-group]:has(+ [data-article-topics-container]) {
+      margin-block-end: 1.5rem;
+    }
+  }
+
   [data-series-byline] {
     display: flex;
     align-items: center;
