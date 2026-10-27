@@ -2345,6 +2345,18 @@ Preserve the complete invitation copy, contact values from `siteConfig`, native 
 visible keyboard focus. Identify WhatsApp in the action so visitors know where it leads.
 The compact footer on policy and recovery pages retains its directory without a contact pitch.
 
+Use **Sculpted lift** for the invitation's contact interactions. Keep the WhatsApp
+tile's ink surface while lifting it 3px up and left; its backing sheet shifts 3px
+right and gains a stronger accent tint. Move the decorative arrow 4px outward.
+The email link gains a fine accent underline and a 3px outward arrow movement.
+Apply the same treatment on keyboard focus, retain the focus outline, and reserve
+space around both arrows. Use 220ms transitions without changing the resting
+layout. With reduced motion, keep the links and arrows still, show a stationary
+inset highlight on the tile, and reveal the email underline immediately.
+Keep the original right and bottom edges clickable during the lift with a transparent
+4px extension, accounting for the 3px movement and 1px border. This prevents the
+moving tile from dropping hover beneath a stationary pointer.
+
 Use the `footer` container to stack the invitation below 48rem and place the contact options
 in one column below 32rem. The large desktop action becomes a horizontal contact strip on
 smaller screens. Reduce the heading scale below 21rem and 16rem; omit its decorative arrow

@@ -42,12 +42,17 @@ const activePath = [...navLinks, ...resourceLinks]
           <p class="maker-footer-description">Tell me about an engineering role, a product collaboration, or a speaking invitation.</p>
         </div>
         <div class="maker-footer-contact">
-          <ButtonLink class="maker-footer-action" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
-            <Icon name="arrow-up-right" class="maker-footer-action-arrow" />
-            <span class="maker-footer-action-copy"><span>Let’s talk</span><span>Start a conversation on WhatsApp</span></span>
-          </ButtonLink>
+          <div class="maker-footer-action-sheet">
+            <ButtonLink class="maker-footer-action" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+              <Icon name="arrow-up-right" class="maker-footer-action-arrow" />
+              <span class="maker-footer-action-copy"><span>Let’s talk</span><span>Start a conversation on WhatsApp</span></span>
+            </ButtonLink>
+          </div>
           <a class="maker-footer-email" href={`mailto:${siteConfig.contact.email}`}>
-            <span><span>Prefer email?</span><span>{siteConfig.contact.email}</span></span><Icon name="arrow-up-right" />
+            <span><span>Prefer email?</span><span>{siteConfig.contact.email}</span></span><Icon
+class="maker-footer-email-arrow"
+name="arrow-up-right"
+                                                                                          />
           </a>
         </div>
       </section>

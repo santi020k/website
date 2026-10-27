@@ -730,3 +730,28 @@ Published changelog entries remain unchanged. The complete workspace gate was
 refreshed by the preceding reliability integration at `3d0f6bb5`, with 958 unit
 tests, 126 browser checks, and seven motion checks recorded in its validation
 report. This visual follow-up uses the affected checks above.
+
+## Footer Sculpted lift follow-up
+
+Approved source `c580a6da`, based on `391733d0`, adds Sculpted lift feedback to
+the existing footer invitation. The WhatsApp tile and its backing sheet move
+independently; the email link gains an accent underline. Keyboard focus receives
+the same feedback, and reduced motion keeps the links and arrows stationary.
+Content, destinations, protected new tabs, and resting layout remain intact.
+The patch note is folded into 5.0.0.
+
+Integration adds a transparent 4px extension to preserve the original right and
+bottom hit areas during the 3px lift, including the 1px border. Both browsers
+reproduced missed edge hits without the fix and retained hover for 90 frames with
+it. The regression test covers both original edges. All 16 affected Chromium and
+WebKit footer cases passed; two initial Chromium accessibility scans timed out
+during concurrent validation and passed unchanged on a serial rerun in 5.6s.
+No-JavaScript destinations and keyboard focus passed in both engines. Eight matched
+mobile/desktop rest and hover captures in both themes preserved content, links,
+and resting geometry without overflow; representative pairs were visually reviewed.
+
+Affected zero-warning lint, the production build, 452-page OG audit, archive
+assembly, and regenerated PDF freshness checks passed. Published changelog entries
+remain unchanged. The installed Chrome application timed out launching, so these
+checks used the already-installed Playwright Chromium 153 and WebKit. The complete
+workspace gate remains `3d0f6bb5`; this interaction follow-up uses scoped checks.

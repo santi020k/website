@@ -71,6 +71,71 @@ test('compact footer keeps the directory and legal links without a repeated cont
   await expect(footer.locator('a[aria-current="page"]')).toHaveText('Privacy')
 })
 
+for (const theme of ['light', 'dark'] as const) {
+  test(`Sculpted lift preserves the footer layout and supports keyboard and reduced motion in ${theme}`, async ({ page, browserName }) => {
+    await page.addInitScript(value => {
+      localStorage.setItem('theme', value)
+    }, theme)
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'no-preference' })
+    await page.goto('/speaking/')
+    const invitation = page.locator('.maker-footer-invitation')
+    const action = invitation.locator('.maker-footer-action')
+    const sheet = invitation.locator('.maker-footer-action-sheet')
+    const email = invitation.locator('.maker-footer-email')
+    const arrow = action.locator('.maker-footer-action-arrow')
+
+    await invitation.scrollIntoViewIfNeeded()
+    const restingLayout = await sheet.boundingBox()
+    const restingSurface = await action.evaluate(element => getComputedStyle(element).backgroundColor)
+    await action.hover()
+    await expect(action).toHaveCSS('transform', 'matrix(1, 0, 0, 1, -3, -3)')
+    await expect(arrow).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 4, -4)')
+    await expect(action).toHaveCSS('background-color', restingSurface)
+    expect(await sheet.boundingBox()).toEqual(restingLayout)
+    const originalEdgesRemainClickable = await action.evaluate(element => {
+      const sheet = element.closest('.maker-footer-action-sheet')
+      if (!sheet) throw new Error('Missing footer action sheet')
+      const bounds = sheet.getBoundingClientRect()
+      return [
+        { x: bounds.right - 1, y: bounds.top + bounds.height / 2 },
+        { x: bounds.left + bounds.width / 2, y: bounds.bottom - 1 }
+      ].map(point => document.elementFromPoint(point.x, point.y)?.closest('a') === element)
+    })
+    expect(originalEdgesRemainClickable).toEqual([true, true])
+    const arrowInset = await arrow.evaluate(element => {
+      const bounds = element.getBoundingClientRect()
+      const link = element.closest('a')?.getBoundingClientRect()
+
+      return link ? link.right - bounds.right : 0
+    })
+    expect(arrowInset).toBeGreaterThanOrEqual(8)
+
+    await invitation.getByRole('heading').hover()
+    await expect(action).toHaveCSS('transform', 'none')
+    await email.focus()
+    await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Shift+Tab' : 'Shift+Tab')
+    await expect(action).toBeFocused()
+    await expect(action).toHaveCSS('outline-style', 'solid')
+    await expect(action).toHaveCSS('transform', 'matrix(1, 0, 0, 1, -3, -3)')
+    await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+    await expect(email).toBeFocused()
+    await expect(email).toHaveCSS('outline-style', 'solid')
+    await expect.poll(() => email.evaluate(element => getComputedStyle(element, '::after').transform)).toBe('matrix(1, 0, 0, 1, 0, 0)')
+
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Shift+Tab' : 'Shift+Tab')
+    await expect(action).toBeFocused()
+    await expect(action).toHaveCSS('transform', 'none')
+    await expect(action).toHaveCSS('transition-property', 'none')
+    await expect(action).not.toHaveCSS('box-shadow', 'none')
+    await expect(arrow).toHaveCSS('transform', 'none')
+    await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+    await expect(email).toBeFocused()
+    await expect(email.locator('.maker-footer-email-arrow')).toHaveCSS('transform', 'none')
+    await expect.poll(() => email.evaluate(element => getComputedStyle(element, '::after').transitionProperty)).toBe('none')
+  })
+}
+
 for (const theme of ['light', 'dark']) {
   test(`footer has readable, accessible layouts in ${theme} mode`, async ({ page }) => {
     await page.addInitScript(value => {

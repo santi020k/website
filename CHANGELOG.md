@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Add Sculpted lift hover and keyboard feedback to the shared footer invitation, with stationary reduced-motion feedback and unchanged content, destinations, and resting layout.
+
 - Clarify Speaking history resources with event, slides, and recording captions while preserving every existing destination and protected new-tab behavior.
 
 - Recover from stalled comment widgets with a bounded loading state and the existing GitHub discussion link. Keep late widgets able to load, preserve theme updates, and clear pending deadlines during navigation.
