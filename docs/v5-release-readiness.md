@@ -1110,3 +1110,25 @@ The preceding Print shortcut integration retains its 70-case affected browser
 validation. This import-only correction does not repeat that suite. The source
 author will run the canonical workspace gate against the completed combined
 commit; its result is recorded separately when available.
+
+## Homepage project-index arrow follow-up
+
+Approved source `0b5b2b68`, based on `86c85298`, connects the remaining homepage
+All projects link to the shared right-facing 480ms arrow exchange. Its label,
+destination, dimensions, and underline styling remain unchanged. The existing
+arrow suite now covers this link's hover, focus, reduced motion, and touch
+navigation. The patch note is folded into unpublished 5.0.0.
+
+All 58 affected Chromium/WebKit arrow and home-hero cases passed together without
+retries. Focused lint passed with zero warnings; the production build, 452-page
+OG audit, archive assembly, and CV freshness check passed without regeneration.
+Four matched 390/1440px homepage captures in both themes differ only within the
+changed icon's pixels; representative rendered results were reviewed. All three
+retained source files match exactly and published changelog entries are unchanged.
+
+The preceding combined candidate `86c85298` passed the canonical workspace gate:
+993 unit cases, seven motion checks, lint/types/docs/content/CV freshness, all
+five builds, 1,288 archive pages, and 1,740 documents / 8,131 local targets. This
+follow-up uses affected checks; its source author will run the next canonical
+gate on the completed combined integration. Reading utility remains queued
+pending its separate approved handoff.
