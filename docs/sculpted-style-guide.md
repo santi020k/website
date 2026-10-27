@@ -2146,7 +2146,8 @@ Keep native anchors for links wrapping a complete project or article.
 - Secondary action: plain text with a visible arrow and a generous hit area.
 - Navigation arrows use `ArrowExchange` across buttons, card and article links,
   footer actions, search results, pagination, and secondary page links: two
-  decorative Lumen icons on one continuous track.
+  decorative Lumen icons on one continuous track. The homepage’s “All projects”
+  index link uses a right-facing exchange instead of a static plus.
   Keep the existing icon size and direction, with a 480ms
   `cubic-bezier(0.25, 0.8, 0.25, 1)` exchange inside the arrow's footprint.
   Animate once on fine-pointer hover or keyboard focus; keep arrows still for
