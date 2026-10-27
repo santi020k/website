@@ -1464,8 +1464,11 @@ than repeating it. Margin preface remains available to other notes layouts.
 Article body sections use the same fine trailing rule with a 1.6875rem, weight-500 h2,
 1.4 line height, and −0.035em tracking. Leave 1.5rem between title and rule, 2.5rem
 before the section, and 1.5rem before its body. Below 32rem of prose width, use a
-1.5rem title, 1rem gap, and a 1.5rem minimum rule; below 14rem, reduce only the gap
-and rule to 0.75rem so enlarged text retains room to wrap.
+1.5rem title. **Natural headings** removes the trailing rule below that breakpoint,
+giving the title more space beside the existing 2.75rem copy control. Use manual
+hyphenation so ordinary words remain whole; keep emergency wrapping for unusually
+long tokens. Desktop retains its trailing rule and typography. This refinement
+changes no authored text, heading fragments, or clipboard behavior.
 
 Keep each native h2 and its fragment. `rehypeArticleHeadings` places the existing
 inline content in a span at build time so code, emphasis, and links remain in normal
