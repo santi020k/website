@@ -1749,6 +1749,19 @@ navigation ledgers, and imported components. Same-page jumps, image-only links,
 explicit URL labels, and non-web links need no extra note. The list and markers
 must work without JavaScript and disappear again after returning from print.
 
+Page imprint places a fine rule, the site name and article title, and real current /
+total page counters in the bottom margin of each printed sheet. Use the named
+`article` page only while an article is present, including after client navigation.
+Reserve 22mm below the text; use 8pt type, a quiet title, and a brand-colored count.
+Derive the running label from the authored title, normalize whitespace and shorten
+titles longer than 96 characters at a word boundary. The hero and source permalink
+retain the full title. Escape title content before placing it in a CSS string.
+Use native CSS page-margin boxes without a JavaScript paginator or fixed overlay;
+browsers without margin-box support retain the readable Print edition and its
+closing source line. Browser-supplied headers and footers are controlled separately
+in the print dialog. Verify actual A4 and Letter PDFs, page counts, both themes,
+long titles, and navigation away from an article.
+
 Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
 when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
 and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match
