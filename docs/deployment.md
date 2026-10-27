@@ -20,6 +20,7 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **X-Content-Type-Options**: `nosniff`
 - **`/_astro/*`** → 1 year `immutable`.
+- **`/v1/_astro/*` through `/v4/_astro/*`** → 1 year `immutable`, added by archive assembly.
 - **`/fonts/*`** and **`/og/manifest.json`** → browser revalidation.
 - **`/og/*.webp`** → 1 year `immutable`.
 - **`/sw.js`** → `Cache-Control: public, max-age=0, must-revalidate` so service worker updates propagate.
@@ -61,6 +62,18 @@ authorized deployment or host change, check the status and `Location` header for
 a 404 or a loop. Local Astro preview does not execute Cloudflare's redirect file.
 
 ## Release flow
+
+### Future-dated content
+
+`publishDate` is evaluated during the static build. Reaching that date does not
+change the deployed site by itself, and this repository does not configure a
+scheduled production rebuild. A future-dated post becomes eligible for the next
+authorized deployment after its publication time; it is not a publishing timer.
+Plan that deployment through the release flow below, then verify the article,
+its feed entry, and sitemap entry in production. Adding automatic deployment
+triggers or shared deploy-hook secrets requires separate authorization.
+
+### Reviewed deployment
 
 The site uses GitHub Flow and has one production branch:
 

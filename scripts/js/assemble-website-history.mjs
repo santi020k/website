@@ -2,7 +2,7 @@ import { constants } from 'node:fs'
 import { cp, readFile, rm, writeFile } from 'node:fs/promises'
 import { relative, resolve, sep } from 'node:path'
 
-import { archiveFiles } from '../../packages/website-history/finalize-archive.mjs'
+import { archiveFiles, archiveHeaderRules } from '../../packages/website-history/finalize-archive.mjs'
 import versions from '../../packages/website-history/versions.json' with { type: 'json' }
 
 const root = resolve(import.meta.dirname, '../..')
@@ -107,7 +107,7 @@ for (const version of versions) {
 
 const headersPath = resolve(currentDirectory, '_headers')
 const headers = (await readFile(headersPath, 'utf8')).split('# Website archives')[0]
-const archiveHeaders = versions.map(({ id }) => `\n/${id}\n  X-Robots-Tag: noindex, follow\n\n/${id}/*\n  X-Robots-Tag: noindex, follow\n`).join('')
+const archiveHeaders = versions.map(({ id }) => archiveHeaderRules(id)).join('')
 
 await writeFile(headersPath, headers + '# Website archives\n' + archiveHeaders)
 

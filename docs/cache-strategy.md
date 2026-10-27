@@ -9,6 +9,7 @@
 ## Route Policy
 
 - `/_astro/*` (hashed assets) and `/og/*.webp`: `max-age=31536000, immutable`
+- `/v1/_astro/*` through `/v4/_astro/*`: the same immutable policy for hashed archive assets
 - `/fonts/*` (stable filenames): `max-age=0, must-revalidate`; CORS remains enabled for Giscus
 - `/feed.xml`, `/feed.json`, `/search-index.json`, and `/sitemap*.xml`: browser revalidation,
   CDN `s-maxage=3600, stale-while-revalidate=86400`
@@ -16,7 +17,9 @@
   CDN `s-maxage=3600, stale-while-revalidate=86400`
 - `/pdf/cv.pdf`, `/pdf/cv-full.pdf`, `/og/manifest.json`, and `/sw.js`: browser revalidation
 
-`public/_headers` owns deployment cache policy. Static Astro endpoints cannot carry their runtime
+`public/_headers` owns current-site deployment cache policy. Archive assembly appends the
+rules from `archiveHeaderRules` in `packages/website-history/finalize-archive.mjs`.
+Static Astro endpoints cannot carry their runtime
 response headers into emitted files. Explicit root and trailing-slash patterns cover public page
 URLs without applying HTML cache policy to hashed assets. Cloudflare combines headers from every
 matching rule, so avoid overlapping Cache-Control values. See the

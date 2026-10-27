@@ -159,7 +159,7 @@ and existing Lumen contracts, rather than restoring retired utility layers.
 - **Product previews:** annotated application captures complement project artwork. Follow the
   [preview provenance guide](docs/editorial/project-previews.md) and
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.
-- **Search:** the header searches posts and projects; open it with `/`, ⌘K, or Ctrl+K.
+- **Search:** the header searches posts and projects; open it with ⌘K or Ctrl+K.
   If the index request stalls for 10 seconds, search offers a retry and preserves the current query.
   Its typed controller is bundled once and keeps a successfully fetched index, even an empty one,
   across page transitions until a full reload; a failed request retries on the next open.
@@ -257,7 +257,9 @@ SKIP_BUILD=1 pnpm run test:e2e:ci:stable tests/lumen-interactions.spec.ts --retr
 
 `pnpm run test:e2e:fast` reuses an existing build; browser-test scripts install Chromium when
 needed. Run `pnpm run build` first when verifying changed routes. Use `pnpm run lighthouse`
-for a local lab audit. Passing checks describe the revision tested; badges above describe their
+for a quick homepage lab audit. The full Lighthouse configuration also covers a long article
+with code examples and the Smith Commerce case study, alongside the main landing pages.
+Passing checks describe the revision tested; badges above describe their
 workflow runs and do not certify an unpublished release candidate.
 
 <details>

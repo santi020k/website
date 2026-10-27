@@ -3,7 +3,7 @@ import { expect, type Locator, type Page, test } from '@playwright/test'
 
 import { requireValue } from './helpers/assertions'
 
-for (const width of [320, 375, 390, 768, 1024, 1280, 1440]) {
+for (const width of [320, 375, 390, 768, 1024, 1088, 1200, 1280, 1440]) {
   for (const fontSize of ['16px', '20px', '32px']) {
     test(`header controls fit at ${width}px with ${fontSize} text`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
@@ -328,14 +328,50 @@ test('the labeled desktop search works by pointer and its advertised shortcut', 
 
   const search = page.getByRole('button', { name: 'Open site search' })
 
+  const hint = search.locator('kbd')
+
   await expect(search.locator('.site-header-search-label')).toBeVisible()
-  await expect(search.locator('kbd')).toHaveText('/')
+  await expect(search).toHaveAccessibleName('Open site search (Ctrl/⌘ K)')
+  await expect(search).toHaveAttribute('aria-keyshortcuts', 'Control+K Meta+K')
+  await expect(hint).toHaveText('Ctrl/⌘ K')
+
+  // The visible label and shortcut hint must both appear in the accessible name.
+  // axe ships this WCAG 2.5.3 rule as experimental, so enable it alongside the defaults.
+  const triggerAudit = await new AxeBuilder({ page })
+    .include('[data-site-search-trigger]')
+    .options({ rules: { 'label-content-name-mismatch': { enabled: true } } })
+    .analyze()
+
+  expect(triggerAudit.violations).toEqual([])
+
+  // The hint stays on one line inside the trigger, and the header does not overflow.
+  const hintBox = requireValue(await hint.boundingBox())
+  const searchBox = requireValue(await search.boundingBox())
+  const hintLines = await hint.evaluate(element => {
+    const range = document.createRange()
+
+    range.selectNodeContents(element)
+
+    return range.getClientRects().length
+  })
+
+  expect(hintLines).toBe(1)
+  expect(await hint.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true)
+  expect(hintBox.x).toBeGreaterThanOrEqual(searchBox.x)
+  expect(hintBox.x + hintBox.width).toBeLessThanOrEqual(searchBox.x + searchBox.width)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+
   await search.click()
   await expect(page.locator('#site-search-input')).toBeFocused()
   await page.keyboard.press('Escape')
   await expect(search).toBeFocused()
-  await page.keyboard.press('/')
-  await expect(page.locator('#site-search-input')).toBeFocused()
+
+  for (const shortcut of ['Control+k', 'Meta+k']) {
+    await page.keyboard.press(shortcut)
+    await expect(page.locator('#site-search-input')).toBeFocused()
+    await page.keyboard.press('Escape')
+    await expect(search).toBeFocused()
+  }
 })
 
 for (const theme of ['light', 'dark']) {

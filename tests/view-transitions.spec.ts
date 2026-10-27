@@ -268,8 +268,9 @@ test.describe('View transitions', () => {
     await page.locator('#transition-fragment-test').click()
 
     await expect(page).toHaveURL(/\/portfolio\/smith-commerce\/#technologies$/)
+    await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/u)
     await expect(page.locator('#technologies')).toBeInViewport()
-    await expect(page.locator('#main')).toBeFocused()
+    await expect(page.locator('#main')).not.toBeFocused()
   })
 
   test('keeps the topic filter in place while filtering blog posts', async ({ page }) => {

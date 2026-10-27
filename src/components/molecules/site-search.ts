@@ -915,7 +915,7 @@ const bindUi = () => {
   results.addEventListener('focusin', highlightResult)
 
   // Defer the search-index fetch until the user actually opens the modal
-  // (trigger click, Cmd/Ctrl+K, or '/'), or arrives with a `?q=` deep-link.
+  // (trigger click or Cmd/Ctrl+K), or arrives with a `?q=` deep-link.
   // This avoids a network + parse cost on every page navigation.
   const params = new URLSearchParams(window.location.search)
   const queryFromURL = params.get('q')
@@ -939,33 +939,19 @@ const onGlobalKeydown = (event: KeyboardEvent) => {
   const isOpen = dialog instanceof HTMLDialogElement && dialog.open
   const isClosing = isOpen && dialog.getAttribute('data-site-search-anim') === 'closing'
 
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-    if (!isOpen && isEditableTarget(event.target)) return
+  // Bare printable keys stay with the page, assistive tech, and browser find.
+  if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== 'k') return
 
-    event.preventDefault()
+  // A closing dialog may reopen from its own input.
+  if (!isOpen && isEditableTarget(event.target)) return
 
-    if (!isOpen || isClosing) {
-      openSearch()
-    }
+  event.preventDefault()
 
-    void loadIndex()
-
-    return
-  }
-
-  if (event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
-    if (isOpen && !isClosing) return
-
-    const isSearchTarget = event.target instanceof Node && dialog?.contains(event.target)
-
-    if (isEditableTarget(event.target) && !(isClosing && isSearchTarget)) return
-
-    event.preventDefault()
-
+  if (!isOpen || isClosing) {
     openSearch()
-
-    void loadIndex()
   }
+
+  void loadIndex()
 }
 
 /**
