@@ -805,3 +805,27 @@ Affected zero-warning lint, documentation spelling, the production build,
 452-page OG audit, archive assembly, and PDF freshness check passed. No PDF
 regeneration was needed. Published changelog entries remain unchanged. This
 follow-up uses affected checks; the latest full workspace gate remains `3d0f6bb5`.
+
+## Blog Reading paths follow-up
+
+Approved source `05f84625`, based on `d17f76af`, organizes the Blog opening around
+the primary writing action and two captioned native Lumen links for topics and
+series. Collection-derived counts remain visible. Supporting links form equal
+columns and stack below 26rem of intro width, with visible keyboard focus and
+reduced-motion support. The headline, description, latest feature, three routes,
+feed, and subsequent archive pages retain their existing content and behavior.
+The patch note is folded into 5.0.0; no controller or dependency was added.
+
+All 16 affected Chromium/WebKit cases passed with retries disabled. Coverage
+includes native keyboard navigation, no-JavaScript routes, 320/390/768/1440px
+layouts at normal and 200% text, reduced motion, the latest-preview/feed contract,
+and full-page light/dark accessibility scans. Eight matched responsive/theme
+captures preserved the exact headline, description, latest feature markup, and
+destinations; only generated Astro style identifiers were normalized for markup
+comparison. Representative mobile/desktop pairs were visually reviewed. The
+desktop feed screenshots were byte-identical before and after the change.
+
+Affected zero-warning lint, documentation spelling, the production build,
+452-page OG audit, archive assembly, and PDF freshness check passed without PDF
+regeneration. Published changelog entries remain unchanged. This follow-up uses
+affected checks; the latest full workspace gate remains `3d0f6bb5`.

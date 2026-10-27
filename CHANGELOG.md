@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Introduce Reading paths in the Blog opening, keeping the main writing action and pairing topic and series links with clear captions, responsive layouts, and keyboard focus.
+
 - Let readers collapse long article code examples from their bottom footer and return to the original opener, preserving complete-source copying and native disclosure behavior.
 
 - Give article section headings more room on mobile by removing their short decorative rule and avoiding automatic word hyphenation, while preserving the desktop style and section copy controls.

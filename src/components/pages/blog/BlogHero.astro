@@ -10,7 +10,7 @@ import { getPostPath } from '@/utils/links'
 import { getReadingTime } from '@/utils/reading-time'
 import { getResponsiveImageDimensions } from '@/utils/responsive-image'
 
-import { Card, Icon } from '@santi020k/lumen-astro'
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   latestPost: CollectionEntry<'post'> | null
@@ -28,7 +28,7 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
   data-blog-hero
 >
   <div data-blog-layout data-has-latest={Boolean(latestPost)}>
-    <div class="space-y-6">
+    <div class="space-y-6" data-blog-intro>
       <Eyebrow label="The personal blog" tone="brand" />
       <h1
         class="editorial-page-title"
@@ -44,24 +44,26 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
         Notes on software, reading, gaming, and everyday discoveries. What I’m building,
         what holds my attention, and what I learn along the way.
       </p>
-      <div class="section-actions">
+      <div data-blog-primary-path>
         <ButtonLink href="#posts" showArrow>Explore the writing</ButtonLink>
-        <ButtonLink href="/blog/tags/" showArrow variant="secondary">Browse topics</ButtonLink>
+        <p>{postCount} posts <span aria-hidden="true">·</span> Latest first</p>
       </div>
-      <div class="
-        flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line/45 pt-5
-        text-xs text-ink-soft
-      "
-      >
-        <span><strong class="font-medium text-ink">{postCount}</strong> posts</span>
-        <span><strong class="font-medium text-ink">{topicCount}</strong> topics</span>
-        <a
-          class="inline-flex min-h-11 items-center gap-2 font-medium text-brand"
-          href="/blog/series/"
-        >
-          Follow a series <Icon class="size-4" name="arrow-up-right" />
-        </a>
-      </div>
+      <nav aria-label="Choose how to read" data-blog-reading-paths>
+        <Link data-blog-path href="/blog/tags/" variant="inherit">
+          <span>
+            <span data-blog-path-caption>{topicCount} topics</span>
+            <span data-blog-path-title>Browse topics</span>
+          </span>
+          <Icon name="arrow-up-right" size="sm" />
+        </Link>
+        <Link data-blog-path href="/blog/series/" variant="inherit">
+          <span>
+            <span data-blog-path-caption>Connected posts</span>
+            <span data-blog-path-title>Follow a series</span>
+          </span>
+          <Icon name="arrow-up-right" size="sm" />
+        </Link>
+      </nav>
     </div>
     {latestPost && (
       <Card
@@ -120,6 +122,22 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
 <style>
   [data-blog-hero] { container: blog-hero / inline-size; }
   [data-blog-layout] { display: grid; gap: 2.5rem; }
+  [data-blog-intro] { --path-accent: var(--brand); container: blog-intro / inline-size; min-width: 0; }
+  :global(:root[data-theme='dark']) [data-blog-intro] { --path-accent: var(--accent); }
+  [data-blog-primary-path] { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
+  [data-blog-primary-path] p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
+  [data-blog-reading-paths] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; border-block: 1px solid hsl(var(--line)); }
+  [data-blog-path][data-slot='link'] { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; min-height: 5.875rem; padding-block: 1rem; color: hsl(var(--ink)); text-decoration: none; overflow-wrap: anywhere; }
+  [data-blog-path-caption] { display: block; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.8; letter-spacing: 0.06em; text-transform: uppercase; }
+  [data-blog-path-title] { display: block; margin-top: 0.4375rem; font-size: 1rem; font-weight: 500; line-height: 1.5; letter-spacing: -0.025em; transition: color 160ms ease; }
+  [data-blog-path] :global(svg) { color: hsl(var(--path-accent)); }
+  [data-blog-path]:is(:hover, :focus-visible) [data-blog-path-title] { color: hsl(var(--path-accent)); text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-blog-path]:focus-visible { outline: 2px solid hsl(var(--path-accent)); outline-offset: 4px; }
+  @container blog-intro (width < 26rem) {
+    [data-blog-reading-paths] { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    [data-blog-path] + [data-blog-path] { border-top: 1px solid hsl(var(--line)); }
+    [data-blog-path][data-slot='link'] { min-height: 5.5rem; }
+  }
   @container blog-hero (width >= 52rem) {
     [data-blog-layout][data-has-latest='true'] { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: center; gap: 3.5rem; }
   }
@@ -159,6 +177,7 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
     [data-latest-sheet] h2 { font-size: 1.0625rem; line-height: 1.4; }
   }
   @media (prefers-reduced-motion: reduce) {
+    [data-blog-path-title],
     [data-latest-sheet] h2 { transition: none; }
   }
 </style>
