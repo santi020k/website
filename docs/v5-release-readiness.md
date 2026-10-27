@@ -1260,3 +1260,33 @@ CV freshness, all five builds, 1,288 archive pages, and 1,740 documents / 8,131
 local targets with zero errors. Its log was independently inspected. This later
 label-only follow-up uses the affected checks above; no duplicate full gate is
 queued.
+
+## Topic archive naming continuity follow-up
+
+Approved source `3f2a4b04`, based on `c3276787`, carries shared readable topic names
+into archive hero/results headings, descriptions, SEO titles, breadcrumbs, and
+empty-state copy. The introduction uses the total post count and a concise topic
+description. Raw tags, active filtering, route generation, canonical URLs, and
+pagination remain unchanged. The shared PageHero keeps its All posts emphasis
+and compact later-page layout. The Changeset is folded into unpublished 5.0.0.
+
+All 32 selected Chromium/WebKit topic-guide, related-writing, archive metadata,
+gallery, and pagination cases passed together with one worker and retries
+disabled. Focused lint passed with zero warnings; Astro checked 506 files with
+zero errors, warnings, or hints. The production build, 452-page OG audit, archive
+assembly, and CV freshness check passed without PDF regeneration.
+
+Twelve matched before/after states cover mobile, desktop, both themes, 320px
+with 200% text, a second results page, and multiple topic names. Every state
+avoids horizontal overflow and retains its canonical URL. Representative mobile,
+desktop, and enlarged-text results were visually reviewed. Five rendered archive
+routes verify readable names, total counts, SEO descriptions, structured
+breadcrumbs, canonical URLs, page position, and native keyboard navigation. All
+87 main-content link destinations and their order remain identical across the
+four baseline archive routes. All three retained source files match exactly,
+and published changelog entries are unchanged.
+
+The latest full workspace gate remains the successful `10c7050c` run recorded
+above. Readable topics and this template-copy follow-up use their affected
+checks; no duplicate full gate is queued. The arrow-button alignment comparison
+remains outside the repository and has not been applied.

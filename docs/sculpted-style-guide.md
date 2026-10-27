@@ -2498,6 +2498,14 @@ spacing interval: 4.5rem on phones, 6rem on tablets, and 7rem on desktop. Nested
 sections retain the full interval. Do not add another top margin or padding to these
 sections. Topic archives keep one topic filter beside the results rather than
 repeating the same destinations between the hero and article section.
+
+Topic continuity carries `getBlogTopicLabel` into topic archive titles, descriptions,
+breadcrumbs, result headings, and empty-state copy. Keep the shared PageHero and
+its All posts emphasis. Introduce the archive with its total post count and a short
+description such as 16 posts about Developer experience. Preserve raw tag identifiers
+for filtering, canonical URLs, active topic selection, and pagination; later pages
+retain their compact hero and page-position metadata.
+
 Statistics keep their divider and cards in one group so the page does not insert
 another gap between them. Preserve the separate spacing contracts of Home, About,
 Work, Travel, History, and the reading templates.

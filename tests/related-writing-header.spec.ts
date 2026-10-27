@@ -84,7 +84,7 @@ test('topic context explains the displayed articles and follows its archive link
   await expect(topics.getByRole('link', { name: 'Testing', exact: true })).toHaveAttribute('href', '/blog/tags/testing/')
   await topics.getByRole('link', { name: 'Accessibility', exact: true }).press('Enter')
   await expect(page).toHaveURL('/blog/tags/accessibility/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('accessibility')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Accessibility')
 })
 
 test.describe('Topic context without JavaScript', () => {

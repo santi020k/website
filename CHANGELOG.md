@@ -8,6 +8,8 @@
 
 ### Minor Changes
 
+- Carry readable topic names into archive headings and metadata, with a concise post-count introduction and unchanged archive URLs and pagination.
+
 - Use readable shared topic labels in article openings and related writing while preserving topic archive URLs and ordering.
 
 - Connect mobile article opening sections with a tighter spacing rhythm while preserving wider layouts and shared navigation.
