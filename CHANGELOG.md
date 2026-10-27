@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Add native Speaking chapter links to Topics, Formats, History, and Community, preserving the complete page content and booking invitation.
+
 - Apply Checklist ledger to labeled article checklists, reusing the project ledger composition with responsive label and explanation columns while preserving native numbering and ordinary list styling.
 
 - Lead the Speaking hero with a native Plan a session link to the booking brief, keeping WhatsApp and LinkedIn choices together in the invitation card.

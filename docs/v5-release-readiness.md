@@ -639,6 +639,34 @@ OG audit, archive assembly, and PDF freshness check passed without regenerating
 the PDFs. Published changelog entries remain unchanged. This iteration uses
 scoped checks; the complete workspace gate remains recorded at `16b66665`.
 
+## Speaking Chapter guide follow-up
+
+Approved source `9f366a47`, based on `70738ea3`, adds a native Chapter guide below
+the statistics. Topics, Formats, History, and Community link to their section
+headers; Community is included only when its section exists. The guide uses Lumen
+links with visible keyboard focus and becomes full-width rows on narrow screens.
+Existing community and booking fragments remain intact. The patch note is folded
+into 5.0.0; no client controller or shared component was added.
+
+All 36 scoped Chromium/WebKit Speaking cases passed with retries disabled,
+including keyboard navigation to each chapter with both motion preferences and
+preserved document identity. Six reflow checks covered 320, 768, and 1440px at
+normal and 200% text, with sequential focus and usable targets. All four chapter
+links also worked without JavaScript.
+
+Four matched mobile/desktop captures in both themes preserved the hero,
+statistics, cards, timeline, community, and booking markup. The comparison removes
+only temporary reveal-binding attributes, revealed-state classes, and stagger
+indices; their asynchronous initialization caused an initial comparison mismatch
+without changing authored content. This correction affects the capture harness
+only.
+
+Affected lint passed with zero warnings. The production build, 452-page OG audit,
+archive assembly, and PDF freshness checks passed. The cumulative built-page
+audit passed across 1,740 documents and 8,129 local targets with zero errors.
+Published changelog entries remain unchanged. This iteration uses affected checks;
+the complete workspace gate remains recorded at `16b66665`.
+
 ## Article Checklist ledger follow-up
 
 Approved source `8cad698e`, based on `abff330f`, reuses the project ledger composer

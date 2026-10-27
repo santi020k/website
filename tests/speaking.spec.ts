@@ -41,6 +41,30 @@ test.describe('Speaking page', () => {
   })
 
   for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+    test(`chapter guide reaches each section with ${reducedMotion} motion`, async ({ page }) => {
+      await page.emulateMedia({ reducedMotion })
+      const guide = page.getByRole('navigation', { name: 'Explore speaking' })
+      await expect(guide.getByRole('link')).toHaveCount(4)
+      const originalDocument = await page.evaluateHandle(() => document)
+      for (const id of ['topics', 'formats', 'history', 'community']) {
+        const destination = `#speaking-${id}`
+        const link = guide.locator(`a[href="${destination}"]`)
+        await expect(link).toHaveAccessibleName(id.charAt(0).toUpperCase() + id.slice(1))
+        await expect(link).not.toHaveAttribute('target', '_blank')
+        await link.scrollIntoViewIfNeeded()
+        await link.focus()
+        await expect(link).toBeFocused()
+        await expect(link).toHaveCSS('outline-style', 'solid')
+        await page.keyboard.press('Enter')
+        await expect(page).toHaveURL(`/speaking/${destination}`)
+        await expect(page.locator(destination).getByRole('heading', { level: 2 })).toBeInViewport()
+        expect(await page.evaluate(initial => initial === document, originalDocument)).toBe(true)
+      }
+      await originalDocument.dispose()
+    })
+  }
+
+  for (const reducedMotion of ['no-preference', 'reduce'] as const) {
     test(`hero invitation leads to the brief in the same document with ${reducedMotion} motion`, async ({ browserName, page }) => {
       await page.emulateMedia({ reducedMotion })
       const hero = page.locator('[data-speaking-hero]')
