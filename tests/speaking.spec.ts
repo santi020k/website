@@ -40,12 +40,29 @@ test.describe('Speaking page', () => {
     await expect(page.locator('#experience-heading')).toBeInViewport()
   })
 
-  test('should expose the invite CTA with a WhatsApp href', async ({ page }) => {
-    const ctaLinks = page.getByRole('link', { name: /Invite me to speak/i })
-    await expect(ctaLinks.first()).toBeVisible()
-    await expect(ctaLinks.first()).toHaveAttribute('href', /^https:\/\/api\.whatsapp\.com\/send/)
-    await expect(ctaLinks.first()).toHaveAttribute('href', /Speaking%20page|speaking%20page/i)
-  })
+  for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+    test(`hero invitation leads to the brief in the same document with ${reducedMotion} motion`, async ({ browserName, page }) => {
+      await page.emulateMedia({ reducedMotion })
+      const hero = page.locator('[data-speaking-hero]')
+      const invitation = hero.getByRole('link', { name: 'Plan a session', exact: true })
+      await expect(hero.getByRole('link')).toHaveCount(1)
+      await expect(hero).toContainText('Start with the brief, then choose WhatsApp or LinkedIn.')
+      await expect(invitation).toHaveAttribute('href', '#speaking-booking-heading')
+      await expect(invitation).not.toHaveAttribute('target', '_blank')
+      const originalDocument = await page.evaluateHandle(() => document)
+      await invitation.scrollIntoViewIfNeeded()
+      await invitation.focus()
+      await expect(invitation).toBeFocused()
+      await expect(invitation).toHaveCSS('outline-style', 'solid')
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL('/speaking/#speaking-booking-heading')
+      await expect(page.locator('#speaking-booking-heading')).toBeInViewport()
+      expect(await page.evaluate(initial => initial === document, originalDocument)).toBe(true)
+      await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+      await expect(page.getByRole('region', { name: 'Start with a brief.' }).getByRole('link', { name: 'Message on WhatsApp' })).toBeFocused()
+      await originalDocument.dispose()
+    })
+  }
 
   test('should link to LinkedIn', async ({ page }) => {
     const linkedInLink = page.getByRole('link', { name: /Connect on LinkedIn/i })
