@@ -1002,3 +1002,26 @@ captures at 390/1440px in both themes were pixel-identical before and after;
 the captured code folio markup also matched exactly. No integration repair was
 needed. This follow-up uses affected checks; the preceding combined candidate
 `04128b9e` retains its recorded 984-unit and 610-browser validation.
+
+## Article Page imprint follow-up
+
+Approved source `9f9840e2` adds a print-only running article title and real
+page/total counters using native paged-media margin boxes. Titles are normalized,
+bounded to 96 Unicode code points, and safely escaped for inline CSS; the full
+authored title and permalink remain in the article. Browsers without margin-box
+support retain the existing print layout. No client paginator or dependency is
+added. The patch note is folded into 5.0.0.
+
+All three focused utility tests and all 32 affected Chromium/WebKit print,
+reference, and imprint cases passed without retries. Current-site lint passed
+with zero warnings, and Astro checked 503 files with zero errors, warnings, or
+hints. The production build, 452-page OG audit, archive assembly, and CV
+freshness check passed without PDF regeneration. Published notes are unchanged.
+
+All ten A4 pages were visually reviewed. The light/dark page renders are
+pixel-identical, as are all four matched 390/1440px screen captures. Actual PDF
+exports verified correct page/total counters on every page for A4, Letter, a
+long title, and enabled browser headers. Letter has 11 pages; the A4 variants
+have ten. The long title wraps cleanly within the footer, and browser headers
+remain separate. This follow-up uses affected checks; no integration repair
+was required.

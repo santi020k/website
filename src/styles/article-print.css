@@ -2,7 +2,35 @@
 [data-article-print-source], [data-print-reference], [data-article-print-references] { display: none; }
 
 @media print {
+  @page article {
+    margin: 16mm 16mm 22mm;
+
+    @bottom-left {
+      width: 85%;
+      margin-top: 4mm;
+      padding-top: 2.5mm;
+      border-top: .5pt solid hsl(var(--line));
+      vertical-align: top;
+      text-align: left;
+      font: 400 8pt/1.4 var(--font-sans);
+      color: hsl(var(--ink-soft));
+      overflow-wrap: anywhere;
+    }
+    @bottom-right {
+      content: counter(page, decimal-leading-zero) " / " counter(pages, decimal-leading-zero);
+      width: 15%;
+      margin-top: 4mm;
+      padding-top: 2.5mm;
+      border-top: .5pt solid hsl(var(--line));
+      vertical-align: top;
+      text-align: right;
+      font: 400 8pt/1.4 var(--font-sans);
+      color: hsl(var(--brand));
+    }
+  }
+
   html:has(#article-content[data-article-prose]) {
+    page: article;
     color-scheme: light;
     background: hsl(var(--surface));
 

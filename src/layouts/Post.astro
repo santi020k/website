@@ -20,6 +20,7 @@ import PostHero from '@/components/organisms/PostHero.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
 import type { PrintReference } from '@/plugins/rehype-print-references'
+import { getArticlePageImprint } from '@/utils/article-page-imprint'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingStats } from '@/utils/reading-time'
 import { getSocialImageURL } from '@/utils/social-image'
@@ -112,6 +113,7 @@ mainClass="remaining-pages remaining-pages--reading"
     title
   }}
 >
+  <style is:inline data-article-page-imprint set:html={getArticlePageImprint(title)} />
   <ScrollProgress targetId="article-content" />
 
   <article class="h-entry section-container-wide flex flex-col" data-reading-layout>
