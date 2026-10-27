@@ -22,6 +22,8 @@ for (const route of [guide, standalone, medium]) {
 
     await expect(button).toHaveCount(1)
     await expect(button).toBeVisible()
+    await expect(page.locator('[data-publication-reading]').getByRole('button', { name: 'Print article' })).toBeVisible()
+    await expect(page.locator('[data-article-utilities] [data-article-print]')).toHaveCount(0)
     const before = await page.locator('[data-example-fold]').evaluateAll(folds => folds.map(fold => fold.hasAttribute('open')))
     const theme = await page.locator('html').getAttribute('data-theme')
 
@@ -31,7 +33,7 @@ for (const route of [guide, standalone, medium]) {
     await expect(page.locator('html')).toHaveAttribute('data-theme', theme ?? '')
     expect(await page.locator('[data-example-fold]').evaluateAll(folds => folds.map(fold => fold.hasAttribute('open')))).toEqual(before)
     await page.emulateMedia({ media: 'print' })
-    await expect(page.locator('[data-article-utilities]')).toBeHidden()
+    await expect(button).toBeHidden()
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await page.emulateMedia({ media: 'screen' })
     await expect(button).toBeVisible()
@@ -67,33 +69,32 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'no-preference' })
     await page.goto(guide)
     // The approved hero entrance moves and fades this group; inspect its settled state.
-    await page.locator('[data-article-opening] > [data-reading-actions]').evaluate(async element => {
+    await page.locator('[data-editorial-meta-group]').evaluate(async element => {
       await document.fonts.ready
       await Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished))
     })
     const button = page.getByRole('button', { name: 'Print article', exact: true })
-    const icon = button.locator('[data-print-icon] svg')
+    const icon = button.locator('svg')
 
     await expect(button).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
     await button.hover()
-    await expect(button).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+    await expect(button).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
     await expect(button.locator('[data-print-label]')).toHaveCSS('text-decoration-line', 'underline')
-    await expect(icon).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -2)')
+    await expect(icon).toHaveCSS('transform', 'none')
     await page.mouse.move(0, 0)
     await button.press('Tab')
     await button.focus()
     await expect(button).toHaveCSS('outline-style', 'solid')
-    await expect(button).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+    await expect(button).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
     await button.evaluate(async element => {
       await Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished))
     })
-    const scan = await new AxeBuilder({ page }).include('[data-article-utilities]').analyze()
+    const scan = await new AxeBuilder({ page }).include('[data-publication-imprint]').analyze()
 
     expect(scan.violations).toEqual([])
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await button.hover()
     await expect(icon).toHaveCSS('transform', 'none')
-    await expect(icon).toHaveCSS('transition-property', 'none')
     await expect(button).toHaveCSS('transition-property', 'none')
   })
 }

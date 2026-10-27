@@ -51,6 +51,22 @@ for (const theme of ['light', 'dark'] as const) {
     expect(readingBounds.y).toBeGreaterThan(dateBounds.y + dateBounds.height)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 
+    const print = reading.getByRole('button', { name: 'Print article', exact: true })
+    await expect(print).toBeVisible()
+    const printBounds = await visibleBounds(print)
+    expect(printBounds.height).toBeGreaterThanOrEqual(44)
+    expect(printBounds.x).toBeGreaterThanOrEqual(readingBounds.x)
+    expect(printBounds.x + printBounds.width).toBeLessThanOrEqual(readingBounds.x + readingBounds.width + 1)
+
+    await page.setViewportSize({ width: 320, height: 1000 })
+    expect(await print.evaluate(element => {
+      const bounds = element.getBoundingClientRect()
+
+      return bounds.left >= 0 && bounds.right <= innerWidth &&
+        element.scrollWidth <= element.clientWidth + 1 &&
+        document.documentElement.scrollWidth <= innerWidth
+    })).toBe(true)
+
     const accessibility = await new AxeBuilder({ page }).include('[data-publication-imprint]').analyze()
 
     expect(accessibility.violations).toEqual([])

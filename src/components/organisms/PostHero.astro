@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import ArticlePrintAction from '@/components/atoms/ArticlePrintAction.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
@@ -136,16 +137,23 @@ const eyebrowLabel = tags[0] ?? 'Article'
           </div>
         )}
       </dl>
-      <dl data-publication-reading>
-        <div data-publication-field="reading">
-          <dt>Reading</dt>
-          <dd>{readingTimeText}</dd>
+      <div data-publication-reading>
+        <dl>
+          <div data-publication-field="reading">
+            <dt>Reading</dt>
+            <dd>{readingTimeText}</dd>
+          </div>
+        </dl>
+        <div data-reading-utilities>
+          <dl>
+            <div data-publication-field="words">
+              <dt class="sr-only">Word count</dt>
+              <dd>{wordCount.toLocaleString()} words</dd>
+            </div>
+          </dl>
+          <ArticlePrintAction />
         </div>
-        <div data-publication-field="words">
-          <dt class="sr-only">Word count</dt>
-          <dd>{wordCount.toLocaleString()} words</dd>
-        </div>
-      </dl>
+      </div>
     </div>
   </div>
 
@@ -444,8 +452,21 @@ const eyebrowLabel = tags[0] ?? 'Article'
   [data-publication-imprint] dl {
     min-width: 0;
     margin: 0;
+  }
+
+  [data-publication-imprint] > dl,
+  [data-publication-reading] {
+    min-width: 0;
     border-inline-start: 1px solid hsl(var(--line));
     padding-inline-start: 1.125rem;
+  }
+
+  [data-reading-utilities] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 1rem;
+    margin-top: 0.75rem;
   }
 
   [data-publication-imprint] dt {
@@ -481,8 +502,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
     gap: 0.125rem 0.5rem;
   }
 
-  [data-publication-field='updated'],
-  [data-publication-field='words'] { margin-top: 0.75rem; }
+  [data-publication-field='updated'] { margin-top: 0.75rem; }
   [data-publication-field='updated'] dt { margin: 0; }
   [data-publication-field='updated'] dd,
   [data-publication-field='words'] dd {
@@ -495,7 +515,8 @@ const eyebrowLabel = tags[0] ?? 'Article'
 
   @container editorial-meta (width < 32rem) {
     [data-publication-imprint] { gap: 1rem; }
-    [data-publication-imprint] dl { padding-inline-start: 0.875rem; }
+    [data-publication-imprint] > dl,
+    [data-publication-reading] { padding-inline-start: 0.875rem; }
     [data-publication-field='published'] dd,
     [data-publication-field='reading'] dd { font-size: 1.25rem; }
   }

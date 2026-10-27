@@ -8,6 +8,8 @@
 
 ### Minor Changes
 
+- Place the article print shortcut beside the reading details with a quiet text treatment, clear keyboard focus, and responsive wrapping.
+
 - Refine the complete homepage composition with an open impact strip, quieter supporting project identities, separated article rows, and a single community surface. Preserve the visual style, section order, all eight projects, seven articles, and full descriptions across mobile, desktop, and enlarged text.
 
 - Replace About organization carousel arrows with a numbered name index. Keep all nine organizations discoverable, preserve focused case-study links during resizing, and retain complete access without JavaScript.

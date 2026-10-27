@@ -1132,3 +1132,36 @@ five builds, 1,288 archive pages, and 1,740 documents / 8,131 local targets. Thi
 follow-up uses affected checks; its source author will run the next canonical
 gate on the completed combined integration. Reading utility remains queued
 pending its separate approved handoff.
+
+## Article Reading utility follow-up
+
+Approved source `599b8f7a`, based on `86c85298`, moves Print article from the
+copy/Medium group into the reading details beside the word count. A shared
+ArticlePrintAction keeps the native print command and once-per-node lifecycle
+binding. Its quiet icon-before-label treatment uses an accent and underline on
+hover or keyboard focus, without a filled surface or movement. The action keeps
+a 44px minimum height, wraps independently, and retains a visible focus outline.
+Native description lists continue to identify publication dates, reading time,
+and word count. Copy/Medium actions retain their existing locations.
+
+All 76 selected Chromium/WebKit cases passed together with one worker and retries
+disabled: print shortcut, hero actions, reading imprint, and existing print
+regressions. Coverage includes keyboard activation/order, navigation/history,
+no JavaScript, unavailable print support, reduced motion, contrast, semantic
+markup, and 320px/200% text. The print dialog is stubbed to verify native
+delegation. The existing print stylesheet is unchanged, and no PDF export was
+needed.
+
+Focused lint passed with zero warnings and Astro checked 505 files with zero
+errors, warnings, or hints. The production build, 452-page OG audit, archive
+assembly, and CV freshness check passed without regeneration. Matched captures
+cover series, standalone, and Medium articles at 390/1440px in both themes;
+representative before/after and hover states were visually reviewed.
+
+All six application/test source files match exactly. The style guide retains
+both this placement change and the integrated All projects arrow; the homepage
+implementation also remains unchanged. The Changeset is folded into 5.0.0 and
+published changelog entries are preserved. No application repair was needed.
+The separate mobile-opening spacing proposal remains unapproved and outside
+this integration. The source chat owns the next canonical workspace gate on
+the completed combined commit.
