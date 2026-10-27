@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 
@@ -36,7 +38,7 @@ const evidence = project.data.typesId === 'professional' ? project.data.impactMe
       {evidence && <p data-supporting-evidence><Icon name="trending-up" />{evidence}</p>}
       <div data-supporting-footer>
         <span data-supporting-action>Read case study</span>
-        <span data-supporting-arrow><Icon class="size-4.5" name="arrow-up-right" /></span>
+        <span data-supporting-arrow><ArrowExchange class="size-4.5" direction="up-right" /></span>
       </div>
     </div>
   </a>

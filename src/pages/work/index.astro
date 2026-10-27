@@ -9,7 +9,7 @@ import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
-import { ButtonLink, Card, Icon, Link, Stat } from '@santi020k/lumen-astro'
+import { ButtonLink, Card, Link, Stat } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import { siteConfig } from '@/site.config'
@@ -132,7 +132,7 @@ class="work-stats"
               <p>{description}</p>
               {source && (
                 <ButtonLink data-work-stat-source href={source.href} variant="unstyled">
-                  <span>{source.label}</span><Icon name={source.href.startsWith('#') ? 'arrow-down' : 'arrow-right'} />
+                  <span>{source.label}</span><ArrowExchange direction={source.href.startsWith('#') ? 'down' : 'right'} />
                 </ButtonLink>
               )}
             </div>
@@ -203,7 +203,7 @@ class="@container/sculpted-tags flex flex-wrap gap-2.5"
               <p data-work-close-category>{destination.category}</p>
               <h3 id={`work-close-${destination.id}`}>{destination.title}</h3>
               <p data-work-close-description>{destination.description}</p>
-              <span data-work-close-arrow><Icon name="arrow-right" /></span>
+              <span data-work-close-arrow><ArrowExchange direction="right" /></span>
             </Card>
           </Link>
         ))}

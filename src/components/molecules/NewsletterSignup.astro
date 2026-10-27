@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { Button, Card, Icon, Input, Link } from '@santi020k/lumen-astro'
 
 interface Props {
@@ -43,7 +45,7 @@ const emailId = 'newsletter-email-compact'
       >
         <span data-newsletter-submit-content>
           <span data-newsletter-submit-label>Get new posts</span>
-          <Icon class="size-4 shrink-0" name="arrow-up-right" />
+          <ArrowExchange class="size-4 shrink-0" direction="up-right" />
         </span>
       </Button>
     </div>

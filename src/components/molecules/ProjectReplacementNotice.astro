@@ -1,5 +1,7 @@
 ---
-import { Callout, Icon, Link } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Callout, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   currentPackage: string
@@ -28,7 +30,10 @@ const name = replacementPackage.slice(separator)
       <code data-replacement-name>{scope && <span data-replacement-scope>{scope}</span>}{name}</code>
       <span data-replacement-action>
         <span>Explore the replacement</span>
-        <span data-replacement-arrow><Icon name="arrow-up-right" class="size-5" /></span>
+        <span data-replacement-arrow><ArrowExchange
+direction="up-right"
+class="size-5"
+                                     /></span>
       </span>
     </Link>
   </div>

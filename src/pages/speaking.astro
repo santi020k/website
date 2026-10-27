@@ -2,6 +2,7 @@
 import { getImage } from 'astro:assets'
 import { getCollection } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
@@ -161,7 +162,7 @@ mainClass="remaining-pages"
                 <span aria-hidden="true" data-speaking-guide-number>{String(index + 1).padStart(2, '0')}</span>
                 <span>{label}</span>
               </span>
-              <Icon data-speaking-guide-arrow name="arrow-down-right" size="sm" />
+              <ArrowExchange data-speaking-guide-arrow direction="down-right" size="sm" />
             </Link>
           </li>
         ))}
@@ -329,7 +330,7 @@ class="size-6.5"
             <div data-invitation-secondary>
               <p data-invitation-channel-label>Prefer a fuller brief?</p>
               <Link data-invitation-link href={siteConfig.contact.linkedin} newTab variant="inherit">
-                <span>Connect on LinkedIn</span><Icon data-invitation-link-icon name="arrow-up-right" size="sm" />
+                <span>Connect on LinkedIn</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
               </Link>
             </div>
           </div>

@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { Card, Icon, Link, Timeline } from '@santi020k/lumen-astro'
 
 interface Props {
@@ -71,7 +73,7 @@ const evidenceDetails = {
                   <div data-session-resource>
                     <p>Event</p>
                     <Link href={talk.links.event} newTab variant="inherit">
-                      <span>View record</span><Icon data-session-resource-arrow name="arrow-up-right" size="sm" />
+                      <span>View record</span><ArrowExchange data-session-resource-arrow direction="up-right" size="sm" />
                     </Link>
                   </div>
                 )}
@@ -79,7 +81,7 @@ const evidenceDetails = {
                   <div data-session-resource>
                     <p>Slides</p>
                     <Link href={talk.links.slides} newTab variant="inherit">
-                      <span>Open deck</span><Icon data-session-resource-arrow name="arrow-up-right" size="sm" />
+                      <span>Open deck</span><ArrowExchange data-session-resource-arrow direction="up-right" size="sm" />
                     </Link>
                   </div>
                 )}
@@ -87,7 +89,7 @@ const evidenceDetails = {
                   <div data-session-resource>
                     <p>Recording</p>
                     <Link href={talk.links.video} newTab variant="inherit">
-                      <span>Watch talk</span><Icon data-session-resource-arrow name="arrow-up-right" size="sm" />
+                      <span>Watch talk</span><ArrowExchange data-session-resource-arrow direction="up-right" size="sm" />
                     </Link>
                   </div>
                 )}

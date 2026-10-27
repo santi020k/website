@@ -10,7 +10,7 @@ import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects, collectionRelevanceSortProjects } from '@/utils/date'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
-import { ButtonLink as LumenButtonLink, Icon, Link } from '@santi020k/lumen-astro'
+import { ButtonLink as LumenButtonLink, Link } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import { projectPurposeIds, projectPurposes } from '@/data/project-purposes'
@@ -128,7 +128,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
                           {destination.projects.length}<span class="sr-only"> {destination.projects.length === 1 ? 'project' : 'projects'}</span>
                         </span>
                       </span>
-                      <Icon name="arrow-right" />
+                      <ArrowExchange direction="right" />
                     </Link>
                   </li>
                 ))}

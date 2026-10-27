@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import StartHereCard from '@/components/molecules/StartHereCard.astro'
 import HomeSectionHeading from '@/components/pages/home/HomeSectionHeading.astro'
 
@@ -64,7 +65,7 @@ const { posts, startHerePosts } = Astro.props
                 <p data-writing-description>{post.data.description}</p>
                 <span data-writing-action>
                   Read article
-                  <Icon class="size-4.5 shrink-0" name="arrow-up-right" />
+                  <ArrowExchange class="size-4.5 shrink-0" direction="up-right" />
                 </span>
               </div>
             </a>

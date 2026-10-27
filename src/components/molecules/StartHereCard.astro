@@ -2,7 +2,9 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
-import { Card, Icon } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Card } from '@santi020k/lumen-astro'
 
 interface Props {
   coverImage: CollectionEntry<'post'>['data']['coverImage']
@@ -40,7 +42,7 @@ const { coverImage, href, label, position, reason, title } = Astro.props
       <h4>{title}</h4>
       <p data-reading-slip-reason>{reason}</p>
       <span data-reading-slip-footer>
-        <span>Read the article <Icon class="size-4.5 shrink-0" name="arrow-up-right" /></span>
+        <span>Read the article <ArrowExchange class="size-4.5 shrink-0" direction="up-right" /></span>
       </span>
     </div>
   </a>

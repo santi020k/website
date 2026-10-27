@@ -89,7 +89,8 @@ for (const theme of ['light', 'dark'] as const) {
     const restingSurface = await action.evaluate(element => getComputedStyle(element).backgroundColor)
     await action.hover()
     await expect(action).toHaveCSS('transform', 'matrix(1, 0, 0, 1, -3, -3)')
-    await expect(arrow).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 4, -4)')
+    await expect(arrow.locator('[data-arrow-track]')).toHaveCSS('animation-duration', '0.48s')
+    await expect.poll(() => arrow.locator('[data-arrow-track]').evaluate(element => element.getAnimations()[0]?.playState)).toBe('finished')
     await expect(action).toHaveCSS('background-color', restingSurface)
     expect(await sheet.boundingBox()).toEqual(restingLayout)
     const originalEdgesRemainClickable = await action.evaluate(element => {
@@ -128,10 +129,10 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(action).toHaveCSS('transform', 'none')
     await expect(action).toHaveCSS('transition-property', 'none')
     await expect(action).not.toHaveCSS('box-shadow', 'none')
-    await expect(arrow).toHaveCSS('transform', 'none')
+    await expect(arrow.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'none')
     await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
     await expect(email).toBeFocused()
-    await expect(email.locator('.maker-footer-email-arrow')).toHaveCSS('transform', 'none')
+    await expect(email.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'none')
     await expect.poll(() => email.evaluate(element => getComputedStyle(element, '::after').transitionProperty)).toBe('none')
   })
 }

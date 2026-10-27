@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { Button, Card, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
@@ -58,7 +60,7 @@ const shareLinks = [
     {shareLinks.map(link => (
       <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
         <span>{link.platform}</span>
-        <Icon name="arrow-up-right" class="size-4 shrink-0" />
+        <ArrowExchange direction="up-right" class="size-4 shrink-0" />
       </a>
     ))}
   </div>

@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getCachedProjects } from '@/utils/content'
 import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
 
@@ -50,7 +52,7 @@ const connectedGroups = groups.map(group => ({
               <Link data-technical-link href={technology.href} variant="inherit">
                 <span data-technical-name>{technology.label}</span>
                 <span data-technical-count>{technology.count} {technology.count === 1 ? 'project' : 'projects'}</span>
-                <Icon name="arrow-up-right" size="sm" />
+                <ArrowExchange direction="up-right" size="sm" />
               </Link>
             </li>
           ))}
@@ -60,7 +62,7 @@ const connectedGroups = groups.map(group => ({
   </div>
   <footer data-technical-footer>
     <span>Projects using each technology</span>
-    <Link href="/technologies/" variant="inherit">All technologies <Icon name="arrow-right" size="sm" /></Link>
+    <Link href="/technologies/" variant="inherit">All technologies <ArrowExchange direction="right" size="sm" /></Link>
   </footer>
 </Card>
 

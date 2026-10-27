@@ -1,5 +1,7 @@
 ---
-import { Icon, Link } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Link } from '@santi020k/lumen-astro'
 
 interface Props {
   introduction: string
@@ -26,7 +28,7 @@ const { introduction, responsibility, examples } = Astro.props
       >
         <strong>{example.label}</strong>
         <span data-consumer-description>{example.description} <code>{example.component}</code>.</span>
-        <span data-consumer-arrow><Icon name="arrow-up-right" size="sm" /></span>
+        <span data-consumer-arrow><ArrowExchange direction="up-right" size="sm" /></span>
       </Link>
     ))}
   </nav>

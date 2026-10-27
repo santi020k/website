@@ -1,4 +1,5 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import SculptedTag from '@/components/atoms/SculptedTag.astro'
 
 import { getTagPath } from '@/utils/links'
@@ -41,7 +42,7 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
     <p>Browse by topic</p>
     <Link data-topic-guide-catalog href="/blog/tags/" variant="inherit">
       <span>{`All ${totalTopics} ${totalTopics === 1 ? 'topic' : 'topics'}`}</span>
-      <Icon name="arrow-up-right" size="sm" />
+      <ArrowExchange direction="up-right" size="sm" />
     </Link>
   </div>
   <div

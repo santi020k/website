@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
 import { getPostPath, getSeriesPath } from '@/utils/links'
@@ -69,12 +70,12 @@ const isLatestChapter = !next
           ) :
 (
             <span data-series-adjacent-direction>
-            <Icon
+            <ArrowExchange
 class="
   size-4.5 shrink-0 text-brand
   dark:text-accent
 "
-name="arrow-left"
+direction="left"
             />
             <span>Previous in series</span>
             </span>
@@ -82,12 +83,12 @@ name="arrow-left"
           <h3 data-series-adjacent-title>{previous.data.title}</h3>
           {isLatestChapter ?
 (
-            <Icon
+            <ArrowExchange
 class="
   size-4 shrink-0 text-brand
   dark:text-accent
 "
-name="arrow-left"
+direction="left"
             />
           ) :
 (
@@ -104,12 +105,12 @@ name="arrow-left"
         >
           <span data-series-adjacent-direction>
             <span>Next in series</span>
-            <Icon
+            <ArrowExchange
 class="
   size-4.5 shrink-0 text-brand
   dark:text-accent
 "
-name="arrow-right"
+direction="right"
             />
           </span>
           <h3 data-series-adjacent-title>{next.data.title}</h3>

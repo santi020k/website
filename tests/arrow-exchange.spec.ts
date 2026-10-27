@@ -14,6 +14,85 @@ const arrowPosition = (arrow: Locator) => arrow.evaluate(element => {
 test.describe('Pointer arrow exchange', () => {
   test.use({ isMobile: false, hasTouch: false })
 
+  test('homepage cards and footer links exchange their arrows without changing their footprint', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto('/')
+
+    for (const selector of [
+      '.maker-hero-project',
+      '[data-work-action]',
+      '[data-supporting-arrow]',
+      '[data-reading-slip-footer]',
+      '[data-community-arrow]',
+      '.maker-footer-action-arrow',
+      '.maker-footer-email-arrow',
+      '.maker-footer-resume',
+      '.maker-footer-social a',
+      '.maker-footer-version'
+    ]) {
+      const arrow = page.locator(selector).first().locator('[data-arrow-exchange]').or(
+        page.locator(`${selector}[data-arrow-exchange]`).first()
+      )
+      await expect(arrow).toHaveCount(1)
+      const action = arrow.locator('xpath=ancestor::a[1]')
+      await action.scrollIntoViewIfNeeded()
+      await page.mouse.move(0, 0)
+      const resting = await arrowPosition(arrow)
+      const track = arrow.locator('[data-arrow-track]')
+
+      await action.hover()
+      await expect(track).toHaveCSS('animation-duration', '0.48s')
+      await expect.poll(() => track.evaluate(element => element.getAnimations()[0]?.playState)).toBe('finished')
+      const settled = await arrowPosition(arrow)
+
+      expect(settled.glyphs[1]?.x).toBeCloseTo(resting.glyphs[0]?.x ?? NaN, 2)
+      expect(settled.glyphs[1]?.y).toBeCloseTo(resting.glyphs[0]?.y ?? NaN, 2)
+      expect(settled.bounds.width).toEqual(resting.bounds.width)
+      expect(settled.bounds.height).toEqual(resting.bounds.height)
+      await expect(arrow).toHaveAttribute('aria-hidden', 'true')
+      await page.mouse.move(0, 0)
+      await expect(track).toHaveCSS('transform', 'none')
+    }
+
+    // A comparison between two scores is content, not a navigation affordance.
+    await expect(page.locator('[data-work-score] [data-arrow-exchange]')).toHaveCount(0)
+    await expect(page.locator('[data-work-score] .lucide-arrow-right')).toHaveCount(1)
+  })
+
+  for (const path of ['/', '/about/', '/work/', '/projects/', '/portfolio/', '/blog/', '/speaking/', '/technologies/', '/history/', '/travel/', '/resume/', '/portfolio/lumen-ui/']) {
+    test(`navigation arrows are connected on ${path}`, async ({ page }) => {
+      await page.goto(path)
+      const missing = await page.locator('a svg[class*="lucide-arrow-"]').evaluateAll(arrows => arrows.filter(arrow => (
+        !arrow.closest('[data-arrow-exchange], [data-work-score]')
+      )).map(arrow => arrow.closest('a')?.getAttribute('href')))
+
+      expect(missing).toEqual([])
+      const unowned = await page.locator('main [data-arrow-exchange]').evaluateAll(arrows => arrows.filter(arrow => (
+        !arrow.closest('a, button, [data-arrow-owner]')
+      )).map(arrow => arrow.outerHTML))
+
+      expect(unowned).toEqual([])
+      const action = page.locator('main a:has([data-arrow-exchange])').first()
+      await action.focus()
+      await expect(action.locator('[data-arrow-track]').first()).toHaveCSS('animation-duration', '0.48s')
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await expect(action.locator('[data-arrow-track]').first()).toHaveCSS('animation-name', 'none')
+    })
+  }
+
+  test('project overlay links animate the visible arrow on keyboard focus', async ({ page }) => {
+    for (const path of ['/portfolio/', '/portfolio/lumen-ui/']) {
+      await page.emulateMedia({ reducedMotion: 'no-preference' })
+      await page.goto(path)
+      const card = page.locator('[data-arrow-owner]').first()
+      await card.locator('a').focus()
+      await expect(card.locator('[data-arrow-track]')).toHaveCSS('animation-duration', '0.48s')
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await expect(card.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'none')
+    }
+  })
+
   for (const theme of ['light', 'dark'] as const) {
     test(`action arrows exchange slowly without moving the button in ${theme}`, async ({ page }) => {
       await page.addInitScript(value => {

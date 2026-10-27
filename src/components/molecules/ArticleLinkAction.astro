@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { CopyButton, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
@@ -13,7 +15,7 @@ const { canonicalUrl, copyUrl } = Astro.props
 (
   <Link href={canonicalUrl} newTab variant="inherit" data-article-utility>
     <span>Read on Medium</span>
-    <Icon name="arrow-up-right" class="size-4 shrink-0" />
+    <ArrowExchange direction="up-right" class="size-4 shrink-0" />
   </Link>
 ) :
 (

@@ -1,4 +1,5 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import TechnologyEvidenceLedger from '@/components/molecules/TechnologyEvidenceLedger.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
@@ -96,7 +97,7 @@ data-technology-result-suffix
           {technologyGroups.map((group, index) => (
             <Link href={`#technology-group-${index}`} variant="inherit">
               <span data-technology-shortcut-title>{group.title}</span>
-              <Icon class="size-4" name="arrow-down" />
+              <ArrowExchange class="size-4" direction="down" />
               <span data-technology-shortcut-meta>
                 {group.items.length} {group.items.length === 1 ? 'technology' : 'technologies'}<br />
                 {group.recurrence}
@@ -105,10 +106,13 @@ data-technology-result-suffix
           ))}
         </nav>
         <div data-technology-opening-actions>
-          <Link href="/work/" variant="inherit">Browse work <Icon class="size-4" name="arrow-right" /></Link>
-          <Link href="/portfolio/" variant="inherit">Portfolio <Icon
+          <Link href="/work/" variant="inherit">Browse work <ArrowExchange
 class="size-4"
-name="arrow-right"
+direction="right"
+                                                            /></Link>
+          <Link href="/portfolio/" variant="inherit">Portfolio <ArrowExchange
+class="size-4"
+direction="right"
                                                                /></Link>
         </div>
       </div>
@@ -165,7 +169,10 @@ data-technology-group-count
 class="sr-only"
 data-technology-entry-unit
                                                                  > {count === 1 ? 'entry' : 'entries'}</span></span>
-                      <span data-technology-match-arrow><Icon class="size-4" name="arrow-up-right" /></span>
+                      <span data-technology-match-arrow><ArrowExchange
+class="size-4"
+direction="up-right"
+                                                        /></span>
                     </Link>
                   </span>
                 ))}
@@ -206,7 +213,7 @@ data-technology-entry-unit
               <span data-evidence-path-title>{path.title}</span>{' '}
               <span data-evidence-path-description>{path.description}</span>
             </span>
-            <Icon data-evidence-path-arrow name="arrow-up-right" />
+            <ArrowExchange data-evidence-path-arrow direction="up-right" />
           </Link>
         ))}
       </nav>

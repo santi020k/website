@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectOutcomeDisplay } from '@/utils/portfolio-metric'
 import { getProjectBrandStyle } from '@/utils/project-brand'
@@ -29,7 +31,7 @@ const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined
         <p data-work-category>Selected experience</p>
         <h3>{project.data.title}</h3>
         <p data-work-description>{project.data.description}</p>
-        <span data-work-action>View case study <Icon class="size-4" name="arrow-up-right" /></span>
+        <span data-work-action>View case study <ArrowExchange class="size-4" direction="up-right" /></span>
       </div>
       <div data-work-artwork data-showcase-artwork>
         {cover && (

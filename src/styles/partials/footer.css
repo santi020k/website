@@ -123,7 +123,7 @@
 }
 
 .maker-footer svg { width: 1rem; height: 1rem; flex-shrink: 0; }
-@utility maker-footer-action-arrow { align-self: flex-end; flex-shrink: 0; }
+@utility maker-footer-action-arrow { --arrow-overflow: calc((4rem - 1em) / 2); align-self: flex-end; flex-shrink: 0; }
 .maker-footer-action-arrow svg { width: 4rem; height: 4rem; stroke-width: 1.25; }
 
 .maker-footer .maker-footer-action { overflow: visible; transition: transform 220ms ease, box-shadow 220ms ease; }
@@ -134,8 +134,6 @@
   transform: translateX(3px);
   background: color-mix(in srgb, hsl(var(--footer-accent)) 22%, hsl(var(--brand-soft)));
 }
-.maker-footer-action-arrow { transition: transform 220ms ease; }
-.maker-footer-action:is(:hover, :focus-visible) .maker-footer-action-arrow { transform: translate(4px, -4px); }
 
 @utility maker-footer-email {
   position: relative;
@@ -149,15 +147,14 @@
   color: hsl(var(--ink));
   font-size: 0.875rem;
   line-height: 1.7;
-  & > span { display: grid; gap: 0.25rem; min-width: 0; }
-  & > span > span:first-child { color: hsl(var(--ink-soft)); font-size: 0.6875rem; }
+  & > span:not([data-arrow-exchange]) { display: grid; gap: 0.25rem; min-width: 0; }
+  & > span:not([data-arrow-exchange]) > span:first-child { color: hsl(var(--ink-soft)); font-size: 0.6875rem; }
 }
 
 .maker-footer-email::after { position: absolute; inset: auto 0 0; height: 1px; background: hsl(var(--footer-accent)); transform: scaleX(0); transform-origin: left; transition: transform 220ms ease; content: ''; }
 .maker-footer-email:is(:hover, :focus-visible)::after { transform: scaleX(1); }
-.maker-footer-email:is(:hover, :focus-visible) > span > span:last-child { color: hsl(var(--footer-accent)); }
-@utility maker-footer-email-arrow { transition: transform 220ms ease; }
-.maker-footer-email:is(:hover, :focus-visible) .maker-footer-email-arrow { transform: translate(3px, -3px); }
+.maker-footer-email:is(:hover, :focus-visible) > span:not([data-arrow-exchange]) > span:last-child { color: hsl(var(--footer-accent)); }
+@utility maker-footer-email-arrow { flex-shrink: 0; }
 
 @utility maker-footer-directory {
   display: grid;
@@ -272,13 +269,9 @@
   .maker-footer a,
   .maker-footer .maker-footer-action,
   .maker-footer-action-sheet::before,
-  .maker-footer-action-arrow,
-  .maker-footer-email::after,
-  .maker-footer-email-arrow { transition: none; }
+  .maker-footer-email::after { transition: none; }
   .maker-footer .maker-footer-action:is(:hover, :focus-visible),
-  .maker-footer-action-sheet:has(.maker-footer-action:is(:hover, :focus-visible))::before,
-  .maker-footer-action:is(:hover, :focus-visible) .maker-footer-action-arrow,
-  .maker-footer-email:is(:hover, :focus-visible) .maker-footer-email-arrow { transform: none; }
+  .maker-footer-action-sheet:has(.maker-footer-action:is(:hover, :focus-visible))::before { transform: none; }
   .maker-footer .maker-footer-action:is(:hover, :focus-visible) { box-shadow: inset 0 0 0 2px hsl(var(--accent)); }
 }
 
@@ -354,7 +347,7 @@
   .maker-footer-contact { grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); align-items: center; gap: 2rem; padding: 0.625rem 0.625rem 0 0; }
   .maker-footer-action-sheet { border-radius: 1.5rem 1.5rem 0.375rem 1.5rem; }
   .maker-footer-action { flex-direction: row-reverse; align-items: center; min-height: 7rem; gap: 1.25rem; padding: 1.25rem 1.5rem; }
-  .maker-footer-action-arrow { align-self: auto; }
+  .maker-footer-action-arrow { --arrow-overflow: calc((2.5rem - 1em) / 2); align-self: auto; }
   .maker-footer-action-arrow svg { width: 2.5rem; height: 2.5rem; }
   .maker-footer-action-copy > span:first-child { font-size: 1.5rem; }
 }

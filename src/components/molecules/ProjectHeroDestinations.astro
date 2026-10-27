@@ -1,9 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getProjectPrimaryDestination } from '@/utils/project-destinations'
 
-import { ButtonLink, Card, Icon, Link } from '@santi020k/lumen-astro'
+import { ButtonLink, Card, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   hasProductPreviews: boolean
@@ -25,7 +27,7 @@ const destination = getProjectPrimaryDestination(project.data)
       </div>
       <ButtonLink class="btn-primary" data-destination-primary href={destination.href} newTab variant="unstyled">
         <span>{destination.action}</span>
-        <Icon name="arrow-up-right" size="sm" />
+        <ArrowExchange direction="up-right" size="sm" />
       </ButtonLink>
     </Card>
   )}
@@ -33,18 +35,18 @@ const destination = getProjectPrimaryDestination(project.data)
     {hasProductPreviews && (
       <Link href="#inside-the-product" variant="inherit">
         <span>{previews?.linkLabel ?? 'View product previews'}</span>
-        <Icon name="arrow-down" size="sm" />
+        <ArrowExchange direction="down" size="sm" />
       </Link>
     )}
     {liveDemoUrl && githubUrl && (
       <Link href={githubUrl} newTab variant="inherit">
         <span>Open repository</span>
-        <Icon name="arrow-up-right" size="sm" />
+        <ArrowExchange direction="up-right" size="sm" />
       </Link>
     )}
     <Link href={parentPage.url} variant="inherit">
       <span>Browse {parentPage.name.toLowerCase()}</span>
-      <Icon name="arrow-right" size="sm" />
+      <ArrowExchange direction="right" size="sm" />
     </Link>
   </div>
 </nav>

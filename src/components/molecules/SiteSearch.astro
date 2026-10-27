@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { Button, Icon } from '@santi020k/lumen-astro'
 
 import SearchDialog from './SearchDialog.astro'
@@ -33,7 +35,7 @@ import SearchRecoveryState from './SearchRecoveryState.astro'
     <SearchRecoveryState state="error" />
   </template>
   <template data-site-search-result-arrow-template>
-    <Icon class="size-4.5" name="arrow-up-right" />
+    <ArrowExchange class="size-4.5" direction="up-right" />
   </template>
 </div>
 

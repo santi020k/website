@@ -1,4 +1,5 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import TravelMap from '@/components/pages/travel/TravelMap.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -90,7 +91,7 @@ const meta = {
         <p>I’m collecting the stories behind these journeys. Travel posts will join my blog as I finish writing them.</p>
         <ButtonLink href="/blog/" variant="unstyled" data-travel-stories-link>
           <span>Read the blog</span>
-          <span data-travel-stories-arrow><Icon data-travel-stories-arrow-icon name="arrow-up-right" /></span>
+          <span data-travel-stories-arrow><ArrowExchange data-travel-stories-arrow-icon direction="up-right" /></span>
         </ButtonLink>
       </div>
     </Card>

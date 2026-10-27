@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { Button, ButtonLink, Dialog, DialogClose, DialogTitle, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
@@ -58,7 +60,7 @@ const { id, title, caption, source } = Astro.props
         <Icon name="zoom-in" class="size-4" /><span data-gallery-zoom-label>Inspect detail</span>
       </Button>
       <ButtonLink data-gallery-error-link data-gallery-control hidden href={source.kind === 'asset' ? source.src : ''} newTab variant="unstyled">
-        <Icon name="arrow-up-right" class="size-4" />Open original image
+        <ArrowExchange direction="up-right" class="size-4" />Open original image
       </ButtonLink>
     </div>
     {caption && <p data-gallery-caption>{caption}</p>}

@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
@@ -179,7 +180,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
               <li>
                 <Link href={getTagPath(tag)} variant="inherit" data-topic-link>
                   <span data-topic-label>{tag}</span>
-                  <Icon name="arrow-up-right" class="size-3.5 shrink-0" />
+                  <ArrowExchange direction="up-right" class="size-3.5 shrink-0" />
                 </Link>
               </li>
             ))}
@@ -209,7 +210,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
             data-hero-series-link
           >
             <span>{seriesContext.series.data.title}</span>
-            <Icon name="arrow-right" class="size-4 shrink-0" data-hero-series-arrow />
+            <ArrowExchange direction="right" class="size-4 shrink-0" data-hero-series-arrow />
           </Link>
         </div>
         <ArticleLinkAction {canonicalUrl} {copyUrl} />
