@@ -8,6 +8,8 @@
 
 ### Minor Changes
 
+- Connect mobile article opening sections with a tighter spacing rhythm while preserving wider layouts and shared navigation.
+
 - Place the article print shortcut beside the reading details with a quiet text treatment, clear keyboard focus, and responsive wrapping.
 
 - Refine the complete homepage composition with an open impact strip, quieter supporting project identities, separated article rows, and a single community surface. Preserve the visual style, section order, all eight projects, seven articles, and full descriptions across mobile, desktop, and enlarged text.

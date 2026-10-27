@@ -203,6 +203,11 @@ mainClass="remaining-pages remaining-pages--reading"
 </BaseLayout>
 
 <style>
+  @container reading-layout (width < 40rem) {
+    [data-reading-body] { padding-block-start: 1.75rem; }
+    [data-post-mobile-toc] { margin-block-end: 1.75rem; }
+  }
+
   /* The build-time Reference ledger belongs only to current article prose. */
   [data-article-prose] :global([data-article-references]) {
     --reference-accent: hsl(var(--brand));

@@ -1165,3 +1165,30 @@ published changelog entries are preserved. No application repair was needed.
 The separate mobile-opening spacing proposal remains unapproved and outside
 this integration. The source chat owns the next canonical workspace gate on
 the completed combined commit.
+
+## Connected opening article spacing follow-up
+
+Approved source `8dfcab3c`, based on `89741276`, tightens the article opening
+below 40rem of available width. Publication details to Topics uses 1.5rem, the
+existing Topics to series gap remains 1.5rem, and hero to reading body and contents
+opener to prose use 1.75rem. Shared navigation, project layouts, and wider article
+containers retain their existing spacing. Articles without eligible headings
+continue to omit the contents opener. The Changeset is folded into 5.0.0.
+
+All 40 selected Chromium/WebKit article-opening and shared-reading-navigation
+cases passed together with one worker and retries disabled. Focused lint passed
+with zero warnings, and Astro checked 505 files with zero errors, warnings, or
+hints. The production build, 452-page OG audit, archive assembly, and CV freshness
+check passed without regenerating PDFs.
+
+Ten matched before/after states cover series and standalone articles, both themes,
+390px mobile, 320px with 200% text, and 768/1440px wider layouts. Mobile gaps are
+24/28px and scale to 48/56px at 200% text; every state avoids horizontal overflow.
+All four tablet/desktop captures are pixel-identical. Representative mobile
+before/after and enlarged-text results were visually reviewed. All three retained
+source files match exactly and published changelog entries remain unchanged.
+
+The latest complete canonical workspace gate passed on `74cd2270`; the subsequent
+Reading utility and this spacing follow-up use affected checks in accordance with
+the requested scope. No further full gate is queued. The separate Readable topics
+proposal remains unapproved and unimplemented.
