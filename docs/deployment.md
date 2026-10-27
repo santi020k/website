@@ -20,6 +20,7 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **X-Content-Type-Options**: `nosniff`
 - **`/_astro/*`** → 1 year `immutable`.
+- **`/v1/_astro/*` through `/v4/_astro/*`** → 1 year `immutable`, added by archive assembly.
 - **`/fonts/*`** and **`/og/manifest.json`** → browser revalidation.
 - **`/og/*.webp`** → 1 year `immutable`.
 - **`/sw.js`** → `Cache-Control: public, max-age=0, must-revalidate` so service worker updates propagate.

@@ -109,6 +109,8 @@ does not exhaust a single ESLint process. All lint and type checks remain enable
 
 Archive builds use Astro's `/vN/` base for generated assets. The shared build hook
 prefixes historical root-relative navigation, media, CSS URLs, and search indexes.
+It marks absolute same-origin links leaving an archive for a full document load,
+including the v4 footer wordmark, so another app never inherits its script state.
 Assembly adds a persistent archive notice with full-document links to `/history/`
 and the current equivalent route. When that route does not exist, it links to `/`.
 The current service worker bypasses all `/vN` namespaces, including assets.
@@ -118,6 +120,9 @@ Every archive HTML document has `noindex, follow`. Assembly also adds
 non-HTML assets. Archives have no sitemap integration and never enter the current
 sitemap. Do not block them in robots.txt: crawlers must read the exclusion signal.
 The timeline and current pages retain ordinary canonical URLs and remain indexable.
+Content-hashed `/vN/_astro/*` assets receive one-year immutable caching; archive
+HTML and stable asset names retain their existing revalidation policy. The archive
+audit checks both header policies and the full-document exit markers.
 
 ## Captures and verification
 
