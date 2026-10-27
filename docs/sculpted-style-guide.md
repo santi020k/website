@@ -146,6 +146,20 @@ for the article, search, feeds, and metadata. Preserve series sequence and draft
 The complete card is one naturally named link with a visible outline; hover changes
 only the title color. Artwork stays still, and metadata and footers wrap for enlarged text.
 
+### Reading paths Blog opening
+
+Keep the Blog headline, description, and latest article together in the existing hero.
+Use **Reading paths** for its navigation: retain the primary Explore the writing
+button and place the collection-derived post count with Latest first beside it.
+Below, frame two equal supporting links with fine top and bottom rules. Browse topics
+pairs with the live topic count; Follow a series pairs with Connected posts.
+
+Use native Lumen links, plain uppercase captions, complete titles, and decorative
+arrows. Stack the supporting links with a shared divider below 26rem of available
+intro width. Retain visible focus, underline the title on hover or focus, and disable
+its color transition for reduced motion. Keep all three routes usable without
+JavaScript. This hierarchy does not change the feed, topic taxonomy, or latest card.
+
 ### Layered feature latest article
 
 The Blog hero uses an opaque Lumen Card with a soft purple backing and a 16:10 cover.
