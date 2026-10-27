@@ -913,3 +913,22 @@ Affected zero-warning lint, documentation spelling, the production build,
 452-page OG audit, archive assembly, and regenerated PDF freshness checks passed.
 Published changelog entries remain unchanged. This follow-up uses affected checks;
 the latest full workspace gate remains `3d0f6bb5`.
+
+## Smooth arrow exchange integration
+
+Approved source `dd079e8d` includes `f3627c15` and combines the selected 480ms
+arrow exchange with the preceding v5 release. Two decorative Lumen icons move
+on one track inside the existing arrow footprint. Hover and keyboard focus keep
+labels and button geometry stationary; touch hover and reduced motion remain
+still. Existing directions, destinations, surfaces, and focus outlines remain.
+
+On the combined tree, all 52 affected Chromium/WebKit arrow, print, fold, and
+copy cases passed without retries. Four matched homepage captures across mobile,
+desktop, and both themes were pixel-identical at rest; representative pairs were
+visually reviewed. The source branch separately passed its full workspace gate
+with 966 unit tests, seven motion checks, and all build/page audits.
+
+Affected zero-warning lint, production build, 452-page OG audit, archive assembly,
+and regenerated PDF freshness passed here. Changelog conflicts retain both print
+and arrow notes; generated PDF conflicts were resolved by regeneration from the
+combined source. Published notes remain unchanged.

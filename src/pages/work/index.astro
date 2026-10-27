@@ -1,4 +1,5 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import SculptedTag from '@/components/atoms/SculptedTag.astro'
 import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
 import PageLayout from '@/layouts/Base.astro'
@@ -108,11 +109,11 @@ backdrop="plain"
               Explore experience <span
 aria-hidden="true"
 class="maker-hero-arrow"
-                                 ><Icon name="arrow-down" /></span>
+                                 ><ArrowExchange direction="down" /></span>
             </ButtonLink>
             <div class="work-hero-secondary-links">
-              <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.resume} variant="unstyled">Open resume <Icon name="arrow-right" /></ButtonLink>
-              <ButtonLink class="maker-hero-secondary" data-work-hero-external href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <Icon name="arrow-up-right" /></ButtonLink>
+              <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.resume} variant="unstyled">Open resume <ArrowExchange direction="right" /></ButtonLink>
+              <ButtonLink class="maker-hero-secondary" data-work-hero-external href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <ArrowExchange /></ButtonLink>
             </div>
           </div>
         </div>

@@ -284,16 +284,8 @@
   transition: background-color 180ms ease;
 }
 
-.site-nav-contact-arrow > svg {
-  transition: transform 180ms ease;
-}
-
 .site-nav-contact:is(:hover, :focus-visible) .site-nav-contact-arrow {
   background: hsl(var(--brand-soft));
-}
-
-.site-nav-contact:is(:hover, :focus-visible) .site-nav-contact-arrow > svg {
-  transform: translate(2px, -2px);
 }
 
 @utility site-nav-resume {
@@ -672,10 +664,8 @@
   .site-desktop-nav-link,
   .site-mobile-nav-link,
   .site-mobile-nav-arrow,
-  .site-nav-contact-arrow,
-  .site-nav-contact-arrow > svg { transition: none; }
-  .site-mobile-nav-link:hover .site-mobile-nav-arrow,
-  .site-nav-contact:is(:hover, :focus-visible) .site-nav-contact-arrow > svg { transform: none; }
+  .site-nav-contact-arrow { transition: none; }
+  .site-mobile-nav-link:hover .site-mobile-nav-arrow { transform: none; }
   [data-mobile-nav-panel]:not([hidden]),
   [data-mobile-nav-panel][data-nav-closing],
   [data-mobile-nav-panel]:not([hidden], [data-nav-closing]) [data-mobile-nav-link],

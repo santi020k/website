@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import HeroPortrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
 
 import { ButtonLink, Icon } from '@santi020k/lumen-astro'
@@ -29,10 +31,10 @@ import PostLensLogo from '@/content/project/postlens/logo.webp'
       <div class="maker-hero-actions">
         <ButtonLink class="maker-hero-primary" href="/portfolio/" variant="unstyled">
           See selected work
-          <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-up-right" /></span>
+          <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange /></span>
         </ButtonLink>
         <ButtonLink class="maker-hero-secondary" href="/about/" variant="unstyled">
-          About me <Icon name="arrow-right" />
+          About me <ArrowExchange direction="right" />
         </ButtonLink>
       </div>
     </div>

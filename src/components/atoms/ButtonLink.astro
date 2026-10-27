@@ -1,5 +1,7 @@
 ---
-import { ButtonLink as LumenButtonLink, Icon } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { ButtonLink as LumenButtonLink } from '@santi020k/lumen-astro'
 
 interface Props {
   ariaLabel?: string
@@ -37,7 +39,7 @@ const {
   <slot />
   {showArrow && (
     <span aria-hidden="true" class="site-action-arrow">
-      <Icon name={newTab ? 'arrow-up-right' : 'arrow-right'} size="sm" />
+      <ArrowExchange direction={newTab ? 'up-right' : 'right'} size="sm" />
     </span>
   )}
 </LumenButtonLink>

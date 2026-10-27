@@ -1,5 +1,6 @@
 ---
 import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
 import SiteSearch from '@/components/molecules/SiteSearch.astro'
@@ -85,7 +86,7 @@ const getAriaCurrent = (path: string) => getNavigationCurrent(Astro.url.pathname
         </ButtonLink>
         <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
           <span class="site-nav-contact-label">Let&apos;s talk</span>
-          <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+          <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
         </NavigationLink>
       </div>
     </div>
@@ -136,7 +137,7 @@ href="/"
           <div class="site-header-contact">
             <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
               <span class="site-nav-contact-label">Let&apos;s talk</span>
-              <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+              <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
           </div>
           <Button
@@ -192,11 +193,11 @@ href="/"
           <div data-mobile-nav-actions>
             <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
               <span class="site-nav-contact-label">Let&apos;s talk</span>
-              <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+              <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
             <NavigationLink class="site-nav-resume" href={siteConfig.contact.resume} variant="unstyled">
               <span>View resume</span>
-              <Icon class="size-4" name="arrow-right" />
+              <ArrowExchange class="size-4" direction="right" />
             </NavigationLink>
           </div>
         </div>

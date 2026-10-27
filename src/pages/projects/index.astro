@@ -1,4 +1,5 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import SculptedTag from '@/components/atoms/SculptedTag.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
@@ -78,7 +79,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
     <div class="projects-intro-footer">
       <p>From developer foundations to everyday apps.</p>
       <LumenButtonLink class="maker-hero-secondary" href={siteConfig.contact.github} newTab variant="unstyled">
-        View GitHub <Icon name="arrow-up-right" />
+        View GitHub <ArrowExchange />
       </LumenButtonLink>
     </div>
   </section>

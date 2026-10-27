@@ -3,6 +3,7 @@ import type { ImageMetadata } from 'astro'
 
 import { Image } from 'astro:assets'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -49,7 +50,7 @@ const meta = {
           <div class="maker-hero-actions">
             <ButtonLink class="maker-hero-primary" href="#versions" variant="unstyled">
               Explore the versions
-              <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-down" /></span>
+              <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange direction="down" /></span>
             </ButtonLink>
           </div>
           <p class="history-hero-note">Nothing lost. Every old door still opens.</p>
