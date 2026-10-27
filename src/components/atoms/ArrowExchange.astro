@@ -1,0 +1,61 @@
+---
+import { Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  class?: string
+  direction?: 'down' | 'right' | 'up-right'
+  size?: 'default' | 'sm'
+}
+
+const { class: className = '', direction = 'up-right', size = 'default' } = Astro.props
+---
+
+<span aria-hidden="true" data-arrow-exchange={direction}>
+  <span data-arrow-track>
+    <span data-arrow-glyph><Icon class={className} name={`arrow-${direction}`} size={size} /></span>
+    <span data-arrow-glyph data-arrow-incoming><Icon class={className} name={`arrow-${direction}`} size={size} /></span>
+  </span>
+</span>
+
+<style>
+  [data-arrow-exchange] {
+    --arrow-exit-x: 125%;
+    --arrow-exit-y: 0%;
+    position: relative;
+    display: inline-grid;
+    flex-shrink: 0;
+    overflow: hidden;
+    vertical-align: -0.125em;
+    pointer-events: none;
+  }
+
+  [data-arrow-exchange='up-right'] { --arrow-exit-y: -125%; }
+  [data-arrow-exchange='down'] { --arrow-exit-x: 0%; --arrow-exit-y: 125%; }
+
+  [data-arrow-track] { position: relative; }
+  [data-arrow-glyph] { display: grid; place-items: center; }
+  [data-arrow-incoming] {
+    position: absolute;
+    inset: 0;
+    transform: translate(calc(-1 * var(--arrow-exit-x)), calc(-1 * var(--arrow-exit-y)));
+  }
+
+  /* A single track keeps the outgoing and incoming arrows in step. Resetting
+     reveals the identical resting arrow, ready for the next interaction. */
+  @keyframes arrow-exchange {
+    from { transform: translate(0, 0); }
+    to { transform: translate(var(--arrow-exit-x), var(--arrow-exit-y)); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(:is(a, button):not(:disabled, [aria-disabled='true']):focus-visible) [data-arrow-track] {
+      animation: arrow-exchange 480ms cubic-bezier(0.25, 0.8, 0.25, 1) both;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :global(:is(a, button):not(:disabled, [aria-disabled='true']):hover) [data-arrow-track] {
+      animation: arrow-exchange 480ms cubic-bezier(0.25, 0.8, 0.25, 1) both;
+    }
+  }
+</style>

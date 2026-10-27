@@ -1,7 +1,9 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
 
-import { Button as UIButton, Icon } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Button as UIButton } from '@santi020k/lumen-astro'
 
 type Props = Omit<HTMLAttributes<'button'>, 'class'> & {
   className?: string
@@ -45,7 +47,7 @@ const uiVariant = {
     <slot />
     {showArrow && (
       <span aria-hidden="true" class="site-action-arrow">
-        <Icon name="arrow-right" size="sm" />
+        <ArrowExchange direction="right" size="sm" />
       </span>
     )}
   </span>
