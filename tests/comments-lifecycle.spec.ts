@@ -5,6 +5,8 @@ const LONG_POST_PATH = '/blog/why-developer-experience-work-should-be-measured-l
 const openComments = async (page: Page) => {
   const fold = page.locator('[data-discussion-fold]')
 
+  await expect(fold).toBeVisible()
+  await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition')
   if (await fold.getAttribute('open') === null) await fold.locator('summary').click()
   await expect(fold).toHaveAttribute('open')
 }
@@ -55,7 +57,16 @@ const mockWidget = () => {
     document.body.dataset.theme = config.theme
   })
 
-  window.parent.postMessage({ giscus: { resizeHeight: 300 } }, new URL(document.referrer).origin)
+  // Report the rendered viewport height. The zero-height readiness boundary
+  // is tested separately without relying on browser-specific hidden frames.
+  const reportHeight = () => {
+    document.body.dataset.reportedHeight = String(window.innerHeight)
+    window.parent.postMessage({ giscus: { resizeHeight: window.innerHeight } }, new URL(document.referrer).origin)
+  }
+
+  reportHeight()
+  window.addEventListener('resize', reportHeight)
+  new ResizeObserver(reportHeight).observe(document.documentElement)
 }
 
 const firstPostPath = async (page: Page) => {
@@ -378,6 +389,297 @@ test('an error on an abandoned client leaves both article sections unchanged', a
   expect(requests).toBe(2)
   await expect(page.locator('#comments [data-giscus-mount]')).toBeVisible()
   await expect(page.locator('#comments [data-giscus-error]')).toBeEmpty()
+})
+
+// Mirrors the component's initialization deadline for the client and widget.
+const INIT_DEADLINE_MS = 15_000
+
+// A mount without a frame is hidden; a pending frame stays rendered so it can
+// still lazy load and measure a ready height.
+const expectGitHubFallback = async (page: Page, { hasFrame }: { hasFrame: boolean }) => {
+  const section = page.locator('#comments')
+  const mount = section.locator('[data-giscus-mount]')
+  const status = section.locator('[data-giscus-error]')
+
+  await expect(section.locator('[data-giscus-loading]')).toBeHidden()
+  await expect(section.locator('iframe.giscus-frame')).toHaveCount(hasFrame ? 1 : 0)
+
+  if (hasFrame) {
+    await expect(mount).toBeVisible()
+    await expect(section.locator('iframe.giscus-frame')).toBeVisible()
+  } else {
+    await expect(mount).toBeHidden()
+  }
+
+  await expect(status).toBeVisible()
+  await expect(status).toHaveText(/could not load.*GitHub/iu)
+  await expect(status).toHaveAttribute('role', 'status')
+  await expect(status).toHaveAttribute('aria-live', 'polite')
+}
+
+const expectStillLoading = async (page: Page) => {
+  const section = page.locator('#comments')
+
+  await expect(section.locator('[data-giscus-loading]')).toBeVisible()
+  await expect(section.locator('[data-giscus-error]')).toBeEmpty()
+}
+
+const expectDiscussionReady = async (page: Page) => {
+  const section = page.locator('#comments')
+
+  await expect(section.locator('[data-giscus-loading]')).toBeHidden()
+  await expect(section.locator('[data-giscus-error]')).toBeEmpty()
+  await expect(section.locator('[data-giscus-mount]')).toBeVisible()
+  await expect(section.locator('iframe.giscus-frame')).toBeVisible()
+}
+
+test('a client that never mounts the widget falls back to GitHub after the deadline', async ({ page }) => {
+  await page.clock.install()
+  await page.route('https://giscus.app/client.js', route => route.fulfill({
+    contentType: 'application/javascript', body: ''
+  }))
+  await page.goto(LONG_POST_PATH)
+  await openComments(page)
+  await expect(page.locator('#comments script')).toHaveCount(1)
+  await expectStillLoading(page)
+
+  await page.clock.fastForward(INIT_DEADLINE_MS - 5_000)
+  await expectStillLoading(page)
+  await page.clock.fastForward(6_000)
+  await expectGitHubFallback(page, { hasFrame: false })
+})
+
+test('a widget that never reports ready falls back to GitHub after the deadline', async ({ page }) => {
+  await page.clock.install()
+  await page.route('https://giscus.app/client.js', route => route.fulfill({
+    contentType: 'application/javascript', body: `(${mockClient.toString()})()`
+  }))
+  await page.route('https://giscus.app/widget?*', route => route.fulfill({
+    contentType: 'text/html', body: '<html><body>Silent widget</body></html>'
+  }))
+  await page.goto(LONG_POST_PATH)
+  await openComments(page)
+  await expect(page.frameLocator('iframe.giscus-frame').locator('body')).toHaveText('Silent widget')
+  await expectStillLoading(page)
+
+  await page.clock.fastForward(INIT_DEADLINE_MS - 5_000)
+  await expectStillLoading(page)
+  await page.clock.fastForward(6_000)
+  await expectGitHubFallback(page, { hasFrame: true })
+})
+
+for (const lateResource of ['client', 'widget']) {
+  test(`a ${lateResource} that becomes ready after the deadline restores the discussion`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' })
+    await page.clock.install()
+
+    let release: () => void = () => undefined
+    let markRequested: () => void = () => undefined
+    const pending = new Promise<void>(resolve => {
+      release = resolve
+    })
+    const requested = new Promise<void>(resolve => {
+      markRequested = resolve
+    })
+
+    await page.route('https://giscus.app/client.js', async route => {
+      if (lateResource === 'client') {
+        markRequested()
+        await pending
+      }
+
+      await route.fulfill({ contentType: 'application/javascript', body: `(${mockClient.toString()})()` })
+    })
+    await page.route('https://giscus.app/widget?*', async route => {
+      if (lateResource === 'widget') {
+        markRequested()
+        await pending
+      }
+
+      await route.fulfill({ contentType: 'text/html', body: `<html><body><script>(${mockWidget.toString()})()</script></body></html>` })
+    })
+
+    try {
+      await page.goto(LONG_POST_PATH)
+      await openComments(page)
+      await requested
+      await page.clock.fastForward(INIT_DEADLINE_MS + 1_000)
+      await expectGitHubFallback(page, { hasFrame: lateResource === 'widget' })
+
+      release()
+      await expectDiscussionReady(page)
+
+      const widget = page.frameLocator('iframe.giscus-frame').locator('body')
+
+      await expect(widget).toHaveAttribute('data-reported-height', /^[1-9]\d*$/u)
+      await expect(widget).toHaveAttribute('data-theme', 'light')
+
+      // Readiness cancels the deadline restarted for a late client frame.
+      await page.clock.fastForward(60_000)
+      await expectDiscussionReady(page)
+      await page.locator('[data-theme-toggle-btn]').click()
+      await expect(widget).toHaveAttribute('data-theme', 'transparent_dark')
+    } finally {
+      release()
+    }
+  })
+}
+
+test('a zero-height widget message does not complete initialization', async ({ page }) => {
+  await page.clock.install()
+  await page.route('https://giscus.app/client.js', route => route.fulfill({
+    contentType: 'application/javascript', body: `(${mockClient.toString()})()`
+  }))
+  await page.route('https://giscus.app/widget?*', route => route.fulfill({
+    contentType: 'text/html',
+    body: '<html><body><script>parent.postMessage({ giscus: { resizeHeight: 0 } }, new URL(document.referrer).origin)</script></body></html>'
+  }))
+  await page.goto(LONG_POST_PATH)
+  await openComments(page)
+  const widget = page.frameLocator('iframe.giscus-frame').locator('body')
+
+  await expect(widget).toBeAttached()
+  await expectStillLoading(page)
+  await page.clock.fastForward(INIT_DEADLINE_MS + 1_000)
+  await expectGitHubFallback(page, { hasFrame: true })
+  await widget.evaluate(() => {
+    window.parent.postMessage({ giscus: { resizeHeight: 300 } }, new URL(document.referrer).origin)
+  })
+  await expectDiscussionReady(page)
+})
+
+test('a reader who scrolls away from a pending widget can load it on return', async ({ page }) => {
+  await page.clock.install()
+
+  let widgetRequests = 0
+  let release: () => void = () => undefined
+  const pending = new Promise<void>(resolve => {
+    release = resolve
+  })
+
+  await page.route('https://giscus.app/client.js', route => route.fulfill({
+    contentType: 'application/javascript', body: `(${mockClient.toString()})()`
+  }))
+  await page.route('https://giscus.app/widget?*', async route => {
+    widgetRequests += 1
+    await pending
+    await route.fulfill({ contentType: 'text/html', body: `<html><body><script>(${mockWidget.toString()})()</script></body></html>` })
+  })
+
+  try {
+    await page.goto(LONG_POST_PATH)
+    await openComments(page)
+    await expect(page.locator('#comments iframe.giscus-frame')).toHaveCount(1)
+    await page.evaluate(() => {
+      window.scrollTo(0, 0)
+    })
+    await page.clock.fastForward(INIT_DEADLINE_MS + 1_000)
+    await expectGitHubFallback(page, { hasFrame: true })
+
+    // Browsers choose their own lazy-load distance. The pending network response
+    // makes this recovery case deterministic regardless of when loading starts.
+    await page.locator('#comments iframe.giscus-frame').scrollIntoViewIfNeeded()
+    await expect.poll(() => widgetRequests).toBe(1)
+    release()
+    await expectDiscussionReady(page)
+  } finally {
+    release()
+  }
+})
+
+test('a ready widget cancels the initialization deadline', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' })
+  await page.clock.install()
+  await page.route('https://giscus.app/client.js', route => route.fulfill({
+    contentType: 'application/javascript', body: `(${mockClient.toString()})()`
+  }))
+  await fulfillWidget(page)
+  await page.goto(LONG_POST_PATH)
+  await openComments(page)
+
+  const widget = page.frameLocator('iframe.giscus-frame').locator('body')
+
+  await expect(widget).toHaveAttribute('data-theme', 'light')
+  await expectDiscussionReady(page)
+
+  await page.clock.fastForward(60_000)
+  await expectDiscussionReady(page)
+  await page.locator('[data-theme-toggle-btn]').click()
+  await expect(widget).toHaveAttribute('data-theme', 'transparent_dark')
+})
+
+test('an old article deadline cannot finish the next widget', async ({ page }) => {
+  let requests = 0
+
+  await page.clock.install()
+  await page.route('https://giscus.app/client.js', async route => {
+    requests += 1
+    await route.fulfill({ contentType: 'application/javascript', body: '' })
+  })
+  const path = await firstPostPath(page)
+
+  await page.goto(path)
+  await openComments(page)
+  await expect.poll(() => requests).toBe(1)
+  const abandoned = await page.locator('#comments').elementHandle()
+
+  await page.clock.fastForward(10_000)
+  await returnToBlog(page)
+  await page.locator(`a[href="${path}"]`).first().click()
+  await expect(page).toHaveURL(path)
+  await expect(page.locator('#comments script')).toHaveCount(0)
+
+  // Cross the old deadline before starting a replacement timer. An abandoned
+  // callback must neither mutate its detached section nor touch the live one.
+  await page.clock.fastForward(6_000)
+  await expect(page.locator('#comments script')).toHaveCount(0)
+  await expect(page.locator('#comments [data-giscus-loading]')).toBeHidden()
+  await expect(page.locator('#comments [data-giscus-error]')).toBeEmpty()
+  expect(await abandoned.evaluate(section => ({
+    connected: section.isConnected,
+    error: section.querySelector('[data-giscus-error]')?.textContent
+  }))).toEqual({ connected: false, error: '' })
+
+  await openComments(page)
+  await expect.poll(() => requests).toBe(2)
+  await page.clock.fastForward(10_000)
+  await expectStillLoading(page)
+  await page.clock.fastForward(6_000)
+  await expectGitHubFallback(page, { hasFrame: false })
+})
+
+test('a late client whose widget stays silent reaches a second bounded fallback', async ({ page }) => {
+  await page.clock.install()
+  let release: () => void = () => undefined
+  const pending = new Promise<void>(resolve => {
+    release = resolve
+  })
+  await page.route('https://giscus.app/client.js', async route => {
+    await pending
+    await route.fulfill({ contentType: 'application/javascript', body: `(${mockClient.toString()})()` })
+  })
+  await page.route('https://giscus.app/widget?*', route => route.fulfill({
+    contentType: 'text/html', body: '<html><body>Silent widget</body></html>'
+  }))
+
+  try {
+    await page.goto(LONG_POST_PATH)
+    await openComments(page)
+    await expect(page.locator('#comments script')).toHaveCount(1)
+    await expectStillLoading(page)
+    await page.clock.fastForward(INIT_DEADLINE_MS + 1_000)
+    await expectGitHubFallback(page, { hasFrame: false })
+    release()
+    await expect(page.frameLocator('iframe.giscus-frame').locator('body')).toHaveText('Silent widget')
+    await expectStillLoading(page)
+    await page.clock.fastForward(INIT_DEADLINE_MS + 1_000)
+    await expectGitHubFallback(page, { hasFrame: true })
+    await page.clock.fastForward(60_000)
+    await expectGitHubFallback(page, { hasFrame: true })
+    await expect(page.locator('#comments script')).toHaveCount(1)
+  } finally {
+    release()
+  }
 })
 
 test('comments mount once and retain live theme changes after article navigation', async ({ page }) => {

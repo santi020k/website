@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 
 import {
+  getNavigationCurrent,
   getPortfolioPath,
   getPostPath,
   getSeriesPath,
@@ -12,6 +13,18 @@ import {
 // ─── links ────────────────────────────────────────────────────────────────────
 
 describe('links', () => {
+  test.each([
+    ['/', '/', 'page'],
+    ['/blog', '/blog/', 'page'],
+    ['/blog/', '/blog/', 'page'],
+    ['/blog/story/', '/blog/', 'true'],
+    ['/blog/story/', '/', undefined],
+    ['/blogger/', '/blog/', undefined],
+    ['/about/', '/blog/', undefined]
+  ])('identifies the navigation state of %s for %s', (pathname, path, expected) => {
+    expect(getNavigationCurrent(pathname, path)).toBe(expected)
+  })
+
   test('returns the correct canonical path for a blog post', () => {
     expect(getPostPath('my-post')).toBe('/blog/my-post/')
   })

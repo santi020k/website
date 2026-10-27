@@ -157,12 +157,13 @@
   background: hsl(var(--surface-muted));
 }
 
-.site-desktop-nav-link[aria-current="page"] {
+/* Exact pages (`page`) and their descendant routes (`true`) share the active marker. */
+.site-desktop-nav-link:is([aria-current="page"], [aria-current="true"]) {
   color: hsl(var(--ink));
   background: transparent;
 }
 
-.site-desktop-nav-link[aria-current="page"]::after {
+.site-desktop-nav-link:is([aria-current="page"], [aria-current="true"])::after {
   position: absolute;
   right: 0.75rem;
   bottom: 0.375rem;
@@ -242,7 +243,7 @@
 @media (forced-colors: active) {
   .site-header :is(a, button):focus-visible { outline-color: Highlight; }
   .site-mobile-nav-current { border: 1px solid Highlight; }
-  .site-desktop-nav-link[aria-current="page"]::after { border-bottom: 2px solid Highlight; }
+  .site-desktop-nav-link:is([aria-current="page"], [aria-current="true"])::after { border-bottom: 2px solid Highlight; }
 }
 
 @utility site-header-contact {
@@ -446,7 +447,7 @@
   letter-spacing: 0;
 }
 
-.site-mobile-nav-link[aria-current="page"] > :nth-child(2) {
+.site-mobile-nav-link:is([aria-current="page"], [aria-current="true"]) > :nth-child(2) {
   text-decoration: underline;
   text-decoration-color: hsl(var(--brand));
   text-decoration-thickness: 2px;

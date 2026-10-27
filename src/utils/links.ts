@@ -1,5 +1,14 @@
 import { getPostSlug } from './posts'
 
+/** Distinguishes a navigation destination from the section containing the current page. */
+export const getNavigationCurrent = (pathname: string, path: string): 'page' | 'true' | undefined => {
+  const route = pathname.endsWith('/') ? pathname : `${pathname}/`
+
+  if (route === path) return 'page'
+
+  return path !== '/' && route.startsWith(path) ? 'true' : undefined
+}
+
 /** Returns the canonical URL path for a blog post, given its collection slug. */
 export const getPostPath = (id: string) => `/blog/${getPostSlug(id)}/`
 

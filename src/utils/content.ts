@@ -18,6 +18,7 @@
 import { type CollectionEntry, getCollection } from 'astro:content'
 
 import { getPostPath } from './links'
+import { assertUniquePostPaths } from './posts'
 
 /** Share pending build loads and retry failures; development always asks Astro for fresh content. */
 const cacheCollection = <Entry>(load: () => Promise<Entry[]>) => {
@@ -40,6 +41,9 @@ const cacheCollection = <Entry>(load: () => Promise<Entry[]>) => {
 export const getCachedPosts = cacheCollection(async (): Promise<CollectionEntry<'post'>[]> => {
   const now = new Date()
   const all = await getCollection('post', ({ data }) => import.meta.env.PROD ? !data.draft && data.publishDate <= now : true)
+
+  // Every listing, feed, and route reads this load, so they all reject a shared URL.
+  assertUniquePostPaths(all, getPostPath)
 
   return [...all].sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()

@@ -1,9 +1,107 @@
-import { describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { collectSitemapEntries, deduplicateSitemapSources, renderSitemap } from '../sitemap.mjs'
+import { collectSitemapEntries, deduplicateSitemapSources, fetchSitemapText, renderSitemap } from '../sitemap.mjs'
 
 const origin = 'https://santi020k.com'
 const source = { origin, sitemap: '/sitemap-index.xml' }
+
+describe('sitemap fetch recovery', () => {
+  const fetchMock = vi.fn<typeof fetch>()
+  const url = `${origin}/sitemap.xml`
+
+  beforeEach(() => {
+    vi.useFakeTimers()
+    fetchMock.mockReset()
+    vi.stubGlobal('fetch', fetchMock)
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  test('returns a successful body without waiting or retrying', async () => {
+    fetchMock.mockResolvedValue(new Response('<urlset/>'))
+
+    await expect(fetchSitemapText(url)).resolves.toBe('<urlset/>')
+    expect(fetchMock).toHaveBeenCalledOnce()
+    const [requestedUrl, options] = fetchMock.mock.calls[0] ?? []
+
+    expect(requestedUrl).toBe(url)
+    expect(options?.headers).toEqual({ 'User-Agent': 'santi020k-cross-site-sitemap-builder/1.0' })
+    expect(options?.signal).toBeInstanceOf(AbortSignal)
+  })
+
+  test.each([408, 429, 500, 503])('waits before retrying a transient HTTP %s response', async status => {
+    const failedResponse = new Response('Temporarily unavailable', { status })
+    fetchMock.mockResolvedValueOnce(failedResponse).mockResolvedValueOnce(new Response('<urlset/>'))
+    const result = fetchSitemapText(url)
+
+    await vi.advanceTimersByTimeAsync(999)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(failedResponse.bodyUsed).toBe(true)
+    await vi.advanceTimersByTimeAsync(1)
+    await expect(result).resolves.toBe('<urlset/>')
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+  })
+
+  test('waits one and then two seconds when network failures persist', async () => {
+    const failure = new TypeError('Connection reset')
+    fetchMock.mockRejectedValue(failure)
+    const result = fetchSitemapText(url)
+    const outcome = result.catch((error: unknown) => error)
+
+    await vi.advanceTimersByTimeAsync(999)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    await vi.advanceTimersByTimeAsync(1)
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    await vi.advanceTimersByTimeAsync(1999)
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    await vi.advanceTimersByTimeAsync(1)
+    expect(await outcome).toMatchObject({
+      message: `Could not fetch ${url}: TypeError: Connection reset`,
+      cause: failure
+    })
+    expect(fetchMock).toHaveBeenCalledTimes(3)
+    await vi.advanceTimersByTimeAsync(60_000)
+    expect(fetchMock).toHaveBeenCalledTimes(3)
+  })
+
+  test.each([400, 401, 403, 404])('fails immediately for HTTP %s instead of repeating a permanent error', async status => {
+    fetchMock.mockResolvedValue(new Response('Unavailable', { status }))
+
+    await expect(fetchSitemapText(url)).rejects.toThrow(`HTTP ${status}`)
+    expect(fetchMock).toHaveBeenCalledOnce()
+  })
+
+  test('retries a response whose body stream fails', async () => {
+    const interrupted = new Response()
+    vi.spyOn(interrupted, 'text').mockRejectedValue(new Error('Interrupted body'))
+    fetchMock.mockResolvedValueOnce(interrupted).mockResolvedValueOnce(new Response('<urlset/>'))
+    const result = fetchSitemapText(url)
+
+    await vi.advanceTimersByTimeAsync(1000)
+    await expect(result).resolves.toBe('<urlset/>')
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+  })
+
+  test('retains HTTP failure context when canceling its response body fails', async () => {
+    const response = new Response('Unavailable', { status: 404 })
+    const cleanupFailure = new Error('Body already closed')
+
+    if (!response.body) throw new Error('Fixture requires a response body')
+
+    vi.spyOn(response.body, 'cancel').mockRejectedValue(cleanupFailure)
+    fetchMock.mockResolvedValue(response)
+    const outcome = await fetchSitemapText(url).catch((error: unknown) => error)
+
+    expect(outcome).toMatchObject({
+      message: `Could not fetch ${url}: Error: HTTP 404`,
+      cause: { message: 'HTTP 404', cause: cleanupFailure }
+    })
+    expect(fetchMock).toHaveBeenCalledOnce()
+  })
+})
 
 describe('cross-site sitemap', () => {
   test('fetches a shared theme hub once while retaining distinct origins and paths', () => {
