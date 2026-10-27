@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Lead the Speaking hero with a native Plan a session link to the booking brief, keeping WhatsApp and LinkedIn choices together in the invitation card.
+
 - Fold long article code examples into a 12-line preview with native expansion, complete copying, and shared scroll guidance.
 
 - Clarify the Speaking booking invitation with a full-width WhatsApp introduction action and a secondary LinkedIn link for a fuller brief, preserving the existing briefing URL and complete session notes.

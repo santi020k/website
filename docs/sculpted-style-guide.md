@@ -810,6 +810,13 @@ so enlarged text keeps its reading space. Retain both link destinations and visi
 
 ### Invitation folio speaking booking card
 
+Lead the Speaking hero with **Brief first**: one “Plan a session” action links
+to `#speaking-booking-heading` in the same tab. Use the shared ButtonLink with a
+decorative down-right arrow, followed by the quiet caption “Start with the brief,
+then choose WhatsApp or LinkedIn.” Keep the complete headline, description,
+traits, and Portrait cover. The booking card owns both external contact actions;
+the hero uses native fragment navigation without adding a client controller.
+
 Keep the booking card as an opaque Lumen surface with a fine border and asymmetric
 1.75rem corners. The tinted invitation holds the heading, complete briefing prompt,
 and existing contact action. Three ruled notes keep their full text and sentence-case

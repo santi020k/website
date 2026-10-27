@@ -606,3 +606,35 @@ reviewed. Affected lint passed with zero warnings, the current production build
 and 452-page OG audit passed, and PDF freshness passed without regeneration.
 The complete workspace gate remains recorded at `16b66665`; this visual
 iteration received scoped integration validation.
+
+## Speaking Brief first follow-up
+
+Approved source `c80bc99b`, based on `abff330f`, leads the hero with one native
+Plan a session link to the booking heading. A quiet caption explains that the
+brief comes before choosing WhatsApp or LinkedIn. The complete headline,
+description, traits, speaker profile, and booking markup remain unchanged.
+The patch note is folded into 5.0.0; no client controller was added.
+
+All 30 Chromium/WebKit behavior and accessibility cases passed with retries
+disabled, including both motion preferences, keyboard activation, preserved
+document identity, and the next focus target in the booking card. Six reflow
+checks covered 320, 768, and 1440px at normal and 200% text. The native fragment
+and both contact choices also worked with JavaScript disabled. Four matched
+mobile/desktop captures in both themes verified unchanged content and no page
+overflow.
+
+The two initial desktop screenshot comparisons detected obsolete hero actions
+and an earlier navigation layout. The approved current rendering was reviewed,
+and all four desktop/mobile browser references were regenerated. The snapshot
+test now checks the new hero action and waits for visible animations before
+capture. Chromium, desktop WebKit, and Mobile Chrome comparisons are supported by
+reviewed captures. Mobile Safari also rendered the correct invitation in an
+independent native browser capture, but its automated comparison accepted an old
+reference during a negative control. Its reported pass is not counted as reliable
+visual regression evidence; the manually reviewed capture is the evidence for
+that viewport. No product behavior was changed to accommodate this test limitation.
+
+Affected lint passed with zero warnings. The current production build, 452-page
+OG audit, archive assembly, and PDF freshness check passed without regenerating
+the PDFs. Published changelog entries remain unchanged. This iteration uses
+scoped checks; the complete workspace gate remains recorded at `16b66665`.

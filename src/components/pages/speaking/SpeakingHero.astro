@@ -8,13 +8,6 @@ import SpeakerPortrait from '@/assets/photos/originals/me-1-square.webp'
 
 import { Card, Icon } from '@santi020k/lumen-astro'
 
-interface Props {
-  linkedinHref: string
-  whatsappHref: string
-}
-
-const { linkedinHref, whatsappHref } = Astro.props
-
 const sessionTraits = [
   'Grounded in shipped work',
   'Tailored to the audience',
@@ -67,13 +60,18 @@ const sessionTraits = [
           motion-reduce:animate-none
         "
       >
-        <div class="section-actions">
-          <ButtonLink href={whatsappHref} newTab showArrow>
-            Invite me to speak
-          </ButtonLink>
-          <ButtonLink href={linkedinHref} newTab showArrow variant="secondary">
-            Connect on LinkedIn
-          </ButtonLink>
+        <div class="space-y-3">
+          <div class="section-actions">
+            <ButtonLink href="#speaking-booking-heading">
+              Plan a session
+              <span aria-hidden="true" class="site-action-arrow">
+                <Icon name="arrow-down-right" size="sm" />
+              </span>
+            </ButtonLink>
+          </div>
+          <p class="text-xs/6 text-ink-soft">
+            Start with the brief, then choose WhatsApp or LinkedIn.
+          </p>
         </div>
 
         <ul
