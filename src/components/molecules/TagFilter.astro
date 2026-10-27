@@ -2,16 +2,18 @@
 import SculptedTag from '@/components/atoms/SculptedTag.astro'
 
 import { getTagPath } from '@/utils/links'
+import { getBlogTopicLabel } from '@/utils/tags'
 
-import { Icon } from '@santi020k/lumen-astro'
+import { Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   activeTag?: string
   showDivider?: boolean
   tags: [string, number][]
+  totalTopics: number
 }
 
-const { activeTag, showDivider = false, tags } = Astro.props
+const { activeTag, showDivider = false, tags, totalTopics } = Astro.props
 
 // Later archive pages keep their group selected, but only its first page is the current page.
 const getAriaCurrent = (href: string, isSelected: boolean) => {
@@ -34,24 +36,53 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
     />
   </div>
 )}
-<div
-aria-label="Filter by topic"
-class="@container/sculpted-tags flex flex-wrap gap-2.5"
-data-blog-tag-filter
-role="group"
->
-  <SculptedTag aria-current={getAriaCurrent('/blog/', !activeTag)} href="/blog/" label="All posts">
-    <Icon class="size-4.5" name="layers" slot="count" />
-  </SculptedTag>
-  {tags.map(([tag, count]) => (
-    <SculptedTag
-      aria-current={getAriaCurrent(getTagPath(tag), activeTag === tag)}
-      count={count}
-      href={getTagPath(tag)}
-      label={tag}
-    />
-  ))}
+<div data-blog-topic-guide>
+  <div data-topic-guide-heading>
+    <p>Browse by topic</p>
+    <Link data-topic-guide-catalog href="/blog/tags/" variant="inherit">
+      <span>{`All ${totalTopics} ${totalTopics === 1 ? 'topic' : 'topics'}`}</span>
+      <Icon name="arrow-up-right" size="sm" />
+    </Link>
+  </div>
+  <div
+    aria-label="Filter by topic"
+    class="@container/sculpted-tags flex flex-wrap gap-2.5"
+    data-blog-tag-filter
+    role="group"
+  >
+    <SculptedTag aria-current={getAriaCurrent('/blog/', !activeTag)} href="/blog/" label="All posts">
+      <Icon class="size-4.5" name="layers" slot="count" />
+    </SculptedTag>
+    {tags.map(([tag, count]) => (
+      <SculptedTag
+        aria-current={getAriaCurrent(getTagPath(tag), activeTag === tag)}
+        count={count}
+        href={getTagPath(tag)}
+        label={getBlogTopicLabel(tag)}
+      />
+    ))}
+  </div>
 </div>
+
+<style>
+  [data-blog-topic-guide] { --topic-guide-accent: hsl(var(--brand)); min-width: 0; }
+  :global(:root[data-theme='dark']) [data-blog-topic-guide] { --topic-guide-accent: hsl(var(--accent)); }
+  [data-topic-guide-heading] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 1.125rem; padding-top: 0.75rem; margin-bottom: 0.875rem; border-top: 1px solid hsl(var(--line)); }
+  [data-topic-guide-heading] p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.8; letter-spacing: 0.06em; text-transform: uppercase; }
+  [data-topic-guide-catalog][data-slot='link'] { display: inline-flex; align-items: center; gap: 0.625rem; min-height: 2.75rem; max-width: 100%; color: var(--topic-guide-accent); font-size: 0.8125rem; line-height: 1.8; text-decoration: none; }
+  [data-topic-guide-catalog]:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-topic-guide-catalog]:focus-visible { outline: 2px solid var(--topic-guide-accent); outline-offset: 4px; }
+  [data-blog-tag-filter] :global([data-sculpted-tag]) { transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease; }
+  [data-blog-tag-filter] :global([data-sculpted-tag-count]) { transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease; }
+  [data-blog-tag-filter] :global([data-sculpted-tag]:is(:hover, :focus-visible)) { box-shadow: 0 3px 0 color-mix(in srgb, var(--sculpted-tag-accent) 18%, transparent); }
+  [data-blog-tag-filter] :global([data-sculpted-tag]:is(:hover, :focus-visible):not([aria-current])) { border-color: var(--sculpted-tag-accent); background: color-mix(in srgb, var(--sculpted-tag-accent) 6%, hsl(var(--surface))); color: var(--sculpted-tag-accent); }
+  [data-blog-tag-filter] :global([data-sculpted-tag]:is(:hover, :focus-visible):not([aria-current]) [data-sculpted-tag-count]) { border-color: transparent; background: var(--sculpted-tag-accent); color: hsl(var(--surface)); }
+  [data-blog-tag-filter] :global([data-sculpted-tag]:is(:hover, :focus-visible) [data-sculpted-tag-label]) { text-decoration: underline; text-underline-offset: 0.25em; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-blog-tag-filter] :global([data-sculpted-tag]),
+    [data-blog-tag-filter] :global([data-sculpted-tag-count]) { transition: none; }
+  }
+</style>
 
 <script>
   import { TransitionBeforePreparationEvent } from 'astro:transitions/client'

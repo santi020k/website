@@ -17,3 +17,13 @@ export const getBlogBrowseTags = (tags: [string, number][]): [string, number][] 
 
   return [...featured, ...remaining].slice(0, 8)
 }
+
+const blogTopicNames = new Map([
+  ['eslint', 'ESLint'],
+  ['nextjs', 'Next.js'],
+  ['typescript', 'TypeScript']
+])
+
+/** Presentation labels only: the original tag remains the archive identifier. */
+export const getBlogTopicLabel = (tag: string): string => blogTopicNames.get(tag) ??
+  tag.replaceAll('-', ' ').replace(/^\p{L}/u, letter => letter.toUpperCase())
