@@ -16,7 +16,7 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
-import { getAllTags, getBlogBrowseTags } from '@/utils/tags'
+import { getAllTags, getBlogBrowseTags, getBlogTopicLabel } from '@/utils/tags'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -45,13 +45,14 @@ const allTags = getAllTags(allPosts)
 const topTags = getBlogBrowseTags(allTags)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
-const archiveDescription = `Articles, guides, and personal notes tagged ${tag}.`
+const topicLabel = getBlogTopicLabel(tag)
+const archiveDescription = `Articles, guides, and personal notes about ${topicLabel}.`
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Blog', url: '/blog/' },
   { name: 'Topics', url: '/blog/tags/' },
-  { name: `#${tag}`, url: getTagPath(tag) },
+  { name: topicLabel, url: getTagPath(tag) },
   ...(page.currentPage > 1 ? [{ name: `Page ${page.currentPage}`, url: Astro.url.pathname }] : [])
 ]
 ---
@@ -64,17 +65,17 @@ mainClass="remaining-pages"
       archiveDescription :
       `${archiveDescription} Page ${page.currentPage} of ${page.lastPage}.`,
     title: isFirstPage ?
-      `${tag} Posts` :
-      `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`
+      `${topicLabel} posts` :
+      `${topicLabel} posts · Page ${page.currentPage} of ${page.lastPage}`
   }}
 >
   <PageHero
     compact={!isFirstPage}
-    description={`Filtered to ${postCount} ${postCount === 1 ? 'post' : 'posts'} connected by the #${tag} topic.`}
+    description={`${postCount} ${postCount === 1 ? 'post' : 'posts'} about ${topicLabel}.`}
     eyebrow="Topic archive"
     gradientText="All posts."
     metaItems={['Filtered archive', 'Browse by topic', 'Latest first']}
-    title={`#${tag}`}
+    title={topicLabel}
   >
     <ButtonLink href="/blog/tags/" showArrow variant="secondary">
       Browse all topics
@@ -89,10 +90,10 @@ mainClass="remaining-pages"
   >
     <SectionHeader
       description={isFirstPage ?
-        `Start with the latest post tagged #${tag}, then browse the rest.` :
-        `Browse posts tagged #${tag} across the archive.`}
+        'Start with the latest post, then browse the rest.' :
+        `Browse earlier posts about ${topicLabel}.`}
       eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
-      title={`Posts tagged #${tag}`}
+      title={`Posts about ${topicLabel}`}
     />
 
     <div class="
@@ -109,7 +110,7 @@ mainClass="remaining-pages"
         (
           <div class="flex flex-col items-center gap-4 py-16 text-center">
             <p class="text-lg text-ink-soft">
-              No posts found for <strong class="text-ink">#{tag}</strong>.
+              No posts found for <strong class="text-ink">{topicLabel}</strong>.
             </p>
             <ButtonLink href="/blog/" showArrow variant="secondary">
               Back to all posts
