@@ -23,6 +23,7 @@ import { rehypeArticleOpening } from './src/plugins/rehype-article-opening'
 import { rehypeArticleQuotes } from './src/plugins/rehype-article-quotes'
 import { rehypeArticleReferences } from './src/plugins/rehype-article-references'
 import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
+import { rehypePrintReferences } from './src/plugins/rehype-print-references'
 import { rehypeProjectLedger } from './src/plugins/rehype-project-ledger'
 import { rehypeReadableTables } from './src/plugins/rehype-readable-tables'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
@@ -30,6 +31,7 @@ import { parseContentDate } from './src/utils/content-date'
 import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
+const siteOrigin = 'https://santi020k.com'
 
 /**
  * Builds sitemap metadata for content-collection routes from frontmatter.
@@ -37,7 +39,6 @@ const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS ===
  * that declare another canonical URL are omitted to avoid conflicting signals.
  */
 const buildContentSitemapMetadata = () => {
-  const siteOrigin = 'https://santi020k.com'
   const lastmodMap = new Map<string, string>()
   const nonCanonicalPageUrls = new Set<string>()
   const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---/
@@ -229,7 +230,8 @@ export default defineConfig({
         rehypeArticleFigures,
         rehypeArticleReferences,
         rehypeArticleOpening,
-        rehypeArticleHeadings
+        rehypeArticleHeadings,
+        [rehypePrintReferences, { site: siteOrigin }]
       ],
       remarkPlugins: [remarkDirective, remarkAdmonitions],
       remarkRehype: {
@@ -242,7 +244,7 @@ export default defineConfig({
   },
   // https://docs.astro.build/en/guides/prefetch/
   prefetch: true,
-  site: 'https://santi020k.com/',
+  site: siteOrigin,
   vite: {
     build: {
       // Drop the Vite modulepreload polyfill — all browsers we target (Chrome 66+,

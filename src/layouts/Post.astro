@@ -19,6 +19,7 @@ import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
+import type { PrintReference } from '@/plugins/rehype-print-references'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingStats } from '@/utils/reading-time'
 import { getSocialImageURL } from '@/utils/social-image'
@@ -40,10 +41,11 @@ interface Props {
   figureCaptions: string[]
   headings: MarkdownHeading[]
   post: CollectionEntry<'post'>
+  printReferences: PrintReference[]
   recommendationUrls: string[]
 }
 
-const { figureCaptions, headings, post, recommendationUrls } = Astro.props
+const { figureCaptions, headings, post, printReferences, recommendationUrls } = Astro.props
 const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
 
 const ogImage = getSocialImageURL(
@@ -171,6 +173,19 @@ mainClass="remaining-pages remaining-pages--reading"
         </div>
       </div>
     </section>
+    {printReferences.length > 0 && (
+      <section data-article-print-references aria-labelledby="article-print-references-heading">
+        <h2 id="article-print-references-heading">References</h2>
+        <ol>
+          {printReferences.map(({ href, label }, index) => (
+            <li id={`article-print-reference-${index + 1}`}>
+              <span>{label}</span>
+              <a href={href} target="_blank" rel="noopener noreferrer">{href.replace(/^https:\/\//u, '')}</a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
     <p data-article-print-source>
       <span>{title}</span>
       <a href={localURL.href}>{localURL.href}</a>
