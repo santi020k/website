@@ -1,0 +1,139 @@
+/* Print edition is article-only; screen styles and source text stay unchanged. */
+[data-article-print-source] { display: none; }
+
+@media print {
+  html:has(#article-content[data-article-prose]) {
+    color-scheme: light;
+    background: hsl(var(--surface));
+
+    body { background: hsl(var(--surface)); color: hsl(var(--ink)); }
+    body, body > div, main, [data-reading-layout], [data-reading-body], [data-post-story] {
+      display: block;
+      min-height: 0;
+      max-width: none;
+      width: auto;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .site-header, [data-site-footer], [data-particles-bg], .grid-fade,
+    .ui-skip-link, #back-to-top, #nav-progress, [data-ui-scroll-progress],
+    [data-post-mobile-toc], [data-post-rail-boundary], [data-post-continuation],
+    [data-page-section]:has(#related-writing), [data-post-final-return], [data-cover-art],
+    [data-article-opening] > :first-child, [data-article-topics-container],
+    [data-reading-actions], [data-publication-reading],
+    [data-section-reference-for], [data-ui-code-copy], [data-scroll-cue-message],
+    [data-code-recovery], [data-example-fold] > summary, [data-code-preview],
+    [data-code-fold-footer], [data-gallery-actions], [data-gallery-dialog],
+    [data-package-manager-code-tabs] > [role='tablist'] {
+      display: none !important;
+    }
+
+    [data-reading-layout], [data-reading-layout] * { container-type: normal; }
+    [data-reading-layout] * { animation: none; transition: none; }
+
+    [data-article-opening] { margin-bottom: 2rem; }
+    [data-article-opening] > * { margin-block: 0; }
+    [data-cover-spread] { display: block; }
+    [data-cover-spread] [data-cover-headline] { margin: 0; padding: 0; }
+    [data-cover-spread] [data-cover-headline] h1 {
+      font-size: 25pt;
+      line-height: 1.15;
+      text-wrap: pretty;
+    }
+    [data-cover-lead] { display: block; margin-top: 1rem; }
+    [data-article-opening] [data-editorial-summary] { max-width: none; font-size: 11pt; line-height: 1.6; }
+    [data-cover-byline] { display: flex; flex-direction: row; gap: .4rem; margin-top: .75rem; }
+    [data-cover-byline] a { min-height: 0; padding: 0; }
+    [data-publication-imprint] { display: block; margin-top: .75rem; padding-block: .75rem; }
+    [data-publication-dates] { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; border: 0; padding: 0; }
+    [data-publication-dates] > div { display: flex; align-items: baseline; gap: .4rem; margin: 0; }
+    [data-publication-dates] :is(dt, dd) { margin: 0; font-size: 9pt; font-weight: 400; letter-spacing: normal; }
+
+    [data-article-prose] { font-size: 11pt; }
+    [data-article-prose] :is(p, li, blockquote) { font-size: 11pt; line-height: 1.65; orphans: 3; widows: 3; }
+    [data-article-prose] > :is(p, ul, ol, dl) { max-inline-size: none; }
+    [data-article-prose] :is(h2, h3, h4), [data-section-reference-row] { break-after: avoid; }
+    [data-article-prose] h2[data-article-section-heading] { font-size: 17pt; }
+    [data-article-prose] > h3 { font-size: 14pt; }
+    [data-article-prose] :is(a, :not(pre) > code) { overflow-wrap: anywhere; }
+
+    /* Preserve the editor frame, filename, highlighting and source line numbers. */
+    [data-article-prose] [data-ui-code] {
+      --folio-accent: hsl(var(--brand));
+      --ui-code-bg: hsl(var(--surface));
+      --ui-code-header-bg: hsl(var(--brand-soft));
+      --ui-code-border: hsl(var(--line));
+      overflow: visible;
+      break-inside: auto;
+      box-shadow: none;
+      print-color-adjust: exact;
+    }
+    [data-article-prose] [data-ui-code] > figcaption { break-after: avoid; border-radius: .375rem 1.625rem 0 0; }
+    [data-article-prose] [data-ui-code] pre {
+      overflow: visible;
+      max-height: none;
+      padding: 1rem;
+      border-radius: 0 0 1.625rem 1.625rem;
+      background: hsl(var(--surface)) !important;
+    }
+    [data-article-prose] [data-ui-code] pre > code {
+      display: block;
+      min-inline-size: 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font: 400 9pt/1.65 var(--font-code);
+    }
+    [data-article-prose] [data-ui-code] pre :is(code, span),
+    [data-article-prose] [data-ui-code] pre {
+      color: var(--shiki-light, hsl(var(--ink))) !important;
+    }
+    [data-article-prose] [data-ui-code] code:has(> [data-line]) { white-space: normal; }
+    [data-article-prose] [data-ui-code] [data-line] { white-space: pre-wrap; min-block-size: 1lh; }
+    [data-article-prose] [data-article-code-folio] [data-line-numbers] > [data-line] {
+      display: block;
+      position: relative;
+      padding-inline-start: 4ch;
+      break-inside: avoid;
+    }
+    [data-article-prose] [data-article-code-folio] [data-line-numbers] > [data-line]::before {
+      position: absolute;
+      inset-inline-start: 0;
+      margin: 0;
+      padding-inline-end: .5ch;
+      font-size: inherit;
+      width: 2.5ch;
+      white-space: nowrap;
+    }
+    [data-example-fold]::details-content { content-visibility: visible; }
+    [data-example-fold] > [data-code-fold-region] { display: block; }
+    [data-package-manager-code-tabs] { display: block; overflow: visible; }
+    [data-package-manager-code-tabs] > [role='tabpanel']::before {
+      display: block;
+      content: attr(data-value);
+      padding: .5rem 1rem;
+      color: hsl(var(--ink));
+      background: hsl(var(--brand-soft));
+      font-size: 9pt;
+    }
+
+    [data-article-table-folio], [data-prose-table] { overflow: visible; }
+    [data-prose-table] table { table-layout: fixed; width: 100%; font-size: 9pt; }
+    [data-prose-table] :is(th, td) { min-inline-size: 0; padding: .5rem; overflow-wrap: anywhere; position: static; }
+    [data-prose-table] tr { break-inside: avoid; }
+    [data-article-prose] img { max-height: 160mm; object-fit: contain; }
+
+    [data-article-print-source] {
+      display: block;
+      margin-top: 1.5rem;
+      padding-top: .75rem;
+      border-top: 1px solid hsl(var(--line));
+      color: hsl(var(--ink-soft));
+      font: 400 9pt/1.6 var(--font-sans);
+      overflow-wrap: anywhere;
+      break-inside: avoid;
+    }
+    [data-article-print-source] a { display: block; color: inherit; text-decoration: underline; }
+  }
+}

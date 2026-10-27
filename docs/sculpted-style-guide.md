@@ -1726,6 +1726,19 @@ preview. Announce how to copy the selection using the keyboard or device menu;
 do not claim that manual copying has succeeded. A successful retry removes the
 recovery row. Preserve normal copying and hide the recovery row in print.
 
+Print edition keeps the article title, description, author, publication dates,
+prose, illustrations, and complete examples in a single paper column. Preserve
+the Code folio frame, filename, syntax colors, and source line numbers; wrap long
+lines without changing source text or clipboard values. Blank source lines retain
+their height, and long examples can continue across pages. Hide navigation,
+decorative covers, sharing, discussion, recommendations, copy controls, fold
+controls, and scroll cues only in print. Print the selected package-manager panel
+with its name; without JavaScript, keep the existing readable set of commands.
+Use the Theme light palette on paper independently of the screen theme. Finish
+with the article title and local permalink outside the code. Keep this stylesheet
+scoped to articles, including after client navigation, and verify a real paginated
+PDF alongside screen and print-media checks.
+
 Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
 when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
 and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match
