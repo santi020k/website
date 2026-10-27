@@ -32,11 +32,12 @@ const {
     variant === 'inline' && 'btn-inline',
     className
   ]}
+  data-text-link={variant === 'inline' ? '' : undefined}
   href={href}
   newTab={newTab}
   variant="unstyled"
 >
-  <slot />
+  {variant === 'inline' ? <span data-text-link-label><slot /></span> : <slot />}
   {showArrow && (
     <span aria-hidden="true" class="site-action-arrow">
       <ArrowExchange direction={newTab ? 'up-right' : 'right'} size="sm" />

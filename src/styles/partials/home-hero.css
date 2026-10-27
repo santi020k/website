@@ -274,7 +274,7 @@
   text-decoration: none;
 }
 
-.maker-hero-index:hover { color: hsl(var(--brand)); text-decoration: underline; text-underline-offset: 0.25rem; }
+.maker-hero-index:hover { color: hsl(var(--brand)); }
 
 @container home-hero (width < 60rem) {
   .maker-hero-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }

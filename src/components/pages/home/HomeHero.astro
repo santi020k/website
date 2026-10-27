@@ -5,7 +5,7 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import HeroPortrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
 
-import { ButtonLink } from '@santi020k/lumen-astro'
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
 
 import LumenLogo from '@/content/project/lumen-ui/logo.webp'
 import PostLensLogo from '@/content/project/postlens/logo.webp'
@@ -33,8 +33,8 @@ import PostLensLogo from '@/content/project/postlens/logo.webp'
           See selected work
           <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange /></span>
         </ButtonLink>
-        <ButtonLink class="maker-hero-secondary" href="/about/" variant="unstyled">
-          About me <ArrowExchange direction="right" />
+        <ButtonLink class="maker-hero-secondary" data-text-link href="/about/" variant="unstyled">
+          <span data-text-link-label>About me</span> <ArrowExchange direction="right" />
         </ButtonLink>
       </div>
     </div>
@@ -74,6 +74,6 @@ import PostLensLogo from '@/content/project/postlens/logo.webp'
       <span data-home-product-copy><strong>PostLens</strong><span>Private photo editing for iPhone</span></span>
       <ArrowExchange class="maker-hero-project-arrow" direction="up-right" />
     </a>
-    <ButtonLink class="maker-hero-index" href="/projects/" aria-label="Explore all projects" variant="unstyled">All projects <ArrowExchange direction="right" /></ButtonLink>
+    <ButtonLink class="maker-hero-index" data-text-link href="/projects/" aria-label="Explore all projects" variant="unstyled"><span data-text-link-label>All projects</span> <Icon name="plus" /></ButtonLink>
   </nav>
 </section>

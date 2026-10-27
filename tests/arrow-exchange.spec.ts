@@ -21,7 +21,6 @@ test.describe('Pointer arrow exchange', () => {
 
     for (const selector of [
       '.maker-hero-project',
-      '.maker-hero-index',
       '[data-work-action]',
       '[data-supporting-arrow]',
       '[data-reading-slip-footer]',
@@ -124,7 +123,7 @@ test.describe('Pointer arrow exchange', () => {
       await page.emulateMedia({ reducedMotion: 'no-preference' })
       await page.goto('/')
 
-      for (const selector of ['.maker-hero-primary', '.maker-hero-secondary', '.maker-hero-index', '.site-header-contact a']) {
+      for (const selector of ['.maker-hero-primary', '.maker-hero-secondary', '.site-header-contact a']) {
         const action = page.locator(selector).first()
         const arrow = action.locator('[data-arrow-exchange]')
         const track = arrow.locator('[data-arrow-track]')
@@ -172,7 +171,6 @@ test('keyboard focus exchanges the arrow and keeps native link navigation', asyn
 
 test('downward and shared button arrows preserve their direction and reduced-motion behavior', async ({ page }) => {
   for (const { path, selector, direction } of [
-    { path: '/', selector: '.maker-hero-index', direction: 'right' },
     { path: '/work/', selector: '[data-work-hero-actions] .maker-hero-primary', direction: 'down' },
     { path: '/blog/', selector: '[data-blog-primary-path] a', direction: 'right' },
     { path: '/speaking/', selector: '[data-invitation-action] a', direction: 'up-right' }
@@ -199,20 +197,15 @@ test('touch input leaves arrows still and buttons remain usable at mobile widths
   const page = await context.newPage()
 
   try {
-    for (const { selector, path } of [
-      { selector: '.maker-hero-secondary', path: '/about/' },
-      { selector: '.maker-hero-index', path: '/projects/' }
-    ]) {
-      await page.goto('/')
-      const action = page.locator(`[data-home-hero] ${selector}`)
-      const track = action.locator('[data-arrow-track]')
+    await page.goto('/')
+    const action = page.locator('[data-home-hero] .maker-hero-secondary')
+    const track = action.locator('[data-arrow-track]')
 
-      await action.hover()
-      await expect(track).toHaveCSS('animation-name', 'none')
-      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-      await action.tap()
-      await expect(page).toHaveURL(path)
-    }
+    await action.hover()
+    await expect(track).toHaveCSS('animation-name', 'none')
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await action.tap()
+    await expect(page).toHaveURL('/about/')
   } finally {
     await context.close()
   }

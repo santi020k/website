@@ -23,8 +23,8 @@ const { id, number, eyebrow, title, description, href, action } = Astro.props
   </div>
   <div class="studio-section-intro">
     <p>{description}</p>
-    <ButtonLink class="studio-text-link" href={href} variant="unstyled">
-      {action} <ArrowExchange />
+    <ButtonLink class="studio-text-link" data-text-link href={href} variant="unstyled">
+      <span data-text-link-label>{action}</span> <ArrowExchange />
     </ButtonLink>
   </div>
 </header>
