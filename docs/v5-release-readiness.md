@@ -974,3 +974,31 @@ its imported search examples. Only the two updated shortcut-label lines changed
 in the page raster comparison; those pages were reviewed, and both theme
 exports retained identical text. This integration uses affected validation on
 top of the independently recorded source workspace gates.
+
+## Article Reference notes follow-up
+
+Approved focused source `be870c45`, handed off as `66af70ed` after syncing
+`04128b9e`, generates print-only numbered prose links and a deduplicated References
+list. Exact destinations retain reading order, their first authored label, query
+strings, and fragments. Relative destinations resolve against the configured
+production article URL. The transform skips code, navigation, headings, hidden
+content, imported components, same-page jumps, explicit URLs, image-only links,
+and non-web destinations. The page boundary validates the reference metadata;
+the static list sits outside prose before the existing permalink. No client
+JavaScript or dependency was added. The patch note is folded into 5.0.0.
+
+All 16 focused print-reference and existing article-reference unit cases passed.
+All 24 affected Chromium/WebKit print/reference cases passed with retries
+disabled, covering code/source preservation, exact destinations, matching
+markers, screen restoration, no-JavaScript printing, and client navigation.
+Current-site lint passed with zero warnings, and Astro checked 500 files with
+zero errors, warnings, or hints. The production build, 452-page OG audit, archive
+assembly, and PDF freshness check passed without CV regeneration. Published
+changelog entries remain unchanged.
+
+All ten A4 pages were visually reviewed, including both pages of references.
+Light- and dark-theme PDF pages rendered identically. All four matched screen
+captures at 390/1440px in both themes were pixel-identical before and after;
+the captured code folio markup also matched exactly. No integration repair was
+needed. This follow-up uses affected checks; the preceding combined candidate
+`04128b9e` retains its recorded 984-unit and 610-browser validation.

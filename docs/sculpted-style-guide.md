@@ -1739,6 +1739,16 @@ with the article title and local permalink outside the code. Keep this styleshee
 scoped to articles, including after client navigation, and verify a real paginated
 PDF alongside screen and print-media checks.
 
+Reference notes completes the Print edition with small numbered prose links and a
+ruled References list before the article permalink. Generate notes at build time,
+in reading order, and reuse a number when the exact destination repeats. Preserve
+query strings and fragments, resolve relative links against the published article,
+and use the first authored link label. Print the readable destination beneath each
+label. Keep notes out of screen reading, chapter navigation, code editors, existing
+navigation ledgers, and imported components. Same-page jumps, image-only links,
+explicit URL labels, and non-web links need no extra note. The list and markers
+must work without JavaScript and disappear again after returning from print.
+
 Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
 when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
 and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match

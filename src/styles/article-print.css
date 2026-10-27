@@ -1,5 +1,5 @@
 /* Print edition is article-only; screen styles and source text stay unchanged. */
-[data-article-print-source] { display: none; }
+[data-article-print-source], [data-print-reference], [data-article-print-references] { display: none; }
 
 @media print {
   html:has(#article-content[data-article-prose]) {
@@ -123,6 +123,26 @@
     [data-prose-table] :is(th, td) { min-inline-size: 0; padding: .5rem; overflow-wrap: anywhere; position: static; }
     [data-prose-table] tr { break-inside: avoid; }
     [data-article-prose] img { max-height: 160mm; object-fit: contain; }
+
+    [data-print-reference] {
+      display: inline;
+      margin-inline-start: .15em;
+      vertical-align: super;
+      font: 500 7pt/0 var(--font-sans);
+    }
+    [data-print-reference] a { color: hsl(var(--brand)); text-decoration: none; }
+    [data-article-print-references] {
+      display: block;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid hsl(var(--line));
+      font: 400 9pt/1.6 var(--font-sans);
+    }
+    [data-article-print-references] h2 { margin: 0 0 1rem; font-size: 11pt; font-weight: 500; break-after: avoid; }
+    [data-article-print-references] ol { list-style: decimal; margin: 0; padding-inline-start: 1.5rem; }
+    [data-article-print-references] li { padding-inline-start: .35rem; margin-block-end: .75rem; break-inside: avoid; overflow-wrap: anywhere; }
+    [data-article-print-references] li > span { color: hsl(var(--ink)); font-weight: 500; }
+    [data-article-print-references] a { display: block; color: hsl(var(--ink-soft)); text-decoration: underline; text-underline-offset: .15em; }
 
     [data-article-print-source] {
       display: block;
