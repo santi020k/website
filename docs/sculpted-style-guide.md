@@ -1696,6 +1696,14 @@ Lumen scroll-cue regions and no custom disclosure controller. Preserve short exa
 package-manager tabs, project code, line offsets, and all source content. Native
 disclosure works without JavaScript; print exposes full code without the preview.
 
+Fold return enhances that same disclosure with a Lumen outline button at the end
+of the expanded example. Share its footer with the existing scroll cue, allowing
+the action to wrap onto its own row on narrow screens. “Collapse example” closes
+only its own disclosure and immediately returns focus and the viewport to its
+summary below the sticky header. Keep the original header, complete-source Copy,
+and 12-line preview intact. Add this action only after JavaScript initializes;
+without it, the native summary remains the control. Hide the footer in print.
+
 Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
 when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
 and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match

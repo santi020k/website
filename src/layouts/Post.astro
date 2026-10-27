@@ -4,6 +4,7 @@ import type { MarkdownHeading } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 import { WEBMENTION_API_KEY } from 'astro:env/server'
 
+import ArticleExampleFolds from '@/components/molecules/ArticleExampleFolds.astro'
 import ArticleFigureViewers from '@/components/molecules/ArticleFigureViewers.astro'
 import ArticleSectionReferences from '@/components/molecules/ArticleSectionReferences.astro'
 import CommentsSection from '@/components/molecules/CommentsSection.astro'
@@ -131,6 +132,7 @@ mainClass="remaining-pages remaining-pages--reading"
           </div>
           {figureCaptions.length > 0 && <ArticleFigureViewers captions={figureCaptions} />}
           <ArticleSectionReferences headings={headings} url={localURL.href} />
+          <ArticleExampleFolds />
         </div>
       </div>
 

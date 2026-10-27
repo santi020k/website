@@ -636,6 +636,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   region uses its own `data-ui-scroll-cue` root, so Lumen observes the visible region
   after native expansion without a site controller. Preview clones omit IDs to
   avoid duplicate authored fragment targets. Short snippets and tabs are unchanged.
+  `ArticleExampleFolds` adds the approved Fold return enhancement with Lumen
+  `Button` and `Icon`: a bottom action closes its native disclosure and returns
+  focus and scroll to the summary. It moves the existing cue into a shared footer,
+  preserving Lumen's region and description binding. Initialization is idempotent
+  on Astro navigation; the action is absent without JavaScript and hidden in print.
   Scroll cue uses Lumen's shared `data-ui-scroll-cue` contract inside each standalone
   article figure. The runtime observes the existing code region and content, showing a
   footer and accessible description only on horizontal overflow. It cleans up on Astro

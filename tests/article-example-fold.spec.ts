@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 const article = '/blog/authentication-and-authorization-in-next-js-applications-with-supabase/'
+const guide = '/blog/playwright-accessibility-checks-that-teams-keep-running/'
 
 test.use({ reducedMotion: 'reduce' })
 
@@ -73,6 +74,14 @@ test('fold summaries and code regions stay usable with enlarged mobile text', as
 
     await summary.press('Enter')
   }
+
+  await summary.press('Enter')
+  const button = figure.getByRole('button', { name: 'Collapse example', exact: true })
+  await expect(button).toBeVisible()
+  expect(await button.evaluate(element => {
+    const rect = element.getBoundingClientRect()
+    return rect.height >= 44 && rect.left >= 0 && rect.right <= innerWidth
+  })).toBe(true)
 })
 
 test('printing exposes the complete example without the duplicate preview', async ({ page }) => {
@@ -84,4 +93,64 @@ test('printing exposes the complete example without the duplicate preview', asyn
   await expect.poll(() => figure.locator('[data-code-complete] [data-line]').last().evaluate(element => element.checkVisibility({ contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true }) &&
     element.getBoundingClientRect().height > 0)).toBe(true)
   await expect(figure.locator('[data-code-preview]')).toBeHidden()
+  await expect(figure.locator('[data-code-fold-footer]')).toBeHidden()
 })
+
+for (const route of [article, guide]) {
+  for (const reducedMotion of ['reduce', 'no-preference'] as const) {
+    test(`bottom collapse returns to its opener: ${route}, ${reducedMotion}`, async ({ page, browserName }) => {
+      await page.emulateMedia({ reducedMotion })
+      await page.setViewportSize({ width: 390, height: 900 })
+      await page.goto(route)
+      const folds = page.locator('[data-article-prose] [data-example-fold]')
+      const fold = folds.first()
+      const summary = fold.locator('summary')
+      const complete = fold.locator('[data-code-complete]')
+      const source = await complete.textContent() ?? ''
+      expect(source).not.toBe('')
+      await summary.click()
+      await folds.nth(1).locator('summary').click()
+
+      const button = fold.getByRole('button', { name: 'Collapse example', exact: true })
+      await complete.focus()
+      await complete.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+      await expect(button).toBeFocused()
+      await expect(button).toHaveCSS('outline-style', 'solid')
+      await button.press('Enter')
+      await expect(fold).not.toHaveAttribute('open')
+      await expect(folds.nth(1)).toHaveAttribute('open')
+      await expect(summary).toBeFocused()
+      await expect(summary).toBeInViewport()
+      expect(await summary.evaluate(element => element.getBoundingClientRect().top)).toBeGreaterThan(96)
+      await expect(complete).toBeHidden()
+      await expect(complete).toHaveText(source)
+
+      await summary.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+      await expect(fold.locator('..').locator('[data-code-preview] pre')).toBeFocused()
+
+      await summary.press('Space')
+      await expect(complete).toBeVisible()
+      await button.click()
+      await expect(summary).toBeFocused()
+      await expect(fold).not.toHaveAttribute('open')
+
+      // Repeated Astro initialization must not add controls or rewrap the cue.
+      await page.evaluate(() => document.dispatchEvent(new Event('astro:page-load')))
+      await expect(page.locator('[data-code-fold-footer]')).toHaveCount(await folds.count())
+      await expect(fold.locator('[data-code-fold-footer] [data-scroll-cue-message]')).toHaveCount(1)
+    })
+  }
+
+  test(`native example disclosure remains usable without JavaScript: ${route}`, async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false })
+    const page = await context.newPage()
+    await page.goto(route)
+    const fold = page.locator('[data-example-fold]').first()
+    await expect(page.locator('[data-fold-return]')).toHaveCount(0)
+    await fold.locator('summary').click()
+    await expect(fold.locator('[data-code-complete]')).toBeVisible()
+    await fold.locator('summary').press('Enter')
+    await expect(fold.locator('[data-code-complete]')).toBeHidden()
+    await context.close()
+  })
+}
