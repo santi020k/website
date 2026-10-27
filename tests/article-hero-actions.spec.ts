@@ -105,13 +105,16 @@ for (const width of [320, 1440]) {
         })
 
         expect(layout.fits).toBe(true)
-        expect(layout.sameRow).toBe(width === 1440 || textSize === 100)
+        // On narrow openings the two utilities wrap below the Topics heading.
+        expect(layout.sameRow).toBe(width === 1440)
         await copy.focus()
         await expect(copy).toHaveCSS('outline-style', 'solid')
         await copy.press('Enter')
         await expect(copy).toHaveAccessibleName('Copied! Article link copied')
         await expect(copy).toHaveText('Copied!', { useInnerText: true })
         expect(await page.evaluate(() => sessionStorage.getItem('article-copy-value'))).toBe(`https://santi020k.com${standaloneArticle}`)
+        await page.keyboard.press(tabKey[browserName])
+        await expect(topics.getByRole('button', { name: 'Print article', exact: true })).toBeFocused()
         await page.keyboard.press(tabKey[browserName])
         await expect(topics.getByRole('navigation', { name: 'Topics' }).getByRole('link').first()).toBeFocused()
         const scan = await new AxeBuilder({ page }).include('[data-article-topics-container]').analyze()
@@ -142,7 +145,8 @@ test('Medium articles retain their original destination beside the series byline
   await expect(medium).toHaveAttribute('href', 'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c')
   await expect(medium).toHaveAttribute('target', '_blank')
   await expect(medium).toHaveAttribute('rel', 'noopener noreferrer')
-  await expect(actions.getByRole('button')).toHaveCount(0)
+  await expect(actions.getByRole('button', { name: 'Print article', exact: true })).toBeVisible()
+  await expect(actions.getByRole('button', { name: 'Copy link to article', exact: true })).toHaveCount(0)
 })
 
 test('series and Medium destinations remain usable without JavaScript', async ({ browser }) => {

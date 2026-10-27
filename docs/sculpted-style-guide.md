@@ -1762,6 +1762,17 @@ closing source line. Browser-supplied headers and footers are controlled separat
 in the print dialog. Verify actual A4 and Letter PDFs, page counts, both themes,
 long titles, and navigation away from an article.
 
+Print shortcut adds one Lumen `Print article` button below the existing hero copy
+or Medium utility. Use the shared article utility component for series and
+standalone posts. Keep the resting action quiet, then give hover and keyboard
+focus a soft brand fill, fine accent border, underlined label, and a surfaced
+printer icon. Move only the icon by 2px; remove transitions and movement for
+reduced motion. Preserve a 44px target and a separate visible focus outline.
+On narrow openings, let the utilities form a wrapping row without truncation.
+Call the browser's native print command without changing folds, theme, or reading
+position. Bind each button once across Astro navigation, and hide the shortcut
+without JavaScript or print support and in the printed edition itself.
+
 Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
 when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
 and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match
