@@ -1641,15 +1641,21 @@ focus, both themes, and the heading's existing fragment without adding group
 headings to chapter navigation. This contextual subset complements the hero's
 complete inventory and adds no client JavaScript.
 
-### Letter folio newsletter signup
+### Letter close newsletter ending
 
-The Blog newsletter uses one opaque Lumen Card with a small upper-left corner and
-1.75rem remaining corners. A soft brand header pairs the 1.875rem editorial heading
-with a decorative mail icon. Give the form a visible email label and an always-visible
-Get new posts action. A fine rule separates the consent copy, Privacy link, and RSS link.
+The Blog newsletter combines its introduction and signup in one opaque Lumen Card,
+retaining the Letter folio's small upper-left corner and 1.75rem remaining corners.
+Use a stacked PageSection with no separate section introduction. The soft brand header
+starts with a Newsletter caption and decorative mail icon, then one h2: Keep up with
+new writing. Set the heading at 2.5rem with an 18ch measure and follow it with the
+description of software, reading, gaming, and everyday discoveries at a 52ch measure.
+The native form uses that heading as its accessible name. Keep the visible email label,
+Get new posts action, ArrowExchange, and existing link feedback. A fine rule separates
+the frequency note, Privacy link, and RSS link.
 
 Use 1.75rem horizontal insets and keep controls at least 44px tall. Below 25rem of
-card width, stack the field and button and place RSS beneath the consent copy. Tighten
+card width, reduce the heading to 2rem, stack the field and button, and place RSS beneath
+the frequency note. Tighten
 insets and omit decoration when enlarged text needs the space. Preserve the native
 POST, hidden embed field, email validation, new-tab behavior, and existing destinations;
 the signup needs no additional client script.
@@ -2888,6 +2894,19 @@ existing catalog order and destinations, without duplicate links or added cards.
 At narrow widths, place the group and count on a second line beneath the name and
 arrow. Keep whole names, visible focus, light/dark contrast, and text enlargement.
 Clearing restores the complete grouped catalog; zero matches use Catalog note.
+
+### Topic first Blog Topics opening
+
+The Blog Topics index uses **Topic first**: a ruled topline pairs Back to blog with
+its collection-derived topic total, followed by one Browse by topic heading,
+a short introduction covering software, reading, gaming, and everyday discoveries,
+and a quiet series link. Place the existing Search folio immediately below this
+opening, without another section introduction or static featured-topic labels.
+Keep both navigation links native, with the shared text-link and Arrow exchange
+feedback, visible focus, and wrapping at narrow widths or enlarged text sizes.
+The total describes the complete archive; the search footer separately announces
+filtered matches. Preserve search normalization, sort order, Compact cards, the
+Catalog note empty state, statistics, metadata, and navigation lifecycle.
 
 ### Search folio Blog topics controls
 

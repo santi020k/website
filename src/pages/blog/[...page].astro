@@ -156,12 +156,7 @@ threshold={0}
   )}
 
   {isFirstPage && siteConfig.newsletter?.formAction && (
-    <PageSection>
-      <SectionHeader
-        description="A low-volume email with new posts on software, reading, gaming, and everyday discoveries."
-        eyebrow="Newsletter"
-        title="Keep up with new writing."
-      />
+    <PageSection layout="stacked">
       <NewsletterSignup formAction={siteConfig.newsletter.formAction} />
     </PageSection>
   )}
