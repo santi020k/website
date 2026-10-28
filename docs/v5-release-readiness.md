@@ -1590,3 +1590,21 @@ The source owner separately recorded workspace lint/types, 993 unit cases, seven
 motion cases, all five builds, and the complete page audit. This integration uses
 the affected checks above; the latest complete coordinator gate remains
 `10745545`. No remote action or publication is included.
+
+## Spanish UI and resilient full-text search
+
+The current-site language work reuses v5 pages under `/es/`, preserving English
+article and case-study prose and all archived sites. Shared controls, metadata,
+contact forms, route transitions, and recovery messages use the active locale.
+Pagefind supplements the primary search index lazily; failed imports, searches,
+and fragments cannot leave the dialog pending. Spanish offline navigation uses
+its own fallback. See `docs/i18n.md` for maintenance boundaries.
+
+The candidate includes the frozen contact and section-recovery integration at
+`e8ab81bc`. Focused Chromium/WebKit verification covers 326 cases; the unit suite
+covers 1,044 cases. Final integration must also pass `pnpm run verify:fast`. Local
+CSP browser fixtures preserve production source restrictions and omit the HTTPS
+upgrade directive only while serving HTTP; hosted HTTPS remains a deployment
+smoke check. Task evidence lives in the ignored
+`.cache/reviews/v5-spanish-search/` directory of the primary checkout. No push or
+deployment is part of this local integration.
