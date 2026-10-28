@@ -16,14 +16,6 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
 ---
 
 <div data-article-utilities>
-{canonicalUrl ?
-(
-  <Link href={canonicalUrl} newTab variant="inherit" data-article-utility>
-    <span>{t('shared.readOnMedium')}</span>
-    <ArrowExchange direction="up-right" class="size-4 shrink-0" />
-  </Link>
-) :
-(
   <Button
     id="article-copy-link"
     variant="outline"
@@ -40,20 +32,119 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
       </span>
     </span>
   </Button>
-)}
+  {canonicalUrl && (
+    <Link href={canonicalUrl} newTab variant="inherit" data-article-utility>
+      <span data-publication-label>{t('shared.readOnMedium')}</span>
+      <span data-publication-icon>
+        <ArrowExchange direction="up-right" class="size-4 shrink-0" />
+      </span>
+    </Link>
+  )}
 </div>
 
 <style>
   [data-article-utilities] {
+    --publication-accent: hsl(var(--brand));
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    gap: 0.375rem;
     width: 10.5rem;
     max-width: 100%;
   }
 
-  @container article-opening (width < 32rem) {
-    [data-article-utilities] { width: auto; }
+  [data-article-utilities]:has([data-article-utility]) { width: 11.5rem; }
+
+  :global(:root[data-theme='dark']) [data-article-utilities] {
+    --publication-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
+  }
+
+  [data-article-utilities] :global([data-article-copy]) {
+    width: 100%;
+    transition: background-color 240ms ease, border-color 240ms ease, color 240ms ease;
+  }
+
+  [data-article-utilities] :global([data-copy-action-icon]),
+  [data-publication-icon] {
+    transition: background-color 240ms ease, color 240ms ease;
+  }
+
+  [data-article-utilities] :global([data-article-copy]:is(:hover, :focus-visible):not(.copy-failed)) {
+    border-color: var(--publication-accent);
+    background: hsl(var(--brand-soft));
+    color: var(--publication-accent);
+  }
+
+  [data-article-utilities] :global([data-article-copy]:is(:hover, :focus-visible):not(.copy-failed) [data-copy-action-icon]) {
+    background: var(--publication-accent);
+    color: hsl(var(--surface));
+  }
+
+  [data-article-utilities] :global([data-article-utility]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.625rem;
+    min-width: 0;
+    min-height: 2.75rem;
+    padding: 0.375rem 0.375rem 0.375rem 0.875rem;
+    border: 1px solid transparent;
+    border-radius: 0.875rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-decoration: none;
+    transition: background-color 240ms ease, border-color 240ms ease, color 240ms ease;
+  }
+
+  [data-publication-label] {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--line));
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.375rem;
+    transition: text-decoration-color 240ms ease;
+  }
+
+  [data-publication-icon] {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    color: var(--publication-accent);
+  }
+
+  [data-article-utilities] :global([data-article-utility]:is(:hover, :focus-visible)) {
+    border-color: hsl(var(--line));
+    background: hsl(var(--surface-muted));
+    color: var(--publication-accent);
+  }
+
+  :global([data-article-utility]:is(:hover, :focus-visible)) [data-publication-label] {
+    text-decoration-color: currentColor;
+  }
+
+  :global([data-article-utility]:is(:hover, :focus-visible)) [data-publication-icon] {
+    background: hsl(var(--brand-soft));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-article-utilities] :global([data-article-copy]),
+    [data-article-utilities] :global([data-copy-action-icon]),
+    [data-article-utilities] :global([data-article-utility]),
+    [data-publication-label],
+    [data-publication-icon] { transition: none; }
+  }
+
+  @media (forced-colors: active) {
+    [data-publication-label] { text-decoration-color: currentColor; }
+    [data-article-utilities] :global(:is([data-article-copy], [data-article-utility]):is(:hover, :focus-visible)) {
+      border-color: Highlight;
+    }
   }
 
   @media print {

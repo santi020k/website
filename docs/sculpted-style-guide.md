@@ -78,12 +78,13 @@ reading and keyboard order when columns collapse.
 
 ### Homepage section integration
 
-Home owns the spacing between its assembled sections. The hero-to-statistics gap is
-7rem on wide layouts and 4.5rem below 48rem of content width; subtract the Base
-layout's existing flow gap before adding the statistics inset. Use the same section
-spacing for Work, Projects, Writing, and Community. The community panel owns the
-closing gap with the same 48rem content-width threshold. Home removes its main
-bottom padding and the shared footer's extra top margin so that gap is counted once.
+Home owns the spacing between its assembled sections. The organization strip follows
+the hero with a 5rem opening gap, accounting for the Base layout's existing flow gap.
+Statistics follow the logos with the remaining inset from the 7rem desktop or 4.5rem
+mobile section rhythm. Work, Projects, Writing, Community, testimonials, and FAQ share
+that rhythm, switching below 48rem of content width. The community panel owns the gap
+before testimonials; the FAQ owns the closing gap. Home removes its main bottom padding
+and the shared footer's extra top margin so that gap is counted once.
 
 Section introductions stack below 48rem of content width, including enlarged text,
 and retain the same left edge as their cards. Below 20rem, 16rem, and 12rem, reduce
@@ -2157,9 +2158,27 @@ preserve both clipboard controllers, their accessible feedback, and native shari
 Below 32rem of available width, stack the utility beneath the series and use a
 1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
 themes. Standalone articles place their utility in the Topics group instead;
-syndicated articles retain Read on Medium in the applicable utility position.
+syndicated articles use Publication sharing in the applicable utility position.
 The Blog breadcrumb replaces the redundant Browse blog button. No additional
 client behavior is needed.
+
+### Publication sharing
+
+Keep Copy link available on syndicated articles as well as original posts. It copies
+the current local article URL, including the UI locale, without query parameters or
+fragments. Place Read on Medium beneath it, retaining the existing external publication
+URL and safe new-tab attributes. The pair stays beside the series byline or inside the
+standalone Topics group; it adds no separate share card.
+
+Reuse `ArticleLinkAction`, the shared copy action and `LinkRecovery`. Align both labels
+and their 2rem icon compartments within an 11.5rem column, with a 0.375rem gap. Keep
+the copy button outlined and the publication link quieter, with a fine text underline.
+Hover and keyboard focus tint the copy surface and fill its icon compartment; the
+publication row gains a muted surface, fine border, and tinted arrow compartment.
+Use the existing 480ms Arrow exchange and 240ms color transitions without moving or
+resizing either control. Preserve copied and failed states, visible focus outlines,
+full wrapping labels, reduced motion, and both themes. Hide utilities in print; the
+external destination remains available without JavaScript.
 
 ### Margin lead article opening
 
@@ -2448,7 +2467,8 @@ mode may show drafts and scheduled articles; judge the public content against a 
 
 Keep the three-line headline, with purple emphasis on “tools”, and the desktop greeting.
 The introduction names engineering leadership, Lumen UI, commerce platforms, native apps,
-and developer tools. “See selected work” opens the portfolio; “About me” opens About.
+and developer tools. “See selected work” opens the portfolio; “Work with me” opens the
+collaboration intake.
 Preserve the shared header, its controls, and the joined Signature frame.
 
 On desktop, use an open two-column layout with a 22rem-wide, 4:5 portrait, centered
@@ -2461,6 +2481,12 @@ the image so enlarged text remains readable. Below 18rem, make the primary actio
 width and put the secondary action beneath it. Tablet and desktop containers below 41rem
 retain the compact 4.5rem portrait after the copy, with the caption below it under 18rem.
 Keep optimized responsive image sources and eager loading.
+
+The longer Spanish headline uses a 3.5rem desktop maximum and its own mobile scale,
+retaining three complete phrases from 375px upward at default text size. Below 18rem
+of available width, cap both languages' heading scale to the container so enlarged
+text keeps whole words. Preserve the full translated copy and purple emphasis. The
+primary action label can wrap within its button at narrow measures.
 
 End the hero with an open, ruled “Selected products” strip containing Lumen UI and
 PostLens in that order, with descriptive summaries in 0.75rem type. Retain the named

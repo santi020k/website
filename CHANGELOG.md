@@ -8,6 +8,9 @@
 
 ### Minor Changes
 
+- Keep local article sharing available beside syndicated publication links, with aligned
+  controls, refined hover and focus treatments, and the existing clipboard recovery.
+
 - Add Latin American Spanish pages and interface controls to the current site, preserving English URLs, authored
   article and case-study prose, and the archived site versions. Share page components and content queries across
   locales, add language switching and alternate metadata, and generate localized social cards through the existing
@@ -323,6 +326,8 @@
 ### Patch Changes
 
 - Use stable, typed translation keys for current-site pages and controls. Keep English as the primary language, default locale, and missing-translation fallback; verify Spanish coverage and interpolation fields without duplicating page implementations.
+
+- Refine the Spanish homepage headline and preserve readable hero words and primary actions at narrow, enlarged-text sizes.
 
 - Introduce topic archive articles with a compact bilingual Reading caption and actual post ranges, preserving topic headings, metadata, and crawlable navigation.
 

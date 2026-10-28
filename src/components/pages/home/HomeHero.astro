@@ -35,7 +35,7 @@ const t = pageTranslator(pageLocale)
       </p>
       <div class="maker-hero-actions">
         <ButtonLink class="maker-hero-primary" href={localizePath(siteConfig.contact.workWithMe, pageLocale)} variant="unstyled">
-          {t('shared.workWithMe')}
+          <span data-home-action-label>{t('shared.workWithMe')}</span>
           <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange /></span>
         </ButtonLink>
         <ButtonLink class="maker-hero-secondary" data-text-link href={localizePath('/portfolio/', pageLocale)} variant="unstyled">

@@ -7,6 +7,8 @@ const project = '/portfolio/smith-commerce/'
 const cases = [
   { name: 'series hero', path: series, button: 'article-copy-link', success: 'Copied!' },
   { name: 'standalone hero', path: standalone, button: 'article-copy-link', success: 'Copied!' },
+  { name: 'syndicated series hero', path: '/blog/atomic-module-component-structure-for-react/', button: 'article-copy-link', success: 'Copied!' },
+  { name: 'syndicated standalone hero', path: '/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/', button: 'article-copy-link', success: 'Copied!' },
   { name: 'article closing', path: series, button: 'copy-link-btn', success: 'Link copied!' },
   { name: 'shared project closing', path: project, button: 'copy-link-btn', success: 'Link copied!' }
 ]

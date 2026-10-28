@@ -14,25 +14,32 @@ for (const theme of ['light', 'dark'] as const) {
           const hero = document.querySelector('[data-home-hero]')?.getBoundingClientRect()
           const stats = document.querySelector('.studio-stats')?.getBoundingClientRect()
           const firstStat = document.querySelector('.studio-stat')?.getBoundingClientRect()
+          const logos = document.querySelector('[data-home-logos]')?.getBoundingClientRect()
           const heading = document.querySelector('.studio-section-heading')?.getBoundingClientRect()
           const community = document.querySelector('[data-home-community]')?.getBoundingClientRect()
+          const testimonials = document.querySelector('[data-home-testimonials]')?.getBoundingClientRect()
+          const faq = document.querySelector('[data-home-faq] [data-faq-list]')?.getBoundingClientRect()
           const footer = document.querySelector('[data-site-footer]')?.getBoundingClientRect()
 
-          if (!hero || !stats || !firstStat || !heading || !community || !footer) {
+          if (!hero || !logos || !stats || !firstStat || !heading || !community || !testimonials || !faq || !footer) {
             throw new Error('The complete homepage must be rendered')
           }
 
           return {
-            openingGap: firstStat.top - hero.bottom,
+            openingGap: logos.top - hero.bottom,
+            statsGap: firstStat.top - logos.bottom,
             sectionGap: heading.top - stats.bottom,
-            closingGap: footer.top - community.bottom,
+            proofGap: testimonials.top - community.bottom,
+            closingGap: footer.top - faq.bottom,
             leftEdges: [hero.left, stats.left, heading.left, community.left],
             rightEdges: [hero.right, stats.right, heading.right, community.right]
           }
         })
 
         expect(measurements.openingGap).toBeGreaterThan(0)
-        expect(measurements.openingGap).toBeCloseTo(measurements.sectionGap, 0)
+        expect(measurements.statsGap).toBeGreaterThan(0)
+        expect(measurements.statsGap).toBeLessThan(measurements.sectionGap)
+        expect(measurements.proofGap).toBeCloseTo(measurements.sectionGap, 0)
         expect(measurements.closingGap).toBeCloseTo(measurements.sectionGap, 0)
         expect(new Set(measurements.leftEdges).size).toBe(1)
         expect(new Set(measurements.rightEdges).size).toBe(1)
@@ -50,7 +57,7 @@ for (const theme of ['light', 'dark'] as const) {
 
         const headings = page.locator('.studio-section-heading')
 
-        await expect(headings).toHaveCount(3)
+        await expect(headings).toHaveCount(5)
         for (const heading of await headings.all()) {
           const layout = await heading.evaluate(element => {
             const title = element.querySelector('h2')

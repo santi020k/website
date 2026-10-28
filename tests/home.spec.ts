@@ -58,11 +58,18 @@ test('homepage has branded search metadata and main sections', async ({ page }) 
 })
 
 test('homepage exposes shared accessibility affordances', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' })
   await page.goto('/')
 
   await expect(page.getByRole('link', { name: 'Skip to content' })).toHaveAttribute('href', /^#main$/)
   await expect(page.getByRole('button', { name: 'Open site search' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Toggle color theme' })).toBeVisible()
+  const themeToggle = page.getByRole('button', { name: 'Switch theme', exact: true })
+
+  await expect(themeToggle).toBeVisible()
+  await themeToggle.click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await themeToggle.click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
   await expect(
     page.locator('header').getByRole('link', { name: 'santi020k — Santiago Molina home' })
   ).toHaveAttribute('href', /^\/$/)
@@ -90,14 +97,14 @@ test('homepage keeps speaking out of the header and exposes it in the footer', a
 
   await expect(page.locator('header a[href="/speaking/"]')).toHaveCount(0)
   await expect(
-    page.locator('footer').getByRole('link', { name: 'Speaking', exact: true })
+    page.locator('[data-site-footer]').getByRole('link', { name: 'Speaking', exact: true })
   ).toHaveAttribute('href', '/speaking/')
 })
 
 test('footer keeps technical XML endpoints out of user-facing resources', async ({ page }) => {
   await page.goto('/')
 
-  const footer = page.locator('footer')
+  const footer = page.locator('[data-site-footer]')
 
   await expect(footer.locator('a[href="/feed.xml"]')).toHaveCount(0)
   await expect(footer.locator('a[href="/sitemap.xml"]')).toHaveCount(0)
@@ -123,13 +130,13 @@ test('homepage exposes IndieAuth.com discovery and rel=me on silo links', async 
     'href', 'https://tokens.indieauth.com/token'
   )
 
-  const githubProfile = page.locator('footer a[href="https://github.com/santi020k"]')
+  const githubProfile = page.locator('[data-site-footer] a[href="https://github.com/santi020k"]')
   const githubRel = await githubProfile.getAttribute('rel')
   expect(githubRel?.split(/\s+/).filter(Boolean).sort()).toEqual(
     ['me', 'noopener', 'noreferrer'].sort()
   )
 
-  for (const link of await page.locator('footer a[href^="https://wa.me/"]').all()) {
+  for (const link of await page.locator('[data-site-footer] a[href^="https://wa.me/"]').all()) {
     const rel = await link.getAttribute('rel')
     expect(rel?.split(/\s+/).filter(Boolean).sort()).toEqual(['noopener', 'noreferrer'].sort())
   }
