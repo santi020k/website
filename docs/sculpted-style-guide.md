@@ -2144,6 +2144,12 @@ figure leaves the page. Without JavaScript, leave the cue hidden and code readab
 
 ### Tab folio package-manager commands
 
+Reuse the approved Scroll cue below overflowing commands, outside the scrolling
+viewport. Hide it when the command fits, when its panel is hidden, and in print or
+without JavaScript. Keep the same Lumen overflow controller, localized message,
+keyboard scrolling, and copy recovery; this extends coverage rather than introducing
+another presentation. Optional recovery and cue rows must never overlap the command.
+
 Use the same asymmetric corners and fine outline as Code folio, with an underlined
 active manager in a soft brand toolbar. Put the visible Copy action at the toolbar's
 end, moving it onto a separate row below the choices when the card is narrower than

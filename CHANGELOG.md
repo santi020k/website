@@ -325,6 +325,17 @@
 
 ### Patch Changes
 
+- Keep changing package-manager panels out of document scroll anchoring so measuring overflow guidance cannot move the reader during a tab change.
+
+- Keep the reader's position when selecting an already-visible package-manager tab.
+  Refresh synchronized panels before scrolling and retain native scrolling for
+  triggers clipped by the viewport, sticky-header clearance, or scroll containers.
+
+- Localize Spanish imported-code copy controls when their command contains angle
+  brackets, preserving copied commands and matching visible and accessible labels.
+
+- Reuse the approved Lumen scroll cue in article package-manager tabs, including localized guidance, resizing, tab synchronization, and copy recovery.
+
 - Apply Chapter sleeve to individual series chapter rows, with compact artwork,
   offset purple backing, a ruled reading footer, and responsive full-title layouts.
   Preserve the open article-recommendation rows and existing chapter destinations.

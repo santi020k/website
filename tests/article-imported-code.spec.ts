@@ -71,7 +71,7 @@ test('copy failure remains visible and leaves the source available', async ({ pa
   })
   await page.goto(article)
   const block = page.locator('[data-article-code-folio]').nth(1)
-  const copy = block.getByRole('button')
+  const copy = block.locator('[data-ui-code-copy]')
   await expect(copy).toHaveAttribute('data-ui-copy-button-bound', 'true')
   await copy.press('Enter')
   await expect(copy).toHaveAccessibleName('Could not copy code. Select and copy it manually.')
