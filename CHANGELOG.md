@@ -308,6 +308,8 @@
 
 ### Patch Changes
 
+- Bring topic search closer to a single Blog Topics introduction with a live archive count and reading paths.
+
 - Unify the Blog newsletter ending into one Letter close invitation with a clear heading, topic description, and existing native signup form.
 
 - Restore the All projects plus icon and add a slow underline reveal with a gentle color fade to standalone text actions. Preserve existing icons, keyboard focus, current-page cues and reduced-motion behavior.
