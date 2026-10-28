@@ -2,7 +2,7 @@
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
 
-import { Button, Card, Icon, Input, Link } from '@santi020k/lumen-astro'
+import { Button, Card, FieldError, Icon, Input, Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath, sharedTranslator } from '@/i18n'
 
@@ -17,6 +17,7 @@ const { formAction, idSuffix = 'compact' } = Astro.props
 const emailId = `newsletter-email-${idSuffix}`
 const headingId = `newsletter-heading-${idSuffix}`
 const handoffId = `newsletter-handoff-${idSuffix}`
+const errorId = `newsletter-error-${idSuffix}`
 const feedCopyId = `newsletter-feed-copy-${idSuffix}`
 const feedUrl = new URL('/feed.xml', Astro.site).href
 const locale = getLocale(Astro.url.pathname)
@@ -45,17 +46,30 @@ const t = sharedTranslator(locale)
     <input name="embed" type="hidden" value="1" />
     <label data-newsletter-label for={emailId}>{t('shared.emailAddress')}</label>
     <div data-newsletter-controls>
-      <Input
-        aria-describedby={handoffId}
-        autocomplete="email"
-        data-newsletter-email
-        id={emailId}
-        inputmode="email"
-        name="email"
-        placeholder="your@email.com"
-        required
-        type="email"
-      />
+      <div data-newsletter-field>
+        <Input
+          aria-describedby={handoffId}
+          autocomplete="email"
+          data-newsletter-email
+          id={emailId}
+          inputmode="email"
+          name="email"
+          placeholder="your@email.com"
+          required
+          type="email"
+        />
+        <FieldError
+          id={errorId}
+          data-newsletter-error
+          data-required-message={t('newsletter.emailRequired')}
+          data-invalid-message={t('newsletter.emailInvalid')}
+          role="alert"
+          aria-atomic="true"
+        >
+          <Icon class="size-4 shrink-0" name="circle-alert" />
+          <span data-newsletter-error-message></span>
+        </FieldError>
+      </div>
       <Button
         aria-describedby={handoffId}
         data-newsletter-submit
@@ -139,10 +153,15 @@ const t = sharedTranslator(locale)
   [data-newsletter-postmark] { display: flex; flex-shrink: 0; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; color: hsl(var(--newsletter-accent)); }
   [data-newsletter-form] { min-width: 0; margin: 0; padding: 1.5rem 1.75rem; }
   [data-newsletter-label] { display: block; margin-bottom: 0.5rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.6; font-weight: 500; }
-  [data-newsletter-controls] { display: flex; align-items: stretch; gap: 0.5rem; min-width: 0; }
+  [data-newsletter-controls] { display: flex; align-items: flex-start; gap: 0.5rem; min-width: 0; }
+  [data-newsletter-field] { flex: 1; min-width: 0; }
+  [data-newsletter-field] :global([data-newsletter-error]) { display: flex; align-items: flex-start; gap: 0.5rem; margin: 0.5rem 0 0; color: color-mix(in srgb, hsl(var(--danger)) 75%, hsl(var(--ink))); font-size: 0.75rem; line-height: 1.65; }
+  [data-newsletter-field] :global([data-newsletter-error][hidden]) { display: none; }
+  [data-newsletter-error] :global(svg) { margin-top: 0.125rem; }
+  [data-newsletter-email][aria-invalid='true'] { border-color: color-mix(in srgb, hsl(var(--danger)) 75%, hsl(var(--ink))); }
   [data-newsletter-email] { flex: 1; width: 100%; min-width: 0; min-height: 2.75rem; height: auto; padding: 0.625rem 0.75rem; border: 1px solid hsl(var(--line)); border-radius: 0.75rem; background: hsl(var(--surface)); color: hsl(var(--ink)); font-size: 1rem; line-height: 1.5; }
   [data-newsletter-email]::placeholder { color: hsl(var(--ink-soft)); opacity: 1; }
-  [data-newsletter-submit] { flex-shrink: 0; min-width: 2.75rem; min-height: 2.75rem; max-width: 100%; height: auto; padding: 0.625rem 1rem; border: 1px solid hsl(var(--ink)); border-radius: 0.75rem; background: hsl(var(--ink)); color: hsl(var(--surface)); font-size: 0.75rem; line-height: 1.6; font-weight: 500; white-space: normal; transition: background-color 160ms ease; }
+  [data-newsletter-submit] { flex-shrink: 0; min-width: 2.75rem; min-height: calc(2.75rem + 2px); max-width: 100%; height: auto; padding: 0.625rem 1rem; border: 1px solid hsl(var(--ink)); border-radius: 0.75rem; background: hsl(var(--ink)); color: hsl(var(--surface)); font-size: 0.75rem; line-height: 1.6; font-weight: 500; white-space: normal; transition: background-color 160ms ease; }
   [data-newsletter-submit], [data-newsletter-submit]:hover { box-shadow: none; }
   [data-newsletter-submit]:hover { background: hsl(var(--ink-soft)); }
   [data-newsletter-submit-content] { display: flex; align-items: center; justify-content: center; gap: 0.625rem; min-width: 0; }
@@ -164,7 +183,7 @@ const t = sharedTranslator(locale)
   [data-newsletter-footer] :global([data-link-recovery]) { margin-block-start: 1rem; }
   @container newsletter (width < 25rem) {
     [data-newsletter] h2 { font-size: 2rem; }
-    [data-newsletter-controls] { flex-direction: column; }
+    [data-newsletter-controls] { flex-direction: column; align-items: stretch; }
   }
   @container newsletter (width < 18rem) {
     [data-newsletter-header], [data-newsletter-form] { padding: 1.375rem; }
@@ -201,16 +220,56 @@ const t = sharedTranslator(locale)
       const message = note?.querySelector<HTMLElement>('[data-newsletter-handoff-message]')
       const idle = note?.dataset.idleMessage
       const submitted = note?.dataset.submittedMessage
+      const field = form.querySelector<HTMLInputElement>('[data-newsletter-email]')
+      const error = form.querySelector<HTMLElement>('[data-newsletter-error]')
+      const errorMessage = error?.querySelector<HTMLElement>('[data-newsletter-error-message]')
+      const requiredMessage = error?.dataset.requiredMessage
+      const invalidMessage = error?.dataset.invalidMessage
 
-      if (!note || !message || !idle || !submitted) return
+      if (!note || !message || !idle || !submitted || !field || !error || !errorMessage) return
+
+      if (!requiredMessage || !invalidMessage) return
+
+      const originalDescription = field.getAttribute('aria-describedby') ?? ''
+
+      const clearError = () => {
+        error.hidden = true
+
+        errorMessage.textContent = ''
+
+        field.removeAttribute('aria-invalid')
+
+        field.setAttribute('aria-describedby', originalDescription)
+      }
 
       const reset = () => {
         note.removeAttribute('data-submitted')
 
         message.textContent = idle
+
+        clearError()
       }
 
+      field.addEventListener('invalid', event => {
+        // Native constraint validation still blocks the POST; use one inline message.
+        event.preventDefault()
+
+        reset()
+
+        error.hidden = false
+
+        errorMessage.textContent = field.validity.valueMissing ? requiredMessage : invalidMessage
+
+        field.setAttribute('aria-invalid', 'true')
+
+        field.setAttribute('aria-describedby', `${error.id} ${originalDescription}`.trim())
+
+        field.focus()
+      }, { signal })
+
       form.addEventListener('submit', event => {
+        clearError()
+
         // Observe the native POST; only Buttondown can confirm the subscription.
         window.setTimeout(() => {
           if (event.defaultPrevented || signal.aborted) return

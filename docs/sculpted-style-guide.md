@@ -1864,6 +1864,21 @@ submissions leave the note unchanged. The static explanation remains without
 JavaScript; page swaps clean up listeners and bind the current localized form.
 Use the same shared component across blog and article pages in both languages.
 
+### Email recovery
+
+Reuse Lumen's FieldError beneath the newsletter email input. Keep the Subscribe
+button aligned with the input at wider widths and stack it below the field and
+feedback on narrow cards. Use a small alert icon, semantic danger color, and a
+matching field border; preserve the regular focus outline.
+
+Reveal localized, persistent guidance only after native validation rejects a
+submission. Distinguish a missing address from an invalid email format, associate
+the message with the field, mark it invalid, and focus it. Editing or resetting
+clears the error and restores the opening handoff note. The native required/email
+constraints continue to block invalid POSTs. JavaScript replaces only the browser
+validation popup; without it, the native popup and signup continue to work. Do not
+add a custom email regex, disable validation, or claim an address exists.
+
 ### Feed utility
 
 Keep the newsletter's frequency note and Privacy link above a separate ruled feed row.
