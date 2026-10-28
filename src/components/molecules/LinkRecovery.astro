@@ -101,6 +101,7 @@ role="status"
     if (!btn) return () => undefined
 
     const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
+    const shareIcon = btn.querySelector<HTMLElement>('[data-share-icon]')
     const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
     const label = btn.querySelector<HTMLElement>('[data-copy-label]')
     const status = document.getElementById(recovery.dataset.statusId ?? '')
@@ -180,10 +181,15 @@ role="status"
     }
 
     const idleLabel = supportsWebShare() ? t('shared.shareLink') : recovery.dataset.idleLabel ?? t('shared.copyLink')
+    const idleIcon = supportsWebShare() && shareIcon ? shareIcon : copyIcon
     const STATE_RESET_MS = 2000
     const ANNOUNCEMENT_DELAY_MS = 100
 
     if (label) label.textContent = idleLabel
+
+    copyIcon?.classList.toggle('hidden', idleIcon !== copyIcon)
+
+    shareIcon?.classList.toggle('hidden', idleIcon !== shareIcon)
 
     const idleName = supportsWebShare() ? idleLabel : originalName ?? idleLabel
 
@@ -207,7 +213,7 @@ role="status"
 
       btn.classList.remove('copied')
 
-      copyIcon?.classList.remove('hidden')
+      idleIcon?.classList.remove('hidden')
 
       checkIcon?.classList.add('hidden')
 
@@ -226,7 +232,7 @@ role="status"
 
       btn.classList.toggle('copied', succeeded)
 
-      copyIcon?.classList.toggle('hidden', succeeded)
+      idleIcon?.classList.toggle('hidden', succeeded)
 
       checkIcon?.classList.toggle('hidden', !succeeded)
 

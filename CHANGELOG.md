@@ -340,6 +340,8 @@
 
 ### Patch Changes
 
+- Keep article hero series captions and destinations in the selected site language. Refine shared copy-control icons, spacing, hover, and recovery styling, retaining the appropriate share icon when the native share sheet is available.
+
 - Keep the compact language switch’s visible EN/ES code in its accessible name so voice-control commands match the displayed label.
 
 - Keep the approved mobile article contents menu available during reading, with current chapter context, bounded navigation, native fragment links, and accessible keyboard dismissal.

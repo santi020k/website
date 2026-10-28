@@ -227,14 +227,14 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
       <div data-series-byline>
         <div data-hero-series>
           <p data-hero-series-position>
-            From the series · Post {seriesContext.position} of {seriesContext.total}
+            {t('series.from')} · {t('series.position', { position: seriesContext.position, total: seriesContext.total })}
           </p>
           <Link
-            href={`/blog/series/${seriesContext.series.id}/`}
+            href={localizePath(`/blog/series/${seriesContext.series.id}/`, locale)}
             variant="inherit"
             data-hero-series-link
           >
-            <span>{seriesContext.series.data.title}</span>
+            <span lang="en">{seriesContext.series.data.title}</span>
             <ArrowExchange direction="right" class="size-4 shrink-0" data-hero-series-arrow />
           </Link>
         </div>

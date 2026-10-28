@@ -416,6 +416,7 @@ export const collectionMessages = {
   'technology.listedOnce': { en: 'Listed in {count} entry', es: 'Presente en {count} entrada' },
   'technology.listedMany': { en: 'Listed in {count} entries', es: 'Presente en {count} entradas' },
   'series.position': { en: 'Post {position} of {total}', es: 'Artículo {position} de {total}' },
+  'series.from': { en: 'From the series', es: 'De la serie' },
   'series.followThread': { en: 'Follow the thread.', es: 'Sigue el hilo.' },
   'series.shelfHeading': { en: 'Follow a series.', es: 'Sigue una serie.' },
   'series.shelfDescription': { en: 'Start with article 1, or explore the complete reading path.', es: 'Empieza por el artículo 1 o explora el recorrido completo de lectura.' },

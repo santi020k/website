@@ -2531,10 +2531,19 @@ by the current post number and series total. Use 0.75rem muted metadata, a 1.312
 medium-weight title, a purple directional arrow, and a fine bottom rule with 1.5rem
 of breathing room. Separate the action row from Topics by 1.5rem. Copy link uses
 the shared `article-copy-action` treatment: an opaque surface, a fine outline,
-0.875rem corners, a 0.8125rem label, and a tinted link icon compartment. Keep its
+0.875rem corners, a 0.8125rem label, and a tinted copy icon compartment. Keep its
 10.5rem width within the available space across idle, copied, and failed states,
 with at least a 2.75rem target. Use the same treatment for closing share actions;
-preserve both clipboard controllers, their accessible feedback, and native sharing.
+reuse LinkRecovery, its accessible feedback, and native sharing. The 18px copy,
+check, or native-share glyph stays centered in the same 32px compartment with an
+8px inset from the button edge. Hover, keyboard focus, and copied feedback share
+the brand treatment. Style retry from the controller's `data-link-recovery-active`
+attribute, retaining its danger border while hovered. Feed utility keeps its quiet,
+transparent icon treatment. Honor reduced motion and forced colors.
+
+Use the typed series-position message and route locale for the byline caption and
+overview link. Spanish readers stay in the Spanish interface; mark the authored
+English series name with its own language attribute.
 
 Below 32rem of available width, stack the utility beneath the series and use a
 1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both

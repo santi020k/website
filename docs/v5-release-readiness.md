@@ -2688,3 +2688,26 @@ Only the generated PDF fingerprint conflicted and was regenerated normally.
 Changesets are folded into unpublished 5.0.0 with published notes unchanged.
 Evidence: `.cache/v5-article-language/`. Normal commit hooks run the current Astro
 check. Root full gate remains `0319556c`; no remote action occurred.
+
+## Article Series language and copy controls integration
+
+Approved source `0d5750cf` is integrated over `5eddd4e6`. Article Series links
+preserve the interface language, and their byline uses the typed translation.
+Copy controls use a copy glyph, native sharing uses a share glyph, and success and
+retry states retain one centered icon. The shared styling keeps the newsletter
+feed utility quiet while making retry feedback visible. Existing recovery and
+native-sharing behavior remain intact. Production sources and affected tests
+match the handoff; the root language-switch accessibility correction is preserved.
+
+All 106 affected Chromium/WebKit browser cases and 1,533 focused catalog units
+pass. Coverage includes native-share cancellation, stale asynchronous results,
+clipboard denial and retry, enlarged text, keyboard focus, script-free navigation
+and both languages. Four matched contracts, forty control captures and four
+whole-page axe scans preserve prose, metadata and sharing destinations. Affected
+lint, the 904-page build and 906-page SEO audit pass. Five regenerated PDF page
+rasters remain identical; freshness and public/built artifact equality pass.
+
+Only the generated PDF fingerprint conflicted and was regenerated. The Changeset
+is folded into 5.0.0 without changing published notes. Evidence:
+`.cache/v5-article-controls/`. Normal commit hooks run the current Astro check.
+Root full gate remains `0319556c`; no remote action occurred.
