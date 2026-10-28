@@ -367,6 +367,24 @@ support and native navigation without JavaScript; add no extra keyboard stops.
 Article recommendations retain their open reading rows. Regular Blog, topic archives,
 and DX shelves retain their editorial grids.
 
+### Reading bridge series ending
+
+Individual Series pages end their chapter list with **Reading bridge**, before the
+shared contact footer. Reuse a Lumen Card section with an opaque surface, fine border,
+.375rem / 1.75rem alternating corners, and a .375rem brand-soft backing offset left
+and down. Leave 3rem after the last chapter, including the section grid gap. Use
+1.75rem insets, a 1.875rem weight 500 heading, and .8125rem guidance. Keep this card
+passive; only its two destination links respond to pointer and keyboard interaction.
+
+Below the heading, place Explore all series and Browse the Blog in two equal columns
+with a fine top rule, 1.75rem between columns, complete supporting captions, and the
+existing ArrowExchange. Use native localized links to `/blog/series/` and `/blog/`,
+visible focus outlines, and reduced-motion support. Stack the links with a separating
+rule below 31.25rem of card content width. Reduce insets below 24rem and 20rem of
+section width to preserve enlarged-text reading space. Localize every interface label
+through the collection catalog; add no client JavaScript, completion claim, or
+progress indicator. Preserve all chapter content, order, destinations, and metadata.
+
 ### Reading rows related articles
 
 Article recommendations reuse the same `PostsGallery` chapter layout without sequence
