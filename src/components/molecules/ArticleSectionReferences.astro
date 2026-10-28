@@ -17,13 +17,13 @@ interface Props {
 }
 
 const { headings, url } = Astro.props
-const sections = headings.filter(heading => heading.depth === 2)
+const sections = headings.filter(heading => heading.depth === 2 || heading.depth === 3)
 ---
 
 <!-- Move these existing Lumen controls beside their headings after enhancement.
      Keeping them outside templates lets the shared runtime bind in either order. -->
 <div hidden data-section-reference-controls>
-  {sections.map(({ slug, text }) => {
+  {sections.map(({ depth, slug, text }) => {
     const destination = new URL(url)
     const buttonId = `article-section-link-${slug}`
 
@@ -35,6 +35,8 @@ const sections = headings.filter(heading => heading.depth === 2)
           <Icon name="corner-down-right" />
           <span>{t('Linked section')}</span>
         </span>
+        {depth === 2 && (
+<>
         <Button
           id={buttonId}
           data-section-copy
@@ -59,6 +61,8 @@ const sections = headings.filter(heading => heading.depth === 2)
             addressLabel={t('Select and copy this section’s address')}
           />
         </div>
+        </>
+)}
       </div>
     )
   })}
@@ -74,8 +78,10 @@ const sections = headings.filter(heading => heading.depth === 2)
       // Keep literal percent signs usable as fragment identifiers.
     }
 
-    for (const row of document.querySelectorAll('[data-section-reference-row]')) {
-      row.toggleAttribute('data-section-arrived', Boolean(fragment) && row.querySelector('h2')?.id === fragment)
+    for (const row of document.querySelectorAll('[data-section-reference-row], [data-subsection-arrival]')) {
+      const heading = row.matches('h3') ? row : row.querySelector('h2')
+
+      row.toggleAttribute('data-section-arrived', Boolean(fragment) && heading?.id === fragment)
     }
   }
 
@@ -99,15 +105,25 @@ const sections = headings.filter(heading => heading.depth === 2)
     for (const control of document.querySelectorAll<HTMLElement>('[data-section-reference-controls] > [data-section-reference-for]')) {
       const heading = document.getElementById(control.dataset.sectionReferenceFor ?? '')
 
-      if (!heading?.matches('[data-article-prose] > h2[data-article-section-heading]')) continue
+      if (!heading?.matches('[data-article-prose] > h2[data-article-section-heading], [data-article-prose] > h3')) continue
+
+      const arrival = control.querySelector('[data-section-arrival]')
+
+      if (heading.matches('h3')) {
+        if (arrival) heading.prepend(arrival)
+
+        heading.dataset.subsectionArrival = ''
+
+        control.remove()
+
+        continue
+      }
 
       const row = document.createElement('div')
 
       row.dataset.sectionReferenceRow = ''
 
       heading.before(row)
-
-      const arrival = control.querySelector('[data-section-arrival]')
 
       if (arrival) row.append(arrival)
 
@@ -194,17 +210,17 @@ const sections = headings.filter(heading => heading.depth === 2)
   [data-section-arrival] { display: none; }
 
   @media screen {
-    :global([data-section-reference-row] > h2[data-article-section-heading]) { scroll-margin-block-start: 4rem; }
+    :global([data-section-reference-row] > h2[data-article-section-heading], [data-subsection-arrival]) { scroll-margin-block-start: 4rem; }
 
-    :global([data-section-reference-row][data-section-arrived]) {
+    :global(:is([data-section-reference-row], [data-subsection-arrival])[data-section-arrived]) {
       --section-arrival-accent: hsl(var(--brand));
     }
 
-    :global(:root[data-theme='dark'] [data-section-reference-row][data-section-arrived]) {
+    :global(:root[data-theme='dark'] :is([data-section-reference-row], [data-subsection-arrival])[data-section-arrived]) {
       --section-arrival-accent: hsl(var(--accent));
     }
 
-    :global([data-section-reference-row][data-section-arrived]) > [data-section-arrival] {
+    :global(:is([data-section-reference-row], [data-subsection-arrival])[data-section-arrived]) > [data-section-arrival] {
       display: flex;
       align-items: center;
       gap: .5rem;
@@ -212,10 +228,15 @@ const sections = headings.filter(heading => heading.depth === 2)
       grid-row: 1;
       min-width: 0;
       padding-block-end: .625rem;
-      padding-inline-start: 1rem;
-      border-inline-start: 2px solid var(--section-arrival-accent);
+      letter-spacing: normal;
       color: var(--section-arrival-accent);
       font: 500 .75rem/1.6 var(--font-sans);
+    }
+
+    :global([data-section-reference-row][data-section-arrived]) > [data-section-arrival],
+    :global([data-subsection-arrival][data-section-arrived]) {
+      padding-inline-start: 1rem;
+      border-inline-start: 2px solid var(--section-arrival-accent);
     }
 
     [data-section-arrival] :global(svg) { flex-shrink: 0; width: .875rem; height: .875rem; }
