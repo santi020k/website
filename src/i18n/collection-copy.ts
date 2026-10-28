@@ -163,6 +163,7 @@ export const collectionCopy: Record<string, string> = {
   'Recurring themes across the archive.': 'Temas recurrentes en el archivo.',
   'Recurring themes shaping the articles in this track.': 'Temas recurrentes que conectan los artículos de este recorrido.',
   Regular: 'Habituales',
+  'Related topics': 'Temas relacionados',
   'Related work': 'Trabajo relacionado',
   'Related writing': 'Artículos relacionados',
   'Reliable companion tools that help teams ship, test, document, and maintain production systems.': 'Herramientas de confianza para entregar, probar, documentar y mantener sistemas en producción.',
@@ -367,6 +368,8 @@ export const translateCollection = (text: string): string => {
   if (exact) return exact
 
   return text
+    .replace(/^All (\d+) topics$/u, 'Los $1 temas')
+    .replace(/^All (\d+) topic$/u, 'El $1 tema')
     .replace(/^Posts (\d+)–(\d+) of (\d+)$/u, 'Artículos $1–$2 de $3')
     .replace(/^(.+) is the most explored topic\.$/u, '$1 es el tema más explorado.')
     .replace(/^Visit (.+)$/u, 'Visitar $1')

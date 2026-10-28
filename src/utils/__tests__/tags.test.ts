@@ -1,8 +1,59 @@
 import { describe, expect, test } from 'vitest'
 
-import { getAllTags, getBlogBrowseTags, getBlogTopicLabel } from '../tags'
+import { getAllTags, getBlogBrowseTags, getBlogTopicLabel, getRelatedBlogTags } from '../tags'
 
 const makePosts = (tagSets: string[][]) => tagSets.map(tags => ({ data: { tags } }))
+
+describe('getRelatedBlogTags', () => {
+  test('ranks by shared articles, excludes the current topic, and shows destination totals', () => {
+    const posts = makePosts([
+      ['current', 'related'],
+      ['current', 'related'],
+      ['current', 'popular'],
+      ['popular'],
+      ['popular'],
+      ['popular'],
+      ['unrelated']
+    ])
+
+    expect(getRelatedBlogTags(posts, 'current')).toEqual([['related', 2], ['popular', 4]])
+  })
+
+  test('breaks shared-article ties alphabetically and limits the set to four', () => {
+    const posts = makePosts([['current', 'zeta', 'beta', 'delta', 'alpha', 'gamma'], ['zeta']])
+
+    expect(getRelatedBlogTags(posts, 'current')).toEqual([
+      ['alpha', 1], ['beta', 1], ['delta', 1], ['gamma', 1]
+    ])
+  })
+
+  test('counts each shared article once even when its tags repeat', () => {
+    const posts = makePosts([['current', 'beta', 'beta', 'alpha'], ['current', 'alpha']])
+
+    expect(getRelatedBlogTags(posts, 'current').map(([tag]) => tag)).toEqual(['alpha', 'beta'])
+  })
+
+  test('uses the full topic archive, including articles beyond the first page', () => {
+    const posts = makePosts([...Array.from({ length: 12 }, () => ['current']), ['current', 'later']])
+
+    expect(getRelatedBlogTags(posts, 'current')).toEqual([['later', 1]])
+  })
+
+  test('omits unrelated filler for isolated, unknown, and empty topics', () => {
+    expect(getRelatedBlogTags(makePosts([['alone'], ['other']]), 'alone')).toEqual([])
+    expect(getRelatedBlogTags(makePosts([['other']]), 'missing')).toEqual([])
+    expect(getRelatedBlogTags([], 'missing')).toEqual([])
+    expect(getRelatedBlogTags(makePosts([['current', 'only']]), 'current')).toEqual([['only', 1]])
+  })
+
+  test('does not change the input order or tag arrays', () => {
+    const posts = makePosts([['current', 'beta'], ['alpha', 'current']])
+    const original = structuredClone(posts)
+
+    getRelatedBlogTags(posts, 'current')
+    expect(posts).toEqual(original)
+  })
+})
 
 describe('getBlogTopicLabel', () => {
   test.each([

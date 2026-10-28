@@ -3,6 +3,11 @@ import { describe, expect, test } from 'vitest'
 import { translateCollection } from '../collection-copy'
 
 describe('Spanish collection UI', () => {
+  test('translates related topic navigation and destination totals', () => {
+    expect(translateCollection('Related topics')).toBe('Temas relacionados')
+    expect(translateCollection('All 112 topics')).toBe('Los 112 temas')
+    expect(translateCollection('All 1 topic')).toBe('El 1 tema')
+  })
   test('translates archive reading captions and actual page ranges', () => {
     expect(translateCollection('Latest writing')).toBe('Artículos recientes')
     expect(translateCollection('Earlier writing')).toBe('Artículos anteriores')

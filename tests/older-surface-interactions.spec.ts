@@ -108,7 +108,7 @@ for (const width of [390, 1440]) {
       test.describe(`Older surfaces ${width}px / ${textSize}% / ${theme}`, () => {
         test.use({ viewport: { width, height: width === 390 ? 844 : 900 }, colorScheme: theme })
 
-        test('wrapping topic navigation preserves keyboard focus and vertical position', async ({ page, browserName }) => {
+        test('wrapping topic navigation keeps keyboard access and opens each archive at its heading', async ({ page, browserName }) => {
           await page.emulateMedia({ reducedMotion: 'reduce' })
           await setTextSize(page, textSize)
           await page.goto('/blog/')
@@ -119,68 +119,33 @@ for (const width of [390, 1440]) {
 
           await tabTo(page, react, tab)
           await expect(react).toBeFocused()
-          await react.evaluate(element => {
-            element.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'center' })
-          })
-          const position = await filter.evaluate(element => ({
-            top: element.getBoundingClientRect().top,
-            left: element.scrollLeft
-          }))
-
+          await expect(react).toHaveCSS('outline-style', 'solid')
           await expectWrappingTopics(filter)
           await page.keyboard.press('Enter')
           await expect(page).toHaveURL('/blog/tags/react/')
-          await expect(react).toHaveAttribute('aria-current', 'page')
-          await expect(react).toBeFocused()
+          await expect(page.locator('#main')).toBeFocused()
           await expect(page.locator('html')).toHaveCSS('font-size', `${textSize * 0.16}px`)
-          // Native scrolling rounds to whole CSS pixels here; an exact half-pixel
-          // difference is the nearest representable position, not a layout shift.
-          await expect.poll(async () => {
-            const top = await filter.evaluate(element => element.getBoundingClientRect().top)
-
-            return Math.abs(top - position.top)
-          }).toBeLessThanOrEqual(0.5)
-          await expect.poll(() => filter.evaluate(element => element.scrollLeft)).toBeCloseTo(position.left, 0)
-          await expectInsideViewport(react)
-          await expect(react).toHaveCSS('outline-style', 'solid')
-          await page.keyboard.press(tab)
-          const nextTopic = filter.locator('a[href="/blog/tags/nextjs/"]')
-
-          await expect(nextTopic).toBeFocused()
+          await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
           await expectWrappingTopics(filter)
-          const nextPosition = await filter.evaluate(element => ({
-            top: element.getBoundingClientRect().top,
-            left: element.scrollLeft
-          }))
 
-          // Pointer activation of an inner label also restores the selected link.
+          const nextTopic = filter.locator('a[href="/blog/tags/nextjs/"]')
+          await tabTo(page, nextTopic, tab)
+          await expect(nextTopic).toBeFocused()
+          await expect(nextTopic).toHaveCSS('outline-style', 'solid')
+          await expectInsideViewport(nextTopic)
           await clickVisibleTopicLabel(page, nextTopic)
           await expect(page).toHaveURL('/blog/tags/nextjs/')
-          await expect(nextTopic).toHaveAttribute('aria-current', 'page')
-          await expect(nextTopic).toBeFocused()
-          await expectInsideViewport(nextTopic)
-          await expect.poll(() => filter.evaluate(element => element.scrollLeft)).toBeCloseTo(nextPosition.left, 0)
+          await expect(page.locator('#main')).toBeFocused()
+          await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
           await expectWrappingTopics(filter)
-          await expect.poll(async () => {
-            const top = await filter.evaluate(element => element.getBoundingClientRect().top)
 
-            return Math.abs(top - nextPosition.top)
-          }).toBeLessThanOrEqual(0.5)
-
-          const allPosts = filter.getByRole('link', { name: 'All posts', exact: true })
-
-          await allPosts.focus()
-          await allPosts.press('Enter')
+          await page.locator('[data-topic-archive-blog]').press('Enter')
           await expect(page).toHaveURL('/blog/')
-          await expect(allPosts).toHaveAttribute('aria-current', 'page')
-          await expect(allPosts).toBeFocused()
-          await expectInsideViewport(allPosts)
+          await expect(filter.getByRole('link', { name: 'All posts', exact: true })).toHaveAttribute('aria-current', 'page')
+          await expect(page.locator('#main')).toBeFocused()
           await expectNoUnexpectedAccessibilityViolations(page)
 
-          // A later navigation outside the filter still follows the page-focus contract.
           const firstPost = page.locator('[data-post-gallery-card] a').first()
-
-          await firstPost.focus()
           await firstPost.press('Enter')
           await expect(page.locator('[data-post-cover]')).toBeAttached()
           await expect(page.locator('#main')).toBeFocused()

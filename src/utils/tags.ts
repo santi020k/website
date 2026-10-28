@@ -18,6 +18,21 @@ export const getBlogBrowseTags = (tags: [string, number][]): [string, number][] 
   return [...featured, ...remaining].slice(0, 8)
 }
 
+/** Rank connected topics across the full published archive; display destination totals. */
+export const getRelatedBlogTags = (
+  posts: { data: { tags: string[] } }[],
+  activeTag: string
+): [string, number][] => {
+  const sharedCounts = new Map(getAllTags(posts
+    .filter(post => post.data.tags.includes(activeTag))
+    .map(post => ({ data: { tags: [...new Set(post.data.tags)] } }))))
+
+  return getAllTags(posts)
+    .filter(([tag]) => tag !== activeTag && sharedCounts.has(tag))
+    .sort(([a], [b]) => (sharedCounts.get(b) ?? 0) - (sharedCounts.get(a) ?? 0) || a.localeCompare(b))
+    .slice(0, 4)
+}
+
 const blogTopicNames = new Map([
   ['ai', 'AI'],
   ['ci-cd', 'CI/CD'],

@@ -1819,3 +1819,41 @@ sharing integration `90991ea7`, whose newer changes retain their separate 80-cas
 browser run and affected lint, type, build, visual, and accessibility checks above.
 Firefox remains unverified because the local browser cannot find its profile
 folder. These are local validation results; no push or deployment occurred.
+
+## Related topics follow-up
+
+Approved source `a035d396`, whose parent is `754e9243`, is integrated unchanged.
+Individual topic archives show up to four connected topics ranked by shared
+published articles across the complete archive, with alphabetical tie-breaking.
+The current topic is excluded, each count describes the destination's complete
+archive, and later pages retain the same related set. Isolated topics omit the
+chooser. The main Blog keeps its broad topic mix. English and Spanish navigation
+share the existing sculpted tags, now with an explicit hand cursor across their
+labels and counts and a fully translated catalog total.
+
+The obsolete selected-pill position-restoration script is removed. Native topic
+navigation opens the destination at its heading with the site's existing main
+focus behavior; browser history still restores the saved page position. No new
+client JavaScript or dependency is added. Production code, README, style guide,
+affected tests, and generated resume assets match the approved source exactly.
+
+All 53 affected unit cases passed, covering ranking, destination totals, empty
+topics, full-archive pagination, input preservation, collection loading, and
+translations. Both explicit Chromium/WebKit runs passed all 72 cases with one
+worker and retries disabled. They cover native links, keyboard focus, Back
+history, early and repeated navigation, main Blog discovery, hover feedback,
+pointer targets, 320/390/1440px, 200% text, both themes/locales, reduced motion,
+accessibility, and no-JavaScript use. All 24 matched route/state comparisons
+preserve metadata, structured data, headings, article content, pagination, and
+destinations outside the chooser. Sixteen before/after screenshots cover both
+languages/themes on mobile and desktop; representative English desktop and
+Spanish mobile results were visually reviewed.
+
+Current-site lint and spelling passed without warnings. Astro checked 572 files
+with zero errors, warnings, or hints. The 904-page build, 906-page OG audit, and
+archive assembly passed. The source's generated resume fingerprint is current
+against the merged tree, and all five rendered pages remain pixel-identical.
+The Changeset is folded into 5.0.0 while published notes stay unchanged. This
+follow-up uses affected checks; the latest full workspace gate remains
+`34d97a2d`. The pending typed-message migration must preserve related-topic copy,
+localized destinations, ranking, and native navigation behavior.

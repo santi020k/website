@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { requireValue } from './helpers/assertions'
 
 for (const theme of ['light', 'dark']) {
   test(`Topic guide gives stable hover and keyboard feedback in ${theme}`, async ({ page, browserName }) => {
@@ -99,11 +100,12 @@ test.describe('Topic guide without JavaScript', () => {
     const guide = page.locator('[data-blog-topic-guide]')
     const topic = guide.getByRole('link', { name: /Developer experience/u })
     await expect(topic).toHaveAttribute('href', '/blog/tags/developer-experience/')
-    const count = await topic.locator('[data-sculpted-tag-count]').textContent()
+    const count = requireValue(await topic.locator('[data-sculpted-tag-count]').textContent()).trim()
     await topic.press('Enter')
     await expect(page).toHaveURL(/\/blog\/tags\/developer-experience\/$/u)
-    await expect(topic).toHaveAttribute('aria-current', 'page')
-    await expect(topic.locator('[data-sculpted-tag-count]')).toHaveText(count ?? '')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Developer experience')
+    await expect(page.locator('[data-topic-archive-count]')).toHaveText(`${count} posts`)
+    await expect(guide.getByRole('navigation', { name: 'Related topics' })).toBeVisible()
     await guide.getByRole('link', { name: /^All \d+ topics$/u }).press('Enter')
     await expect(page).toHaveURL(/\/blog\/tags\/$/u)
   })

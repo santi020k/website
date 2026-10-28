@@ -105,14 +105,16 @@ test.describe('Blog page', () => {
     await filter.getByRole('link', { name: /reading/i }).click()
     await expect(page).toHaveURL(/\/blog\/tags\/reading\//)
     await expect(page.locator('[data-post-gallery-card]')).toContainText('International Firmware')
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /^Articles, guides, and personal notes tagged reading\./)
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', 'Articles, guides, and personal notes about Reading.')
 
+    await page.locator('[data-topic-archive-blog]').click()
+    await expect(page).toHaveURL(/\/blog\/$/)
     await filter.getByRole('link', { name: /gaming/i }).focus()
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(/\/blog\/tags\/gaming\//)
     await expect(page.locator('[data-post-gallery-card]')).toContainText('R.E.P.O.')
 
-    await filter.getByRole('link', { name: 'All posts' }).click()
+    await page.locator('[data-topic-archive-blog]').click()
     await expect(page).toHaveURL(/\/blog\/$/)
     await expect(page.locator('[data-post-gallery-card]')).toHaveCount(12)
   })

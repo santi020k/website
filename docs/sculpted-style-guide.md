@@ -3100,13 +3100,25 @@ quiet count compartment. The selected link reverses the ink and surface colors, 
 “All posts” carries a decorative layers icon. Keep the real topic counts and destinations.
 The group wraps at every width; all topics remain available without horizontal scrolling.
 Long labels wrap within their tag at enlarged text sizes, and focus outlines remain visible.
-Selected links retain `aria-current="page"` on their own archive and `aria-current="true"`
-on later pages. Topic changes preserve keyboard focus and the filter's vertical position.
+The Blog's All posts link retains `aria-current="page"` on the first page and
+`aria-current="true"` on later pages. Topic links open a new archive at its heading
+with the site's native page focus and history behavior.
 
-Use **Topic guide** around the chooser on Blog and topic archive pages. A fine rule
+Use **Topic guide** around the chooser on the main Blog. A fine rule
 introduces Browse by topic and a native All topics link with the collection-derived
 total. Keep the existing filter order, counts, and slug destinations; present readable
 labels such as Developer experience, TypeScript, Next.js, and Open source.
+
+Individual topic archives use **Related topics** beneath Reading caption. Show up
+to four topics ranked by shared published articles across the full current-topic
+archive, breaking ties alphabetically by slug. Exclude the current topic; keep
+counts as each destination's full archive total. Links open that topic's complete
+archive, not an intersection filter. Keep the same set on later pages. Use the
+existing sculpted tags and the All topics catalog link, with localized navigation
+in both language shells. Omit the chooser when there are no connected topics;
+the opening still provides All topics and Back to blog. The main Blog retains
+its broad personal-and-software mix. Every tag's label and count share the native
+hand cursor and keyboard focus outline; no filter-position restoration is needed.
 
 On hover or keyboard focus, inactive tags gain a soft accent wash, an accent-filled
 count compartment, an underlined label, and a subtle 3px lower shadow. Keep their

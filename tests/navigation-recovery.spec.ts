@@ -87,31 +87,23 @@ const resolveLaterTopic = async (page: Page) => {
   return requireValue(await page.locator(filterSelector).locator('a[href]').last().getAttribute('href'))
 }
 
-// The selected topic stays within the wrapping filter without moving the page.
-const expectSelectedTopicVisible = async (page: Page, href: string, scrollY: number) => {
-  const selected = page.locator(filterSelector).locator(`a[href="${href}"]`)
+// Related archive links wrap without moving the direct or history-restored page.
+const expectRelatedTopicsContained = async (page: Page, href: string, scrollY: number) => {
+  const related = page.getByRole('navigation', { name: 'Related topics' })
+  const fit = await related.evaluate(strip => ({
+    overflows: strip.scrollWidth > strip.clientWidth,
+    contained: [...strip.querySelectorAll('a')].every(link => {
+      const pill = link.getBoundingClientRect()
+      const bounds = strip.getBoundingClientRect()
 
-  const fit = await selected.evaluate(link => {
-    const strip = link.closest('[data-blog-tag-filter]')
+      return pill.left >= Math.max(bounds.left, 0) && pill.right <= Math.min(bounds.right, innerWidth)
+    }),
+    scrollY: window.scrollY
+  }))
 
-    if (!strip) throw new Error('Selected topic is outside the filter strip')
-
-    const pill = link.getBoundingClientRect()
-    const bounds = strip.getBoundingClientRect()
-
-    return {
-      clippedLeft: Math.max(bounds.left, 0) - pill.left,
-      clippedRight: pill.right - Math.min(bounds.right, window.innerWidth),
-      overflows: strip.scrollWidth > strip.clientWidth,
-      scrollY: window.scrollY
-    }
-  })
-
-  expect(fit.overflows).toBe(false)
-  expect(fit.clippedLeft).toBeLessThanOrEqual(0)
-  expect(fit.clippedRight).toBeLessThanOrEqual(0)
-  expect(fit.scrollY).toBe(scrollY)
-  await expect(selected).not.toBeFocused()
+  expect(fit).toEqual({ overflows: false, contained: true, scrollY })
+  await expect(related.locator(`a[href="${href}"]`)).toHaveCount(0)
+  await expect(related.locator('[aria-current]')).toHaveCount(0)
 }
 
 for (const reducedMotion of ['no-preference', 'reduce'] as const) {
@@ -390,16 +382,16 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
 test.describe('mobile topic filters', () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
-  test('a direct topic archive contains its selected tag without moving the page', async ({ page }) => {
+  test('a direct topic archive contains related links without moving the page', async ({ page }) => {
     const topicHref = await resolveLaterTopic(page)
 
     await page.goto(topicHref)
     await expect(progress(page)).toHaveClass(/is-complete/u)
-    await expectSelectedTopicVisible(page, topicHref, 0)
+    await expectRelatedTopicsContained(page, topicHref, 0)
     expect(await page.evaluate(() => document.activeElement === document.body)).toBe(true)
   })
 
-  test('arriving from an article topic and returning through history keep the tag contained', async ({ page }) => {
+  test('arriving from an article topic and returning through history keep related links contained', async ({ page }) => {
     const topicHref = await resolveLaterTopic(page)
 
     await page.goto(topicHref)
@@ -417,7 +409,7 @@ test.describe('mobile topic filters', () => {
     await settleNavigation(page, 0)
     expect(currentPath(page)).toBe(topicHref)
     await expect(page.locator('#main')).toBeFocused()
-    await expectSelectedTopicVisible(page, topicHref, 0)
+    await expectRelatedTopicsContained(page, topicHref, 0)
 
     const card = page.locator('[data-post-gallery-card]').first()
     const link = card.getByRole('link')
@@ -451,7 +443,7 @@ test.describe('mobile topic filters', () => {
     await page.goBack()
     await settleNavigation(page, savedTopicY)
     expect(currentPath(page)).toBe(topicHref)
-    await expectSelectedTopicVisible(page, topicHref, savedTopicY)
+    await expectRelatedTopicsContained(page, topicHref, savedTopicY)
   })
 })
 
@@ -483,22 +475,25 @@ test('desktop topic filters keep wrapping in place', async ({ page }) => {
   }
 })
 
-test('later archive pages mark the selected filter as current without claiming the page', async ({ page }) => {
+test('later archives distinguish the mixed-feed selection from related destinations', async ({ page }) => {
   // Both archives are paginated in shipped content (see blog.spec pagination coverage).
-  for (const archive of ['/blog/', '/blog/tags/typescript/']) {
+  for (const { archive, firstCurrent, laterCurrent } of [
+    { archive: '/blog/', firstCurrent: ['page'], laterCurrent: ['true'] },
+    { archive: '/blog/tags/typescript/', firstCurrent: [], laterCurrent: [] }
+  ]) {
     await page.goto(archive)
 
     const selected = page.locator(filterSelector).locator(`a[href="${archive}"]`)
     const pagination = page.getByRole('navigation', { name: 'Pagination' })
 
-    await expect(selected).toHaveAttribute('aria-current', 'page')
+    expect(await selected.evaluateAll(links => links.map(link => link.getAttribute('aria-current')))).toEqual(firstCurrent)
 
     const secondPage = requireValue(
       await pagination.getByRole('link', { exact: true, name: 'Page 2' }).getAttribute('href')
     )
 
     await page.goto(secondPage)
-    await expect(selected).toHaveAttribute('aria-current', 'true')
+    expect(await selected.evaluateAll(links => links.map(link => link.getAttribute('aria-current')))).toEqual(laterCurrent)
     await expect(pagination.getByRole('link', { exact: true, name: 'Page 2' })).toHaveAttribute('aria-current', 'page')
   }
 })

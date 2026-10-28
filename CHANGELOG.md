@@ -325,6 +325,10 @@
 
 ### Patch Changes
 
+- Use Related topics on individual Blog topic archives: four connections drawn from
+  published articles, full destination counts, and the existing sculpted tags with
+  a hand cursor. Preserve the main Blog's topic mix and native archive navigation.
+
 - Refine the Spanish homepage headline and preserve readable hero words and primary actions at narrow, enlarged-text sizes.
 
 - Introduce topic archive articles with a compact bilingual Reading caption and actual post ranges, preserving topic headings, metadata, and crawlable navigation.
