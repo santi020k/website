@@ -2383,7 +2383,12 @@ Keep native anchors for links wrapping a complete project or article.
   in action groups narrower than 18rem. Hidden decorative arrows leave their space
   available to the label. Reuse `site-action-aligned`
   for custom directional arrows, preserving the existing compartment, padding,
-  motion, focus outline, and destination. Inline text actions retain their own layout.
+  motion, focus outline, and destination.
+- Aligned inline extends that same alignment to inline ButtonLink browse and series
+  actions with arrows. Long labels wrap beside the fixed arrow, preserving the
+  compact width of short labels, zero horizontal padding, and the existing quiet
+  underline and ArrowExchange feedback. Inline links without arrows keep their
+  existing layout. Reuse `site-action-aligned`; do not add a separate link primitive.
 - Navigation arrows use `ArrowExchange` across buttons, card and article links,
   footer actions, search results, pagination, and secondary page links: two
   decorative Lumen icons on one continuous track. Preserve non-arrow icons,

@@ -2068,3 +2068,30 @@ freshness pass without regenerating PDFs. The Changeset is folded into unpublish
 5.0.0 and published notes are preserved. This approved follow-up uses affected
 checks; the full workspace baseline remains `a19890c0`. Evidence is retained in
 `.cache/v5-topic-note/`. No remote action occurred.
+
+## Aligned inline follow-up
+
+Approved source `28ed1a4b`, based on `f0d51c73`, is integrated over Topic note
+candidate `5033676b`. Inline ButtonLink actions with arrows reuse the established
+alignment utility so long labels wrap beside their arrows. Narrow action groups
+retain zero horizontal padding for inline links. Existing icons, quiet underline,
+480ms ArrowExchange feedback, focus, reduced motion, and native destinations remain.
+The no-arrow guard and slot path are unchanged; no live inline-without-arrow caller
+was found. Primary, secondary, and ghost variants retain their styling.
+
+All 54 Chromium/WebKit inline-browse, Related writing, text-link hover, and series
+closing cases pass with one worker and retries disabled. They cover English/Spanish,
+320/390/800/1440px, 100%/200% text, themes, keyboard/focus, touch, forced colors,
+reduced motion, and no-JavaScript navigation. Twenty non-inline link instances on
+Blog and Speaking retain their geometry, styles, and destinations in both locales.
+Sixteen matched header captures cover mobile/desktop and both locales/themes;
+Spanish mobile and English desktop pairs were reviewed. Topic note's 228-page
+description/canonical/heading audit also passes on the combined build.
+
+Current-site lint passes with zero warnings, and Astro checks 589 files with zero
+diagnostics. The 904-page build, 906-page OG audit, archive assembly, and resume
+freshness pass. The source-generated PDFs match the merged source fingerprint;
+all five page rasters remain unchanged and public/built artifacts match. The
+Changeset is folded into unpublished 5.0.0 with published notes intact. This
+follow-up uses affected checks; the full workspace baseline remains `a19890c0`.
+Evidence is retained in `.cache/v5-aligned-inline/`. No remote action occurred.

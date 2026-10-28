@@ -294,7 +294,7 @@
 
   @container site-actions (width < 18rem) {
     column-gap: 0.5rem;
-    padding-inline: 0.75rem;
+    &:not(.btn-inline) { padding-inline: 0.75rem; }
   }
 }
 
