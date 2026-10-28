@@ -553,6 +553,19 @@ enlarged text sizes. No new client controller is introduced.
   Tab folio uses nested CSS grids to share the tablist and copy toolbar row while keeping
   panel and figure semantics intact. The visible Copy/Copied/Copy failed labels and shell
   prompt are decorative CSS content; Lumen supplies the accessible names and announcements.
+  Package-manager panels opt into the same Scroll cue as standalone code. The pinned
+  Astro patch forwards the public `scrollCue` prop from `CodeTabs` to each `Code`;
+  Markdown-generated groups reuse `createLumenScrollCue`. Lumen owns overflow detection,
+  description IDs, hidden-panel updates, and navigation cleanup. Tabs refresh their
+  cue visibility synchronously across selected and synchronized panels before scrolling.
+  Fully visible triggers avoid an unnecessary native scroll transaction; clipped triggers
+  retain native scrolling, including the root header clearance and clipping ancestors.
+  Keyboard focus uses `preventScroll` so activation remains the single scrolling owner.
+  Cue-bearing tab activation briefly suspends document scroll anchoring across the
+  synchronized layout and two paint frames, then restores it. This prevents intermediate
+  measurements from moving WebKit while retaining native scrolling for off-screen tabs.
+  The shared five-row
+  grid reserves optional recovery and cue rows without adding empty space.
   Narrow cards move the copy toolbar below the wrapping tabs. Script-free visits disable
   this grid and hide its headers so all commands remain readable in document order.
 - Organization carousel controls use Lumen `Button` with `size="icon"` and `variant="secondary"`.

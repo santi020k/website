@@ -119,6 +119,7 @@ const expectReaderStaysInPlace = async (
   choice: Choice,
   interact: () => Promise<void>
 ) => {
+  const anchoring = await page.evaluate(() => getComputedStyle(document.documentElement).overflowAnchor)
   const recorder = await recordScroll(page)
 
   await interact()
@@ -130,6 +131,7 @@ const expectReaderStaysInPlace = async (
   await recorder.dispose()
 
   expect(scrollSamples.filter(sample => Math.abs(sample - top) > 1)).toEqual([])
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflowAnchor)).toBe(anchoring)
   expect(changes).toHaveLength(2)
   expect(changes).toEqual(expect.arrayContaining([`${origin.label}=${choice.value}`, `${synced.label}=${choice.value}`]))
   await expect(choiceTab(codeTabs(page, origin.label), choice)).toBeInViewport({ ratio: 1 })
@@ -182,6 +184,26 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 
         await page.reload()
         for (const { label } of groups) await expectSelected(codeTabs(page, label), { name: 'npm', value: 'npm' })
         expect(errors).toEqual([])
+      })
+
+      test('keyboard selection reveals a manager above the header clearance', async ({ page }) => {
+        await openArticle(page)
+        const group = codeTabs(page, groups[0].label)
+
+        await group.getByRole('tab', { name: 'npm', exact: true }).evaluate(element => {
+          element.focus({ preventScroll: true })
+          window.scrollTo({ behavior: 'instant', top: scrollY + element.getBoundingClientRect().top - 8 })
+        })
+        await page.keyboard.press('ArrowRight')
+        const selected = group.getByRole('tab', { name: 'yarn', exact: true })
+
+        await expect(selected).toBeFocused()
+        await expect(selected).toBeInViewport({ ratio: 1 })
+        await expect.poll(() => selected.evaluate(element => {
+          const clearance = Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0
+
+          return element.getBoundingClientRect().top >= clearance - 1
+        })).toBe(true)
       })
     })
   }

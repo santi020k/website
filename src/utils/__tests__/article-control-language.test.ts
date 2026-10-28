@@ -54,4 +54,19 @@ describe('article control language', () => {
     expect(spanish).toContain('lang="es-419">Desplázate horizontalmente para comparar</span>')
     expect(spanish).toContain('<td>Copy</td>')
   })
+
+  test('localizes imported copy controls when the command contains angle brackets', async () => {
+    const code = 'export const compare = (value: number): boolean => value > 3 && value < 9'
+    const english = await renderArticleCode({ code, codeLabel: 'compare.ts', label: 'compare.ts', language: 'ts' })
+    const spanish = localizeArticleControls(english, 'es')
+
+    expect(spanish).toContain('aria-label="Copiar código al portapapeles"')
+    expect(spanish).toContain('title="Copiar código al portapapeles"')
+    expect(spanish).toContain('data-copy-label="Copiar código al portapapeles"')
+    expect(spanish).toContain('data-copy-copied-label="Código copiado al portapapeles"')
+    expect(spanish).toContain('data-copy-error-label="No se pudo copiar el código. Selecciónalo y cópialo manualmente."')
+    expect(spanish).toContain('lang="es-419">Copiar</span>')
+    expect((/data-copy-value="[^"]*"/u.exec(spanish))?.[0]).toBe((/data-copy-value="[^"]*"/u.exec(english))?.[0])
+    expect(localizeArticleControls(english, 'en')).toBe(english)
+  })
 })

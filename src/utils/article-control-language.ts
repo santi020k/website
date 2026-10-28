@@ -10,11 +10,11 @@ const controlText = new RegExp(
   'gu'
 )
 
-const controlLanguage = (open: string): string => /\blang=/u.test(open) ? open : open.replace('>', ' lang="es-419">')
+const controlLanguage = (open: string): string => /\blang=/u.test(open) ? open : open.replace(/>$/u, ' lang="es-419">')
 
 /** Only existing generated markers qualify; authored markup is never a translation source. */
 const translateGeneratedControls = (html: string, locale: Locale): string => {
-  const attributes = html.replace(/<(button|pre|div)\b[^>]*>/gu, tag => {
+  const attributes = html.replace(/<(button|pre|div)\b(?:[^"'<>]|"[^"]*"|'[^']*')*>/gu, tag => {
     if (!generatedControl.test(tag)) return tag
 
     const translated = tag.replace(controlAttribute,

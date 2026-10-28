@@ -2491,3 +2491,44 @@ the local Lighthouse correction are preserved. The Changeset is folded into
 unpublished 5.0.0 with published notes unchanged. Evidence:
 `.cache/v5-series-chapter-sleeve/`. The root full gate remains `0319556c`; this
 follow-up uses affected checks. No push, PR, tag, release or deployment occurred.
+
+## Article command Scroll cue integration
+
+Approved source `9c02e21e` is integrated over `f871c739` into local v5. Package-manager
+commands reuse Lumen's existing localized overflow cue across Astro and generated
+Markdown. The five-row Tab folio keeps guidance after the command and manual copy
+recovery before it. Archives retain their existing opt-out. No package version changes;
+the lockfile changes only the pinned Astro patch hash.
+
+Repeated WebKit testing exposed intermediate panel measurements moving the document
+without an explicit scroll call or lasting geometry change. The runtime refreshes cues
+synchronously across synchronized panels, skips native scrolling for fully visible tabs,
+and retains native scrolling for clipped tabs, including sticky-header clearance.
+Keyboard focus cannot start a second scroll transaction. Cue-bearing reader activation
+suspends document anchoring before measurement and restores it after two paint frames;
+its independent attribute preserves the existing navigation hold. A permanent panel-only
+exclusion was insufficient and is not retained. The original every-frame reader-position
+assertion is unchanged, and now also checks that normal anchoring returns.
+
+Whole-page Spanish accessibility checks also exposed generated copy controls whose
+command contains angle brackets. The existing localization helper now respects quoted
+attribute values and adds the language only at the closing tag delimiter. A real rendered
+command regression test preserves the exact copied payload and English output. The
+imported-code failure test now selects its copy control explicitly when the previously
+approved manual recovery button is also present.
+
+All 112 affected Chromium/WebKit cases and 40 additional repetitions of the two WebKit
+regressions pass, with one worker and retries disabled. Twenty-nine rendering units,
+current zero-warning lint, and Astro checks for 599 files without diagnostics pass.
+Current-site, v3/v4 and motion builds pass; the assembled audit covers 2,194 documents
+and 8,619 local targets, with 1,288 archive pages and no errors. The 906-page OG audit,
+926-image freshness, eight preserved article contracts, 32 matched captures, eight
+normal-text axe scans and four v3/v4 browser smoke cases pass. Five regenerated PDF page
+rasters remain identical and public/built artifacts match. Frozen installation verifies
+the intended patch without dependency upgrades; the existing JSX accessibility plugin's
+ESLint peer-range warning remains a baseline tooling limitation, with zero-warning lint
+passing. The generated patch retains its required blank context line.
+
+The Changesets are folded into unpublished 5.0.0 with published notes unchanged.
+Evidence: `.cache/v5-tab-scroll-cue/`. Root full gate remains `0319556c`; these are
+affected integration checks. No push, PR, tag, release or deployment occurred.

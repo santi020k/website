@@ -372,7 +372,7 @@
     & [data-example-fold] > [data-code-fold-region] { display: block; }
   }
 
-  & [data-article-code-folio] [data-scroll-cue-message]:not([hidden]) {
+  & :is([data-article-code-folio], [data-package-manager-code-tabs]) [data-scroll-cue-message]:not([hidden]) {
     display: flex;
     align-items: center;
     gap: 0.5625rem;
