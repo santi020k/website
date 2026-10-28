@@ -142,7 +142,7 @@ mainClass="remaining-pages remaining-pages--reading"
       <div class="min-w-0 space-y-10" data-post-story>
         {hasContents && (
           <div data-post-mobile-toc>
-            <ReadingChapterOpener headings={headings} />
+            <ReadingChapterOpener companion headings={headings} />
           </div>
         )}
         <div class="e-content max-w-none">
@@ -222,6 +222,15 @@ mainClass="remaining-pages remaining-pages--reading"
 </BaseLayout>
 
 <style>
+  [data-post-mobile-toc][data-companion-sticky] {
+    position: sticky;
+    top: var(--chapter-companion-top);
+    z-index: 20;
+  }
+  [data-post-mobile-toc][data-companion-ended] { visibility: hidden; }
+  [data-post-story] :global(h2[id], h3[id]) {
+    scroll-margin-block-start: max(4rem, var(--chapter-companion-clearance, 0px));
+  }
   [data-article-newsletter] { max-width: 56rem; margin-block: 3rem 0; }
 
   @container reading-layout (width < 40rem) {

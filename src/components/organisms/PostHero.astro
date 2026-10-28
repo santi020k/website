@@ -161,6 +161,12 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
           </dl>
           <ArticlePrintAction />
         </div>
+        {locale === 'es' && (
+          <p data-article-language>
+            <Icon name="languages" class="size-4 shrink-0" />
+            <span>{t('reading.englishArticle')}</span>
+          </p>
+        )}
       </div>
     </div>
   </div>
@@ -221,14 +227,14 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
       <div data-series-byline>
         <div data-hero-series>
           <p data-hero-series-position>
-            From the series · Post {seriesContext.position} of {seriesContext.total}
+            {t('series.from')} · {t('series.position', { position: seriesContext.position, total: seriesContext.total })}
           </p>
           <Link
-            href={`/blog/series/${seriesContext.series.id}/`}
+            href={localizePath(`/blog/series/${seriesContext.series.id}/`, locale)}
             variant="inherit"
             data-hero-series-link
           >
-            <span>{seriesContext.series.data.title}</span>
+            <span lang="en">{seriesContext.series.data.title}</span>
             <ArrowExchange direction="right" class="size-4 shrink-0" data-hero-series-arrow />
           </Link>
         </div>
@@ -464,6 +470,18 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
     column-gap: 1rem;
     margin-top: 0.75rem;
   }
+
+  [data-article-language] {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0.75rem 0 0;
+    color: hsl(var(--brand));
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+  [data-article-language] :global(svg) { margin-top: 0.1em; }
+  :global(:root[data-theme='dark']) [data-article-language] { color: hsl(var(--accent)); }
 
   [data-publication-imprint] dt {
     margin-bottom: 0.4375rem;

@@ -1,5 +1,5 @@
 ---
-import { getLocale, localizePath } from '@/i18n'
+import { getLocale, localizePath, sharedTranslator } from '@/i18n'
 
 interface Props {
   variant?: 'header' | 'menu'
@@ -8,7 +8,8 @@ interface Props {
 const { variant = 'header' } = Astro.props
 const locale = getLocale(Astro.url.pathname)
 const target = locale === 'en' ? 'es' : 'en'
-const label = locale === 'en' ? 'Leer en español' : 'Read in English'
+const t = sharedTranslator(locale)
+const label = t(target === 'es' ? 'language.spanishInterface' : 'language.englishInterface')
 const destination = localizePath(`${Astro.url.pathname}${Astro.url.search}`, target)
 ---
 
@@ -17,7 +18,7 @@ const destination = localizePath(`${Astro.url.pathname}${Astro.url.search}`, tar
   data-language-switch={variant}
   href={destination}
   hreflang={target}
-  lang={target}
+  lang={locale}
   aria-label={label}
 >
   <span aria-hidden="true">{variant === 'menu' ? label : target.toUpperCase()}</span>

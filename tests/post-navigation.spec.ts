@@ -16,7 +16,7 @@ const expectNavigationPlacement = async (page: Page, browserName: string) => {
   if (stacked) {
     await expect(opener).toBeVisible()
     await expect(desktop).toBeHidden()
-    await expect(opener.locator('summary')).toHaveText('On this page 7 sections')
+    await expect(opener.locator('[data-toc-count]')).toHaveText('1 of 7')
     await expect(page.getByRole('navigation', { name: 'Table of contents', exact: true })).toHaveCount(0)
     expect(await opener.evaluate(element => {
       const notes = document.querySelector('[data-article-margin-lead]')
@@ -38,7 +38,7 @@ const expectNavigationPlacement = async (page: Page, browserName: string) => {
 const closeOpener = async (page: Page) => {
   const opener = page.locator('[data-post-mobile-toc]')
 
-  if (!await opener.isVisible()) return
+  if (!await opener.isVisible() || await opener.locator('details').getAttribute('open') === null) return
 
   await opener.locator('summary').focus()
   await page.keyboard.press('Space')
@@ -69,7 +69,9 @@ for (const width of [320, 390, 768, 1024, 1440]) {
       await page.keyboard.press('Enter')
       await expect(page).toHaveURL(new RegExp(`${fragment}$`, 'u'))
       await expect(page.locator(fragment)).toBeInViewport()
-      await expect(destination).toHaveAttribute('aria-current', 'location')
+      const selected = page.locator(`[data-post-mobile-toc] a[href="${fragment}"], [data-post-desktop-toc] a[href="${fragment}"]`)
+
+      await expect(selected.first()).toHaveAttribute('aria-current', 'location')
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 
       await closeOpener(page)
