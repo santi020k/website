@@ -1673,3 +1673,34 @@ these files do not alter its fingerprint. The optional Workspace Organizer
 sitemap retains its established unavailable-source skip. The Changeset is folded
 into 5.0.0 while published notes stay unchanged. The latest full gate remains
 `b6dce4e5`; this follow-up uses affected checks and includes no remote action.
+
+## Bilingual Topic brief follow-up
+
+Approved source `2a44ffde`, based on `b6dce4e5`, is integrated over Section arrival
+`b38733ce`. Individual topic archives now open with a concise topic heading,
+total post count, All topics and Back to blog links, and page context for multi-page
+archives. The same layout serves both languages, using the existing translation
+and native-link contracts. The archive page and permanent tests match the approved
+source exactly; the style guide retains Evidence captions and Section arrival,
+and the collection dictionary combines their translations with the new brief.
+
+Ten affected locale unit cases and six focused Chromium/WebKit browser cases
+passed. An additional 24 responsive states cover both languages/themes,
+390/1440px and 320px at 200% text, whole-word titles, 44px links, visible keyboard
+focus, reduced motion, and scoped axe. Eight native keyboard destinations passed
+without JavaScript. Thirty-two matched route/state comparisons cover first and
+later Developer experience pages, CI/CD, and a single Wine post; downstream
+content, filters, pagination links, statistics, canonical/alternate URLs, and
+metadata remain identical. Sixteen before/after opening captures cover mobile
+and desktop in both languages/themes; representative desktop English and mobile
+Spanish results were visually reviewed.
+
+Current-site lint and spelling passed without warnings; Astro checked 569 files
+with zero errors, warnings, or hints. The 904-page build, 906-page OG audit, archive
+assembly, and normal commit hooks passed. Generated resume assets conflicted
+because both sources changed their shared dictionary fingerprint. The documented
+generator rebuilt them from the combined source; freshness passed and all five
+rendered pages are pixel-identical to `b38733ce`. The Changeset is folded into
+5.0.0 while published notes remain unchanged. The existing optional Workspace
+Organizer sitemap skip remains. The latest full workspace gate is `b6dce4e5`;
+this follow-up uses affected checks and includes no remote publication.

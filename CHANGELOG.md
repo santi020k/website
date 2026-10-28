@@ -322,6 +322,8 @@
 
 ### Patch Changes
 
+- Open topic archives with a concise bilingual Topic brief, named navigation, total post counts, and current-page context.
+
 - Mark article section-link destinations with a Linked section label and margin rule.
   Follow native fragment navigation while preserving heading names, copy recovery,
   and the existing print layout.
