@@ -73,6 +73,7 @@ for (const theme of ['light', 'dark']) {
         await page.evaluate(() => document.fonts.ready)
         const rows = page.locator('[data-timeline-row]')
 
+        await rows.first().scrollIntoViewIfNeeded()
         expect(await rows.count()).toBeGreaterThan(1)
         await expect(rows.locator('[data-career-masthead]')).toHaveCount(3)
         await expect(rows.filter({ has: page.locator('[data-career-masthead]') }).locator('[data-career-title]')).toHaveText(['Smith Commerce', 'X Games', 'Void.GG'])
@@ -142,6 +143,68 @@ for (const theme of ['light', 'dark']) {
           })
 
           expect(clipped, 'Every date, title, description, and action remains fully visible').toBe(false)
+        }
+        const marks = await rows.locator('[data-career-identity]').evaluateAll(async panels => Promise.all(panels.map(async panel => {
+          const image = panel.querySelector('img')
+          const company = panel.getAttribute('data-company')
+
+          if (!(image instanceof HTMLImageElement) || !company) throw new Error('Each company needs its original logo and identity')
+          image.loading = 'eager'
+          await image.decode()
+          const canvas = document.createElement('canvas')
+
+          canvas.width = image.naturalWidth
+          canvas.height = image.naturalHeight
+          const context = canvas.getContext('2d')
+
+          if (!context) throw new Error('Logo bounds require a canvas context')
+          context.drawImage(image, 0, 0)
+          const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data
+          let left = canvas.width
+          let top = canvas.height
+          let right = 0
+          let bottom = 0
+
+          for (let y = 0; y < canvas.height; y++) {
+            for (let x = 0; x < canvas.width; x++) {
+              if ((pixels[(y * canvas.width + x) * 4 + 3] ?? 0) > 24) {
+                left = Math.min(left, x)
+                top = Math.min(top, y)
+                right = Math.max(right, x + 1)
+                bottom = Math.max(bottom, y + 1)
+              }
+            }
+          }
+          const box = panel.getBoundingClientRect()
+          const imageBox = image.getBoundingClientRect()
+          const scale = Math.min(imageBox.width / canvas.width, imageBox.height / canvas.height)
+          const x = imageBox.left + (imageBox.width - canvas.width * scale) / 2
+          const y = imageBox.top + (imageBox.height - canvas.height * scale) / 2
+
+          return {
+            company,
+            width: box.width,
+            height: box.height,
+            left: (x + left * scale - box.left) / box.width,
+            right: (box.right - x - right * scale) / box.width,
+            top: (y + top * scale - box.top) / box.height,
+            bottom: (box.bottom - y - bottom * scale) / box.height,
+            presence: Math.max((right - left) * scale / box.width, (bottom - top) * scale / box.height)
+          }
+        })))
+
+        expect(marks).toHaveLength(9)
+        const firstMark = requireValue(marks[0])
+
+        for (const mark of marks) {
+          expect(mark.width, `${mark.company} shares the same background width`).toBeCloseTo(firstMark.width, 0)
+          expect(mark.height, `${mark.company} shares the same background height`).toBeCloseTo(firstMark.height, 0)
+          expect(mark.width / mark.height).toBeCloseTo(1.5, 1)
+          expect(Math.min(mark.left, mark.right, mark.top, mark.bottom), `${mark.company} is entirely visible with breathing room`).toBeGreaterThan(0.08)
+          expect(Math.abs(mark.left - mark.right), `${mark.company} is optically centered horizontally`).toBeLessThan(0.12)
+          expect(Math.abs(mark.top - mark.bottom), `${mark.company} is optically centered vertically`).toBeLessThan(0.12)
+          expect(mark.presence, `${mark.company} is legible relative to its background`).toBeGreaterThan(0.6)
+          expect(mark.presence).toBeLessThan(0.85)
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
       })

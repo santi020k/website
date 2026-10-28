@@ -159,7 +159,9 @@ styling private TimelineItem internals. Each role retains its complete descripti
 technologies, chronological dates, and keyboard-accessible case-study link. Its scoped
 styles own the card and responsive date rail; Work page styles own only the page composition.
 Collection-owned company marks use optimized Astro Image and their declared logo
-surfaces beside the content on desktop, then above it on mobile. All marks remain
+surfaces in equal 3:2 panels beside the heading on desktop, then beside the date
+on mobile. Extremely narrow containers stack them above the heading. Scoped optical
+adjustments account for source transparency without altering brand assets. All marks remain
 decorative because the company heading names the destination. The three newest roles
 keep their full status treatment. Later completed roles use smaller headings, tighter
 spacing, and no repeated status masthead; active roles stay full. Both densities share the same Lumen components,
