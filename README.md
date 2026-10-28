@@ -175,6 +175,10 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   bypass the service-worker cache and revalidate through HTTP across deployments.
 - **Reading metadata:** cards, article headers, and structured data share `src/utils/reading-time.ts`;
   the retired Markdown plugin no longer writes unused frontmatter.
+- **Original publication credits:** imported articles can set `originalPublication.name`, `url`,
+  and `platform` alongside their HTTP(S) `canonicalUrl`. The shared Publication imprint replaces
+  repeated publication boilerplate, preserves both source links, and includes them in print
+  Reference notes. Leave this metadata absent when the article has no explicit publisher credit.
 - **Content dates:** write frontmatter dates as `2026-09-04` or `4 Sep 2026`; both mean that calendar
   day at UTC midnight in every build timezone. ISO timestamps with `Z` or an offset such as
   `-05:00` keep their exact instant, and zone-less timestamps are read as UTC. Schemas, the sitemap,

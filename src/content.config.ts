@@ -183,6 +183,11 @@ const post = defineCollection({
     tags: z.array(z.string()).default([]).transform(removeDuplicates),
     draft: z.boolean().default(false),
     canonicalUrl: z.url().optional(),
+    originalPublication: z.object({
+      name: z.string().trim().min(1).max(80),
+      url: z.url({ protocol: /^https?$/u }),
+      platform: z.string().trim().min(1).max(40)
+    }).optional(),
     seoTitle: z.string().optional(),
     postType: z.enum(['Article', 'Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).default('Article'),
     startHere: z.object({
@@ -192,6 +197,14 @@ const post = defineCollection({
     }).optional(),
     seriesId: z.string().optional(),
     seriesOrder: z.number().int().positive().optional()
+  }).superRefine((post, context) => {
+    if (post.originalPublication && (!post.canonicalUrl || !/^https?:\/\//u.test(post.canonicalUrl))) {
+      context.addIssue({
+        code: 'custom',
+        message: 'An original publication requires an HTTP(S) canonicalUrl for the original article.',
+        path: ['canonicalUrl']
+      })
+    }
   })
 })
 
