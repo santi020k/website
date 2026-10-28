@@ -16,6 +16,7 @@ interface Props {
 const { formAction, idSuffix = 'compact' } = Astro.props
 const emailId = `newsletter-email-${idSuffix}`
 const headingId = `newsletter-heading-${idSuffix}`
+const handoffId = `newsletter-handoff-${idSuffix}`
 const feedCopyId = `newsletter-feed-copy-${idSuffix}`
 const feedUrl = new URL('/feed.xml', Astro.site).href
 const locale = getLocale(Astro.url.pathname)
@@ -45,6 +46,7 @@ const t = sharedTranslator(locale)
     <label data-newsletter-label for={emailId}>{t('shared.emailAddress')}</label>
     <div data-newsletter-controls>
       <Input
+        aria-describedby={handoffId}
         autocomplete="email"
         data-newsletter-email
         id={emailId}
@@ -55,6 +57,7 @@ const t = sharedTranslator(locale)
         type="email"
       />
       <Button
+        aria-describedby={handoffId}
         data-newsletter-submit
         type="submit"
       >
@@ -64,6 +67,18 @@ const t = sharedTranslator(locale)
         </span>
       </Button>
     </div>
+    <p
+      id={handoffId}
+      data-newsletter-handoff
+      data-idle-message={t('newsletter.opensButtondown')}
+      data-submitted-message={t('newsletter.continueOnButtondown')}
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <Icon class="size-4 shrink-0" name="external-link" />
+      <span data-newsletter-handoff-message>{t('newsletter.opensButtondown')}</span>
+    </p>
   </form>
   <footer data-newsletter-footer>
     <p>
@@ -131,6 +146,10 @@ const t = sharedTranslator(locale)
   [data-newsletter-submit], [data-newsletter-submit]:hover { box-shadow: none; }
   [data-newsletter-submit]:hover { background: hsl(var(--ink-soft)); }
   [data-newsletter-submit-content] { display: flex; align-items: center; justify-content: center; gap: 0.625rem; min-width: 0; }
+  [data-newsletter-handoff] { display: flex; align-items: flex-start; gap: 0.5625rem; margin: 0.875rem 0 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.7; }
+  [data-newsletter-handoff] :global(svg) { margin-top: 0.125rem; color: hsl(var(--newsletter-accent)); }
+  [data-newsletter-handoff][data-submitted] { padding-left: 0.75rem; border-left: 2px solid hsl(var(--newsletter-accent)); color: hsl(var(--ink)); }
+  [data-newsletter-handoff][data-submitted] :global(svg) { display: none; }
   [data-newsletter-footer] { margin-inline: 1.75rem; padding: 0.75rem 0 1.25rem; border-top: 1px solid hsl(var(--line)); }
   [data-newsletter-footer] > p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
   [data-newsletter-feed] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 1rem; margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid hsl(var(--line)); }
@@ -171,3 +190,52 @@ const t = sharedTranslator(locale)
     [data-newsletter-footer] :global([data-newsletter-copy].copied) { border-color: Highlight; }
   }
 </style>
+
+<script>
+  const setup = () => {
+    const controller = new AbortController()
+    const { signal } = controller
+
+    document.querySelectorAll<HTMLFormElement>('[data-newsletter-form]').forEach(form => {
+      const note = form.querySelector<HTMLElement>('[data-newsletter-handoff]')
+      const message = note?.querySelector<HTMLElement>('[data-newsletter-handoff-message]')
+      const idle = note?.dataset.idleMessage
+      const submitted = note?.dataset.submittedMessage
+
+      if (!note || !message || !idle || !submitted) return
+
+      const reset = () => {
+        note.removeAttribute('data-submitted')
+
+        message.textContent = idle
+      }
+
+      form.addEventListener('submit', event => {
+        // Observe the native POST; only Buttondown can confirm the subscription.
+        window.setTimeout(() => {
+          if (event.defaultPrevented || signal.aborted) return
+
+          note.setAttribute('data-submitted', '')
+
+          message.textContent = submitted
+        }, 0)
+      }, { signal })
+
+      form.addEventListener('input', reset, { signal })
+
+      form.addEventListener('reset', reset, { signal })
+    })
+
+    return () => controller.abort()
+  }
+
+  let cleanup = setup()
+
+  document.addEventListener('astro:before-swap', () => cleanup())
+
+  document.addEventListener('astro:after-swap', () => {
+    cleanup()
+
+    cleanup = setup()
+  })
+</script>

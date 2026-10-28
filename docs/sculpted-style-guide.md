@@ -1840,7 +1840,7 @@ starts with a Newsletter caption and decorative mail icon, then one h2: Keep up 
 new writing. Set the heading at 2.5rem with an 18ch measure and follow it with the
 description of software, reading, gaming, and everyday discoveries at a 52ch measure.
 The native form uses that heading as its accessible name. Keep the visible email label,
-Get new posts action, ArrowExchange, and existing link feedback. A fine rule separates
+Subscribe action, ArrowExchange, and existing link feedback. A fine rule separates
 the frequency note, Privacy link, and RSS link.
 
 Use 1.75rem horizontal insets and keep controls at least 44px tall. Below 25rem of
@@ -1848,7 +1848,21 @@ card width, reduce the heading to 2rem, stack the field and button, and place RS
 the frequency note. Tighten
 insets and omit decoration when enlarged text needs the space. Preserve the native
 POST, hidden embed field, email validation, new-tab behavior, and existing destinations;
-the signup needs no additional client script.
+the native signup continues to work without JavaScript.
+
+### Signup handoff
+
+The shared newsletter explains that Subscribe opens Buttondown in a new tab. Keep
+the compact external-link note beneath the controls and describe both the email
+field and submit button with its unique ID. After a valid native submission, replace
+the note with a polite, atomic next-step message and a quiet margin rule. This is
+handoff guidance, never confirmation that the provider accepted the subscription.
+
+Keep the native POST, provider action, validation, new-tab target, email value, and
+focus behavior. Editing or resetting the form restores the opening note. Cancelled
+submissions leave the note unchanged. The static explanation remains without
+JavaScript; page swaps clean up listeners and bind the current localized form.
+Use the same shared component across blog and article pages in both languages.
 
 ### Feed utility
 

@@ -2255,3 +2255,33 @@ notes intact.
 This separately approved design follow-up uses affected checks; the full
 workspace baseline remains `0319556c`. Evidence is retained in
 `.cache/v5-feed-utility/`. No remote action occurred.
+
+## Newsletter Signup handoff integration
+
+Approved source `6fda2856`, based on `39daef42`, adds localized opening guidance
+and a polite next step after native newsletter submission. It describes the
+Buttondown handoff without claiming subscription success. Input and submit
+controls reference the same unique note. Editing/reset restores the opening
+guidance; invalid or cancelled submissions leave it unchanged. Route swaps
+clean up listeners and pending callbacks cannot update disposed forms. Native
+POST/new-tab behavior, email retention, RSS copying/recovery, and static
+no-JavaScript guidance remain intact. The source controller is unchanged.
+
+All 72 Chromium/WebKit signup, feed, and adjacent return-control cases pass with
+one worker and retries disabled. Provider submissions are fulfilled by local
+fixtures; no real subscriptions were sent. Coverage includes both locales,
+keyboard/focus, cancellation, editing/reset, clipboard recovery, route swaps/Back,
+no-JavaScript, themes, mobile/desktop, 200% text, and accessibility checks. All
+1,470 translation tests pass; current lint has zero warnings and Astro checks
+594 files without diagnostics. The 904-page build, 906-page OG audit, archive
+assembly, and 926-image freshness check pass. All 96 built newsletter pages
+preserve unique localized descriptions, live status semantics, and native forms.
+Sixteen matched captures and two submitted-state captures were inspected at
+representative desktop and mobile states. Source-generated PDFs match the merged
+fingerprint and built copies; all five page rasters remain unchanged.
+
+Product/tests/generated PDFs match the source, and earlier homepage, gallery,
+and return behavior is preserved. Changeset notes are folded into unpublished
+5.0.0 with published notes intact. This approved follow-up uses affected checks;
+the full workspace baseline remains `0319556c`. Evidence is retained in
+`.cache/v5-signup-handoff/`. No remote action occurred.
