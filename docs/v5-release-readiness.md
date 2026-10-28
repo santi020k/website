@@ -2150,3 +2150,28 @@ full-workspace validation is scheduled after the ready Contextual return and
 Named captions integrations; the previous full baseline remains `a19890c0`.
 Changeset notes are folded into unpublished 5.0.0 with published notes intact.
 Evidence is in `.cache/v5-home-editorial/`. No remote action occurred.
+
+## Contextual return integration
+
+Approved source `b1bee87d` is integrated over homepage candidate `192007d6`. The
+floating return yields while the native article or project closing return is in
+view, and restores after it leaves. An already-focused control stays usable;
+returning to the top moves focus to main content. The existing threshold, icon,
+motion, native destinations, and pages without closing returns are preserved.
+Observers and listeners are cleaned up across route changes; scroll/resize retain
+the behavior when the observer API is unavailable. The homepage Spanish label
+correction remains intact.
+
+All 40 Chromium/WebKit contextual-return, scroll-state, page-affordance, and
+home-photography cases pass with one worker and retries disabled. These cover
+both locales, 320/390/1440px, 100%/200% text, keyboard/focus, reduced motion,
+route swaps, resizing, missing observer support, and native no-JavaScript return.
+Eight matched states preserve closing-link geometry while hiding the floating
+control; sixteen captures show the result. The Spanish mobile pair was reviewed.
+The production build, 906-page OG audit, archive assembly, and PDF freshness pass.
+Regenerated PDFs preserve all five page rasters and match built files. Product
+and tests match the source, and homepage code/catalogs are unchanged. Changeset
+notes are folded into 5.0.0 with published notes preserved.
+
+The fixed-group full workspace gate follows the ready Named captions integration.
+Evidence is in `.cache/v5-contextual-return/`. No remote action occurred.
