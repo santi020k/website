@@ -2315,3 +2315,36 @@ Changeset notes are folded into unpublished 5.0.0 with published notes intact.
 This follow-up uses affected checks; the full workspace baseline remains
 `0319556c`. Evidence is retained in `.cache/v5-series-reading-brief/`.
 No remote action occurred.
+
+## Newsletter Email recovery integration
+
+Approved source `6d829b3b` is integrated over Reading brief candidate `b1d18bc9`.
+Its Signup handoff parent `6fda2856` was already an ancestor, so the exact-tip
+merge adds only the new approved commit while preserving verifiable ancestry.
+The shared newsletter reuses Lumen FieldError for localized missing/malformed
+email guidance. Native required/email constraints still block invalid POSTs;
+JavaScript replaces only the validation popup. Errors persist until editing,
+reset, or valid correction, with field association and focus preserved. Native
+no-JavaScript validation, signup guidance, RSS copying/recovery, and route cleanup
+remain. No custom address validation rule or delivery claim was added.
+
+All 88 Chromium/WebKit email, signup, RSS, and adjacent return-control cases pass
+with one worker and retries disabled. They cover missing/malformed values,
+correction without an input event, reset, keyboard/focus, both locales/themes,
+320/768/1440px, 200% text, normal-text accessibility checks, route swaps/Back,
+and no-JavaScript behavior. Provider requests use local fixtures only. All 1,479
+focused message tests pass. Current lint has zero warnings; Astro checks 595
+files with zero diagnostics. The 904-page build, 906-page OG audit, four-archive
+assembly, and 926-image freshness check pass. All 96 newsletter pages retain
+unique hidden localized errors, required email fields, and native validation/forms.
+Sixteen matched captures cover both locales/themes and mobile/desktop; English
+desktop and Spanish mobile pairs were reviewed.
+
+Product, shared catalog, and focused tests match the source; Series, collection
+copy, and home components remain unchanged. Generated PDF conflicts were resolved
+with the normal generator on the combined source. Both PDFs match their source
+fingerprint and built copies, with all five page rasters unchanged. Changeset
+notes are folded into unpublished 5.0.0 and published notes are preserved.
+This approved follow-up uses affected checks; the full workspace baseline remains
+`0319556c`. Evidence is retained in `.cache/v5-email-recovery/`.
+No remote action occurred.
