@@ -2895,6 +2895,19 @@ At narrow widths, place the group and count on a second line beneath the name an
 arrow. Keep whole names, visible focus, light/dark contrast, and text enlargement.
 Clearing restores the complete grouped catalog; zero matches use Catalog note.
 
+### Topic first Blog Topics opening
+
+The Blog Topics index uses **Topic first**: a ruled topline pairs Back to blog with
+its collection-derived topic total, followed by one Browse by topic heading,
+a short introduction covering software, reading, gaming, and everyday discoveries,
+and a quiet series link. Place the existing Search folio immediately below this
+opening, without another section introduction or static featured-topic labels.
+Keep both navigation links native, with the shared text-link and Arrow exchange
+feedback, visible focus, and wrapping at narrow widths or enlarged text sizes.
+The total describes the complete archive; the search footer separately announces
+filtered matches. Preserve search normalization, sort order, Compact cards, the
+Catalog note empty state, statistics, metadata, and navigation lifecycle.
+
 ### Search folio Blog topics controls
 
 The Blog topics search and sort panel uses **Search folio**: one sculpted sheet,
