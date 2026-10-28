@@ -131,7 +131,9 @@ for (const theme of ['light', 'dark']) {
           const company = await row.locator('[data-career-title]').innerText()
           const date = requireValue(await row.locator('[data-career-date]').textContent()).trim()
 
-          await expect(link).toHaveAccessibleName(`${company}: Read case study, ${date}`)
+          await expect(link).toHaveAccessibleName(new RegExp(company.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'u'))
+          await expect(link).toHaveAccessibleName(new RegExp(date.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'u'))
+          await expect(link).toHaveAccessibleName(/Read case study/u)
           await expect(row.locator('[data-career-action]')).toHaveText('Read case study')
           const clipped = await link.evaluate(element => {
             const bounds = element.getBoundingClientRect()
@@ -265,7 +267,9 @@ for (const theme of ['light', 'dark'] as const) {
       const action = await link.locator('[data-career-action]').innerText()
       const date = requireValue(await link.locator('[data-career-date]').textContent()).trim()
 
-      await expect(link).toHaveAccessibleName(`${company}: ${action}, ${date}`)
+      for (const label of [company, action, date]) {
+        await expect(link).toHaveAccessibleName(new RegExp(label.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'u'))
+      }
       await expect(link.locator('img')).toHaveAttribute('alt', '')
     }
     for (const width of [320, 390, 768, 1440]) {

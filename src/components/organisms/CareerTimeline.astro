@@ -52,12 +52,12 @@ data-career-row
 data-career-density={item.isCompact ? 'compact' : 'full'}
 style={getProjectBrandStyle(item.brand)}
     >
-      <a data-career-link href={localizePath(item.href, locale)} aria-label={`${item.company}: ${t('collection.readCaseStudy')}, ${item.startMonth} ${item.startYear} - ${item.endLabel}`}>
+      <a data-career-link href={localizePath(item.href, locale)}>
         <div data-career-date>
           <time datetime={item.startDate} data-career-start><span data-career-month>{item.startMonth}</span>{' '}<span data-career-year>{item.startYear}</span></time>
           <span data-career-end> - {item.endDate ? <time datetime={item.endDate}>{item.endLabel}</time> : item.endLabel}</span>
         </div>
-        <Card as="article" variant="unstyled" data-career-folio>
+        <Card as="div" variant="unstyled" data-career-folio>
           {item.logo && (
             <div data-career-identity data-company={item.companyId} data-logo-aspect={item.logoAspect} data-logo-surface={item.logoSurface}>
               <Image alt="" src={item.logo} width={Math.min(item.logo.width, 320)} loading="lazy" format="webp" sizes="(min-width: 768px) 116px, 100px" />

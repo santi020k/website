@@ -1259,8 +1259,10 @@ Keep the continuous date rail, semantic dates, chronological order, and the fina
 marker endpoint. The three newest roles retain their status masthead and 2rem
 company headings; earlier completed roles use 1.75rem headings and tighter spacing.
 Keep every role, description, technology label, and case-study action visible.
-Name each whole-row link with its company, localized case-study action, and dates so
-screen-reader link lists identify the destination instead of only the dates.
+Render the linked Card as a div so its complete content contributes to the native
+link name. A nested article would leave only the dates in the accessible name.
+Keep the company, localized action, dates, and description available without an
+ARIA label that replaces visible text.
 
 Place each collection-owned company mark in a quiet panel at the right. Preserve
 its aspect ratio with `object-fit: contain`, and respect its declared light or dark
