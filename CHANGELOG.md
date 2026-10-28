@@ -322,6 +322,10 @@
 
 ### Patch Changes
 
+- Mark article section-link destinations with a Linked section label and margin rule.
+  Follow native fragment navigation while preserving heading names, copy recovery,
+  and the existing print layout.
+
 - Connect Blog Topics statistics to topic search, all writing, and the dynamically named leading topic with Evidence captions.
 
 - Preserve the full width of article section headings when print hides their copy

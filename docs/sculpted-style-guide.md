@@ -1543,6 +1543,20 @@ the full line and align the control beneath it at the end. Without JavaScript,
 leave the original Section cadence layout and native contents navigation intact.
 In print, hide the copy control and recovery field and let the heading fill the row.
 
+**Section arrival** identifies an article h2 selected by the URL fragment. Above
+that heading, show a small “Linked section” label with a Lumen corner-down-right
+icon. Join the label and title with a 2px brand/accent margin rule and 1rem inset;
+omit the trailing rule for this destination. Keep the native heading and fragment,
+its accessible name, and the existing copy control. Follow the decoded URL fragment
+on page load, contents navigation, and browser history without a scroll listener;
+explicit state keeps Safari history navigation consistent. Allow 4rem of extra
+scroll margin above enhanced headings so the label clears the header, including
+when it wraps at enlarged text sizes.
+The marker is visual orientation only; normal reading and print retain their
+existing heading treatment. Its text and language follow the active UI locale;
+the authored heading remains unchanged. Without JavaScript, native headings and contents links
+remain available without adding an unbound marker or copy control.
+
 Article body h3 elements use Subsection cadence: 1.3125rem type at weight 500,
 1.4 line height, and -0.025em tracking. Leave 2.25rem before a subsection and
 0.75rem before its content. Below 32rem of prose width, use 1.1875rem type.

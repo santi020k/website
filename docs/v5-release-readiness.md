@@ -1644,3 +1644,32 @@ freshness passed and all five rendered pages remain pixel-identical. The Changes
 is folded into 5.0.0, preserving published notes. The optional Workspace Organizer
 sitemap retains its established unavailable-source skip. This follow-up uses
 affected checks; the latest full workspace gate remains `b6dce4e5`.
+
+## Bilingual Section arrival follow-up
+
+Approved source `beb06d7a`, based on `1348bc94`, is integrated over bilingual
+Evidence captions `f3708695`. An article h2 selected by the URL fragment receives
+a visual Linked section marker, Lumen direction icon, accent margin rule, and
+heading inset. The marker becomes Sección enlazada in the Spanish shell with its
+own language attribute. Authored heading text and accessible names remain intact.
+The approved controller and styles match the source exactly; the locale merge
+preserves translated copy/recovery controls and clean Spanish section addresses.
+
+Thirty Chromium/WebKit arrival/reference cases passed together with one worker
+and retries disabled, followed by two focused Spanish recovery cases. Coverage
+includes English and Spanish direct/encoded fragments, native contents links,
+Back/Forward, missing fragments, unchanged copy destinations, 320/390/1440px,
+200% text, both themes, scoped axe, print width/hiding, and no-JavaScript navigation.
+The controller follows click, hash, history, and Astro page events without a scroll
+listener; the 4rem scroll margin keeps wrapped markers below the header.
+
+Thirty-two matched before/after captures cover idle and linked sections at
+390/1440px in both languages/themes. All eight idle pairs are pixel-identical;
+representative Spanish mobile and English desktop arrival states were visually
+reviewed. Current-site lint and spelling passed without warnings. Astro checked
+568 files with zero errors, warnings, or hints. The 904-page build, 906-page OG
+audit and archive assembly passed. Resume freshness passes without regeneration;
+these files do not alter its fingerprint. The optional Workspace Organizer
+sitemap retains its established unavailable-source skip. The Changeset is folded
+into 5.0.0 while published notes stay unchanged. The latest full gate remains
+`b6dce4e5`; this follow-up uses affected checks and includes no remote action.

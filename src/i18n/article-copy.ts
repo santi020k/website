@@ -10,6 +10,7 @@ const articleCopy: Readonly<Record<string, string>> = {
   'Copy failed': 'No se pudo copiar',
   'Select and copy this section’s address': 'Selecciona y copia la dirección de esta sección',
   'Copy section link': 'Copiar enlace de la sección',
+  'Linked section': 'Sección enlazada',
   'Could not copy the section link. Open this section from the contents and copy the address.': 'No se pudo copiar el enlace de la sección. Ábrela desde el contenido y copia la dirección.',
   'Show full example': 'Ver el ejemplo completo',
   'Collapse example': 'Contraer ejemplo',
