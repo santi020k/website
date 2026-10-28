@@ -112,13 +112,13 @@ for (const locale of ['en', 'es'] as const) {
 }
 
 const seriesHeadings = [
-  { route: '/blog/series/building-a-production-nextjs-app/', heading: 'Building a Production Next.js App. A reading track.' },
-  { route: '/blog/series/eslint-in-practice/', heading: 'ESLint in Practice. A reading track.' },
-  { route: '/blog/series/the-santi020k-way/', heading: 'The santi020k way. A reading track.' }
+  { route: '/blog/series/building-a-production-nextjs-app/', heading: 'Building a Production Next.js App.' },
+  { route: '/blog/series/eslint-in-practice/', heading: 'ESLint in Practice.' },
+  { route: '/blog/series/the-santi020k-way/', heading: 'The santi020k way.' }
 ]
 
 for (const { route, heading } of seriesHeadings) {
-  test(`series heading ends its title with a full stop before the reading track on ${route}`, async ({ page }) => {
+  test(`series heading preserves the complete title on ${route}`, async ({ page }) => {
     await page.goto(route)
 
     await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName(heading)
