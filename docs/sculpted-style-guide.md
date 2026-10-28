@@ -2141,9 +2141,27 @@ preserve both clipboard controllers, their accessible feedback, and native shari
 Below 32rem of available width, stack the utility beneath the series and use a
 1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
 themes. Standalone articles place their utility in the Topics group instead;
-syndicated articles retain Read on Medium in the applicable utility position.
+syndicated articles use Publication sharing in the applicable utility position.
 The Blog breadcrumb replaces the redundant Browse blog button. No additional
 client behavior is needed.
+
+### Publication sharing
+
+Keep Copy link available on syndicated articles as well as original posts. It copies
+the current local article URL, including the UI locale, without query parameters or
+fragments. Place Read on Medium beneath it, retaining the existing external publication
+URL and safe new-tab attributes. The pair stays beside the series byline or inside the
+standalone Topics group; it adds no separate share card.
+
+Reuse `ArticleLinkAction`, the shared copy action and `LinkRecovery`. Align both labels
+and their 2rem icon compartments within an 11.5rem column, with a 0.375rem gap. Keep
+the copy button outlined and the publication link quieter, with a fine text underline.
+Hover and keyboard focus tint the copy surface and fill its icon compartment; the
+publication row gains a muted surface, fine border, and tinted arrow compartment.
+Use the existing 480ms Arrow exchange and 240ms color transitions without moving or
+resizing either control. Preserve copied and failed states, visible focus outlines,
+full wrapping labels, reduced motion, and both themes. Hide utilities in print; the
+external destination remains available without JavaScript.
 
 ### Margin lead article opening
 

@@ -145,7 +145,7 @@ test('Medium articles retain their original destination beside the series byline
   await expect(medium).toHaveAttribute('rel', 'noopener noreferrer')
   await expect(page.locator('[data-publication-reading]').getByRole('button', { name: 'Print article', exact: true })).toBeVisible()
   await expect(actions.getByRole('button', { name: 'Print article', exact: true })).toHaveCount(0)
-  await expect(actions.getByRole('button', { name: 'Copy link to article', exact: true })).toHaveCount(0)
+  await expect(actions.getByRole('button', { name: 'Copy link to article', exact: true })).toBeVisible()
 })
 
 test('series and Medium destinations remain usable without JavaScript', async ({ browser }) => {
