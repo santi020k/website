@@ -207,7 +207,7 @@
   --copy-action-accent: hsl(var(--brand));
   width: 10.5rem;
   flex-shrink: 0;
-  padding: 0.375rem 0.375rem 0.375rem 0.875rem;
+  padding: 0.375rem 0.5rem 0.375rem 0.875rem;
   border-color: hsl(var(--line));
   border-radius: 0.875rem;
   background: hsl(var(--surface));
@@ -218,27 +218,28 @@
 
   :root[data-theme='dark'] & { --copy-action-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
 
-  &:hover {
-    border-color: var(--copy-action-accent);
-    background: hsl(var(--surface-muted));
-    color: hsl(var(--ink));
-    text-decoration: none;
-  }
-
-  &[data-state='copied'], &.copied {
+  &:is(:hover, :focus-visible), &.copied {
     border-color: var(--copy-action-accent);
     background: hsl(var(--brand-soft));
     color: var(--copy-action-accent);
+    text-decoration: none;
   }
 
-  &[data-state='error'], &.copy-failed {
+  &:is(:hover, :focus-visible, .copied) [data-copy-action-icon] {
+    background: var(--copy-action-accent);
+    color: hsl(var(--surface));
+  }
+
+  &[data-link-recovery-active] {
     border-color: hsl(var(--danger));
     background: hsl(var(--surface));
     color: hsl(var(--ink));
   }
 
-  &[data-state='error'] [data-copy-action-icon],
-  &.copy-failed [data-copy-action-icon] { color: hsl(var(--danger)); }
+  &[data-link-recovery-active] [data-copy-action-icon] {
+    background: color-mix(in srgb, hsl(var(--danger)) 12%, hsl(var(--surface)));
+    color: hsl(var(--danger));
+  }
 
   & > span { width: 100%; min-width: 0; }
 
@@ -259,6 +260,22 @@
     border-radius: 0.5rem;
     background: hsl(var(--brand-soft));
     color: var(--copy-action-accent);
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  & :is([data-copy-icon], [data-share-icon], [data-check-icon]) {
+    width: 1.125rem;
+    height: 1.125rem;
+    grid-area: 1 / 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    & [data-copy-action-icon] { transition: none; }
+  }
+
+  @media (forced-colors: active) {
+    &:is(:hover, :focus-visible, .copied, [data-link-recovery-active]) { border-color: Highlight; }
+    & [data-copy-action-icon] { background: ButtonFace; color: ButtonText; }
   }
 }
 

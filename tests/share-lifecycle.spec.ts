@@ -141,6 +141,8 @@ test.describe('Share control — native share lifecycle', () => {
     const permalink = requireValue(await button.getAttribute('data-share-url'))
 
     await expect(button).toHaveAccessibleName('Share link')
+    await expect(button.locator('[data-share-icon]')).toBeVisible()
+    await expect(button.locator('[data-copy-icon]')).toBeHidden()
     await activate(page, button)
     await expect(button).toHaveAttribute('aria-busy', 'true')
     await page.keyboard.press('Enter')
@@ -195,6 +197,8 @@ test.describe('Share control — native share lifecycle', () => {
 
     await settle(page, 'clipboard', 'resolve')
     await expect(label).toHaveText('Link copied!')
+    await expect(button.locator('[data-check-icon]')).toBeVisible()
+    await expect(button.locator('[data-share-icon]')).toBeHidden()
     await expect(button).not.toHaveAttribute('aria-busy')
     await expect(button).toBeFocused()
 
@@ -202,6 +206,8 @@ test.describe('Share control — native share lifecycle', () => {
     expect(await readCalls(page, 'share')).toHaveLength(4)
     await settle(page, 'share', 'resolve')
     await expect(button).not.toHaveAttribute('aria-busy')
+    await expect(button.locator('[data-share-icon]')).toBeVisible()
+    await expect(button.locator('[data-check-icon]')).toBeHidden()
   })
 
   const nextInSeries = (page: Page) => page.getByRole('navigation', { name: 'Continue reading ESLint in Practice' })

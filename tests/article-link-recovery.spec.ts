@@ -5,11 +5,10 @@ const series = '/blog/playwright-accessibility-checks-that-teams-keep-running/'
 const standalone = '/blog/building-roadscore-offline-road-trip-game/'
 const project = '/portfolio/smith-commerce/'
 const cases = [
-  { name: 'series hero', path: series, button: 'article-copy-link', success: 'Copied!' },
-  { name: 'standalone hero', path: standalone, button: 'article-copy-link', success: 'Copied!' },
-  { name: 'syndicated series hero', path: '/blog/atomic-module-component-structure-for-react/', button: 'article-copy-link', success: 'Copied!' },
-  { name: 'syndicated standalone hero', path: '/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/', button: 'article-copy-link', success: 'Copied!' },
-  { name: 'article closing', path: series, button: 'copy-link-btn', success: 'Link copied!' },
+  { name: 'series closing', path: series, button: 'copy-link-btn', success: 'Link copied!' },
+  { name: 'standalone closing', path: standalone, button: 'copy-link-btn', success: 'Link copied!' },
+  { name: 'syndicated series closing', path: '/blog/atomic-module-component-structure-for-react/', button: 'copy-link-btn', success: 'Link copied!' },
+  { name: 'syndicated standalone closing', path: '/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/', button: 'copy-link-btn', success: 'Link copied!' },
   { name: 'shared project closing', path: project, button: 'copy-link-btn', success: 'Link copied!' }
 ]
 
@@ -86,7 +85,7 @@ for (const theme of ['light', 'dark'] as const) {
         await document.fonts.ready
       }, width === 320 ? 200 : 100)
 
-      for (const buttonId of ['article-copy-link', 'copy-link-btn']) {
+      for (const buttonId of ['copy-link-btn']) {
         const button = page.locator(`#${buttonId}`)
         const recovery = page.locator(`#${buttonId}-recovery`)
 
@@ -105,7 +104,7 @@ for (const theme of ['light', 'dark'] as const) {
         })).toBe(true)
       }
       for (const nextWidth of [390, 736, width]) await page.setViewportSize({ width: nextWidth, height: 1000 })
-      await expect(page.locator('#article-copy-link-recovery textarea')).toBeVisible()
+      await expect(page.locator('#copy-link-btn-recovery textarea')).toBeVisible()
       expect(errors).toEqual([])
     })
   }
