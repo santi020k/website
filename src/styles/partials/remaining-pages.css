@@ -508,7 +508,7 @@
   [data-post-gallery-grid='focused'] h3 { font-size: 1.5rem; }
 }
 
-/* Ordered series use reading-index rows rather than a browse-card grid. */
+/* Reading rows share their structure across series and article recommendations. */
 [data-post-gallery-grid='chapters'] { container: chapter-gallery / inline-size; display: block; }
 [data-post-gallery-grid='chapters'] [data-post-gallery-card] { padding-block: 2rem; border-bottom: 1px solid hsl(var(--line)); }
 [data-post-gallery-grid='chapters'] [data-post-gallery-card]:first-child { padding-top: 0; }
@@ -528,6 +528,38 @@
 @container chapter-gallery (width < 34rem) {
   [data-post-gallery-grid='chapters'] [data-post-gallery-card] > a { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
   [data-post-gallery-grid='chapters'] [data-post-gallery-cover] { aspect-ratio: 16 / 9; }
+}
+
+/* Series chapters sit in individual sleeves; article recommendations stay open. */
+.series-detail-page [data-post-gallery-grid='chapters'] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+.series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-card][data-slot='card'] {
+  padding: 0;
+  overflow: visible;
+  border: 1px solid hsl(var(--line));
+  border-radius: 1.5rem 1.5rem .375rem 1.5rem;
+  background: hsl(var(--surface));
+  box-shadow: .375rem -.375rem 0 hsl(var(--brand-soft));
+}
+.series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-card] > a {
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1.375rem;
+  padding: 1.5rem;
+  border-radius: inherit;
+}
+.series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-cover] { aspect-ratio: 4 / 3; }
+.series-detail-page [data-post-gallery-grid='chapters'] h3 { font-size: 1.375rem; }
+.series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-footer] {
+  margin-top: 1.125rem;
+  padding-top: 1rem;
+  border-top: 1px solid hsl(var(--line));
+}
+@container chapter-gallery (width < 31.25rem) {
+  .series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-card] > a { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; padding: 1.25rem; }
+  .series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-cover] { aspect-ratio: 16 / 9; }
+}
+@container chapter-gallery (width < 20rem) {
+  .series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-card] > a { padding: .75rem; }
+  .series-detail-page [data-post-gallery-grid='chapters'] h3 { font-size: 1.125rem; line-height: 1.4; }
 }
 
 /* Technology archives reuse the Projects page's open editorial gallery. */

@@ -2463,3 +2463,31 @@ caption, newsletter/shared catalog and the local Lighthouse correction are
 preserved. The Changeset is folded into unpublished 5.0.0; published notes remain
 unchanged. Evidence: `.cache/v5-tab-copy-recovery/`. Full root gate remains
 `0319556c`; this follow-up uses affected checks. No remote action occurred.
+
+## Series Chapter sleeve integration
+
+Approved source `1471bd9c` is integrated over `412b1ef3` into local v5. Series
+chapter rows use compact artwork, an opaque surface with offset purple backing,
+and a ruled reading footer. The treatment is scoped to `.series-detail-page` in
+the existing shared partial. PostsGallery markup, complete titles, native links,
+chapter order, introductions and metadata remain unchanged. Article recommendations
+keep their open reading rows; regular galleries retain their existing layout.
+
+All 46 affected Chromium/WebKit cases pass with one worker and retries disabled.
+Current lint is clean and Astro checks 598 files without diagnostics. The 904-page
+build, 906-page OG audit, 926-image freshness, archive assembly and PDF freshness
+pass. Archive checks cover 1,288 pages; the assembled audit checks 2,194 documents
+and 8,619 local targets without errors. Twenty-four matched Series contracts,
+48 captures and 24 normal-text axe scans pass across both languages/themes and
+mobile/desktop. Twelve unrelated gallery geometry/content/destination contracts
+remain identical. Browser cases cover narrow screens, 200% text, native navigation
+and no JavaScript; four additional hover/focus states preserve the backing and
+full-link outline.
+
+The CSS and generated PDF artifacts match the approved source exactly. The PDFs
+are fresh without regeneration, all five page rasters remain identical, and public
+and built artifacts match. Home polish, copy recovery, newsletter, catalogs and
+the local Lighthouse correction are preserved. The Changeset is folded into
+unpublished 5.0.0 with published notes unchanged. Evidence:
+`.cache/v5-series-chapter-sleeve/`. The root full gate remains `0319556c`; this
+follow-up uses affected checks. No push, PR, tag, release or deployment occurred.
