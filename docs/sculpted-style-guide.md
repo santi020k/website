@@ -7,7 +7,7 @@ routes now follow this direction through an explicit scope; prose and resume pri
 ## Character
 
 Quiet, precise, and personal. Let the work, typography, and generous spacing carry the page.
-Use a single expressive image in the hero and real project imagery in the content. Purple is
+Use real product imagery in the Home hero and content. Purple is
 an accent for identity and interaction. Keep the reading canvas calm.
 
 - Align the hero, section headings, project rows, and writing to one grid.
@@ -16,16 +16,39 @@ an accent for identity and interaction. Keep the reading canvas calm.
 - Use one surface for each content group. Do not nest decorative cards inside cards.
 - Keep copy direct and grounded in the actual work. Derive projects and articles from collections.
 
+## Product-led homepage hero
+
+The Home opening pairs a small natural portrait with an oversized, three-line
+headline and real interface previews. At 62rem of available content width, the
+first headline line spans the frame; its remaining lines sit beside the previews.
+Below that threshold, keep identity, headline, introduction, actions, and previews
+in document order. Container queries also provide the stacked layout when text grows.
+
+Lumen's workspace appears as a flat, top-left crop with its illustrative-data
+label visible. PostLens uses the public Lumen `DeviceFrame` with an upright,
+complete editor capture. The figure's caption identifies sample content; the
+native product links below name the projects and provide their case studies.
+Keep the preview passive. At very narrow text measures, place the phone below
+the workspace so both remain legible. Selected work is the primary action;
+the adjacent invitation opens the existing work-with-me flow.
+
+The opening uses one finite, CSS-only sequence, completing within 800ms. The
+existing opaque `reveal-lcp` entrance settles each headline line; interface
+layers settle without fading, then the purple underline and backing sheet arrive.
+The description, actions, and product links stay static and immediately usable.
+Hover or keyboard focus on a product link emphasizes its matching preview.
+Reduced motion uses the finished composition without transitions. Client
+navigation suppresses repeated entrances. No scroll controller or loop is added.
+
 ## Homepage photography
 
-The Home opening pairs a small, natural portrait with one expressive city
-photograph. Keep the identity and primary actions first in reading order. The
-city image sits beside the introduction on wide screens and below the actions
-on narrow screens; selected products remain a separate native-link shelf.
+The Home opening retains the small, natural portrait. Travel and dog photography
+belong to the personal chapter below; the approved city-in-the-clouds source
+remains available for future compositions.
 
 Use the approved assets in `src/assets/photos/home/` through Astro Image, with
 intrinsic dimensions, bounded responsive widths, and descriptive localized
-alternative text. The portrait and city image load eagerly; the personal photo
+alternative text. The portrait loads eagerly; the personal photo
 section loads lazily. Keep captions outside images for reliable contrast in
 both themes. Never put personal contact details or location metadata in assets.
 
@@ -41,8 +64,8 @@ the city photo above the other two.
 The photo group and homepage recommendations use Lumen `RevealGroup` for a
 one-time slide-up entrance, the shared slow duration, a 90ms stagger, and an
 explicit zero threshold so tall groups reveal on entry. Keep content immediately
-visible without JavaScript and with reduced motion. Hero content remains static
-so the introduction and primary actions are immediately available.
+visible without JavaScript and with reduced motion. The hero's separate, finite
+entrance keeps its content fully opaque and its primary actions immediately available.
 
 Featured work uses an open two-column story and artwork spread, with the story
 below the image on small screens. Avoid overlapping the text panel and artwork.
@@ -70,7 +93,7 @@ Use weight and scale for hierarchy, with sentence case for headings.
 
 | Role | Size | Weight | Treatment |
 | --- | --- | --- | --- |
-| Home hero | Responsive, up to 5.25rem | 600 | Tight tracking, 1.02 line height |
+| Home hero | Responsive, up to 6rem (English), 4.25rem (Spanish) | 600 | Tight tracking, 1.04 line height |
 | Section heading | 2.25–3.75rem | 500 | −0.065em tracking, 1.08 line height |
 | Project title | 1.5–2rem | 500 | −0.055em tracking |
 | Article title | 1.125–1.5rem | 500 | 1.4 line height; show the complete title |
