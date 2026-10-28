@@ -8,6 +8,7 @@ import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
 import ArticleLinkAction from '@/components/molecules/ArticleLinkAction.astro'
 import CoverSpread from '@/components/molecules/CoverSpread.astro'
+import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
 
 import { getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
@@ -196,6 +197,9 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : 'Article'
           </ul>
         </nav>
       )}
+      {!seriesContext && !canonicalUrl && (
+        <LinkRecovery buttonId="article-copy-link" url={copyUrl} copiedLabel="Copied!" copiedAnnouncement="Copied! Article link copied" />
+      )}
     </div>
   )}
 
@@ -224,6 +228,9 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : 'Article'
         </div>
         <ArticleLinkAction {canonicalUrl} {copyUrl} />
       </div>
+      {!canonicalUrl && (
+        <LinkRecovery buttonId="article-copy-link" url={copyUrl} copiedLabel="Copied!" copiedAnnouncement="Copied! Article link copied" />
+      )}
     </div>
   )}
 
@@ -245,9 +252,14 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : 'Article'
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
+  }
+
+  [data-reading-actions] {
     padding-bottom: 1.5rem;
     border-bottom: 1px solid hsl(var(--line));
   }
+
+  [data-article-topics-container] :global([data-link-recovery]) { grid-column: 1 / -1; margin-top: 0; }
 
   [data-hero-series] { min-width: 0; }
   [data-hero-series-position] {

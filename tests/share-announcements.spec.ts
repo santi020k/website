@@ -18,13 +18,19 @@ const scenarios = [
     announcement: 'Link copied!',
     clipboard: 'resolve',
     label: 'Link copied!',
+    resetLabel: 'Copy link',
+    resetAnnouncement: '',
+    recoveryVisible: false,
     name: 'a successful copy',
     writes: 2
   },
   {
-    announcement: 'Copy failed. Select and copy the address manually.',
+    announcement: 'Copy failed. Select and copy the address below, or try again.',
     clipboard: 'missing',
-    label: 'Copy failed',
+    label: 'Try again',
+    resetLabel: 'Try again',
+    resetAnnouncement: 'Copy failed. Select and copy the address below, or try again.',
+    recoveryVisible: true,
     name: 'a missing clipboard',
     writes: 0
   }
@@ -170,8 +176,10 @@ test.describe('Share control — repeated result announcements', () => {
       await expect(status).toHaveText(scenario.announcement)
 
       await page.clock.runFor(RETRY_AFTER_MS)
-      await expect(status).toBeEmpty()
-      await expect(label).toHaveText('Copy link')
+
+      await expect(status).toHaveText(scenario.resetAnnouncement)
+      await expect(label).toHaveText(scenario.resetLabel)
+      await expect(page.locator('#copy-link-btn-recovery textarea')).toBeVisible({ visible: scenario.recoveryVisible })
       await expect(button).toBeFocused()
     })
   }

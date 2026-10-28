@@ -296,17 +296,17 @@ test.describe('Share control — clipboard lifecycle', () => {
     expect(await readCalls(page, 'clipboard')).toEqual([permalink, permalink])
     await expect(button).toHaveAttribute('aria-busy', 'true')
     await settle(page, 'clipboard', 'NotAllowedError')
-    await expect(label).toHaveText('Copy failed')
+    await expect(label).toHaveText('Try again')
     await expect(button).not.toHaveAttribute('aria-busy')
 
     // The first result's reset would have fired here had it survived the new operation.
     await page.clock.runFor(1000)
-    await expect(label).toHaveText('Copy failed')
-    await expect(button).toHaveClass(/copy-failed/)
+    await expect(label).toHaveText('Try again')
+    await expect(button).toHaveAttribute('data-link-recovery-active')
 
     await page.clock.runFor(1000)
-    await expect(label).toHaveText('Copy link')
-    await expect(button).not.toHaveClass(/copy-failed/)
+    await expect(label).toHaveText('Try again')
+    await expect(button).toHaveAttribute('data-link-recovery-active')
     await expect(button).toBeFocused()
   })
 })

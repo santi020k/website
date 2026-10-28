@@ -84,7 +84,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto(CODE_ARTICLE)
 
-    const copy = page.locator('.editorial-detail-hero [data-ui-copy-button]')
+    const copy = page.locator('.editorial-detail-hero [data-article-copy]')
 
     await expect(copy).toHaveAccessibleName('Copy link to article')
     await expect(copy).toContainText('Copy link')
@@ -126,7 +126,7 @@ test.describe('Article reading without JavaScript', () => {
 
 const clipboardCases = [
   { outcome: 'resolve', label: 'Copied! Article link copied', visible: 'Copied!', value: `https://santi020k.com${CODE_ARTICLE}` },
-  { outcome: 'reject', label: 'Copy link failed. Select and copy the address manually.', visible: 'Copy failed', value: null }
+  { outcome: 'reject', label: 'Try again', visible: 'Try again', value: null }
 ]
 
 for (const { outcome, label, visible, value } of clipboardCases) {
@@ -148,7 +148,7 @@ for (const { outcome, label, visible, value } of clipboardCases) {
     await page.goto(`${CODE_ARTICLE}?source=reading-test#details`)
     await page.clock.install()
 
-    const copy = page.locator('.editorial-detail-hero [data-ui-copy-button]')
+    const copy = page.locator('.editorial-detail-hero [data-article-copy]')
 
     await copy.click()
 
@@ -158,6 +158,6 @@ for (const { outcome, label, visible, value } of clipboardCases) {
     expect(await page.evaluate(() => sessionStorage.getItem('article-copy-value'))).toBe(value)
 
     await page.clock.fastForward(2000)
-    await expect(copy).toHaveAccessibleName('Copy link to article')
+    await expect(copy).toHaveAccessibleName(outcome === 'resolve' ? 'Copy link to article' : 'Try again')
   })
 }
