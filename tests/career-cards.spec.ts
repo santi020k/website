@@ -1,7 +1,46 @@
+import { fileURLToPath } from 'node:url'
+
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
+import sharp from 'sharp'
 
 import { requireValue } from './helpers/assertions'
+
+interface LogoBounds {
+  width: number
+  height: number
+  left: number
+  top: number
+  right: number
+  bottom: number
+}
+
+const measuredLogos = new Map<string, LogoBounds>()
+
+const getLogoBounds = async (company: string): Promise<LogoBounds> => {
+  const cached = measuredLogos.get(company)
+
+  if (cached) return cached
+  // Read the source pixels once per worker. WebKit can return an empty canvas
+  // when drawing an offscreen lazy image, even after its decode promise resolves.
+  const path = fileURLToPath(new URL(`../src/content/project/${company}/logo.webp`, import.meta.url))
+  const { data, info } = await sharp(path).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+  const bounds = { width: info.width, height: info.height, left: info.width, top: info.height, right: 0, bottom: 0 }
+
+  for (let y = 0; y < info.height; y++) {
+    for (let x = 0; x < info.width; x++) {
+      if ((data[(y * info.width + x) * info.channels + 3] ?? 0) > 24) {
+        bounds.left = Math.min(bounds.left, x)
+        bounds.top = Math.min(bounds.top, y)
+        bounds.right = Math.max(bounds.right, x + 1)
+        bounds.bottom = Math.max(bounds.bottom, y + 1)
+      }
+    }
+  }
+  if (bounds.right <= bounds.left || bounds.bottom <= bounds.top) throw new Error(`${company} logo has no visible pixels`)
+  measuredLogos.set(company, bounds)
+  return bounds
+}
 
 for (const theme of ['light', 'dark']) {
   test(`career cards restore distinct company colors on hover and keyboard focus in ${theme}`, async ({ page }) => {
@@ -150,7 +189,19 @@ for (const theme of ['light', 'dark']) {
 
           expect(clipped, 'Every date, title, description, and action remains fully visible').toBe(false)
         }
-        const marks = await rows.locator('[data-career-identity]').evaluateAll(async panels => Promise.all(panels.map(async panel => {
+        const companies = await rows.locator('[data-career-identity]').evaluateAll(panels => panels.map(panel => {
+          const company = panel.getAttribute('data-company')
+
+          if (!company) throw new Error('Each logo needs its company identity')
+          return company
+        }))
+        const sourceEntries = await Promise.all(companies.map(async company => {
+          const bounds = await getLogoBounds(company)
+
+          return [company, bounds] as const
+        }))
+        const sourceBounds = Object.fromEntries(sourceEntries)
+        const marks = await rows.locator('[data-career-identity]').evaluateAll(async (panels, sources) => Promise.all(panels.map(async panel => {
           const image = panel.querySelector('img')
           const company = panel.getAttribute('data-company')
 
@@ -171,35 +222,15 @@ for (const theme of ['light', 'dark']) {
           image.loading = 'eager'
           await loaded
           await image.decode()
-          const canvas = document.createElement('canvas')
+          const alpha = sources[company]
 
-          canvas.width = image.naturalWidth
-          canvas.height = image.naturalHeight
-          const context = canvas.getContext('2d')
-
-          if (!context) throw new Error('Logo bounds require a canvas context')
-          context.drawImage(image, 0, 0)
-          const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data
-          let left = canvas.width
-          let top = canvas.height
-          let right = 0
-          let bottom = 0
-
-          for (let y = 0; y < canvas.height; y++) {
-            for (let x = 0; x < canvas.width; x++) {
-              if ((pixels[(y * canvas.width + x) * 4 + 3] ?? 0) > 24) {
-                left = Math.min(left, x)
-                top = Math.min(top, y)
-                right = Math.max(right, x + 1)
-                bottom = Math.max(bottom, y + 1)
-              }
-            }
-          }
+          if (!alpha) throw new Error(`${company} is missing its source bounds`)
+          const { width: sourceWidth, height: sourceHeight, left, top, right, bottom } = alpha
           const box = panel.getBoundingClientRect()
           const imageBox = image.getBoundingClientRect()
-          const scale = Math.min(imageBox.width / canvas.width, imageBox.height / canvas.height)
-          const x = imageBox.left + (imageBox.width - canvas.width * scale) / 2
-          const y = imageBox.top + (imageBox.height - canvas.height * scale) / 2
+          const scale = Math.min(imageBox.width / sourceWidth, imageBox.height / sourceHeight)
+          const x = imageBox.left + (imageBox.width - sourceWidth * scale) / 2
+          const y = imageBox.top + (imageBox.height - sourceHeight * scale) / 2
 
           return {
             company,
@@ -211,7 +242,7 @@ for (const theme of ['light', 'dark']) {
             bottom: (box.bottom - y - bottom * scale) / box.height,
             presence: Math.max((right - left) * scale / box.width, (bottom - top) * scale / box.height)
           }
-        })))
+        })), sourceBounds)
 
         expect(marks).toHaveLength(9)
         const firstMark = requireValue(marks[0])
