@@ -328,10 +328,37 @@ const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e
   results.appendChild(li)
 }
 
+const renderLoadingState = (results: HTMLElement, message: string) => {
+  results.innerHTML = `
+      <li class="
+        site-search-hint flex flex-col items-center justify-center gap-3
+        px-4 py-8 text-center
+      ">
+        <span class="relative flex h-8 w-8">
+          <span class="absolute inset-0 rounded-full border-2 border-line/30"></span>
+          <span
+            class="absolute inset-0 animate-spin rounded-full border-2 border-brand/60 border-t-transparent motion-reduce:animate-none"
+          ></span>
+        </span>
+        <span class="text-sm text-ink-soft" data-site-search-loading-label></span>
+      </li>
+    `
+
+  const label = results.querySelector('[data-site-search-loading-label]')
+
+  if (label) label.textContent = message
+}
+
 const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], results: HTMLElement, revision: number) => {
   if (shown.length >= 8 || !getDialog()?.open) return
 
   results.dataset.siteSearchState = 'pending'
+
+  if (shown.length === 0) {
+    renderLoadingState(results, 'Searching article text…')
+
+    setStatusMessage('Searching article text.')
+  }
 
   const outcome = await fullTextSearch(query, entries, new Set(shown.map(entry => entry.path)), window.location.origin)
 
@@ -342,6 +369,12 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
   results.toggleAttribute('data-site-search-content-unavailable', outcome.unavailable)
 
   const hits = outcome.hits.slice(0, 8 - shown.length)
+
+  if (shown.length === 0 && hits.length === 0 && !outcome.unavailable) {
+    renderRecoveryCard(results, 'empty')
+
+    setStatusMessage(`No matching results for ${query}. Try different keywords.`)
+  }
 
   if (hits.length > 0) {
     if (shown.length === 0) results.replaceChildren()
@@ -372,8 +405,16 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
     }
   }
 
-  if (outcome.unavailable && shown.length === 0 && !navigatedSinceRender) {
-    setStatusMessage('Content search is temporarily unavailable. Showing title and tag matches.')
+  if (outcome.unavailable && shown.length === 0 && hits.length === 0) {
+    const note = document.createElement('li')
+
+    note.className = 'site-search-hint px-4 py-8 text-center text-sm text-ink-soft'
+
+    note.textContent = 'Content search is temporarily unavailable. Showing title and tag matches.'
+
+    results.replaceChildren(note)
+
+    if (!navigatedSinceRender) setStatusMessage(note.textContent)
   }
 }
 
@@ -395,20 +436,7 @@ const render = (query: string) => {
   if (indexLoadState === 'loading') {
     selectedResultIndex = -1
 
-    results.innerHTML = `
-      <li class="
-        site-search-hint flex flex-col items-center justify-center gap-3
-        px-4 py-8 text-center
-      ">
-        <span class="relative flex h-8 w-8">
-          <span class="absolute inset-0 rounded-full border-2 border-line/30"></span>
-          <span
-            class="absolute inset-0 animate-spin rounded-full border-2 border-brand/60 border-t-transparent motion-reduce:animate-none"
-          ></span>
-        </span>
-        <span class="text-sm text-ink-soft">Loading search index…</span>
-      </li>
-    `
+    renderLoadingState(results, 'Loading search index…')
 
     setStatusMessage('Loading search index.')
 

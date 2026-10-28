@@ -1,4 +1,16 @@
+import { readFile } from 'node:fs/promises'
+
 import { expect, test } from '@playwright/test'
+
+const productionSecurityPolicy = async () => {
+  const headers = await readFile(new URL('../public/_headers', import.meta.url), 'utf8')
+  const policy = headers.split('\n').find(line => line.trim().startsWith('Content-Security-Policy:'))
+    ?.trim().slice('Content-Security-Policy:'.length).trim()
+
+  if (!policy) throw new Error('Missing production Content Security Policy')
+
+  return policy
+}
 
 const entries = [
   { title: 'Primary guide', path: '/about/', description: 'A primary match.', tags: [], type: 'post' },
@@ -48,6 +60,19 @@ test('settles a lazy chunk failure without page errors and retains primary match
   expect(errors).toEqual([])
 })
 
+test('an unavailable body search does not claim that an unmatched query has no results', async ({ page }) => {
+  await page.route('**/pagefind/pagefind.js', route => route.fulfill({
+    contentType: 'application/javascript',
+    body: 'export async function debouncedSearch() { throw new Error("chunk unavailable") }'
+  }))
+  await page.goto('/?q=unmatched')
+  await expect(page.locator('#site-search-results')).toHaveAttribute('data-site-search-state', 'settled')
+  await expect(page.locator('#site-search-results')).toHaveText(
+    'Content search is temporarily unavailable. Showing title and tag matches.'
+  )
+  await expect(page.locator('#site-search-results')).not.toContainText('No results found')
+})
+
 test('stale responses cannot replace newer queries or enter a new page', async ({ page }) => {
   await page.route('**/pagefind/pagefind.js', route => route.fulfill({
     contentType: 'application/javascript',
@@ -60,6 +85,7 @@ test('stale responses cannot replace newer queries or enter a new page', async (
   await page.goto('/?q=older')
   const input = page.locator('#site-search-input')
 
+  await expect(page.locator('#site-search-results')).toContainText('Searching article text…')
   await input.fill('newer')
   await expect(page.locator('#site-search-results')).toHaveAttribute('data-site-search-state', 'settled')
   await expect(page.locator('[data-site-search-result-description]')).toHaveText('newer')
@@ -76,6 +102,19 @@ test('content search stays lazy and the production index includes only current p
   let requests = 0
 
   await page.unroute('**/search-index.json')
+  const policy = await productionSecurityPolicy()
+
+  await page.route('**/', async route => {
+    if (!route.request().isNavigationRequest() || new URL(route.request().url()).pathname !== '/') {
+      await route.continue()
+
+      return
+    }
+
+    const response = await route.fetch()
+
+    await route.fulfill({ response, headers: { ...response.headers(), 'Content-Security-Policy': policy } })
+  })
   page.on('request', request => {
     if (request.url().includes('/pagefind/')) requests += 1
   })
