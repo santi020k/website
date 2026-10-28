@@ -2532,3 +2532,34 @@ passing. The generated patch retains its required blank context line.
 The Changesets are folded into unpublished 5.0.0 with published notes unchanged.
 Evidence: `.cache/v5-tab-scroll-cue/`. Root full gate remains `0319556c`; these are
 affected integration checks. No push, PR, tag, release or deployment occurred.
+
+## Series navigation and reading entries integration
+
+The four independently approved source commits remain distinct in this local merge:
+`dd4d870b` adds Reading bridge to individual Series endings; `2d68bb66` connects
+Focus links to unambiguous published topic archives; `c0f52971` adds Reading doorway
+with sibling overview and first-article links; `8663898c` adds Reading caption above
+the Blog's existing Series shelf. All four source commits are preserved over article
+integration `ae22ea40`. The source components, routes, catalogs, helpers and tests match
+exactly. The separate Series index ending proposal is not part of this integration.
+
+Native destinations remain localized. First articles come from the existing published
+reading order, excluding draft and scheduled posts. Unmatched or ambiguous focus labels
+remain plain text without arrows or keyboard stops. Original chapter content, ordering,
+metadata, introductory text, chooser descriptions and section order remain intact.
+The Blog caption appears only on its first page. No new client controller or dependency
+is introduced; article cues and their scroll-stability fixes remain unchanged.
+
+All 144 combined Series Chromium/WebKit cases and 16 existing card/navigation regression
+cases pass with one worker and retries disabled. The 1,531 focused helper/catalog units,
+zero-warning affected ESLint and Astro checks for 603 files without diagnostics pass.
+The 904-page build and 906-page OG audit pass. Forty-eight before/after contracts,
+144 matched captures and 40 normal-text axe scans pass across both languages, themes,
+mobile and desktop. Behavioral cases also cover 320px, 200% text, native keyboard
+navigation, forced colors, unchanged passive surfaces and JavaScript disabled.
+
+Only generated PDF artifacts conflicted; the normal generator resolved them from the
+combined build. Freshness passes, all five page rasters are unchanged and public/built
+files match. Four Changesets are folded into 5.0.0 with published notes unchanged.
+Evidence: `.cache/v5-series-navigation/`. These are affected integration checks; the
+root full workspace gate remains `0319556c`. No remote action occurred.

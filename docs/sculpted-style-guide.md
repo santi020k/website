@@ -256,19 +256,44 @@ overlap, and title size as the card narrows or text grows. Stack the hero when i
 columns cannot accommodate enlarged text. Keep both themes and the
 image-free fallback readable without JavaScript; respect reduced motion.
 
-### Soft editorial series cards
+### Reading doorway series cards
 
-`SeriesCard` uses one opaque surface, a fine border, and 1.25rem corners. Place the
-plain status and article count above a complete 1.75rem title at weight 500 and
-1.3 leading. Descriptions use 0.875rem text with 1.8 leading; focus areas use plain
-0.75rem labels. Keep the cadence on the series detail page. The card ends with one
-“Explore series” action and a decorative arrow above a shared bottom inset, separated
-from the copy by a fine rule. Align neighboring footers without truncating content.
+`SeriesCard` uses **Reading doorway** on the Blog and Series index. Preserve the
+Soft editorial status, count, complete 1.75rem title, description, and plain focus
+labels. Use an opaque surface with a fine border, 1.625rem corners and a .375rem
+lower-right corner, a passive -.375rem/.375rem brand-soft shadow, and a 3px accent
+spine inset 1.625rem from the top and bottom. Hover changes only the relevant title
+color; the surface does not lift.
 
-The complete surface is one naturally named link with a continuous keyboard outline.
-Hover changes only the title color. Preserve planned status, zero and singular article
-counts and theme contrast. When enlarged text narrows the section, tighten the insets
-and size the title to its reading column so ordinary words stay intact.
+The upper native link opens the series overview and ends with “Explore the {count}
+articles,” with singular and empty-count variants. A separate sibling link forms
+the tinted lower panel: “Start with article 1,” the actual first article's full
+title at 1.125rem, an ArrowExchange, its type, and its reading time. Use the first
+post from the existing sorted series summary, never the newest post or a guessed
+URL. Omit this panel when no first post exists. Keep the cadence on the detail page.
+
+Use two shared grid rows to align neighboring overview actions and start panels without
+truncating content. Preserve 1.5rem/1.75rem responsive insets, with .75rem insets at
+enlarged-text widths. Each destination has its own continuous focus outline, and
+keyboard order follows the overview then the first article. Never nest links or
+make focus labels additional actions inside the overview link. Localize interface
+labels, type, duration, and both destinations; preserve English authored content.
+No client JavaScript is added.
+
+### Reading caption Blog Series introduction
+
+The first Blog page introduces its Series shelf with **Reading caption**: a compact
+“Follow a series.” heading, guidance to start with article 1 or explore the complete
+reading path, and the existing Browse all series link. Use an open, ruled header
+with 1.75rem Montserrat 500 type, .8125rem guidance and link text, .75rem between
+heading and guidance, and 2rem padding above the bottom rule. The native Lumen Link
+uses the existing text-label and right ArrowExchange feedback with a 2.75rem target.
+
+Place the action beside the copy with a 1.75rem gap, then stack it below the copy
+with a 1rem gap below 34rem of section width. Localize all interface copy and the
+destination, preserve full text with enlargement, and omit the redundant eyebrow.
+Keep the Blog section order, Reading doorway cards, Series index opening, and
+individual series pages unchanged. Add no client JavaScript.
 
 ### Reading brief Series opening
 
@@ -286,7 +311,7 @@ totals in two columns beneath a top rule; below 16rem, stack them. Size the head
 to its reading column below 26rem so enlarged text remains readable.
 
 Follow the opening after 2.25rem with a fine rule, a 1.75rem Choose a series heading,
-and concise reading guidance. Preserve Soft editorial cards, their selection,
+and concise reading guidance. Preserve Reading doorway cards, their selection,
 order, authored English content, counts, destinations, and existing responsive
 behavior. Use typed collection translations, localized native links, singular
 count labels, and the existing text-link and Arrow exchange feedback. Keep page
@@ -338,7 +363,17 @@ and a narrower one-column focus list, separated by a fine vertical rule. Below t
 stack the introduction before the focus list and replace the vertical rule with a top
 rule. The list can use two columns while its own width permits; keep all topic labels,
 numbering, and order. Decorative numbers stay hidden from assistive technology.
-Do not add a second card surface or keyboard stops; empty focus lists stay omitted.
+**Focus links** connects matching areas to published Blog topic archives. Add the
+localized “Explore these topics across the Blog.” guidance below the heading when
+links exist. Keep each original label and number, with a right-facing ArrowExchange
+for linked rows. Use an 18px / flexible label / 16px grid, 12px gaps, and the existing
+responsive row padding. The full row is a native link, with a visible focus outline
+and accent label on hover or focus. Resolve topics by their display names, ignoring
+case, spaces, and separator punctuation; preserve the real archive slug. Exclude
+draft and scheduled posts. Ambiguous or unmatched areas remain plain and have no
+arrow or keyboard stop. Never guess an archive URL. Keep English authored labels
+in both locales and localize guidance and destinations. Do not add a second card
+surface; empty focus lists stay omitted. No new client JavaScript is needed.
 
 ### Series chapter rows
 
@@ -366,6 +401,24 @@ reading width with enlarged text. Keep the title color interaction, reduced-moti
 support and native navigation without JavaScript; add no extra keyboard stops.
 Article recommendations retain their open reading rows. Regular Blog, topic archives,
 and DX shelves retain their editorial grids.
+
+### Reading bridge series ending
+
+Individual Series pages end their chapter list with **Reading bridge**, before the
+shared contact footer. Reuse a Lumen Card section with an opaque surface, fine border,
+.375rem / 1.75rem alternating corners, and a .375rem brand-soft backing offset left
+and down. Leave 3rem after the last chapter, including the section grid gap. Use
+1.75rem insets, a 1.875rem weight 500 heading, and .8125rem guidance. Keep this card
+passive; only its two destination links respond to pointer and keyboard interaction.
+
+Below the heading, place Explore all series and Browse the Blog in two equal columns
+with a fine top rule, 1.75rem between columns, complete supporting captions, and the
+existing ArrowExchange. Use native localized links to `/blog/series/` and `/blog/`,
+visible focus outlines, and reduced-motion support. Stack the links with a separating
+rule below 31.25rem of card content width. Reduce insets below 24rem and 20rem of
+section width to preserve enlarged-text reading space. Localize every interface label
+through the collection catalog; add no client JavaScript, completion claim, or
+progress indicator. Preserve all chapter content, order, destinations, and metadata.
 
 ### Reading rows related articles
 

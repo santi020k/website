@@ -1,7 +1,13 @@
 ---
-import { Card, Icon } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { getLocale } from '@/i18n'
+import { getCachedPosts } from '@/utils/content'
+import { getTagPath } from '@/utils/links'
+import { getSeriesFocusAreas } from '@/utils/series'
+
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
+
+import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
@@ -12,6 +18,8 @@ interface Props {
 }
 
 const { areas } = Astro.props
+const focusAreas = getSeriesFocusAreas(areas, await getCachedPosts())
+const hasTopicLinks = focusAreas.some(area => area.tag)
 ---
 
 <Card as="section" aria-labelledby="series-focus-heading" data-series-focus variant="unstyled">
@@ -20,11 +28,24 @@ name="focus"
 class="size-4 shrink-0"
                                                             />
   </h2>
+  {hasTopicLinks && <p data-focus-guidance>{t('series.exploreFocusTopics')}</p>}
   <ul role="list">
-    {areas.map((area, index) => (
+    {focusAreas.map(({ label, tag }, index) => (
       <li>
-        <span data-focus-number aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-        <span data-focus-name>{area}</span>
+        {tag ?
+(
+          <Link data-focus-row href={localizePath(getTagPath(tag), locale)} variant="inherit">
+            <span data-focus-number aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <span data-focus-name lang="en">{label}</span>
+            <ArrowExchange class="size-4 shrink-0" direction="right" />
+          </Link>
+        ) :
+(
+          <div data-focus-row>
+            <span data-focus-number aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <span data-focus-name lang="en">{label}</span>
+          </div>
+        )}
       </li>
     ))}
   </ul>
@@ -46,13 +67,18 @@ class="size-4 shrink-0"
   }
   :global(:root[data-theme='dark']) [data-series-focus] { --focus-accent: var(--accent); }
   [data-series-focus] h2 { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0; color: hsl(var(--focus-accent)); font-size: 0.875rem; line-height: 1.571; font-weight: 500; letter-spacing: normal; }
-  [data-series-focus] ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.5rem; margin: 1.375rem 0 0; padding: 0; list-style: none; }
-  [data-series-focus] li { display: flex; align-items: baseline; gap: 0.75rem; min-width: 0; padding: 1rem 0; border-bottom: 1px solid hsl(var(--line)); }
-  [data-focus-number] { flex: 0 0 1.125rem; color: hsl(var(--focus-accent)); font-size: 0.6875rem; line-height: 1.818; font-weight: 500; letter-spacing: normal; }
+  [data-focus-guidance] { margin: 0.75rem 0 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
+  [data-series-focus] ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.5rem; margin: 0.875rem 0 0; padding: 0; list-style: none; }
+  [data-series-focus] li { min-width: 0; border-bottom: 1px solid hsl(var(--line)); }
+  [data-series-focus] :global([data-focus-row]) { display: grid; grid-template-columns: 1.125rem minmax(0, 1fr) 1rem; align-items: baseline; gap: 0.75rem; min-width: 0; min-height: 2.75rem; padding: 1rem 0; color: inherit; text-decoration: none; }
+  [data-series-focus] :global(a[data-focus-row]:focus-visible) { outline: 2px solid hsl(var(--focus-accent)); outline-offset: 4px; }
+  [data-series-focus] :global(a[data-focus-row]:is(:hover, :focus-visible)) [data-focus-name] { color: hsl(var(--focus-accent)); }
+  [data-series-focus] :global([data-focus-row] > [data-arrow-exchange]) { align-self: center; color: hsl(var(--focus-accent)); }
+  [data-focus-number] { color: hsl(var(--focus-accent)); font-size: 0.6875rem; line-height: 1.818; font-weight: 500; letter-spacing: normal; }
   [data-focus-name] { min-width: 0; color: hsl(var(--ink)); font-size: 1.125rem; line-height: 1.444; font-weight: 500; letter-spacing: -0.025em; }
   @container series-focus (width < 22rem) {
     [data-series-focus] ul { grid-template-columns: minmax(0, 1fr); margin-top: 0.875rem; }
-    [data-series-focus] li { padding-block: 0.75rem; }
+    [data-series-focus] :global([data-focus-row]) { padding-block: 0.75rem; }
   }
   @container series-overview (width >= 52rem) {
     [data-series-focus][data-slot='card'] { padding: 0 0 0 2rem; border-top: 0; border-inline-start: 1px solid hsl(var(--line)); }
@@ -60,8 +86,10 @@ class="size-4 shrink-0"
   }
   @container series-focus (width < 13rem) {
     [data-series-focus] h2 { gap: 0.5rem; }
-    [data-series-focus] li { gap: 0.5rem; }
-    [data-focus-number] { flex-basis: auto; }
+    [data-series-focus] :global([data-focus-row]) { gap: 0.5rem; }
     [data-focus-name] { font-size: 1rem; line-height: 1.5; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-focus-name] { transition: color 180ms ease; }
   }
 </style>

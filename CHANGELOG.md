@@ -8,6 +8,13 @@
 
 ### Minor Changes
 
+- Introduce the Blog Series shelf with a compact Reading caption, localized reading
+  guidance, and a native link to all series.
+
+- Connect series focus areas to published Blog topic archives while preserving their numbered editorial layout and keeping unmatched areas as plain text.
+
+- Give series chooser cards a sculpted reading doorway with separate native links to the complete series and its first article, preserving localized navigation and authored content.
+
 - Keep local article sharing available beside syndicated publication links, with aligned
   controls, refined hover and focus treatments, and the existing clipboard recovery.
 
@@ -324,6 +331,9 @@
 - Organize article opening references into a shared Reference ledger and connect the Supabase article to its related ESLint series with the same accessible treatment. Preserve authored destinations and reuse the existing series navigation for a single onward chapter action.
 
 ### Patch Changes
+
+- Close individual series pages with a Reading bridge linking to all series and the
+  Blog, with localized guidance and responsive keyboard-accessible destinations.
 
 - Keep changing package-manager panels out of document scroll anchoring so measuring overflow guidance cannot move the reader during a tab change.
 

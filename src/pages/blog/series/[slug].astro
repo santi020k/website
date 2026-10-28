@@ -138,6 +138,31 @@ mainClass="remaining-pages series-detail-page"
     </header>
 
     <PostsGallery layout="chapters" posts={posts} showSequence />
+
+    <Card
+      aria-labelledby="series-reading-bridge-heading"
+      as="section"
+      data-series-reading-bridge
+      id="series-reading-bridge"
+      variant="unstyled"
+    >
+      <header data-series-reading-bridge-intro>
+        <h2 id="series-reading-bridge-heading">{t('series.bridgeHeading')}</h2>
+        <p>{t('series.bridgeDescription')}</p>
+      </header>
+      <nav aria-label={t('series.moreWriting')} data-series-reading-bridge-links>
+        <Link data-series-reading-bridge-link href={localizePath('/blog/series/', locale)} variant="inherit">
+          <span data-series-reading-bridge-title>{t('series.bridgeSeries')}</span>
+          <span data-series-reading-bridge-caption>{t('series.bridgeSeriesDescription')}</span>
+          <ArrowExchange class="size-4 shrink-0" direction="right" />
+        </Link>
+        <Link data-series-reading-bridge-link href={localizePath('/blog/', locale)} variant="inherit">
+          <span data-series-reading-bridge-title>{t('series.bridgeBlog')}</span>
+          <span data-series-reading-bridge-caption>{t('series.bridgeBlogDescription')}</span>
+          <ArrowExchange class="size-4 shrink-0" direction="right" />
+        </Link>
+      </nav>
+    </Card>
   </PageSection>
 </PageLayout>
 
@@ -303,6 +328,78 @@ mainClass="remaining-pages series-detail-page"
     color: hsl(var(--ink-soft));
     font-size: .75rem;
     line-height: 1.8;
+  }
+  :global(.series-detail-page [data-series-reading-bridge][data-slot='card']),
+  :global(.series-detail-page [data-series-reading-bridge][data-slot='card']:hover) {
+    --series-bridge-accent: hsl(var(--brand));
+    container: series-reading-bridge / inline-size;
+    display: block;
+    min-width: 0;
+    margin-top: 1.5rem;
+    padding: 1.75rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: .375rem 1.75rem .375rem 1.75rem;
+    background: hsl(var(--surface));
+    box-shadow: -.375rem .375rem 0 hsl(var(--brand-soft));
+  }
+  :global([data-theme='dark'] .series-detail-page [data-series-reading-bridge][data-slot='card']) {
+    --series-bridge-accent: hsl(var(--accent));
+  }
+  [data-series-reading-bridge-intro] h2 {
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.875rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -.045em;
+    overflow-wrap: anywhere;
+  }
+  [data-series-reading-bridge-intro] p {
+    margin: .75rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .8125rem;
+    line-height: 1.85;
+  }
+  [data-series-reading-bridge-links] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+  :global([data-series-reading-bridge-link]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1rem;
+    align-content: start;
+    gap: .375rem 1.125rem;
+    min-width: 0;
+    min-height: 2.75rem;
+    padding-block: 1.125rem 1rem;
+    border-radius: .125rem;
+    color: hsl(var(--ink));
+    font-weight: 400;
+    text-decoration: none;
+  }
+  [data-series-reading-bridge-title] { font-size: 1.0625rem; font-weight: 500; line-height: 1.5; letter-spacing: -.03em; overflow-wrap: anywhere; }
+  [data-series-reading-bridge-caption] { grid-row: 2; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.8; overflow-wrap: anywhere; }
+  :global([data-series-reading-bridge-link] > [data-arrow-exchange]) { grid-column: 2; grid-row: 1; align-self: center; }
+  :global([data-series-reading-bridge-link]:is(:hover, :focus-visible)) [data-series-reading-bridge-title] { color: var(--series-bridge-accent); }
+  :global([data-series-reading-bridge-link]:focus-visible) { outline: 2px solid var(--series-bridge-accent); outline-offset: 6px; }
+  @container series-reading-bridge (width < 31.25rem) {
+    [data-series-reading-bridge-links] { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    :global([data-series-reading-bridge-link] + [data-series-reading-bridge-link]) { border-top: 1px solid hsl(var(--line)); }
+  }
+  @container page-section (width < 24rem) {
+    :global(.series-detail-page [data-series-reading-bridge][data-slot='card']),
+    :global(.series-detail-page [data-series-reading-bridge][data-slot='card']:hover) { padding: 1.25rem; }
+  }
+  @container page-section (width < 20rem) {
+    :global(.series-detail-page [data-series-reading-bridge][data-slot='card']),
+    :global(.series-detail-page [data-series-reading-bridge][data-slot='card']:hover) { padding: .75rem; }
+    [data-series-reading-bridge-intro] h2 { font-size: 1.375rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-series-reading-bridge-title] { transition: color 180ms ease; }
   }
   @container series-entry (width < 38rem) {
     [data-series-entry-spread] { grid-template-columns: minmax(0, 1fr); }
