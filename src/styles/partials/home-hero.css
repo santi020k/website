@@ -59,6 +59,9 @@
 
 [data-home-hero] h1 { max-width: 100%; font-size: clamp(3.125rem, 5.7vw, 5rem); }
 
+/* The translated phrases need their own measure to retain the hero's rhythm. */
+[data-home-hero]:lang(es) h1 { font-size: clamp(2rem, 4.2vw, 3.5rem); }
+
 .maker-hero h1 > span {
   display: block;
 }
@@ -373,6 +376,7 @@
   .signature-frame[data-home-hero] { padding-top: 1.5rem; }
   [data-home-hero] .maker-hero-eyebrow { display: none; }
   [data-home-hero] h1 { font-size: clamp(2rem, 9.6vw, 4.5rem); line-height: 1.08; letter-spacing: -0.06em; }
+  [data-home-hero]:lang(es) h1 { font-size: clamp(1.75rem, 7.45vw, 3.5rem); }
   [data-home-hero] .maker-hero-description { margin-top: 1.25rem; line-height: 1.65; }
   [data-home-hero] .maker-hero-actions { margin-top: 1.25rem; }
   .maker-hero-visual { order: -1; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 0.875rem; }
@@ -401,3 +405,11 @@
     .maker-hero-visual { grid-template-columns: minmax(0, 1fr); }
   }
 }
+
+/* Keep complete heading words when enlarged text narrows the reading column. */
+@container home-hero (width < 18rem) {
+  [data-home-hero] h1 { font-size: min(2rem, 22cqi); line-height: 1.12; hyphens: manual; }
+  [data-home-hero]:lang(es) h1 { font-size: min(1.75rem, 16cqi); }
+}
+
+[data-home-hero] .maker-hero-primary > [data-home-action-label] { min-width: 0; overflow-wrap: anywhere; }

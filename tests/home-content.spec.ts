@@ -60,7 +60,7 @@ test('homepage keeps project discovery and reading connected to real content', a
   await expect(page.locator('main h1')).toContainText(articleTitle)
   await page.goBack()
 
-  await expect(page.locator('footer a[href="mailto:hi@santi020k.com"]')).toBeVisible()
+  await expect(page.locator('[data-site-footer] a[href="mailto:hi@santi020k.com"]')).toBeVisible()
 
   await community.getByRole('link', { name: /Lessons from the work/ }).focus()
   await page.keyboard.press('Enter')
@@ -177,9 +177,9 @@ for (const theme of ['light', 'dark'] as const) {
       await expectNoUnexpectedAccessibilityViolations(page)
     }
 
-    await page.locator('footer a[href="/about/"]').click()
+    await page.locator('[data-site-footer] a[href="/about/"]').click()
     await expect(page).toHaveURL(/\/about\/$/)
-    await expect(page.locator('footer')).toBeVisible()
+    await expect(page.locator('[data-site-footer]')).toBeVisible()
     await page.goBack()
     await expect(page.locator('[data-home-content]')).toBeVisible()
   })
