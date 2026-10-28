@@ -174,3 +174,70 @@ for (const theme of ['light', 'dark'] as const) {
     }
   })
 }
+
+for (const route of ['/', '/es/']) {
+  test(`hero headings and primary actions stay readable at narrow text measures on ${route}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const layouts = [
+      [320, 100, 5.1],
+      [375, 100, 3.1],
+      [768, 100, 3.1],
+      [1440, 100, 3.1],
+      [320, 200, 10.1],
+      [390, 200, 10.1],
+      [768, 200, 10.1],
+      [1440, 200, 10.1]
+    ] as const
+
+    for (const [width, textSize, maximumLines] of layouts) {
+      await page.setViewportSize({ width, height: 1000 })
+      await page.goto(route)
+      await page.evaluate(async size => {
+        document.documentElement.style.fontSize = `${size}%`
+        await document.fonts.ready
+      }, textSize)
+      const heading = page.locator('[data-home-hero-heading]')
+      const typography = await heading.evaluate(element => {
+        const range = document.createRange()
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+        const splitWords: string[] = []
+
+        while (walker.nextNode()) {
+          const node = walker.currentNode
+
+          for (const match of (node.textContent ?? '').matchAll(/\S+/gu)) {
+            range.setStart(node, match.index)
+            range.setEnd(node, match.index + match[0].length)
+            const rectangles = [...range.getClientRects()].filter(rect => rect.width > 0)
+            const lines = new Set(rectangles.map(rect => Math.round(rect.top)))
+
+            if (lines.size > 1) splitWords.push(match[0])
+          }
+        }
+        return {
+          splitWords,
+          lines: element.clientHeight / Number.parseFloat(getComputedStyle(element).lineHeight)
+        }
+      })
+
+      expect(typography.splitWords, `${width}px at ${textSize}%`).toEqual([])
+      expect(typography.lines).toBeLessThan(maximumLines)
+      const action = page.locator('[data-home-hero] .maker-hero-primary')
+      const fits = await action.evaluate(element => {
+        const bounds = element.getBoundingClientRect()
+        const range = document.createRange()
+
+        range.selectNodeContents(element)
+        return [...range.getClientRects()].every(rect => rect.width === 0 || (
+          rect.left >= bounds.left - 1 && rect.right <= bounds.right + 1
+        ))
+      })
+
+      expect(fits, `${width}px at ${textSize}%`).toBe(true)
+      await action.focus()
+      await expect(action).toBeInViewport()
+      await expect(action).toHaveCSS('outline-style', 'solid')
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+    }
+  })
+}
