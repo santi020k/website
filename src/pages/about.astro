@@ -1,5 +1,5 @@
 ---
-import { getImage } from 'astro:assets'
+import { getImage, Image } from 'astro:assets'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import OrganizationLogoRail from '@/components/molecules/OrganizationLogoRail.astro'
@@ -9,10 +9,12 @@ import AboutHero from '@/components/pages/about/AboutHero.astro'
 import AboutSectionHeading from '@/components/pages/about/AboutSectionHeading.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import AboutMeImage from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
+import City from '@/assets/photos/home/city-after-dark.webp'
+import Clouds from '@/assets/photos/home/city-in-the-clouds.webp'
+import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
 import { getCachedProjects } from '@/utils/content'
 
-import { ButtonLink, Link, Stat } from '@santi020k/lumen-astro'
+import { ButtonLink, Link, RevealGroup, Stat } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
 import { pageTranslator } from '@/i18n/page-copy'
@@ -46,7 +48,7 @@ const aboutPortraitImage = await getImage({
   format: 'avif',
   src: AboutMeImage,
   width: 400,
-  height: 500,
+  height: 600,
   widths: [320, 400, 640, 800]
 })
 
@@ -78,7 +80,13 @@ const profileChapters = [
   { id: 'about-collaboration', index: '02', label: t('page.collaboration') },
   { id: 'about-organizations', index: '03', label: t('page.context') },
   { id: 'about-principles', index: '04', label: t('page.principles') },
-  { id: 'about-recommendations', index: '05', label: t('page.recommendations') }
+  { id: 'about-life', index: '05', label: t('about.life.eyebrow') },
+  { id: 'about-recommendations', index: '06', label: t('page.recommendations') }
+]
+
+const personalPhotographs = [
+  { image: City, alt: t('home.photo.nightAlt'), caption: t('home.photo.night'), kind: 'city' },
+  { image: Clouds, alt: t('home.photo.cloudsAlt'), caption: t('home.photo.clouds'), kind: 'clouds' }
 ]
 
 const storyBeats = [
@@ -190,7 +198,7 @@ const meta = {
     </nav>
 
     <section class="about-section">
-      <AboutSectionHeading index="01" eyebrow={t('page.theShapeOfTheWork')} title={t('page.engineeringLeadershipAndDeliverySystems')} description={t('page.aWorkingModelOfWhatI')} />
+      <AboutSectionHeading index="01" eyebrow={t('page.theShapeOfTheWork')} title={t('about.story.title')} description={t('page.aWorkingModelOfWhatI')} />
       <div class="about-story">
         <div class="about-story-copy">{storyBeats.map(beat => <p>{beat}</p>)}</div>
         <section id="about-working-modes" class="about-working-modes" aria-labelledby="about-working-modes-heading">
@@ -243,13 +251,41 @@ const meta = {
       </div>
     </section>
 
+    <section id="about-life" class="about-section" aria-labelledby="about-life-heading">
+      <AboutSectionHeading headingId="about-life-heading" index="05" eyebrow={t('about.life.eyebrow')} title={t('about.life.title')} description={t('home.life.description')} />
+      <RevealGroup class="about-life-photos" animation="slide-up" duration="slow" stagger={90} threshold={0} data-about-life-photos>
+        {personalPhotographs.map(({ image, alt, caption, kind }) => (
+          <figure data-about-life-photo={kind}>
+            <div data-about-life-frame>
+              <Image
+                src={image}
+                alt={alt}
+                width={image.width}
+                height={image.height}
+                widths={[320, 480, 640, 960]}
+                sizes={kind === 'city' ? '(min-width: 1024px) 680px, (min-width: 768px) 60vw, calc(100vw - 40px)' : '(min-width: 1024px) 448px, (min-width: 768px) 40vw, calc(100vw - 40px)'}
+                format="webp"
+                quality={84}
+                loading="lazy"
+              />
+            </div>
+            <figcaption>{caption}</figcaption>
+          </figure>
+        ))}
+      </RevealGroup>
+      <div class="about-life-footer">
+        <span>{t('home.photo.throughMyLens')}</span>
+        <ButtonLink class="about-link" href={localizePath('/travel/', pageLocale)} variant="unstyled">{t('home.life.travel')}<ArrowExchange direction="right" /></ButtonLink>
+      </div>
+    </section>
+
     <section id="about-recommendations" class="about-section">
-      <AboutSectionHeading index="05" eyebrow={t('page.recommendations')} title={t('page.whatCollaboratorsSayAboutTheWork')} description={t('page.communicationReliabilityAndHelpingPeopleDo')} />
-      <div class="about-testimonials">
+      <AboutSectionHeading index="06" eyebrow={t('page.recommendations')} title={t('page.whatCollaboratorsSayAboutTheWork')} description={t('page.communicationReliabilityAndHelpingPeopleDo')} />
+      <RevealGroup class="about-testimonials" animation="slide-up" duration="slow" stagger={90} threshold={0} data-about-testimonials>
         {testimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
           <TestimonialCard authorName={name} avatarInitials={avatarInitials} avatarUrl={avatarUrl} quote={quote} relationship={relationship} role={role} />
         ))}
-      </div>
+      </RevealGroup>
       <div class="about-actions">
         <ButtonLink class="about-link" href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="unstyled">{t('page.seeAllLinkedinRecommendations')}<ArrowExchange direction="up-right" /></ButtonLink>
       </div>

@@ -308,8 +308,9 @@ enlarged text sizes. No new client controller is introduced.
 - `StartHereCard` composes the homepage's Reading slip recommendations with an
   unstyled Lumen `Card`, decorative `Icon`, and one native link. The site owns the
   responsive grid, optimized Astro cover images, complete editorial copy, numbered header, and focus treatment.
-- About-page supplementary cards use Lumen `Note` directly.
-- The About hero availability status uses Lumen `Marker`.
+- About composes native profile, working-mode, and personal-photo sections around
+  existing Lumen links, Stat articles, and the shared TestimonialCard. Its natural
+  hero portrait uses matching Astro responsive sources, preload, and profile metadata.
 - About's organization **Named index** uses Lumen `Button` with the public `ghost`
   variant. The site owns the ruled index and responsive card selection; native
   button activation, pressed state, focus preservation, and script-free cards remain intact.
@@ -317,8 +318,8 @@ enlarged text sizes. No new client controller is introduced.
   Astro logos. They consume `getProjectBrandStyle` and the fixed logo-paper token;
   Lumen continues to own the existing selection controls and icons.
 - About's **Linked counters** compose bare Lumen `Stat` articles with `Link` and
-  decorative `Icon` source captions. The site retains its margin rails and responsive
-  figures; links navigate natively to the Work timeline and matching Void.GG sections.
+  decorative `Icon` source captions. Three desktop columns become ruled margin rows
+  on narrower containers; links navigate natively to the Work timeline and matching Void.GG sections.
   The deployment figure uses the same documented 60% faster-deployments result as Work.
 - About's **Practice links** retain the collaboration ledger and add Lumen `Link`
   and decorative `Icon` captions to each authored lane. The typed profile data owns
@@ -516,10 +517,13 @@ enlarged text sizes. No new client controller is introduced.
   shorter stacks show their complete list directly. The former sidebar stack is omitted;
   its `#sidebar-stack` fragment now targets the hero, alongside the existing `#technologies`.
 - Testimonial identities use Lumen `Avatar`; optimized Astro images remain slotted inside it.
-- About recommendations use **Quote sleeve** within the single-column Reading rows.
-  The existing unstyled Lumen `Card` contains the full quote followed by a native
-  author footer, with Lumen `Icon` and `Avatar`. Site radius/shadow tokens and
-  container queries provide the sculpted shape and responsive composition.
+- About recommendations reuse the existing unstyled Lumen `Card`, `Icon`, and
+  `Avatar` through TestimonialCard. About-only styles create open two-column
+  Reading rows that stack on narrow containers; complete quotes and author footers
+  remain intact. The shared card and homepage keep their own presentations.
+- About photos and recommendations use Lumen `RevealGroup` with the shared slow
+  slide-up entrance, 90ms stagger, and explicit zero threshold. Reduced-motion
+  and no-JavaScript content visibility remain owned by the existing Lumen runtime.
 - Site-specific interface icons use Lumen `Icon` when Lucide provides the mark. Third-party brand
   logos remain on `astro-icon` because Lucide intentionally excludes brand assets.
 - Reading layouts use Lumen `ScrollProgress` directly. Articles pass `targetId="article-content"`

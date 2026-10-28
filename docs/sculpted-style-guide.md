@@ -894,34 +894,31 @@ target and visible focus, and bottom-align captions across each card row.
 
 ### Linked counters About profile highlights
 
-The three profile highlights use bare Lumen Stat articles in full-width, ruled rows.
-Place the figure and its smaller unit in the left margin, with a label and complete
-explanation beside a 2px accent rail. Keep experience derived from the shared site
-configuration, retain the 14-person team metric, and use the documented Void.GG
-60% faster-deployments result in place of the former release lead-time claim.
-The section has an accessible name and each article is named by its level-two heading.
+Keep all three bare Lumen Stat articles, their complete descriptions, and their
+native evidence links. Experience comes from the shared site configuration;
+retain the 14-person team metric and the documented Void.GG 60% faster-deployments
+result. Every article is named by its level-two heading.
 
-Top-align each figure with its description and add a quiet Lumen source link below
-the copy: Career timeline, Void.GG · What I led, or Void.GG · Key outcomes. Links
-stay in the current tab and target the matching section; they have 2.75rem minimum
-height, 0.75rem type, and visible keyboard focus. Keep the margin rail and open rows.
+Above 53.125rem of About container width, use three equal columns between fine
+horizontal rules. Place a 4rem figure above a 1.25rem label, 0.875rem description,
+and 0.8125rem source link. Separate columns with fine vertical rules, keep outer
+edges aligned with the page, and align source links at the bottom.
 
-Use About's semantic accent in both themes, 4rem figures, and a 0.65fr / 1fr split.
-Reduce figures to 3.25rem below 53.125rem of container width. Below 31.25rem, use a
-compact 6.5rem figure column, 2.75rem figures with their units below, 1.125rem labels,
-and 1.5rem row insets. Below 20rem, stack the figure above the copy and put its unit
-back on the same line. At enlarged text on a narrow phone, let the
-figure scale with the container. This composition adds no client JavaScript or animation.
+Below 53.125rem, use full-width rows with an 8rem figure column and a 2px accent
+rail beside the copy. Below 31.25rem, tighten this to 6.5rem and 2.75rem figures.
+Below 20rem, stack the figure and copy and remove the rail. Allow units and source
+labels to wrap at enlarged text. Source links retain 44px targets and visible
+focus. The statistics stay static and visible without JavaScript.
 
 ### Chapter guide About navigation
 
-Place the open chapter guide below profile highlights and before the introduction.
-Keep its four numbered destinations aligned with sections 02–05: Collaboration,
-Context, Principles, and Recommendations. Use native fragment links through Lumen
-Link, a visible “Explore this profile” label, fine horizontal rules, and the About
-accent for decorative indices and focus. The first chapter follows directly below.
-Four desktop columns become full-width, 3rem-high rows at 30rem of container width.
-Preserve the existing section IDs and native keyboard and no-JavaScript navigation.
+Place the native chapter guide below profile highlights and before the introduction.
+Its five destinations follow sections 02–06: Collaboration, Context, Principles,
+Outside work, and Recommendations. Existing fragment IDs remain stable; the
+personal chapter adds `#about-life`. Use Lumen Link, the visible “Explore this
+profile” label, fine rules, and decorative accent indices. Five desktop columns
+become full-width, 3rem-high rows at 30rem of container width. Preserve native
+keyboard and no-JavaScript navigation.
 
 ### Margin brief About working modes
 
@@ -957,8 +954,9 @@ row heights when text is enlarged.
 
 ### Practice captions About principles
 
-Retain the three-column editorial grid, numbered headings, and complete principle
-copy. Add one quiet “Read the approach” caption with a related published article
+Retain numbered headings and complete principle copy in three desktop columns.
+Use two columns below 56rem of About content and one below 40rem, with readable
+0.9375rem body text. Add one quiet “Read the approach” caption with a related published article
 below each principle. Keep the sources in the typed profile data and link to
 published articles that support the corresponding principle.
 
@@ -1011,18 +1009,23 @@ destinations intact, with accent colors from the active light or dark theme.
 
 ### Portrait spread About profile
 
-Keep the About hero's complete 4:5 photograph above an open name caption and a soft
-location mount. The image has a 2rem upper-left corner and a 0.375rem upper-right
-corner; its lower edge stays straight. A 1.5rem inverse curve joins the location
-mount to that edge, finishing in a 2rem lower-right corner. Use `brand-soft` for
-the mount and About's theme-aware accent for the handle.
+The About introduction leads with “Engineer. Maker. Always curious.” and its
+Spanish equivalent. Keep the professional role, factual introduction, availability,
+and existing portfolio, résumé, LinkedIn, and GitHub destinations. The hero remains
+static, with a balanced role eyebrow and a readable 1.0625rem introduction.
+Keep chapter headings free of automatic hyphenation; scale the hero to its container
+at enlarged text sizes so English and Spanish words stay whole.
 
-Set the name at 1.75rem and weight 500, below the small handle. Keep the location
-and remote availability together in a 7.875rem column. Tighten the columns below
-21.25rem of portrait width; below 16.25rem, move the location beneath the name as
-a compact two-column row. Below 11rem, stack the location facts. Preserve native
-figure semantics, descriptive alt text, responsive image sources, eager loading,
-and the existing hero's introduction and actions. The portrait stays passive.
+Use the existing natural `originals/santiago-profile-with-dog.jpg` photograph.
+Generate responsive AVIF images at its native 2:3 ratio, with matching hero preload
+and ProfilePage image metadata. A single CSS 4:5 frame crops from the bottom to
+keep Santiago and his dog together; do not generate a replacement face or apply
+an additional server crop. Astro emits the optimized public derivatives.
+
+The frame has 5rem and 0.75rem upper corners and a straight lower edge. Retain the
+open name caption and soft location mount, with the existing responsive stacking
+for the handle, name, Medellín, and remote availability. Preserve descriptive alt
+text, eager loading, and native figure semantics. The image stays passive.
 
 ### Session first Speaking page flow
 
@@ -1108,7 +1111,7 @@ destinations open in protected new tabs. Keep the secondary link at least 44px
 high, with a decorative accent arrow and visible keyboard focus. Preserve the
 complete briefing prompt, all three notes, and the existing responsive layout.
 
-### Quote sleeve About recommendation cards
+### Quote sleeve shared recommendation cards
 
 Use one opaque Lumen Card with a fine accent-tinted border, 2.5rem corners except
 for the 0.75rem lower-right corner, and a subtle solid layer beneath the card.
@@ -1126,11 +1129,31 @@ the cards stay passive with no hover treatment or client script.
 
 ### Reading rows About recommendations
 
-Arrange the four About recommendations in one full-width column with 1.25rem
-between rows. Preserve their authored order and the shared Quote sleeve card,
-with the complete quote followed by its author footer. Retain every role and
-relationship, and keep the shared LinkedIn destination after the list. This layout is specific to
-the About page; other testimonial placements retain their existing composition.
+About overrides the shared TestimonialCard presentation within
+`#about-recommendations` only. Keep all four complete English quotations in their
+authored order, with localized roles and relationships. Use an open two-column
+spread, fine top rules, a 1.75rem quote mark, and 1.25rem quotation text at 1.7
+leading. Keep author, role, and relationship together beside the 2.75rem avatar;
+align footers within each row and retain the existing LinkedIn destination.
+
+Below 48rem of About content width, stack the quotes in reading order. Below
+38rem, use 1.125rem text at 1.8 leading; below 18rem, stack the identity details.
+There are no nested filled surfaces, truncation, or rotating quotations. These
+styles do not alter homepage or shared-card presentations.
+
+### Personal photographs About chapter
+
+Place Life beyond the screen after Principles and before Recommendations. Reuse
+the approved city-at-night and above-the-clouds travel photographs and the existing
+personal description. A 1.5:1 grid aligns the frames at the bottom on desktop; the
+city uses a 3:2 frame and the clouds use 4:5 with a right-aligned crop. Below 38rem,
+stack both as 3:2 images. Keep native source ratios, responsive Astro derivatives,
+readable captions, and a native Travel link. Do not add precise locations.
+
+Photos and recommendations use the existing Lumen RevealGroup with a slow,
+one-time slide-up entrance, 90ms stagger, and explicit zero threshold for tall
+groups. Content stays visible without JavaScript and with reduced motion; changing
+the system preference reveals pending content. No custom motion controller is added.
 
 ### Sculpted statistics cards
 
