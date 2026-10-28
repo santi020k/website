@@ -34,7 +34,7 @@ test.describe('Newsletter signup', () => {
     await expect(form.locator('input[name="email"]')).toBeVisible()
     await expect(form.locator('input[name="email"]')).toHaveAttribute('autocomplete', /^email$/)
     await expect(form.locator('input[name="email"]')).toHaveAttribute('required', /^$/)
-    await expect(form.getByRole('button', { name: /Get new posts/i })).toBeVisible()
+    await expect(form.getByRole('button', { name: /Subscribe/i })).toBeVisible()
 
     const privacyLink = newsletter.getByRole('link', { name: 'Privacy' })
 
@@ -84,7 +84,7 @@ test.describe('Newsletter signup', () => {
 
     const [popup] = await Promise.all([
       context.waitForEvent('page'),
-      form.getByRole('button', { name: /Get new posts/i }).click()
+      form.getByRole('button', { name: /Subscribe/i }).click()
     ])
 
     await popup.waitForLoadState('domcontentloaded')
@@ -117,7 +117,7 @@ test.describe('Newsletter signup', () => {
 
     const pagesBefore = context.pages().length
 
-    await form.getByRole('button', { name: /Get new posts/i }).click()
+    await form.getByRole('button', { name: /Subscribe/i }).click()
 
     // Native constraint validation blocks the submit event before any navigation starts.
     expect(context.pages()).toHaveLength(pagesBefore)

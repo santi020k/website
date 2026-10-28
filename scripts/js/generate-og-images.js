@@ -239,6 +239,19 @@ const staticSocialPages = [
     badge: 'Legal'
   },
   {
+    description:
+      'Invite Santiago Molina to speak, talk about an engineering role, or get help growing your team, adopting AI in engineering, and raising code quality.',
+    pathname: '/work-with-me/',
+    title: 'Work with me',
+    badge: 'Contact'
+  },
+  {
+    description: 'Write a message to Santiago Molina or choose another way to get in touch.',
+    pathname: '/work-with-me/sent/',
+    title: 'Start a conversation',
+    badge: 'Status'
+  },
+  {
     description: 'Offline fallback page for the santi020k portfolio and blog.',
     pathname: '/offline/',
     title: 'Offline',
@@ -257,7 +270,8 @@ const includeDrafts = process.env.OG_INCLUDE_DRAFTS === '1'
 const nonIndexableStaticPathnames = new Set([
   '/404/',
   '/blog/content-calendar/',
-  '/offline/'
+  '/offline/',
+  '/work-with-me/sent/'
 ])
 
 export const isPublishedPost = entry => {

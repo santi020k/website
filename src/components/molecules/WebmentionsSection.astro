@@ -12,7 +12,11 @@ import Card from '@santi020k/lumen-astro/components/Card'
 import Icon from '@santi020k/lumen-astro/components/Icon'
 import Link from '@santi020k/lumen-astro/components/Link'
 
-import { getLocale, translate } from '@/i18n'
+import { getLocale, localeLanguage } from '@/i18n'
+import { translateArticle } from '@/i18n/article-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translateArticle(locale, text)
 
 interface Props {
   mentions: WebmentionsChildren[]
@@ -28,8 +32,10 @@ const replies = mentions.filter(
 const authorPhoto = (entry: WebmentionsChildren): string | undefined => entry.author?.photo ?? undefined
 // Grapheme boundaries keep initials and truncated replies from splitting
 // surrogate pairs, combining marks, emoji sequences, or flags.
-const graphemes = new Intl.Segmenter('en', { granularity: 'grapheme' })
+const graphemes = new Intl.Segmenter(localeLanguage(locale), { granularity: 'grapheme' })
 const initial = (name: string): string => (graphemes.segment(name).containing(0)?.segment ?? '').toUpperCase()
+// The feed does not expose source language. An empty lang on replies avoids
+// assigning Spanish to unmodified user-authored prose.
 const replyTextLimit = 2000
 
 // The limit stays in UTF-16 units; the cut moves back to the start of the
@@ -56,11 +62,10 @@ const publishedDate = (entry: WebmentionsChildren): { datetime: string, label: s
 
   if (Number.isNaN(d.getTime())) return undefined
 
-  return { datetime: d.toISOString(), label: getFormattedDate(d) }
+  return { datetime: d.toISOString(), label: getFormattedDate(d, {}, localeLanguage(locale)) }
 }
 
 const showSection = likes.length > 0 || replies.length > 0
-const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
 
 ---
 
@@ -73,14 +78,14 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
             <h2 data-webmention-likes-heading>
               <span data-webmention-likes-count>
                 <span data-webmention-likes-total>{likes.length}</span>
-                <span>{likes.length === 1 ? 'like' : 'likes'}</span>
+                <span>{likes.length === 1 ? t('like') : t('likes')}</span>
               </span>
               <span data-webmention-likes-context>{t('Across the IndieWeb')}</span>
             </h2>
             <ul data-webmention-readers role="list">
               {likes.map(entry => {
                 const photo = authorPhoto(entry)
-                const name = entry.author?.name ?? 'Someone'
+                const name = entry.author?.name ?? t('Someone')
                 const href = entry.author?.url ?? entry['wm-source']
 
                 return (
@@ -117,11 +122,11 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
               class="mr-1 size-4 align-text-bottom"
               name="message-circle"
             />
-            Replies &amp; mentions
+            {t('Replies & mentions')}
           </h2>
           <ul class="space-y-4">
             {replies.map(entry => {
-              const name = entry.author?.name ?? 'Anonymous'
+              const name = entry.author?.name ?? t('Anonymous')
               const authorUrl = entry.author?.url
               const source = entry['wm-source']
               const text = replyText(entry)
@@ -150,14 +155,14 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
                       {date && <time datetime={date.datetime}>{date.label}</time>}
                     </header>
                     <div data-webmention-body>
-                      {text && <p data-webmention-copy>{text}</p>}
+                      {text && <p lang="" data-webmention-copy>{text}</p>}
                       <Link
                         data-webmention-source
                         href={source}
                         newTab
                         variant="inherit"
                       >
-                        View original
+                        {t('View original')}
                         <ArrowExchange class="size-3.5 shrink-0" direction="up-right" />
                       </Link>
                     </div>

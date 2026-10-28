@@ -96,7 +96,7 @@ const galleryItems = posts.map(createGalleryItem)
             <div data-post-gallery-copy>
               <div data-post-gallery-meta>
                 <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <span>{item.data.postType}</span>
+                  <span>{t(item.data.postType)}</span>
                   {showSequence && <span data-post-gallery-part>{t('Part')} {item.data.seriesOrder ?? index + 1}</span>}
                   {item.data.draft && <span class="font-semibold">{t('Draft')}</span>}
                 </div>

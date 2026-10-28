@@ -5,15 +5,14 @@ import { lumenWorldMapCountries } from '@santi020k/lumen-core/world-map-data'
 import { travelSummary } from '@/data/travel'
 import { getLocale } from '@/i18n'
 import { translatePage } from '@/i18n/page-copy'
-import { getLocalizedTravelCountries } from '@/i18n/travel'
+import { getLocalizedCountryName, getLocalizedTravelCountries } from '@/i18n/travel'
 
 const pageLocale = getLocale(Astro.url.pathname)
 const t = (source: string) => translatePage(pageLocale, source)
 const travelCountries = getLocalizedTravelCountries(pageLocale)
-const regionNames = new Intl.DisplayNames(['es-419'], { type: 'region' })
 
 const labels = pageLocale === 'es' ?
-  Object.fromEntries(lumenWorldMapCountries.map(country => [country.id, regionNames.of(country.id) ?? country.name])) :
+  Object.fromEntries(lumenWorldMapCountries.map(country => [country.id, getLocalizedCountryName(country.id, country.name, pageLocale)])) :
   Object.fromEntries(travelCountries.map(country => [country.code, country.name]))
 ---
 

@@ -1,10 +1,12 @@
 ---
+import { CLOUDFLARE_WEB_ANALYTICS_TOKEN } from 'astro:env/client'
 import { ClientRouter } from 'astro:transitions'
 
 import BackToTop from '@/components/atoms/BackToTop.astro'
 import SiteFooter from '@/components/organisms/SiteFooter.astro'
 import SiteHeader from '@/components/organisms/SiteHeader.astro'
 import BaseHead from '@/components/shared/BaseHead.astro'
+import CloudflareAnalytics from '@/components/shared/CloudflareAnalytics.astro'
 import NavProgress from '@/components/shared/NavProgress.astro'
 import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistration.astro'
 import ThemeProvider from '@/components/shared/ThemeProvider.astro'
@@ -68,6 +70,11 @@ const headMeta = {
 const locale = getLocale(Astro.url.pathname)
 const t = (text: string) => translate(locale, text)
 const isGenerousSpacing = mainSpacing === 'generous'
+
+// Cookieless, aggregate page views. `spa` follows ClientRouter navigations through the History API.
+const cloudflareBeacon = import.meta.env.PROD && CLOUDFLARE_WEB_ANALYTICS_TOKEN ?
+  JSON.stringify({ spa: true, token: CLOUDFLARE_WEB_ANALYTICS_TOKEN }) :
+  undefined
 ---
 
 <html
@@ -81,6 +88,7 @@ const isGenerousSpacing = mainSpacing === 'generous'
 >
   <head>
     <BaseHead {...headMeta} />
+    {cloudflareBeacon && <CloudflareAnalytics config={cloudflareBeacon} />}
     <script is:inline>
       // Register before ClientRouter's deferred module. Chromium dispatches window
       // popstate listeners in registration order even when capture is requested.

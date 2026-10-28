@@ -7,6 +7,12 @@ import { getProjectPrimaryDestination } from '@/utils/project-destinations'
 
 import { ButtonLink, Card, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   hasProductPreviews: boolean
   parentPage: { name: string, url: string }
@@ -18,15 +24,15 @@ const { githubUrl, liveDemoUrl, previews } = project.data
 const destination = getProjectPrimaryDestination(project.data)
 ---
 
-<nav aria-label="Project destinations" data-project-destinations id="project-destinations">
+<nav aria-label={t('Project destinations')} data-project-destinations id="project-destinations">
   {destination && (
     <Card data-destination-brief variant="unstyled">
       <div data-destination-copy>
-        <p data-destination-context>{destination.context}</p>
+        <p data-destination-context>{t(destination.context)}</p>
         <p data-destination-name>{destination.name}</p>
       </div>
       <ButtonLink class="btn-primary" data-destination-primary href={destination.href} newTab variant="unstyled">
-        <span>{destination.action}</span>
+        <span>{t(destination.action)}</span>
         <ArrowExchange direction="up-right" size="sm" />
       </ButtonLink>
     </Card>
@@ -34,18 +40,18 @@ const destination = getProjectPrimaryDestination(project.data)
   <div data-destination-links>
     {hasProductPreviews && (
       <Link href="#inside-the-product" variant="inherit">
-        <span>{previews?.linkLabel ?? 'View product previews'}</span>
+        <span>{t(previews?.linkLabel ?? 'View product previews')}</span>
         <ArrowExchange direction="down" size="sm" />
       </Link>
     )}
     {liveDemoUrl && githubUrl && (
       <Link href={githubUrl} newTab variant="inherit">
-        <span>Open repository</span>
+        <span>{t('Open repository')}</span>
         <ArrowExchange direction="up-right" size="sm" />
       </Link>
     )}
-    <Link href={parentPage.url} variant="inherit">
-      <span>Browse {parentPage.name.toLowerCase()}</span>
+    <Link href={localizePath(parentPage.url, locale)} variant="inherit">
+      <span>{locale === 'es' ? 'Explorar' : 'Browse'} {t(parentPage.name).toLocaleLowerCase(locale)}</span>
       <ArrowExchange direction="right" size="sm" />
     </Link>
   </div>

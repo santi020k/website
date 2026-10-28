@@ -9,6 +9,7 @@ import ArticleExampleFolds from '@/components/molecules/ArticleExampleFolds.astr
 import ArticleFigureViewers from '@/components/molecules/ArticleFigureViewers.astro'
 import ArticleSectionReferences from '@/components/molecules/ArticleSectionReferences.astro'
 import CommentsSection from '@/components/molecules/CommentsSection.astro'
+import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
 import ReadingChapterOpener from '@/components/molecules/ReadingChapterOpener.astro'
 import ReadingContents from '@/components/molecules/ReadingContents.astro'
@@ -20,6 +21,7 @@ import PostHero from '@/components/organisms/PostHero.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
 import type { PrintReference } from '@/plugins/rehype-print-references'
+import { localizeArticleControls } from '@/utils/article-control-language'
 import { getArticlePageImprint } from '@/utils/article-page-imprint'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingStats } from '@/utils/reading-time'
@@ -32,12 +34,13 @@ import { ScrollProgress } from '@santi020k/lumen-astro'
 
 import { ogManifest } from '@/data/og-manifest'
 import { getSeriesContext } from '@/data/series'
-import { getLocale, localizePath } from '@/i18n'
+import { getLocale, localizePath, stripLocale } from '@/i18n'
 import { translateCollection } from '@/i18n/collection-copy'
 import {
   createAuthorSchema,
   createPublisherSchema,
-  createWebsiteSchemaReference
+  createWebsiteSchemaReference,
+  siteConfig
 } from '@/site.config'
 
 const locale = getLocale(Astro.url.pathname)
@@ -52,6 +55,7 @@ interface Props {
 }
 
 const { figureCaptions, headings, post, printReferences, recommendationUrls } = Astro.props
+const articleHtml = localizeArticleControls(await Astro.slots.render('default') ?? '', locale)
 const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
 
 const ogImage = getSocialImageURL(
@@ -66,7 +70,7 @@ const localURL = new URL(Astro.url.pathname, Astro.site)
 const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : localURL
 const seriesContext = await getSeriesContext(post)
 const hasContents = headings.some(heading => heading.depth <= 3)
-const pageTargetUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com').href
+const pageTargetUrl = new URL(stripLocale(Astro.url.pathname), Astro.site ?? 'https://santi020k.com').href
 
 const webmentions = WEBMENTION_API_KEY ?
   await fetchWebmentionsForTarget(pageTargetUrl, WEBMENTION_API_KEY) :
@@ -140,7 +144,7 @@ mainClass="remaining-pages remaining-pages--reading"
         )}
         <div class="e-content max-w-none">
           <div lang="en" class="prose-santi max-w-none" data-article-prose id="article-content">
-            <slot />
+            <Fragment set:html={articleHtml} />
           </div>
           {figureCaptions.length > 0 && <ArticleFigureViewers captions={figureCaptions} />}
           <ArticleSectionReferences headings={headings} url={localURL.href} />
@@ -199,6 +203,12 @@ mainClass="remaining-pages remaining-pages--reading"
     </p>
   </article>
 
+  {siteConfig.newsletter && (
+    <aside aria-label="Newsletter" class="section-container-wide" data-article-newsletter>
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} idSuffix="article" />
+    </aside>
+  )}
+
   <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} excludeUrls={recommendationUrls} tags={post.data.tags} />
 
   <div class="section-container-wide" data-post-final-return>
@@ -208,6 +218,8 @@ mainClass="remaining-pages remaining-pages--reading"
 </BaseLayout>
 
 <style>
+  [data-article-newsletter] { max-width: 56rem; margin-block: 3rem 0; }
+
   @container reading-layout (width < 40rem) {
     [data-reading-body] { padding-block-start: 1.75rem; }
     [data-post-mobile-toc] { margin-block-end: 1.75rem; }

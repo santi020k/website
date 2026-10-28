@@ -3,6 +3,12 @@ import type { CollectionEntry } from 'astro:content'
 
 import { Card, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   focusAreas: CollectionEntry<'project'>['data']['focusAreas']
 }
@@ -11,8 +17,8 @@ const { focusAreas } = Astro.props
 ---
 
 <Card as="section" aria-labelledby="sidebar-focus" data-project-focus variant="unstyled">
-  <h2 id="sidebar-focus">Focus<Icon class="size-4 shrink-0" name="target" /></h2>
-  <dl>
+  <h2 id="sidebar-focus">{t('Focus')}<Icon class="size-4 shrink-0" name="target" /></h2>
+  <dl lang="en">
     {focusAreas.map(({ label, description }) => (
       <div>
         <dt>{label}</dt>

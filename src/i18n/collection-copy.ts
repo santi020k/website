@@ -1,5 +1,21 @@
 /** Spanish collection UI copy. Authored entry titles and prose remain in English. */
 export const collectionCopy: Record<string, string> = {
+  Tutorial: 'Tutorial',
+  Guide: 'Guía',
+  Opinion: 'Opinión',
+  'Case Study': 'Caso de estudio',
+  'Deep Dive': 'Análisis a fondo',
+  Stack: 'Tecnologías',
+  'More technologies': 'Más tecnologías',
+  'Project destinations': 'Destinos del proyecto',
+  'Explore the source': 'Explora el código fuente',
+  'Explore the archived website': 'Explora el sitio web archivado',
+  'Explore the website': 'Explora el sitio web',
+  Focus: 'Enfoque',
+  'From this project': 'De este proyecto',
+  'Inside the work.': 'Dentro del trabajo.',
+  'Read the article': 'Leer el artículo',
+  'Try the playgrounds': 'Probar los espacios interactivos',
   'Selected portfolio': 'Portafolio seleccionado',
   'Independent making': 'Creación independiente',
   'Active series': 'Series activas',
@@ -116,6 +132,9 @@ export const collectionCopy: Record<string, string> = {
   'Practical sequence': 'Secuencia práctica',
   Present: 'Actualidad',
   'Previous page': 'Página anterior',
+  'Case study summary': 'Resumen del caso de estudio',
+  'Case study': 'Caso de estudio',
+  'The decisions behind these results': 'Las decisiones detrás de estos resultados',
   Problem: 'Problema',
   'Problem → decisions → outcome': 'Problema → decisiones → resultado',
   'Professional experience, newest first': 'Experiencia profesional, de la más reciente a la más antigua',
@@ -338,6 +357,9 @@ export const translateCollection = (text: string): string => {
   if (exact) return exact
 
   return text
+    .replace(/^Visit (.+)$/u, 'Visitar $1')
+    .replace(/^View (.+) archive$/u, 'Ver el archivo de $1')
+    .replace(/^View (.+) previews$/u, 'Ver imágenes de $1')
     .replace(/^Blog posts, page (\d+)$/u, 'Artículos del blog, página $1')
     .replace(/^Older writing from page (\d+) of (\d+), ordered newest first\.$/u, 'Artículos anteriores de la página $1 de $2, de los más recientes a los más antiguos.')
     .replace(/^Articles, guides, and personal notes about (.+)\.$/u, 'Artículos, guías y notas personales sobre $1.')
@@ -352,6 +374,7 @@ export const translateCollection = (text: string): string => {
     .replace(/^(.+) · Technology$/u, '$1 · Tecnología')
     .replace(/^(\d+) min read$/u, '$1 min de lectura')
     .replace(/^(.+) technologies$/u, 'Tecnologías de $1')
+    .replace(/^Read the (.+) case study$/u, 'Lee el caso de estudio de $1')
     .replace(/^Read the case study: (.+)$/u, 'Leer el caso de estudio: $1')
     .replace(/^Part (\d+)$/u, 'Parte $1')
     .replace(/^All (\d+) (.+)$/u, 'Los $1 $2')

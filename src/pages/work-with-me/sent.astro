@@ -1,0 +1,97 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { Icon } from '@santi020k/lumen-astro'
+
+import { getLocale, localizePath } from '@/i18n'
+import { getDirectContactMessage } from '@/i18n/intake'
+import { translatePage } from '@/i18n/page-copy'
+import { createWhatsAppHref, siteConfig } from '@/site.config'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
+
+// Retain the old handoff URL without treating a direct visit as a sent message.
+const meta = {
+  description: t('Write a message to Santiago Molina or choose another way to get in touch.'),
+  noindex: true,
+  title: t('Start a conversation')
+}
+
+---
+
+<PageLayout footerVariant="compact" mainClass="remaining-pages" meta={meta}>
+  <PageHero
+    compact
+    description={t('Return to the form to write or edit your message, or choose another contact option below. Nothing is sent until you press send in WhatsApp.')}
+    eyebrow={t('Start a conversation')}
+    gradientText={t('Let’s talk.')}
+    title={t('Have something in mind?')}
+  >
+    <ButtonLink href={localizePath('/work-with-me/#start', pageLocale)} variant="secondary">
+      {t('Write a message')}
+    </ButtonLink>
+    <ButtonLink href={localizePath('/portfolio/', pageLocale)} variant="ghost">
+      {t('Browse the work')}
+    </ButtonLink>
+  </PageHero>
+
+  <section
+aria-labelledby="sent-fallback-heading"
+class="section-container-wide"
+data-sent-fallback
+  >
+    <h2 id="sent-fallback-heading">{t('Other ways to reach me')}</h2>
+    <p>{t('Open WhatsApp directly, book a call, or send an email.')}</p>
+    <div data-sent-channels>
+      <a data-sent-channel data-sent-whatsapp href={localizePath(whatsappHref, pageLocale)} rel="noopener noreferrer" target="_blank">
+        <Icon class="size-5 shrink-0" name="message-circle" />
+        <span><strong>{t('Open WhatsApp directly')}</strong><span>{t('Opens WhatsApp Web or the app')}</span></span>
+      </a>
+      <a data-sent-channel href={localizePath(siteConfig.contact.calendar, pageLocale)} rel="noopener noreferrer" target="_blank">
+        <Icon class="size-5 shrink-0" name="calendar-days" />
+        <span><strong>{t('Book a call')}</strong><span>{t('Pick a time on my calendar')}</span></span>
+      </a>
+      <a data-sent-channel href={localizePath(`mailto:${siteConfig.contact.email}`, pageLocale)}>
+        <Icon class="size-5 shrink-0" name="mail" />
+        <span><strong>{t('Send an email')}</strong><span>{siteConfig.contact.email}</span></span>
+      </a>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  [data-sent-fallback] {
+    --sent-accent: var(--brand);
+    max-width: 48rem;
+    margin-top: 2rem;
+    padding: 1.75rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+    background: hsl(var(--surface));
+  }
+  :global(:root[data-theme='dark']) [data-sent-fallback] { --sent-accent: var(--accent); }
+  [data-sent-fallback] h2 { margin: 0; color: hsl(var(--ink)); font-size: 1.375rem; font-weight: 500; letter-spacing: -0.04em; }
+  [data-sent-fallback] > p { margin: 0.5rem 0 1.25rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; }
+  [data-sent-channels] { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 0.75rem; }
+  [data-sent-channel] {
+    display: flex;
+    min-height: 4rem;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1rem;
+    color: hsl(var(--ink));
+    text-decoration: none;
+  }
+  [data-sent-channel] > span { display: flex; min-width: 0; flex-direction: column; }
+  [data-sent-channel] strong { font-size: 0.875rem; font-weight: 600; }
+  [data-sent-channel] > span > span { color: hsl(var(--ink-soft)); font-size: 0.75rem; overflow-wrap: anywhere; }
+  [data-sent-channel] :global(svg) { color: hsl(var(--sent-accent)); }
+  [data-sent-channel]:hover { border-color: hsl(var(--sent-accent) / 0.6); }
+  [data-sent-channel]:focus-visible { outline: 2px solid hsl(var(--sent-accent)); outline-offset: 2px; }
+</style>

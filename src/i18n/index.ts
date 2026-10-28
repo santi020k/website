@@ -9,7 +9,7 @@ export const stripLocale = (pathname: string): string => pathname.replace(/^\/es
 export const localeLanguage = (locale: Locale): string => locale === 'es' ? 'es-419' : 'en-US'
 export const localeOg = (locale: Locale): string => locale === 'es' ? 'es_CO' : 'en_US'
 
-const translatedRoots = new Set(['', 'about', 'work', 'resume', 'speaking', 'privacy', 'terms', 'accessibility', 'travel', 'history', 'developer-experience', 'blog', 'projects', 'portfolio', 'technologies', 'offline', '404'])
+const translatedRoots = new Set(['', 'about', 'work', 'resume', 'speaking', 'privacy', 'terms', 'accessibility', 'travel', 'history', 'developer-experience', 'blog', 'projects', 'portfolio', 'technologies', 'offline', '404', 'work-with-me'])
 
 /** Only page routes are localized. Downloads, feeds, endpoints and archives stay canonical. */
 export const hasTranslation = (path: string): boolean => {
@@ -19,6 +19,13 @@ export const hasTranslation = (path: string): boolean => {
   const first = pathname.split('/')[1] ?? ''
 
   return translatedRoots.has(first) && !/\.[a-z\d]+$/iu.test(pathname)
+}
+
+/** Match the existing Giscus pathname term so locales share the same discussion. */
+export const getDiscussionTerm = (pathname: string): string => {
+  const canonical = stripLocale(pathname)
+
+  return canonical.length < 2 ? 'index' : canonical.substring(1).replace(/\.\w+$/u, '')
 }
 
 /** Preserve query strings/fragments and make localization idempotent. */

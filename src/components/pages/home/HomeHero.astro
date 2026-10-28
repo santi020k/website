@@ -11,6 +11,7 @@ import LumenLogo from '@/content/project/lumen-ui/logo.webp'
 import PostLensLogo from '@/content/project/postlens/logo.webp'
 import { getLocale, localizePath } from '@/i18n'
 import { translatePage } from '@/i18n/page-copy'
+import { siteConfig } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
 const t = (source: string) => translatePage(pageLocale, source)
@@ -30,15 +31,15 @@ const t = (source: string) => translatePage(pageLocale, source)
       </h1>
       <p class="maker-hero-description">
         {t('Engineering lead and creator of')}{' '}
-        <span class="whitespace-nowrap">Lumen UI</span>{t('. I build commerce platforms, native apps, and developer tools.')}
+        <span class="whitespace-nowrap">Lumen UI</span>{t('. I build commerce platforms, native apps, and developer tools, and help teams ship with better code and practical AI.')}
       </p>
       <div class="maker-hero-actions">
-        <ButtonLink class="maker-hero-primary" href={localizePath('/portfolio/', pageLocale)} variant="unstyled">
-          {t('See selected work')}
+        <ButtonLink class="maker-hero-primary" href={localizePath(siteConfig.contact.workWithMe, pageLocale)} variant="unstyled">
+          {t('Work with me')}
           <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange /></span>
         </ButtonLink>
-        <ButtonLink class="maker-hero-secondary" data-text-link href={localizePath('/about/', pageLocale)} variant="unstyled">
-          <span data-text-link-label>{t('About me')}</span> <ArrowExchange direction="right" />
+        <ButtonLink class="maker-hero-secondary" data-text-link href={localizePath('/portfolio/', pageLocale)} variant="unstyled">
+          <span data-text-link-label>{t('See selected work')}</span> <ArrowExchange direction="right" />
         </ButtonLink>
       </div>
     </div>

@@ -51,13 +51,13 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
           )}
           {closingLinks.map(link => (
             <Link href={localizePath(link.href, locale)} newTab variant="inherit">
-              <span>{link.label}</span>
+              <span>{t(link.label)}</span>
               <ArrowExchange data-return-icon direction="up-right" />
             </Link>
           ))}
           {hasProductPreviews && (
             <Link href="#inside-the-product" variant="inherit">
-              <span>{previews?.linkLabel ?? t('View product previews')}</span>
+              <span>{t(previews?.linkLabel ?? 'View product previews')}</span>
               <ArrowExchange data-return-icon direction="up" />
             </Link>
           )}

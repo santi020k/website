@@ -18,6 +18,14 @@ describe('Spanish collection UI', () => {
     expect(translateCollection('Part 03')).toBe('Parte 03')
   })
 
+  test('localizes destination actions while retaining product names', () => {
+    expect(translateCollection('Visit Lumen UI')).toBe('Visitar Lumen UI')
+    expect(translateCollection('View santi020k archive')).toBe('Ver el archivo de santi020k')
+    expect(translateCollection('Explore the source')).toBe('Explora el código fuente')
+    expect(translateCollection('More technologies')).toBe('Más tecnologías')
+    expect(translateCollection('Case Study')).toBe('Caso de estudio')
+  })
+
   test('keeps names intact in technology descriptions', () => {
     expect(translateCollection('Explore where Node.js shaped the work.')).toBe('Explora dónde Node.js dio forma al trabajo.')
     expect(translateCollection('Node.js · Technology')).toBe('Node.js · Tecnología')

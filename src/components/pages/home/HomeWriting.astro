@@ -12,11 +12,14 @@ import { getReadingTime } from '@/utils/reading-time'
 
 import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
 
-import { getLocale, localizePath } from '@/i18n'
+import { getLocale, localeLanguage, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
 import { translatePage } from '@/i18n/page-copy'
 
 const pageLocale = getLocale(Astro.url.pathname)
 const t = (source: string) => translatePage(pageLocale, source)
+const entryType = (source: string) => pageLocale === 'es' ? translateCollection(source) : source
+const latestArticleLabel = pageLocale === 'es' ? 'Artículo más reciente' : 'Latest article'
 
 interface Props {
   posts: CollectionEntry<'post'>[]
@@ -60,15 +63,15 @@ const { posts, startHerePosts } = Astro.props
               )}
               <div data-writing-body>
                 <p data-writing-kicker>
-                  <span>{index === 0 ? 'Latest article' : post.data.postType}</span>
+                  <span>{index === 0 ? latestArticleLabel : entryType(post.data.postType)}</span>
                   <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 </p>
                 <p data-writing-meta>
-                  <time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate)}</time>
+                  <time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate, {}, localeLanguage(pageLocale))}</time>
                   <span>{getReadingTime(post.body)} {t('min read')}</span>
                 </p>
-                <h4>{post.data.title}</h4>
-                <p data-writing-description>{post.data.description}</p>
+                <h4 lang="en">{post.data.title}</h4>
+                <p lang="en" data-writing-description>{post.data.description}</p>
                 <span data-writing-action>
                   {t('Read article')}
                   <ArrowExchange class="size-4.5 shrink-0" direction="up-right" />

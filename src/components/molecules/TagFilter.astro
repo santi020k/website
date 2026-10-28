@@ -26,7 +26,7 @@ const { activeTag, showDivider = false, tags, totalTopics } = Astro.props
 const getAriaCurrent = (href: string, isSelected: boolean) => {
   if (!isSelected) return undefined
 
-  return new URL(href, Astro.url).pathname === Astro.url.pathname ? 'page' : 'true'
+  return new URL(localizePath(href, locale), Astro.url).pathname === Astro.url.pathname ? 'page' : 'true'
 }
 ---
 

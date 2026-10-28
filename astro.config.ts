@@ -15,6 +15,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 // Remark plugins
 import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
+import { stripLocale } from './src/i18n'
 import { codeHighlightingOptions } from './src/plugins/code-highlighting'
 import { rehypeArticleChecklists } from './src/plugins/rehype-article-checklists'
 import { rehypeArticleFigures } from './src/plugins/rehype-article-figures'
@@ -32,6 +33,14 @@ import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
 const siteOrigin = 'https://santi020k.com'
+
+const canonicalContentURL = (value: string): string => {
+  const url = new URL(value)
+
+  url.pathname = stripLocale(url.pathname)
+
+  return url.href
+}
 
 /**
  * Builds sitemap metadata for content-collection routes from frontmatter.
@@ -200,9 +209,10 @@ export default defineConfig({
       // so draft pages never generate URLs and are never included in the sitemap.
       filter: page => !page.endsWith('/offline/') &&
         !page.endsWith('/404/') &&
-        !nonCanonicalPageUrls.has(page),
+        !page.endsWith('/work-with-me/sent/') &&
+        !nonCanonicalPageUrls.has(canonicalContentURL(page)),
       serialize(item) {
-        const contentLastmod = contentLastmodMap.get(item.url)
+        const contentLastmod = contentLastmodMap.get(canonicalContentURL(item.url))
 
         return contentLastmod ? { ...item, lastmod: contentLastmod } : item
       }
@@ -302,6 +312,12 @@ export default defineConfig({
         optional: true
       }),
       WEBMENTION_PINGBACK: envField.string({
+        context: 'client',
+        access: 'public',
+        optional: true
+      }),
+      // Site token from Cloudflare dashboard → Web Analytics. Leave unset to ship no beacon.
+      CLOUDFLARE_WEB_ANALYTICS_TOKEN: envField.string({
         context: 'client',
         access: 'public',
         optional: true

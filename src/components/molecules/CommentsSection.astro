@@ -19,7 +19,7 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
  */
 import { Collapsible, Icon } from '@santi020k/lumen-astro'
 
-import { getLocale, translate } from '@/i18n'
+import { getDiscussionTerm, getLocale, translate } from '@/i18n'
 import { siteConfig } from '@/site.config'
 
 const { giscus } = siteConfig
@@ -31,6 +31,8 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
   <section
     aria-labelledby="comments-heading"
     data-giscus-category={giscus.category}
+    data-giscus-language={getLocale(Astro.url.pathname)}
+    data-giscus-term={getDiscussionTerm(Astro.url.pathname)}
     data-giscus-category-id={giscus.categoryId}
     data-giscus-repo={giscus.repo}
     data-giscus-repo-id={giscus.repoId}
@@ -211,6 +213,8 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
 </style>
 
 <script>
+  import { getLocale, translate } from '@/i18n'
+
   // Custom brand themes (public/styles/giscus-*.css). giscus only accepts
   // https:// theme URLs, so plain dev servers fall back to built-in themes.
   const FALLBACK_THEMES = { dark: 'transparent_dark', light: 'light' } as const
@@ -287,7 +291,7 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
 
     const status = section.querySelector('[data-giscus-error]')
 
-    if (status) status.textContent = LOAD_FAILURE_MESSAGE
+    if (status) status.textContent = translate(getLocale(window.location.pathname), LOAD_FAILURE_MESSAGE)
   }
 
   // A ready widget supersedes any earlier deadline fallback.
@@ -415,9 +419,10 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
       'data-category-id': section.dataset.giscusCategoryId ?? '',
       'data-emit-metadata': '0',
       'data-input-position': 'top',
-      'data-lang': 'en',
+      'data-lang': section.dataset.giscusLanguage ?? 'en',
       'data-loading': 'lazy',
-      'data-mapping': 'pathname',
+      'data-mapping': section.dataset.giscusLanguage === 'es' ? 'specific' : 'pathname',
+      'data-term': section.dataset.giscusTerm ?? '',
       'data-reactions-enabled': '1',
       'data-repo': section.dataset.giscusRepo ?? '',
       'data-repo-id': section.dataset.giscusRepoId ?? '',

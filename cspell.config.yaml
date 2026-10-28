@@ -3,7 +3,16 @@ import:
 
 version: "0.2"
 language: en,es,es_ES
+# The imported dictionary enables strict casing; preserve this mixed-language
+# codebase's existing case-insensitive policy for identifiers and proper names.
+languageSettings:
+  - languageId: '*'
+    locale: en,es,es_ES
+    caseSensitive: false
 words:
+  - Somalilandia
+  - Revísalo
+  - conversarlo
   - preprocesadores
   - renderizadas
   - cloudflare

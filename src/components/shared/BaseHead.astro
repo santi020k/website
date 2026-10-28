@@ -46,7 +46,9 @@ const {
 
 const locale = getLocale(Astro.url.pathname)
 const basePath = stripLocale(Astro.url.pathname)
-const alternates = hasTranslation(basePath) && !noindex ? ['en', 'es'] as const : []
+const siteOrigin = new URL(Astro.site ?? 'https://santi020k.com/').origin
+const hasLocalCanonical = !canonicalUrl || new URL(canonicalUrl, siteOrigin).origin === siteOrigin
+const alternates = hasTranslation(basePath) && !noindex && hasLocalCanonical ? ['en', 'es'] as const : []
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
 const socialTitle = title
 const siteTitle = createSeoTitle(locale === 'es' ? `${seoTitle ?? title} · Español` : seoTitle ?? title, siteConfig.title)
@@ -57,7 +59,9 @@ const canonicalURL = new URL(
 ).href
 
 const organizationLogoURL = new URL(logoSquareUrl, Astro.site ?? 'https://santi020k.com/').href
-const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage, ogManifest)
+// Non-indexable locale pages reuse the existing default card rather than a missing generated route card.
+const socialImagePath = locale === 'es' && !ogManifest.routes[Astro.url.pathname] ? basePath : Astro.url.pathname
+const socialImageURL = getSocialImageURL(socialImagePath, Astro.site ?? Astro.url, ogImage, ogManifest)
 
 const site = defineSite({
   siteName: siteConfig.siteName,

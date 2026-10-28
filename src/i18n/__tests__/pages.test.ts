@@ -4,7 +4,7 @@ import { testimonials } from '@/data/profile'
 import { travelCountries } from '@/data/travel'
 import { translatePage } from '@/i18n/page-copy'
 import { getLocalizedProfile } from '@/i18n/profile'
-import { getLocalizedTravelCountries, getLocalizedVisitLabel, getTravelControlCopy } from '@/i18n/travel'
+import { getLocalizedCountryName, getLocalizedTravelCountries, getLocalizedVisitLabel, getTravelControlCopy } from '@/i18n/travel'
 
 describe('current-site Spanish page copy', () => {
   test('preserves English text and whitespace exactly', () => {
@@ -44,4 +44,11 @@ describe('current-site Spanish page copy', () => {
     expect(getLocalizedVisitLabel({ code: 'FR', name: 'France', visits: 1, places: [] }, 'es')).toBe('1 visita')
     expect(getTravelControlCopy('es').previous).toBe('País anterior')
   })
+})
+
+test('supplemental world-map regions retain usable Spanish labels without invalid region lookups', () => {
+  expect(getLocalizedCountryName('CYN', 'Northern Cyprus', 'es')).toBe('Chipre del Norte')
+  expect(getLocalizedCountryName('SOL', 'Somaliland', 'es')).toBe('Somalilandia')
+  expect(getLocalizedCountryName('CUSTOM', 'A named region', 'es')).toBe('A named region')
+  expect(getLocalizedCountryName('CO', 'Colombia', 'en')).toBe('Colombia')
 })

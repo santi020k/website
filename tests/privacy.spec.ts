@@ -15,7 +15,8 @@ test.describe('Privacy page', () => {
   test('should mention hosting and theme storage', async ({ page }) => {
     await expect(page.getByText(/built with Astro/i)).toBeVisible()
     await expect(page.getByText(/Theme preference/i)).toBeVisible()
-    await expect(page.getByText(/aggregate server-side traffic/i)).toBeVisible()
+    await expect(page.getByText(/aggregate traffic metrics/i)).toBeVisible()
+    await expect(page.getByText(/without cookies, local storage, or fingerprinting/i)).toBeVisible()
   })
 
   test('should disclose that reaction avatars load from external hosts', async ({ page }) => {

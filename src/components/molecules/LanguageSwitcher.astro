@@ -47,12 +47,14 @@ const destination = localizePath(`${Astro.url.pathname}${Astro.url.search}`, tar
   document.addEventListener('click', event => {
     const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('[data-language-switch]') : null
 
-    if (!link || !window.location.hash) return
+    if (!link) return
 
     const destination = new URL(link.href)
+
+    destination.search = window.location.search
 
     destination.hash = window.location.hash
 
     link.href = destination.href
-  })
+  }, { capture: true })
 </script>

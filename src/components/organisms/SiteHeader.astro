@@ -86,9 +86,14 @@ const getAriaCurrent = (path: string) => getNavigationCurrent(stripLocale(Astro.
           showArrow
           variant="secondary"
         >
-          Discuss a role
+          {t('Discuss a role')}
         </ButtonLink>
-        <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+        <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={localizePath(siteConfig.contact.workWithMe, locale)}
+variant="unstyled"
+        >
           <span class="site-nav-contact-label">{t('Let\'s talk')}</span>
           <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
         </NavigationLink>
@@ -140,7 +145,12 @@ href={localizePath('/', locale)}
           <ThemeToggle />
           <LanguageSwitcher />
           <div class="site-header-contact">
-            <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+            <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={localizePath(siteConfig.contact.workWithMe, locale)}
+variant="unstyled"
+            >
               <span class="site-nav-contact-label">{t('Let\'s talk')}</span>
               <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
@@ -197,7 +207,12 @@ href={localizePath('/', locale)}
           </div>
           <div data-mobile-nav-actions>
             <LanguageSwitcher variant="menu" />
-            <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+            <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={localizePath(siteConfig.contact.workWithMe, locale)}
+variant="unstyled"
+            >
               <span class="site-nav-contact-label">{t('Let\'s talk')}</span>
               <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>

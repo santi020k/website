@@ -7,6 +7,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TalkCard from '@/components/molecules/TalkCard.astro'
+import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import SpeakingHero from '@/components/pages/speaking/SpeakingHero.astro'
@@ -33,7 +34,7 @@ import {
 
 const pageLocale = getLocale(Astro.url.pathname)
 const t = (source: string) => translatePage(pageLocale, source)
-const { speakingFormats, speakingHighlights, speakingTopics } = getLocalizedProfile(pageLocale)
+const { speakingFormats, speakingHighlights, speakingTopics, testimonials } = getLocalizedProfile(pageLocale)
 
 const talks = (await getCollection('talk', ({ data }) => !data.draft))
   .map(({ data }) => ({ ...data, title: t(data.title), description: t(data.description), audience: data.audience ? t(data.audience) : undefined, location: data.location ? t(data.location) : undefined, tags: data.tags.map(tag => t(tag)) }))
@@ -63,13 +64,16 @@ const breadcrumbs = [
   { name: t('Speaking & Community'), url: localizePath('/speaking/', pageLocale) }
 ]
 
-const speakingWhatsAppHref = createWhatsAppHref(pageLocale === 'es' ? 'Hola Santiago, vi tu página de charlas y me gustaría invitarte a una charla o taller. Evento: Público: Fecha: Formato: Objetivo:' : whatsappMessages.speaking)
+const speakingWhatsAppHref = createWhatsAppHref(pageLocale === 'es' ? 'Hola Santiago, vi tu página de charlas y me gustaría invitarte a una charla o taller. Evento y fecha:' : whatsappMessages.speaking)
 
 const speakerPortraitImage = await getImage({
   format: 'avif',
   src: SpeakerPortrait,
   widths: [336, 384, 672, 768]
 })
+
+// Recommendations that speak to explaining ideas and sharing knowledge, the core of a good talk.
+const speakingTestimonials = testimonials.filter(({ name }) => name === 'Raphael Drummond' || name === 'David Delgado')
 
 const bookingNotes = [
   {
@@ -138,7 +142,7 @@ mainClass="remaining-pages"
       type: 'image/avif'
     },
     structuredData,
-    title: t('Speaking & Community')
+    title: 'Speaking & Community'
   }}
 >
   <SpeakingHero />
@@ -260,7 +264,7 @@ mainClass="remaining-pages"
       >
         <div data-community-dossier-grid>
           <header data-community-cover>
-            <p data-community-role>{communityWork.data.role}</p>
+            <p data-community-role>{t(communityWork.data.role ?? '')}</p>
             <h3 id="speaking-community-heading">
               {t('Building a community where engineers can learn and share.')}
             </h3>
@@ -278,7 +282,7 @@ mainClass="remaining-pages"
               {communityWork.data.impactMetrics.map((metric, index) => (
                 <li>
                   <span aria-hidden="true" data-community-number>{String(index + 1).padStart(2, '0')}</span>
-                  <span>{metric}</span>
+                  <span>{t(metric)}</span>
                 </li>
               ))}
             </ul>
@@ -299,9 +303,24 @@ mainClass="remaining-pages"
     </PageSection>
   )}
 
+  <PageSection layout="stacked">
+    <SectionHeader
+      description={t('Clear explanations and generous knowledge sharing, in the words of people I’ve worked with.')}
+      eyebrow={t('In their words')}
+      linkHref="/about/#about-recommendations"
+      linkLabel={t('Read more recommendations')}
+      title={t('Complex ideas, explained clearly.')}
+    />
+    <div data-speaking-testimonials>
+      {speakingTestimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
+        <TestimonialCard authorName={name} avatarInitials={avatarInitials} avatarUrl={avatarUrl} quote={quote} relationship={relationship} role={role} />
+      ))}
+    </div>
+  </PageSection>
+
   <PageSection>
     <SectionHeader
-      description={t('Share a little context and I can suggest the right shape for the session. WhatsApp is fastest for a short introduction; LinkedIn works well for a fuller brief.')}
+      description={t('Share a little context and I can suggest the right shape for the session. WhatsApp is fastest for a short introduction; a call works when there’s more to discuss.')}
       eyebrow={t('Booking')}
       title={t('Bring the audience. I’ll shape the session.')}
     />
@@ -331,9 +350,12 @@ class="size-6.5"
               </ButtonLink>
             </div>
             <div data-invitation-secondary>
-              <p data-invitation-channel-label>{t('Prefer a fuller brief?')}</p>
+              <p data-invitation-channel-label>{t('Rather talk it through?')}</p>
+              <Link data-invitation-link href={localizePath(siteConfig.contact.calendar, pageLocale)} newTab variant="inherit">
+                <span>{t('Book a call')}</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
+              </Link>
               <Link data-invitation-link href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="inherit">
-                <span>{t('Connect on LinkedIn')}</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
+                <span>{t('Send a fuller brief on LinkedIn')}</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
               </Link>
             </div>
           </div>
@@ -514,7 +536,11 @@ class="size-6.5"
 
   [data-invitation-action] { width: 100%; max-width: 100%; margin-top: auto; }
   [data-speaking-invitation] [data-invitation-channel-label] { margin-bottom: 0.5rem; font-size: 0.6875rem; line-height: 1.8; }
-  [data-invitation-secondary] { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid hsl(var(--line)); }
+  [data-invitation-secondary] { display: grid; gap: 0.25rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid hsl(var(--line)); }
+  [data-speaking-testimonials] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  @media (max-width: 63.99rem) {
+    [data-speaking-testimonials] { grid-template-columns: minmax(0, 1fr); }
+  }
   [data-invitation-link] { display: flex; min-height: 2.75rem; align-items: center; justify-content: space-between; gap: 0.75rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; line-height: 1.8; text-decoration: none; }
   [data-invitation-link] span { min-width: 0; overflow-wrap: anywhere; }
   [data-invitation-link] :global([data-invitation-link-icon]) { flex-shrink: 0; color: hsl(var(--brand)); }

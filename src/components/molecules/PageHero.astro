@@ -1,4 +1,8 @@
 ---
+import { getLocale } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+import { translatePage } from '@/i18n/page-copy'
+
 interface Props {
   compact?: boolean
   description: string
@@ -9,6 +13,8 @@ interface Props {
 }
 
 const { compact = false, description, eyebrow, gradientText, metaItems = [], title } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const localizeMeta = (item: string) => locale === 'es' ? translatePage(locale, translateCollection(item)) : item
 const hasActions = Astro.slots.has('default')
 const hasMetaItems = metaItems.length > 0
 ---
@@ -24,7 +30,7 @@ const hasMetaItems = metaItems.length > 0
   {hasActions && <div class="editorial-page-actions section-actions"><slot /></div>}
   {hasMetaItems && (
     <ul class="editorial-page-meta">
-      {metaItems.map(item => <li>{item}</li>)}
+      {metaItems.map(item => <li>{localizeMeta(item)}</li>)}
     </ul>
   )}
 </section>

@@ -20,11 +20,13 @@ const t = (text: string) => translate(locale, text)
 const year = new Date().getFullYear()
 const currentPath = Astro.url.pathname
 
-const navLinks = menuLinks.map(link => ({
-  ...link,
-  path: localizePath(link.path, locale),
-  title: t(link.path === '/speaking/' ? 'Speaking' : link.title)
-}))
+const navLinks = [
+  ...menuLinks.map(link => ({
+    ...link,
+    title: link.path === '/speaking/' ? 'Speaking' : link.title
+  })),
+  { path: siteConfig.contact.workWithMe, title: 'Work with me' }
+].map(link => ({ ...link, path: localizePath(link.path, locale), title: t(link.title) }))
 
 const resourceLinks = [
   { path: '/history/', title: 'Website history' },
@@ -45,18 +47,24 @@ const activePath = [...navLinks, ...resourceLinks]
         <div class="maker-footer-intro">
           <p class="maker-footer-label"><span class="maker-hero-signal" aria-hidden="true"></span><span>{t('Good things start with a conversation')}</span></p>
           <h2 id="footer-heading">{t('Let’s build ')}<span>{t('something useful.')}</span></h2>
-          <p class="maker-footer-description">{t('Tell me about an engineering role, a product collaboration, or a speaking invitation.')}</p>
+          <p class="maker-footer-description">{t('Invite me to give a talk, tell me about an engineering role, or let’s grow your team with better code quality and practical AI.')}</p>
         </div>
         <div class="maker-footer-contact">
           <div class="maker-footer-action-sheet">
-            <ButtonLink class="maker-footer-action" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+            <ButtonLink class="maker-footer-action" href={localizePath(`${siteConfig.contact.workWithMe}#start`, locale)} variant="unstyled">
               <ArrowExchange
 direction="up-right"
 class="maker-footer-action-arrow"
               />
-              <span class="maker-footer-action-copy"><span>{t('Let’s talk')}</span><span>{t('Start a conversation on WhatsApp')}</span></span>
+              <span class="maker-footer-action-copy"><span>{t('Let’s talk')}</span><span>{t('Pick a topic and message me on WhatsApp')}</span></span>
             </ButtonLink>
           </div>
+          <a class="maker-footer-email" href={siteConfig.contact.calendar} rel="noopener noreferrer" target="_blank">
+            <span><span>{t('Rather talk first?')}</span><span>{t('Book a call')}</span></span><ArrowExchange
+class="maker-footer-email-arrow"
+direction="up-right"
+                                                                                              />
+          </a>
           <a class="maker-footer-email" href={`mailto:${siteConfig.contact.email}`}>
             <span><span>{t('Prefer email?')}</span><span>{siteConfig.contact.email}</span></span><ArrowExchange
 class="maker-footer-email-arrow"

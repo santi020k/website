@@ -54,7 +54,7 @@ const relatedTopics = getRelatedTopics(tags, relatedPosts)
     <SectionHeader
       eyebrow={t('Related writing')}
       id="related-writing"
-      linkHref={belongsToDeveloperExperienceHub ? '/developer-experience/' : '/blog/'}
+      linkHref={localizePath(belongsToDeveloperExperienceHub ? '/developer-experience/' : '/blog/', locale)}
       linkLabel={belongsToDeveloperExperienceHub ? t('Explore the developer experience guide') : t('Browse all posts')}
       title={t('Keep reading in the same thread.')}
       variant="margin"

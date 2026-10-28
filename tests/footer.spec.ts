@@ -30,12 +30,12 @@ test('footer preserves contact destinations, profile identity, and keyboard navi
   const footer = page.locator('[data-site-footer]')
   const contact = footer.locator('.maker-footer-action')
   await expect(footer.locator('.maker-footer-invitation')).toContainText(
-    'Tell me about an engineering role, a product collaboration, or a speaking invitation.'
+    'Invite me to give a talk, tell me about an engineering role, or let’s grow your team with better code quality and practical AI.'
   )
-  await expect(contact).toHaveAccessibleName('Let’s talk Start a conversation on WhatsApp')
-  await expect(contact).toHaveAttribute('href', /^https:\/\/api\.whatsapp\.com\/send\?/)
-  await expect(contact).toHaveAttribute('rel', /noopener/)
+  await expect(contact).toHaveAccessibleName('Let’s talk Pick a topic and message me on WhatsApp')
+  await expect(contact).toHaveAttribute('href', '/work-with-me/#start')
   await expect(footer.locator('a[href="mailto:hi@santi020k.com"]')).toBeVisible()
+  await expect(footer.locator('a[href="https://calendar.app.google/pQyPiv1yMViZUEcj8"]')).toHaveAttribute('rel', /noopener/)
   await expect(footer.locator('a[href="https://santi020k.com"]')).toHaveAccessibleName('Santiago Molina — santi020k')
   await expect(footer.locator('a[href="https://github.com/santi020k"]')).toHaveAttribute('rel', /\bme\b/)
   const versionLink = footer.locator('.maker-footer-version')
@@ -54,6 +54,8 @@ test('footer preserves contact destinations, profile identity, and keyboard navi
   await contact.focus()
   await expect(contact).toBeFocused()
   // Safari on macOS uses Option-Tab to include links in keyboard navigation.
+  await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+  await expect(footer.locator('a[href="https://calendar.app.google/pQyPiv1yMViZUEcj8"]')).toBeFocused()
   await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
   await expect(footer.locator('a[href="mailto:hi@santi020k.com"]')).toBeFocused()
   await footer.locator('a[href="/about/"]').click()
@@ -81,7 +83,7 @@ for (const theme of ['light', 'dark'] as const) {
     const invitation = page.locator('.maker-footer-invitation')
     const action = invitation.locator('.maker-footer-action')
     const sheet = invitation.locator('.maker-footer-action-sheet')
-    const email = invitation.locator('.maker-footer-email')
+    const email = invitation.locator('.maker-footer-email').first()
     const arrow = action.locator('.maker-footer-action-arrow')
 
     await invitation.scrollIntoViewIfNeeded()
@@ -178,7 +180,7 @@ for (const theme of ['light', 'dark'] as const) {
 
         const invitation = page.getByRole('region', { name: 'Let’s build something useful.' })
 
-        await expect(invitation.getByRole('link')).toHaveCount(path === '/privacy/' ? 0 : 2)
+        await expect(invitation.getByRole('link')).toHaveCount(path === '/privacy/' ? 0 : 3)
         const clipped = await page.locator('[data-site-footer]').evaluate(element => {
           const bounds = element.getBoundingClientRect()
 

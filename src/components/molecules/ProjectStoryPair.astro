@@ -7,6 +7,12 @@ import { getPostPath } from '@/utils/links'
 
 import { Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   stories: { label: string, post: CollectionEntry<'post'> }[]
 }
@@ -17,17 +23,17 @@ const { stories } = Astro.props
 {stories.length > 0 && (
   <section aria-labelledby="project-writing-heading" data-project-story-pair>
     <header>
-      <p data-writing-eyebrow>From this project</p>
-      <h2 id="project-writing-heading">Inside the work.</h2>
+      <p data-writing-eyebrow>{t('From this project')}</p>
+      <h2 id="project-writing-heading">{t('Inside the work.')}</h2>
     </header>
     <div data-writing-grid data-single-story={stories.length === 1}>
       {stories.map(({ label, post }, index) => (
         <article data-writing-story data-featured={index === 0}>
-          <p data-writing-label>{label}</p>
-          <h3>{post.data.title}</h3>
-          <p data-writing-description>{post.data.cardDescription ?? post.data.description}</p>
-          <Link href={getPostPath(post.id)} variant="inherit" aria-label={`Read ${label.toLowerCase()}: ${post.data.title}`} data-writing-link>
-            <span>Read {label.toLowerCase()}</span>
+          <p lang="en" data-writing-label>{label}</p>
+          <h3 lang="en">{post.data.title}</h3>
+          <p lang="en" data-writing-description>{post.data.cardDescription ?? post.data.description}</p>
+          <Link href={localizePath(getPostPath(post.id), locale)} variant="inherit" aria-label={locale === 'es' ? `${t('Read article')}: ${post.data.title}` : `Read ${label.toLowerCase()}: ${post.data.title}`}  data-writing-link>
+            <span>{locale === 'es' ? t('Read article') : `Read ${label.toLowerCase()}`}</span>
             <ArrowExchange direction="right" size="sm" />
           </Link>
         </article>

@@ -54,7 +54,7 @@
     [data-section-reference-for], [data-ui-code-copy], [data-scroll-cue-message],
     [data-code-recovery], [data-example-fold] > summary, [data-code-preview],
     [data-code-fold-footer], [data-gallery-actions], [data-gallery-dialog],
-    [data-package-manager-code-tabs] > [role='tablist'] {
+    [data-package-manager-code-tabs] > [role='tablist'], [data-article-newsletter] {
       display: none !important;
     }
 

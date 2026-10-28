@@ -8,7 +8,17 @@ test.describe('Index filters', () => {
   test('filters blog topics and announces the result count', async ({ page }) => {
     await page.goto('/blog/tags/')
 
+    const opening = page.locator('[data-topic-opening]')
+    const totalTopics = await page.locator('#tags-list > [data-label]').count()
+
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Browse by topic.')
+    await expect(opening.locator('[data-topic-total]')).toHaveText(`${totalTopics} topics`)
+    await expect(opening.getByRole('link', { name: 'Back to blog' })).toHaveAttribute('href', '/blog/')
+    await expect(opening.getByRole('link', { name: 'Prefer a connected reading path?' }))
+      .toHaveAttribute('href', '/blog/series/')
+
     await page.getByRole('searchbox', { name: 'Find a topic' }).fill('accessibility')
+    await expect(opening.locator('[data-topic-total]')).toHaveText(`${totalTopics} topics`)
 
     await expect(page.locator('#tag-filter-status')).toHaveText('1 topic found.')
     await expect(page.locator('#tags-list > [data-label]:visible')).toHaveCount(1)

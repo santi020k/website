@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { getLocale, hasTranslation, localeLanguage, localizePath, stripLocale, translate } from '..'
+import { getDiscussionTerm, getLocale, hasTranslation, localeLanguage, localizePath, stripLocale, translate } from '..'
 
 describe('current-site locales', () => {
   test('recognizes complete locale segments without confusing English paths', () => {
@@ -24,6 +24,13 @@ describe('current-site locales', () => {
       expect(hasTranslation(path)).toBe(false)
       expect(localizePath(path, 'es')).toBe(path)
     }
+  })
+
+  test('keeps comments attached to the existing English discussion identity', () => {
+    expect(getDiscussionTerm('/es/blog/article/')).toBe('blog/article/')
+    expect(getDiscussionTerm('/blog/article/')).toBe('blog/article/')
+    expect(getDiscussionTerm('/es/')).toBe('index')
+    expect(getDiscussionTerm('/es/blog/article.html')).toBe('blog/article')
   })
 
   test('keeps English source text and translates interpolated UI safely', () => {
