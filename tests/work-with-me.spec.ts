@@ -15,6 +15,19 @@ test.describe('Work with me', () => {
     }
 
     await expect(page.locator('[data-result]')).toHaveCount(3)
+    const outcomeClaims = [
+      { claim: '35% better system performance', href: '/portfolio/void/' },
+      {
+        claim: 'Marcone: Lighthouse score improved from 35 to 98',
+        href: '/portfolio/smith-commerce/'
+      },
+      { claim: '40% better API performance', href: '/portfolio/optic-power/' }
+    ]
+
+    for (const { claim, href } of outcomeClaims) {
+      await expect(page.locator(`[data-result][href="${href}"]`)).toHaveAccessibleDescription(claim)
+    }
+
     await expect(page.getByRole('link', { name: 'Book a call' }).first()).toHaveAttribute('href', 'https://calendar.app.google/pQyPiv1yMViZUEcj8')
 
     const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
@@ -192,3 +205,61 @@ test.describe('Work with me', () => {
     await expect(page.locator('[data-sent-whatsapp]')).toBeVisible()
   })
 })
+
+for (const theme of ['light', 'dark'] as const) {
+  const viewports = [
+    { fontSize: 100, width: 390 },
+    { fontSize: 100, width: 1440 },
+    { fontSize: 200, width: 320 }
+  ]
+
+  for (const { fontSize, width } of viewports) {
+    test(`contact composition stays usable at ${width}px and ${fontSize}% text in ${theme}`, async ({ context, page }) => {
+      await page.addInitScript(value => {
+        localStorage.setItem('theme', value)
+      }, theme)
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.setViewportSize({ height: 1100, width })
+      await page.goto('/work-with-me/')
+      await page.evaluate(value => {
+        document.documentElement.style.fontSize = `${value}%`
+      }, fontSize)
+
+      const navigation = page.getByRole('navigation', { name: 'On this page' })
+
+      await expect(navigation.getByRole('link')).toHaveCount(3)
+      await navigation.getByRole('link', { name: /Start a conversation/ }).click()
+      await expect(page).toHaveURL(/#start$/)
+      await expect(page.locator('#start')).toBeInViewport()
+
+      const form = page.getByRole('form', { name: 'Message me on WhatsApp' })
+      const talk = form.getByRole('radio', { name: 'A talk or workshop' })
+
+      await talk.focus()
+      await page.keyboard.press('ArrowRight')
+      await expect(form.getByRole('radio', { name: 'An engineering role' })).toBeChecked()
+      await form.getByLabel(/Your name/).fill('Ana')
+      await form.getByLabel(/A line of context/).fill('An engineering role for our growing team.')
+      await page.evaluate(() => {
+        window.open = () => null
+      })
+      await form.getByRole('button', { name: 'Open WhatsApp' }).click()
+
+      const retry = form.getByRole('link', { name: 'Try WhatsApp again' })
+
+      await expect(retry).toHaveAttribute('href', /Ana/)
+      await retry.focus()
+      await expect(retry).toBeFocused()
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+
+      for (const link of await page.locator('[data-contact-index] a, [data-intake-retry], [data-intake-submit]').all()) {
+        const box = await link.boundingBox()
+
+        expect(box?.height).toBeGreaterThanOrEqual(44)
+      }
+
+      await expectNoUnexpectedAccessibilityViolations(page)
+      expect(context.pages()).toHaveLength(1)
+    })
+  }
+}

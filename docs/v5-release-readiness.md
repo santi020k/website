@@ -1556,3 +1556,37 @@ and preview resume files match. Both release notes are folded into unpublished
 The latest full workspace gate remains the successful `10745545` run; this
 follow-up uses affected checks. Section arrival stays proposal-only. The existing
 Firefox environment limitation remains; no remote publication is included.
+
+## Contact page Conversation desk follow-up
+
+Approved source `79154aac`, containing implementation `1f15f0f5` and reconciliation
+with `a43d43ed`, is integrated over Section link recovery candidate `1348bc94`.
+Work with me gains a personal opening and collaborator profile, native chapter
+links, numbered open service rows, shared portfolio-metric presentation, and a
+unified Lumen contact form. Full original outcome claims remain in accessible
+link descriptions. The complete WhatsApp controller is byte-identical to the
+previous release candidate, preserving editable drafts and retry behavior.
+
+All 30 focused Chromium/WebKit contact cases passed together with one worker
+and retries disabled. They cover both themes, 390/1440px and 320px at 200% text,
+native section navigation, keyboard radio selection, 44px controls, accessibility,
+blocked popups, retained drafts, route transitions, missing scripts, and no
+JavaScript. Twenty-four matched before/after captures cover opening, services,
+and form at mobile and desktop sizes in both themes. Representative results were
+visually reviewed. Existing service, proof, channel, title, canonical, and overflow
+contracts are unchanged. A comparison against the source's complete before-link
+inventory confirms every original destination remains present.
+
+All four application and test files match the source exactly. Changelog and style
+guide merges retain the newer section-recovery and print corrections. Current-site
+lint passed with zero warnings; Astro checked 518 files without errors, warnings,
+or hints. The 452-page build, 454-page OG audit, archive assembly, spelling, and
+normal commit hooks passed. The optional Workspace Organizer sitemap retains its
+existing unavailable-source skip. Resume freshness passes without regeneration;
+this contact-only change does not alter its inputs. The prepared note remains
+under 5.0.0, preserving published changelog entries.
+
+The source owner separately recorded workspace lint/types, 993 unit cases, seven
+motion cases, all five builds, and the complete page audit. This integration uses
+the affected checks above; the latest complete coordinator gate remains
+`10745545`. No remote action or publication is included.

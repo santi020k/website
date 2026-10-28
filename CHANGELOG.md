@@ -8,6 +8,8 @@
 
 ### Minor Changes
 
+- Refine Work with me with a personal opening, native chapter links, open numbered service rows, clearer authored outcomes, and a unified Lumen contact form with responsive topic choices. Preserve all contact destinations and resilient WhatsApp retries.
+
 - Add a Work with me contact page with topic-based WhatsApp drafts, calendar and email alternatives, linked proof, testimonials, and FAQs. Keep complete drafts editable and retryable on the page, and offer a direct WhatsApp link when JavaScript is unavailable. Connect homepage, header, footer, Speaking, and article newsletter entry points; add optional Cloudflare Web Analytics without enabling a token.
 
 - Align shared arrow-button labels and trailing icons consistently, keeping long labels beside their arrows and preserving compact desktop actions and existing motion.
