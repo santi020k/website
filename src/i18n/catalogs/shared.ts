@@ -2,6 +2,9 @@ import type { MessageCatalog } from '../messages.ts'
 
 /** Stable IDs; edit English wording without changing its key. */
 export const sharedMessages = {
+  'publication.original': { en: 'Original publication', es: 'Publicación original' },
+  'publication.platform': { en: 'On {platform}', es: 'En {platform}' },
+  'publication.readOriginal': { en: 'Read original', es: 'Leer original' },
   'nav.speakingCommunity': { en: 'Speaking & Community', es: 'Charlas y comunidad' },
   'nav.about': { en: 'About', es: 'Sobre mí' },
   'nav.blog': { en: 'Blog', es: 'Blog' },

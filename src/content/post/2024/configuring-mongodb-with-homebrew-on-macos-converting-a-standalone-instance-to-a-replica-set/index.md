@@ -8,6 +8,10 @@ coverImage:
   alt: "A standalone database node becoming three synchronized nodes in a replication ring"
   src: "./cover.webp"
 canonicalUrl: "https://towardsdev.com/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set-482623476dcf"
+originalPublication:
+  name: "Towards Dev"
+  url: "https://towardsdev.com"
+  platform: "Medium"
 postType: "Tutorial"
 ---
 
@@ -95,7 +99,3 @@ Verify the status of the replica set using `rs.status()`. If everything is worki
 ## Conclusion
 
 Configuring a MongoDB replica set in your local environment is a crucial step in replicating real-world scenarios for testing and development. By following these simple steps, you can set up a replica set seamlessly and efficiently, enabling you to work with MongoDB in a more versatile and robust manner.
-
----
-
-[Configuring MongoDB with Homebrew on macOS: Converting a Standalone Instance to a Replica Set](https://towardsdev.com/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set-482623476dcf) was originally published in [Towards Dev](https://towardsdev.com) on Medium, where people are continuing the conversation by highlighting and responding to this story.

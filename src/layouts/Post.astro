@@ -7,6 +7,7 @@ import { WEBMENTION_API_KEY } from 'astro:env/server'
 import ArticleCodeRecovery from '@/components/molecules/ArticleCodeRecovery.astro'
 import ArticleExampleFolds from '@/components/molecules/ArticleExampleFolds.astro'
 import ArticleFigureViewers from '@/components/molecules/ArticleFigureViewers.astro'
+import ArticlePublicationImprint from '@/components/molecules/ArticlePublicationImprint.astro'
 import ArticleSectionReferences from '@/components/molecules/ArticleSectionReferences.astro'
 import CommentsSection from '@/components/molecules/CommentsSection.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
@@ -23,6 +24,7 @@ import BaseLayout from '@/layouts/Base.astro'
 import type { PrintReference } from '@/plugins/rehype-print-references'
 import { localizeArticleControls } from '@/utils/article-control-language'
 import { getArticlePageImprint } from '@/utils/article-page-imprint'
+import { getPublicationImprint } from '@/utils/article-publication'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingStats } from '@/utils/reading-time'
 import { getSocialImageURL } from '@/utils/social-image'
@@ -55,6 +57,7 @@ interface Props {
 }
 
 const { figureCaptions, headings, post, printReferences, recommendationUrls } = Astro.props
+const { imprint: publicationImprint, references: articlePrintReferences } = getPublicationImprint(post.data, printReferences)
 const articleHtml = localizeArticleControls(await Astro.slots.render('default') ?? '', locale)
 const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
 
@@ -146,6 +149,7 @@ mainClass="remaining-pages remaining-pages--reading"
           <div lang="en" class="prose-santi max-w-none" data-article-prose data-pagefind-body id="article-content">
             <Fragment set:html={articleHtml} />
           </div>
+          {publicationImprint && <ArticlePublicationImprint imprint={publicationImprint} />}
           {figureCaptions.length > 0 && <ArticleFigureViewers captions={figureCaptions} />}
           <ArticleSectionReferences headings={headings} url={localURL.href} />
           <ArticleExampleFolds />
@@ -184,11 +188,11 @@ mainClass="remaining-pages remaining-pages--reading"
         </div>
       </div>
     </section>
-    {printReferences.length > 0 && (
+    {articlePrintReferences.length > 0 && (
       <section data-article-print-references aria-labelledby="article-print-references-heading">
         <h2 id="article-print-references-heading">References</h2>
         <ol>
-          {printReferences.map(({ href, label }, index) => (
+          {articlePrintReferences.map(({ href, label }, index) => (
             <li id={`article-print-reference-${index + 1}`}>
               <span>{label}</span>
               <a href={href} target="_blank" rel="noopener noreferrer">{href.replace(/^https:\/\//u, '')}</a>

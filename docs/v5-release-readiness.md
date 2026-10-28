@@ -1910,3 +1910,31 @@ archive audit covered 1,288 pages; the assembled-page audit verified 2,194 docum
 and 8,606 local targets with zero errors. The existing optional Workspace Organizer
 sitemap omission remains. This replaces `34d97a2d` as the latest full validation
 baseline for the locally integrated application. No push or deployment occurred.
+
+## Publication imprint follow-up
+
+Approved source `0e2cb5f0`, based on `754e9243`, is integrated over typed-message
+candidate `a19890c0`. The two imported Towards Dev closing credits now use optional
+validated publication metadata and one shared Lumen imprint outside the authored
+prose. Publisher and original article destinations, canonical URLs, safe new-tab
+attributes, and existing prose remain. Print references append or reuse both URLs
+without renumbering earlier prose references. The three shared UI labels use typed
+catalog keys with the source's exact English/Spanish text and English fallback.
+
+All 1,490 focused schema, publication, date, print-reference, and translation
+catalog cases passed. All 34 affected Chromium/WebKit cases passed with one worker
+and retries disabled, covering both source articles/locales, keyboard focus,
+320/390/1440px, 200% text, themes, hover geometry, reduced motion, accessibility,
+print, and native no-JavaScript links. Sixteen matched layout states produced
+32 before/after screenshot pairs and 32 additional hover/focus captures. English
+desktop and Spanish mobile credits were reviewed; every captured layout fits.
+
+Across all 906 current routes, 900 text/link/metadata contracts are unchanged.
+The four affected article shells update their closing credit and derived word
+counts; the two resume shells refresh their Git-derived modification timestamp.
+Current-site lint, strict Astro checks (583 files, zero diagnostics), Markdown,
+content, and spelling checks pass. The 904-page build, 906-page OG audit, archive
+assembly, and regenerated resume freshness pass; all five resume pages remain
+pixel-identical. The Changeset is folded into 5.0.0 with published notes intact.
+The latest full workspace gate remains `a19890c0`; this approved design follow-up
+uses affected checks. No remote action occurred.

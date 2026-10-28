@@ -2180,6 +2180,28 @@ resizing either control. Preserve copied and failed states, visible focus outlin
 full wrapping labels, reduced motion, and both themes. Hide utilities in print; the
 external destination remains available without JavaScript.
 
+### Publication imprint
+
+Imported articles with an explicit publisher credit close the prose with a quiet
+Publication imprint. Use fine top and bottom rules, 1.25rem vertical padding and
+gaps, a 6.25rem Original publication label column, and a flexible publisher column
+with a 2px accent rail. Link the publisher name at 1.25rem and place its platform
+beneath it. Read original sits at the right with the existing 2rem arrow compartment
+and Arrow exchange. Preserve both destinations and their safe new-tab attributes.
+
+Below 30rem of available width, place the label above the publisher and action;
+below 20rem, stack the action beneath the publisher. Keep at least 2.75rem link
+targets, wrapping labels, a visible focus outline, and brand/accent theme tokens.
+Publisher hover strengthens its underline; the original link gains a soft tint,
+fine border, and inset arrow surface. Use 240ms color transitions and the existing
+480ms arrow motion, disabled with reduced motion. Do not add a separate card.
+
+Store publisher name, URL, and platform in optional `originalPublication` metadata,
+requiring an HTTP(S) `canonicalUrl` for the original article. Keep the credit outside
+the authored prose so shared UI labels follow the locale without translating the
+article. In print, retain the credit and append or reuse both URLs in Reference
+notes without changing existing prose reference numbers. No client script is needed.
+
 ### Margin lead article opening
 
 Blog articles pair their format with the original opening paragraph, replacing the
