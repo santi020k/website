@@ -16,18 +16,18 @@ import { Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
 
 import { createFaqSchema } from '@/data/work-with-me'
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
 import { getLocalizedProfile } from '@/i18n/profile'
 import { getLocalizedContactMetric, getLocalizedWorkWithMe } from '@/i18n/work-with-me'
 import { createAuthorSchema, createWebsiteSchemaReference, siteConfig } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 const { testimonials } = getLocalizedProfile(pageLocale)
 const { workProcess, workWithMeFaq, workWithMeServices } = getLocalizedWorkWithMe(pageLocale)
 
 const description =
-  t('Invite Santiago Molina to speak, talk about an engineering role, or get help growing your team, adopting AI in engineering, and raising code quality.')
+  t('page.inviteSantiagoMolinaToSpeakTalk')
 
 const resultProjectIds = ['void', 'smith-commerce', 'optic-power'] as const
 
@@ -40,7 +40,7 @@ const results = await Promise.all(resultProjectIds.map(async id => {
   return {
     display: getLocalizedContactMetric(metric, pageLocale),
     href: localizePath(getPortfolioPath(project.id), pageLocale),
-    metric: t(metric),
+    metric: localizePageSource(pageLocale, metric),
     title: project.data.title
   }
 }))
@@ -53,7 +53,7 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'ContactPage',
     '@id': `${canonicalUrl}#page`,
-    name: t('Work with Santiago Molina'),
+    name: t('page.workWithSantiagoMolina'),
     description,
     url: canonicalUrl,
     about: createAuthorSchema(Astro.site),
@@ -63,8 +63,8 @@ const structuredData = [
 ]
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', pageLocale) },
-  { name: t('Work with me'), url: localizePath('/work-with-me/', pageLocale) }
+  { name: t('nav.home'), url: localizePath('/', pageLocale) },
+  { name: t('shared.workWithMe'), url: localizePath('/work-with-me/', pageLocale) }
 ]
 ---
 
@@ -73,19 +73,19 @@ const breadcrumbs = [
   meta={{
     breadcrumbs,
     description,
-    seoTitle: t('Work with Santiago Molina — Talks, Roles, and Engineering Help'),
+    seoTitle: t('page.workWithSantiagoMolinaTalksRoles'),
     structuredData,
-    title: t('Work with me')
+    title: t('shared.workWithMe')
   }}
 >
   <ContactHero />
 
   <PageSection layout="stacked">
     <SectionHeader
-      description={t('Five kinds of work, all built on the same things: shipping real products, leading teams, and making engineering easier.')}
+      description={t('page.fiveKindsOfWorkAllBuilt')}
       id="ways-to-work"
-      eyebrow={t('01 / Ways I can help')}
-      title={t('Pick what fits. Or mix them.')}
+      eyebrow={t('contact.chapterServices')}
+      title={t('page.pickWhatFitsOrMixThem')}
     />
 
     <RevealGroup data-services stagger={60} threshold={0}>
@@ -114,11 +114,11 @@ const breadcrumbs = [
 
   <PageSection layout="stacked">
     <SectionHeader
-      description={t('A few results from client work. Each case study explains the problem, the decisions, and how the result was measured.')}
-      eyebrow={t('02 / Proof')}
+      description={t('page.aFewResultsFromClientWork')}
+      eyebrow={t('contact.chapterProof')}
       linkHref={localizePath('/portfolio/', pageLocale)}
-      linkLabel={t('Read the case studies')}
-      title={t('Results teams can feel.')}
+      linkLabel={t('page.readTheCaseStudies')}
+      title={t('page.resultsTeamsCanFeel')}
     />
     <ul data-results>
       {results.map((result, index) => (
@@ -141,16 +141,16 @@ size="sm"
   <PageSection layout="stacked">
     <SectionHeader
       id="start"
-      description={t('WhatsApp is the fastest way to reach me. If you’d rather talk first, book a call.')}
-      eyebrow={t('03 / Start a conversation')}
-      title={t('One message is enough.')}
+      description={t('page.whatsappIsTheFastestWayTo')}
+      eyebrow={t('contact.chapterConversation')}
+      title={t('page.oneMessageIsEnough')}
     />
 
     <div data-start-grid>
       <WhatsAppIntake />
 
-      <aside aria-label={t('Other ways to reach me')} data-start-aside>
-        <p data-process-label>{t('What happens next')}</p>
+      <aside aria-label={t('page.otherWaysToReachMe')} data-start-aside>
+        <p data-process-label>{t('page.whatHappensNext')}</p>
         <ol data-process>
           {workProcess.map((step, index) => (
             <li>
@@ -163,20 +163,20 @@ size="sm"
           ))}
         </ol>
         <div data-channels>
-          <p data-channels-label>{t('Prefer another channel?')}</p>
+          <p data-channels-label>{t('page.preferAnotherChannel')}</p>
           <a data-channel href={localizePath(siteConfig.contact.calendar, pageLocale)} rel="noopener noreferrer" target="_blank">
             <Icon class="size-5 shrink-0" name="calendar-days" />
-            <span><strong>{t('Book a call')}</strong><span>{t('Pick a time on my calendar')}</span></span>
+            <span><strong>{t('page.bookACall')}</strong><span>{t('page.pickATimeOnMyCalendar')}</span></span>
             <ArrowExchange class="shrink-0" direction="up-right" size="sm" />
           </a>
           <a data-channel href={localizePath(`mailto:${siteConfig.contact.email}`, pageLocale)}>
             <Icon class="size-5 shrink-0" name="mail" />
-            <span><strong>{t('Email')}</strong><span>{siteConfig.contact.email}</span></span>
+            <span><strong>{t('page.email')}</strong><span>{siteConfig.contact.email}</span></span>
             <ArrowExchange class="shrink-0" direction="up-right" size="sm" />
           </a>
           <a data-channel href={localizePath(siteConfig.contact.linkedin, pageLocale)} rel="noopener noreferrer" target="_blank">
             <Icon class="size-5 shrink-0" name="briefcase-business" />
-            <span><strong>LinkedIn</strong><span>{t('For recruiters and fuller briefs')}</span></span>
+            <span><strong>LinkedIn</strong><span>{t('page.forRecruitersAndFullerBriefs')}</span></span>
             <ArrowExchange class="shrink-0" direction="up-right" size="sm" />
           </a>
         </div>
@@ -186,11 +186,11 @@ size="sm"
 
   <PageSection layout="stacked">
     <SectionHeader
-      description={t('From people I’ve managed, worked beside, and built for.')}
-      eyebrow={t('04 / In their words')}
+      description={t('page.fromPeopleIVeManagedWorked')}
+      eyebrow={t('contact.chapterTestimonials')}
       linkHref={localizePath('/about/#about-recommendations', pageLocale)}
-      linkLabel={t('Read more recommendations')}
-      title={t('What working together is like.')}
+      linkLabel={t('page.readMoreRecommendations')}
+      title={t('page.whatWorkingTogetherIsLike')}
     />
     <div data-work-testimonials>
       {featuredTestimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
@@ -201,10 +201,10 @@ size="sm"
 
   <PageSection layout="stacked">
     <SectionHeader
-      description={t('Still unsure? These are the questions people usually ask first.')}
+      description={t('page.stillUnsureTheseAreTheQuestions')}
       id="contact-faq"
-      eyebrow={t('05 / FAQ')}
-      title={t('Before you write.')}
+      eyebrow={t('contact.chapterFaq')}
+      title={t('page.beforeYouWrite')}
     />
     <FaqList items={workWithMeFaq} />
   </PageSection>

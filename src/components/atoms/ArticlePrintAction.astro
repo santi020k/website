@@ -1,16 +1,16 @@
 ---
 import { Button, Icon } from '@santi020k/lumen-astro'
 
-import { getLocale, translate } from '@/i18n'
+import { getLocale, sharedTranslator } from '@/i18n'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
+const t = sharedTranslator(locale)
 
 ---
 
 <Button data-article-print hidden type="button" variant="link">
   <Icon class="size-4 shrink-0" name="printer" />
-  <span data-print-label>{t('Print article')}</span>
+  <span data-print-label>{t('shared.printArticle')}</span>
 </Button>
 
 <script>

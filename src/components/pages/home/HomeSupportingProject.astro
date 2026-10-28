@@ -10,10 +10,10 @@ import { getProjectBrandStyle } from '@/utils/project-brand'
 import { Card, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -43,7 +43,7 @@ const evidence = project.data.typesId === 'professional' ? project.data.impactMe
       <p data-supporting-description>{project.data.description}</p>
       {evidence && <p data-supporting-evidence><Icon name="trending-up" />{evidence}</p>}
       <div data-supporting-footer>
-        <span data-supporting-action>{t('Read case study')}</span>
+        <span data-supporting-action>{t('page.readCaseStudy')}</span>
         <span data-supporting-arrow><ArrowExchange class="size-4.5" direction="up-right" /></span>
       </div>
     </div>

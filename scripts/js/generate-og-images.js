@@ -28,8 +28,8 @@ import {
 import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
 
-import { translateCollection } from '../../src/i18n/collection-copy.ts'
-import { translatePage } from '../../src/i18n/page-copy.ts'
+import { localizeCollectionSource } from '../../src/i18n/collection-copy.ts'
+import { localizePageSource } from '../../src/i18n/page-copy.ts'
 import { parseContentDate } from '../../src/utils/content-date.ts'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
 
@@ -499,8 +499,8 @@ export const collectCards = async () => {
 
   const localizedCards = englishCards.filter(card => card.route).map(card => {
     const pathname = `/es${card.route.pathname}`
-    const title = `${translateCollection(translatePage('es', card.data.title))} · Español`
-    const description = translateCollection(translatePage('es', card.data.description))
+    const title = `${localizeCollectionSource('es', localizePageSource('es', card.data.title))} · Español`
+    const description = localizeCollectionSource('es', localizePageSource('es', card.data.description))
 
     return {
       ...card,

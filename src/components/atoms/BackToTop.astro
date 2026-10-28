@@ -1,17 +1,17 @@
 ---
 import { BackToTop, Icon } from '@santi020k/lumen-astro'
 
-import { getLocale, translate } from '@/i18n'
+import { getLocale, sharedTranslator } from '@/i18n'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
+const t = sharedTranslator(locale)
 
 ---
 
 <BackToTop
   id="back-to-top"
   inert
-  aria-label={t('Scroll back to top')}
+  aria-label={t('shared.scrollBackToTop')}
   className="
     back-to-top-button
     max-sm:pr-2.5
@@ -24,7 +24,7 @@ const t = (text: string) => translate(locale, text)
     back-to-top-label
     max-sm:sr-only
   "
-  >{t('Top')}
+  >{t('shared.top')}
   </span>
 </BackToTop>
 

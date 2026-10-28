@@ -20,10 +20,10 @@ import { Link } from '@santi020k/lumen-astro'
 import { ogManifest } from '@/data/og-manifest'
 import { createProjectCollectionSchema, getUniqueTechnologies } from '@/data/project'
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const allProjects = await getCachedProjects()
@@ -60,28 +60,28 @@ const communityMatches = page.data.filter(project => project.data.typesId === 'c
 const workExperienceMatches = page.data.filter(project => project.data.typesId === 'professional')
 
 const evidenceGroups = [
-  { count: workExperienceMatches.length, label: t('Work experience'), context: locale === 'es' ? 'trabajo profesional' : 'professional work', href: '#technology-work-heading' },
-  { count: projectMatches.length, label: t('Projects'), context: locale === 'es' ? 'proyectos independientes' : 'independent projects', href: '#technology-projects-heading' },
-  { count: communityMatches.length, label: t('Community'), context: locale === 'es' ? 'comunidad' : 'community', href: '#technology-community-heading' }
+  { count: workExperienceMatches.length, label: t('collection.workExperience'), context: locale === 'es' ? 'trabajo profesional' : 'professional work', href: '#technology-work-heading' },
+  { count: projectMatches.length, label: t('nav.projects'), context: locale === 'es' ? 'proyectos independientes' : 'independent projects', href: '#technology-projects-heading' },
+  { count: communityMatches.length, label: t('shared.community'), context: locale === 'es' ? 'comunidad' : 'community', href: '#technology-community-heading' }
 ].filter(group => group.count > 0)
 
 const evidenceContext = new Intl.ListFormat(locale, { type: 'conjunction' }).format(evidenceGroups.map(group => group.context))
-const pageContext = page.lastPage > 1 ? t(' on this page') : ''
+const pageContext = page.lastPage > 1 ? t('collection.onThisPage7') : ''
 const englishPreposition = evidenceGroups.length > 1 ? 'across' : 'in'
 const preposition = locale === 'es' ? 'en' : englishPreposition
 
-const openingDescription = `${page.data.length} ${page.data.length === 1 ? t('entry') : t('entries')}` +
+const openingDescription = `${page.data.length} ${page.data.length === 1 ? t('collection.entry') : t('collection.entries')}` +
   `${pageContext} ${preposition} ${evidenceContext}. ` +
-  t(`Explore where ${technology} shaped the work.`)
+  t('technology.evidence', { technology: technology })
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', locale) },
-  { name: t('Technologies'), url: localizePath('/technologies/', locale) },
+  { name: t('nav.home'), url: localizePath('/', locale) },
+  { name: t('collection.technologies'), url: localizePath('/technologies/', locale) },
   { name: technology, url: localizePath(getTechnologyPath(technology), locale) }
 ]
 
 const technologyListSchema = createProjectCollectionSchema(
-  t(`${technology} · Technology`), Astro.url.pathname, page.data, Astro.site
+  t('technology.title', { technology: technology }), Astro.url.pathname, page.data, Astro.site
 )
 
 const meta = {
@@ -89,7 +89,7 @@ const meta = {
   description: locale === 'es' ? `Proyectos y casos de estudio donde ${technology} dio forma a la arquitectura, el flujo de entrega o la experiencia de producto.` : `Projects and case studies where ${technology} shaped the architecture, delivery workflow, or product experience.`,
   ogImage: getSocialImageURL(localizePath(getTechnologyPath(technology), locale), Astro.site, undefined, ogManifest),
   structuredData: technologyListSchema,
-  title: t(`${technology} · Technology`)
+  title: t('technology.title', { technology: technology })
 }
 
 ---
@@ -97,11 +97,11 @@ const meta = {
 <PageLayout mainClass="remaining-pages" meta={meta}>
   <PageHero
     description={openingDescription}
-    eyebrow={t('Technology evidence')}
-    gradientText={t('In practice.')}
+    eyebrow={t('collection.technologyEvidence')}
+    gradientText={t('collection.inPractice')}
     title={technology}
   >
-    <nav aria-label={t('Technology evidence')} data-technology-evidence-index slot="after-description">
+    <nav aria-label={t('collection.technologyEvidence')} data-technology-evidence-index slot="after-description">
       {evidenceGroups.map(group => (
         <Link data-technology-evidence-link href={localizePath(group.href, locale)} variant="inherit">
           <span data-technology-evidence-count>{group.count}</span>{' '}
@@ -111,8 +111,8 @@ const meta = {
       ))}
     </nav>
     <div data-technology-archive-escape>
-      <Link href={localizePath('/technologies/', locale)} variant="inherit">{t('All technologies')}<ArrowExchange direction="right" /></Link>
-      <Link href={localizePath('/portfolio/', locale)} variant="inherit">{t('Portfolio')}<ArrowExchange direction="right" /></Link>
+      <Link href={localizePath('/technologies/', locale)} variant="inherit">{t('collection.allTechnologies')}<ArrowExchange direction="right" /></Link>
+      <Link href={localizePath('/portfolio/', locale)} variant="inherit">{t('collection.portfolio')}<ArrowExchange direction="right" /></Link>
     </div>
   </PageHero>
 
@@ -122,11 +122,11 @@ const meta = {
       class="section-container-wide space-y-8 page-section-space"
     >
       <TechnologyArchiveChapter
-        countLabel={`${projectMatches.length} independent ${projectMatches.length === 1 ? t('project') : t('projects')}`}
-        description={t('Independent builds, open-source tools, and experiments that shape the product or engineering system.')}
+        countLabel={`${projectMatches.length} independent ${projectMatches.length === 1 ? t('collection.project') : t('collection.projects')}`}
+        description={t('collection.independentBuildsOpenSourceToolsAnd')}
         headingId="technology-projects-heading"
         technology={technology}
-        title={t('Projects')}
+        title={t('nav.projects')}
       />
 
       <ProjectsGallery matchedTechnology={technology} projects={projectMatches} />
@@ -139,11 +139,11 @@ const meta = {
       class="section-container-wide space-y-8 page-section-space"
     >
       <TechnologyArchiveChapter
-        countLabel={`${communityMatches.length} community ${communityMatches.length === 1 ? t('initiative') : t('initiatives')}`}
-        description={t('Meetups, workshops, and mentorship that help engineers learn and connect.')}
+        countLabel={`${communityMatches.length} community ${communityMatches.length === 1 ? t('collection.initiative') : t('collection.initiatives')}`}
+        description={t('collection.meetupsWorkshopsAndMentorshipThatHelp')}
         headingId="technology-community-heading"
         technology={technology}
-        title={t('Community')}
+        title={t('shared.community')}
       />
 
       <ProjectsGallery matchedTechnology={technology} projects={communityMatches} />
@@ -156,11 +156,11 @@ const meta = {
       class="section-container-wide space-y-8 page-section-space"
     >
       <TechnologyArchiveChapter
-        countLabel={`${workExperienceMatches.length} professional ${workExperienceMatches.length === 1 ? t('role') : 'roles'}`}
-        description={t('Client and product work across architecture, delivery, and measurable outcomes.')}
+        countLabel={`${workExperienceMatches.length} professional ${workExperienceMatches.length === 1 ? t('collection.role7') : 'roles'}`}
+        description={t('collection.clientAndProductWorkAcrossArchitecture')}
         headingId="technology-work-heading"
         technology={technology}
-        title={t('Work experience')}
+        title={t('collection.workExperience')}
       />
 
       <ProjectsGallery matchedTechnology={technology} projects={workExperienceMatches} />

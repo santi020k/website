@@ -12,16 +12,16 @@ import { RevealGroup } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 const seriesSummaries = await getSeriesSummaries()
 const activeSeries = seriesSummaries.filter(item => item.postCount > 0 && item.series.data.status === 'active')
 const postsGroupedIntoSeries = activeSeries.reduce((count, item) => count + item.postCount, 0)
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', locale) },
+  { name: t('nav.home'), url: localizePath('/', locale) },
   { name: 'Blog', url: localizePath('/blog/', locale) },
   { name: 'Series', url: localizePath('/blog/series/', locale) }
 ]
@@ -32,45 +32,45 @@ mainClass="remaining-pages"
   meta={{
     breadcrumbs,
     description: 'Grouped reading tracks for Santiago Molina\'s writing on architecture, tooling, testing, and delivery systems.',
-    title: t('Blog Series — Santiago Molina')
+    title: t('collection.blogSeriesSantiagoMolina')
   }}
 >
   <PageHero
-    description={t('Grouped reading paths — follow a topic from start to finish without hunting the archive.')}
+    description={t('collection.groupedReadingPathsFollowATopic')}
     eyebrow="Series"
     gradientText="in order."
-    metaItems={[t('Reading tracks'), t('Practical sequence'), t('Connected ideas')]}
-    title={t('Follow related posts')}
+    metaItems={[t('collection.readingTracks'), t('collection.practicalSequence'), t('collection.connectedIdeas')]}
+    title={t('collection.followRelatedPosts')}
   >
-    <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('Back to blog')}</ButtonLink>
+    <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('collection.backToBlog')}</ButtonLink>
   </PageHero>
 
   <StatsGrid columns={3}>
     <StatCard
-      description={t('Ongoing reading tracks with at least one published post.')}
+      description={t('collection.ongoingReadingTracksWithAtLeast')}
       icon="library"
-label={t('Active series')}
+label={t('collection.activeSeries')}
       value={activeSeries.length}
     />
     <StatCard
-      description={t('Posts that belong to a series rather than standing alone in the archive.')}
+      description={t('collection.postsThatBelongToASeries')}
       icon="files"
-label={t('Posts grouped')}
+label={t('collection.postsGrouped')}
       value={postsGroupedIntoSeries}
     />
     <StatCard
-      description={t('Published reading tracks, including active and archived series.')}
+      description={t('collection.publishedReadingTracksIncludingActiveAnd')}
       icon="book-open"
-label={t('Reading tracks')}
+label={t('collection.readingTracks')}
       value={seriesSummaries.filter(item => item.postCount > 0).length}
     />
   </StatsGrid>
 
   <PageSection layout="stacked">
     <SectionHeader
-      description={t('Each series is a self-contained reading track — start at post one, follow the thread, finish with a complete mental model.')}
+      description={t('collection.eachSeriesIsASelfContained')}
       eyebrow="Series"
-      title={t('Current series on the site.')}
+      title={t('collection.currentSeriesOnTheSite')}
     />
 
     <RevealGroup

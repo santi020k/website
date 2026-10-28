@@ -1,7 +1,7 @@
 ---
 import { Button, Empty, Icon } from '@santi020k/lumen-astro'
 
-import { getLocale, translate } from '@/i18n'
+import { getLocale, sharedTranslator } from '@/i18n'
 
 interface Props {
   state?: 'empty' | 'idle' | 'error'
@@ -11,31 +11,31 @@ const { state = 'empty' } = Astro.props
 
 const content = {
   empty: {
-    title: 'No results found',
-    description: 'Try different keywords or check your spelling.',
+    title: 'shared.noResultsFound',
+    description: 'shared.tryDifferentKeywordsOrCheckYour',
     icon: 'search-x',
-    action: 'Clear search',
+    action: 'shared.clearSearch',
     actionIcon: 'rotate-ccw'
   },
   idle: {
-    title: 'Start typing to search',
-    description: 'Enter at least 2 characters to find posts, projects, and community work.',
+    title: 'shared.startTypingToSearch',
+    description: 'shared.enterAtLeast2CharactersTo',
     icon: 'search',
     action: '',
     actionIcon: 'search'
   },
   error: {
-    title: 'Search unavailable',
-    description: 'We couldn\'t load the search index.',
+    title: 'shared.searchUnavailable',
+    description: 'search.loadFailure',
     icon: 'circle-alert',
-    action: 'Try again',
+    action: 'shared.tryAgain',
     actionIcon: 'refresh-cw'
   }
 } as const
 
 const { title, description, icon, action, actionIcon } = content[state]
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
+const t = sharedTranslator(locale)
 
 ---
 

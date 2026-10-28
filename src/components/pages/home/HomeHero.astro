@@ -10,11 +10,11 @@ import { ButtonLink, Icon } from '@santi020k/lumen-astro'
 import LumenLogo from '@/content/project/lumen-ui/logo.webp'
 import PostLensLogo from '@/content/project/postlens/logo.webp'
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 ---
 
 <section class="signature-frame maker-hero" aria-labelledby="home-heading" data-home-hero>
@@ -22,24 +22,24 @@ const t = (source: string) => translatePage(pageLocale, source)
     <div class="maker-hero-copy">
       <p class="maker-hero-eyebrow">
         <span aria-hidden="true" class="maker-hero-signal"></span>
-        {t('Hey, I’m Santiago')}
+        {t('home.hero.greeting')}
       </p>
       <h1 id="home-heading" data-home-hero-heading>
-        <span>{t('I build products.')}</span>
-        <span>{t('And the')} <span class="maker-hero-emphasis">{t('tools')}</span></span>
-        <span>{t('behind them.')}</span>
+        <span>{t('home.hero.title')}</span>
+        <span>{t('home.hero.connective')} <span class="maker-hero-emphasis">{t('home.hero.emphasis')}</span></span>
+        <span>{t('home.hero.ending')}</span>
       </h1>
       <p class="maker-hero-description">
-        {t('Engineering lead and creator of')}{' '}
-        <span class="whitespace-nowrap">Lumen UI</span>{t('. I build commerce platforms, native apps, and developer tools, and help teams ship with better code and practical AI.')}
+        {t('page.engineeringLeadAndCreatorOf')}{' '}
+        <span class="whitespace-nowrap">Lumen UI</span>{t('page.iBuildCommercePlatformsNativeAppsAnd')}
       </p>
       <div class="maker-hero-actions">
         <ButtonLink class="maker-hero-primary" href={localizePath(siteConfig.contact.workWithMe, pageLocale)} variant="unstyled">
-          {t('Work with me')}
+          {t('shared.workWithMe')}
           <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange /></span>
         </ButtonLink>
         <ButtonLink class="maker-hero-secondary" data-text-link href={localizePath('/portfolio/', pageLocale)} variant="unstyled">
-          <span data-text-link-label>{t('See selected work')}</span> <ArrowExchange direction="right" />
+          <span data-text-link-label>{t('page.seeSelectedWork')}</span> <ArrowExchange direction="right" />
         </ButtonLink>
       </div>
     </div>
@@ -47,7 +47,7 @@ const t = (source: string) => translatePage(pageLocale, source)
     <figure class="maker-hero-visual">
       <div class="maker-hero-portrait-frame">
         <Image
-          alt={t('Portrait of Santiago Molina, smiling')}
+          alt={t('page.portraitOfSantiagoMolinaSmiling')}
           class="maker-hero-portrait"
           src={HeroPortrait}
           widths={[56, 112, 168, 216, 288, 352, 480, 600, 704, 800]}
@@ -67,18 +67,18 @@ const t = (source: string) => translatePage(pageLocale, source)
     </figure>
   </div>
 
-  <nav class="maker-hero-shelf" aria-label={t('Featured products')} id="hero-products">
-    <p class="maker-hero-shelf-label">{t('Selected products')}</p>
+  <nav class="maker-hero-shelf" aria-label={t('page.featuredProducts')} id="hero-products">
+    <p class="maker-hero-shelf-label">{t('page.selectedProducts')}</p>
     <a class="maker-hero-project" href={localizePath('/portfolio/lumen-ui/', pageLocale)}>
       <Image alt="" class="maker-hero-project-logo" src={LumenLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
-      <span data-home-product-copy><strong>Lumen UI</strong><span>{t('Web and native components')}</span></span>
+      <span data-home-product-copy><strong>Lumen UI</strong><span>{t('page.webAndNativeComponents')}</span></span>
       <ArrowExchange class="maker-hero-project-arrow" direction="up-right" />
     </a>
     <a class="maker-hero-project" href={localizePath('/portfolio/postlens/', pageLocale)}>
       <Image alt="" class="maker-hero-project-logo" src={PostLensLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
-      <span data-home-product-copy><strong>PostLens</strong><span>{t('Private photo editing for iPhone')}</span></span>
+      <span data-home-product-copy><strong>PostLens</strong><span>{t('page.privatePhotoEditingForIphone')}</span></span>
       <ArrowExchange class="maker-hero-project-arrow" direction="up-right" />
     </a>
-    <ButtonLink class="maker-hero-index" data-text-link href={localizePath('/projects/', pageLocale)} aria-label={t('Explore all projects')} variant="unstyled"><span data-text-link-label>{t('All projects')}</span> <Icon name="plus" /></ButtonLink>
+    <ButtonLink class="maker-hero-index" data-text-link href={localizePath('/projects/', pageLocale)} aria-label={t('page.exploreAllProjects')} variant="unstyled"><span data-text-link-label>{t('page.allProjects')}</span> <Icon name="plus" /></ButtonLink>
   </nav>
 </section>

@@ -21,7 +21,7 @@ import { getPortfolioPath } from '@/utils/links'
 import { Card, Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
 import { getLocalizedProfile } from '@/i18n/profile'
 import {
   AUTHOR_JOB_TITLE,
@@ -33,11 +33,11 @@ import {
 } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 const { speakingFormats, speakingHighlights, speakingTopics, testimonials } = getLocalizedProfile(pageLocale)
 
 const talks = (await getCollection('talk', ({ data }) => !data.draft))
-  .map(({ data }) => ({ ...data, title: t(data.title), description: t(data.description), audience: data.audience ? t(data.audience) : undefined, location: data.location ? t(data.location) : undefined, tags: data.tags.map(tag => t(tag)) }))
+  .map(({ data }) => ({ ...data, title: localizePageSource(pageLocale, data.title), description: localizePageSource(pageLocale, data.description), audience: data.audience ? localizePageSource(pageLocale, data.audience) : undefined, location: data.location ? localizePageSource(pageLocale, data.location) : undefined, tags: data.tags.map(tag => localizePageSource(pageLocale, tag)) }))
   .sort((a, b) => {
     const aSortDate = a.date?.valueOf() ?? Date.UTC(a.year, 11, 31)
     const bSortDate = b.date?.valueOf() ?? Date.UTC(b.year, 11, 31)
@@ -46,22 +46,22 @@ const talks = (await getCollection('talk', ({ data }) => !data.draft))
   })
 
 const postCount = (await getCachedPosts()).length
-const highlights = speakingHighlights.map(h => h.label === t('Published writing') ? { ...h, value: String(postCount) } : h)
+const highlights = speakingHighlights.map(h => h.label === t('page.publishedWriting') ? { ...h, value: String(postCount) } : h)
 const communityWork = (await getCachedProjects()).find(project => project.data.typesId === 'community')
 
 const speakingChapters = [
-  { id: 'speaking-topics', label: t('Topics') },
-  { id: 'speaking-formats', label: t('Formats') },
-  { id: 'speaking-history', label: t('History') },
-  ...(communityWork ? [{ id: 'speaking-community', label: t('Community') }] : [])
+  { id: 'speaking-topics', label: t('page.topics') },
+  { id: 'speaking-formats', label: t('page.formats') },
+  { id: 'speaking-history', label: t('page.history') },
+  ...(communityWork ? [{ id: 'speaking-community', label: t('shared.community') }] : [])
 ]
 
 const description =
-  t('Talks, workshops, and community work around developer experience, technical leadership, frontend architecture, and practical knowledge sharing.')
+  t('page.talksWorkshopsAndCommunityWorkAround')
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', pageLocale) },
-  { name: t('Speaking & Community'), url: localizePath('/speaking/', pageLocale) }
+  { name: t('nav.home'), url: localizePath('/', pageLocale) },
+  { name: t('page.speakingAndCommunity'), url: localizePath('/speaking/', pageLocale) }
 ]
 
 const speakingWhatsAppHref = createWhatsAppHref(pageLocale === 'es' ? 'Hola Santiago, vi tu página de charlas y me gustaría invitarte a una charla o taller. Evento y fecha:' : whatsappMessages.speaking)
@@ -77,16 +77,16 @@ const speakingTestimonials = testimonials.filter(({ name }) => name === 'Raphael
 
 const bookingNotes = [
   {
-    label: t('Best fit'),
-    value: t('Meetups, internal engineering talks, workshops, and leadership roundtables.')
+    label: t('page.bestFit'),
+    value: t('page.meetupsInternalEngineeringTalksWorkshopsAnd')
   },
   {
-    label: t('Helpful details'),
-    value: t('Audience size, format, date range, and the outcome you want the session to create.')
+    label: t('page.helpfulDetails'),
+    value: t('page.audienceSizeFormatDateRangeAnd')
   },
   {
-    label: t('Tailoring'),
-    value: t('Every session is shaped around the audience, constraints, and outcome—not pulled from a generic deck.')
+    label: t('page.tailoring'),
+    value: t('page.everySessionIsShapedAroundThe')
   }
 ]
 
@@ -101,31 +101,31 @@ const structuredData = [
       knowsAbout: speakingTopics.map(topic => `${topic.title} ${topic.subtitle}`),
       sameAs: sameAsProfiles.slice(0, 3)
     },
-    name: t('Speaking & Community')
+    name: t('page.speakingAndCommunity')
   },
   {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    description: t('A chronological record of public, private, and reconstructed speaking sessions'),
+    description: t('page.aChronologicalRecordOfPublicPrivate'),
     itemListElement: talks.map((talk, index) => ({
       '@type': 'ListItem',
       description: talk.description,
       name: talk.title,
       position: index + 1
     })),
-    name: t('Speaking timeline')
+    name: t('page.speakingTimeline')
   },
   {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    description: t('Formats available for speaking engagements'),
+    description: t('page.formatsAvailableForSpeakingEngagements'),
     itemListElement: speakingFormats.map((format, index) => ({
       '@type': 'ListItem',
       description: format.description,
       name: `${format.title} ${format.subtitle}`,
       position: index + 1
     })),
-    name: t('Speaking formats')
+    name: t('page.speakingFormats')
   }
 ]
 ---
@@ -163,7 +163,7 @@ mainClass="remaining-pages"
 
   <div class="section-container-wide" data-speaking-guide-container>
     <nav id="speaking-guide" aria-labelledby="speaking-guide-label" data-speaking-guide>
-      <p id="speaking-guide-label">{t('Explore speaking')}</p>
+      <p id="speaking-guide-label">{t('page.exploreSpeaking')}</p>
       <ol role="list">
         {speakingChapters.map(({ id, label }, index) => (
           <li>
@@ -182,10 +182,10 @@ mainClass="remaining-pages"
 
   <PageSection>
     <SectionHeader
-      description={t('Each topic draws on real project experience — architecture choices made under constraint, delivery problems solved in production, and team dynamics at different scales.')}
-      eyebrow={t('Topics')}
+      description={t('page.eachTopicDrawsOnRealProject')}
+      eyebrow={t('page.topics')}
       id="speaking-topics"
-      title={t('What I speak about.')}
+      title={t('page.whatISpeakAbout')}
     />
     <RevealGroup
       class="
@@ -210,10 +210,10 @@ mainClass="remaining-pages"
 
   <PageSection>
     <SectionHeader
-      description={t('Different formats fit different goals. Pick the one that matches your audience and the outcome you want from the session.')}
-      eyebrow={t('Formats')}
+      description={t('page.differentFormatsFitDifferentGoalsPick')}
+      eyebrow={t('page.formats')}
       id="speaking-formats"
-      title={t('Available formats.')}
+      title={t('page.availableFormats')}
     />
     <RevealGroup
       class="
@@ -238,10 +238,10 @@ mainClass="remaining-pages"
 
   <PageSection layout="stacked">
     <SectionHeader
-      description={t('Every session I can recover so far, combining public event records with clearly labeled private and reconstructed talks from earlier in my career.')}
-      eyebrow={t('Speaking history')}
+      description={t('page.everySessionICanRecoverSo')}
+      eyebrow={t('page.speakingHistory')}
       id="speaking-history"
-      title={t('The talks, in one timeline.')}
+      title={t('page.theTalksInOneTimeline')}
     />
     <SpeakingTimeline talks={talks} />
   </PageSection>
@@ -249,8 +249,8 @@ mainClass="remaining-pages"
   {communityWork && (
     <PageSection>
       <SectionHeader
-        description={t('Since 2017, I’ve helped create free events, practical learning opportunities, and a more connected local React ecosystem.')}
-        eyebrow={t('Community')}
+        description={t('page.since2017IVeHelpedCreate')}
+        eyebrow={t('shared.community')}
         id="speaking-community"
         title="ReactJS Colombia."
       />
@@ -264,9 +264,9 @@ mainClass="remaining-pages"
       >
         <div data-community-dossier-grid>
           <header data-community-cover>
-            <p data-community-role>{t(communityWork.data.role ?? '')}</p>
+            <p data-community-role>{localizePageSource(pageLocale, communityWork.data.role ?? '')}</p>
             <h3 id="speaking-community-heading">
-              {t('Building a community where engineers can learn and share.')}
+              {t('page.buildingACommunityWhereEngineersCan')}
             </h3>
             <span data-community-symbol>
               <Icon name="users-round" class="size-6" />
@@ -275,14 +275,14 @@ mainClass="remaining-pages"
 
           <div data-community-body>
             <p data-community-copy>
-              {t('ReactJS Colombia brings developers together through meetups, workshops, mentorship, and speaker support. My work spans event planning, talk curation, logistics, and helping first-time speakers feel ready to contribute.')}
+              {t('speaking.communityDescription')}
             </p>
 
-            <ul aria-label={t('Community impact')} data-community-evidence>
+            <ul aria-label={t('page.communityImpact')} data-community-evidence>
               {communityWork.data.impactMetrics.map((metric, index) => (
                 <li>
                   <span aria-hidden="true" data-community-number>{String(index + 1).padStart(2, '0')}</span>
-                  <span>{t(metric)}</span>
+                  <span>{localizePageSource(pageLocale, metric)}</span>
                 </li>
               ))}
             </ul>
@@ -292,11 +292,11 @@ mainClass="remaining-pages"
         <footer class="section-actions" data-community-actions>
           {communityWork.data.liveDemoUrl && (
             <ButtonLink href={localizePath(communityWork.data.liveDemoUrl, pageLocale)} newTab showArrow>
-              {t('Visit the community')}
+              {t('page.visitTheCommunity')}
             </ButtonLink>
           )}
           <ButtonLink href={localizePath(getPortfolioPath(communityWork.id), pageLocale)} showArrow variant="secondary">
-            {t('Read the community story')}
+            {t('page.readTheCommunityStory')}
           </ButtonLink>
         </footer>
       </Card>
@@ -305,11 +305,11 @@ mainClass="remaining-pages"
 
   <PageSection layout="stacked">
     <SectionHeader
-      description={t('Clear explanations and generous knowledge sharing, in the words of people I’ve worked with.')}
-      eyebrow={t('In their words')}
+      description={t('page.clearExplanationsAndGenerousKnowledgeSharing')}
+      eyebrow={t('page.inTheirWords')}
       linkHref="/about/#about-recommendations"
-      linkLabel={t('Read more recommendations')}
-      title={t('Complex ideas, explained clearly.')}
+      linkLabel={t('page.readMoreRecommendations')}
+      title={t('page.complexIdeasExplainedClearly')}
     />
     <div data-speaking-testimonials>
       {speakingTestimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
@@ -320,9 +320,9 @@ mainClass="remaining-pages"
 
   <PageSection>
     <SectionHeader
-      description={t('Share a little context and I can suggest the right shape for the session. WhatsApp is fastest for a short introduction; a call works when there’s more to discuss.')}
-      eyebrow={t('Booking')}
-      title={t('Bring the audience. I’ll shape the session.')}
+      description={t('page.shareALittleContextAndICan')}
+      eyebrow={t('page.booking')}
+      title={t('page.bringTheAudienceILlShape')}
     />
 
     <Card
@@ -338,24 +338,24 @@ mainClass="remaining-pages"
 name="messages-square"
 class="size-6.5"
                                      /></span>
-          <h3 id="speaking-booking-heading">{t('Start with a brief.')}</h3>
+          <h3 id="speaking-booking-heading">{t('page.startWithABrief')}</h3>
           <p>
-            {t('Include the event, audience, date range, preferred format, and the outcome you want attendees to leave with.')}
+            {t('page.includeTheEventAudienceDateRange')}
           </p>
           <div data-invitation-action>
             <div>
-              <p data-invitation-channel-label>{t('For a quick introduction')}</p>
+              <p data-invitation-channel-label>{t('page.forAQuickIntroduction')}</p>
               <ButtonLink className="w-full" href={localizePath(speakingWhatsAppHref, pageLocale)} newTab showArrow>
-                {t('Message on WhatsApp')}
+                {t('page.messageOnWhatsapp')}
               </ButtonLink>
             </div>
             <div data-invitation-secondary>
-              <p data-invitation-channel-label>{t('Rather talk it through?')}</p>
+              <p data-invitation-channel-label>{t('page.ratherTalkItThrough')}</p>
               <Link data-invitation-link href={localizePath(siteConfig.contact.calendar, pageLocale)} newTab variant="inherit">
-                <span>{t('Book a call')}</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
+                <span>{t('page.bookACall')}</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
               </Link>
               <Link data-invitation-link href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="inherit">
-                <span>{t('Send a fuller brief on LinkedIn')}</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
+                <span>{t('page.sendAFullerBriefOnLinkedin')}</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
               </Link>
             </div>
           </div>

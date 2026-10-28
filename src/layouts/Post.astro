@@ -35,7 +35,7 @@ import { ScrollProgress } from '@santi020k/lumen-astro'
 import { ogManifest } from '@/data/og-manifest'
 import { getSeriesContext } from '@/data/series'
 import { getLocale, localizePath, stripLocale } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 import {
   createAuthorSchema,
   createPublisherSchema,
@@ -44,7 +44,7 @@ import {
 } from '@/site.config'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   figureCaptions: string[]
@@ -98,7 +98,7 @@ const blogPostingSchema: Record<string, unknown> = {
 }
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', locale) },
+  { name: t('nav.home'), url: localizePath('/', locale) },
   { name: 'Blog', url: localizePath('/blog/', locale) },
   { name: title, url: Astro.url.pathname }
 ]

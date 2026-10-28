@@ -8,45 +8,45 @@ import PageLayout from '@/layouts/Base.astro'
 import { Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 
 const description =
-  t('Accessibility commitment for santi020k.com: WCAG 2.2 AA as the target, practical limits of a solo-maintained site, and how to report barriers.')
+  t('page.accessibilityCommitmentForSanti020kComWcag')
 
 /** Single source of truth for the review date shown in the hero and the footnote. */
-const lastReviewed = t('July 26, 2026')
+const lastReviewed = t('page.july262026')
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', pageLocale) },
-  { name: t('Accessibility'), url: localizePath('/accessibility/', pageLocale) }
+  { name: t('nav.home'), url: localizePath('/', pageLocale) },
+  { name: t('shared.accessibility'), url: localizePath('/accessibility/', pageLocale) }
 ]
 
 const meta = {
   breadcrumbs,
   description,
-  title: t('Accessibility statement')
+  title: t('page.accessibilityStatement')
 }
 
 const sections = [
   {
-    label: t('Target standard'),
-    body: t('WCAG 2.2 Level AA — keyboard navigation, visible focus, meaningful structure, sufficient contrast, and reduced-motion respect throughout.')
+    label: t('page.targetStandard'),
+    body: t('page.wcag22LevelAaKeyboard')
   },
   {
-    label: t('How we work toward it'),
-    body: t('Semantic HTML, landmarks, and labeled interactive components. Automated CI checks alongside manual review. Resilient layouts across zoom levels and viewports.')
+    label: t('page.howWeWorkTowardIt'),
+    body: t('page.semanticHtmlLandmarksAndLabeledInteractive')
   },
   {
-    label: t('Known limits'),
-    body: t('Personal site maintained alongside other work. Third-party embeds may lag behind first-party pages. Older articles are refreshed on a rolling basis.')
+    label: t('page.knownLimits'),
+    body: t('page.personalSiteMaintainedAlongsideOtherWork')
   },
   {
-    label: t('Formal complaints'),
-    body: t('This statement does not replace applicable law. Use the email below to request alternative formats or further information about how issues are handled.')
+    label: t('page.formalComplaints'),
+    body: t('page.thisStatementDoesNotReplaceApplicable')
   }
 ]
 ---
@@ -54,38 +54,38 @@ const sections = [
 <PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
   <article class="space-y-12">
     <PageHero
-      description={t('WCAG 2.2 AA is the target. This is how the site is built, checked, and improved when something falls short.')}
-      eyebrow={t('Inclusion')}
-      gradientText={t('statement.')}
-      metaItems={[t('Keyboard first'), t('Reduced motion'), `${t('Reviewed')} ${lastReviewed}`]}
-      title={t('Accessibility')}
+      description={t('page.wcag22AaIsThe')}
+      eyebrow={t('page.inclusion')}
+      gradientText={t('page.statement')}
+      metaItems={[t('page.keyboardFirst'), t('page.reducedMotion'), `${t('page.reviewed')} ${lastReviewed}`]}
+      title={t('shared.accessibility')}
     />
 
     <PolicySections {sections} />
 
-    <PolicyContactCard label={t('Report a barrier')} title={t('If something blocks you, send the exact page and task.')}>
+    <PolicyContactCard label={t('page.reportABarrier')} title={t('page.ifSomethingBlocksYouSendThe')}>
       <p>
-        {t('Email')}{' '}
+        {t('page.email')}{' '}
         <Link
 variant="inherit"
 href={localizePath(`mailto:${siteConfig.contact.email}?subject=Accessibility%20issue%20on%20santi020k.com`, pageLocale)}
         >
           {siteConfig.contact.email}
         </Link>
-        {' '}{t('with the page URL, your browser, assistive technology, and what you were trying to do.')}
+        {' '}{t('page.withThePageUrlYourBrowser')}
       </p>
       <p slot="note">
-        {t('Last reviewed')} {lastReviewed}{t('. I aim to acknowledge reports within five business days and share a resolution timeline once the barrier is reproduced.')}
+        {t('page.lastReviewed')} {lastReviewed}{t('page.iAimToAcknowledgeReportsWithin')}
       </p>
     </PolicyContactCard>
   </article>
 
   <div class="section-container-wide section-actions">
     <ButtonLink href={localizePath('/', pageLocale)} showArrow variant="secondary">
-      {t('Back home')}
+      {t('page.backHome')}
     </ButtonLink>
     <ButtonLink href={localizePath('/privacy/', pageLocale)} showArrow variant="ghost">
-      {t('Privacy statement')}
+      {t('page.privacyStatement')}
     </ButtonLink>
   </div>
 </PageLayout>

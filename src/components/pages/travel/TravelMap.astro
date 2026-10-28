@@ -4,11 +4,11 @@ import { lumenWorldMapCountries } from '@santi020k/lumen-core/world-map-data'
 
 import { travelSummary } from '@/data/travel'
 import { getLocale } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 import { getLocalizedCountryName, getLocalizedTravelCountries } from '@/i18n/travel'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 const travelCountries = getLocalizedTravelCountries(pageLocale)
 
 const labels = pageLocale === 'es' ?
@@ -18,14 +18,14 @@ const labels = pageLocale === 'es' ?
 
 <section data-travel-explorer aria-labelledby="travel-heading">
   <div data-travel-atlas>
-    <p data-travel-hint><Icon name="mouse-pointer-2" class="size-4" /><span>{t('Pick a highlighted country.')}<br />{t('Swipe or zoom to explore.')}</span></p>
+    <p data-travel-hint><Icon name="mouse-pointer-2" class="size-4" /><span>{t('page.pickAHighlightedCountry')}<br />{t('page.swipeOrZoomToExplore')}</span></p>
     <WorldMap
       animated={false}
       countries={lumenWorldMapCountries}
       highlightedCountries={travelCountries.map(country => country.code)}
-      label={t('Explore my home country and the countries I have visited')}
+      label={t('page.exploreMyHomeCountryAndThe')}
       labels={labels}
-      listLabel={t('Explore a country')}
+      listLabel={t('page.exploreACountry')}
       variant="dotted"
       zoomLabels={pageLocale === 'es' ? { fit: 'Ajustar países destacados', level: 'Nivel de zoom', reset: 'Restablecer', viewport: 'Vista del mapa', zoomIn: 'Acercar', zoomOut: 'Alejar' } : { reset: 'Reset' }}
     />
@@ -38,8 +38,8 @@ const labels = pageLocale === 'es' ?
     <Card as="section" variant="unstyled" data-travel-selection aria-labelledby="travel-selected-country" hidden>
       <div data-travel-cover>
         <div data-travel-selection-header>
-          <p data-travel-category>{t('A place in my story')}</p>
-          <Button aria-label={t('Close country details')} data-travel-close size="icon" variant="ghost">
+          <p data-travel-category>{t('page.aPlaceInMyStory')}</p>
+          <Button aria-label={t('page.closeCountryDetails')} data-travel-close size="icon" variant="ghost">
             <Icon name="x" class="size-4" />
           </Button>
         </div>
@@ -60,17 +60,17 @@ const labels = pageLocale === 'es' ?
           </p>
         </div>
         <div data-travel-places-section>
-          <h3 data-travel-places-heading>{t('Places in my notebook')}</h3>
+          <h3 data-travel-places-heading>{t('page.placesInMyNotebook')}</h3>
           <ul data-travel-places role="list"></ul>
           <p data-travel-empty hidden></p>
           <p data-travel-note hidden></p>
         </div>
         <div data-travel-selection-footer>
-          <Button aria-label={t('Previous country')} data-travel-previous size="icon" variant="ghost">
-            <Icon name="arrow-left" class="size-4" /><span data-travel-previous-label>{t('Previous')}</span>
+          <Button aria-label={t('page.previousCountry')} data-travel-previous size="icon" variant="ghost">
+            <Icon name="arrow-left" class="size-4" /><span data-travel-previous-label>{t('page.previous')}</span>
           </Button>
           <Button data-travel-next variant="ghost">
-            <span data-travel-next-copy><span>{t('Next country')}</span>{' '}<span data-travel-next-country></span></span>
+            <span data-travel-next-copy><span>{t('page.nextCountry')}</span>{' '}<span data-travel-next-country></span></span>
             <span data-travel-next-arrow><Icon name="arrow-right" class="size-4" /></span>
           </Button>
         </div>
@@ -79,22 +79,22 @@ const labels = pageLocale === 'es' ?
   </div>
   <header data-travel-intro>
     <div>
-      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>{t('Travel & life abroad')}</p>
-      <h1 id="travel-heading">{t('A life in')}<br /><span class="
+      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>{t('page.travelAndLifeAbroad7')}</p>
+      <h1 id="travel-heading">{t('page.aLifeIn')}<br /><span class="
         maker-hero-emphasis
       "
-                                                    >{t('more than one place.')}</span></h1>
+                                                       >{t('page.moreThanOnePlace')}</span></h1>
     </div>
     <div data-travel-context>
-      <p>{t('Colombian roots. A resident of Paraguay.')}<br />{t('A growing collection of places and stories.')}</p>
+      <p>{t('page.colombianRootsAResidentOfParaguay')}<br />{t('page.aGrowingCollectionOfPlacesAnd')}</p>
       <dl data-travel-counts aria-label={pageLocale === 'es' ? `${travelSummary.countriesAbroad} países visitados en el extranjero y ${travelSummary.countryVisits} visitas` : `${travelSummary.countriesAbroad} countries visited abroad and ${travelSummary.countryVisits} country visits`}>
-        <div><dt>{t('countries abroad')}</dt><dd>{travelSummary.countriesAbroad}</dd></div>
-        <div><dt>{t('visits')}</dt><dd>{travelSummary.countryVisits}</dd></div>
+        <div><dt>{t('page.countriesAbroad')}</dt><dd>{travelSummary.countriesAbroad}</dd></div>
+        <div><dt>{t('page.visits')}</dt><dd>{travelSummary.countryVisits}</dd></div>
       </dl>
     </div>
   </header>
   <p aria-live="polite" aria-atomic="true" class="sr-only" data-travel-announcement></p>
-  <noscript><p class="px-6 pb-6 text-sm text-ink-soft">{t('Explore all countries and places in the travel notebook below. The interactive map needs JavaScript.')}</p></noscript>
+  <noscript><p class="px-6 pb-6 text-sm text-ink-soft">{t('page.exploreAllCountriesAndPlacesIn')}</p></noscript>
 </section>
 
 <style>

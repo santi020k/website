@@ -1,5 +1,5 @@
 import type { Locale } from '@/i18n'
-import { translateArticle } from '@/i18n/article-copy'
+import { localizeArticleSource } from '@/i18n/article-copy'
 
 const generatedControl = /\bdata-(?:ui-code-copy|code-complete|code-preview|prose-table|scroll-cue-viewport)(?:[\s=>])/u
 const controlAttribute = /\b(aria-label|title|data-copy-label|data-copy-copied-label|data-copy-error-label)="([^"]*)"/gu
@@ -18,19 +18,19 @@ const translateGeneratedControls = (html: string, locale: Locale): string => {
     if (!generatedControl.test(tag)) return tag
 
     const translated = tag.replace(controlAttribute,
-      (_attribute, name: string, value: string) => `${name}="${translateArticle(locale, value)}"`)
+      (_attribute, name: string, value: string) => `${name}="${localizeArticleSource(locale, value)}"`)
 
     return translated.startsWith('<button') ? controlLanguage(translated) : translated
   })
 
   const labels = attributes.replace(controlText,
-    (_match, open: string, value: string, close: string) => `${controlLanguage(open)}${translateArticle(locale, value)}${close}`)
+    (_match, open: string, value: string, close: string) => `${controlLanguage(open)}${localizeArticleSource(locale, value)}${close}`)
 
   return labels.replace(/(<div\b[^>]*\bdata-scroll-cue-message[^>]*>[\s\S]*?<span\b[^>]*>)([^<]*)(<\/span>)/gu,
     (_match, open: string, value: string, close: string) => {
       const localizedOpen = open.replace(/<span\b[^>]*>$/u, tag => controlLanguage(tag))
 
-      return `${localizedOpen}${translateArticle(locale, value)}${close}`
+      return `${localizedOpen}${localizeArticleSource(locale, value)}${close}`
     })
 }
 

@@ -11,18 +11,18 @@ import { getAllTags, getBlogTopicLabel } from '@/utils/tags'
 import { Card, Icon, Input, Link, MotionGroup, Toggle } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
 const topTag = allTags[0]
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', locale) },
+  { name: t('nav.home'), url: localizePath('/', locale) },
   { name: 'Blog', url: localizePath('/blog/', locale) },
-  { name: t('Topics'), url: localizePath('/blog/tags/', locale) }
+  { name: t('collection.topics'), url: localizePath('/blog/tags/', locale) }
 ]
 ---
 
@@ -30,8 +30,8 @@ const breadcrumbs = [
 mainClass="remaining-pages"
   meta={{
     breadcrumbs,
-    description: t('Browse posts about software, reading, gaming, and everyday discoveries by topic.'),
-    title: t('Blog Topics')
+    description: t('collection.browsePostsAboutSoftwareReadingGaming'),
+    title: t('collection.blogTopics')
   }}
 >
   <section aria-labelledby="topic-index-heading" class="section-container-wide" data-topic-catalog>
@@ -39,11 +39,11 @@ mainClass="remaining-pages"
       <div data-topic-opening-topline>
         <Link data-text-link data-topic-return href={localizePath('/blog/', locale)} variant="inherit">
           <ArrowExchange class="size-4 shrink-0" direction="left" />
-          <span data-text-link-label>{t('Back to blog')}</span>
+          <span data-text-link-label>{t('collection.backToBlog')}</span>
         </Link>
-        <p class="section-label" data-topic-total>{allTags.length} {allTags.length === 1 ? t('topic') : t('topics')}</p>
+        <p class="section-label" data-topic-total>{allTags.length} {allTags.length === 1 ? t('collection.topic') : t('collection.topics7')}</p>
       </div>
-      <h1 id="topic-index-heading">{t('Browse by topic.')}</h1>
+      <h1 id="topic-index-heading">{t('collection.browseByTopic7')}</h1>
       <p data-topic-opening-description>
         {locale === 'es' ? 'Encuentra artículos relacionados sobre software, lectura, videojuegos y descubrimientos cotidianos.' : 'Find related writing on software, reading, gaming, and everyday discoveries.'}
       </p>
@@ -56,22 +56,22 @@ mainClass="remaining-pages"
     <div class="space-y-4" data-topic-index>
       <Card data-topic-search-folio variant="unstyled">
         <div data-topic-search-field>
-          <label for="tag-filter"><Icon class="size-4.5 shrink-0" name="search" /><span>{t('Find a topic')}</span></label>
+          <label for="tag-filter"><Icon class="size-4.5 shrink-0" name="search" /><span>{t('collection.findATopic')}</span></label>
           <Input
             aria-describedby="tag-filter-status"
             autocomplete="off"
             data-topic-search-input
             id="tag-filter"
-            placeholder={t('Search topics…')}
+            placeholder={t('collection.searchTopics')}
             spellcheck="false"
             type="search"
           />
         </div>
         <div data-topic-search-footer>
           <div data-topic-search-sort>
-            <span class="section-label">{t('Sort')}</span>
-            <div aria-label={t('Sort topics')} data-topic-search-options role="group">
-              <Toggle controlled data-sort-btn="count" pressed>{t('By count')}</Toggle>
+            <span class="section-label">{t('collection.sort')}</span>
+            <div aria-label={t('collection.sortTopics')} data-topic-search-options role="group">
+              <Toggle controlled data-sort-btn="count" pressed>{t('collection.byCount')}</Toggle>
               <Toggle controlled data-sort-btn="alpha">A → Z</Toggle>
             </div>
           </div>
@@ -91,7 +91,7 @@ mainClass="remaining-pages"
           <span data-count={String(count)} data-label={tag} data-name={getBlogTopicLabel(tag)} data-topic-entry data-ui-motion-key={tag}>
             <Link data-topic-card href={localizePath(getTagPath(tag), locale)} variant="inherit">
               <span data-topic-name>{getBlogTopicLabel(tag)}</span>
-              <span data-topic-count>{count} {count === 1 ? t('post') : t('posts')}</span>
+              <span data-topic-count>{count} {count === 1 ? t('collection.post') : t('collection.posts7')}</span>
               <ArrowExchange class="size-4.5" data-topic-arrow direction="right" />
             </Link>
           </span>
@@ -104,7 +104,7 @@ mainClass="remaining-pages"
         hidden
       >
         <span data-topic-empty-icon><Icon class="size-5.5" name="search-x" /></span>
-        <h2 id="topic-empty-heading">{t('No topics match that search.')}</h2>
+        <h2 id="topic-empty-heading">{t('collection.noTopicsMatchThatSearch')}</h2>
       </section>
     </div>
 
@@ -182,26 +182,26 @@ mainClass="remaining-pages"
 
   <StatsGrid columns={topTag ? 3 : 2}>
     <StatCard
-      description={t('Find a subject that fits what you want to read next.')}
+      description={t('collection.findASubjectThatFitsWhat')}
       icon="hash"
-      label={t('Topics to explore')}
-      source={{ href: '#topic-index-heading', label: t('Return to topic search') }}
+      label={t('collection.topicsToExplore')}
+      source={{ href: '#topic-index-heading', label: t('collection.returnToTopicSearch') }}
       value={allTags.length}
     />
     <StatCard
-      description={t('Read across topics, with the latest writing first.')}
+      description={t('collection.readAcrossTopicsWithTheLatest')}
       icon="file-text"
-      label={t('Posts in the archive')}
-      source={{ href: localizePath('/blog/#posts', locale), label: t('Browse all writing') }}
+      label={t('collection.postsInTheArchive')}
+      source={{ href: localizePath('/blog/#posts', locale), label: t('collection.browseAllWriting') }}
       value={posts.length}
     />
     {topTag && (
       <StatCard
-        description={t(`${getBlogTopicLabel(topTag[0])} is the most explored topic.`)}
+        description={t('topic.mostExplored', { topic: getBlogTopicLabel(topTag[0]) })}
         icon="trending-up"
-        label={t('Most written about')}
+        label={t('collection.mostWrittenAbout')}
         source={{ href: localizePath(getTagPath(topTag[0]), locale), label: getBlogTopicLabel(topTag[0]) }}
-        suffix={topTag[1] === 1 ? t('post') : t('posts')}
+        suffix={topTag[1] === 1 ? t('collection.post') : t('collection.posts7')}
         value={topTag[1]}
       />
     )}

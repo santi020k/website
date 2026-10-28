@@ -5,10 +5,10 @@ import { sortTechnologiesByInterest } from '@/utils/technologies'
 import { Card, Collapsible, Icon, Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   technologies: string[]
@@ -29,12 +29,12 @@ const extraTechnologies = sortTechnologiesByInterest(technologies.slice(6))
   <Card as="section" variant="unstyled" aria-labelledby="project-stack-heading" data-project-stack id="sidebar-stack">
     <header data-project-stack-margin>
       <span data-project-stack-symbol><Icon name="layers" class="size-5" /></span>
-      <h2 id="project-stack-heading">{t('Stack')}</h2>
+      <h2 id="project-stack-heading">{t('collection.stack')}</h2>
       <span data-project-stack-count>{technologies.length}</span>
-      <p>{t('Technologies')}</p>
+      <p>{t('collection.technologies')}</p>
     </header>
     <div data-project-stack-content id="technologies">
-      <ul data-project-stack-pills data-project-stack-preview aria-label={t('Core technologies')}>
+      <ul data-project-stack-pills data-project-stack-preview aria-label={t('collection.coreTechnologies')}>
         {coreTechnologies.map(technology => (
           <li>
             <Link href={localizePath(getTechnologyPath(technology), locale)} variant="inherit" data-project-stack-link>
@@ -45,8 +45,8 @@ const extraTechnologies = sortTechnologiesByInterest(technologies.slice(6))
       </ul>
       {extraTechnologies.length > 0 && (
         <Collapsible data-project-stack-more>
-          <summary>{t('More technologies')} ({extraTechnologies.length})</summary>
-          <ul data-project-stack-pills aria-label={t('More technologies')}>
+          <summary>{t('collection.moreTechnologies')} ({extraTechnologies.length})</summary>
+          <ul data-project-stack-pills aria-label={t('collection.moreTechnologies')}>
             {extraTechnologies.map(technology => (
               <li>
                 <Link href={localizePath(getTechnologyPath(technology), locale)} variant="inherit" data-project-stack-link>

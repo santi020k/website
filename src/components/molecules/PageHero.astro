@@ -1,7 +1,7 @@
 ---
 import { getLocale } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
-import { translatePage } from '@/i18n/page-copy'
+import { localizeCollectionSource } from '@/i18n/collection-copy'
+import { localizePageSource } from '@/i18n/page-copy'
 
 interface Props {
   compact?: boolean
@@ -14,7 +14,7 @@ interface Props {
 
 const { compact = false, description, eyebrow, gradientText, metaItems = [], title } = Astro.props
 const locale = getLocale(Astro.url.pathname)
-const localizeMeta = (item: string) => locale === 'es' ? translatePage(locale, translateCollection(item)) : item
+const localizeMeta = (item: string) => locale === 'es' ? localizePageSource(locale, localizeCollectionSource(locale, item)) : item
 const hasActions = Astro.slots.has('default')
 const hasMetaItems = metaItems.length > 0
 ---

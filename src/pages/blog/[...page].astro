@@ -24,11 +24,11 @@ import { RevealGroup } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 import { createAuthorSchema, siteConfig } from '@/site.config'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -50,18 +50,18 @@ const isFirstPage = page.currentPage === 1
 const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const topTags = getBlogBrowseTags(allTagsData)
 const latestPost = page.data[0] ?? null
-const archiveDescription = t('Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.')
+const archiveDescription = t('collection.notesOnSoftwareReadingGamingAnd')
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', locale) },
+  { name: t('nav.home'), url: localizePath('/', locale) },
   { name: 'Blog', url: localizePath('/blog/', locale) },
-  ...(page.currentPage > 1 ? [{ name: t(`Page ${page.currentPage}`), url: Astro.url.pathname }] : [])
+  ...(page.currentPage > 1 ? [{ name: t('pagination.page', { page: page.currentPage }), url: Astro.url.pathname }] : [])
 ]
 
 const blogListSchema = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
-  name: t('Personal Blog — Santiago Molina'),
+  name: t('collection.personalBlogSantiagoMolina'),
   url: new URL('/blog/', Astro.site).href,
   blogPost: page.data.map((post, index) => ({
     '@type': 'BlogPosting',
@@ -83,11 +83,11 @@ const blogListSchema = {
     breadcrumbs,
     description: isFirstPage ?
       archiveDescription :
-      t(`${archiveDescription} Page ${page.currentPage} of ${page.lastPage}.`),
+      t('pagination.description', { description: archiveDescription, page: page.currentPage, total: page.lastPage }),
     structuredData: blogListSchema,
     title: isFirstPage ?
-      t('Personal Blog — Santiago Molina') :
-      t(`Blog · Page ${page.currentPage} of ${page.lastPage} — Santiago Molina`)
+      t('collection.personalBlogSantiagoMolina') :
+      t('blog.pageTitle', { page: page.currentPage, total: page.lastPage })
   }}
 >
   {isFirstPage ?
@@ -97,26 +97,26 @@ const blogListSchema = {
 (
     <PageHero
       compact
-      description={t(`Older writing from page ${page.currentPage} of ${page.lastPage}, ordered newest first.`)}
-      eyebrow={t('Blog archive')}
-      gradientText={t(`Page ${page.currentPage}.`)}
-      metaItems={[t('Archive'), t('Latest first')]}
-      title={t('Writing archive.')}
+      description={t('blog.pageDescription', { page: page.currentPage, total: page.lastPage })}
+      eyebrow={t('collection.blogArchive')}
+      gradientText={t('pagination.pageHeading', { page: page.currentPage })}
+      metaItems={[t('collection.archive'), t('collection.latestFirst')]}
+      title={t('collection.writingArchive')}
     >
-      <ButtonLink href={localizePath('/blog/', locale)} showArrow>{t('Back to latest posts')}</ButtonLink>
-      <ButtonLink href={localizePath('/blog/tags/', locale)} showArrow variant="secondary">{t('Browse topics')}</ButtonLink>
+      <ButtonLink href={localizePath('/blog/', locale)} showArrow>{t('collection.backToLatestPosts')}</ButtonLink>
+      <ButtonLink href={localizePath('/blog/tags/', locale)} showArrow variant="secondary">{t('collection.browseTopics')}</ButtonLink>
     </PageHero>
   )}
 
   <section
     id="posts"
-    aria-label={isFirstPage ? t('Latest blog posts') : t(`Blog posts, page ${page.currentPage}`)}
+    aria-label={isFirstPage ? t('collection.latestBlogPosts') : t('blog.pageLabel', { page: page.currentPage })}
     class="section-container-wide scroll-mt-28 page-section-space"
   >
     <SectionHeader
-      description={isFirstPage ? t('Software, reading, gaming, and everything in between. Browse the feed or follow a topic.') : t('More notes and discoveries, ordered newest first.')}
-      eyebrow={isFirstPage ? t('Latest') : t(`Page ${page.currentPage} of ${page.lastPage}`)}
-      title={isFirstPage ? t('Recent notes and discoveries.') : t('From the archive.')}
+      description={isFirstPage ? t('collection.softwareReadingGamingAndEverythingIn') : t('collection.moreNotesAndDiscoveriesOrderedNewest')}
+      eyebrow={isFirstPage ? t('collection.latest') : t('pagination.position', { page: page.currentPage, total: page.lastPage })}
+      title={isFirstPage ? t('collection.recentNotesAndDiscoveries') : t('collection.fromTheArchive')}
     />
 
     <div class="
@@ -137,11 +137,11 @@ const blogListSchema = {
   {isFirstPage && !!activeSeries.length && (
     <PageSection layout="stacked">
       <SectionHeader
-        description={t('Go deeper with connected posts on engineering principles, delivery systems, and developer tools.')}
+        description={t('collection.goDeeperWithConnectedPostsOn')}
         eyebrow="Series"
         linkHref={localizePath('/blog/series/', locale)}
-        linkLabel={t('Browse all series')}
-        title={t('Follow related posts in order.')}
+        linkLabel={t('collection.browseAllSeries')}
+        title={t('collection.followRelatedPostsInOrder')}
       />
 
       <RevealGroup

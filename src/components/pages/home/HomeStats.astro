@@ -2,10 +2,10 @@
 import { AnimatedNumber, Icon, Stat } from '@santi020k/lumen-astro'
 
 import { getLocale } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 
 interface Props {
   yearsOfExperience: string
@@ -14,14 +14,14 @@ interface Props {
 const { yearsOfExperience } = Astro.props
 
 const stats = [
-  { value: Number.parseInt(yearsOfExperience, 10), suffix: '+', icon: 'layers', label: t('Years building'), description: t('Across web, mobile, and the systems behind them.') },
-  { value: 14, suffix: '', icon: 'users', label: t('People, one team'), description: t('The largest cross-functional team I’ve led.') },
-  { value: -75, suffix: '%', icon: 'workflow', label: t('Release cycle time'), description: t('Through better pipelines and automated quality gates.') },
-  { value: 100, suffix: '+', icon: 'messages-square', label: t('People learning together'), description: t('Typical attendance at our community events.') }
+  { value: Number.parseInt(yearsOfExperience, 10), suffix: '+', icon: 'layers', label: t('page.yearsBuilding'), description: t('page.acrossWebMobileAndTheSystems') },
+  { value: 14, suffix: '', icon: 'users', label: t('page.peopleOneTeam'), description: t('page.theLargestCrossFunctionalTeamI') },
+  { value: -75, suffix: '%', icon: 'workflow', label: t('page.releaseCycleTime'), description: t('page.throughBetterPipelinesAndAutomatedQuality') },
+  { value: 100, suffix: '+', icon: 'messages-square', label: t('page.peopleLearningTogether'), description: t('page.typicalAttendanceAtOurCommunityEvents') }
 ] as const
 ---
 
-<section class="studio-stats" aria-label={t('Experience and impact')} id="home-stats">
+<section class="studio-stats" aria-label={t('page.experienceAndImpact')} id="home-stats">
   {stats.map(stat => (
     <Stat as="article" class="studio-stat" label={stat.label} variant="bare">
       <div class="studio-stat-metric">

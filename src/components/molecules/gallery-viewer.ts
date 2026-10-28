@@ -1,6 +1,6 @@
-import { getLocale, translate } from '@/i18n'
+import { getLocale, sharedTranslator } from '@/i18n'
 
-const t = (text: string) => translate(getLocale(window.location.pathname), text)
+const t = sharedTranslator(() => getLocale(window.location.pathname))
 
 class GalleryViewerElement extends HTMLElement {
   #events: AbortController | undefined
@@ -17,9 +17,9 @@ class GalleryViewerElement extends HTMLElement {
     canvas.dataset.zoomed = String(zoomed)
 
     // The label names the next action, so it is not also a pressed toggle.
-    label.textContent = t(zoomed ? 'Fit image' : 'Inspect detail')
+    label.textContent = t(zoomed ? 'shared.fitImage' : 'shared.inspectDetail')
 
-    status.textContent = t(zoomed ? 'Full detail · scroll or use arrow keys' : 'Complete image')
+    status.textContent = t(zoomed ? 'shared.fullDetailScrollOrUseArrow' : 'shared.completeImage')
 
     canvas.scrollTo({ left: 0, top: 0, behavior: 'instant' })
   }
@@ -41,7 +41,7 @@ class GalleryViewerElement extends HTMLElement {
 
     recovery.hidden = !failed
 
-    status.textContent = t(failed ? 'The preview could not load. Open the original image to try again.' : 'Complete image')
+    status.textContent = t(failed ? 'shared.thePreviewCouldNotLoadOpen' : 'shared.completeImage')
   }
 
   #prepareImage = () => {
@@ -68,7 +68,7 @@ class GalleryViewerElement extends HTMLElement {
 
     button.disabled = true
 
-    status.textContent = t('Loading image…')
+    status.textContent = t('shared.loadingImage')
 
     canvas.replaceChildren(content)
 

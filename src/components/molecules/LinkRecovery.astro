@@ -1,7 +1,7 @@
 ---
 import { Textarea } from '@santi020k/lumen-astro'
 
-import { getLocale, localeLanguage, translate } from '@/i18n'
+import { getLocale, localeLanguage, sharedTranslator } from '@/i18n'
 
 interface Props {
   buttonId: string
@@ -15,21 +15,22 @@ interface Props {
   statusId?: string
 }
 
+const locale = getLocale(Astro.url.pathname)
+const t = sharedTranslator(locale)
+
 const {
   buttonId,
   url,
   nativeShare = false,
-  copiedLabel = 'Link copied!',
+  copiedLabel = t('shared.linkCopied'),
   copiedAnnouncement = copiedLabel,
-  idleLabel = 'Copy link',
-  retryAnnouncement = 'Try again',
-  addressLabel = 'Select and copy the address',
+  idleLabel = t('shared.copyLink'),
+  retryAnnouncement = t('shared.tryAgain'),
+  addressLabel = t('shared.selectAndCopyTheAddress'),
   statusId = `${buttonId}-status`
 } = Astro.props
 
 const id = `${buttonId}-recovery`
-const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
 ---
 
 <div
@@ -38,15 +39,15 @@ const t = (text: string) => translate(locale, text)
   data-link-recovery
   data-link-button={buttonId}
   data-native-share={nativeShare}
-  data-copied-label={t(copiedLabel)}
-  data-copied-announcement={t(copiedAnnouncement)}
-  data-idle-label={t(idleLabel)}
-  data-retry-announcement={t(retryAnnouncement)}
+  data-copied-label={copiedLabel}
+  data-copied-announcement={copiedAnnouncement}
+  data-idle-label={idleLabel}
+  data-retry-announcement={retryAnnouncement}
   data-status-id={statusId}
   hidden
 >
-  <p id={`${id}-notice`}>{t('Automatic copying isn’t available.')}</p>
-  <label for={`${id}-address`}>{t(addressLabel)}</label>
+  <p id={`${id}-notice`}>{t('shared.automaticCopyingIsnTAvailable')}</p>
+  <label for={`${id}-address`}>{addressLabel}</label>
   <Textarea id={`${id}-address`} readonly spellcheck="false" rows={3}>{url}</Textarea>
 </div>
 <p
@@ -90,9 +91,9 @@ role="status"
 </style>
 
 <script>
-  import { getLocale, translate } from '@/i18n'
+  import { getLocale, sharedTranslator } from '@/i18n'
 
-  const t = (text: string) => translate(getLocale(window.location.pathname), text)
+  const t = sharedTranslator(() => getLocale(window.location.pathname))
 
   const setupControl = (recovery: HTMLElement) => {
     const btn = document.getElementById(recovery.dataset.linkButton ?? '')
@@ -106,7 +107,7 @@ role="status"
     const address = recovery.querySelector('textarea')
     const originalName = btn.getAttribute('aria-label')
     const originalDescription = btn.getAttribute('aria-describedby')
-    const successLabel = recovery.dataset.copiedLabel ?? t('Link copied!')
+    const successLabel = recovery.dataset.copiedLabel ?? t('shared.linkCopied')
     const successAnnouncement = recovery.dataset.copiedAnnouncement ?? successLabel
     let resizeFrame = 0
     let selectionFrame = 0
@@ -178,7 +179,7 @@ role="status"
       return isCoarsePointer
     }
 
-    const idleLabel = supportsWebShare() ? t('Share link') : recovery.dataset.idleLabel ?? t('Copy link')
+    const idleLabel = supportsWebShare() ? t('shared.shareLink') : recovery.dataset.idleLabel ?? t('shared.copyLink')
     const STATE_RESET_MS = 2000
     const ANNOUNCEMENT_DELAY_MS = 100
 
@@ -230,9 +231,9 @@ role="status"
       checkIcon?.classList.toggle('hidden', !succeeded)
 
       // Kept short so the control still fits a 320px viewport with enlarged text.
-      if (label) label.textContent = succeeded ? successLabel : t('Try again')
+      if (label) label.textContent = succeeded ? successLabel : t('shared.tryAgain')
 
-      btn.setAttribute('aria-label', succeeded ? successAnnouncement : recovery.dataset.retryAnnouncement ?? t('Try again'))
+      btn.setAttribute('aria-label', succeeded ? successAnnouncement : recovery.dataset.retryAnnouncement ?? t('shared.tryAgain'))
 
       if (succeeded) {
         hideRecovery()
@@ -251,7 +252,7 @@ role="status"
       // Empty the region, then write the result in a later task: restoring the
       // same text within the task that cleared it leaves no distinct change.
       if (status) {
-        const message = succeeded ? successAnnouncement : t('Copy failed. Select and copy the address below, or try again.')
+        const message = succeeded ? successAnnouncement : t('shared.copyFailedSelectAndCopyThe')
 
         status.textContent = ''
 

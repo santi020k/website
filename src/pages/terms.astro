@@ -8,62 +8,62 @@ import PageLayout from '@/layouts/Base.astro'
 import { Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 
 const description =
-  t('Terms and conditions for using santi020k.com, including acceptable use, intellectual property, external links, and limitations.')
+  t('page.termsAndConditionsForUsingSanti020k')
 
 /** Single source of truth for the effective and review dates shown across this page. */
-const effectiveDate = t('August 25, 2026')
-const lastReviewed = t('August 25, 2026')
+const effectiveDate = t('page.august252026')
+const lastReviewed = t('page.august252026')
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', pageLocale) },
-  { name: t('Terms & Conditions'), url: localizePath('/terms/', pageLocale) }
+  { name: t('nav.home'), url: localizePath('/', pageLocale) },
+  { name: t('page.termsAndConditions'), url: localizePath('/terms/', pageLocale) }
 ]
 
 const meta = {
   breadcrumbs,
   description,
-  title: t('Terms & Conditions')
+  title: t('page.termsAndConditions')
 }
 
 const sections = [
   {
-    label: t('Using this site'),
-    body: t('By accessing santi020k.com, you agree to use it lawfully and in a way that does not damage, disrupt, overload, or interfere with the site or anyone else’s use of it. If you do not agree with these terms, please do not use the site.')
+    label: t('page.usingThisSite'),
+    body: t('page.byAccessingSanti020kComYouAgree')
   },
   {
-    label: t('Purpose of the content'),
-    body: t('This portfolio and blog share personal work, experience, and general educational information. The content is not legal, financial, medical, or other professional advice, and it should not be treated as a substitute for advice tailored to your circumstances.')
+    label: t('page.purposeOfTheContent'),
+    body: t('page.thisPortfolioAndBlogSharePersonal')
   },
   {
-    label: t('Intellectual property'),
-    body: t('Unless stated otherwise, the writing, design, code examples, images, logos, and other original material on this site belong to Santiago Molina and are protected by applicable intellectual-property laws. You may link to and quote brief portions with clear attribution, but you may not reproduce, republish, sell, or present substantial parts as your own without prior written permission.')
+    label: t('page.intellectualProperty'),
+    body: t('page.unlessStatedOtherwiseTheWritingDesign')
   },
   {
-    label: t('Third-party links and services'),
-    body: t('The site links to services and websites operated by others, including GitHub, LinkedIn, Medium, Buttondown, Giscus, and WhatsApp. Their content, availability, security, and privacy practices are controlled by their respective operators and governed by their own terms.')
+    label: t('page.thirdPartyLinksAndServices'),
+    body: t('page.theSiteLinksToServicesAnd')
   },
   {
-    label: t('Availability and accuracy'),
-    body: t('I work to keep the site useful and accurate, but content may become outdated and the site may occasionally be unavailable. The site and its content are provided as available, without guarantees that every page will always be complete, current, uninterrupted, or error-free.')
+    label: t('page.availabilityAndAccuracy'),
+    body: t('page.iWorkToKeepTheSite')
   },
   {
-    label: t('Limitation of liability'),
-    body: t('To the fullest extent permitted by applicable law, Santiago Molina is not responsible for indirect, incidental, or consequential loss arising from use of, inability to use, or reliance on this site or linked third-party services. Nothing in these terms excludes liability that cannot lawfully be excluded.')
+    label: t('page.limitationOfLiability'),
+    body: t('page.toTheFullestExtentPermittedBy')
   },
   {
-    label: t('Privacy'),
-    body: t('The Privacy page explains browser storage, hosting metrics, third-party services, and how information connected with the site is handled. It forms part of these terms where relevant.')
+    label: t('shared.privacy'),
+    body: t('page.thePrivacyPageExplainsBrowserStorage')
   },
   {
-    label: t('Changes and governing law'),
-    body: t('These terms may be updated when the site or applicable requirements change. Updated terms take effect when published here. These terms are governed by the laws of the Republic of Colombia, without limiting any rights that applicable law gives you.')
+    label: t('page.changesAndGoverningLaw'),
+    body: t('page.theseTermsMayBeUpdatedWhen')
   }
 ]
 ---
@@ -71,18 +71,18 @@ const sections = [
 <PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
   <article class="space-y-12">
     <PageHero
-      description={t('Clear expectations for using this portfolio, blog, and the resources shared here.')}
-      eyebrow={t('Legal')}
-      gradientText={t('plain language.')}
-      metaItems={[t('Personal portfolio'), t('Educational content'), `${t('Effective')} ${effectiveDate}`]}
-      title={t('Terms & Conditions')}
+      description={t('page.clearExpectationsForUsingThisPortfolio')}
+      eyebrow={t('page.legal')}
+      gradientText={t('page.plainLanguage')}
+      metaItems={[t('page.personalPortfolio'), t('page.educationalContent'), `${t('page.effective')} ${effectiveDate}`]}
+      title={t('page.termsAndConditions')}
     />
 
     <PolicySections {sections} />
 
-    <PolicyContactCard label={t('Questions or permissions')} title={t('Ask before reusing substantial material.')}>
+    <PolicyContactCard label={t('page.questionsOrPermissions')} title={t('page.askBeforeReusingSubstantialMaterial')}>
       <p>
-        {t('For questions about these terms or permission to reuse site material, email')}{' '}
+        {t('page.forQuestionsAboutTheseTermsOr')}{' '}
         <Link
 variant="inherit"
 href={localizePath(`mailto:${siteConfig.contact.email}?subject=Terms%20and%20permissions`, pageLocale)}
@@ -91,17 +91,17 @@ href={localizePath(`mailto:${siteConfig.contact.email}?subject=Terms%20and%20per
         </Link>.
       </p>
       <p slot="note">
-        {t('Effective')} {effectiveDate}{t('. Last reviewed')} {lastReviewed}.
+        {t('page.effective')} {effectiveDate}{t('page.lastReviewed7')} {lastReviewed}.
       </p>
     </PolicyContactCard>
   </article>
 
   <div class="section-container-wide section-actions">
     <ButtonLink href={localizePath('/', pageLocale)} showArrow variant="secondary">
-      {t('Back home')}
+      {t('page.backHome')}
     </ButtonLink>
     <ButtonLink href={localizePath('/privacy/', pageLocale)} showArrow variant="ghost">
-      {t('Privacy statement')}
+      {t('page.privacyStatement')}
     </ButtonLink>
   </div>
 </PageLayout>

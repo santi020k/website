@@ -8,10 +8,10 @@ import { getBlogTopicLabel } from '@/utils/tags'
 import { Icon, Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   activeTag?: string
@@ -36,7 +36,7 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
       h-px flex-1 bg-linear-to-r from-transparent via-line/40 to-transparent
     "
     />
-    <span class="section-label">{t('Filter posts')}</span>
+    <span class="section-label">{t('collection.filterPosts')}</span>
     <div class="
       h-px flex-1 bg-linear-to-r from-transparent via-line/40 to-transparent
     "
@@ -45,19 +45,19 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
 )}
 <div data-blog-topic-guide>
   <div data-topic-guide-heading>
-    <p>{t('Browse by topic')}</p>
+    <p>{t('collection.browseByTopic')}</p>
     <Link data-topic-guide-catalog href={localizePath('/blog/tags/', locale)} variant="inherit">
-      <span>{`All ${totalTopics} ${totalTopics === 1 ? t('topic') : t('topics')}`}</span>
+      <span>{`All ${totalTopics} ${totalTopics === 1 ? t('collection.topic') : t('collection.topics7')}`}</span>
       <ArrowExchange direction="up-right" size="sm" />
     </Link>
   </div>
   <div
-    aria-label={t('Filter by topic')}
+    aria-label={t('collection.filterByTopic')}
     class="@container/sculpted-tags flex flex-wrap gap-2.5"
     data-blog-tag-filter
     role="group"
   >
-    <SculptedTag aria-current={getAriaCurrent('/blog/', !activeTag)} href={localizePath('/blog/', locale)} label={t('All posts')}>
+    <SculptedTag aria-current={getAriaCurrent('/blog/', !activeTag)} href={localizePath('/blog/', locale)} label={t('collection.allPosts')}>
       <Icon class="size-4.5" name="layers" slot="count" />
     </SculptedTag>
     {tags.map(([tag, count]) => (

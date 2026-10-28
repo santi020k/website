@@ -11,8 +11,8 @@ import { getNavigationCurrent } from '@/utils/links'
 
 import { Button, ButtonLink as NavigationLink, Icon } from '@santi020k/lumen-astro'
 
-import { getLocale, localizePath, stripLocale, translate } from '@/i18n'
-import { menuLinks, siteConfig } from '@/site.config'
+import { getLocale, localizePath, sharedTranslator, stripLocale } from '@/i18n'
+import { getMenuLinks, siteConfig } from '@/site.config'
 
 interface Props {
   variant?: 'dock' | 'signature'
@@ -25,8 +25,8 @@ const isAvailableForBanner =
   siteConfig.showAvailabilityBanner !== false
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
-const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/').map(link => ({ ...link, path: localizePath(link.path, locale), title: t(link.title) }))
+const t = sharedTranslator(locale)
+const navigationLinks = getMenuLinks(locale).filter(({ path }) => path !== '/speaking/').map(link => ({ ...link, path: localizePath(link.path, locale) }))
 const getAriaCurrent = (path: string) => getNavigationCurrent(stripLocale(Astro.url.pathname), stripLocale(path))
 
 ---
@@ -86,7 +86,7 @@ const getAriaCurrent = (path: string) => getNavigationCurrent(stripLocale(Astro.
           showArrow
           variant="secondary"
         >
-          {t('Discuss a role')}
+          {t('shared.discussARole')}
         </ButtonLink>
         <NavigationLink
 aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
@@ -94,13 +94,13 @@ class="site-nav-contact"
 href={localizePath(siteConfig.contact.workWithMe, locale)}
 variant="unstyled"
         >
-          <span class="site-nav-contact-label">{t('Let\'s talk')}</span>
+          <span class="site-nav-contact-label">{t('shared.letSTalk7')}</span>
           <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
         </NavigationLink>
       </div>
     </div>
   )}
-  <site-header-mobile-nav class="contents" data-close-label={t('Close')} data-menu-label={t('Menu')}>
+  <site-header-mobile-nav class="contents" data-close-label={t('shared.close')} data-menu-label={t('shared.menu')}>
     <div class="contents" data-mobile-nav>
       <div class="site-header-shell" data-header-frame={variant === 'signature' ? '' : undefined} data-header-shell data-scrolled="false">
         <a
@@ -128,7 +128,7 @@ href={localizePath('/', locale)}
                                                                                       >.</span></span>
         </a>
 
-        <nav aria-label={t('Main menu')} class="site-desktop-nav">
+        <nav aria-label={t('shared.mainMenu')} class="site-desktop-nav">
           {navigationLinks.map((link: SiteLink) => (
             <a
               aria-current={getAriaCurrent(link.path)}
@@ -151,7 +151,7 @@ class="site-nav-contact"
 href={localizePath(siteConfig.contact.workWithMe, locale)}
 variant="unstyled"
             >
-              <span class="site-nav-contact-label">{t('Let\'s talk')}</span>
+              <span class="site-nav-contact-label">{t('shared.letSTalk7')}</span>
               <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
           </div>
@@ -167,8 +167,8 @@ variant="unstyled"
               <span data-mobile-nav-menu-icon><Icon class="size-5" name="menu" /></span>
               <span data-mobile-nav-close-icon hidden><Icon class="size-5" name="x" /></span>
             </span>
-            <span class="site-menu-label" data-mobile-nav-toggle-label>{t('Menu')}</span>
-            <span class="sr-only">{t('navigation')}</span>
+            <span class="site-menu-label" data-mobile-nav-toggle-label>{t('shared.menu')}</span>
+            <span class="sr-only">{t('shared.navigation')}</span>
           </Button>
         </div>
       </div>
@@ -178,7 +178,7 @@ variant="unstyled"
       <nav
         id="mobile-nav"
         aria-hidden="true"
-        aria-label={t('Main menu')}
+        aria-label={t('shared.mainMenu')}
         class="site-mobile-nav"
         data-mobile-nav-panel
         hidden
@@ -199,7 +199,7 @@ variant="unstyled"
                   <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                   <span>{link.title}</span>
                   {current === 'page' ?
-                    <span class="site-mobile-nav-current" aria-hidden="true">{t('Current')}</span> :
+                    <span class="site-mobile-nav-current" aria-hidden="true">{t('shared.current')}</span> :
                     <ArrowExchange class="site-mobile-nav-arrow" direction="right" />}
                 </a>
               )
@@ -213,11 +213,11 @@ class="site-nav-contact"
 href={localizePath(siteConfig.contact.workWithMe, locale)}
 variant="unstyled"
             >
-              <span class="site-nav-contact-label">{t('Let\'s talk')}</span>
+              <span class="site-nav-contact-label">{t('shared.letSTalk7')}</span>
               <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
             <NavigationLink class="site-nav-resume" href={localizePath(siteConfig.contact.resume, locale)} variant="unstyled">
-              <span>{t('View resume')}</span>
+              <span>{t('shared.viewResume')}</span>
               <ArrowExchange class="size-4" direction="right" />
             </NavigationLink>
           </div>

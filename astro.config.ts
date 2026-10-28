@@ -15,7 +15,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 // Remark plugins
 import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
-import { stripLocale } from './src/i18n'
+import { defaultLocale, locales, stripLocale } from './src/i18n'
 import { codeHighlightingOptions } from './src/plugins/code-highlighting'
 import { rehypeArticleChecklists } from './src/plugins/rehype-article-checklists'
 import { rehypeArticleFigures } from './src/plugins/rehype-article-figures'
@@ -197,14 +197,14 @@ const legacyRedirects: Record<string, string> = {
 
 // https://astro.build/config
 export default defineConfig({
-  i18n: { defaultLocale: 'en', locales: ['en', 'es'], routing: { prefixDefaultLocale: false } },
+  i18n: { defaultLocale, locales: [...locales], routing: { prefixDefaultLocale: false } },
   redirects: legacyRedirects,
   // Editorial images are local. Leave third-party mention avatars as browser
   // requests so an unavailable author image cannot fail the static build.
   integrations: [
     icon(),
     sitemap({
-      i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
+      i18n: { defaultLocale, locales: { en: 'en', es: 'es' } },
       // Draft filtering happens at route level (getStaticPaths / getCachedPosts / getAllProjects)
       // so draft pages never generate URLs and are never included in the sitemap.
       filter: page => !page.endsWith('/offline/') &&

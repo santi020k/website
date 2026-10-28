@@ -14,10 +14,10 @@ import { getResponsiveImageDimensions } from '@/utils/responsive-image'
 import { Card, Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   latestPost: CollectionEntry<'post'> | null
@@ -36,36 +36,36 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
 >
   <div data-blog-layout data-has-latest={Boolean(latestPost)}>
     <div class="space-y-6" data-blog-intro>
-      <Eyebrow label={t('The personal blog')} tone="brand" />
+      <Eyebrow label={t('collection.thePersonalBlog')} tone="brand" />
       <h1
         class="editorial-page-title"
       >
-        {t('Things I build,')}{' '}
+        {t('collection.thingsIBuild')}{' '}
         <span
           class="editorial-page-emphasis"
         >
-          {t('enjoy, and learn.')}
+          {t('collection.enjoyAndLearn')}
         </span>
       </h1>
       <p class="editorial-page-description max-w-xl">
-        {t('Notes on software, reading, gaming, and everyday discoveries. What I’m building, what holds my attention, and what I learn along the way.')}
+        {t('collection.notesOnSoftwareReadingGamingAndEveryday')}
       </p>
       <div data-blog-primary-path>
-        <ButtonLink href="#posts" showArrow>{t('Explore the writing')}</ButtonLink>
-        <p>{postCount} {t('posts')} <span aria-hidden="true">·</span>{t('Latest first')}</p>
+        <ButtonLink href="#posts" showArrow>{t('collection.exploreTheWriting')}</ButtonLink>
+        <p>{postCount} {t('collection.posts7')} <span aria-hidden="true">·</span>{t('collection.latestFirst')}</p>
       </div>
-      <nav aria-label={t('Choose how to read')} data-blog-reading-paths>
+      <nav aria-label={t('collection.chooseHowToRead')} data-blog-reading-paths>
         <Link data-blog-path href={localizePath('/blog/tags/', locale)} variant="inherit">
           <span>
-            <span data-blog-path-caption>{topicCount} {t('topics')}</span>
-            <span data-blog-path-title>{t('Browse topics')}</span>
+            <span data-blog-path-caption>{topicCount} {t('collection.topics7')}</span>
+            <span data-blog-path-title>{t('collection.browseTopics')}</span>
           </span>
           <ArrowExchange direction="up-right" size="sm" />
         </Link>
         <Link data-blog-path href={localizePath('/blog/series/', locale)} variant="inherit">
           <span>
-            <span data-blog-path-caption>{t('Connected posts')}</span>
-            <span data-blog-path-title>{t('Follow a series')}</span>
+            <span data-blog-path-caption>{t('collection.connectedPosts')}</span>
+            <span data-blog-path-title>{t('collection.followASeries')}</span>
           </span>
           <ArrowExchange direction="up-right" size="sm" />
         </Link>
@@ -101,7 +101,7 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
               )}
           </div>
           <div data-latest-sheet>
-            <p data-latest-label>{t('Latest post')}</p>
+            <p data-latest-label>{t('collection.latestPost')}</p>
             <h2>
               {latestPost.data.title}
             </h2>
@@ -112,10 +112,13 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
                   {getFormattedDate(latestPost.data.publishDate, {}, locale === 'es' ? 'es-419' : 'en-US')}
                 </time>
                 <span aria-hidden="true">·</span>
-                <span>{t(`${getReadingTime(latestPost.body)} min read`)}</span>
+                <span>{t('reading.duration', { minutes: getReadingTime(latestPost.body) })}</span>
               </p>
               <span data-latest-action>
-                {t('Read post')} <ArrowExchange class="size-4 shrink-0" direction="up-right" />
+                {t('collection.readPost')} <ArrowExchange
+class="size-4 shrink-0"
+direction="up-right"
+                                           />
               </span>
             </div>
           </div>

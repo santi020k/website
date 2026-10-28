@@ -19,10 +19,10 @@ import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
 import { getAllTags, getBlogBrowseTags, getBlogTopicLabel } from '@/utils/tags'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -52,14 +52,14 @@ const topTags = getBlogBrowseTags(allTags)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
 const topicLabel = getBlogTopicLabel(tag)
-const archiveDescription = t(`Articles, guides, and personal notes about ${topicLabel}.`)
+const archiveDescription = t('topic.description', { topic: topicLabel })
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', locale) },
+  { name: t('nav.home'), url: localizePath('/', locale) },
   { name: 'Blog', url: localizePath('/blog/', locale) },
-  { name: t('Topics'), url: localizePath('/blog/tags/', locale) },
+  { name: t('collection.topics'), url: localizePath('/blog/tags/', locale) },
   { name: topicLabel, url: getTagPath(tag) },
-  ...(page.currentPage > 1 ? [{ name: t(`Page ${page.currentPage}`), url: Astro.url.pathname }] : [])
+  ...(page.currentPage > 1 ? [{ name: t('pagination.page', { page: page.currentPage }), url: Astro.url.pathname }] : [])
 ]
 ---
 
@@ -69,22 +69,22 @@ mainClass="remaining-pages"
     breadcrumbs,
     description: isFirstPage ?
       archiveDescription :
-      t(`${archiveDescription} Page ${page.currentPage} of ${page.lastPage}.`),
+      t('pagination.description', { description: archiveDescription, page: page.currentPage, total: page.lastPage }),
     title: isFirstPage ?
-      t(`${topicLabel} posts`) :
-      t(`${topicLabel} posts · Page ${page.currentPage} of ${page.lastPage}`)
+      t('topic.postsTitle', { topic: topicLabel }) :
+      t('topic.pageTitle', { topic: topicLabel, page: page.currentPage, total: page.lastPage })
   }}
 >
   <PageHero
     compact={!isFirstPage}
     description={locale === 'es' ? `${postCount} ${postCount === 1 ? 'artículo' : 'artículos'} sobre ${topicLabel}.` : `${postCount} ${postCount === 1 ? 'post' : 'posts'} about ${topicLabel}.`}
-    eyebrow={t('Topic archive')}
-    gradientText={t('All posts.')}
-    metaItems={[t('Filtered archive'), t('Browse by topic'), t('Latest first')]}
+    eyebrow={t('collection.topicArchive')}
+    gradientText={t('collection.allPosts7')}
+    metaItems={[t('collection.filteredArchive'), t('collection.browseByTopic'), t('collection.latestFirst')]}
     title={topicLabel}
   >
-    <ButtonLink href={localizePath('/blog/tags/', locale)} showArrow variant="secondary">{t('Browse all topics')}</ButtonLink>
-    <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('Back to blog')}</ButtonLink>
+    <ButtonLink href={localizePath('/blog/tags/', locale)} showArrow variant="secondary">{t('collection.browseAllTopics')}</ButtonLink>
+    <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('collection.backToBlog')}</ButtonLink>
   </PageHero>
 
   <section
@@ -92,10 +92,10 @@ mainClass="remaining-pages"
   >
     <SectionHeader
       description={isFirstPage ?
-        t('Start with the latest post, then browse the rest.') :
-        t(`Browse earlier posts about ${topicLabel}.`)}
-      eyebrow={isFirstPage ? t('Latest') : t(`Page ${page.currentPage} of ${page.lastPage}`)}
-      title={t(`Posts about ${topicLabel}`)}
+        t('collection.startWithTheLatestPostThen') :
+        t('topic.earlierPosts', { topic: topicLabel })}
+      eyebrow={isFirstPage ? t('collection.latest') : t('pagination.position', { page: page.currentPage, total: page.lastPage })}
+      title={t('topic.postsHeading', { topic: topicLabel })}
     />
 
     <div class="
@@ -112,9 +112,9 @@ mainClass="remaining-pages"
         (
           <div class="flex flex-col items-center gap-4 py-16 text-center">
             <p class="text-lg text-ink-soft">
-              {t('No posts found for')} <strong class="text-ink">{topicLabel}</strong>.
+              {t('collection.noPostsFoundFor')} <strong class="text-ink">{topicLabel}</strong>.
             </p>
-            <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('Back to all posts')}</ButtonLink>
+            <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('collection.backToAllPosts')}</ButtonLink>
           </div>
         )}
 
@@ -124,9 +124,9 @@ mainClass="remaining-pages"
 
   {isFirstPage && (
     <StatsGrid columns={page.lastPage > 1 ? 3 : 2}>
-      <StatCard description={t('Posts connected by this topic in the archive.')} icon="file-text" label={t('Posts')} value={postCount} />
-      <StatCard description={t('Distinct topics across the full writing archive.')} icon="hash" label={t('Total topics')} value={totalTopics} />
-      {page.lastPage > 1 && <StatCard description={t('Pagination for this topic archive.')} icon="list-ordered" label={t('Page')} value={`${page.currentPage} / ${page.lastPage}`} />}
+      <StatCard description={t('collection.postsConnectedByThisTopicIn')} icon="file-text" label={t('collection.posts')} value={postCount} />
+      <StatCard description={t('collection.distinctTopicsAcrossTheFullWriting')} icon="hash" label={t('collection.totalTopics')} value={totalTopics} />
+      {page.lastPage > 1 && <StatCard description={t('collection.paginationForThisTopicArchive')} icon="list-ordered" label={t('collection.page')} value={`${page.currentPage} / ${page.lastPage}`} />}
     </StatsGrid>
   )}
 </PageLayout>

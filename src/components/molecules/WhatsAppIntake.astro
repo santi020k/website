@@ -6,12 +6,12 @@ import { Card, Icon, Input, Textarea } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
 import { getDirectContactMessage } from '@/i18n/intake'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 import { getLocalizedWorkWithMe } from '@/i18n/work-with-me'
 import { createWhatsAppHref, siteConfig } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 const { workTopics } = getLocalizedWorkWithMe(pageLocale)
 const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
 ---
@@ -20,15 +20,15 @@ const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
   <header data-intake-header>
     <span data-intake-icon><Icon class="size-6" name="message-circle" /></span>
     <div>
-      <p data-intake-eyebrow>{t('A quick introduction')}</p>
-      <h3 id="intake-heading">{t('Message me on WhatsApp')}</h3>
-      <p>{t('Pick a topic and add a line of context. I’ll write the message for you; you review it before sending.')}</p>
+      <p data-intake-eyebrow>{t('page.aQuickIntroduction')}</p>
+      <h3 id="intake-heading">{t('page.messageMeOnWhatsapp')}</h3>
+      <p>{t('page.pickATopicAndAddA')}</p>
     </div>
   </header>
 
   <p data-intake-fallback>
-    <a href={localizePath(whatsappHref, pageLocale)} rel="noopener noreferrer" target="_blank">{t('Open WhatsApp directly')}</a>{' '}
-    {t('or choose another contact option below.')}
+    <a href={localizePath(whatsappHref, pageLocale)} rel="noopener noreferrer" target="_blank">{t('page.openWhatsappDirectly')}</a>{' '}
+    {t('page.orChooseAnotherContactOptionBelow')}
   </p>
 
   <form
@@ -39,7 +39,7 @@ const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
     hidden
   >
     <fieldset data-intake-topics>
-      <legend><span data-intake-step aria-hidden="true">01</span>{' '}{t('What would you like to talk about?')}</legend>
+      <legend><span data-intake-step aria-hidden="true">01</span>{' '}{t('page.whatWouldYouLikeToTalk')}</legend>
       <div data-intake-topic-grid>
         {workTopics.map((topic, index) => (
           <label data-intake-topic>
@@ -51,38 +51,38 @@ const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
     </fieldset>
 
     <fieldset data-intake-fields>
-      <legend><span data-intake-step aria-hidden="true">02</span>{' '}{t('A little context')}</legend>
+      <legend><span data-intake-step aria-hidden="true">02</span>{' '}{t('page.aLittleContext')}</legend>
       <div data-intake-field-grid>
         <label data-intake-field>
-          <span>{t('Your name')} <em>{t('optional')}</em></span>
+          <span>{t('page.yourName')} <em>{t('page.optional')}</em></span>
           <Input autocomplete="name" data-intake-name maxlength="80" type="text" />
         </label>
         <label data-intake-field>
-          <span>{t('Company or event')} <em>{t('optional')}</em></span>
+          <span>{t('page.companyOrEvent')} <em>{t('page.optional')}</em></span>
           <Input autocomplete="organization" data-intake-company maxlength="120" type="text" />
         </label>
         <label data-intake-field data-intake-wide>
-          <span>{t('A line of context')} <em>{t('optional')}</em></span>
-          <Textarea data-intake-context maxlength="600" placeholder={t('Dates, team size, the problem you want to solve…')} rows="3" />
+          <span>{t('page.aLineOfContext')} <em>{t('page.optional')}</em></span>
+          <Textarea data-intake-context maxlength="600" placeholder={t('page.datesTeamSizeTheProblemYou')} rows="3" />
         </label>
       </div>
     </fieldset>
 
     <div data-intake-actions>
       <Button data-intake-submit type="submit">
-        <span>{t('Open WhatsApp')}</span>
+        <span>{t('page.openWhatsapp')}</span>
         <span aria-hidden="true" class="site-action-arrow"><ArrowExchange
 class="size-4.5 shrink-0"
 direction="up-right"
                                                            /></span>
       </Button>
-      <p data-intake-note>{t('Opens WhatsApp in a new tab. Nothing is stored on this site.')}</p>
+      <p data-intake-note>{t('page.opensWhatsappInANewTab')}</p>
     </div>
 
     <div data-intake-handoff hidden>
       <p data-intake-status role="status"></p>
-      <p>{t('If WhatsApp didn’t open, try again. You can edit your details above before retrying.')}</p>
-      <a data-intake-retry href={localizePath(whatsappHref, pageLocale)} rel="noopener noreferrer" target="_blank">{t('Try WhatsApp again')}</a>
+      <p>{t('contact.retryHelp')}</p>
+      <a data-intake-retry href={localizePath(whatsappHref, pageLocale)} rel="noopener noreferrer" target="_blank">{t('page.tryWhatsappAgain')}</a>
     </div>
   </form>
 </Card>

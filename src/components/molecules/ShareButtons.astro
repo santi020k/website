@@ -4,7 +4,7 @@ import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
 
 import { Button, Card, Icon } from '@santi020k/lumen-astro'
 
-import { getLocale, translate } from '@/i18n'
+import { getLocale, sharedTranslator } from '@/i18n'
 
 interface Props {
   title: string
@@ -15,36 +15,35 @@ interface Props {
 const { title, url, variant = 'sleeve' } = Astro.props
 const encodedTitle = encodeURIComponent(title)
 const encodedUrl = encodeURIComponent(url)
+const locale = getLocale(Astro.url.pathname)
+const t = sharedTranslator(locale)
 
 const shareLinks = [
   {
     href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-    label: 'Share on LinkedIn',
+    label: t('shared.shareOnLinkedin'),
     platform: 'LinkedIn'
   },
   {
     href: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-    label: 'Share on X',
+    label: t('shared.shareOnX'),
     platform: 'X'
   },
   {
     href: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
-    label: 'Share on WhatsApp',
+    label: t('shared.shareOnWhatsapp'),
     platform: 'WhatsApp'
   }
 ]
 
-const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
-
 ---
 
 <Card aria-labelledby="share-heading" as="section" data-share-card data-share-variant={variant} variant="unstyled">
-  {variant === 'colophon' && <h2 id="share-heading">{t('Share')}</h2>}
+  {variant === 'colophon' && <h2 id="share-heading">{t('shared.share')}</h2>}
   <header data-share-header>
     <div>
-      {variant === 'sleeve' && <h2 id="share-heading">{t('Share this piece')}</h2>}
-      <p data-share-lead>{t('Pass it on.')}</p>
+      {variant === 'sleeve' && <h2 id="share-heading">{t('shared.shareThisPiece')}</h2>}
+      <p data-share-lead>{t('shared.passItOn')}</p>
     </div>
     <Button
       id="copy-link-btn"
@@ -54,7 +53,7 @@ const t = (text: string) => translate(locale, text)
       variant="outline"
     >
       <span data-copy-action-content>
-        <span id="copy-label" data-copy-label>{t('Copy link')}</span>
+        <span id="copy-label" data-copy-label>{t('shared.copyLink')}</span>
         <span data-copy-action-icon>
           <Icon name="link" data-copy-icon class="size-4" />
           <Icon name="check" data-check-icon class="hidden size-4" />
@@ -65,7 +64,7 @@ const t = (text: string) => translate(locale, text)
   <LinkRecovery buttonId="copy-link-btn" statusId="copy-status" url={url} nativeShare />
   <div data-share-platforms>
     {shareLinks.map(link => (
-      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={t(link.label)}>
+      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
         <span>{link.platform}</span>
         <ArrowExchange direction="up-right" class="size-4 shrink-0" />
       </a>

@@ -9,12 +9,12 @@ import { getBlogTopicLabel } from '@/utils/tags'
 import { Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 import SectionHeader from './SectionHeader.astro'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   currentPostId: string
@@ -52,17 +52,17 @@ const relatedTopics = getRelatedTopics(tags, relatedPosts)
 {relatedPosts.length > 0 && (
   <PageSection layout="stacked">
     <SectionHeader
-      eyebrow={t('Related writing')}
+      eyebrow={t('collection.relatedWriting')}
       id="related-writing"
       linkHref={localizePath(belongsToDeveloperExperienceHub ? '/developer-experience/' : '/blog/', locale)}
-      linkLabel={belongsToDeveloperExperienceHub ? t('Explore the developer experience guide') : t('Browse all posts')}
-      title={t('Keep reading in the same thread.')}
+      linkLabel={belongsToDeveloperExperienceHub ? t('collection.exploreTheDeveloperExperienceGuide') : t('collection.browseAllPosts')}
+      title={t('collection.keepReadingInTheSameThread')}
       variant="margin"
     >
       {relatedTopics.length > 0 && (
         <div slot="description" data-related-topic-context>
-          <p>{t('Connected through')}</p>
-          <nav aria-label={t('Topics shared with these recommendations')}>
+          <p>{t('collection.connectedThrough')}</p>
+          <nav aria-label={t('collection.topicsSharedWithTheseRecommendations')}>
             <ul data-related-topic-list>
               {relatedTopics.map((topic, index) => (
                 <li>

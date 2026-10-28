@@ -13,10 +13,10 @@ import { getResponsiveImageDimensions } from '@/utils/responsive-image'
 import { Card, Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   columns?: 2 | 3
@@ -96,9 +96,9 @@ const galleryItems = posts.map(createGalleryItem)
             <div data-post-gallery-copy>
               <div data-post-gallery-meta>
                 <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <span>{t(item.data.postType)}</span>
-                  {showSequence && <span data-post-gallery-part>{t('Part')} {item.data.seriesOrder ?? index + 1}</span>}
-                  {item.data.draft && <span class="font-semibold">{t('Draft')}</span>}
+                  <span>{localizeCollectionSource(locale, item.data.postType)}</span>
+                  {showSequence && <span data-post-gallery-part>{t('collection.part')} {item.data.seriesOrder ?? index + 1}</span>}
+                  {item.data.draft && <span class="font-semibold">{t('collection.draft')}</span>}
                 </div>
                 <time datetime={item.data.publishDate.toISOString()}>
                   {item.formattedDate}
@@ -109,17 +109,17 @@ const galleryItems = posts.map(createGalleryItem)
               <p lang="en">{item.data.cardDescription ?? item.data.description}</p>
 
               {!!item.data.tags.length && (
-                <ul aria-label={t('Topics')}>
+                <ul aria-label={t('collection.topics')}>
                   {item.data.tags.slice(0, 2).map(tag => <li>{tag}</li>)}
                 </ul>
               )}
 
               <div data-post-gallery-footer>
                 <span class="inline-flex items-center gap-2">
-                  {t('Read article')}
+                  {t('collection.readArticle')}
                   <ArrowExchange class="size-4 shrink-0" direction="right" />
                 </span>
-                <span class="text-xs font-normal text-ink-soft">{t(`${item.readingTime} min read`)}</span>
+                <span class="text-xs font-normal text-ink-soft">{t('reading.duration', { minutes: item.readingTime })}</span>
               </div>
             </div>
           </Link>

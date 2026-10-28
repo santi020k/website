@@ -93,6 +93,10 @@ controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile 
 `@santi020k/lumen` 4.2.0 with `lumen-astro` and `lumen-core` 4.1.0 from the npm registry.
 The integration guide records the version-pinned Anchor, synchronized code tabs, and CoverImage fallback patches.
 
+Current pages share their components across English and Spanish (`/es/`). English remains the
+primary language and translation fallback. The [language maintenance guide](docs/i18n.md) explains
+stable message keys, translation coverage, and the authored content that stays in English.
+
 Collection helpers in `src/utils/content.ts` cache published entries during a build and return
 an independent array to each caller, so page-specific sorting cannot reorder another page.
 Blog slugs must be unique across year folders. The shared post loader rejects duplicate

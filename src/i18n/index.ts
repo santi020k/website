@@ -1,10 +1,12 @@
 /** Current-site locales. Historical site archives retain their original language. */
-import { sharedCopy } from './shared-copy'
+import type { Locale } from './locale.ts'
+import { defaultLocale } from './locale.ts'
 
-export const locales = ['en', 'es'] as const
-export type Locale = typeof locales[number]
+export type { Locale } from './locale.ts'
+export { defaultLocale, locales } from './locale.ts'
+export { sharedTranslator } from './shared-copy.ts'
 
-export const getLocale = (pathname: string): Locale => /^\/es(?:\/|$)/u.test(pathname) ? 'es' : 'en'
+export const getLocale = (pathname: string): Locale => /^\/es(?:\/|$)/u.test(pathname) ? 'es' : defaultLocale
 export const stripLocale = (pathname: string): string => pathname.replace(/^\/es(?=\/|$)/u, '') || '/'
 export const localeLanguage = (locale: Locale): string => locale === 'es' ? 'es-419' : 'en-US'
 export const localeOg = (locale: Locale): string => locale === 'es' ? 'es_CO' : 'en_US'
@@ -35,15 +37,4 @@ export const localizePath = (path: string, locale: Locale): string => {
   const base = stripLocale(path)
 
   return locale === 'es' ? `/es${base.startsWith('/') ? base : `/${base}`}` : base
-}
-
-/** Exact English source copy keeps the default locale unchanged. */
-export const translate = (
-  locale: Locale,
-  text: string,
-  values: Readonly<Record<string, number | string>> = {}
-): string => {
-  const translated = locale === 'es' ? sharedCopy[text] ?? text : text
-
-  return translated.replace(/\{(\w+)\}/gu, (placeholder: string, name: string) => String(values[name] ?? placeholder))
 }

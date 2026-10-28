@@ -7,10 +7,10 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import { Card } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   coverImage: CollectionEntry<'post'>['data']['coverImage']
@@ -48,7 +48,10 @@ const { coverImage, href, label, position, reason, title } = Astro.props
       <h4 lang="en">{title}</h4>
       <p lang="en" data-reading-slip-reason>{reason}</p>
       <span data-reading-slip-footer>
-        <span>{t('Read the article')} <ArrowExchange class="size-4.5 shrink-0" direction="up-right" /></span>
+        <span>{t('collection.readTheArticle')} <ArrowExchange
+class="size-4.5 shrink-0"
+direction="up-right"
+                                               /></span>
       </span>
     </div>
   </a>

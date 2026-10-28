@@ -14,10 +14,10 @@ import { Card, Icon } from '@santi020k/lumen-astro'
 
 import SmithArtwork from '@/content/project/smith-commerce/cover-commerce-system.webp'
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -33,13 +33,13 @@ const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined
   <a class="studio-project-link" href={localizePath(getPortfolioPath(project.id), pageLocale)} data-project-card data-showcase-feature>
     <div data-work-spread>
       <div data-work-story>
-        <p data-work-category>{t('Selected experience')}</p>
+        <p data-work-category>{t('page.selectedExperience')}</p>
         <h3>{project.data.title}</h3>
         <p data-work-description>{project.data.description}</p>
-        <span data-work-action>{t('View case study')} <ArrowExchange
+        <span data-work-action>{t('page.viewCaseStudy')} <ArrowExchange
 class="size-4"
 direction="up-right"
-                                                      /></span>
+                                                         /></span>
       </div>
       <div data-work-artwork data-showcase-artwork>
         {cover && (

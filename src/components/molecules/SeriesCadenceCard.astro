@@ -2,10 +2,10 @@
 import { Card, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   cadence: string
@@ -14,13 +14,13 @@ interface Props {
 const { cadence } = Astro.props
 ---
 
-<Card as="article" aria-label={t('Cadence')} data-series-cadence variant="unstyled">
+<Card as="article" aria-label={t('collection.cadence')} data-series-cadence variant="unstyled">
   <div data-series-cadence-header>
-    <p data-series-cadence-label>{t('Cadence')}</p>
+    <p data-series-cadence-label>{t('collection.cadence')}</p>
     <Icon name="book-open" class="size-4 shrink-0" />
   </div>
   <p data-series-cadence-copy>{cadence}</p>
-  <p data-series-cadence-note>{t('Publishing rhythm for this series.')}</p>
+  <p data-series-cadence-note>{t('collection.publishingRhythmForThisSeries')}</p>
 </Card>
 
 <style>

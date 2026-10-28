@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 
-import { getDiscussionTerm, getLocale, hasTranslation, localeLanguage, localizePath, stripLocale, translate } from '..'
+import { localizePageSource } from '../page-copy'
+import { getDiscussionTerm, getLocale, hasTranslation, localeLanguage, localizePath, sharedTranslator, stripLocale } from '..'
 
 describe('current-site locales', () => {
   test('recognizes complete locale segments without confusing English paths', () => {
@@ -34,10 +35,10 @@ describe('current-site locales', () => {
   })
 
   test('keeps English source text and translates interpolated UI safely', () => {
-    expect(translate('en', 'Search')).toBe('Search')
-    expect(translate('es', 'Search')).toBe('Buscar')
-    expect(translate('es', 'A product name')).toBe('A product name')
-    expect(translate('es', '{title}, {position} of {total}', { position: 2, title: 'Astro', total: 3 })).toBe('Astro, 2 de 3')
-    expect(translate('es', '{missing}')).toBe('{missing}')
+    expect(sharedTranslator('en')('search.title')).toBe('Search')
+    expect(sharedTranslator('es')('search.title')).toBe('Buscar')
+    expect(localizePageSource('es', 'A product name')).toBe('A product name')
+    expect(sharedTranslator('es')('shared.titlePositionOfTotal', { position: 2, title: 'Astro', total: 3 })).toBe('Astro, 2 de 3')
+    expect(localizePageSource('es', '{missing}')).toBe('{missing}')
   })
 })

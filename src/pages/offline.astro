@@ -7,46 +7,46 @@ import PageLayout from '@/layouts/Base.astro'
 import { Card, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 
 const meta = {
-  description: t('Offline fallback page for the santi020k portfolio and blog.'),
+  description: t('page.offlineFallbackPageForTheSanti020k'),
   noindex: true,
-  title: t('Offline')
+  title: t('page.offline')
 }
 ---
 
 <PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
   <div class="section-container-wide" data-offline-layout>
     <PageHero
-      description={t('Your connection or the site may be unavailable. Try again, or open a previously visited page from the local cache.')}
-      eyebrow={t('Offline')}
-      gradientText={t('but cached pages are within reach.')}
-      metaItems={[t('Cached pages'), t('Static-first'), t('Try again anytime')]}
-      title={t('Page unavailable,')}
+      description={t('page.yourConnectionOrTheSiteMay')}
+      eyebrow={t('page.offline')}
+      gradientText={t('page.butCachedPagesAreWithinReach')}
+      metaItems={[t('page.cachedPages'), t('page.staticFirst'), t('page.tryAgainAnytime')]}
+      title={t('page.pageUnavailable')}
     >
       <ButtonLink href={localizePath('/', pageLocale)} variant="secondary">
-        {t('Go home')}
+        {t('page.goHome')}
       </ButtonLink>
       <ButtonLink href={localizePath('/portfolio/', pageLocale)} variant="ghost">
-        {t('Browse projects')}
+        {t('page.browseProjects')}
       </ButtonLink>
       <Button data-retry-connection>
-        {t('Try again')}
+        {t('shared.tryAgain')}
       </Button>
     </PageHero>
 
     <div data-offline-support>
       <Card as="section" variant="unstyled" data-offline-folio aria-labelledby="offline-cache-heading">
         <header data-offline-header>
-          <h2 id="offline-cache-heading">{t('What\'s cached')}</h2>
+          <h2 id="offline-cache-heading">{t('page.whatSCached')}</h2>
           <Icon name="cloud-download" class="size-5.5 shrink-0" />
         </header>
         <p data-offline-copy>
-          {t('Previously visited pages may still be available offline. The freshest posts, projects, and profile updates will appear once the site responds again.')}
+          {t('page.previouslyVisitedPagesMayStillBe')}
         </p>
         <footer data-offline-footer>
           <span data-connection-indicator>
@@ -54,7 +54,7 @@ const meta = {
             <span data-connection-online hidden><Icon name="wifi" class="size-4" /></span>
           </span>
           <p aria-live="polite" aria-atomic="true" data-connection-status>
-            {t('Try again, or open a previously visited page.')}
+            {t('page.tryAgainOrOpenAPreviously')}
           </p>
         </footer>
       </Card>

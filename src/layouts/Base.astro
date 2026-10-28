@@ -18,7 +18,7 @@ import '@/styles/global.css'
 import { Particles, SkipLink } from '@santi020k/lumen-astro'
 import UIPrimitives from '@santi020k/lumen-astro/runtime'
 
-import { getLocale, localeLanguage, translate } from '@/i18n'
+import { getLocale, localeLanguage, sharedTranslator } from '@/i18n'
 import { siteConfig } from '@/site.config'
 
 interface Props {
@@ -68,7 +68,7 @@ const headMeta = {
 }
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
+const t = sharedTranslator(locale)
 const isGenerousSpacing = mainSpacing === 'generous'
 
 // Cookieless, aggregate page views. `spa` follows ClientRouter navigations through the History API.
@@ -150,7 +150,7 @@ const cloudflareBeacon = import.meta.env.PROD && CLOUDFLARE_WEB_ANALYTICS_TOKEN 
   </head>
   <body class="min-h-screen" data-backdrop={backdrop}>
     <ThemeProvider />
-    <SkipLink href="#main">{t('Skip to content')}</SkipLink>
+    <SkipLink href="#main">{t('shared.skipToContent')}</SkipLink>
 
     <div class="relative flex min-h-screen w-full flex-col overflow-x-clip">
       {backdrop !== 'plain' && (

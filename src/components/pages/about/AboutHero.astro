@@ -8,31 +8,31 @@ import Portrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
 import { ButtonLink } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 ---
 
 <section class="signature-frame about-hero" data-about-hero>
   <div class="about-hero-copy">
-    <p class="about-eyebrow">{t('Engineering leader · full-stack architect')}</p>
-    <h1 data-about-hero-heading>{t('Calm systems.')}{' '}<span>{t('Clear delivery.')}</span></h1>
+    <p class="about-eyebrow">{t('page.engineeringLeaderFullStackArchitect')}</p>
+    <h1 data-about-hero-heading>{t('page.calmSystems')}{' '}<span>{t('page.clearDelivery')}</span></h1>
     <p class="about-hero-intro">
-      {t('I’m Santiago Molina, known online as santi020k—an engineering leader and full-stack architect helping teams modernize systems, automate delivery, and improve developer experience.')}
+      {t('page.iMSantiagoMolinaKnownOnline')}
     </p>
     <div class="maker-hero-actions">
       <ButtonLink class="maker-hero-primary" href={localizePath('/portfolio/', pageLocale)} variant="unstyled">
-        {t('See selected work')}
+        {t('page.seeSelectedWork')}
         <span class="maker-hero-arrow"><ArrowExchange /></span>
       </ButtonLink>
       <ButtonLink class="maker-hero-secondary" href={localizePath(siteConfig.contact.resume, pageLocale)} variant="unstyled">
-        {t('View resume')} <ArrowExchange direction="right" />
+        {t('shared.viewResume')} <ArrowExchange direction="right" />
       </ButtonLink>
     </div>
-    <p class="about-availability"><span aria-hidden="true"></span>{t(siteConfig.availability)}</p>
-    <ul class="about-socials" aria-label={t('Connect with Santiago')}>
+    <p class="about-availability"><span aria-hidden="true"></span>{localizePageSource(pageLocale, siteConfig.availability)}</p>
+    <ul class="about-socials" aria-label={t('page.connectWithSantiago')}>
       {siteConfig.socialLinks.filter(({ label }) => label === 'LinkedIn' || label === 'GitHub').map(({ href, label }) => (
         <li><ButtonLink class="about-link" href={localizePath(href, pageLocale)} newTab variant="unstyled">{label}<ArrowExchange /></ButtonLink></li>
       ))}
@@ -40,7 +40,7 @@ const t = (source: string) => translatePage(pageLocale, source)
   </div>
   <figure class="about-portrait" data-about-hero-portrait>
     <Image
-      alt={t('Portrait of Santiago Molina (@santi020k)')}
+      alt={t('page.portraitOfSantiagoMolinaSanti020k')}
       decoding="sync"
       fetchpriority="high"
       format="avif"
@@ -58,7 +58,7 @@ const t = (source: string) => translatePage(pageLocale, source)
       </div>
       <div data-about-portrait-location>
         <span>Medellín,<br /> Colombia</span>
-        <span>{t('Remote')}<br /> {t('worldwide')}</span>
+        <span>{t('page.remote')}<br /> {t('page.worldwide')}</span>
       </div>
     </figcaption>
   </figure>
