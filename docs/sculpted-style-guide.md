@@ -346,6 +346,26 @@ behavior. Use typed collection translations, localized native links, singular
 count labels, and the existing text-link and Arrow exchange feedback. Keep page
 metadata and series-detail pages unchanged; add no client JavaScript.
 
+### Reader preface series introductions
+
+Individual series introductions use **Reader preface** beside the existing Focus
+links. Keep the surface open: a 1.75rem heading at 1.25 leading, .875rem prose at
+1.85 leading, and a 2px brand/accent margin with 1.125rem inset on the first
+paragraph. Use 1.25rem after the heading. Reduce the heading to 1.625rem below
+30rem of section width, retaining the enlarged-text fallback below 16rem.
+
+The optional `readingNote` frontmatter stores the final authored paragraph once,
+with `kind: audience` or `kind: perspective` and nonempty `text`. Render it after
+the Markdown body, separated by a fine top rule, 1.375rem margin and 1.125rem
+padding. The note uses .8125rem text and a .6875rem uppercase localized label.
+Use “Who it’s for” for audience guidance and “The perspective” for an editorial
+viewpoint. Keep authored prose in English and mark the label with its interface
+language. Omit the note when absent; preserve the Markdown body and semantic
+headings. Do not infer a paragraph's role from its position or add client JavaScript.
+
+Preserve the existing focus links, responsive spread, chapter order, metadata,
+opening and reading bridge. The section is addressable at `#series-preface`.
+
 ### Chapter brief individual series openings
 
 Individual series use **Chapter brief**: a quiet All series link and the published
