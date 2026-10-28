@@ -404,6 +404,20 @@ and DX shelves retain their editorial grids.
 
 ### Reading bridge series ending
 
+The Series index also ends with **Reading bridge**, after its chooser cards and
+before the shared footer. Keep the index opening, counts, and chooser cards intact.
+Use a passive Lumen Card with an opaque surface, fine border, alternating .375rem
+and 1.75rem corners, and no backing shadow. Leave 2.5rem after the cards and use
+1.75rem insets. The 1.75rem heading introduces a .8125rem reading description.
+
+Offer Browse the Blog and Explore topics as two native, localized links with
+complete supporting captions, independent top rules, and right ArrowExchange
+icons. Use 1.0625rem link titles, .75rem captions, and 1.5rem between columns.
+Stack links below 31rem of card width; reduce outer insets to 1.375rem below
+31rem of section width and 1rem below 18rem. At enlarged-text widths, reduce the
+heading to 1.375rem. Keep visible keyboard focus, stationary pointer feedback,
+and reduced-motion support. The index never links back to itself in this close.
+
 Individual Series pages end their chapter list with **Reading bridge**, before the
 shared contact footer. Reuse a Lumen Card section with an opaque surface, fine border,
 .375rem / 1.75rem alternating corners, and a .375rem brand-soft backing offset left

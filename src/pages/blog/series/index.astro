@@ -3,7 +3,7 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Link, RevealGroup } from '@santi020k/lumen-astro'
+import { Card, Link, RevealGroup } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
 import { getLocale, localizePath } from '@/i18n'
@@ -72,6 +72,31 @@ mainClass="remaining-pages series-index-page"
         <SeriesCard firstPost={item.posts[0]} postCount={item.postCount} series={item.series} />
       ))}
     </RevealGroup>
+
+    <Card
+      aria-labelledby="series-index-bridge-heading"
+      as="section"
+      data-series-index-bridge
+      id="series-index-bridge"
+      variant="unstyled"
+    >
+      <header data-series-index-bridge-intro>
+        <h2 id="series-index-bridge-heading">{t('series.bridgeHeading')}</h2>
+        <p>{t('series.indexBridgeDescription')}</p>
+      </header>
+      <nav aria-label={t('series.moreWriting')} data-series-index-bridge-links>
+        <Link data-series-index-bridge-link href={localizePath('/blog/', locale)} variant="inherit">
+          <span data-series-index-bridge-title>{t('series.bridgeBlog')}</span>
+          <ArrowExchange class="size-4 shrink-0" direction="right" />
+          <span data-series-index-bridge-caption>{t('series.indexBridgeBlogDescription')}</span>
+        </Link>
+        <Link data-series-index-bridge-link href={localizePath('/blog/tags/', locale)} variant="inherit">
+          <span data-series-index-bridge-title>{t('series.indexBridgeTopics')}</span>
+          <ArrowExchange class="size-4 shrink-0" direction="right" />
+          <span data-series-index-bridge-caption>{t('series.indexBridgeTopicsDescription')}</span>
+        </Link>
+      </nav>
+    </Card>
   </section>
 </PageLayout>
 
@@ -164,6 +189,78 @@ mainClass="remaining-pages series-index-page"
       border-left: 0;
       border-top: 1px solid hsl(var(--line));
     }
+  }
+  :global(.series-index-page [data-series-index-bridge][data-slot='card']),
+  :global(.series-index-page [data-series-index-bridge][data-slot='card']:hover) {
+    --series-index-bridge-accent: hsl(var(--brand));
+    container: series-index-bridge / inline-size;
+    display: block;
+    min-width: 0;
+    margin-top: 2.5rem;
+    padding: 1.75rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: .375rem 1.75rem;
+    background: hsl(var(--surface));
+    box-shadow: none;
+    scroll-margin-top: 7rem;
+  }
+  :global([data-theme='dark'] .series-index-page [data-series-index-bridge][data-slot='card']) {
+    --series-index-bridge-accent: hsl(var(--accent));
+  }
+  [data-series-index-bridge-intro] h2 {
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -.045em;
+    overflow-wrap: anywhere;
+  }
+  [data-series-index-bridge-intro] p {
+    margin: .75rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .8125rem;
+    line-height: 1.8;
+  }
+  [data-series-index-bridge-links] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  :global([data-series-index-bridge-link]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1rem;
+    align-content: start;
+    gap: .5rem 1rem;
+    min-width: 0;
+    min-height: 2.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: none;
+  }
+  [data-series-index-bridge-title] { font-size: 1.0625rem; font-weight: 500; line-height: 1.5; letter-spacing: -.03em; overflow-wrap: anywhere; }
+  [data-series-index-bridge-caption] { grid-column: 1 / -1; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.8; overflow-wrap: anywhere; }
+  :global([data-series-index-bridge-link] > [data-arrow-exchange]) { grid-column: 2; grid-row: 1; align-self: center; }
+  :global([data-series-index-bridge-link]:is(:hover, :focus-visible)) [data-series-index-bridge-title] { color: var(--series-index-bridge-accent); }
+  :global([data-series-index-bridge-link]:focus-visible) { outline: 2px solid var(--series-index-bridge-accent); outline-offset: 6px; }
+  @container series-index-bridge (width < 31rem) {
+    [data-series-index-bridge-links] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  }
+  @container page-section (width < 31rem) {
+    :global(.series-index-page [data-series-index-bridge][data-slot='card']),
+    :global(.series-index-page [data-series-index-bridge][data-slot='card']:hover) { padding: 1.375rem; }
+  }
+  @container page-section (width < 18rem) {
+    :global(.series-index-page [data-series-index-bridge][data-slot='card']),
+    :global(.series-index-page [data-series-index-bridge][data-slot='card']:hover) { padding: 1rem; }
+    [data-series-index-bridge-intro] h2 { font-size: 1.375rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-series-index-bridge-title] { transition: color 180ms ease; }
   }
   @container series-index (width < 26rem) {
     [data-series-index-opening] h1 { font-size: min(2.375rem, 12cqi); }
