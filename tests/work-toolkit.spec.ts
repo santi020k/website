@@ -9,7 +9,7 @@ const lanes = [
 ]
 
 for (const theme of ['light', 'dark'] as const) {
-  test(`toolkit lanes preserve readable groups and technology links in ${theme}`, async ({ page }) => {
+  test(`toolkit lanes preserve readable groups and technology links in ${theme}`, async ({ page, browserName }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto('/work/')
     const toolkit = page.getByRole('region', { name: 'The tools behind the work.' })
@@ -51,11 +51,11 @@ for (const theme of ['light', 'dark'] as const) {
     }
     await links.first().focus()
     await expect(links.first()).toHaveCSS('outline-style', 'solid')
-    await page.keyboard.press('Tab')
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
     await expect(links.nth(1)).toBeFocused()
     await closing.getByRole('link').first().focus()
     await expect(closing.getByRole('link').first()).toHaveCSS('outline-style', 'solid')
-    await page.keyboard.press('Tab')
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
     await expect(closing.getByRole('link').nth(1)).toBeFocused()
     const arrowInsets = await closing.locator('[data-work-close-card]').evaluateAll(cards => cards.map(card => {
       const bounds = card.getBoundingClientRect()

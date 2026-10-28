@@ -140,7 +140,9 @@ spacing, Montserrat headings, fine dividers, and a purple emphasis. Its Experien
 opening uses the shared solid `ButtonLink` for a native jump to `#experience-heading`.
 Open resume and LinkedIn remain secondary destinations, grouped so they wrap together
 below the primary action when space is limited. LinkedIn keeps its external-link contract.
-Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `SculptedTag`.
+Its four-column results row uses Lumen `Stat` with `variant="bare"`, with figures above
+their evidence captions; technology links use `SculptedTag`. The ledger becomes two
+columns and then full-width rows as available space narrows.
 Toolkit lanes group the same 18 interest-ranked technologies into Web foundations,
 Mobile, Data & state, and UI systems. Counts and destinations remain collection-derived;
 retain interest order within each lane. Omit empty lanes and show uncategorized highlighted
@@ -152,13 +154,15 @@ The role and technology counts jump to their Work sections; named project captio
 directly to the relevant case-study chapter. Keep the articles passive and link only
 the caption. Omit a caption when the claim's source has not been confirmed.
 `CareerTimeline` uses Lumen `Timeline` for its ordered list and one unstyled `Card` per
-linked role. A site-owned date rail and connector frame the Timeline folio layout without
+linked role. A site-owned date rail and connector frame open, ruled rows without
 styling private TimelineItem internals. Each role retains its complete description,
 technologies, chronological dates, and keyboard-accessible case-study link. Its scoped
 styles own the card and responsive date rail; Work page styles own only the page composition.
-The three newest roles keep their full Timeline folio treatment. Later completed roles
-use Compact timeline with smaller headings, tighter spacing, and no repeated status
-masthead; active roles stay full. Both densities share the same Lumen components,
+Collection-owned company marks use optimized Astro Image and their declared logo
+surfaces beside the content on desktop, then above it on mobile. All marks remain
+decorative because the company heading names the destination. The three newest roles
+keep their full status treatment. Later completed roles use smaller headings, tighter
+spacing, and no repeated status masthead; active roles stay full. Both densities share the same Lumen components,
 company hover colors, and continuous left rail. Connector endpoints account for the
 next row's year size so the density transition does not interrupt the line.
 Career close ends the toolkit with two named destinations: the resume and the full

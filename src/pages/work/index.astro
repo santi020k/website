@@ -99,15 +99,18 @@ backdrop="plain"
           <p class="maker-hero-eyebrow"><span
   aria-hidden="true"
   class="maker-hero-signal"
-                                        ></span>{t('page.workExperienceUsAndLatam')}</p>
+                                        ></span><span data-work-eyebrow-copy>{t('page.workExperienceUsAndLatam')}</span></p>
           <h1 id="work-heading" class="work-heading">{t('page.productsShipped')}<br /><span class="
             maker-hero-emphasis
           "
                                                                                       >{t('page.teamsLed')}</span></h1>
+
         </div>
-        <div>
+        <div class="work-hero-summary">
           <p class="text-lg/7 font-medium tracking-tight text-ink">{t('page.goodSoftwareTakesMoreThanCode')}</p>
           <p class="mt-4 text-sm/7 text-ink-soft">{t('page.iHelpTeamsTurnComplexProblems')}</p>
+
+        </div>
           <div class="maker-hero-actions" data-work-hero-actions>
             <ButtonLink class="maker-hero-primary" href="#experience-heading" variant="unstyled">
               {t('page.exploreExperience')} <span
@@ -120,7 +123,6 @@ class="maker-hero-arrow"
               <ButtonLink class="maker-hero-secondary" data-work-hero-external href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="unstyled">LinkedIn <ArrowExchange /></ButtonLink>
             </div>
           </div>
-        </div>
       </section>
 
       <section

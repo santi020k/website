@@ -167,3 +167,36 @@ test('career cards retain keyboard navigation, focus, and reduced motion', async
   await page.keyboard.press('Enter')
   await expect.poll(() => new URL(page.url()).pathname).toBe(destination)
 })
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`Spanish career history preserves chronology, company marks, and reflow in ${theme}`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+    await page.goto('/es/work/')
+    const rows = page.locator('[data-career-row]')
+
+    await expect(rows.locator('[data-career-title]')).toHaveText(['Smith Commerce', 'X Games', 'Void.GG', 'Optic Power', 'PADS', 'TEDx Medellin', 'Datagran', 'Justbit.site', 'Nebular Technologies'])
+    await expect(rows.first().locator('[data-career-month]')).toHaveText('may')
+    await expect(rows.first().locator('time')).toHaveAttribute('datetime', '2025-05-01')
+    await expect(rows.locator('[data-career-identity] img')).toHaveCount(9)
+    for (const link of await rows.locator('[data-career-link]').all()) {
+      await expect(link).toHaveAttribute('href', /^\/es\/portfolio\/.+\/$/u)
+      await expect(link.locator('img')).toHaveAttribute('alt', '')
+    }
+    for (const width of [320, 390, 768, 1440]) {
+      for (const size of [100, 200]) {
+        await page.setViewportSize({ width, height: 1000 })
+        await page.evaluate(async textSize => {
+          document.documentElement.style.fontSize = `${textSize}%`
+          await document.fonts.ready
+        }, size)
+        const clipped = await rows.evaluateAll(items => items.flatMap(row => [...row.querySelectorAll('[data-career-identity], h3, p, time')].filter(element => {
+          const bounds = element.getBoundingClientRect()
+
+          return bounds.left < 0 || bounds.right > innerWidth + 1 || element.scrollWidth > element.clientWidth + 1
+        }).map(element => element.textContent)))
+
+        expect(clipped, `Spanish career content at ${width}px and ${size}%`).toEqual([])
+      }
+    }
+  })
+}

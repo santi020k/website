@@ -1236,68 +1236,41 @@ button and a downward arrow to jump to the existing experience heading. Keep Ope
 resume and LinkedIn as plain secondary links, with LinkedIn in the softer text tone.
 Group these supporting links so they wrap below the primary action when space is
 limited, then wrap individually for enlarged text. Preserve native fragment navigation,
-focus outlines, and the existing hero copy, Career ledger, and Timeline folio cards.
+focus outlines, and the existing hero copy, Career ledger, and editorial career timeline.
 
 ### Career ledger Work highlights
 
-The Work introduction closes with four bare Lumen Stat articles in a two-column
-ledger. Each article pairs a 3rem accent figure with a 1.0625rem heading and its
-complete description beside a 2px accent rail. Fine horizontal rules organize the
-rows without adding nested surfaces. Preserve the collection-derived professional
-role and technology counts, along with the authored team and release metrics.
+The Work introduction closes with four bare Lumen Stat articles in a single desktop
+row. Put the 3.5rem accent figures above their complete labels, descriptions, and
+source links. A single fine top rule separates this ledger from the introduction.
+Preserve the collection-derived professional role and technology counts and the
+authored team and release metrics; link only the evidence caption.
 
-Use the Work intro container: below 53.125rem, show four full-width rows with a
-0.6fr / 1fr split. Below 27.5rem, use a compact 5.75rem figure column, 2.5rem figures,
-a 1rem gap, and 1.5rem row insets. Below 17.5rem, move each figure above its copy
-to preserve a comfortable reading width. Scale the figure
-with the container below 14rem for enlarged text. Use semantic light and dark
-accents and level-two headings to name the articles. Keep each article passive,
-without a card hover effect or new animation.
+Below 53.125rem of intro width, use two columns. Below 32rem, use full-width rows
+with a 5.75rem figure column, 2.75rem figures, and a 1.25rem gap. Below 17.5rem,
+stack each figure above its copy; below 14rem, scale figures to the container.
+Keep 44px evidence-link targets, visible focus outlines, and complete attribution.
 
-Keep the figures aligned with the top of their copy when captions extend a row.
-The approved Evidence captions sit below each supported description in 0.75rem
-accent text, with a 44px minimum target and a visible focus outline. Use a downward
-arrow for the timeline and toolkit section jumps; named case-study sources use a
-rightward arrow. Link only the caption, preserve the figures and their attribution,
-and allow the complete source label to wrap on narrow screens. Do not invent a
-source link for an unverified claim.
+### Editorial career timeline
 
-### Timeline folio career cards
+Use a Lumen Timeline and one unstyled Card inside each native case-study link.
+The open rows have a fine top rule, no resting shadow, and generous reading space.
+Keep the continuous date rail, semantic dates, chronological order, and the final
+marker endpoint. The three newest roles retain their status masthead and 2.375rem
+company headings; earlier completed roles use 1.875rem headings and tighter spacing.
+Keep every role, description, technology label, and case-study action visible.
 
-Work's career list places the start year and month in an 8.125rem date rail beside a
-single opaque Lumen Card. Keep the end month and year, or Present, in the rail too.
-One continuous accent-tinted rail connects markers centered on the start years.
-Use a filled marker with a quiet halo for active roles and outlined markers for
-completed roles. Each segment reaches the next marker across the card gap; stop
-at the final marker, without a dangling tail or horizontal rules cutting the rail.
-Keep 2.5rem between desktop cards and 2rem between mobile entries. The card uses
-1.125rem corners with a 0.375rem lower-right corner and the navigation shadow token. A small status and decorative
-icon precede the complete company heading, role, and description. A tinted footer
-holds plain technology labels and the case-study action.
+Place each collection-owned company mark in a quiet panel at the right. Preserve
+its aspect ratio with `object-fit: contain`, and respect its declared light or dark
+logo surface. Use Astro Image for optimized, lazy-loaded decorative marks; the
+adjacent company heading provides the accessible identity. Do not substitute icons
+or generated brand marks. On narrow containers, place the mark above the content
+and move the dates above each row. Keep reading space at 200% text size.
 
-Below 36.25rem of timeline width, dates move above the card and the connector moves
-to the outer margin. Below 20rem, tighten the insets and scale the title to preserve
-reading space with enlarged text. Keep one whole-row link, a visible inset focus
-outline, semantic dates, and no description clamping. Hover and keyboard focus reveal
-each company's brand color through the connector, card edge, subtle surface tint,
-heading, role, and action. Reuse the project palette's readable light/dark colors,
-mixed toward the text token for contrast on tinted surfaces. Keep the resting folio
-unchanged, avoid movement, and disable the color transitions with reduced motion.
-
-### Compact timeline earlier career entries
-
-Keep the three newest Work roles in Timeline folio. Completed roles after those three
-use Compact timeline; an active role always retains its full status treatment. Preserve
-one continuous left rail and its markers through both densities. Each connector ends at
-the next row's year center, including where the 2.1875rem year changes to 1.5rem.
-The same connection holds when dates move above the cards on narrow screens.
-
-Earlier entries omit the repeated Completed masthead and icon, use 1.375rem company
-headings, 1.125rem by 1.25rem content insets, a 0.75rem description gap, and 1.5rem
-between rows. Their footer uses the card surface with a fine top rule and 0.75rem
-vertical padding. Keep every description, date, role, technology label, and case-study
-link visible. Company hover colors, keyboard focus, reduced motion, and the final
-marker endpoint remain shared with the full entries.
+Hover and keyboard focus reveal the company palette through the connector, a fine
+inset edge, a subtle surface tint, and readable light/dark text colors. Color changes
+use 480ms transitions only when reduced motion is not requested. Rows do not move.
+The year markers stay connected across both densities and responsive layouts.
 
 ### Case study paths Portfolio opening
 
