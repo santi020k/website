@@ -1965,3 +1965,26 @@ warnings, or hints. The 904-page build, 906-page OG audit, archive assembly, and
 regenerated resume freshness pass; all five resume pages remain pixel-identical.
 The Changeset is folded into 5.0.0 with published notes preserved. This follow-up
 uses affected checks; the latest full workspace gate remains `a19890c0`. Local only.
+
+## Reading first article newsletter follow-up
+
+Approved source `0631369e`, based on Publication imprint `d77accb4`, is integrated
+over Archive close `26e6513f`. Article pages now place related writing before the
+existing Letter folio newsletter, followed by Final return. This is the native DOM
+and keyboard order in both locales. Articles without recommendations keep the
+newsletter directly after their closing section. The shared signup, copy, styling,
+native POST, Privacy/RSS destinations, and print exclusions remain unchanged.
+
+All 14 affected Chromium/WebKit cases pass on both the source and merged build,
+covering keyboard order, pages with and without recommendations, and print/screen
+transitions. Sixteen matched captures cover English/Spanish at 390px and 1440px
+in both themes. Four additional no-JavaScript cases at 200% text retain the order,
+native form contract, localized destinations, and no horizontal overflow.
+
+Current-site lint and strict Astro checks pass on the source; affected merged lint
+and the normal commit hooks pass. The current-site production build and 906-page
+OG audit pass on both candidates. Resume freshness passes without regenerated PDFs
+because no resume source changed. The patch Changeset is folded into the unpublished
+5.0.0 notes; published notes and the full-gate baseline `a19890c0` remain intact.
+No remote action occurred. Evidence is in `.cache/v5-reading-first/` in the release
+checkout and `.cache/reading-first/` in the source checkout.

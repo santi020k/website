@@ -17,7 +17,7 @@ for (const theme of ['light', 'dark'] as const) {
       const title = page.getByRole('heading', { level: 1 })
       await expect(page.locator('[data-article-print-source]')).toBeHidden()
       await page.emulateMedia({ media: 'print' })
-      for (const selector of ['.site-header', '[data-site-footer]', '[data-post-continuation]', '[data-page-section]:has(#related-writing)', '[data-ui-scroll-progress]', '[data-ui-code-copy]', '[data-section-copy]', '[data-code-preview]']) {
+      for (const selector of ['.site-header', '[data-site-footer]', '[data-post-continuation]', '[data-page-section]:has(#related-writing)', '[data-article-newsletter]', '[data-ui-scroll-progress]', '[data-ui-code-copy]', '[data-section-copy]', '[data-code-preview]']) {
         for (const control of await page.locator(selector).all()) await expect(control).toBeHidden()
       }
       await expect(title).toBeVisible()

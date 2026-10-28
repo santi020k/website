@@ -207,13 +207,13 @@ mainClass="remaining-pages remaining-pages--reading"
     </p>
   </article>
 
+  <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} excludeUrls={recommendationUrls} tags={post.data.tags} />
+
   {siteConfig.newsletter && (
     <aside aria-label="Newsletter" class="section-container-wide" data-article-newsletter>
       <NewsletterSignup formAction={siteConfig.newsletter.formAction} idSuffix="article" />
     </aside>
   )}
-
-  <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} excludeUrls={recommendationUrls} tags={post.data.tags} />
 
   <div class="section-container-wide" data-post-final-return>
     <ProjectFooterNav parentPage={{ name: 'Blog', url: localizePath('/blog/', locale) }} variant="colophon" />
