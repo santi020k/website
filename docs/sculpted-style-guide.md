@@ -628,6 +628,22 @@ shared arrow effect and reduced-motion behavior. At narrow card widths, reduce
 insets and type, and move the arrow beside the count when the title needs the full
 row. Preserve visible focus, complete words where space allows, and both themes.
 
+### Topic brief archive opening
+
+Individual topic archives use **Topic brief** in both language shells. A ruled
+topline pairs All topics with the total post count, followed by the topic name
+as the only headline and a short archive introduction. A quiet footer shows
+Latest first, the current page when the archive spans multiple pages, and Back
+to blog. Replace the oversized All posts emphasis, duplicate topic description,
+button pair, and generic metadata. Keep the same brief on later archive pages.
+
+Use native Lumen links, the shared Arrow exchange, semantic colors, visible
+focus, and wrapping rather than truncation. Scope the typography to this opening;
+the headline is capped at 3rem and scales to its column at narrow or enlarged-text
+widths. Translate collection UI through the existing dictionary and preserve
+locale-aware destinations. Keep the post list, filters, pagination, statistics,
+metadata, topic names, and authored content unchanged.
+
 ### Speaking and engineering-principle cards with clear hierarchy
 
 Speaking topic, format, and boxed engineering-principle cards share one treatment:

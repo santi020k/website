@@ -78,6 +78,7 @@ export const collectionCopy: Record<string, string> = {
   Duration: 'Duración',
   'Each series is a self-contained reading track — start at post one, follow the thread, finish with a complete mental model.': 'Cada serie es un recorrido de lectura: empieza por el primer artículo, sigue el hilo y termina con una visión completa.',
   'Each topic opens a filtered archive page with the related posts.': 'Cada tema abre una página del archivo con sus artículos relacionados.',
+  'Explore articles, guides, and personal notes on this topic.': 'Explora artículos, guías y notas personales sobre este tema.',
   Engineer: 'Ingeniero',
   'Explore beyond the toolkit': 'Explorar más allá de las herramientas',
   'Explore the developer experience guide': 'Explorar la guía de experiencia de desarrollo',
