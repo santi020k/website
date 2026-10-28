@@ -993,9 +993,12 @@ covers the remaining consumers at mobile and desktop widths with 100% and 200% t
   ownership of sorting, search, focus, and result announcements.
 - `@santi020k/lumen/styles/motion.css` enables native disclosure height transitions in supporting
   browsers. Unsupported browsers keep the native immediate toggle.
-- Stack cards use a static mesh effect. The sculpted homepage hero uses its site-owned artwork
-  without continuous animation or a pause-control requirement.
-- Homepage Lumen and PostLens captures use `DeviceFrame` with Astro's optimized images and static
+- Stack cards use a static mesh effect. The homepage hero combines an Astro image crop with
+  Lumen's public `DeviceFrame` for the PostLens editor. A finite CSS entrance and native
+  hover/focus styling connect these previews with their product links. Text and images remain
+  fully opaque, actions remain immediately usable, and reduced motion and client navigation
+  render the resting composition. There is no continuous animation or pause-control requirement.
+- Featured-work Lumen and PostLens captures use `DeviceFrame` with Astro's optimized images and static
   screens without visible captions. Development and illustrative-data disclosures stay in the case studies.
   The existing Void screenshot retains its device frame in the case study. Illustrations such as Smith's commerce artwork
   remain unframed because they do not represent actual product screens.

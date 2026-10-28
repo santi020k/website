@@ -337,6 +337,8 @@
 
 ### Patch Changes
 
+- Lead the homepage with larger bilingual typography and real Lumen UI and PostLens interface previews. Keep the portrait as a personal signature, prioritize selected work, and add a brief accessible entrance with responsive, reduced-motion, and script-free fallbacks.
+
 - Keep the Projects technology heading readable at 320px with enlarged text by reducing narrow-panel inline padding.
 
 - Bring the About page into the personal editorial direction with a natural portrait,

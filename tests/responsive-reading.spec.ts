@@ -126,7 +126,7 @@ for (const theme of ['light', 'dark'] as const) {
       for (const width of [320, 375]) {
         await page.setViewportSize({ width, height: 900 })
         await settleLayout(page)
-        await expectWithinScreen(page.locator('[data-home-hero] h1, [data-home-hero] p, [data-home-hero] a, [data-home-hero] img'))
+        await expectWithinScreen(page.locator('[data-home-hero] h1, [data-home-hero] p, [data-home-hero] a, [data-home-hero] img:not([data-hero-workspace-crop] img), [data-hero-workspace-crop]'))
         await expect(page.getByRole('heading', { level: 1 })).toHaveText(/I build products\.\s*And the tools\s*behind them\./u)
         const action = page.getByRole('link', { name: 'See selected work', exact: true })
 
@@ -135,26 +135,31 @@ for (const theme of ['light', 'dark'] as const) {
       }
     })
 
-    test('the default tablet and desktop hero keeps the portrait beside its copy', async ({ page }) => {
+    test('the product evidence stays separate from readable hero copy', async ({ page }) => {
       await page.goto('/')
 
       for (const width of [768, 1024, 1440]) {
         await page.setViewportSize({ width, height: 900 })
         await settleLayout(page)
 
-        const separateColumns = await page.locator('[data-home-hero-heading]').evaluate(heading => {
-          const title = heading.getBoundingClientRect()
-          const portrait = document.querySelector('.maker-hero-portrait-frame')?.getBoundingClientRect()
+        const separate = await page.locator('[data-home-hero-heading]').evaluate(heading => {
+          const scene = document.querySelector('[data-home-product-scene]')?.getBoundingClientRect()
+          const range = document.createRange()
 
-          return portrait !== undefined && title.right <= portrait.left &&
-            title.top < portrait.bottom && title.bottom > portrait.top
+          if (!scene) return false
+          return [...heading.children].every(line => {
+            range.selectNodeContents(line)
+            const text = range.getBoundingClientRect()
+
+            return text.right <= scene.left || text.bottom <= scene.top
+          })
         })
 
-        expect(separateColumns).toBe(true)
+        expect(separate).toBe(true)
       }
     })
 
-    test('the tablet and desktop hero keeps enlarged words clear of the portrait', async ({ page }) => {
+    test('enlarged hero copy keeps whole words above its product evidence', async ({ page }) => {
       await openWithEnlargedText(page, '/')
 
       for (const width of [768, 1024, 1440]) {
@@ -163,27 +168,22 @@ for (const theme of ['light', 'dark'] as const) {
 
         const readable = await page.locator('[data-home-hero-heading]').evaluate(heading => {
           const title = heading.getBoundingClientRect()
-          const portrait = document.querySelector('.maker-hero-portrait-frame')?.getBoundingClientRect()
+          const scene = document.querySelector('[data-home-product-scene]')?.getBoundingClientRect()
           const firstLine = heading.querySelector('span')?.firstChild
 
-          if (!portrait || !firstLine?.textContent) return false
-
+          if (!scene || !firstLine?.textContent) return false
           const start = firstLine.textContent.indexOf('products.')
 
           if (start < 0) return false
-
           const range = document.createRange()
 
           range.setStart(firstLine, start)
           range.setEnd(firstLine, start + 'products.'.length)
-          const wordFits = range.getClientRects().length === 1
-          const separate = title.right <= portrait.left || title.bottom <= portrait.top
-
-          return wordFits && separate
+          return range.getClientRects().length === 1 && title.bottom <= scene.top
         })
 
         expect(readable).toBe(true)
-        await expectWithinScreen(page.locator('[data-home-hero] h1, [data-home-hero] a, [data-home-hero] img'))
+        await expectWithinScreen(page.locator('[data-home-hero] h1, [data-home-hero] a, [data-home-hero] img:not([data-hero-workspace-crop] img), [data-hero-workspace-crop]'))
       }
     })
 

@@ -2613,3 +2613,28 @@ into 5.0.0 without changing published notes. Normal commit hooks run the current
 Astro check. Firefox remains unavailable due to its profile startup failure.
 Evidence: `.cache/v5-work-editorial/`. Root full gate remains `0319556c`; no remote
 action occurred.
+
+## Homepage product hero integration
+
+Approved source `7a6eec3e` is integrated over `5ae17692`. The opening keeps the
+natural portrait and pairs the existing Lumen workspace and PostLens editor previews
+with the product links. Sample-content disclosures remain visible. Finite entrances
+keep the content opaque; reduced motion and return navigation use the resting state.
+Production components, CSS, tests and four macOS snapshots match the source exactly;
+the shared catalog additionally retains the already integrated About keys.
+
+All 98 affected Chromium/WebKit and mobile cases pass, including four existing
+visual baselines and twelve enlarged-text reflow cases. The 1,513 catalog units,
+affected zero-warning lint, eight preserved homepage contracts, thirty-two matched
+full-page/hero captures and eight normal-text axe scans pass. The current-site build
+and 906-page SEO audit pass. Five regenerated PDF page rasters are unchanged and
+public/built artifacts match.
+
+The canonical local Lighthouse run scores 92 performance and 100 accessibility,
+best practices and SEO: LCP 3.09s, CLS 0, TBT 0ms and no run warnings or failed
+assertions. This records the combined candidate and does not claim a speedup over
+the previous hero. Firefox cannot launch its local profile, so its historical Home
+baseline remains unchanged and requires later preflight verification.
+
+Changesets are folded into unpublished 5.0.0 with published notes unchanged. Evidence:
+`.cache/v5-impactful-hero/`. Root full gate remains `0319556c`; no remote action occurred.

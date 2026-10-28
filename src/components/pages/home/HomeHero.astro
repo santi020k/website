@@ -2,8 +2,8 @@
 import { Image } from 'astro:assets'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import HomeHeroProducts from '@/components/pages/home/HomeHeroProducts.astro'
 
-import HeroCity from '@/assets/photos/home/city-in-the-clouds.webp'
 import HeroPortrait from '@/assets/photos/home/santiago-smiling.webp'
 
 import { ButtonLink, Icon } from '@santi020k/lumen-astro'
@@ -21,7 +21,7 @@ const t = pageTranslator(pageLocale)
 <section class="signature-frame maker-hero" aria-labelledby="home-heading" data-home-hero>
   <div class="maker-hero-stage" data-home-hero-grid>
     <div class="maker-hero-copy">
-      <div data-home-hero-identity>
+      <div data-home-hero-identity data-home-photo>
         <Image
           alt={t('page.portraitOfSantiagoMolinaSmiling')}
           class="maker-hero-portrait"
@@ -44,51 +44,31 @@ const t = pageTranslator(pageLocale)
         <span>{t('home.hero.connective')} <span class="maker-hero-emphasis">{t('home.hero.emphasis')}</span></span>
         <span>{t('home.hero.ending')}</span>
       </h1>
-      <p class="maker-hero-description">
-        {t('page.engineeringLeadAndCreatorOf')}{' '}
-        <span class="whitespace-nowrap">Lumen UI</span>{t('page.iBuildCommercePlatformsNativeAppsAnd')}
-      </p>
-      <div class="maker-hero-actions">
-        <ButtonLink class="maker-hero-primary" href={localizePath(siteConfig.contact.workWithMe, pageLocale)} variant="unstyled">
-          <span data-home-action-label>{t('shared.workWithMe')}</span>
-          <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange /></span>
-        </ButtonLink>
-        <ButtonLink class="maker-hero-secondary" data-text-link href={localizePath('/portfolio/', pageLocale)} variant="unstyled">
-          <span data-text-link-label>{t('page.seeSelectedWork')}</span> <ArrowExchange direction="right" />
-        </ButtonLink>
+      <div data-home-hero-intro>
+        <p class="maker-hero-description">{t('home.hero.description')}</p>
+        <div class="maker-hero-actions">
+          <ButtonLink class="maker-hero-primary" href={localizePath('/portfolio/', pageLocale)} variant="unstyled">
+            <span data-home-action-label>{t('page.seeSelectedWork')}</span>
+            <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange /></span>
+          </ButtonLink>
+          <ButtonLink class="maker-hero-secondary" data-text-link href={localizePath(siteConfig.contact.workWithMe, pageLocale)} variant="unstyled">
+            <span data-text-link-label>{t('shared.workWithMe')}</span> <ArrowExchange direction="right" />
+          </ButtonLink>
+        </div>
       </div>
     </div>
 
-    <figure data-home-hero-photo data-home-photo>
-      <div data-home-hero-photo-frame>
-        <Image
-          alt={t('home.photo.cloudsAlt')}
-          src={HeroCity}
-          widths={[360, 540, 720, 900]}
-          sizes="(min-width: 1280px) 380px, (min-width: 768px) 36vw, calc(100vw - 64px)"
-          width={900}
-          height={1600}
-          format="webp"
-          quality={85}
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
-      <figcaption>
-        <span>{t('home.photo.throughMyLens')}</span>
-        <span>{t('home.photo.clouds')}</span>
-      </figcaption>
-    </figure>
+    <HomeHeroProducts />
   </div>
 
   <nav class="maker-hero-shelf" aria-label={t('page.featuredProducts')} id="hero-products">
     <p class="maker-hero-shelf-label">{t('page.selectedProducts')}</p>
-    <a class="maker-hero-project" href={localizePath('/portfolio/lumen-ui/', pageLocale)}>
+    <a class="maker-hero-project" data-hero-link="lumen-ui" href={localizePath('/portfolio/lumen-ui/', pageLocale)}>
       <Image alt="" class="maker-hero-project-logo" src={LumenLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
       <span data-home-product-copy><strong>Lumen UI</strong><span>{t('page.webAndNativeComponents')}</span></span>
       <ArrowExchange class="maker-hero-project-arrow" direction="up-right" />
     </a>
-    <a class="maker-hero-project" href={localizePath('/portfolio/postlens/', pageLocale)}>
+    <a class="maker-hero-project" data-hero-link="postlens" href={localizePath('/portfolio/postlens/', pageLocale)}>
       <Image alt="" class="maker-hero-project-logo" src={PostLensLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
       <span data-home-product-copy><strong>PostLens</strong><span>{t('page.privatePhotoEditingForIphone')}</span></span>
       <ArrowExchange class="maker-hero-project-arrow" direction="up-right" />
@@ -99,53 +79,41 @@ const t = pageTranslator(pageLocale)
 
 <style>
   [data-home-hero] .maker-hero-stage {
-    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
-    gap: 3.5rem;
+    --hero-type: clamp(2rem, 8.4cqi, 6rem);
+    grid-template-columns: minmax(0, 1fr) 26rem;
+    grid-template-rows: auto min-content 1fr;
+    gap: 1.75rem 3rem;
+    align-items: start;
     min-height: 0;
     padding-block: 1rem 3rem;
   }
-
-  [data-home-hero-identity] {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  [data-home-hero] .maker-hero-portrait {
-    flex: none;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
+  [data-home-hero] .maker-hero-copy { display: contents; }
+  [data-home-hero-grid] > :global([data-home-product-scene]) { grid-column: 2; grid-row: 2 / 4; margin-top: calc(var(--hero-type) * 1.15); }
+  [data-home-hero-intro] { grid-column: 1; min-width: 0; }
+  [data-home-hero] .maker-hero-description { max-width: 29rem; margin-top: 0; }
+  [data-home-hero] .maker-hero-actions { margin-top: 1.5rem; }
+  [data-home-hero-identity] { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; margin-bottom: 0.25rem; }
+  [data-home-hero] .maker-hero-portrait { flex: none; width: 4rem; height: 4rem; border-radius: 50%; object-fit: cover; }
   [data-home-hero-identity] > div { min-width: 0; }
   [data-home-hero-identity] p { font-size: 0.9375rem; font-weight: 600; line-height: 1.6; }
   [data-home-hero-identity] span { display: block; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.7; }
-  [data-home-hero] h1 { font-size: clamp(3rem, 5.8vw, 5.25rem); letter-spacing: -0.07em; }
-  [data-home-hero]:lang(es) h1 { font-size: clamp(2.25rem, 4.3vw, 3.75rem); }
-  [data-home-hero] .maker-hero-description { max-width: 31rem; }
+  [data-home-hero] h1 { grid-column: 1 / -1; grid-row: 2; width: 100%; max-width: 100%; font-size: var(--hero-type); line-height: 1.04; letter-spacing: -0.065em; }
+  [data-home-hero] h1 > span { display: block; }
+  [data-home-hero] h1 > span:not(:first-child) { max-width: calc(100% - 29rem); }
+  [data-home-hero]:lang(es) .maker-hero-stage { --hero-type: clamp(1.75rem, 6.6cqi, 4.25rem); }
+  [data-home-hero]:lang(es) h1 { font-size: var(--hero-type); letter-spacing: -0.055em; }
 
-  [data-home-hero-photo] { min-width: 0; align-self: stretch; display: flex; flex-direction: column; justify-content: end; margin: 0; }
-  [data-home-hero-photo-frame] { overflow: hidden; min-height: 0; aspect-ratio: 4 / 5; border-radius: 7rem 0.75rem 0.75rem 0.75rem; background: hsl(var(--surface-muted)); }
-  [data-home-hero-photo] img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 52%; }
-  [data-home-hero-photo] figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; margin-top: 1rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; }
-  [data-home-hero-photo] figcaption span:first-child { color: hsl(var(--ink)); font-weight: 500; }
-
-  @container home-hero (width < 48rem) {
-    [data-home-hero] .maker-hero-stage { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding-block: 0 2rem; }
-    [data-home-hero] h1 { font-size: clamp(2rem, 9.6cqi, 4.5rem); letter-spacing: -0.06em; }
-    [data-home-hero]:lang(es) h1 { font-size: clamp(1.75rem, 8cqi, 3.5rem); }
-    [data-home-hero-identity] { margin-bottom: 1.5rem; }
-    [data-home-hero-photo-frame] { aspect-ratio: 2 / 1; border-radius: 3rem 0.75rem 0.75rem 0.75rem; }
-    [data-home-hero-photo] img { object-position: center 55%; }
-    [data-home-hero-photo] figcaption { margin-top: 0.75rem; }
+  @container home-hero (width < 62rem) {
+    [data-home-hero] .maker-hero-stage { --hero-type: clamp(2rem, 10.4cqi, 5rem); grid-template-columns: minmax(0, 1fr); grid-template-rows: none; gap: 1.5rem; padding-block: 0 2rem; }
+    [data-home-hero-grid] > :global([data-home-product-scene]) { grid-column: 1; grid-row: auto; margin-top: 0; }
+    [data-home-hero] h1 > span:not(:first-child) { max-width: 100%; }
+    [data-home-hero]:lang(es) .maker-hero-stage { --hero-type: clamp(1.75rem, 8.6cqi, 4rem); }
+    [data-home-hero-intro] { max-width: 34rem; }
+    [data-home-hero] .maker-hero-description { max-width: 34rem; }
   }
-
   @container home-hero (width < 18rem) {
     [data-home-hero-identity] { align-items: start; flex-wrap: wrap; gap: 0.75rem; }
-    [data-home-hero] h1 { font-size: min(2rem, 22cqi); }
-    [data-home-hero]:lang(es) h1 { font-size: min(1.75rem, 16cqi); }
+    [data-home-hero] .maker-hero-stage { --hero-type: min(2rem, 22cqi); }
+    [data-home-hero]:lang(es) .maker-hero-stage { --hero-type: min(1.75rem, 16cqi); }
   }
 </style>

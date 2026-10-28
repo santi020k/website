@@ -9,7 +9,7 @@ test('the hero connects products, personal background, and the full portfolio', 
 
   await expect(page.locator('h1')).toHaveCount(1)
   await expect(hero.locator('h1')).toContainText('I build products.')
-  await expect(hero.locator('.maker-hero-description')).toHaveText('Engineering lead and creator of Lumen UI. I build commerce platforms, native apps, and developer tools, and help teams ship with better code and practical AI.')
+  await expect(hero.locator('.maker-hero-description')).toHaveText('Engineering lead. Creator of Lumen UI and PostLens. I build commerce platforms, native apps, and tools that help teams ship.')
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAccessibleName('See selected work')
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAttribute('href', '/portfolio/')
   await expect(hero.locator('a[href="/portfolio/lumen-ui/"]')).toHaveAttribute('href', '/portfolio/lumen-ui/')
@@ -241,3 +241,137 @@ for (const route of ['/', '/es/']) {
     }
   })
 }
+
+for (const route of ['/', '/es/']) {
+  test(`product evidence stays clear of the headline and follows the actions on ${route}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    for (const width of [1440, 1024, 768, 390, 320]) {
+      await page.setViewportSize({ width, height: 1000 })
+      await page.goto(route)
+      await page.evaluate(() => document.fonts.ready)
+      const scene = page.locator('[data-home-product-scene]')
+
+      await expect(scene.locator('a, button, [tabindex="0"]')).toHaveCount(0)
+      await expect(scene.locator('figcaption')).toContainText(route === '/' ? 'sample content' : 'contenido de ejemplo')
+      await expect(scene.locator('img')).toHaveCount(2)
+      for (const image of await scene.locator('img').all()) {
+        await expect(image).toBeVisible()
+        await expect.poll(() => image.evaluate(element => (
+          element instanceof HTMLImageElement && element.complete && element.naturalWidth > 0
+        ))).toBe(true)
+      }
+      const geometry = await scene.evaluate(element => {
+        const sceneBounds = element.getBoundingClientRect()
+        const heading = document.querySelector('[data-home-hero-heading]')
+        const actions = document.querySelector('[data-home-hero] .maker-hero-actions')
+        const spans = heading ? [...heading.children] : []
+        const range = document.createRange()
+        const lines = spans.map(span => {
+          range.selectNodeContents(span)
+          const bounds = range.getBoundingClientRect()
+
+          return { right: bounds.right, bottom: bounds.bottom }
+        })
+
+        return {
+          sceneLeft: sceneBounds.left,
+          sceneTop: sceneBounds.top,
+          sceneRight: sceneBounds.right,
+          actionBottom: actions?.getBoundingClientRect().bottom ?? Infinity,
+          lines
+        }
+      })
+
+      expect(geometry.lines).toHaveLength(3)
+      expect(geometry.lines.every(line => (
+        line.bottom < geometry.sceneTop || line.right < geometry.sceneLeft
+      ))).toBe(true)
+      expect(geometry.sceneTop > geometry.actionBottom).toBe(width < 1280)
+      expect(geometry.sceneRight).toBeLessThanOrEqual(width)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+    }
+  })
+}
+
+test('the opening stays opaque during its finite entrance and rests on return navigation', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  const hero = page.locator('[data-home-hero]')
+  const samples = await hero.evaluate(async element => {
+    const samples: { visible: boolean, endTimes: number[] }[] = []
+    const start = performance.now()
+
+    while (performance.now() - start < 850) {
+      const animated = element.getAnimations({ subtree: true })
+      const content = [...element.querySelectorAll('h1 > span, .maker-hero-description, .maker-hero-actions, [data-hero-plate]')]
+
+      samples.push({
+        visible: content.every(node => getComputedStyle(node).opacity === '1' && node.checkVisibility()),
+        endTimes: animated.map(animation => Number(animation.effect?.getComputedTiming().endTime ?? 0))
+      })
+      await new Promise<void>(resolve => requestAnimationFrame(() => {
+        resolve()
+      }))
+    }
+    return samples
+  })
+
+  expect(samples.length).toBeGreaterThan(1)
+  expect(samples.every(sample => sample.visible)).toBe(true)
+  expect(samples.flatMap(sample => sample.endTimes).every(time => time <= 800)).toBe(true)
+  await expect.poll(() => hero.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0)
+  await hero.getByRole('link', { name: 'See selected work', exact: true }).click()
+  await expect(page).toHaveURL(/\/portfolio\/$/u)
+  await page.goBack()
+  await expect(page.locator('body')).toHaveAttribute('data-client-navigation')
+  await expect(hero.locator('h1')).toBeVisible()
+  // Browser-managed color transitions may still settle after the document swap;
+  // the one-time opening must not replay.
+  const returnedAnimations = await hero.evaluate(element => element.getAnimations({ subtree: true })
+    .filter((animation): animation is CSSAnimation => animation instanceof CSSAnimation)
+    .map(animation => animation.animationName))
+
+  expect(returnedAnimations).toEqual([])
+})
+
+test('reduced motion keeps the opening still and product focus highlights the corresponding preview', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  const hero = page.locator('[data-home-hero]')
+
+  expect(await hero.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0)
+  const crop = hero.locator('[data-hero-workspace-crop]')
+  const initialBorder = await crop.evaluate(element => getComputedStyle(element).borderTopColor)
+
+  await hero.locator('[data-hero-link="lumen-ui"]').focus()
+  await expect(crop).not.toHaveCSS('border-top-color', initialBorder)
+  await hero.locator('[data-hero-link="postlens"]').focus()
+  await expect(hero.locator('[data-hero-plate="postlens"]')).toHaveCSS('outline-style', 'solid')
+  await expect(crop).toHaveCSS('border-top-color', initialBorder)
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/\/portfolio\/postlens\/$/u)
+})
+
+test('product previews and primary destinations work without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
+  const page = await context.newPage()
+
+  try {
+    await page.goto('/')
+    const hero = page.locator('[data-home-hero]')
+
+    await expect(hero.locator('h1')).toBeVisible()
+    await expect.poll(() => hero.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0)
+    await hero.locator('[data-home-product-scene]').scrollIntoViewIfNeeded()
+    for (const image of await hero.locator('[data-home-product-scene] img').all()) {
+      await expect(image).toBeVisible()
+      await expect.poll(() => image.evaluate(element => (
+        element instanceof HTMLImageElement && element.complete && element.naturalWidth > 0
+      ))).toBe(true)
+    }
+    await hero.getByRole('link', { name: 'Work with me', exact: true }).click()
+    await expect(page).toHaveURL(/\/work-with-me\/$/u)
+  } finally {
+    await context.close()
+  }
+})
