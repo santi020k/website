@@ -9,7 +9,10 @@ const productionSecurityPolicy = async () => {
 
   if (!policy) throw new Error('Missing production Content Security Policy')
 
-  return policy
+  // Production serves HTTPS. On the HTTP-only preview, WebKit honors this
+  // transport directive by attempting TLS against the HTTP server. Exercise
+  // every source/WASM restriction here; transport enforcement belongs to HTTPS smoke checks.
+  return policy.split(';').filter(directive => directive.trim() !== 'upgrade-insecure-requests').join(';')
 }
 
 const entries = [
