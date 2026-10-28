@@ -2200,3 +2200,28 @@ with published notes intact. Evidence is in `.cache/v5-named-captions/`.
 This completes the fixed integration group with the personal homepage and
 Contextual return. Its full workspace gate follows the local merge commit.
 No remote action occurred.
+
+## Combined homepage, return, and caption verification
+
+The full workspace gate passes on clean integration commit
+`0319556c8bee3cb8ea5dcdce9e604977499a2c4f`, containing homepage `192007d6`,
+Contextual return `c9d35d57`, and Named captions `0319556c`. Each approved source
+is an ancestor and its product/test files match exactly. Earlier v5 work, version
+5.0.0, and the published changelog remain intact.
+
+`pnpm run verify:fast` exits zero: five CI-scope tests, all workspace lint/type
+checks, spelling and content checks, 2,650 unit tests across 75 files, seven
+motion tests, and all five production site builds pass. The current Astro check
+covers 592 files with zero errors, warnings, or hints. Archive verification covers
+1,288 pages; the assembled-page audit checks 2,194 documents and 8,616 local
+targets with zero errors. All 926 social images are current, and the resume PDFs
+are fresh and match their built copies after the complete build. The working
+tree remains clean after the gate.
+
+The affected integration checks total 186 passing browser cases across the
+three changes, with four homepage visual baselines and 128 comparison captures.
+Chromium and WebKit were verified; the source Firefox startup limitation remains
+explicit and is not counted as a pass. The separate Feed utility work is outside
+this fixed validation group. Evidence is retained in
+`.cache/v5-combined-home-return-captions/`. This is local integration evidence;
+no push, pull request, tag, release, or deployment occurred.
