@@ -1704,3 +1704,33 @@ rendered pages are pixel-identical to `b38733ce`. The Changeset is folded into
 5.0.0 while published notes remain unchanged. The existing optional Workspace
 Organizer sitemap skip remains. The latest full workspace gate is `b6dce4e5`;
 this follow-up uses affected checks and includes no remote publication.
+
+## Bilingual Subsection arrival follow-up
+
+Approved source `03c575dc`, based on `b38733ce`, is integrated over Topic brief
+`943b6f9b`. The shared arrival controller now also marks direct article h3
+destinations, reusing the existing localized label and Lumen icon. Headings retain
+their original hierarchy, IDs, inline content, typography, and margins. Subsections
+gain no copy controls; the marker stays hidden during ordinary reading, in print,
+and without JavaScript. The production component and permanent test match the
+approved source exactly. No translation keys or dependencies were added.
+
+All 46 Chromium/WebKit subsection, section arrival, and section reference cases
+passed with one worker and retries disabled, followed by two Spanish link-recovery
+cases. They cover English and Spanish,
+encoded/direct fragments, contents navigation, browser history and Astro page
+transitions, 320/390/1440px, 200% text, both themes, scoped axe, print, and native
+no-JavaScript navigation. Thirty-two matched screenshots cover linked and idle
+subsections on mobile and desktop in both languages/themes; all eight idle pairs
+are pixel-identical. English desktop and Spanish mobile linked states were
+visually reviewed.
+
+Current-site lint passed without warnings. Astro checked 570 files with zero
+errors, warnings, or hints. The 904-page build, 906-page OG audit, and archive
+assembly passed. Resume freshness passes without regeneration because the source
+fingerprint is unchanged. The Changeset is folded into 5.0.0, preserving published
+notes. The existing optional Workspace Organizer sitemap skip remains. The latest
+full workspace gate remains `b6dce4e5`; this follow-up uses affected checks.
+The separate typed-message migration remains in progress and must preserve this
+shared controller when its translator calls are integrated. Publication sharing
+is a separate follow-up and is not included in this merge.

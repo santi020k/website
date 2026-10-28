@@ -322,6 +322,10 @@
 
 ### Patch Changes
 
+- Extend the shared Section arrival marker to linked article subsections in both
+  interface languages. Preserve their original heading hierarchy, typography,
+  fragments, inline formatting, and print layout.
+
 - Open topic archives with a concise bilingual Topic brief, named navigation, total post counts, and current-page context.
 
 - Mark article section-link destinations with a Linked section label and margin rule.

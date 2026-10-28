@@ -1579,7 +1579,15 @@ Article body h3 elements use Subsection cadence: 1.3125rem type at weight 500,
 Keep these headings unadorned beneath the ruled h2 sections. Style only direct
 article prose children, preserving native heading levels, fragments, inline markup,
 and the shared contents navigation. Component headings and deeper levels retain
-their own treatment; no wrapper or runtime is needed.
+their own treatment.
+
+**Subsection arrival** extends the Section arrival marker to article h3 destinations.
+Reuse its URL tracking, Lumen icon, locale text, 2px margin rule, and 1rem inset.
+Keep the original h3 directly in the article, with its smaller Subsection cadence
+typography and spacing. Insert only the decorative marker inside the reached
+heading; do not add another copy control. Preserve the heading name and inline
+markup. Hide the marker in print and during ordinary reading, and retain native
+subsection navigation without JavaScript.
 
 Use a 1.5rem, weight-500 h3 with 1.4 line height and a fine trailing rule. Leave 1.5rem
 between the heading and rule, 2.5rem before the subsection, and 1.5rem before its body.
