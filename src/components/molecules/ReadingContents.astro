@@ -17,8 +17,8 @@ interface Props {
 }
 
 const { headings, embedded = false } = Astro.props
-const chapterOverview = (text: string) => locale === 'es' ? `Resumen del capítulo: ${text}` : `Chapter overview: ${text}`
-const namedOverview = (name: string) => locale === 'es' ? `Resumen de ${name}` : `${name} overview`
+const chapterOverview = (text: string) => t('reading.chapterOverview', { title: text })
+const namedOverview = (name: string) => t('reading.namedOverview', { name })
 
 const chapters = getReadingChapters(headings).map(chapter => {
   const separator = chapter.heading.text.indexOf(': ')

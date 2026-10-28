@@ -33,7 +33,7 @@ const isLatestChapter = !next
   <header data-series-intro>
     <div data-series-context>
       <span>{isLatestChapter ? t('collection.latestPublishedChapter') : t('collection.continueTheSeries')}</span>
-      <span data-series-position>{locale === 'es' ? `Artículo ${position} de ${total}` : `Post ${position} of ${total}`}</span>
+      <span data-series-position>{t('series.position', { position, total })}</span>
     </div>
     {isLatestChapter ?
 (
@@ -57,7 +57,7 @@ const isLatestChapter = !next
 
   {(previous ?? next) && (
     <nav
-      aria-label={(locale === 'es' ? `Continúa leyendo ${series.data.title}` : `Continue reading ${series.data.title}`)}
+      aria-label={(t('series.continueReading', { title: series.data.title }))}
       data-series-pagination
       data-single={!(previous && next) || undefined}
     >
@@ -131,10 +131,10 @@ direction="right"
 
   <Collapsible data-series-fold>
     <summary data-series-fold-summary>
-      <span>{locale === 'es' ? `Los ${total} capítulos` : `All ${total} ${total === 1 ? 'chapter' : 'chapters'}`}</span>
+      <span>{t(total === 1 ? 'series.allChapter' : 'series.allChapters', { total })}</span>
       <Icon class="size-4 shrink-0" name="chevron-down" />
     </summary>
-    <nav aria-label={(locale === 'es' ? `Capítulos de ${series.data.title}` : `Chapters in ${series.data.title}`)} data-series-index>
+    <nav aria-label={(t('series.chapters', { title: series.data.title }))} data-series-index>
       <ol data-series-track>
         {posts.map((seriesPost, index) => {
           const isCurrentPost = seriesPost.id === currentPostId

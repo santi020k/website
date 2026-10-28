@@ -1673,3 +1673,95 @@ these files do not alter its fingerprint. The optional Workspace Organizer
 sitemap retains its established unavailable-source skip. The Changeset is folded
 into 5.0.0 while published notes stay unchanged. The latest full gate remains
 `b6dce4e5`; this follow-up uses affected checks and includes no remote action.
+
+## Bilingual Topic brief follow-up
+
+Approved source `2a44ffde`, based on `b6dce4e5`, is integrated over Section arrival
+`b38733ce`. Individual topic archives now open with a concise topic heading,
+total post count, All topics and Back to blog links, and page context for multi-page
+archives. The same layout serves both languages, using the existing translation
+and native-link contracts. The archive page and permanent tests match the approved
+source exactly; the style guide retains Evidence captions and Section arrival,
+and the collection dictionary combines their translations with the new brief.
+
+Ten affected locale unit cases and six focused Chromium/WebKit browser cases
+passed. An additional 24 responsive states cover both languages/themes,
+390/1440px and 320px at 200% text, whole-word titles, 44px links, visible keyboard
+focus, reduced motion, and scoped axe. Eight native keyboard destinations passed
+without JavaScript. Thirty-two matched route/state comparisons cover first and
+later Developer experience pages, CI/CD, and a single Wine post; downstream
+content, filters, pagination links, statistics, canonical/alternate URLs, and
+metadata remain identical. Sixteen before/after opening captures cover mobile
+and desktop in both languages/themes; representative desktop English and mobile
+Spanish results were visually reviewed.
+
+Current-site lint and spelling passed without warnings; Astro checked 569 files
+with zero errors, warnings, or hints. The 904-page build, 906-page OG audit, archive
+assembly, and normal commit hooks passed. Generated resume assets conflicted
+because both sources changed their shared dictionary fingerprint. The documented
+generator rebuilt them from the combined source; freshness passed and all five
+rendered pages are pixel-identical to `b38733ce`. The Changeset is folded into
+5.0.0 while published notes remain unchanged. The existing optional Workspace
+Organizer sitemap skip remains. The latest full workspace gate is `b6dce4e5`;
+this follow-up uses affected checks and includes no remote publication.
+
+## Bilingual Subsection arrival follow-up
+
+Approved source `03c575dc`, based on `b38733ce`, is integrated over Topic brief
+`943b6f9b`. The shared arrival controller now also marks direct article h3
+destinations, reusing the existing localized label and Lumen icon. Headings retain
+their original hierarchy, IDs, inline content, typography, and margins. Subsections
+gain no copy controls; the marker stays hidden during ordinary reading, in print,
+and without JavaScript. The production component and permanent test match the
+approved source exactly. No translation keys or dependencies were added.
+
+All 46 Chromium/WebKit subsection, section arrival, and section reference cases
+passed with one worker and retries disabled, followed by two Spanish link-recovery
+cases. They cover English and Spanish,
+encoded/direct fragments, contents navigation, browser history and Astro page
+transitions, 320/390/1440px, 200% text, both themes, scoped axe, print, and native
+no-JavaScript navigation. Thirty-two matched screenshots cover linked and idle
+subsections on mobile and desktop in both languages/themes; all eight idle pairs
+are pixel-identical. English desktop and Spanish mobile linked states were
+visually reviewed.
+
+Current-site lint passed without warnings. Astro checked 570 files with zero
+errors, warnings, or hints. The 904-page build, 906-page OG audit, and archive
+assembly passed. Resume freshness passes without regeneration because the source
+fingerprint is unchanged. The Changeset is folded into 5.0.0, preserving published
+notes. The existing optional Workspace Organizer sitemap skip remains. The latest
+full workspace gate remains `b6dce4e5`; this follow-up uses affected checks.
+The separate typed-message migration remains in progress and must preserve this
+shared controller when its translator calls are integrated. Publication sharing
+is a separate follow-up and is not included in this merge.
+
+## Bilingual Reading caption follow-up
+
+Approved source `5f29acfa`, based on `943b6f9b`, is integrated over Subsection
+arrival `ee248e73`. Individual topic archives introduce their article list with
+a compact Latest writing or Earlier writing h2 and the actual Astro pagination
+range. A one-post archive uses the singular count. Both interface languages share
+the layout, preserving the topic h1 and article h3 hierarchy. The caption shares
+the existing filter divider; filters, cards, statistics, and native destinations
+remain unchanged. The page, dictionary, tests, and generated resume assets match
+the approved source exactly.
+
+Eleven affected locale unit cases and all four Chromium/WebKit archive cases
+passed. Additional checks passed for 24 responsive states across both languages,
+themes, 390/1440px, and 320px with 200% text, including scoped axe and no overflow.
+Eight keyboard destinations passed without JavaScript, including later-page
+self-canonical URLs and native article access. All 32 matched comparisons preserve
+titles, descriptions, canonical/alternate URLs, structured data, topic openings,
+downstream content, every main link, and statistics. Thirty-two before/after
+caption and page-context screenshots cover mobile and desktop in both languages
+and themes; English desktop and Spanish mobile were visually reviewed.
+
+Current-site lint and Astro checks passed with zero diagnostics across 570 files.
+The 904-page build, 906-page OG audit, and archive assembly passed. The source's
+documented resume generator refresh remains fresh against the merged source,
+and all five rendered pages are pixel-identical to `ee248e73`; no additional
+regeneration was needed. The Changeset is folded into 5.0.0 while published notes
+remain unchanged. The optional Workspace Organizer sitemap skip remains. The
+latest full workspace gate remains `b6dce4e5`; this follow-up uses affected checks.
+The pending typed-message migration must retain these localized headings/ranges
+with English as the primary language and default fallback.

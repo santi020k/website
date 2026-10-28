@@ -60,15 +60,14 @@ const communityMatches = page.data.filter(project => project.data.typesId === 'c
 const workExperienceMatches = page.data.filter(project => project.data.typesId === 'professional')
 
 const evidenceGroups = [
-  { count: workExperienceMatches.length, label: t('collection.workExperience'), context: locale === 'es' ? 'trabajo profesional' : 'professional work', href: '#technology-work-heading' },
-  { count: projectMatches.length, label: t('nav.projects'), context: locale === 'es' ? 'proyectos independientes' : 'independent projects', href: '#technology-projects-heading' },
-  { count: communityMatches.length, label: t('shared.community'), context: locale === 'es' ? 'comunidad' : 'community', href: '#technology-community-heading' }
+  { count: workExperienceMatches.length, label: t('collection.workExperience'), context: t('technology.professionalContext'), href: '#technology-work-heading' },
+  { count: projectMatches.length, label: t('nav.projects'), context: t('technology.independentContext'), href: '#technology-projects-heading' },
+  { count: communityMatches.length, label: t('shared.community'), context: t('technology.communityContext'), href: '#technology-community-heading' }
 ].filter(group => group.count > 0)
 
 const evidenceContext = new Intl.ListFormat(locale, { type: 'conjunction' }).format(evidenceGroups.map(group => group.context))
 const pageContext = page.lastPage > 1 ? t('collection.onThisPage7') : ''
-const englishPreposition = evidenceGroups.length > 1 ? 'across' : 'in'
-const preposition = locale === 'es' ? 'en' : englishPreposition
+const preposition = t(evidenceGroups.length > 1 ? 'technology.across' : 'technology.in')
 
 const openingDescription = `${page.data.length} ${page.data.length === 1 ? t('collection.entry') : t('collection.entries')}` +
   `${pageContext} ${preposition} ${evidenceContext}. ` +
@@ -86,7 +85,7 @@ const technologyListSchema = createProjectCollectionSchema(
 
 const meta = {
   breadcrumbs,
-  description: locale === 'es' ? `Proyectos y casos de estudio donde ${technology} dio forma a la arquitectura, el flujo de entrega o la experiencia de producto.` : `Projects and case studies where ${technology} shaped the architecture, delivery workflow, or product experience.`,
+  description: t('technology.description', { technology }),
   ogImage: getSocialImageURL(localizePath(getTechnologyPath(technology), locale), Astro.site, undefined, ogManifest),
   structuredData: technologyListSchema,
   title: t('technology.title', { technology: technology })

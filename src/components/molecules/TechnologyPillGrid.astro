@@ -28,6 +28,9 @@ interface TechnologyLedgerGroup {
 const { projectCount, technologies, totalTechnologyCount } = Astro.props
 const featuredTechnologies = technologies.slice(0, 6)
 const supportingTechnologies = technologies.slice(6)
+const singleTechnologyKey = projectCount === 1 ? 'technology.snapshotOneOne' : 'technology.snapshotOneMany'
+const multipleTechnologiesKey = projectCount === 1 ? 'technology.snapshotManyOne' : 'technology.snapshotManyMany'
+const scopeKey = technologies.length === 1 ? singleTechnologyKey : multipleTechnologiesKey
 
 const ledgerGroups: TechnologyLedgerGroup[] = [
   {
@@ -68,7 +71,7 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
 
   <div data-technology-snapshot-body>
     <p data-technology-snapshot-scope>
-      {locale === 'es' ? `${technologies.length} tecnologías seleccionadas de ${projectCount} proyectos personales. Cada cantidad indica cuántos de esos proyectos usan la herramienta.` : `${technologies.length} selected ${technologies.length === 1 ? 'technology' : 'technologies'} from ${projectCount} personal ${projectCount === 1 ? 'project' : 'projects'}. Each count shows how many of those projects use the tool.`}
+      {t(scopeKey, { count: technologies.length, projects: projectCount })}
     </p>
     {ledgerGroups.filter(group => group.ledger === 'featured' || group.technologies.length > 0).map(group => (
       <div class="space-y-3">

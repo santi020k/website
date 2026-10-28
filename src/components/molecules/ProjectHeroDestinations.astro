@@ -51,7 +51,7 @@ const destination = getProjectPrimaryDestination(project.data)
       </Link>
     )}
     <Link href={localizePath(parentPage.url, locale)} variant="inherit">
-      <span>{locale === 'es' ? 'Explorar' : 'Browse'} {localizeCollectionSource(locale, parentPage.name).toLocaleLowerCase(locale)}</span>
+      <span>{t('project.browse')} {localizeCollectionSource(locale, parentPage.name).toLocaleLowerCase(locale)}</span>
       <ArrowExchange direction="right" size="sm" />
     </Link>
   </div>

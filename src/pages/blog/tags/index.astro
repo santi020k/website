@@ -45,10 +45,10 @@ mainClass="remaining-pages"
       </div>
       <h1 id="topic-index-heading">{t('collection.browseByTopic7')}</h1>
       <p data-topic-opening-description>
-        {locale === 'es' ? 'Encuentra artículos relacionados sobre software, lectura, videojuegos y descubrimientos cotidianos.' : 'Find related writing on software, reading, gaming, and everyday discoveries.'}
+        {t('topic.indexDescription')}
       </p>
       <Link data-text-link data-topic-series href={localizePath('/blog/series/', locale)} variant="inherit">
-        <span data-text-link-label>{locale === 'es' ? '¿Prefieres un recorrido de lectura?' : 'Prefer a connected reading path?'}</span>
+        <span data-text-link-label>{t('topic.readingPath')}</span>
         <ArrowExchange class="size-4 shrink-0" direction="right" />
       </Link>
     </header>
@@ -75,7 +75,7 @@ mainClass="remaining-pages"
               <Toggle controlled data-sort-btn="alpha">A → Z</Toggle>
             </div>
           </div>
-          <p aria-live="polite" id="tag-filter-status">{locale === 'es' ? `Mostrando los ${allTags.length} temas.` : `Showing all ${allTags.length} topics.`}</p>
+          <p aria-live="polite" id="tag-filter-status">{t('topic.showingAll', { count: allTags.length })}</p>
         </div>
       </Card>
 

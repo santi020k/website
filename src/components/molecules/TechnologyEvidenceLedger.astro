@@ -40,7 +40,7 @@ data-technology-summary
         <div>
           <p data-technology-summary-kicker>{t('collection.mostRecurring')}</p>
           <h3>{mostRecurring[0]}</h3>
-          <p data-technology-summary-count>{locale === 'es' ? `Presente en ${mostRecurring[1]} ${mostRecurring[1] === 1 ? 'entrada' : 'entradas'}` : `Listed in ${mostRecurring[1]} ${mostRecurring[1] === 1 ? 'entry' : 'entries'}`}</p>
+          <p data-technology-summary-count>{t(mostRecurring[1] === 1 ? 'technology.listedOnce' : 'technology.listedMany', { count: mostRecurring[1] })}</p>
         </div>
         <span data-technology-summary-action>{t('collection.exploreTheEvidence')}<ArrowExchange direction="right" /></span>
       </Link>

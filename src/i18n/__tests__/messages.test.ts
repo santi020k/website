@@ -19,6 +19,18 @@ describe.each([
   ['collection', collectionMessages],
   ['article', articleMessages]
 ] satisfies [string, MessageCatalog][])('%s translation coverage', (_name: string, catalog: MessageCatalog) => {
+  test('keeps source-text boundary lookups unambiguous', () => {
+    const translations = new Map<string, string>()
+
+    for (const message of Object.values(catalog)) {
+      const previous = translations.get(message.en)
+
+      expect(message.es).toBe(previous ?? message.es)
+
+      translations.set(message.en, message.es)
+    }
+  })
+
   test.each(Object.entries(catalog))('%s has both languages and matching interpolation fields', (key: string, message: Message) => {
     expect(key).toMatch(/^[a-z][a-zA-Z0-9]*(?:\.[a-z][a-zA-Z0-9]*)+$/u)
     expect(message.en.trim()).not.toBe('')

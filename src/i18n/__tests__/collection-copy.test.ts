@@ -3,6 +3,14 @@ import { describe, expect, test } from 'vitest'
 import { localizeCollectionSource } from '../collection-copy'
 
 describe('Spanish collection UI', () => {
+  test('translates archive reading captions and actual page ranges', () => {
+    expect(localizeCollectionSource('es', 'Latest writing')).toBe('Artículos recientes')
+    expect(localizeCollectionSource('es', 'Earlier writing')).toBe('Artículos anteriores')
+    expect(localizeCollectionSource('es', 'Posts 1–12 of 16')).toBe('Artículos 1–12 de 16')
+    expect(localizeCollectionSource('es', 'Posts 13–16 of 16')).toBe('Artículos 13–16 de 16')
+    expect(localizeCollectionSource('es', 'post')).toBe('artículo')
+  })
+
   test('translates topic evidence captions while retaining authored topic names', () => {
     expect(localizeCollectionSource('es', 'Topics to explore')).toBe('Temas para explorar')
     expect(localizeCollectionSource('es', 'Posts in the archive')).toBe('Artículos en el archivo')

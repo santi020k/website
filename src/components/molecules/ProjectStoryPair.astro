@@ -32,8 +32,8 @@ const { stories } = Astro.props
           <p lang="en" data-writing-label>{label}</p>
           <h3 lang="en">{post.data.title}</h3>
           <p lang="en" data-writing-description>{post.data.cardDescription ?? post.data.description}</p>
-          <Link href={localizePath(getPostPath(post.id), locale)} variant="inherit" aria-label={locale === 'es' ? `${t('collection.readArticle')}: ${post.data.title}` : `Read ${label.toLowerCase()}: ${post.data.title}`}  data-writing-link>
-            <span>{locale === 'es' ? t('collection.readArticle') : `Read ${label.toLowerCase()}`}</span>
+          <Link href={localizePath(getPostPath(post.id), locale)} variant="inherit" aria-label={locale === 'es' ? `${t('collection.readArticle')}: ${post.data.title}` : `${t('project.readStory', { label: label.toLowerCase() })}: ${post.data.title}`}  data-writing-link>
+            <span>{locale === 'es' ? t('collection.readArticle') : t('project.readStory', { label: label.toLowerCase() })}</span>
             <ArrowExchange direction="right" size="sm" />
           </Link>
         </article>

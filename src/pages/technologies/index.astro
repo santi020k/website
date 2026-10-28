@@ -26,19 +26,19 @@ const selectiveTechnologies = sortTechnologyCountsByInterest(technologies.filter
 const technologyGroups = [
   {
     items: coreTechnologies,
-    recurrence: locale === 'es' ? '4 o más entradas cada una' : '4+ entries each',
+    recurrence: t('technology.coreRecurrence'),
     summary: t('collection.repeatedFoundationsAcrossProductArchitectureDelivery'),
     title: t('collection.core')
   },
   {
     items: regularTechnologies,
-    recurrence: locale === 'es' ? '2–3 entradas cada una' : '2–3 entries each',
+    recurrence: t('technology.regularRecurrence'),
     summary: t('collection.reliableCompanionToolsThatHelpTeams'),
     title: t('collection.regular')
   },
   {
     items: selectiveTechnologies,
-    recurrence: locale === 'es' ? '1 entrada cada una' : '1 entry each',
+    recurrence: t('technology.selectiveRecurrence'),
     summary: t('collection.contextSpecificPlatformsApisAndProduct'),
     title: t('collection.selective')
   }

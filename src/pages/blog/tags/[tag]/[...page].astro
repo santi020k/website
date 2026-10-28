@@ -3,10 +3,9 @@ import type { GetStaticPaths, Page } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
@@ -17,6 +16,8 @@ import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
 import { getAllTags, getBlogBrowseTags, getBlogTopicLabel } from '@/utils/tags'
+
+import { Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
@@ -53,6 +54,13 @@ const postCount = page.total
 const isFirstPage = page.currentPage === 1
 const topicLabel = getBlogTopicLabel(tag)
 const archiveDescription = t('topic.description', { topic: topicLabel })
+let postRange = `0 ${t('collection.posts7')}`
+
+if (page.data.length > 0) {
+  postRange = postCount === 1 ?
+`1 ${t('collection.post')}` :
+    t('topic.postRange', { start: page.start + 1, end: page.end + 1, total: postCount })
+}
 
 const breadcrumbs = [
   { name: t('nav.home'), url: localizePath('/', locale) },
@@ -75,34 +83,44 @@ mainClass="remaining-pages"
       t('topic.pageTitle', { topic: topicLabel, page: page.currentPage, total: page.lastPage })
   }}
 >
-  <PageHero
-    compact={!isFirstPage}
-    description={locale === 'es' ? `${postCount} ${postCount === 1 ? 'artículo' : 'artículos'} sobre ${topicLabel}.` : `${postCount} ${postCount === 1 ? 'post' : 'posts'} about ${topicLabel}.`}
-    eyebrow={t('collection.topicArchive')}
-    gradientText={t('collection.allPosts7')}
-    metaItems={[t('collection.filteredArchive'), t('collection.browseByTopic'), t('collection.latestFirst')]}
-    title={topicLabel}
+  <section
+aria-labelledby="topic-archive-heading"
+class="section-container-wide"
+data-topic-archive-opening
   >
-    <ButtonLink href={localizePath('/blog/tags/', locale)} showArrow variant="secondary">{t('collection.browseAllTopics')}</ButtonLink>
-    <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('collection.backToBlog')}</ButtonLink>
-  </PageHero>
+    <div data-topic-archive-topline>
+      <Link data-text-link data-topic-archive-return href={localizePath('/blog/tags/', locale)} variant="inherit">
+        <ArrowExchange class="size-4 shrink-0" direction="left" />
+        <span data-text-link-label>{t('collection.allTopics')}</span>
+      </Link>
+      <p data-topic-archive-count>
+        {postCount} {t(postCount === 1 ? 'collection.post' : 'collection.posts7')}
+      </p>
+    </div>
+    <h1 id="topic-archive-heading">{topicLabel}</h1>
+    <p data-topic-archive-description>{t('topic.introduction')}</p>
+    <div data-topic-archive-footer>
+      <p data-topic-archive-position>
+        {t('collection.latestFirst')}{page.lastPage > 1 && <> · {t('pagination.position', { page: page.currentPage, total: page.lastPage })}</>}
+      </p>
+      <Link data-text-link data-topic-archive-blog href={localizePath('/blog/', locale)} variant="inherit">
+        <span data-text-link-label>{t('collection.backToBlog')}</span>
+        <ArrowExchange class="size-4 shrink-0" direction="right" />
+      </Link>
+    </div>
+  </section>
 
   <section
+    aria-labelledby="topic-posts-heading"
     class="section-container-wide page-section-space"
+    data-topic-reading
   >
-    <SectionHeader
-      description={isFirstPage ?
-        t('collection.startWithTheLatestPostThen') :
-        t('topic.earlierPosts', { topic: topicLabel })}
-      eyebrow={isFirstPage ? t('collection.latest') : t('pagination.position', { page: page.currentPage, total: page.lastPage })}
-      title={t('topic.postsHeading', { topic: topicLabel })}
-    />
+    <header data-topic-reading-caption>
+      <h2 id="topic-posts-heading">{t(isFirstPage ? 'topic.latestWriting' : 'topic.earlierWriting')}</h2>
+      <p data-topic-reading-range>{postRange}</p>
+    </header>
 
-    <div class="
-      mt-10 space-y-8
-      sm:mt-12
-    "
-    >
+    <div class="space-y-8">
       <TagFilter activeTag={tag} tags={topTags} totalTopics={totalTopics} />
 
       {page.data.length > 0 ?
@@ -130,3 +148,96 @@ mainClass="remaining-pages"
     </StatsGrid>
   )}
 </PageLayout>
+
+<style>
+  [data-topic-reading] { container: topic-reading / inline-size; }
+  [data-topic-reading-caption] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .75rem 1.75rem;
+    padding-bottom: 1.25rem;
+  }
+  [data-topic-reading-caption] h2 {
+    min-width: 0;
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -.045em;
+  }
+  [data-topic-reading-range] {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.8;
+  }
+  @container topic-reading (width < 26rem) {
+    [data-topic-reading-caption] h2 { font-size: 1.625rem; }
+  }
+  [data-topic-archive-opening] {
+    --topic-archive-accent: hsl(var(--brand));
+    container: topic-archive / inline-size;
+    padding-block: 1rem 0;
+  }
+  :global([data-theme='dark']) [data-topic-archive-opening] { --topic-archive-accent: hsl(var(--accent)); }
+  [data-topic-archive-topline] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem 1.5rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  :global([data-topic-archive-return]), :global([data-topic-archive-blog]) {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: 2.75rem;
+    max-width: 100%;
+    color: hsl(var(--ink-soft));
+    font-size: .8125rem;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  [data-topic-archive-count], [data-topic-archive-position] {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.8;
+  }
+  [data-topic-archive-opening] h1 {
+    max-width: 20ch;
+    margin: 2rem 0 0;
+    color: hsl(var(--ink));
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -.055em;
+    overflow-wrap: anywhere;
+  }
+  [data-topic-archive-description] {
+    max-width: 44ch;
+    margin: 1rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .9375rem;
+    line-height: 1.85;
+  }
+  [data-topic-archive-footer] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .875rem 1.25rem;
+    margin-top: 1.875rem;
+    padding-top: 1rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+  :global([data-topic-archive-blog]) { color: var(--topic-archive-accent); }
+  @container topic-archive (width < 26rem) {
+    [data-topic-archive-opening] h1 { font-size: min(2.125rem, 12cqi); }
+  }
+</style>

@@ -105,7 +105,7 @@ direction="up-right"
       </div>
     </div>
   </div>
-  <a data-portfolio-link href={projectLink} aria-label={locale === 'es' ? `Leer el caso de estudio: ${project.data.title}` : `Read case study: ${project.data.title}`} ></a>
+  <a data-portfolio-link href={projectLink} aria-label={t('project.caseStudyAction', { title: project.data.title })} ></a>
 </Card>
 
 <style>

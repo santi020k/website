@@ -645,6 +645,38 @@ the Named index cards, search, sorting, opening, and metadata unchanged.
 Translate caption copy through the shared collection dictionary and keep archive
 links in the active locale; retain authored topic names.
 
+### Topic brief archive opening
+
+Individual topic archives use **Topic brief** in both language shells. A ruled
+topline pairs All topics with the total post count, followed by the topic name
+as the only headline and a short archive introduction. A quiet footer shows
+Latest first, the current page when the archive spans multiple pages, and Back
+to blog. Replace the oversized All posts emphasis, duplicate topic description,
+button pair, and generic metadata. Keep the same brief on later archive pages.
+
+Use native Lumen links, the shared Arrow exchange, semantic colors, visible
+focus, and wrapping rather than truncation. Scope the typography to this opening;
+the headline is capped at 3rem and scales to its column at narrow or enlarged-text
+widths. Translate collection UI through the existing dictionary and preserve
+locale-aware destinations. Keep the post list, filters, pagination, statistics,
+metadata, topic names, and authored content unchanged.
+
+### Reading caption topic archive introduction
+
+Follow Topic brief with **Reading caption**: a compact h2, Latest writing on the
+first page and Earlier writing on later pages, paired with the actual visible post
+range. Derive the range from Astro pagination; show a singular post label for a
+one-post archive. Translate both heading and range through the collection UI copy.
+Keep the topic name as the main h1 and each article title as an h3. Preserve page
+titles, descriptions, canonical and alternate URLs, structured data, and native
+article and pagination links.
+
+Use an open, wrapping row with baseline alignment, a 1.75rem heading and .75rem
+count. Below 26rem of section width, reduce the heading to 1.625rem. Share the
+existing topic filter's top rule as the separator, with 1.25rem below the caption;
+remove the old large-heading description, eyebrow, and extra gap. Keep the filters,
+article cards, section rhythm, and statistics unchanged. Add no client JavaScript.
+
 ### Speaking and engineering-principle cards with clear hierarchy
 
 Speaking topic, format, and boxed engineering-principle cards share one treatment:
@@ -1563,7 +1595,15 @@ Article body h3 elements use Subsection cadence: 1.3125rem type at weight 500,
 Keep these headings unadorned beneath the ruled h2 sections. Style only direct
 article prose children, preserving native heading levels, fragments, inline markup,
 and the shared contents navigation. Component headings and deeper levels retain
-their own treatment; no wrapper or runtime is needed.
+their own treatment.
+
+**Subsection arrival** extends the Section arrival marker to article h3 destinations.
+Reuse its URL tracking, Lumen icon, locale text, 2px margin rule, and 1rem inset.
+Keep the original h3 directly in the article, with its smaller Subsection cadence
+typography and spacing. Insert only the decorative marker inside the reached
+heading; do not add another copy control. Preserve the heading name and inline
+markup. Hide the marker in print and during ordinary reading, and retain native
+subsection navigation without JavaScript.
 
 Use a 1.5rem, weight-500 h3 with 1.4 line height and a fine trailing rule. Leave 1.5rem
 between the heading and rule, 2.5rem before the subsection, and 1.5rem before its body.

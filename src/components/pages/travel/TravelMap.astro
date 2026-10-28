@@ -460,7 +460,7 @@ const labels = pageLocale === 'es' ?
 
       const placeholder = chooser.querySelector('option[value=""]')
 
-      if (placeholder) placeholder.textContent = locale === 'es' ? 'Elige…' : 'Choose…'
+      if (placeholder) placeholder.textContent = copy.placeholder
     }
 
     // Keep Lumen's native selector and events, prioritizing the actual notebook.
@@ -468,9 +468,9 @@ const labels = pageLocale === 'es' ?
     const remaining = document.createElement('optgroup')
     const options = [...chooser.options]
 
-    notebook.label = locale === 'es' ? 'Mi cuaderno' : 'My notebook'
+    notebook.label = copy.notebook
 
-    remaining.label = locale === 'es' ? 'Más países por descubrir' : 'More countries to discover'
+    remaining.label = copy.remaining
 
     for (const country of travelCountries) {
       const option = options.find(entry => entry.value === country.code)

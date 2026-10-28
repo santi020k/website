@@ -14,6 +14,7 @@ export const localizeCollectionSource = (locale: Locale, text: string): string =
   if (exact !== text) return exact
 
   return text
+    .replace(/^Posts (\d+)–(\d+) of (\d+)$/u, 'Artículos $1–$2 de $3')
     .replace(/^(.+) is the most explored topic\.$/u, '$1 es el tema más explorado.')
     .replace(/^Visit (.+)$/u, 'Visitar $1')
     .replace(/^View (.+) archive$/u, 'Ver el archivo de $1')

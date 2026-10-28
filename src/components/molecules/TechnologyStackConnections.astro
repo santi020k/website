@@ -22,7 +22,7 @@ interface Props {
 
 const { projects, technology, paginated = false } = Astro.props
 const connections = getTechnologyConnections(projects, technology).slice(0, 6)
-const entryContext = projects.length === 1 ? 'this entry' : `these ${projects.length} entries`
+const entryContext = projects.length === 1 ? t('technology.singleEntryContext') : t('technology.multipleEntryContext', { count: projects.length })
 ---
 
 {connections.length > 0 && (
@@ -33,17 +33,17 @@ const entryContext = projects.length === 1 ? 'this entry' : `these ${projects.le
   >
     <div data-stack-connections-content>
       <p data-stack-connections-eyebrow>{t('collection.connectedTechnologies')}</p>
-      <h2 id="stack-connections-heading">{locale === 'es' ? `Se usa junto a ${technology}` : `Used alongside ${technology}`}</h2>
+      <h2 id="stack-connections-heading">{t('technology.usedAlongside', { technology })}</h2>
       <p data-stack-connections-description>
-        {locale === 'es' ? `Otras tecnologías presentes en ${projects.length === 1 ? 'esta entrada' : `estas ${projects.length} entradas`}${paginated ? ' de esta página' : ''}.` : `Other technologies listed in ${entryContext}${paginated ? ' on this page' : ''}.`}
+        {t(paginated ? 'technology.connectedPageDescription' : 'technology.connectedDescription', { entries: entryContext })}
       </p>
-      <ul aria-label={(locale === 'es' ? `Tecnologías compartidas con ${technology}` : `Technologies shared with ${technology}`)} data-stack-connections-list>
+      <ul aria-label={(t('technology.sharedWith', { technology }))} data-stack-connections-list>
         {connections.map(([label, count]) => (
           <li>
             <Link href={localizePath(getTechnologyPath(label), locale)} variant="inherit">
               <span data-stack-connection-label>{label}</span>
               <ArrowExchange direction="right" />
-              <span data-stack-connection-count>{locale === 'es' ? `${count} ${count === 1 ? 'entrada compartida' : 'entradas compartidas'}` : `${count} shared ${count === 1 ? 'entry' : 'entries'}`}</span>
+              <span data-stack-connection-count>{t(count === 1 ? 'technology.sharedEntry' : 'technology.sharedEntries', { count })}</span>
             </Link>
           </li>
         ))}

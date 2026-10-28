@@ -322,6 +322,16 @@
 
 ### Patch Changes
 
+- Use stable, typed translation keys for current-site pages and controls. Keep English as the primary language, default locale, and missing-translation fallback; verify Spanish coverage and interpolation fields without duplicating page implementations.
+
+- Introduce topic archive articles with a compact bilingual Reading caption and actual post ranges, preserving topic headings, metadata, and crawlable navigation.
+
+- Extend the shared Section arrival marker to linked article subsections in both
+  interface languages. Preserve their original heading hierarchy, typography,
+  fragments, inline formatting, and print layout.
+
+- Open topic archives with a concise bilingual Topic brief, named navigation, total post counts, and current-page context.
+
 - Mark article section-link destinations with a Linked section label and margin rule.
   Follow native fragment navigation while preserving heading names, copy recovery,
   and the existing print layout.
