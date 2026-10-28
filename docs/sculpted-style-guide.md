@@ -661,6 +661,22 @@ widths. Translate collection UI through the existing dictionary and preserve
 locale-aware destinations. Keep the post list, filters, pagination, statistics,
 metadata, topic names, and authored content unchanged.
 
+### Reading caption topic archive introduction
+
+Follow Topic brief with **Reading caption**: a compact h2, Latest writing on the
+first page and Earlier writing on later pages, paired with the actual visible post
+range. Derive the range from Astro pagination; show a singular post label for a
+one-post archive. Translate both heading and range through the collection UI copy.
+Keep the topic name as the main h1 and each article title as an h3. Preserve page
+titles, descriptions, canonical and alternate URLs, structured data, and native
+article and pagination links.
+
+Use an open, wrapping row with baseline alignment, a 1.75rem heading and .75rem
+count. Below 26rem of section width, reduce the heading to 1.625rem. Share the
+existing topic filter's top rule as the separator, with 1.25rem below the caption;
+remove the old large-heading description, eyebrow, and extra gap. Keep the filters,
+article cards, section rhythm, and statistics unchanged. Add no client JavaScript.
+
 ### Speaking and engineering-principle cards with clear hierarchy
 
 Speaking topic, format, and boxed engineering-principle cards share one treatment:
