@@ -41,7 +41,7 @@ name="list"
       )}
       <ol data-chapter-list role="list">
         {chapters.map(({ heading, sections, label }) => (
-          <li>
+          <li data-reading-chapter={heading.text}>
             {sections.length > 0 ?
 (
               <Collapsible data-chapter-group open={chapters.length === 1}>

@@ -1575,6 +1575,19 @@ Show the desktop rail only when the reading layout has both a 64rem viewport and
 keyboard and assistive technology. Preserve no-JavaScript navigation, enlarged-text
 reflow, and omission when no eligible headings exist.
 
+### Chapter companion article navigation
+
+The article's **Chapter companion** extends this same opener during reading. It
+uses the existing chapter links and Lumen current-location marker, adding the
+current chapter title and position to the summary. The mobile holder sticks below
+the site header within the story boundary, then leaves the closing flow clear.
+An expanded menu overlays the prose without moving it, with its own bounded scroll
+area. Choosing a chapter closes the disclosure and focuses the destination; Escape
+returns focus to the summary. Preserve native fragment history and section arrival.
+Short viewports retain a static opener, desktop retains its shared rail, and visits
+without JavaScript retain the original native disclosure. Keep focus reachable when
+the reader scrolls past the story boundary. Shared project openers remain static.
+
 ### Connected opening article spacing
 
 Below 40rem of available article width, connect the publication details, Topics,

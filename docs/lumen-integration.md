@@ -335,6 +335,12 @@ enlarged text sizes. No new client controller is introduced.
   `ReadingChapterOpener` embeds the same component without a second panel or title
   in its closed mobile disclosure. Both layouts use the same heading data and runtime;
   CSS exposes one navigation at a time. The former `TocCard` implementation is removed.
+  Articles opt into Chapter companion: the existing opener remains available within
+  the story boundary and its caption follows that same `aria-current` marker. Its
+  menu overlays the reading column without changing layout, uses a bounded scroll
+  area, closes on section selection, and preserves native fragment history. Escape
+  returns focus to the summary. Short viewports and script-free visits retain the
+  normal opener; desktop and project navigation keep their existing placement.
   The custom element follows Anchor's public `aria-current` marker to reveal the
   current chapter without computing another scroll position. It preserves manual
   choices and focus, opens incoming hashes, and cleans up on disconnection. Only
