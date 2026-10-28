@@ -2,6 +2,8 @@ import type { MessageCatalog } from '../messages.ts'
 
 /** Stable IDs; edit English wording without changing its key. */
 export const sharedMessages = {
+  'language.spanishInterface': { en: 'Site interface in Spanish', es: 'Interfaz en español' },
+  'language.englishInterface': { en: 'Site interface in English', es: 'Interfaz en inglés' },
   'newsletter.emailRequired': { en: 'Enter your email address to continue.', es: 'Ingresa tu correo electrónico para continuar.' },
   'newsletter.emailInvalid': { en: 'Use an email address like name@example.com.', es: 'Usa un correo electrónico como nombre@ejemplo.com.' },
   'newsletter.opensButtondown': { en: 'Opens Buttondown in a new tab.', es: 'Abre Buttondown en una nueva pestaña.' },

@@ -2661,3 +2661,30 @@ remain identical and public/built artifacts match. Only generated PDFs conflicte
 the documented generator resolved them. Both Changesets are folded into 5.0.0 with
 published notes unchanged. Evidence: `.cache/v5-series-ending/` and
 `.cache/v5-series-blog/`. Root full gate remains `0319556c`; no remote action occurred.
+
+## Article chapter companion and language imprint integration
+
+Approved source `3df9228a` preserves chapter-companion source `fa7020da` and is
+integrated over `76a26579`. The compact article contents follow the existing active
+chapter, remain usable in short viewports, close on native section navigation and
+clear the story ending. Spanish article openings identify the authored English
+content. Interface switching preserves the page, query and fragment.
+
+The first combined navigation run exposed fourteen label-in-name violations in
+the shared language switch. Its visible EN/ES abbreviation now prefixes the
+accessible name. The regression scan explicitly enables that rule; the visible
+design and menu wording are unchanged. Other production components and affected
+tests match the approved source; the catalog retains the integrated Series keys.
+
+All 178 article, project and locale navigation cases and 40 command-tab scroll
+cases pass in Chromium and WebKit with one worker and retries disabled. The 1,532
+focused units, affected zero-warning lint, 904-page build and 906-page SEO audit
+pass. Eight matched article contracts preserve metadata, prose and headings;
+thirty-two matched captures and eight whole-page axe scans include the corrected
+label-in-name rule. Five regenerated PDF page rasters remain identical and the
+public/built files and fingerprint match.
+
+Only the generated PDF fingerprint conflicted and was regenerated normally.
+Changesets are folded into unpublished 5.0.0 with published notes unchanged.
+Evidence: `.cache/v5-article-language/`. Normal commit hooks run the current Astro
+check. Root full gate remains `0319556c`; no remote action occurred.

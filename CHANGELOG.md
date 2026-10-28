@@ -340,6 +340,12 @@
 
 ### Patch Changes
 
+- Keep the compact language switch’s visible EN/ES code in its accessible name so voice-control commands match the displayed label.
+
+- Keep the approved mobile article contents menu available during reading, with current chapter context, bounded navigation, native fragment links, and accessible keyboard dismissal.
+
+- Clarify that articles retain their English prose inside the Spanish site interface, reusing publication details for the language note and precise shared language-switch labels.
+
 - Add a localized reading estimate to Series cards on the Blog and Series index, using the sum of published chapter durations while preserving the direct first-article link.
 
 - Lead the homepage with larger bilingual typography and real Lumen UI and PostLens interface previews. Keep the portrait as a personal signature, prioritize selected work, and add a brief accessible entrance with responsive, reduced-motion, and script-free fallbacks.

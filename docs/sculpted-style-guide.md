@@ -1668,6 +1668,19 @@ Show the desktop rail only when the reading layout has both a 64rem viewport and
 keyboard and assistive technology. Preserve no-JavaScript navigation, enlarged-text
 reflow, and omission when no eligible headings exist.
 
+### Chapter companion article navigation
+
+The article's **Chapter companion** extends this same opener during reading. It
+uses the existing chapter links and Lumen current-location marker, adding the
+current chapter title and position to the summary. The mobile holder sticks below
+the site header within the story boundary, then leaves the closing flow clear.
+An expanded menu overlays the prose without moving it, with its own bounded scroll
+area. Choosing a chapter closes the disclosure and focuses the destination; Escape
+returns focus to the summary. Preserve native fragment history and section arrival.
+Short viewports retain a static opener, desktop retains its shared rail, and visits
+without JavaScript retain the original native disclosure. Keep focus reachable when
+the reader scrolls past the story boundary. Shared project openers remain static.
+
 ### Connected opening article spacing
 
 Below 40rem of available article width, connect the publication details, Topics,
@@ -2415,6 +2428,12 @@ to 1.25rem and the gap to 1rem. Below 20rem, use 1.125rem values and a 0.75rem g
 Keep both groups beside each other on phones; below 16rem of available width, stack
 them so enlarged text remains readable. The shared Reading utility provides the
 progressively enhanced print action beside the word count.
+
+Spanish article shells add Language imprint below these utilities: a decorative
+Lumen Languages icon and “Artículo en inglés” in the existing 0.75rem secondary
+scale, with the brand/accent color and natural wrapping. Keep the note within the
+reading group, omit it on English routes, and retain the authored English prose.
+The shared language switch names the destination's site interface explicitly.
 
 ### Margin topics article links
 
