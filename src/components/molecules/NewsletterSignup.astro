@@ -1,5 +1,6 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
 
 import { Button, Card, Icon, Input, Link } from '@santi020k/lumen-astro'
 
@@ -15,6 +16,8 @@ interface Props {
 const { formAction, idSuffix = 'compact' } = Astro.props
 const emailId = `newsletter-email-${idSuffix}`
 const headingId = `newsletter-heading-${idSuffix}`
+const feedCopyId = `newsletter-feed-copy-${idSuffix}`
+const feedUrl = new URL('/feed.xml', Astro.site).href
 const locale = getLocale(Astro.url.pathname)
 const t = sharedTranslator(locale)
 ---
@@ -67,10 +70,36 @@ const t = sharedTranslator(locale)
       {t('shared.monthlyAtMostUnsubscribeAnytime')}<br />
       <Link className="privacy-inline-link" href={localizePath('/privacy/', locale)} variant="inherit">{t('shared.privacy')}</Link>
     </p>
-    <a data-newsletter-rss data-text-link href="/feed.xml">
-      <Icon class="size-4" name="rss" />
-      <span data-text-link-label>RSS</span>
-    </a>
+    <div data-newsletter-feed>
+      <a data-newsletter-rss data-text-link href="/feed.xml">
+        <Icon class="size-4" name="rss" />
+        <span data-text-link-label>{t('newsletter.rssFeed')}</span>
+      </a>
+      <Button
+        id={feedCopyId}
+        class="article-copy-action"
+        data-newsletter-copy
+        data-share-url={feedUrl}
+        type="button"
+        variant="ghost"
+      >
+        <span data-copy-action-content>
+          <span data-copy-label>{t('newsletter.copyFeed')}</span>
+          <span data-copy-action-icon>
+            <Icon class="size-4" data-copy-icon name="copy" />
+            <Icon class="hidden size-4" data-check-icon name="check" />
+          </span>
+        </span>
+      </Button>
+    </div>
+    <LinkRecovery
+      buttonId={feedCopyId}
+      url={feedUrl}
+      idleLabel={t('newsletter.copyFeed')}
+      copiedLabel={t('shared.copied')}
+      copiedAnnouncement={t('newsletter.feedCopied')}
+      addressLabel={t('newsletter.selectFeedAddress')}
+    />
   </footer>
 </Card>
 
@@ -102,13 +131,21 @@ const t = sharedTranslator(locale)
   [data-newsletter-submit], [data-newsletter-submit]:hover { box-shadow: none; }
   [data-newsletter-submit]:hover { background: hsl(var(--ink-soft)); }
   [data-newsletter-submit-content] { display: flex; align-items: center; justify-content: center; gap: 0.625rem; min-width: 0; }
-  [data-newsletter-footer] { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-inline: 1.75rem; padding: 0.75rem 0 1.25rem; border-top: 1px solid hsl(var(--line)); }
-  [data-newsletter-footer] p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
-  [data-newsletter-rss] { display: inline-flex; flex-shrink: 0; align-items: center; gap: 0.375rem; min-width: 2.75rem; min-height: 2.75rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.5; }
+  [data-newsletter-footer] { margin-inline: 1.75rem; padding: 0.75rem 0 1.25rem; border-top: 1px solid hsl(var(--line)); }
+  [data-newsletter-footer] > p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
+  [data-newsletter-feed] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 1rem; margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid hsl(var(--line)); }
+  [data-newsletter-rss] { display: inline-flex; align-items: center; gap: 0.5rem; max-width: 100%; min-width: 2.75rem; min-height: 2.75rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.5; }
+  [data-newsletter-rss] [data-text-link-label] { text-decoration: underline; text-decoration-color: hsl(var(--line)); text-decoration-thickness: 1px; text-underline-offset: 0.25rem; }
+  [data-newsletter-rss]:is(:hover, :focus-visible) [data-text-link-label] { text-decoration-color: currentColor; }
+  [data-newsletter-footer] :global([data-newsletter-copy]) { width: auto; min-height: 2.75rem; max-width: 100%; padding: 0.375rem 0.5rem 0.375rem 0.75rem; border-color: transparent; border-radius: 0.75rem; background: transparent; color: hsl(var(--ink-soft)); font-size: 0.75rem; font-weight: 500; box-shadow: none; transition: color 240ms ease, background-color 240ms ease, border-color 240ms ease; }
+  [data-newsletter-copy] [data-copy-action-content] { column-gap: 0.875rem; }
+  [data-newsletter-copy] [data-copy-action-icon] { width: 1.75rem; height: 1.75rem; background: transparent; }
+  [data-newsletter-footer] :global([data-newsletter-copy]:is(:hover, :focus-visible)),
+  [data-newsletter-footer] :global([data-newsletter-copy].copied) { border-color: hsl(var(--line)); background: hsl(var(--brand-soft)); color: color-mix(in srgb, hsl(var(--newsletter-accent)) 80%, hsl(var(--ink))); }
+  [data-newsletter-footer] :global([data-link-recovery]) { margin-block-start: 1rem; }
   @container newsletter (width < 25rem) {
     [data-newsletter] h2 { font-size: 2rem; }
     [data-newsletter-controls] { flex-direction: column; }
-    [data-newsletter-footer] { flex-direction: column; align-items: start; gap: 0.25rem; }
   }
   @container newsletter (width < 18rem) {
     [data-newsletter-header], [data-newsletter-form] { padding: 1.375rem; }
@@ -127,5 +164,10 @@ const t = sharedTranslator(locale)
   }
   @media (prefers-reduced-motion: reduce) {
     [data-newsletter-submit] { transition: none; }
+    [data-newsletter-footer] :global([data-newsletter-copy]) { transition: none; }
+  }
+  @media (forced-colors: active) {
+    [data-newsletter-footer] :global([data-newsletter-copy]:is(:hover, :focus-visible)),
+    [data-newsletter-footer] :global([data-newsletter-copy].copied) { border-color: Highlight; }
   }
 </style>

@@ -2,6 +2,10 @@ import type { MessageCatalog } from '../messages.ts'
 
 /** Stable IDs; edit English wording without changing its key. */
 export const sharedMessages = {
+  'newsletter.rssFeed': { en: 'RSS feed', es: 'Feed RSS' },
+  'newsletter.copyFeed': { en: 'Copy feed', es: 'Copiar feed' },
+  'newsletter.feedCopied': { en: 'Copied! RSS feed address copied', es: '¡Copiado! Dirección del feed RSS copiada' },
+  'newsletter.selectFeedAddress': { en: 'Select and copy the feed address.', es: 'Selecciona y copia la dirección del feed.' },
   'publication.original': { en: 'Original publication', es: 'Publicación original' },
   'publication.platform': { en: 'On {platform}', es: 'En {platform}' },
   'publication.readOriginal': { en: 'Read original', es: 'Leer original' },

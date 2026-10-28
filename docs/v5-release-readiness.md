@@ -2225,3 +2225,33 @@ explicit and is not counted as a pass. The separate Feed utility work is outside
 this fixed validation group. Evidence is retained in
 `.cache/v5-combined-home-return-captions/`. This is local integration evidence;
 no push, pull request, tag, release, or deployment occurred.
+
+## Newsletter Feed utility follow-up
+
+Approved source commit `0ba4f78e` is applied on documentation receipt `60a6b3bd`
+without its duplicate Contextual return dependency. The newsletter keeps its
+native feed link and adds a localized Copy feed control using the existing
+LinkRecovery behavior. It copies the canonical feed URL, announces success,
+and offers selectable text and retry when the clipboard is unavailable. The
+copy control is hidden without JavaScript; the native signup form is unchanged.
+The homepage, Named captions, return controller, and corrected Spanish Arriba
+label are preserved. Product/test equivalence to the selected source commit is
+verified; the shared catalog contains only the four intended additive messages.
+
+All 32 Chromium/WebKit feed/signup cases and 20 adjacent Contextual return cases
+pass with one worker and no retries. They cover both locales, themes, mobile and
+desktop, 200% text, keyboard focus, success/reset, clipboard rejection/absence,
+retry, route swaps, native no-JavaScript links/forms, and accessibility checks.
+All 1,468 focused translation tests pass. Current lint has zero warnings and
+Astro checks 593 files with zero diagnostics. The production build, 906-page
+OG audit, four-archive assembly, and 926-image freshness check pass. All 96 built
+newsletter pages preserve unique copy controls, canonical feed addresses, native
+feed links, and POST forms. Sixteen matched captures cover both locales/themes
+and mobile/desktop; English desktop and Spanish mobile results were reviewed.
+The regenerated PDFs remain fresh, match built files, and preserve all five
+page rasters. Changeset notes are folded into unpublished 5.0.0 with published
+notes intact.
+
+This separately approved design follow-up uses affected checks; the full
+workspace baseline remains `0319556c`. Evidence is retained in
+`.cache/v5-feed-utility/`. No remote action occurred.

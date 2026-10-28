@@ -325,6 +325,8 @@
 
 ### Patch Changes
 
+- Make newsletter RSS access clearer with a canonical feed copy action and shared accessible copy recovery in both site languages.
+
 - Use readable topic names and quiet dotted captions in shared article cards,
   preserving their existing layouts and native reading destinations.
 

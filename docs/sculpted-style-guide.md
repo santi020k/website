@@ -1850,6 +1850,20 @@ insets and omit decoration when enlarged text needs the space. Preserve the nati
 POST, hidden embed field, email validation, new-tab behavior, and existing destinations;
 the signup needs no additional client script.
 
+### Feed utility
+
+Keep the newsletter's frequency note and Privacy link above a separate ruled feed row.
+The native RSS feed link sits at the start and a compact Copy feed action at the end;
+allow them to wrap at narrow widths and enlarged text. Retain the Letter folio surface,
+use a 44px minimum target, and give the copy action a soft brand hover and visible focus.
+
+Reuse the existing Lumen Button, article-copy-action layout, and LinkRecovery controller.
+Copy the canonical `/feed.xml` URL, including from Spanish pages and local previews.
+Use localized labels, a polite copied announcement, and the existing selectable-address
+fallback and retry behavior. Give each newsletter instance its own control and recovery
+IDs. Hide the copy action without JavaScript while retaining the native feed link and
+unchanged signup POST. Keep the controller's route-swap cleanup and reduced-motion behavior.
+
 ### Margin reply article mentions
 
 Article replies and mentions use a flat Lumen Card with fine top and bottom rules.
