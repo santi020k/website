@@ -676,7 +676,26 @@ Use an open, wrapping row with baseline alignment, a 1.75rem heading and .75rem
 count. Below 26rem of section width, reduce the heading to 1.625rem. Share the
 existing topic filter's top rule as the separator, with 1.25rem below the caption;
 remove the old large-heading description, eyebrow, and extra gap. Keep the filters,
-article cards, section rhythm, and statistics unchanged. Add no client JavaScript.
+article cards and section rhythm unchanged. The later Archive close treatment
+below replaces the ending statistics. Add no client JavaScript.
+
+### Archive close topic ending
+
+Every individual topic archive ends with **Archive close** below its existing
+pagination (or after the articles on a single-page archive). Replace the passive
+post, topic, and page statistics with one sculpted editorial sheet. Pair Beyond
+this topic, Keep exploring, and a short invitation with two full-row native links:
+Browse by topic opens the complete topic index; Read all writing opens the Blog.
+Show the full published topic and article totals beside their destinations, not
+the current topic's count. Keep both links and surrounding copy in the current
+language shell, while authored article content stays unchanged.
+
+Use the existing Lumen links, Arrow exchange, semantic surfaces, and page-flow
+spacing. On wider sections place copy beside the links with a fine vertical rule;
+on narrow sections stack them and move the rule above the links. Give each route
+a generous hit area, a hand cursor, visible focus, and an underlined label on hover
+or focus. Keep the established reduced-motion arrow behavior. Counts come from
+the same published collection as the archive; no client script is needed.
 
 ### Speaking and engineering-principle cards with clear hierarchy
 

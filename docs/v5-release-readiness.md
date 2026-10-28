@@ -1938,3 +1938,30 @@ assembly, and regenerated resume freshness pass; all five resume pages remain
 pixel-identical. The Changeset is folded into 5.0.0 with published notes intact.
 The latest full workspace gate remains `a19890c0`; this approved design follow-up
 uses affected checks. No remote action occurred.
+
+## Archive close follow-up
+
+Approved source `21517f10`, based on `480f8a4c`, is integrated over Publication
+imprint candidate `d77accb4`. Every individual topic archive now closes below
+pagination with the approved sculpted sheet and two native localized routes to
+all topics and all writing. Published collection totals replace the redundant
+first-page statistics. Related topics, archive introductions, article cards,
+pagination, and SEO remain. The three new labels and reused count/action labels
+use the typed collection catalog, preserving exact source copy and English defaults.
+No client script is added; the approved stylesheet is retained unchanged.
+
+All 1,458 focused collection and message-catalog checks passed, including explicit
+English/Spanish closing labels. All 40 Chromium/WebKit archive-closing, opening,
+and related-topic cases passed with one worker and retries disabled. They cover
+first/later/single-page archives, localized native destinations, full totals,
+keyboard focus, hover geometry and pointer feedback, 320/390/1440px, 200% text,
+both themes, reduced motion, accessibility, and no-JavaScript navigation. All 24
+matched metadata, content, heading, pagination, and existing-destination contracts
+remain unchanged. Sixteen before/after screenshots cover both locales/themes on
+mobile and desktop; English desktop and Spanish mobile views were reviewed.
+
+Current-site lint and spelling pass, and Astro checks 584 files with zero errors,
+warnings, or hints. The 904-page build, 906-page OG audit, archive assembly, and
+regenerated resume freshness pass; all five resume pages remain pixel-identical.
+The Changeset is folded into 5.0.0 with published notes preserved. This follow-up
+uses affected checks; the latest full workspace gate remains `a19890c0`. Local only.

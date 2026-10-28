@@ -6,10 +6,8 @@ import type { CollectionEntry } from 'astro:content'
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
@@ -139,16 +137,132 @@ data-topic-archive-opening
     </div>
   </section>
 
-  {isFirstPage && (
-    <StatsGrid columns={page.lastPage > 1 ? 3 : 2}>
-      <StatCard description={t('collection.postsConnectedByThisTopicIn')} icon="file-text" label={t('collection.posts')} value={postCount} />
-      <StatCard description={t('collection.distinctTopicsAcrossTheFullWriting')} icon="hash" label={t('collection.totalTopics')} value={totalTopics} />
-      {page.lastPage > 1 && <StatCard description={t('collection.paginationForThisTopicArchive')} icon="list-ordered" label={t('collection.page')} value={`${page.currentPage} / ${page.lastPage}`} />}
-    </StatsGrid>
-  )}
+  <section
+id="topic-archive-close"
+aria-labelledby="topic-close-heading"
+class="section-container-wide"
+data-topic-close
+  >
+    <div data-topic-close-sheet>
+      <div data-topic-close-copy>
+        <p data-topic-close-eyebrow>{t('topic.closeEyebrow')}</p>
+        <h2 id="topic-close-heading">{t('collection.keepExploring')}.</h2>
+        <p data-topic-close-description>{t('topic.closeDescription')}</p>
+      </div>
+      <nav aria-label={t('collection.keepExploring')} data-topic-close-routes>
+        <Link data-topic-close-link href={localizePath('/blog/tags/', locale)} variant="inherit">
+          <span>
+            <span data-topic-close-count>{totalTopics} {t(totalTopics === 1 ? 'collection.topic' : 'collection.topics7')}</span>
+            <span data-topic-close-label>{t('collection.browseByTopic')}</span>
+          </span>
+          <ArrowExchange class="shrink-0" direction="up-right" />
+        </Link>
+        <Link data-topic-close-link href={localizePath('/blog/', locale)} variant="inherit">
+          <span>
+            <span data-topic-close-count>{allPosts.length} {t(allPosts.length === 1 ? 'collection.post' : 'collection.posts7')}</span>
+            <span data-topic-close-label>{t('topic.readAllWriting')}</span>
+          </span>
+          <ArrowExchange class="shrink-0" direction="up-right" />
+        </Link>
+      </nav>
+    </div>
+  </section>
 </PageLayout>
 
 <style>
+  [data-topic-close] {
+    --topic-close-accent: hsl(var(--brand));
+    container: topic-close / inline-size;
+  }
+  :global([data-theme='dark']) [data-topic-close] { --topic-close-accent: hsl(var(--accent)); }
+  [data-topic-close-sheet] {
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: 1.875rem;
+    padding: 1.875rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.625rem 1.625rem .5rem 1.625rem;
+    background: hsl(var(--surface));
+    box-shadow: var(--shadow-nav);
+  }
+  [data-topic-close-copy] { min-width: 0; }
+  [data-topic-close-eyebrow] {
+    margin: 0 0 1.125rem;
+    color: var(--topic-close-accent);
+    font-size: .6875rem;
+    font-weight: 500;
+    line-height: 1.8;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  [data-topic-close-sheet] #topic-close-heading {
+    max-width: 11ch;
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 2.25rem;
+    font-weight: 500;
+    line-height: 1.13;
+    letter-spacing: -.055em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+  [data-topic-close-description] {
+    max-width: 27ch;
+    margin: 1.125rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .875rem;
+    line-height: 1.8;
+  }
+  [data-topic-close-routes] { min-width: 0; padding-left: 1.625rem; border-left: 1px solid hsl(var(--line)); }
+  :global([data-topic-close-link]) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 6.25rem;
+    padding: .9375rem 0;
+    border-bottom: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+    text-decoration: none;
+    cursor: pointer;
+  }
+  :global([data-topic-close-link]:last-child) { border-bottom: 0; }
+  [data-topic-close-link] > span { min-width: 0; }
+  [data-topic-close-count] {
+    display: block;
+    margin-bottom: .375rem;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.7;
+  }
+  [data-topic-close-label] {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -.035em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+    transition: color 180ms ease;
+  }
+  [data-topic-close-link] :global([data-arrow-exchange]) { color: var(--topic-close-accent); }
+  :global([data-topic-close-link]:is(:hover, :focus-visible)) [data-topic-close-label] {
+    color: var(--topic-close-accent);
+    text-decoration: underline;
+    text-underline-offset: .25em;
+  }
+  :global([data-topic-close-link]:focus-visible) { outline: 2px solid var(--topic-close-accent); outline-offset: 4px; }
+  @container topic-close (width < 38rem) {
+    [data-topic-close-sheet] { grid-template-columns: minmax(0, 1fr); gap: 1.625rem; padding: min(1.5rem, 6cqi); }
+    [data-topic-close-sheet] #topic-close-heading { max-width: none; font-size: 2rem; }
+    [data-topic-close-description] { max-width: none; }
+    [data-topic-close-routes] { padding-left: 0; border-top: 1px solid hsl(var(--line)); border-left: 0; }
+    :global([data-topic-close-link]) { gap: min(1rem, 3cqi); }
+    [data-topic-close-label] { font-size: 1.3125rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-topic-close-label] { transition: none; }
+  }
   [data-topic-reading] { container: topic-reading / inline-size; }
   [data-topic-reading-caption] {
     display: flex;

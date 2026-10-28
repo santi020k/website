@@ -3,6 +3,20 @@ import { describe, expect, test } from 'vitest'
 import { collectionTranslator, localizeCollectionSource } from '../collection-copy'
 
 describe('Spanish collection UI', () => {
+  test('translates the archive close while retaining localized count labels', () => {
+    const t = collectionTranslator('es')
+    const english = collectionTranslator()
+
+    expect(t('topic.closeEyebrow')).toBe('Más allá de este tema')
+    expect(t('collection.keepExploring')).toBe('Sigue explorando')
+    expect(t('topic.closeDescription')).toBe('Sigue otro tema o vuelve al archivo completo de artículos.')
+    expect(t('topic.readAllWriting')).toBe('Leer todos los artículos')
+    expect(t('collection.topics7')).toBe('temas')
+    expect(t('collection.posts7')).toBe('artículos')
+    expect(english('topic.closeEyebrow')).toBe('Beyond this topic')
+    expect(english('topic.closeDescription')).toBe('Follow another topic or return to the full writing archive.')
+    expect(english('topic.readAllWriting')).toBe('Read all writing')
+  })
   test('translates related topic navigation and destination totals', () => {
     const spanish = collectionTranslator('es')
     const english = collectionTranslator()

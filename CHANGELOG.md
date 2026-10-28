@@ -325,6 +325,10 @@
 
 ### Patch Changes
 
+- Replace repeated topic-archive statistics with Archive close: an editorial sheet
+  linking to all topics and all writing, with published collection totals, localized
+  navigation, and responsive keyboard-accessible links on every archive page.
+
 - Replace the two imported Towards Dev closing credits with a shared, localized Publication imprint. Preserve publisher and original article links, canonical URLs, and numbered print references.
 
 - Use stable, typed translation keys for current-site pages and controls. Keep English as the primary language, default locale, and missing-translation fallback; verify Spanish coverage and interpolation fields without duplicating page implementations.
