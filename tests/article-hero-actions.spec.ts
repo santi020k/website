@@ -79,7 +79,7 @@ for (const width of [320, 1440]) {
           await document.fonts.ready
         }, textSize)
         const topics = page.locator('[data-article-topics-container]')
-        const copy = topics.locator('[data-ui-copy-button]')
+        const copy = topics.locator('[data-article-copy]')
 
         await expect(copy).toBeVisible()
         await expect(copy).toHaveAccessibleName('Copy link to article')
