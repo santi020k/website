@@ -1092,3 +1092,12 @@ declarations.
 Unused local Badge, FloatingBadge, Separator, SocialIconLink, MiniNote, PillCount,
 ReadingProgressBar, and ParticlesBackground components were removed rather than duplicated in the
 shared library.
+
+## Shared footer editorial close
+
+`SiteFooter` uses an unstyled Lumen `ButtonLink` for the primary contact row,
+with the existing `ArrowExchange` and native calendar, email, directory, and legal
+links. The site owns the open ruled composition in `footer.css`; no extra runtime
+or nested action surface is needed. Hover and focus keep the hit area stationary,
+with color and arrow feedback respecting reduced motion. The compact variant omits
+the invitation and retains the same responsive directory and colophon.

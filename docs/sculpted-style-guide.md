@@ -2946,34 +2946,27 @@ destinations visible. Hover underlines the title without moving the card.
 
 ### Closing statement footer invitation
 
-The default footer is one continuous surface for the invitation, directory, and colophon.
-An oversized two-line heading leads the composition, with a sculpted Lumen `ButtonLink`
-for WhatsApp on the right. The quiet email link sits directly below that action. The desktop
-contact column aligns with the social directory; fine rules separate the invitation and legal
-information without introducing another enclosing card.
+The footer uses one continuous surface, matching the open editorial Home, About,
+and Work pages. A two-line, 500-weight closing heading sits beside three contact
+rows. Use a 4.5rem desktop heading, restrained purple emphasis, and generous space
+between the invitation and directory. Preserve the complete invitation copy and
+all contact destinations from `siteConfig`.
 
-Preserve the complete invitation copy, contact values from `siteConfig`, native links, and
-visible keyboard focus. Identify WhatsApp in the action so visitors know where it leads.
-The compact footer on policy and recovery pages retains its directory without a contact pitch.
+The primary contact row is an unstyled Lumen `ButtonLink` with a large “Let’s talk”
+label, the explicit WhatsApp explanation, and a circular decorative arrow. Calendar
+and email follow in smaller ruled rows. Every row stays stationary on hover and
+keyboard focus: text and borders gain the accent, the primary arrow disc gains an
+ink fill, and secondary rows reveal a fine underline. Use the shared 480ms arrow
+exchange and color transitions. Reduced motion retains stationary color and focus
+feedback with no animation. Keep visible focus outlines and 44px minimum targets.
 
-Use **Sculpted lift** for the invitation's contact interactions. Keep the WhatsApp
-tile's ink surface while lifting it 3px up and left; its backing sheet shifts 3px
-right and gains a stronger accent tint. Move the decorative arrow 4px outward.
-The email link gains a fine accent underline and a 3px outward arrow movement.
-Apply the same treatment on keyboard focus, retain the focus outline, and reserve
-space around both arrows. Use 220ms transitions without changing the resting
-layout. With reduced motion, keep the links and arrows still, show a stationary
-inset highlight on the tile, and reveal the email underline immediately.
-Keep the original right and bottom edges clickable during the lift with a transparent
-4px extension, accounting for the 3px movement and 1px border. This prevents the
-moving tile from dropping hover beneath a stationary pointer.
-
-Use the `footer` container to stack the invitation below 48rem and place the contact options
-in one column below 32rem. The large desktop action becomes a horizontal contact strip on
-smaller screens. Reduce the heading scale below 21rem and 16rem; omit its decorative arrow
-at the narrowest width. Keep full text visible at 200% text size, and preserve the fixed
-Back to Top control's clearance at the end of the colophon, including tablet widths
-where the open footer has less horizontal inset than the compact sheet.
+The invitation stacks below 48rem of footer container width. Keep the navigation
+in two columns on phones when the labels fit, then stack the social group below
+32rem and individual links below 16rem for enlarged text. Do not split words in the
+closing heading. Directory links use 0.875rem desktop type and the colophon uses
+0.75rem type, with separate credit and resource rows. Retain Back to Top clearance
+at tablet widths and preserve current-section indicators, external-link attributes,
+localized routes, and the compact footer's directory without a repeated contact pitch.
 
 ### Page composition around the cards
 

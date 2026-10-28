@@ -50,15 +50,13 @@ const activePath = [...navLinks, ...resourceLinks]
           <p class="maker-footer-description">{t('shared.inviteMeToGiveATalk')}</p>
         </div>
         <div class="maker-footer-contact">
-          <div class="maker-footer-action-sheet">
-            <ButtonLink class="maker-footer-action" href={localizePath(`${siteConfig.contact.workWithMe}#start`, locale)} variant="unstyled">
-              <ArrowExchange
+          <ButtonLink class="maker-footer-action" href={localizePath(`${siteConfig.contact.workWithMe}#start`, locale)} variant="unstyled">
+            <span class="maker-footer-action-copy"><span>{t('shared.letSTalk')}</span><span>{t('shared.pickATopicAndMessageMe')}</span></span>
+            <span class="maker-footer-action-icon"><ArrowExchange
 direction="up-right"
 class="maker-footer-action-arrow"
-              />
-              <span class="maker-footer-action-copy"><span>{t('shared.letSTalk')}</span><span>{t('shared.pickATopicAndMessageMe')}</span></span>
-            </ButtonLink>
-          </div>
+                                                   /></span>
+          </ButtonLink>
           <a class="maker-footer-email" href={siteConfig.contact.calendar} rel="noopener noreferrer" target="_blank">
             <span><span>{t('shared.ratherTalkFirst')}</span><span>{t('shared.bookACall')}</span></span><ArrowExchange
 class="maker-footer-email-arrow"
