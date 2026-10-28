@@ -126,19 +126,20 @@ for (const { route, heading } of seriesHeadings) {
 }
 
 for (const route of ['/blog/', '/blog/series/']) {
-  test(`series cards open their reading track with one keyboard stop on ${route}`, async ({ page }) => {
+  test(`series cards separate their reading track and first article on ${route}`, async ({ page }) => {
     await page.goto(route)
     const cards = page.locator('[data-series-card]')
 
     expect(await cards.count()).toBeGreaterThan(0)
     for (const card of await cards.all()) {
-      await expect(card.getByRole('link')).toHaveCount(1)
-      await expect(card.getByRole('link')).toHaveAccessibleName(/Explore series/u)
+      await expect(card.getByRole('link')).toHaveCount(2)
+      await expect(card.locator('[data-series-card-link]')).toHaveAccessibleName(/Explore the \d+ articles/u)
+      await expect(card.locator('[data-series-card-start]')).toHaveAccessibleName(/Start with article 1/u)
       await expect(card.getByRole('list', { name: 'Focus areas' })).toBeVisible()
     }
     const card = cards.first()
     const title = await card.getByRole('heading').innerText()
-    const link = card.getByRole('link')
+    const link = card.locator('[data-series-card-link]')
     const href = await link.getAttribute('href')
 
     expect(href).toMatch(/^\/blog\/series\/[^/]+\/$/u)

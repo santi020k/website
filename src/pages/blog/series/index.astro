@@ -69,7 +69,7 @@ mainClass="remaining-pages series-index-page"
       threshold={0}
     >
       {activeSeries.map(item => (
-        <SeriesCard postCount={item.postCount} series={item.series} />
+        <SeriesCard firstPost={item.posts[0]} postCount={item.postCount} series={item.series} />
       ))}
     </RevealGroup>
   </section>

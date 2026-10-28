@@ -256,19 +256,29 @@ overlap, and title size as the card narrows or text grows. Stack the hero when i
 columns cannot accommodate enlarged text. Keep both themes and the
 image-free fallback readable without JavaScript; respect reduced motion.
 
-### Soft editorial series cards
+### Reading doorway series cards
 
-`SeriesCard` uses one opaque surface, a fine border, and 1.25rem corners. Place the
-plain status and article count above a complete 1.75rem title at weight 500 and
-1.3 leading. Descriptions use 0.875rem text with 1.8 leading; focus areas use plain
-0.75rem labels. Keep the cadence on the series detail page. The card ends with one
-“Explore series” action and a decorative arrow above a shared bottom inset, separated
-from the copy by a fine rule. Align neighboring footers without truncating content.
+`SeriesCard` uses **Reading doorway** on the Blog and Series index. Preserve the
+Soft editorial status, count, complete 1.75rem title, description, and plain focus
+labels. Use an opaque surface with a fine border, 1.625rem corners and a .375rem
+lower-right corner, a passive -.375rem/.375rem brand-soft shadow, and a 3px accent
+spine inset 1.625rem from the top and bottom. Hover changes only the relevant title
+color; the surface does not lift.
 
-The complete surface is one naturally named link with a continuous keyboard outline.
-Hover changes only the title color. Preserve planned status, zero and singular article
-counts and theme contrast. When enlarged text narrows the section, tighten the insets
-and size the title to its reading column so ordinary words stay intact.
+The upper native link opens the series overview and ends with “Explore the {count}
+articles,” with singular and empty-count variants. A separate sibling link forms
+the tinted lower panel: “Start with article 1,” the actual first article's full
+title at 1.125rem, an ArrowExchange, its type, and its reading time. Use the first
+post from the existing sorted series summary, never the newest post or a guessed
+URL. Omit this panel when no first post exists. Keep the cadence on the detail page.
+
+Use two shared grid rows to align neighboring overview actions and start panels without
+truncating content. Preserve 1.5rem/1.75rem responsive insets, with .75rem insets at
+enlarged-text widths. Each destination has its own continuous focus outline, and
+keyboard order follows the overview then the first article. Never nest links or
+make focus labels additional actions inside the overview link. Localize interface
+labels, type, duration, and both destinations; preserve English authored content.
+No client JavaScript is added.
 
 ### Reading brief Series opening
 
@@ -286,7 +296,7 @@ totals in two columns beneath a top rule; below 16rem, stack them. Size the head
 to its reading column below 26rem so enlarged text remains readable.
 
 Follow the opening after 2.25rem with a fine rule, a 1.75rem Choose a series heading,
-and concise reading guidance. Preserve Soft editorial cards, their selection,
+and concise reading guidance. Preserve Reading doorway cards, their selection,
 order, authored English content, counts, destinations, and existing responsive
 behavior. Use typed collection translations, localized native links, singular
 count labels, and the existing text-link and Arrow exchange feedback. Keep page

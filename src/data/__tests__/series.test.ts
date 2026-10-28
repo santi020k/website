@@ -90,6 +90,22 @@ describe('series publication and navigation', () => {
     expect(await getSeriesContext(makePost('missing', 'missing-series'))).toBeNull()
   })
 
+  test('starts chooser cards with the first published chapter in reading order, not the newest post', async () => {
+    series.push(makeSeries('public'))
+    posts.push(
+      makePost('newest', 'public', { seriesOrder: 3, publishDate: new Date('2026-10-01') }),
+      makePost('draft', 'public', { seriesOrder: 0, draft: true }),
+      makePost('future', 'public', { seriesOrder: 0, publishDate: new Date('2027-01-01') }),
+      makePost('first', 'public', { seriesOrder: 1 }),
+      makePost('second', 'public', { seriesOrder: 2 })
+    )
+    const { getSeriesSummaries } = await import('../series')
+    const summaries = await getSeriesSummaries()
+
+    expect(summaries[0]?.postCount).toBe(3)
+    expect(summaries[0]?.posts.map(post => post.id)).toEqual(['first', 'second', 'newest'])
+  })
+
   test('keeps drafts and empty series available for development previews', async () => {
     vi.stubEnv('PROD', false)
     const draft = makePost('draft-post', 'draft', { draft: true })
