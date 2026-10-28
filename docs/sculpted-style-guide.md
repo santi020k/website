@@ -2042,6 +2042,18 @@ surface or client behavior. Keep exactly one page-end navigation landmark.
 recommendations proceeds from sharing to the newsletter and return row without an empty
 section. Preserve the native `/blog/` and `#main` destinations and wrapping controls.
 
+### Contextual return
+
+The shared floating Back to top control yields while the existing article or project
+closing return link is in the viewport. Restore it after the closing link leaves view,
+retaining the existing 400px scroll threshold on every page. Keep its current icon,
+motion, and surface; the native closing link remains usable without JavaScript.
+
+An already-focused floating control stays available until focus moves away. Returning
+to the top still moves focus to the main content before hiding the control. Disconnect
+the visibility observer and listeners on route swaps so the new page owns its return
+behavior. Pages without a closing return retain the standard floating control.
+
 ### Reading first article newsletter placement
 
 Keep related writing immediately after the article closing, followed by the existing
