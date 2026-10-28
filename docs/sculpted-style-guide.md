@@ -32,11 +32,36 @@ both themes. Never put personal contact details or location metadata in assets.
 The personal section follows writing and precedes community. A wide night scene
 anchors two smaller photos on desktop; mobile places it above the other two,
 then stacks all photos when enlarged text leaves a narrow reading column. This
-is a static composition with native About and Travel links, without a carousel
-or additional client JavaScript. Keep its spacing aligned with other sections.
+keeps native About and Travel links and the existing section spacing. Generate
+responsive images at their source aspect ratios; the CSS frame owns the final
+crop, with the sunset anchored right so the sun remains visible. Captions use
+0.75rem text without ordinal labels, preserving their meaning when mobile moves
+the city photo above the other two.
+
+The photo group and homepage recommendations use Lumen `RevealGroup` for a
+one-time slide-up entrance, the shared slow duration, a 90ms stagger, and an
+explicit zero threshold so tall groups reveal on entry. Keep content immediately
+visible without JavaScript and with reduced motion. Hero content remains static
+so the introduction and primary actions are immediately available.
 
 Featured work uses an open two-column story and artwork spread, with the story
 below the image on small screens. Avoid overlapping the text panel and artwork.
+
+### Homepage recommendations
+
+Preserve the three complete quotations, their order, English quotation language,
+and localized author roles and relationships from the profile data. Reuse
+`TestimonialCard`; homepage-only styles give the first quotation a quiet featured
+surface and larger 1.75rem text, with two open supporting quotations separated by
+a fine rule. Supporting quotations use 1.0625rem text. Keep authors and context
+together under the quote, using readable 0.8125rem roles and 0.75rem relationships.
+
+Use a 1.1:1 desktop spread with a 3rem column gap. Below 56rem of home content,
+stack the recommendations in their original reading order with 2rem gaps.
+Reduce featured padding and type at narrow and enlarged-text widths; allow the
+identity row to stack without clipping. These overrides belong to HomeProof and
+must not change the About page's recommendation cards. Do not rotate, truncate,
+or auto-advance quotations.
 
 ## Typography
 

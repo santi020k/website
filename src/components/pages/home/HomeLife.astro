@@ -8,7 +8,7 @@ import City from '@/assets/photos/home/city-after-dark.webp'
 import Dog from '@/assets/photos/home/dog-in-the-grass.webp'
 import Sunset from '@/assets/photos/home/last-light.webp'
 
-import { ButtonLink } from '@santi020k/lumen-astro'
+import { ButtonLink, RevealGroup } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
 import { pageTranslator } from '@/i18n/page-copy'
@@ -33,17 +33,15 @@ const photographs = [
     action={t('home.life.action')}
     href={localizePath('/about/', pageLocale)}
   />
-  <div data-home-life-photos>
-    {photographs.map(({ image, alt, caption, kind }, index) => (
+  <RevealGroup animation="slide-up" duration="slow" stagger={90} threshold={0} data-home-life-photos>
+    {photographs.map(({ image, alt, caption, kind }) => (
       <figure data-life-photo={kind}>
         <div data-home-life-photo-frame>
           <Image
             src={image}
             alt={alt}
-            width={kind === 'city' ? 960 : 640}
-            height={kind === 'city' ? 720 : 800}
-            fit="cover"
-            position={kind === 'sunset' ? 'right' : 'centre'}
+            width={image.width}
+            height={image.height}
             widths={[320, 480, 640, 960]}
             sizes={kind === 'city' ? '(min-width: 1024px) 560px, (min-width: 768px) 50vw, calc(100vw - 64px)' : '(min-width: 1024px) 280px, (min-width: 768px) 25vw, calc((100vw - 80px) / 2)'}
             format="webp"
@@ -51,10 +49,10 @@ const photographs = [
             loading="lazy"
           />
         </div>
-        <figcaption><span aria-hidden="true">0{index + 1}</span> {caption}</figcaption>
+        <figcaption>{caption}</figcaption>
       </figure>
     ))}
-  </div>
+  </RevealGroup>
   <div data-home-life-footer>
     <span>{t('home.photo.throughMyLens')}</span>
     <ButtonLink class="studio-text-link" data-text-link href={localizePath('/travel/', pageLocale)} variant="unstyled">
@@ -70,9 +68,8 @@ const photographs = [
   [data-life-photo='city'] [data-home-life-photo-frame] { aspect-ratio: 4 / 3; border-radius: 1.5rem 1.5rem 0.5rem 1.5rem; }
   [data-life-photo='sunset'] { padding-top: 5rem; }
   img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  [data-life-photo='sunset'] img { object-position: 65% center; }
-  figcaption { display: flex; align-items: baseline; gap: 0.625rem; margin-top: 0.875rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; }
-  figcaption span { color: var(--studio-emphasis); font-family: var(--font-code); font-size: 0.625rem; }
+  [data-life-photo='sunset'] img { object-position: right center; }
+  figcaption { margin-top: 0.875rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.7; }
   [data-home-life-footer] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--studio-rule); }
   [data-home-life-footer] > span { color: hsl(var(--ink-soft)); font-size: 0.75rem; }
 
