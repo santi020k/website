@@ -52,7 +52,7 @@ data-career-row
 data-career-density={item.isCompact ? 'compact' : 'full'}
 style={getProjectBrandStyle(item.brand)}
     >
-      <a data-career-link href={localizePath(item.href, locale)}>
+      <a data-career-link href={localizePath(item.href, locale)} aria-label={`${item.company}: ${t('collection.readCaseStudy')}`}>
         <div data-career-date>
           <time datetime={item.startDate} data-career-start><span data-career-month>{item.startMonth}</span>{' '}<span data-career-year>{item.startYear}</span></time>
           <span data-career-end> - {item.endDate ? <time datetime={item.endDate}>{item.endLabel}</time> : item.endLabel}</span>

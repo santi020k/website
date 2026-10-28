@@ -128,6 +128,9 @@ for (const theme of ['light', 'dark']) {
           const link = row.locator('[data-career-link]')
 
           await expect(link).toHaveAttribute('href', /^\/portfolio\/.+\/$/u)
+          const company = await row.locator('[data-career-title]').innerText()
+
+          await expect(link).toHaveAccessibleName(`${company}: Read case study`)
           await expect(row.locator('[data-career-action]')).toHaveText('Read case study')
           const clipped = await link.evaluate(element => {
             const bounds = element.getBoundingClientRect()
@@ -243,6 +246,10 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(rows.locator('[data-career-identity] img')).toHaveCount(9)
     for (const link of await rows.locator('[data-career-link]').all()) {
       await expect(link).toHaveAttribute('href', /^\/es\/portfolio\/.+\/$/u)
+      const company = await link.locator('[data-career-title]').innerText()
+      const action = await link.locator('[data-career-action]').innerText()
+
+      await expect(link).toHaveAccessibleName(`${company}: ${action}`)
       await expect(link.locator('img')).toHaveAttribute('alt', '')
     }
     for (const width of [320, 390, 768, 1440]) {
