@@ -483,6 +483,21 @@
   [data-post-gallery-grid='grid'] [data-post-gallery-footer] { grid-row: 5; align-self: end; margin-top: 0; }
 }
 
+/* A one-post topic archive gives its existing editorial card the complete shelf. */
+[data-post-gallery-grid='focused'] { container: focused-gallery / inline-size; display: block; }
+[data-post-gallery-grid='focused'] [data-post-gallery-card] > a {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  align-items: start;
+  gap: 1.75rem;
+}
+[data-post-gallery-grid='focused'] [data-post-gallery-copy] { padding-top: 0; }
+[data-post-gallery-grid='focused'] h3 { font-size: 1.75rem; }
+@container focused-gallery (width < 38rem) {
+  [data-post-gallery-grid='focused'] [data-post-gallery-card] > a { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  [data-post-gallery-grid='focused'] h3 { font-size: 1.5rem; }
+}
+
 /* Ordered series use reading-index rows rather than a browse-card grid. */
 [data-post-gallery-grid='chapters'] { container: chapter-gallery / inline-size; display: block; }
 [data-post-gallery-grid='chapters'] [data-post-gallery-card] { padding-block: 2rem; border-bottom: 1px solid hsl(var(--line)); }

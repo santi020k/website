@@ -122,7 +122,7 @@ data-topic-archive-opening
 
       {page.data.length > 0 ?
         (
-          <PostsGallery posts={page.data} />
+          <PostsGallery columns={postCount === 2 ? 2 : 3} layout={postCount === 1 ? 'focused' : 'grid'} posts={page.data} />
         ) :
         (
           <div class="flex flex-col items-center gap-4 py-16 text-center">

@@ -20,7 +20,7 @@ const t = collectionTranslator(locale)
 
 interface Props {
   columns?: 2 | 3
-  layout?: 'grid' | 'chapters'
+  layout?: 'grid' | 'chapters' | 'focused'
   posts: CollectionEntry<'post'>[]
   showSequence?: boolean
 }
@@ -31,7 +31,11 @@ const gridImageSizes = columns === 2 ?
   'auto, (min-width: 1280px) 35.25rem, (min-width: 640px) 50vw, 100vw' :
   'auto, (min-width: 1280px) 23rem, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
 
-const imageSizes = layout === 'chapters' ? 'auto, (min-width: 640px) 14rem, 100vw' : gridImageSizes
+const imageSizes = {
+  chapters: 'auto, (min-width: 640px) 14rem, 100vw',
+  focused: 'auto, (min-width: 1280px) 33.5rem, (min-width: 768px) 48vw, 100vw',
+  grid: gridImageSizes
+}[layout]
 
 const createGalleryItem = (post: CollectionEntry<'post'>) => {
   const { data } = post
