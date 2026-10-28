@@ -4,6 +4,8 @@ import:
 version: "0.2"
 language: en,es,es_ES
 words:
+  - preprocesadores
+  - renderizadas
   - cloudflare
   - Coorganizador
   - coorganizador

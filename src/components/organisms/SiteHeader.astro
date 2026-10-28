@@ -11,7 +11,7 @@ import { getNavigationCurrent } from '@/utils/links'
 
 import { Button, ButtonLink as NavigationLink, Icon } from '@santi020k/lumen-astro'
 
-import { getLocale, localizePath, translate } from '@/i18n'
+import { getLocale, localizePath, stripLocale, translate } from '@/i18n'
 import { menuLinks, siteConfig } from '@/site.config'
 
 interface Props {
@@ -27,7 +27,7 @@ const isAvailableForBanner =
 const locale = getLocale(Astro.url.pathname)
 const t = (text: string) => translate(locale, text)
 const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/').map(link => ({ ...link, path: localizePath(link.path, locale), title: t(link.title) }))
-const getAriaCurrent = (path: string) => getNavigationCurrent(Astro.url.pathname, path)
+const getAriaCurrent = (path: string) => getNavigationCurrent(stripLocale(Astro.url.pathname), stripLocale(path))
 
 ---
 

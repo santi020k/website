@@ -302,7 +302,7 @@ export const collectionCopy: Record<string, string> = {
   ' on this page': ' en esta página',
   'Community work': 'Trabajo comunitario',
   'Community story': 'Historia de comunidad',
-  'A closer look at the events, mentorship, and organizing work behind this developer community.': 'Los eventos, la acompañamiento y la organización detrás de esta comunidad de desarrollo.',
+  'A closer look at the events, mentorship, and organizing work behind this developer community.': 'Los eventos, el acompañamiento y la organización detrás de esta comunidad de desarrollo.',
   'More community work.': 'Más trabajo comunitario.',
   'Active community': 'Comunidad activa',
   'Past community work': 'Trabajo comunitario anterior',

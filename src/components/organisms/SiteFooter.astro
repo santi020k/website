@@ -5,7 +5,7 @@ import { getNavigationCurrent } from '@/utils/links'
 
 import { ButtonLink } from '@santi020k/lumen-astro'
 
-import { getLocale, localizePath, translate } from '@/i18n'
+import { getLocale, localizePath, stripLocale, translate } from '@/i18n'
 import { menuLinks, siteConfig } from '@/site.config'
 
 import { version } from '../../../package.json'
@@ -34,7 +34,7 @@ const resourceLinks = [
 ].map(link => ({ path: localizePath(link.path, locale), title: t(link.title) }))
 
 const activePath = [...navLinks, ...resourceLinks]
-  .filter(link => getNavigationCurrent(currentPath, link.path))
+  .filter(link => getNavigationCurrent(stripLocale(currentPath), stripLocale(link.path)))
   .sort((a, b) => b.path.length - a.path.length)[0]?.path
 ---
 
@@ -79,7 +79,7 @@ direction="up-right"
         <p class="maker-footer-label">{t('Explore')}</p>
         <ul>
           {navLinks.map(link => (
-            <li><a data-text-link href={link.path} aria-current={activePath === link.path ? getNavigationCurrent(currentPath, link.path) : undefined}><span data-text-link-label>{link.title}</span></a></li>
+            <li><a data-text-link href={link.path} aria-current={activePath === link.path ? getNavigationCurrent(stripLocale(currentPath), stripLocale(link.path)) : undefined}><span data-text-link-label>{link.title}</span></a></li>
           ))}
         </ul>
       </nav>
@@ -102,7 +102,7 @@ direction="up-right"
       <p>&copy; {year} {siteConfig.author}<span aria-hidden="true"> / </span><a data-text-link href="https://lumen.santi020k.com" rel="noopener noreferrer" target="_blank"><span data-text-link-label>{t('Built with Lumen')}</span></a></p>
       <nav aria-label={t('Site information')}>
         {resourceLinks.map(({ path, title }) => (
-          <a data-text-link href={path} aria-current={activePath === path ? getNavigationCurrent(currentPath, path) : undefined}><span data-text-link-label>{title}</span></a>
+          <a data-text-link href={path} aria-current={activePath === path ? getNavigationCurrent(stripLocale(currentPath), stripLocale(path)) : undefined}><span data-text-link-label>{title}</span></a>
         ))}
         <a data-text-link href="https://github.com/santi020k/website/issues/new/choose" rel="noopener noreferrer" target="_blank"><span data-text-link-label>{t('Report an issue')}</span></a>
       </nav>
