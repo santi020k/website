@@ -108,7 +108,7 @@ export const sharedMessages = {
   'shared.recentSearches': { en: 'Recent searches', es: 'Búsquedas recientes' },
   'shared.reportAnIssue': { en: 'Report an issue', es: 'Reportar un problema' },
   'shared.retry': { en: 'Retry', es: 'Reintentar' },
-  'shared.scrollBackToTop': { en: 'Scroll back to top', es: 'Volver al inicio de la página' },
+  'shared.scrollBackToTop': { en: 'Scroll back to top', es: 'Volver arriba, al inicio de la página' },
   'shared.searchingArticleText': { en: 'Searching article text…', es: 'Buscando en el texto de los artículos…' },
   'shared.searchingArticleText7': { en: 'Searching article text.', es: 'Buscando en el texto de los artículos.' },
   'shared.searchIsTemporarilyUnavailable': { en: 'Search is temporarily unavailable.', es: 'La búsqueda no está disponible temporalmente.' },

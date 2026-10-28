@@ -53,7 +53,7 @@ test('hero product links preserve destinations and keyboard navigation', async (
 })
 
 for (const theme of ['light', 'dark'] as const) {
-  test(`the refined mobile opening brings selected products into view in ${theme} mode`, async ({ page }) => {
+  test(`the personal mobile opening keeps identity and primary actions in view in ${theme} mode`, async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 })
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto('/')
@@ -65,9 +65,9 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(hero.getByRole('link', { name: 'See selected work', exact: true })).toBeInViewport({ ratio: 1 })
     await expect(hero.getByRole('link', { name: 'Work with me', exact: true })).toBeInViewport({ ratio: 1 })
     await expect(hero.getByText('Medellín, Colombia', { exact: true })).toBeInViewport({ ratio: 1 })
-    await expect(hero.getByRole('link', { name: 'Lumen UI Web and native components' })).toBeInViewport({ ratio: 1 })
-    await expect(hero.getByRole('link', { name: 'PostLens Private photo editing for iPhone' })).toBeInViewport({ ratio: 1 })
-    await expect(hero.getByRole('link', { name: 'Explore all projects' })).toBeInViewport({ ratio: 1 })
+    await expect(hero.getByRole('link', { name: 'Lumen UI Web and native components' })).toBeVisible()
+    await expect(hero.getByRole('link', { name: 'PostLens Private photo editing for iPhone' })).toBeVisible()
+    await expect(hero.getByRole('link', { name: 'Explore all projects' })).toBeVisible()
     await expect.poll(() => portrait.evaluate(image => image.getBoundingClientRect().height)).toBeLessThanOrEqual(100)
     const portraitBounds = await portrait.boundingBox()
     const headingBounds = await hero.locator('h1').boundingBox()

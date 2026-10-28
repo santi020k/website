@@ -148,7 +148,7 @@
     "blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp": {
       "baseDirectory": "public/og",
       "digest": "2b04d23ac0f2b87a7fd4df9e08c681c3bf7c6601b648741c682d4498879e89de",
-      "fingerprint": "7fc94a1216c5dd8f2cc8d17266a02b8f27781a6c0c76935766980086727252e9",
+      "fingerprint": "6f393f81a2f5dcbe6586b461d439a82ff83cf027250ab8d378f48cf429a23fab",
       "output": "blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp"
     },
     "blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration.webp": {
@@ -160,7 +160,7 @@
     "blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp": {
       "baseDirectory": "public/og",
       "digest": "1ed56165d5159766902c82962722ad8692e96925c752384c5b668a8827afba4a",
-      "fingerprint": "6c5db30ae92972f7ee7a75b6889e69eb331edc57d6e37dfaacefc72c282f8bd9",
+      "fingerprint": "d7eb026607ca5e8af7bd93f47996e97ee74432bea809f1b986c60b0ca1a30fc0",
       "output": "blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp"
     },
     "blog/continuous-integration-and-deployment-for-next-js-projects.webp": {
@@ -442,7 +442,7 @@
     "pages/blog--tags--react.webp": {
       "baseDirectory": "public/og",
       "digest": "89aeadc93f2702b25dff7a52c9a1fb4320f1ec60097f2beab30ab7aefd9ccaf1",
-      "fingerprint": "430f3e223b40bed1cef7278cef4fabe2b34d7fb63cb19f9167426d1ceeb8f154",
+      "fingerprint": "06c55aa4ebf24c669f33acb0f19a979a6b2a246030e9f015e7d5dc130ca1a5d1",
       "output": "pages/blog--tags--react.webp"
     },
     "pages/blog--tags--nextjs.webp": {
@@ -454,7 +454,7 @@
     "pages/blog--tags--typescript.webp": {
       "baseDirectory": "public/og",
       "digest": "1d8d131bfa22df4224f0e0a6456675a12548f08ea4223b0724a6ab4967161619",
-      "fingerprint": "060519f0a00fa043250b5658431f3b58e601571e496f204f4e3f2adf23e003e9",
+      "fingerprint": "9f7cec1ae1113af7bf7fea9c021fdf41029b114fdfea092e233af77d9cc1e4f6",
       "output": "pages/blog--tags--typescript.webp"
     },
     "pages/blog--tags--typescript--2.webp": {
@@ -484,19 +484,19 @@
     "pages/blog--tags--react-native.webp": {
       "baseDirectory": "public/og",
       "digest": "fbd74fbc6a38e2a8074fb35e5a2ae5a8762abcf51861f64f9b6d95bc408d3309",
-      "fingerprint": "c3a5a40ca3d8227783de3bc1eb9c977cd1ca2e089fd359a3379daa629ed68e77",
+      "fingerprint": "3e372e30cf3816a79a7ce4ce9afa4d05d35c141774555e9401e4549741a095a0",
       "output": "pages/blog--tags--react-native.webp"
     },
     "pages/blog--tags--eslint.webp": {
       "baseDirectory": "public/og",
       "digest": "b72808d3b6adefab56131b50567c2a4706b0295401d8576e3cee98c10ff1c16a",
-      "fingerprint": "2ccf92d7a883fb22f818f61164cec3f28919fe7af4e3d0379150263345116d4f",
+      "fingerprint": "10b02378b3326a835d556e77b0cb9f301cf99c7beb4210c58de93cf8572c9096",
       "output": "pages/blog--tags--eslint.webp"
     },
     "pages/blog--tags--eslint-config.webp": {
       "baseDirectory": "public/og",
       "digest": "46b059f926cc6fe3e262cb2039c43108e9392b33a6eface39599bc6e3721fb45",
-      "fingerprint": "d64ccae762b1fd3186d6b77b1aa4071a071c20ff368d32230727df794a9fc8b9",
+      "fingerprint": "e23456f08e9098b9e68731d509a59df764d4a55618e18ce0432367794a8a8094",
       "output": "pages/blog--tags--eslint-config.webp"
     },
     "pages/blog--tags--vitest.webp": {
@@ -514,25 +514,25 @@
     "pages/blog--tags--mongo.webp": {
       "baseDirectory": "public/og",
       "digest": "1c34f33c5eae3333b5e11086725553122dbdaebfba03d71372b355e1e67ee380",
-      "fingerprint": "8829d6ad3cc8c846d107b04b0d97a58f4ca5ddc1be46dcd68ec4e9e1325f6261",
+      "fingerprint": "843e943cba4f2289f33d5accbaccd245fcf905c43b3d08e299e1cb57bd1cb003",
       "output": "pages/blog--tags--mongo.webp"
     },
     "pages/blog--tags--configuration.webp": {
       "baseDirectory": "public/og",
       "digest": "e48094a6dbe7ec2dacfb7ea7818fc6c7caf04b390e8eaa343298e985ac955aa4",
-      "fingerprint": "0924f2b6eaed6e1d4a998a9ed9587a0b3836e1efcc68ff22b2407cce659b57b8",
+      "fingerprint": "a6141022c945363288644bc09cb8aa3db6c21a47b90e5f055b761bc911d71e0b",
       "output": "pages/blog--tags--configuration.webp"
     },
     "pages/blog--tags--homebrew.webp": {
       "baseDirectory": "public/og",
       "digest": "fda29cada67bf3bb53dc62d6699cbbf69281b470ab528bbf9b83e07003c08cc4",
-      "fingerprint": "d0ba9bc8da75c6eac7c80597f5424c0a0a06ec6bef896eabc86de580616b0cd6",
+      "fingerprint": "fddf3f3bb86f02566e577e6101a1ea50623987616509cd4689f12cd2880bb6c0",
       "output": "pages/blog--tags--homebrew.webp"
     },
     "pages/blog--tags--mac.webp": {
       "baseDirectory": "public/og",
       "digest": "63497e0012af785fd818487526b20bdd8696a63aa7db41dfe14d461fd9feb13e",
-      "fingerprint": "41473b439de2e7a8c32841baf320510565ea1beabd870d741029b073a35da825",
+      "fingerprint": "2be9263a3de227eb9f3ac06f99023156aa634f4fedb2ddc523f7f506bc37a6fe",
       "output": "pages/blog--tags--mac.webp"
     },
     "pages/blog--tags--ci-cd.webp": {
@@ -2986,7 +2986,7 @@
     "pages/es--blog--boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp": {
       "baseDirectory": "public/og",
       "digest": "a793c10493f3ccc78504fbb823c5f919cca0762d26cfc43c6bd9aa87ce9a438d",
-      "fingerprint": "6c66bfd5d1419f1b53803595b9c180315b0ca967f82e08f5fc7705a370e65ecb",
+      "fingerprint": "19404cd654c7a6085170803f59ba3c50f915178fb5461bbbdc7b494cf53e38a7",
       "output": "pages/es--blog--boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp"
     },
     "pages/es--blog--building-the-best-next-js-typescript-standard-vitest-eslint-configuration.webp": {
@@ -2998,7 +2998,7 @@
     "pages/es--blog--configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp": {
       "baseDirectory": "public/og",
       "digest": "7ab103721dcd84ddc1021cc7fe1af2924823b7a400b50b0b62520a99d62b6113",
-      "fingerprint": "d3d8ee68d9096c71267f7acc816b82a1f8a4f1ea87c99262e4ba6b9111e54805",
+      "fingerprint": "67728fe2011188cf4bac8550ca1f32cf7bd4eb8d2c96387af3ea16d25e67e7f4",
       "output": "pages/es--blog--configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp"
     },
     "pages/es--blog--continuous-integration-and-deployment-for-next-js-projects.webp": {
@@ -3280,7 +3280,7 @@
     "pages/es--blog--tags--react.webp": {
       "baseDirectory": "public/og",
       "digest": "51cdcce257bb1a801efdb9d984ddb080c269e84c7f2673708b8d61ed9d609f20",
-      "fingerprint": "621b79d87c9ca9cc28c8e37c103a53640d31dbf460bc62574975e41108146c80",
+      "fingerprint": "6c1e13f785346cf61e9a25bd7e5a93b526a18cf4e620da93cf671ce7b74690cf",
       "output": "pages/es--blog--tags--react.webp"
     },
     "pages/es--blog--tags--nextjs.webp": {
@@ -3292,7 +3292,7 @@
     "pages/es--blog--tags--typescript.webp": {
       "baseDirectory": "public/og",
       "digest": "474d425d8bc9a1862f15c6f130a785d8a4c2ca022ef04f77f4a5e9f18e6e2ebd",
-      "fingerprint": "c1bb38fc037e43ba2026793380f9d580397fb406ad87e6bd943cd6b04fc2b7fb",
+      "fingerprint": "6cf74bf3d51837287e3e5213438521c6ff857f32c4e86707526c8d04dded82ff",
       "output": "pages/es--blog--tags--typescript.webp"
     },
     "pages/es--blog--tags--typescript--2.webp": {
@@ -3322,19 +3322,19 @@
     "pages/es--blog--tags--react-native.webp": {
       "baseDirectory": "public/og",
       "digest": "f126410350337f473edfdeda62a9921555d079cd1257ed3c9ec9eaf833053d8a",
-      "fingerprint": "0054fceef2190296ac8a88f3acd00db2823ca6f6f32f3088d65d7eb5080104f5",
+      "fingerprint": "429c7e7e6d168219505c9c456cf048a5bd332d4d503803d539268dbdb56c9b81",
       "output": "pages/es--blog--tags--react-native.webp"
     },
     "pages/es--blog--tags--eslint.webp": {
       "baseDirectory": "public/og",
       "digest": "49194b55beb84617a349cd567508629584853b8db40ff8153707819a21bfe0ca",
-      "fingerprint": "5a8a6419127f044006e3c61377a3cc4c0106fdc9a4fd7245342b041ec87d98b6",
+      "fingerprint": "d1c328ddb45fefd5d54e87e72cc829cef6bc4a0154ac48be2962045c89b9dbbe",
       "output": "pages/es--blog--tags--eslint.webp"
     },
     "pages/es--blog--tags--eslint-config.webp": {
       "baseDirectory": "public/og",
       "digest": "d805f16189f25407c32539175b3adff18d7918f8227603d1d240cfe291613e37",
-      "fingerprint": "ef013aedb20ce80a14d80c1dd36313e4cca31c3d41ad1b6c9786218a6a9bb6fc",
+      "fingerprint": "4799037e29c9c5ba0e0445e413038b82f8360a0c02aff770030657e827395af6",
       "output": "pages/es--blog--tags--eslint-config.webp"
     },
     "pages/es--blog--tags--vitest.webp": {
@@ -3352,25 +3352,25 @@
     "pages/es--blog--tags--mongo.webp": {
       "baseDirectory": "public/og",
       "digest": "e87ab34d9cde1f18be833442e95cc4c5ff2515a22c9623fc6303c503cc225a20",
-      "fingerprint": "c05f35a11797c554b2739986f61dff95202bd424768cb89b9a332cff16e7e2d8",
+      "fingerprint": "0a307bb8339434661f78a8c43033c9069a545636ec3957fa5669271a9849331b",
       "output": "pages/es--blog--tags--mongo.webp"
     },
     "pages/es--blog--tags--configuration.webp": {
       "baseDirectory": "public/og",
       "digest": "0969cdd761eb32ce244016c1c1036181772c6563954c4a05cb3eb12327e6ccd2",
-      "fingerprint": "cdfe49fff5a398425f83f6b750eeafa75a6162c35caa77ea77294837c23cbe5c",
+      "fingerprint": "19855dcced7e03c087df249fa8b5a5f8b73016f7159ce5b0f94f4c5f490b7795",
       "output": "pages/es--blog--tags--configuration.webp"
     },
     "pages/es--blog--tags--homebrew.webp": {
       "baseDirectory": "public/og",
       "digest": "d9753bb95148b4a7f42e96040f19cb6489bd5817a5de8b3d9aefc05d284556ca",
-      "fingerprint": "b043cda00c8c5aa20ba9417b3dd5230b75e443ea2b5bac05390d54077d40ff3c",
+      "fingerprint": "f2a4dafb6c5fb43427ac123608062a7dee35c8e443ad5db8e2a346bc4f8722c3",
       "output": "pages/es--blog--tags--homebrew.webp"
     },
     "pages/es--blog--tags--mac.webp": {
       "baseDirectory": "public/og",
       "digest": "581199b0d9dbb0d5071beaf4c428a2b1ff294bd960e38c1e09568827fd7dfa1d",
-      "fingerprint": "3ea4f662499e58cdbc729c41fb1c912eec0bba345eb9dc8e109143bc0dbeec95",
+      "fingerprint": "8a071ffeba485061313a3bdf750bfb5679465c5c3deeb9f71466d31818b7bbe9",
       "output": "pages/es--blog--tags--mac.webp"
     },
     "pages/es--blog--tags--ci-cd.webp": {

@@ -85,14 +85,14 @@ for (const theme of ['light', 'dark'] as const) {
   })
 }
 
-test('product previews and links remain usable without JavaScript', async ({ browser }) => {
+test('product previews, personal photos, and links remain usable without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 812 } })
   const page = await context.newPage()
 
   await page.goto('/')
-  const images = page.locator('[data-product-preview] img')
+  const images = page.locator('[data-product-preview] img, [data-home-photo] img, [data-home-life] img')
 
-  await expect(images).toHaveCount(4)
+  await expect(images).toHaveCount(8)
   for (const image of await images.all()) {
     await image.scrollIntoViewIfNeeded()
     await expect(image).toBeVisible()

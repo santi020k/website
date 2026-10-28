@@ -4,6 +4,20 @@ import { sharedMessages } from './shared.ts'
 
 /** Stable IDs; edit English wording without changing its key. */
 export const pageMessages = {
+  'home.life.eyebrow': { en: 'Outside the editor', es: 'Fuera del editor' },
+  'home.life.title': { en: 'A little life between the lines.', es: 'Un poco de vida entre líneas.' },
+  'home.life.description': { en: 'New cities, long walks with my dogs, and a camera roll full of small discoveries. A few things that keep me curious.', es: 'Ciudades nuevas, paseos largos con mis perros y una galería llena de pequeños descubrimientos. Algunas cosas que alimentan mi curiosidad.' },
+  'home.life.action': { en: 'More about me', es: 'Más sobre mí' },
+  'home.life.travel': { en: 'Explore my travels', es: 'Explora mis viajes' },
+  'home.photo.throughMyLens': { en: 'Through my lens', es: 'A través de mi lente' },
+  'home.photo.clouds': { en: 'Above the clouds', es: 'Sobre las nubes' },
+  'home.photo.cloudsAlt': { en: 'Sunlit towers emerging from clouds beneath a blue sky.', es: 'Torres iluminadas por el sol entre nubes bajo un cielo azul.' },
+  'home.photo.dog': { en: 'The best company', es: 'La mejor compañía' },
+  'home.photo.dogAlt': { en: 'My black-and-white dog resting in the grass.', es: 'Mi perro blanco y negro descansando sobre el césped.' },
+  'home.photo.night': { en: 'Cities after dark', es: 'Ciudades de noche' },
+  'home.photo.nightAlt': { en: 'City lights reflected across still water at night.', es: 'Luces de la ciudad reflejadas en el agua tranquila de noche.' },
+  'home.photo.sunset': { en: 'Chasing the last light', es: 'Buscando la última luz' },
+  'home.photo.sunsetAlt': { en: 'Orange sunset over the water beside a sunlit building.', es: 'Atardecer naranja sobre el agua junto a un edificio iluminado por el sol.' },
   'home.hero.connective': { en: 'And the', es: 'Y las' },
   'home.hero.emphasis': { en: 'tools', es: 'herramientas' },
   'home.hero.ending': { en: 'behind them.', es: 'que los hacen posibles.' },

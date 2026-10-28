@@ -3,7 +3,8 @@ import { Image } from 'astro:assets'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import HeroPortrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
+import HeroCity from '@/assets/photos/home/city-in-the-clouds.webp'
+import HeroPortrait from '@/assets/photos/home/santiago-smiling.webp'
 
 import { ButtonLink, Icon } from '@santi020k/lumen-astro'
 
@@ -20,10 +21,24 @@ const t = pageTranslator(pageLocale)
 <section class="signature-frame maker-hero" aria-labelledby="home-heading" data-home-hero>
   <div class="maker-hero-stage" data-home-hero-grid>
     <div class="maker-hero-copy">
-      <p class="maker-hero-eyebrow">
-        <span aria-hidden="true" class="maker-hero-signal"></span>
-        {t('home.hero.greeting')}
-      </p>
+      <div data-home-hero-identity>
+        <Image
+          alt={t('page.portraitOfSantiagoMolinaSmiling')}
+          class="maker-hero-portrait"
+          src={HeroPortrait}
+          widths={[64, 128, 192]}
+          sizes="4rem"
+          width={192}
+          height={192}
+          format="webp"
+          quality={85}
+          loading="eager"
+        />
+        <div>
+          <p>{t('home.hero.greeting')}</p>
+          <span>Medellín, Colombia</span>
+        </div>
+      </div>
       <h1 id="home-heading" data-home-hero-heading>
         <span>{t('home.hero.title')}</span>
         <span>{t('home.hero.connective')} <span class="maker-hero-emphasis">{t('home.hero.emphasis')}</span></span>
@@ -44,25 +59,24 @@ const t = pageTranslator(pageLocale)
       </div>
     </div>
 
-    <figure class="maker-hero-visual">
-      <div class="maker-hero-portrait-frame">
+    <figure data-home-hero-photo data-home-photo>
+      <div data-home-hero-photo-frame>
         <Image
-          alt={t('page.portraitOfSantiagoMolinaSmiling')}
-          class="maker-hero-portrait"
-          src={HeroPortrait}
-          widths={[56, 112, 168, 216, 288, 352, 480, 600, 704, 800]}
-          sizes="(min-width: 1024px) 352px, (min-width: 768px) 36vw, 3.5rem"
-          width={800}
-          height={1200}
+          alt={t('home.photo.cloudsAlt')}
+          src={HeroCity}
+          widths={[360, 540, 720, 900]}
+          sizes="(min-width: 1280px) 380px, (min-width: 768px) 36vw, calc(100vw - 64px)"
+          width={900}
+          height={1600}
           format="webp"
-          quality={75}
+          quality={85}
           loading="eager"
           fetchpriority="high"
         />
       </div>
-      <figcaption class="maker-hero-caption">
-        <span data-home-portrait-name>Santiago Molina</span>
-        <span>Medellín, Colombia</span>
+      <figcaption>
+        <span>{t('home.photo.throughMyLens')}</span>
+        <span>{t('home.photo.clouds')}</span>
       </figcaption>
     </figure>
   </div>
@@ -82,3 +96,56 @@ const t = pageTranslator(pageLocale)
     <ButtonLink class="maker-hero-index" data-text-link href={localizePath('/projects/', pageLocale)} aria-label={t('page.exploreAllProjects')} variant="unstyled"><span data-text-link-label>{t('page.allProjects')}</span> <Icon name="plus" /></ButtonLink>
   </nav>
 </section>
+
+<style>
+  [data-home-hero] .maker-hero-stage {
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: 3.5rem;
+    min-height: 0;
+    padding-block: 1rem 3rem;
+  }
+
+  [data-home-hero-identity] {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  [data-home-hero] .maker-hero-portrait {
+    flex: none;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  [data-home-hero-identity] > div { min-width: 0; }
+  [data-home-hero-identity] p { font-size: 0.9375rem; font-weight: 600; line-height: 1.6; }
+  [data-home-hero-identity] span { display: block; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.7; }
+  [data-home-hero] h1 { font-size: clamp(3rem, 5.8vw, 5.25rem); letter-spacing: -0.07em; }
+  [data-home-hero]:lang(es) h1 { font-size: clamp(2.25rem, 4.3vw, 3.75rem); }
+  [data-home-hero] .maker-hero-description { max-width: 31rem; }
+
+  [data-home-hero-photo] { min-width: 0; align-self: stretch; display: flex; flex-direction: column; justify-content: end; margin: 0; }
+  [data-home-hero-photo-frame] { overflow: hidden; min-height: 0; aspect-ratio: 4 / 5; border-radius: 7rem 0.75rem 0.75rem 0.75rem; background: hsl(var(--surface-muted)); }
+  [data-home-hero-photo] img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 52%; }
+  [data-home-hero-photo] figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; margin-top: 1rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; }
+  [data-home-hero-photo] figcaption span:first-child { color: hsl(var(--ink)); font-weight: 500; }
+
+  @container home-hero (width < 48rem) {
+    [data-home-hero] .maker-hero-stage { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding-block: 0 2rem; }
+    [data-home-hero] h1 { font-size: clamp(2rem, 9.6cqi, 4.5rem); letter-spacing: -0.06em; }
+    [data-home-hero]:lang(es) h1 { font-size: clamp(1.75rem, 8cqi, 3.5rem); }
+    [data-home-hero-identity] { margin-bottom: 1.5rem; }
+    [data-home-hero-photo-frame] { aspect-ratio: 2 / 1; border-radius: 3rem 0.75rem 0.75rem 0.75rem; }
+    [data-home-hero-photo] img { object-position: center 55%; }
+    [data-home-hero-photo] figcaption { margin-top: 0.75rem; }
+  }
+
+  @container home-hero (width < 18rem) {
+    [data-home-hero-identity] { align-items: start; flex-wrap: wrap; gap: 0.75rem; }
+    [data-home-hero] h1 { font-size: min(2rem, 22cqi); }
+    [data-home-hero]:lang(es) h1 { font-size: min(1.75rem, 16cqi); }
+  }
+</style>
