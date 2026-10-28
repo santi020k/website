@@ -3050,3 +3050,22 @@ library implementation classes to extend this appearance.
 
 See [remaining page coverage](remaining-page-designs.md) for route families, evidence,
 validation, and local integration status.
+
+
+### Contact page Conversation desk
+
+Work with me uses a personal opening beside a compact collaborator profile and
+three native chapter links. Keep the existing two hero actions, the contact
+channels, and the same-page conversation target. The five service offerings use
+open numbered rows with a fine rule, summary, examples, and one evidence link.
+Reuse the shared portfolio-metric formatter for the three outcome figures,
+retaining each complete claim as its accessible link description and visible client
+attribution in the label.
+
+The intake is one Lumen Card with a tinted header and two labeled field groups. Use
+Lumen Input and Textarea and the site Button wrapper. Radio choices keep native
+keyboard behavior and a visible selected indicator. Channels and next steps use
+open ruled rows beside the form. Stack the layout for narrow screens and reflow
+again for enlarged text. Keep all headings, labels, and evidence readable without
+clamping. The JavaScript fallback and complete in-memory retry behavior remain
+owned by the existing intake controller.
