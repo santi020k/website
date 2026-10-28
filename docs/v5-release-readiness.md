@@ -2121,3 +2121,32 @@ freshness pass without regenerated PDFs. The Changeset is folded into unpublishe
 5.0.0 with published notes intact. This design follow-up uses affected checks; the
 full workspace baseline remains `a19890c0`. Evidence is retained in
 `.cache/v5-writing-first/`. No remote action occurred.
+
+## Personal homepage redesign integration
+
+Approved source `3716b67d`, based on `f0d51c73`, is integrated over Writing first
+candidate `7d9a2440`. The natural smiling portrait becomes the identity avatar,
+the city photograph joins the opening, featured work uses an open artwork/copy
+layout, and three personal photographs appear after writing. Existing primary
+actions, products, navigation, link behavior, and typed English/Spanish content
+are preserved. The Spanish return-control name now includes its visible label.
+All five optimized photo sources are free of embedded camera and location metadata.
+
+All 112 Chromium/WebKit homepage cases and ten mobile photography/snapshot cases
+pass with one worker and retries disabled. Four visual baselines match. Sixteen
+matched language/theme/viewport/text-size states preserve existing link and
+metadata contracts without horizontal overflow; 80 before/after captures cover
+the opening, featured work, and new personal section. Representative desktop and
+mobile results were reviewed. Current lint has zero warnings; Astro checks 591
+files without diagnostics. The 904-page build, 906-page OG audit, four-archive
+assembly, and 926-image freshness check pass. The 22 OG fingerprint changes do
+not alter image digests. Regenerated resume PDFs match the merged source, retain
+all five page rasters, and match built artifacts.
+
+The source received `pnpm run verify:fast`, 112 browser cases, four snapshots,
+and a passing local Lighthouse run. Firefox could not start because its profile
+folder was unavailable; no Firefox pass or baseline update is claimed. Root
+full-workspace validation is scheduled after the ready Contextual return and
+Named captions integrations; the previous full baseline remains `a19890c0`.
+Changeset notes are folded into unpublished 5.0.0 with published notes intact.
+Evidence is in `.cache/v5-home-editorial/`. No remote action occurred.

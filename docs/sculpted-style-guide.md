@@ -16,6 +16,28 @@ an accent for identity and interaction. Keep the reading canvas calm.
 - Use one surface for each content group. Do not nest decorative cards inside cards.
 - Keep copy direct and grounded in the actual work. Derive projects and articles from collections.
 
+## Homepage photography
+
+The Home opening pairs a small, natural portrait with one expressive city
+photograph. Keep the identity and primary actions first in reading order. The
+city image sits beside the introduction on wide screens and below the actions
+on narrow screens; selected products remain a separate native-link shelf.
+
+Use the approved assets in `src/assets/photos/home/` through Astro Image, with
+intrinsic dimensions, bounded responsive widths, and descriptive localized
+alternative text. The portrait and city image load eagerly; the personal photo
+section loads lazily. Keep captions outside images for reliable contrast in
+both themes. Never put personal contact details or location metadata in assets.
+
+The personal section follows writing and precedes community. A wide night scene
+anchors two smaller photos on desktop; mobile places it above the other two,
+then stacks all photos when enlarged text leaves a narrow reading column. This
+is a static composition with native About and Travel links, without a carousel
+or additional client JavaScript. Keep its spacing aligned with other sections.
+
+Featured work uses an open two-column story and artwork spread, with the story
+below the image on small screens. Avoid overlapping the text panel and artwork.
+
 ## Typography
 
 Keep the existing, locally served Montserrat variable font from `@santi020k/theme`.
@@ -23,7 +45,7 @@ Use weight and scale for hierarchy, with sentence case for headings.
 
 | Role | Size | Weight | Treatment |
 | --- | --- | --- | --- |
-| Home hero | Responsive, up to 5rem | 600 | Tight tracking, 1.02 line height |
+| Home hero | Responsive, up to 5.25rem | 600 | Tight tracking, 1.02 line height |
 | Section heading | 2.25–3.75rem | 500 | −0.065em tracking, 1.08 line height |
 | Project title | 1.5–2rem | 500 | −0.055em tracking |
 | Article title | 1.125–1.5rem | 500 | 1.4 line height; show the complete title |

@@ -1,6 +1,7 @@
 ---
 import HomeCommunity from '@/components/pages/home/HomeCommunity.astro'
 import HomeHero from '@/components/pages/home/HomeHero.astro'
+import HomeLife from '@/components/pages/home/HomeLife.astro'
 import HomeLogoStrip from '@/components/pages/home/HomeLogoStrip.astro'
 import HomeProjectShowcase from '@/components/pages/home/HomeProjectShowcase.astro'
 import HomeProof from '@/components/pages/home/HomeProof.astro'
@@ -121,6 +122,7 @@ const meta = {
     <HomeProjectShowcase kind="work" projects={workProjects} />
     <HomeProjectShowcase kind="projects" projects={personalProjects} />
     <HomeWriting posts={latestPosts} startHerePosts={startHerePosts} />
+    <HomeLife />
     <HomeCommunity />
     <HomeProof faq={homeFaq} />
   </div>

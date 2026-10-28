@@ -57,7 +57,7 @@ for (const theme of ['light', 'dark'] as const) {
 
         const headings = page.locator('.studio-section-heading')
 
-        await expect(headings).toHaveCount(5)
+        await expect(headings).toHaveCount(6)
         for (const heading of await headings.all()) {
           const layout = await heading.evaluate(element => {
             const title = element.querySelector('h2')
