@@ -19,6 +19,7 @@ import { defineSite } from '@santi020k/og/site'
 import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
 
 import { ogManifest } from '@/data/og-manifest'
+import { getLocale, hasTranslation, localeLanguage, localeOg, localizePath, stripLocale } from '@/i18n'
 import {
   AUTHOR_JOB_TITLE,
   createSchemaEntityId,
@@ -43,9 +44,12 @@ const {
   title
 } = Astro.props
 
+const locale = getLocale(Astro.url.pathname)
+const basePath = stripLocale(Astro.url.pathname)
+const alternates = hasTranslation(basePath) && !noindex ? ['en', 'es'] as const : []
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
 const socialTitle = title
-const siteTitle = createSeoTitle(seoTitle ?? title, siteConfig.title)
+const siteTitle = createSeoTitle(locale === 'es' ? `${seoTitle ?? title} · Español` : seoTitle ?? title, siteConfig.title)
 const metaDescription = createSeoDescription(description)
 
 const canonicalURL = new URL(
@@ -74,7 +78,7 @@ const page = site.page({
   canonical: canonicalURL,
   description: metaDescription,
   image: { alt: resolvedOgImageAlt, url: socialImageURL },
-  locale: siteConfig.ogLocale,
+  locale: localeOg(locale),
   pathname: Astro.url.pathname,
   robots: { index: !noindex },
   title: socialTitle,
@@ -98,11 +102,11 @@ const transform = (tags: readonly MetadataTag[]) => tags.map(tag => {
 })
 
 const structuredDataJsonLd = structuredData ? serializeStructuredData(structuredData) : null
-const isHomePage = Astro.url.pathname === '/'
+const isHomePage = basePath === '/'
 
 const websiteJsonLd = serializeJsonLd(webSiteSchema({
   id: createSchemaEntityId('website', Astro.site),
-  inLanguage: siteConfig.lang,
+  inLanguage: localeLanguage(locale),
   name: siteConfig.siteName,
   searchAction: { target: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={search_term_string}` },
   url: Astro.site?.href ?? 'https://santi020k.com/'
@@ -119,6 +123,10 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <MetadataHead {page} site={site.options} {transform} />
+{alternates.map(language => (
+  <link rel="alternate" hreflang={language} href={new URL(localizePath(basePath, language), Astro.site ?? 'https://santi020k.com/').href} />
+))}
+{alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL(basePath, Astro.site ?? 'https://santi020k.com/').href} />}
 
 {/* Icons */}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

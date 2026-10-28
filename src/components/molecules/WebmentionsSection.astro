@@ -12,6 +12,8 @@ import Card from '@santi020k/lumen-astro/components/Card'
 import Icon from '@santi020k/lumen-astro/components/Icon'
 import Link from '@santi020k/lumen-astro/components/Link'
 
+import { getLocale, translate } from '@/i18n'
+
 interface Props {
   mentions: WebmentionsChildren[]
 }
@@ -58,6 +60,8 @@ const publishedDate = (entry: WebmentionsChildren): { datetime: string, label: s
 }
 
 const showSection = likes.length > 0 || replies.length > 0
+const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
+
 ---
 
 {
@@ -71,7 +75,7 @@ const showSection = likes.length > 0 || replies.length > 0
                 <span data-webmention-likes-total>{likes.length}</span>
                 <span>{likes.length === 1 ? 'like' : 'likes'}</span>
               </span>
-              <span data-webmention-likes-context>Across the IndieWeb</span>
+              <span data-webmention-likes-context>{t('Across the IndieWeb')}</span>
             </h2>
             <ul data-webmention-readers role="list">
               {likes.map(entry => {

@@ -28,6 +28,8 @@ import {
 import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
 
+import { translateCollection } from '../../src/i18n/collection-copy.ts'
+import { translatePage } from '../../src/i18n/page-copy.ts'
 import { parseContentDate } from '../../src/utils/content-date.ts'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
 
@@ -468,7 +470,7 @@ export const collectCards = async () => {
     }
   })
 
-  return [...staticCards, ...postCards, ...portfolioCards, ...seriesCards, ...technologyCards]
+  const englishCards = [...staticCards, ...postCards, ...portfolioCards, ...seriesCards, ...technologyCards]
     .map(card => card.route ?
       {
         ...card,
@@ -480,6 +482,22 @@ export const collectCards = async () => {
         }
       } :
       card)
+
+  const localizedCards = englishCards.filter(card => card.route).map(card => {
+    const pathname = `/es${card.route.pathname}`
+    const title = `${translateCollection(translatePage('es', card.data.title))} · Español`
+    const description = translateCollection(translatePage('es', card.data.description))
+
+    return {
+      ...card,
+      aliases: [],
+      data: { ...card.data, title, description, domain: pathname },
+      output: `pages/${getSocialImageFileName(pathname)}`,
+      route: { ...card.route, pathname, title, description, alt: `${title} — Santiago Molina` }
+    }
+  })
+
+  return [...englishCards, ...localizedCards]
 }
 
 export const collectSpecs = async () => (await collectCards()).map(card => ({

@@ -1,0 +1,11 @@
+---
+import type { ComponentProps } from 'astro/types'
+
+import OriginalPage from '@/pages/technologies/[technology]/[...page].astro'
+
+export { getStaticPaths } from '@/pages/technologies/[technology]/[...page].astro'
+
+type Props = ComponentProps<typeof OriginalPage>
+---
+
+<OriginalPage {...Astro.props} />

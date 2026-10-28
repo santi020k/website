@@ -3,6 +3,8 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { Button, Card, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, translate } from '@/i18n'
+
 interface Props {
   title: string
   url: string
@@ -30,14 +32,18 @@ const shareLinks = [
     platform: 'WhatsApp'
   }
 ]
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translate(locale, text)
+
 ---
 
 <Card aria-labelledby="share-heading" as="section" data-share-card data-share-variant={variant} variant="unstyled">
-  {variant === 'colophon' && <h2 id="share-heading">Share</h2>}
+  {variant === 'colophon' && <h2 id="share-heading">{t('Share')}</h2>}
   <header data-share-header>
     <div>
-      {variant === 'sleeve' && <h2 id="share-heading">Share this piece</h2>}
-      <p data-share-lead>Pass it on.</p>
+      {variant === 'sleeve' && <h2 id="share-heading">{t('Share this piece')}</h2>}
+      <p data-share-lead>{t('Pass it on.')}</p>
     </div>
     <Button
       id="copy-link-btn"
@@ -47,7 +53,7 @@ const shareLinks = [
       variant="outline"
     >
       <span data-copy-action-content>
-        <span id="copy-label">Copy link</span>
+        <span id="copy-label">{t('Copy link')}</span>
         <span data-copy-action-icon>
           <Icon name="link" data-copy-icon class="size-4" />
           <Icon name="check" data-check-icon class="hidden size-4" />
@@ -58,7 +64,7 @@ const shareLinks = [
   </header>
   <div data-share-platforms>
     {shareLinks.map(link => (
-      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={t(link.label)}>
         <span>{link.platform}</span>
         <ArrowExchange direction="up-right" class="size-4 shrink-0" />
       </a>
@@ -210,6 +216,10 @@ const shareLinks = [
 </style>
 
 <script>
+  import { getLocale, translate } from '@/i18n'
+
+  const clientTranslate = (text: string) => translate(getLocale(window.location.pathname), text)
+
   const setup = function () {
     const btn = document.getElementById('copy-link-btn')
 
@@ -244,7 +254,7 @@ const shareLinks = [
       return isCoarsePointer
     }
 
-    const idleLabel = supportsWebShare() ? 'Share link' : 'Copy link'
+    const idleLabel = clientTranslate(supportsWebShare() ? 'Share link' : 'Copy link')
     const STATE_RESET_MS = 2000
     const ANNOUNCEMENT_DELAY_MS = 100
 
@@ -289,14 +299,14 @@ const shareLinks = [
       failedIcon?.classList.toggle('hidden', succeeded)
 
       // Kept short so the control still fits a 320px viewport with enlarged text.
-      if (label) label.textContent = succeeded ? 'Link copied!' : 'Copy failed'
+      if (label) label.textContent = clientTranslate(succeeded ? 'Link copied!' : 'Copy failed')
 
       clearAnnouncement()
 
       // Empty the region, then write the result in a later task: restoring the
       // same text within the task that cleared it leaves no distinct change.
       if (status) {
-        const message = succeeded ? 'Link copied!' : 'Copy failed. Select and copy the address manually.'
+        const message = clientTranslate(succeeded ? 'Link copied!' : 'Copy failed. Select and copy the address manually.')
 
         status.textContent = ''
 

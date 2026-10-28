@@ -188,12 +188,14 @@ const legacyRedirects: Record<string, string> = {
 
 // https://astro.build/config
 export default defineConfig({
+  i18n: { defaultLocale: 'en', locales: ['en', 'es'], routing: { prefixDefaultLocale: false } },
   redirects: legacyRedirects,
   // Editorial images are local. Leave third-party mention avatars as browser
   // requests so an unavailable author image cannot fail the static build.
   integrations: [
     icon(),
     sitemap({
+      i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
       // Draft filtering happens at route level (getStaticPaths / getCachedPosts / getAllProjects)
       // so draft pages never generate URLs and are never included in the sitemap.
       filter: page => !page.endsWith('/offline/') &&

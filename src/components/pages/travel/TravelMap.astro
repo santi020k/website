@@ -2,23 +2,32 @@
 import { Button, Card, Icon, WorldMap } from '@santi020k/lumen-astro'
 import { lumenWorldMapCountries } from '@santi020k/lumen-core/world-map-data'
 
-import { travelCountries, travelSummary } from '@/data/travel'
+import { travelSummary } from '@/data/travel'
+import { getLocale } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+import { getLocalizedTravelCountries } from '@/i18n/travel'
 
-const labels = Object.fromEntries(travelCountries.map(country => [country.code, country.name]))
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+const travelCountries = getLocalizedTravelCountries(pageLocale)
+const regionNames = new Intl.DisplayNames(['es-419'], { type: 'region' })
+const labels = pageLocale === 'es' ?
+  Object.fromEntries(lumenWorldMapCountries.map(country => [country.id, regionNames.of(country.id) ?? country.name])) :
+  Object.fromEntries(travelCountries.map(country => [country.code, country.name]))
 ---
 
 <section data-travel-explorer aria-labelledby="travel-heading">
   <div data-travel-atlas>
-    <p data-travel-hint><Icon name="mouse-pointer-2" class="size-4" /><span>Pick a highlighted country.<br />Swipe or zoom to explore.</span></p>
+    <p data-travel-hint><Icon name="mouse-pointer-2" class="size-4" /><span>{t('Pick a highlighted country.')}<br />{t('Swipe or zoom to explore.')}</span></p>
     <WorldMap
       animated={false}
       countries={lumenWorldMapCountries}
       highlightedCountries={travelCountries.map(country => country.code)}
-      label="Explore my home country and the countries I have visited"
+      label={t('Explore my home country and the countries I have visited')}
       labels={labels}
-      listLabel="Explore a country"
+      listLabel={t('Explore a country')}
       variant="dotted"
-      zoomLabels={{ reset: 'Reset' }}
+      zoomLabels={pageLocale === 'es' ? { fit: 'Ajustar países destacados', level: 'Nivel de zoom', reset: 'Restablecer', viewport: 'Vista del mapa', zoomIn: 'Acercar', zoomOut: 'Alejar' } : { reset: 'Reset' }}
     />
     <template data-travel-controls-template>
       <Card variant="unstyled" data-travel-controls>
@@ -29,8 +38,8 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
     <Card as="section" variant="unstyled" data-travel-selection aria-labelledby="travel-selected-country" hidden>
       <div data-travel-cover>
         <div data-travel-selection-header>
-          <p data-travel-category>A place in my story</p>
-          <Button aria-label="Close country details" data-travel-close size="icon" variant="ghost">
+          <p data-travel-category>{t('A place in my story')}</p>
+          <Button aria-label={t('Close country details')} data-travel-close size="icon" variant="ghost">
             <Icon name="x" class="size-4" />
           </Button>
         </div>
@@ -51,17 +60,17 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
           </p>
         </div>
         <div data-travel-places-section>
-          <h3 data-travel-places-heading>Places in my notebook</h3>
+          <h3 data-travel-places-heading>{t('Places in my notebook')}</h3>
           <ul data-travel-places role="list"></ul>
           <p data-travel-empty hidden></p>
           <p data-travel-note hidden></p>
         </div>
         <div data-travel-selection-footer>
-          <Button aria-label="Previous country" data-travel-previous size="icon" variant="ghost">
-            <Icon name="arrow-left" class="size-4" /><span data-travel-previous-label>Previous</span>
+          <Button aria-label={t('Previous country')} data-travel-previous size="icon" variant="ghost">
+            <Icon name="arrow-left" class="size-4" /><span data-travel-previous-label>{t('Previous')}</span>
           </Button>
           <Button data-travel-next variant="ghost">
-            <span data-travel-next-copy><span>Next country</span>{' '}<span data-travel-next-country></span></span>
+            <span data-travel-next-copy><span>{t('Next country')}</span>{' '}<span data-travel-next-country></span></span>
             <span data-travel-next-arrow><Icon name="arrow-right" class="size-4" /></span>
           </Button>
         </div>
@@ -70,19 +79,22 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
   </div>
   <header data-travel-intro>
     <div>
-      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>Travel &amp; life abroad</p>
-      <h1 id="travel-heading">A life in<br /><span class="maker-hero-emphasis">more than one place.</span></h1>
+      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>{t('Travel & life abroad')}</p>
+      <h1 id="travel-heading">{t('A life in')}<br /><span class="
+        maker-hero-emphasis
+      "
+                                                    >{t('more than one place.')}</span></h1>
     </div>
     <div data-travel-context>
-      <p>Colombian roots. A resident of Paraguay.<br />A growing collection of places and stories.</p>
-      <dl data-travel-counts aria-label={`${travelSummary.countriesAbroad} countries visited abroad and ${travelSummary.countryVisits} country visits`}>
-        <div><dt>countries abroad</dt><dd>{travelSummary.countriesAbroad}</dd></div>
-        <div><dt>visits</dt><dd>{travelSummary.countryVisits}</dd></div>
+      <p>{t('Colombian roots. A resident of Paraguay.')}<br />{t('A growing collection of places and stories.')}</p>
+      <dl data-travel-counts aria-label={pageLocale === 'es' ? `${travelSummary.countriesAbroad} países visitados en el extranjero y ${travelSummary.countryVisits} visitas` : `${travelSummary.countriesAbroad} countries visited abroad and ${travelSummary.countryVisits} country visits`}>
+        <div><dt>{t('countries abroad')}</dt><dd>{travelSummary.countriesAbroad}</dd></div>
+        <div><dt>{t('visits')}</dt><dd>{travelSummary.countryVisits}</dd></div>
       </dl>
     </div>
   </header>
   <p aria-live="polite" aria-atomic="true" class="sr-only" data-travel-announcement></p>
-  <noscript><p class="px-6 pb-6 text-sm text-ink-soft">Explore all countries and places in the travel notebook below. The interactive map needs JavaScript.</p></noscript>
+  <noscript><p class="px-6 pb-6 text-sm text-ink-soft">{t('Explore all countries and places in the travel notebook below. The interactive map needs JavaScript.')}</p></noscript>
 </section>
 
 <style>
@@ -387,9 +399,13 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
 </style>
 
 <script>
-  import { getTravelVisitLabel, travelCountries } from '@/data/travel'
+  import { getLocale } from '@/i18n'
+  import { getLocalizedTravelCountries, getLocalizedVisitLabel, getTravelControlCopy } from '@/i18n/travel'
 
   const initializeTravelMap = () => {
+    const locale = getLocale(window.location.pathname)
+    const travelCountries = getLocalizedTravelCountries(locale)
+    const copy = getTravelControlCopy(locale)
     const explorer = document.querySelector<HTMLElement>('[data-travel-explorer]')
 
     if (!explorer || explorer.dataset.bound === 'true') return
@@ -444,7 +460,7 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
 
       const placeholder = chooser.querySelector('option[value=""]')
 
-      if (placeholder) placeholder.textContent = 'Choose…'
+      if (placeholder) placeholder.textContent = locale === 'es' ? 'Elige…' : 'Choose…'
     }
 
     // Keep Lumen's native selector and events, prioritizing the actual notebook.
@@ -452,9 +468,9 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
     const remaining = document.createElement('optgroup')
     const options = [...chooser.options]
 
-    notebook.label = 'My notebook'
+    notebook.label = locale === 'es' ? 'Mi cuaderno' : 'My notebook'
 
-    remaining.label = 'More countries to discover'
+    remaining.label = locale === 'es' ? 'Más países por descubrir' : 'More countries to discover'
 
     for (const country of travelCountries) {
       const option = options.find(entry => entry.value === country.code)
@@ -531,7 +547,7 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
 
       chooser.dispatchEvent(new Event('change', { bubbles: true }))
 
-      announcement.textContent = 'Country details closed.'
+      announcement.textContent = copy.closed
 
       if (restoreFocus) {
         viewport.focus({ preventScroll: true })
@@ -588,29 +604,29 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
       const previous = adjacentCountry(-1)
       const next = adjacentCountry(1)
 
-      previousButton.setAttribute('aria-label', previous ? `Previous country: ${previous.name}` : 'Previous country')
+      previousButton.setAttribute('aria-label', previous ? `${copy.previous}: ${previous.name}` : copy.previous)
 
       nextCountry.textContent = next?.name ?? ''
 
-      heading.textContent = country?.name ?? ('label' in detail && typeof detail.label === 'string' ? detail.label : 'More places to discover')
+      heading.textContent = country?.name ?? ('label' in detail && typeof detail.label === 'string' ? detail.label : copy.discover)
 
-      category.textContent = country ? 'A place in my story' : 'Beyond the notebook'
+      category.textContent = country ? copy.story : copy.beyond
 
       code.textContent = selectedCode
 
-      if (country?.connection === 'home') category.textContent = 'Where my story begins'
+      if (country?.connection === 'home') category.textContent = copy.home
 
-      if (country?.connection === 'resident') category.textContent = 'Country of residence'
+      if (country?.connection === 'resident') category.textContent = copy.residence
 
-      const visitDescription = country ? getTravelVisitLabel(country) : 'No entry in my travel journal'
+      const visitDescription = country ? getLocalizedVisitLabel(country, locale) : copy.noEntry
 
       visitTotal.hidden = typeof country?.visits !== 'number'
 
       visitTotal.textContent = country?.visits?.toString() ?? ''
 
-      visitLabel.textContent = country && country.visits !== null ? ` ${country.visits === 1 ? 'visit' : 'visits'}` : visitDescription
+      visitLabel.textContent = country && country.visits !== null ? ` ${country.visits === 1 ? copy.visit : copy.visits}` : visitDescription
 
-      visitContext.textContent = country?.connection === 'resident' ? ' · Country of residence' : ''
+      visitContext.textContent = country?.connection === 'resident' ? ` · ${copy.residence}` : ''
 
       places.replaceChildren(...(country?.places ?? []).map((place, index) => {
         const item = document.createElement('li')
@@ -636,7 +652,7 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
 
       placesHeading.hidden = places.hidden
 
-      empty.textContent = country?.connection === 'home' ? 'I’m from Colombia. This is where my story begins.' : 'Choose a highlighted country to explore the places I have visited.'
+      empty.textContent = country?.connection === 'home' ? copy.from : copy.choose
 
       empty.hidden = !places.hidden
 

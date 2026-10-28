@@ -1,6 +1,31 @@
+import:
+  - '@cspell/dict-es-es/cspell-ext.json'
+
 version: "0.2"
-language: en,es
+language: en,es,es_ES
 words:
+  - cloudflare
+  - Coorganizador
+  - coorganizador
+  - coorganizar
+  - Coorganizo
+  - Cofundé
+  - mentoría
+  - rediseño
+  - Reintenta
+  - mídela
+  - sénior
+  - Iguazú
+  - spanish
+  - postlens
+  - iphone
+  - datagran
+  - justbit
+  - colombia
+  - molina
+  - montserrat
+  - Súmate
+  - cópialo
   - apng
   - lhci
   - keyshortcuts

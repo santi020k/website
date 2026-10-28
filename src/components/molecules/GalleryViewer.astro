@@ -3,6 +3,8 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { Button, ButtonLink, Dialog, DialogClose, DialogTitle, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, translate } from '@/i18n'
+
 interface Props {
   id: string
   title: string
@@ -11,9 +13,13 @@ interface Props {
 }
 
 const { id, title, caption, source } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translate(locale, text)
+
 ---
 
 <gallery-viewer
+  lang={locale}
   class="not-prose"
   data-article-figure-index={source.kind === 'article' ? source.index : undefined}
   style={source.kind === 'asset' ? `--viewer-image-width: ${source.width}px` : undefined}
@@ -21,33 +27,33 @@ const { id, title, caption, source } = Astro.props
   <div data-gallery-actions>
     {source.kind === 'asset' && (
 <ButtonLink
-      ariaLabel={`View larger: ${title}`}
+      ariaLabel={translate(locale, 'View larger: {title}', { title })}
       data-gallery-fallback
       data-gallery-control
       href={source.kind === 'asset' ? source.src : ''}
       newTab
       variant="unstyled"
-><Icon name="expand" class="size-4" />View larger</ButtonLink>
+><Icon name="expand" class="size-4" />{t('View larger')}</ButtonLink>
 )}
     <Button
-      aria-label={`View larger: ${title}`}
+      aria-label={translate(locale, 'View larger: {title}', { title })}
       data-gallery-control
       data-gallery-open
       data-ui-dialog-trigger={id}
       hidden
       variant="outline"
-    ><Icon name="expand" class="size-4" />View larger</Button>
+    ><Icon name="expand" class="size-4" />{t('View larger')}</Button>
   </div>
 
   <Dialog aria-labelledby={`${id}-title`} data-gallery-dialog id={id}>
     <div data-gallery-heading>
       <DialogTitle id={`${id}-title`}>{title}</DialogTitle>
       <DialogClose autofocus data-gallery-control variant="outline">
-        <Icon name="x" class="size-4" />Close
+        <Icon name="x" class="size-4" />{t('Close')}
       </DialogClose>
     </div>
     <div
-      aria-label={`Image: ${title}`}
+      aria-label={translate(locale, 'Image: {title}', { title })}
       data-gallery-canvas
       data-zoomed="false"
       id={`${id}-canvas`}
@@ -55,12 +61,12 @@ const { id, title, caption, source } = Astro.props
       tabindex="0"
     ></div>
     <div data-gallery-tools>
-      <p aria-live="polite" data-gallery-status>Loading image…</p>
+      <p aria-live="polite" data-gallery-status>{t('Loading image…')}</p>
       <Button aria-controls={`${id}-canvas`} data-gallery-control data-gallery-zoom variant="outline">
-        <Icon name="zoom-in" class="size-4" /><span data-gallery-zoom-label>Inspect detail</span>
+        <Icon name="zoom-in" class="size-4" /><span data-gallery-zoom-label>{t('Inspect detail')}</span>
       </Button>
       <ButtonLink data-gallery-error-link data-gallery-control hidden href={source.kind === 'asset' ? source.src : ''} newTab variant="unstyled">
-        <ArrowExchange direction="up-right" class="size-4" />Open original image
+        <ArrowExchange direction="up-right" class="size-4" />{t('Open original image')}
       </ButtonLink>
     </div>
     {caption && <p data-gallery-caption>{caption}</p>}

@@ -1,6 +1,8 @@
 ---
 import { Button, Empty, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, translate } from '@/i18n'
+
 interface Props {
   state?: 'empty' | 'idle' | 'error'
 }
@@ -32,6 +34,9 @@ const content = {
 } as const
 
 const { title, description, icon, action, actionIcon } = content[state]
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translate(locale, text)
+
 ---
 
 <li data-site-search-recovery-row>
@@ -40,8 +45,8 @@ const { title, description, icon, action, actionIcon } = content[state]
       <Icon class="size-6" name={icon} />
     </span>
     <div data-site-search-recovery-copy>
-      <h3 data-site-search-recovery-title>{title}</h3>
-      <p data-site-search-recovery-description>{description}</p>
+      <h3 data-site-search-recovery-title>{t(title)}</h3>
+      <p data-site-search-recovery-description>{t(description)}</p>
     </div>
     {action && (
       <div data-site-search-recovery-actions>
@@ -52,7 +57,7 @@ const { title, description, icon, action, actionIcon } = content[state]
           type="button"
         >
           <span data-site-search-recovery-action-content>
-            <span>{action}</span>
+            <span>{t(action)}</span>
             <Icon class="size-4" name={actionIcon} />
           </span>
         </Button>

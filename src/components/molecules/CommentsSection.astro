@@ -19,9 +19,12 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
  */
 import { Collapsible, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, translate } from '@/i18n'
 import { siteConfig } from '@/site.config'
 
 const { giscus } = siteConfig
+const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
+
 ---
 
 {giscus && (
@@ -35,21 +38,21 @@ const { giscus } = siteConfig
   >
     <div data-discussion-invitation>
       <header data-discussion-header>
-        <h2 id="comments-heading">Comments</h2>
+        <h2 id="comments-heading">{t('Comments')}</h2>
       </header>
       <div data-discussion-body>
-        <p data-discussion-lead>Join the conversation.</p>
-        <p>Read replies, ask a question, or share another perspective.</p>
+        <p data-discussion-lead>{t('Join the conversation.')}</p>
+        <p>{t('Read replies, ask a question, or share another perspective.')}</p>
         <Collapsible data-discussion-fold>
           <summary data-discussion-summary>
-            <span data-discussion-open-label>Open discussion</span>
-            <span data-discussion-close-label>Hide discussion</span>
+            <span data-discussion-open-label>{t('Open discussion')}</span>
+            <span data-discussion-close-label>{t('Hide discussion')}</span>
             <Icon name="chevron-down" class="size-4 shrink-0" />
           </summary>
           <noscript>
-            <p data-discussion-noscript>Browse GitHub discussions below to read replies or add a comment.</p>
+            <p data-discussion-noscript>{t('Browse GitHub discussions below to read replies or add a comment.')}</p>
           </noscript>
-          <p data-giscus-loading role="status" hidden>Loading discussion…</p>
+          <p data-giscus-loading role="status" hidden>{t('Loading discussion…')}</p>
           <!-- Render the empty live region before a load failure fills it. -->
           <p aria-live="polite" data-giscus-error role="status"></p>
           <div data-giscus-mount></div>
@@ -60,7 +63,7 @@ const { giscus } = siteConfig
             rel="noopener noreferrer"
             target="_blank"
           >
-            <span>Browse GitHub discussions</span>
+            <span>{t('Browse GitHub discussions')}</span>
             <ArrowExchange direction="up-right" class="size-4 shrink-0" />
           </a>
         </footer>

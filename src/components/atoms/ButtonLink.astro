@@ -3,6 +3,8 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { ButtonLink as LumenButtonLink } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+
 interface Props {
   ariaLabel?: string
   className?: string
@@ -34,7 +36,7 @@ const {
     className
   ]}
   data-text-link={variant === 'inline' ? '' : undefined}
-  href={href}
+  href={localizePath(href, getLocale(Astro.url.pathname))}
   newTab={newTab}
   variant="unstyled"
 >
