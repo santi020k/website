@@ -6,7 +6,6 @@ import type { CollectionEntry } from 'astro:content'
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
@@ -55,6 +54,13 @@ const postCount = page.total
 const isFirstPage = page.currentPage === 1
 const topicLabel = getBlogTopicLabel(tag)
 const archiveDescription = t(`Articles, guides, and personal notes about ${topicLabel}.`)
+let postRange = `0 ${t('posts')}`
+
+if (page.data.length > 0) {
+  postRange = postCount === 1 ?
+`1 ${t('post')}` :
+    t(`Posts ${page.start + 1}–${page.end + 1} of ${postCount}`)
+}
 
 const breadcrumbs = [
   { name: t('Home'), url: localizePath('/', locale) },
@@ -105,21 +111,16 @@ data-topic-archive-opening
   </section>
 
   <section
+    aria-labelledby="topic-posts-heading"
     class="section-container-wide page-section-space"
+    data-topic-reading
   >
-    <SectionHeader
-      description={isFirstPage ?
-        t('Start with the latest post, then browse the rest.') :
-        t(`Browse earlier posts about ${topicLabel}.`)}
-      eyebrow={isFirstPage ? t('Latest') : t(`Page ${page.currentPage} of ${page.lastPage}`)}
-      title={t(`Posts about ${topicLabel}`)}
-    />
+    <header data-topic-reading-caption>
+      <h2 id="topic-posts-heading">{t(isFirstPage ? 'Latest writing' : 'Earlier writing')}</h2>
+      <p data-topic-reading-range>{postRange}</p>
+    </header>
 
-    <div class="
-      mt-10 space-y-8
-      sm:mt-12
-    "
-    >
+    <div class="space-y-8">
       <TagFilter activeTag={tag} tags={topTags} totalTopics={totalTopics} />
 
       {page.data.length > 0 ?
@@ -149,6 +150,33 @@ data-topic-archive-opening
 </PageLayout>
 
 <style>
+  [data-topic-reading] { container: topic-reading / inline-size; }
+  [data-topic-reading-caption] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .75rem 1.75rem;
+    padding-bottom: 1.25rem;
+  }
+  [data-topic-reading-caption] h2 {
+    min-width: 0;
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -.045em;
+  }
+  [data-topic-reading-range] {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.8;
+  }
+  @container topic-reading (width < 26rem) {
+    [data-topic-reading-caption] h2 { font-size: 1.625rem; }
+  }
   [data-topic-archive-opening] {
     --topic-archive-accent: hsl(var(--brand));
     container: topic-archive / inline-size;

@@ -77,6 +77,7 @@ export const collectionCopy: Record<string, string> = {
   'Distinct topics across the full writing archive.': 'Temas distintos en todo el archivo de artículos.',
   Draft: 'Borrador',
   Duration: 'Duración',
+  'Earlier writing': 'Artículos anteriores',
   'Each series is a self-contained reading track — start at post one, follow the thread, finish with a complete mental model.': 'Cada serie es un recorrido de lectura: empieza por el primer artículo, sigue el hilo y termina con una visión completa.',
   'Each topic opens a filtered archive page with the related posts.': 'Cada tema abre una página del archivo con sus artículos relacionados.',
   'Explore articles, guides, and personal notes on this topic.': 'Explora artículos, guías y notas personales sobre este tema.',
@@ -113,6 +114,7 @@ export const collectionCopy: Record<string, string> = {
   Latest: 'Lo más reciente',
   'Latest blog posts': 'Artículos recientes del blog',
   'Latest first': 'Más recientes primero',
+  'Latest writing': 'Artículos recientes',
   'Matching technologies': 'Tecnologías coincidentes',
   'Meetups, workshops, and mentorship that help engineers learn and connect.': 'Encuentros, talleres y acompañamiento para aprender y conectar entre profesionales de ingeniería.',
   Metrics: 'Métricas',
@@ -365,6 +367,7 @@ export const translateCollection = (text: string): string => {
   if (exact) return exact
 
   return text
+    .replace(/^Posts (\d+)–(\d+) of (\d+)$/u, 'Artículos $1–$2 de $3')
     .replace(/^(.+) is the most explored topic\.$/u, '$1 es el tema más explorado.')
     .replace(/^Visit (.+)$/u, 'Visitar $1')
     .replace(/^View (.+) archive$/u, 'Ver el archivo de $1')
