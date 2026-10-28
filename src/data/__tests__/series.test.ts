@@ -113,7 +113,30 @@ describe('series publication and navigation', () => {
     posts.push(draft)
     const { getSeriesContext, getSeriesSummaries } = await import('../series')
 
-    expect((await getSeriesSummaries()).map(summary => summary.series.id)).toEqual(['draft', 'empty'])
+    expect((await getSeriesSummaries()).map(summary => ({ id: summary.series.id, minutes: summary.readingMinutes })))
+      .toEqual([{ id: 'draft', minutes: 1 }, { id: 'empty', minutes: 0 }])
     expect(await getSeriesContext(draft)).toMatchObject({ position: 1, total: 1, series: { id: 'draft' } })
+  })
+
+  test('sums rounded chapter durations and excludes unpublished or unrelated articles', async () => {
+    series.push(makeSeries('public'))
+    posts.push(
+      { ...makePost('first', 'public'), body: 'word '.repeat(201) },
+      { ...makePost('second', 'public'), body: 'word '.repeat(201) },
+      { ...makePost('draft', 'public', { draft: true }), body: 'word '.repeat(1000) },
+      { ...makePost('scheduled', 'public', { publishDate: new Date('2027-01-01') }), body: 'word '.repeat(1000) },
+      { ...makePost('unrelated', 'other'), body: 'word '.repeat(1000) }
+    )
+    const { getSeriesSummaries } = await import('../series')
+
+    expect(await getSeriesSummaries()).toMatchObject([{ postCount: 2, readingMinutes: 4 }])
+  })
+
+  test('retains the one-minute chapter minimum for empty or missing bodies', async () => {
+    series.push(makeSeries('public'))
+    posts.push(makePost('missing', 'public'), { ...makePost('empty', 'public'), body: '' })
+    const { getSeriesSummaries } = await import('../series')
+
+    expect(await getSeriesSummaries()).toMatchObject([{ postCount: 2, readingMinutes: 2 }])
   })
 })
