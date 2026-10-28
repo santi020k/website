@@ -338,7 +338,17 @@ and a narrower one-column focus list, separated by a fine vertical rule. Below t
 stack the introduction before the focus list and replace the vertical rule with a top
 rule. The list can use two columns while its own width permits; keep all topic labels,
 numbering, and order. Decorative numbers stay hidden from assistive technology.
-Do not add a second card surface or keyboard stops; empty focus lists stay omitted.
+**Focus links** connects matching areas to published Blog topic archives. Add the
+localized “Explore these topics across the Blog.” guidance below the heading when
+links exist. Keep each original label and number, with a right-facing ArrowExchange
+for linked rows. Use an 18px / flexible label / 16px grid, 12px gaps, and the existing
+responsive row padding. The full row is a native link, with a visible focus outline
+and accent label on hover or focus. Resolve topics by their display names, ignoring
+case, spaces, and separator punctuation; preserve the real archive slug. Exclude
+draft and scheduled posts. Ambiguous or unmatched areas remain plain and have no
+arrow or keyboard stop. Never guess an archive URL. Keep English authored labels
+in both locales and localize guidance and destinations. Do not add a second card
+surface; empty focus lists stay omitted. No new client JavaScript is needed.
 
 ### Series chapter rows
 

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { getAdjacentSeriesPosts, sortSeriesPosts } from '../series'
+import { getAdjacentSeriesPosts, getSeriesFocusAreas, sortSeriesPosts } from '../series'
 
 const expectDefined = <T>(value: T | undefined): T => {
   expect(value).toBeDefined()
@@ -18,6 +18,62 @@ const buildPost = (id: string, publishDate: string, seriesOrder?: number) => ({
     seriesOrder
   },
   id
+})
+
+describe('getSeriesFocusAreas', () => {
+  const now = new Date('2026-10-28T12:00:00Z')
+  const published = (tags: string[]) => ({ data: { publishDate: new Date('2026-10-01'), tags } })
+
+  test('preserves authored labels and order while matching real archive display names', () => {
+    expect(getSeriesFocusAreas(['Next.js', 'CI-CD', 'Developer Experience', 'Delivery Systems'], [
+      published(['nextjs', 'ci-cd', 'developer-experience'])
+    ], now)).toEqual([
+      { label: 'Next.js', tag: 'nextjs' },
+      { label: 'CI-CD', tag: 'ci-cd' },
+      { label: 'Developer Experience', tag: 'developer-experience' },
+      { label: 'Delivery Systems', tag: undefined }
+    ])
+  })
+
+  test('does not link to draft-only, future-only, or absent topic archives', () => {
+    const posts = [
+      { data: { draft: true, publishDate: new Date('2026-10-01'), tags: ['testing'] } },
+      { data: { publishDate: new Date('2026-10-29'), tags: ['typescript'] } }
+    ]
+
+    expect(getSeriesFocusAreas(['Testing', 'TypeScript', 'Architecture'], posts, now)
+      .every(area => area.tag === undefined)).toBe(true)
+  })
+
+  test('deduplicates repeated tags and allows a topic with at least one published article', () => {
+    expect(getSeriesFocusAreas(['Testing'], [
+      published(['testing', 'testing']),
+      published(['testing']),
+      { data: { draft: true, publishDate: now, tags: ['testing'] } }
+    ], now)).toEqual([{ label: 'Testing', tag: 'testing' }])
+  })
+
+  test('leaves ambiguous normalized topic names plain instead of choosing arbitrarily', () => {
+    expect(getSeriesFocusAreas(['Next.js'], [published(['nextjs', 'next-js'])], now))
+      .toEqual([{ label: 'Next.js', tag: undefined }])
+  })
+
+  test('does not confuse language names with significant plus and hash punctuation', () => {
+    expect(getSeriesFocusAreas(['C', 'C++', 'C#'], [published(['c'])], now)).toEqual([
+      { label: 'C', tag: 'c' }, { label: 'C++', tag: undefined }, { label: 'C#', tag: undefined }
+    ])
+  })
+
+  test('handles empty collections and leaves its inputs unchanged', () => {
+    const areas = [' Testing ', 'NEXT.JS']
+    const posts = [published(['nextjs', 'testing'])]
+    const original = structuredClone({ areas, posts })
+
+    expect(getSeriesFocusAreas(areas, posts, now).map(area => area.tag)).toEqual(['testing', 'nextjs'])
+    expect({ areas, posts }).toEqual(original)
+    expect(getSeriesFocusAreas([], posts, now)).toEqual([])
+    expect(getSeriesFocusAreas(['Testing'], [], now)).toEqual([{ label: 'Testing', tag: undefined }])
+  })
 })
 
 // ─── sortSeriesPosts ──────────────────────────────────────────────────────────

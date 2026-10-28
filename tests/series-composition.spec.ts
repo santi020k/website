@@ -19,7 +19,7 @@ for (const theme of ['light', 'dark'] as const) {
 
       expect(destinations.length).toBeGreaterThan(1)
       await expect(focus.getByRole('list')).toBeVisible()
-      await expect(focus.getByRole('link')).toHaveCount(0)
+      await expect(focus.getByRole('link')).toHaveCount(slug === 'building-a-production-nextjs-app' ? 4 : 3)
       const heading = requireValue(await introduction.getByRole('heading').boundingBox())
       const focusHeading = requireValue(await focus.getByRole('heading').boundingBox())
 

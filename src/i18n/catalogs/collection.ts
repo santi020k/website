@@ -150,6 +150,7 @@ export const collectionMessages = {
   'collection.findRelatedWritingFast': { en: 'Find related writing fast.', es: 'Encuentra artículos relacionados.' },
   'collection.focus': { en: 'Focus', es: 'Enfoque' },
   'collection.focusAreas': { en: 'Focus areas', es: 'Áreas de enfoque' },
+  'series.exploreFocusTopics': { en: 'Explore these topics across the Blog.', es: 'Explora estos temas en el Blog.' },
   'collection.followASeries': { en: 'Follow a series', es: 'Seguir una serie' },
   'collection.followItIntoTheWork': { en: 'Follow it into the work.', es: 'Descubre cómo las uso.' },
   'collection.followRelatedPosts': { en: 'Follow related posts', es: 'Seguir artículos relacionados' },
