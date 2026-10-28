@@ -25,6 +25,10 @@ const sections = headings.filter(heading => heading.depth === 2)
 
     return (
       <div data-section-reference-for={slug}>
+        <span aria-hidden="true" data-section-arrival>
+          <Icon name="corner-down-right" />
+          <span>Linked section</span>
+        </span>
         <Button
           id={buttonId}
           data-section-copy
@@ -55,6 +59,36 @@ const sections = headings.filter(heading => heading.depth === 2)
 </div>
 
 <script>
+  const selectSectionArrival = (hash = window.location.hash) => {
+    let fragment = hash.slice(1)
+
+    try {
+      fragment = decodeURIComponent(fragment)
+    } catch {
+      // Keep literal percent signs usable as fragment identifiers.
+    }
+
+    for (const row of document.querySelectorAll('[data-section-reference-row]')) {
+      row.toggleAttribute('data-section-arrived', Boolean(fragment) && row.querySelector('h2')?.id === fragment)
+    }
+  }
+
+  const followSectionArrival = () => selectSectionArrival()
+
+  const onSectionLink = (event: MouseEvent) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+
+    const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null
+
+    if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return
+
+    // Prepare the destination before Astro's same-page fragment scroll.
+    if (
+      link.origin === window.location.origin && link.pathname === window.location.pathname &&
+      link.search === window.location.search
+    ) selectSectionArrival(link.hash)
+  }
+
   const placeSectionReferences = () => {
     for (const control of document.querySelectorAll<HTMLElement>('[data-section-reference-controls] > [data-section-reference-for]')) {
       const heading = document.getElementById(control.dataset.sectionReferenceFor ?? '')
@@ -67,17 +101,29 @@ const sections = headings.filter(heading => heading.depth === 2)
 
       heading.before(row)
 
+      const arrival = control.querySelector('[data-section-arrival]')
+
+      if (arrival) row.append(arrival)
+
       row.append(heading, control)
 
       const recovery = control.querySelector('[data-section-recovery-container]')
 
       if (recovery) row.append(recovery)
     }
+
+    followSectionArrival()
   }
 
   placeSectionReferences()
 
   document.addEventListener('astro:page-load', placeSectionReferences)
+
+  document.addEventListener('click', onSectionLink, true)
+
+  window.addEventListener('hashchange', followSectionArrival)
+
+  window.addEventListener('popstate', followSectionArrival)
 </script>
 
 <style>
@@ -139,6 +185,56 @@ const sections = headings.filter(heading => heading.depth === 2)
   }
 
   [data-section-copy-feedback]:empty { display: none; }
+  [data-section-arrival] { display: none; }
+
+  @media screen {
+    :global([data-section-reference-row] > h2[data-article-section-heading]) { scroll-margin-block-start: 4rem; }
+
+    :global([data-section-reference-row][data-section-arrived]) {
+      --section-arrival-accent: hsl(var(--brand));
+    }
+
+    :global(:root[data-theme='dark'] [data-section-reference-row][data-section-arrived]) {
+      --section-arrival-accent: hsl(var(--accent));
+    }
+
+    :global([data-section-reference-row][data-section-arrived]) > [data-section-arrival] {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      grid-column: 1;
+      grid-row: 1;
+      min-width: 0;
+      padding-block-end: .625rem;
+      padding-inline-start: 1rem;
+      border-inline-start: 2px solid var(--section-arrival-accent);
+      color: var(--section-arrival-accent);
+      font: 500 .75rem/1.6 var(--font-sans);
+    }
+
+    [data-section-arrival] :global(svg) { flex-shrink: 0; width: .875rem; height: .875rem; }
+
+    :global([data-section-reference-row][data-section-arrived] > h2[data-article-section-heading]) {
+      grid-column: 1;
+      grid-row: 2;
+      padding-inline-start: 1rem;
+      border-inline-start: 2px solid var(--section-arrival-accent);
+    }
+
+    :global([data-section-reference-row][data-section-arrived] > h2[data-article-section-heading])::after { display: none; }
+
+    :global([data-section-reference-row][data-section-arrived]) > [data-section-reference-for] {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
+
+    :global([data-section-reference-row][data-section-arrived]) > [data-section-recovery-container] { grid-row: 3; }
+
+    @container article-prose (width < 16rem) {
+      :global([data-section-reference-row][data-section-arrived]) > [data-section-reference-for] { grid-column: 1; grid-row: 3; }
+      :global([data-section-reference-row][data-section-arrived]) > [data-section-recovery-container] { grid-row: 4; }
+    }
+  }
 
   @container article-prose (width < 32rem) {
     :global([data-article-prose] > [data-section-reference-row]) { column-gap: .75rem; }
