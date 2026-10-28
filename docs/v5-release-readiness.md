@@ -1798,5 +1798,24 @@ assembly passed. Resume freshness passes without regeneration. The existing
 optional Workspace Organizer sitemap skip remains. The publication Changeset and
 the already-integrated homepage's pending Changeset are folded into 5.0.0 while
 published notes remain unchanged. The latest full workspace gate retained by the
-coordinator is `b6dce4e5`; this follow-up uses affected checks. The separate typed
+coordinator is `34d97a2d`; this follow-up uses affected checks. The separate typed
 translation migration must preserve both sharing actions and recovery placements.
+
+## Full validation at homepage integration
+
+The isolated `pnpm run verify:fast` run completed with exit code 0 on exact
+homepage integration commit `34d97a2d` on October 28, 2026. Its retained log and
+structured evidence were inspected by the release coordinator. It passed
+zero-warning lint across the current site, archives, and motion package; strict
+Astro checks with zero diagnostics; spelling, Markdown, content, and resume
+freshness checks; 1,046 unit tests; seven motion tests; and all five site builds.
+The archive audit verified 1,288 pages, and the built-page audit checked 2,194
+documents and 8,606 local targets with zero errors. All 51 homepage browser tests
+also passed against that merged production build.
+
+This is the latest verified full workspace gate and supersedes `b6dce4e5` as the
+full-validation baseline. Git ancestry confirms it is contained in Publication
+sharing integration `90991ea7`, whose newer changes retain their separate 80-case
+browser run and affected lint, type, build, visual, and accessibility checks above.
+Firefox remains unverified because the local browser cannot find its profile
+folder. These are local validation results; no push or deployment occurred.
