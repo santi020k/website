@@ -1,14 +1,9 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { RevealGroup } from '@santi020k/lumen-astro'
+import { Link, RevealGroup } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
 import { getLocale, localizePath } from '@/i18n'
@@ -28,50 +23,41 @@ const breadcrumbs = [
 ---
 
 <PageLayout
-mainClass="remaining-pages"
+mainClass="remaining-pages series-index-page"
   meta={{
     breadcrumbs,
     description: 'Grouped reading tracks for Santiago Molina\'s writing on architecture, tooling, testing, and delivery systems.',
     title: t('collection.blogSeriesSantiagoMolina')
   }}
 >
-  <PageHero
-    description={t('collection.groupedReadingPathsFollowATopic')}
-    eyebrow="Series"
-    gradientText="in order."
-    metaItems={[t('collection.readingTracks'), t('collection.practicalSequence'), t('collection.connectedIdeas')]}
-    title={t('collection.followRelatedPosts')}
-  >
-    <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('collection.backToBlog')}</ButtonLink>
-  </PageHero>
+  <section aria-labelledby="series-index-heading" class="section-container-wide" data-series-index-opening>
+    <Link data-series-index-return data-text-link href={localizePath('/blog/', locale)} variant="inherit">
+      <ArrowExchange class="size-4 shrink-0" direction="left" />
+      <span data-text-link-label>{t('collection.backToBlog')}</span>
+    </Link>
+    <div data-series-index-spread>
+      <div>
+        <h1 id="series-index-heading">{t('collection.blogSeries')}. <span>{t('series.followThread')}</span></h1>
+        <p data-series-index-description>{t('series.indexDescription')}</p>
+      </div>
+      <dl data-series-index-totals>
+        <div>
+          <dt>{t(activeSeries.length === 1 ? 'series.activeSingular' : 'collection.activeSeries')}</dt>
+          <dd>{activeSeries.length}</dd>
+        </div>
+        <div>
+          <dt>{t(postsGroupedIntoSeries === 1 ? 'series.articleToExplore' : 'series.articlesToExplore')}</dt>
+          <dd>{postsGroupedIntoSeries}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
 
-  <StatsGrid columns={3}>
-    <StatCard
-      description={t('collection.ongoingReadingTracksWithAtLeast')}
-      icon="library"
-label={t('collection.activeSeries')}
-      value={activeSeries.length}
-    />
-    <StatCard
-      description={t('collection.postsThatBelongToASeries')}
-      icon="files"
-label={t('collection.postsGrouped')}
-      value={postsGroupedIntoSeries}
-    />
-    <StatCard
-      description={t('collection.publishedReadingTracksIncludingActiveAnd')}
-      icon="book-open"
-label={t('collection.readingTracks')}
-      value={seriesSummaries.filter(item => item.postCount > 0).length}
-    />
-  </StatsGrid>
-
-  <PageSection layout="stacked">
-    <SectionHeader
-      description={t('collection.eachSeriesIsASelfContained')}
-      eyebrow="Series"
-      title={t('collection.currentSeriesOnTheSite')}
-    />
+  <section aria-labelledby="series-list-heading" class="section-container-wide" data-page-section="stacked" data-series-index-collection>
+    <header data-series-index-caption>
+      <h2 id="series-list-heading">{t('series.chooseSeries')}</h2>
+      <p>{t('series.readingGuidance')}</p>
+    </header>
 
     <RevealGroup
       class="
@@ -86,5 +72,103 @@ label={t('collection.readingTracks')}
         <SeriesCard postCount={item.postCount} series={item.series} />
       ))}
     </RevealGroup>
-  </PageSection>
+  </section>
 </PageLayout>
+
+<style>
+  :global(.series-index-page) { row-gap: 0; }
+  [data-series-index-opening] {
+    --series-index-accent: hsl(var(--brand));
+    container: series-index / inline-size;
+    padding-top: 1rem;
+  }
+  :global([data-theme='dark']) [data-series-index-opening] { --series-index-accent: hsl(var(--accent)); }
+  :global([data-series-index-return]) {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: 2.75rem;
+    max-width: 100%;
+    color: hsl(var(--ink-soft));
+    font-size: .8125rem;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  [data-series-index-spread] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 12rem;
+    align-items: start;
+    gap: 2rem;
+    margin-top: 1.75rem;
+  }
+  [data-series-index-opening] h1 {
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 2.625rem;
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -.055em;
+    overflow-wrap: anywhere;
+  }
+  [data-series-index-opening] h1 span { display: block; }
+  [data-series-index-description] {
+    max-width: 56ch;
+    margin: 1.25rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .9375rem;
+    line-height: 1.8;
+  }
+  [data-series-index-totals] {
+    display: grid;
+    gap: 1.75rem;
+    margin: 0;
+    padding-left: 1.5rem;
+    border-left: 1px solid hsl(var(--line));
+  }
+  [data-series-index-totals] > div { display: flex; flex-direction: column; min-width: 0; }
+  [data-series-index-totals] dt {
+    margin-top: .5rem;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.8;
+  }
+  [data-series-index-totals] dd {
+    order: -1;
+    margin: 0;
+    color: var(--series-index-accent);
+    font-size: 2.375rem;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -.04em;
+    overflow-wrap: anywhere;
+  }
+  [data-series-index-collection] {
+    margin-top: 2.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+  [data-series-index-caption] { margin-bottom: 2rem; }
+  [data-series-index-caption] h2 { margin: 0; font-size: 1.75rem; }
+  [data-series-index-caption] p {
+    margin: .875rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .875rem;
+    line-height: 1.8;
+  }
+  @container series-index (width < 38rem) {
+    [data-series-index-spread] { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    [data-series-index-totals] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      padding: 1.25rem 0 0;
+      border-left: 0;
+      border-top: 1px solid hsl(var(--line));
+    }
+  }
+  @container series-index (width < 26rem) {
+    [data-series-index-opening] h1 { font-size: min(2.375rem, 12cqi); }
+  }
+  @container series-index (width < 16rem) {
+    [data-series-index-totals] { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

@@ -13,16 +13,19 @@ test.describe('Blog series index page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
 
-  test('should display the stats panel', async ({ page }) => {
-    const statLabels = page.locator('.ui-stat-label')
+  test('should derive its two totals from the visible series', async ({ page }) => {
+    const cards = page.locator('[data-series-card]')
+    const counts = await cards.locator('[data-series-card-meta] > span:last-child').allTextContents()
+    const articles = counts.reduce((total, label) => total + Number.parseInt(label, 10), 0)
+    const totals = page.locator('[data-series-index-totals]')
 
-    await expect(statLabels.filter({ hasText: 'Active series' })).toBeVisible()
-    await expect(statLabels.filter({ hasText: 'Posts grouped' })).toBeVisible()
-    await expect(statLabels.filter({ hasText: 'Reading tracks' })).toBeVisible()
+    await expect(totals.locator('dt')).toHaveText(['Active series', 'Articles to explore'])
+    await expect(totals.locator('dd')).toHaveText([String(await cards.count()), String(articles)])
+    await expect(page.locator('[data-stats-section]')).toHaveCount(0)
   })
 
   test('should render at least one series card', async ({ page }) => {
-    const seriesSection = page.getByRole('heading', { name: /Current series on the site/i })
+    const seriesSection = page.getByRole('heading', { name: 'Choose a series', exact: true })
     await expect(seriesSection).toBeVisible()
     const cards = page.locator('section').filter({ has: seriesSection }).locator('article')
     await expect(cards.first()).toBeVisible()
@@ -45,6 +48,68 @@ test.describe('Blog series index page', () => {
     })
   }
 })
+
+for (const locale of ['en', 'es'] as const) {
+  const prefix = locale === 'es' ? '/es' : ''
+  const heading = locale === 'es' ? 'Series del blog. Sigue el hilo.' : 'Blog series. Follow the thread.'
+
+  for (const theme of ['light', 'dark'] as const) {
+    test(`${locale} reading brief preserves hierarchy and reflows in ${theme}`, async ({ page }) => {
+      await page.addInitScript(value => {
+        localStorage.setItem('theme', value)
+      }, theme)
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.goto(`${prefix}/blog/series/`)
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(heading)
+      await expect(page.locator('[data-series-index-totals] dt')).toHaveText(locale === 'es' ? ['Series activas', 'Artículos para explorar'] : ['Active series', 'Articles to explore'])
+      const destinations = await page.locator('[data-series-card] a').evaluateAll(links => links.map(link => link.getAttribute('href')))
+
+      for (const [width, size, sideBySide] of [[1440, '100%', true], [768, '100%', true], [390, '100%', false], [320, '200%', false]] as const) {
+        await page.setViewportSize({ width, height: 1100 })
+        await page.evaluate(value => {
+          document.documentElement.style.fontSize = value
+        }, size)
+        const geometry = await page.locator('[data-series-index-spread]').evaluate(element => {
+          const intro = element.firstElementChild?.getBoundingClientRect()
+          const totals = element.querySelector('dl')?.getBoundingClientRect()
+          if (!intro || !totals) throw new Error('Missing Series brief columns')
+
+          return {
+            sideBySide: totals.left > intro.right,
+            stacked: totals.top > intro.bottom,
+            fits: [...element.querySelectorAll('h1,p,dt,dd')].every(copy => copy.scrollWidth <= copy.clientWidth + 1)
+          }
+        })
+        expect(geometry.sideBySide).toBe(sideBySide)
+        expect(geometry.stacked).toBe(!sideBySide)
+        expect(geometry.fits).toBe(true)
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
+      }
+      expect(await page.locator('[data-series-card] a').evaluateAll(links => links.map(link => link.getAttribute('href')))).toEqual(destinations)
+      await expectNoUnexpectedAccessibilityViolations(page)
+      const back = page.locator('[data-series-index-return]')
+      await back.focus()
+      await expect(back).toHaveCSS('outline-style', 'solid')
+      await back.press('Enter')
+      await expect(page).toHaveURL(`${prefix}/blog/`)
+    })
+  }
+
+  test.describe(`${locale} reading brief without JavaScript`, () => {
+    test.use({ javaScriptEnabled: false })
+
+    test('keeps the totals and native series destination available', async ({ page }) => {
+      await page.goto(`${prefix}/blog/series/`)
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(heading)
+      await expect(page.locator('[data-series-index-totals] dd')).toHaveText(['3', '27'])
+      const first = page.locator('[data-series-card] a').first()
+      const href = await first.getAttribute('href')
+      expect(href).toMatch(new RegExp(`^${prefix}/blog/series/[^/]+/$`, 'u'))
+      await first.press('Enter')
+      await expect(page).toHaveURL(href ?? '')
+    })
+  })
+}
 
 const seriesHeadings = [
   { route: '/blog/series/building-a-production-nextjs-app/', heading: 'Building a Production Next.js App. A reading track.' },
