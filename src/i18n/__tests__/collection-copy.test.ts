@@ -3,6 +3,14 @@ import { describe, expect, test } from 'vitest'
 import { translateCollection } from '../collection-copy'
 
 describe('Spanish collection UI', () => {
+  test('translates the archive close while retaining localized count labels', () => {
+    expect(translateCollection('Beyond this topic')).toBe('Más allá de este tema')
+    expect(translateCollection('Keep exploring')).toBe('Sigue explorando')
+    expect(translateCollection('Follow another topic or return to the full writing archive.')).toBe('Sigue otro tema o vuelve al archivo completo de artículos.')
+    expect(translateCollection('Read all writing')).toBe('Leer todos los artículos')
+    expect(translateCollection('topics')).toBe('temas')
+    expect(translateCollection('posts')).toBe('artículos')
+  })
   test('translates related topic navigation and destination totals', () => {
     expect(translateCollection('Related topics')).toBe('Temas relacionados')
     expect(translateCollection('All 112 topics')).toBe('Los 112 temas')
