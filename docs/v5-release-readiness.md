@@ -1326,3 +1326,38 @@ remain unchanged.
 
 The latest full workspace gate remains the successful `10c7050c` run. Subsequent
 approved follow-ups use affected checks; no duplicate full gate is queued.
+
+## Letter close newsletter ending follow-up
+
+Approved source `92ead278`, based on `3b088eec`, combines the Blog newsletter
+introduction and native signup in one Letter close card. The first page uses a
+stacked section with one h2 and the wider-topic description inside the existing
+letter surface. That heading also names the form. The endpoint, native POST,
+email attributes, hidden embed field, new-tab behavior, frequency note, Privacy
+and RSS destinations, and existing arrow/text-link feedback are preserved.
+Later blog pages still omit the signup. The Changeset is folded into unpublished
+5.0.0, and all five retained source files match the approved commit exactly.
+
+All 26 selected Chromium/WebKit newsletter cases passed together with one worker
+and retries disabled. They cover successful intercepted POST, native invalid-email
+validation, keyboard order, visible focus in forced colors, accessibility scans,
+responsive controls, and enlarged text. Test submissions are fulfilled locally;
+no subscription reaches the provider. Four additional browser/theme states
+verify the 480ms arrow and RSS feedback, unchanged icons and button dimensions,
+the existing Lumen one-pixel hover lift, and reduced-motion behavior.
+
+Eight matched before/after states cover 390/768/1440px and 320px with 200% text
+in both themes. Every form contract is unchanged, every resulting section has
+one heading, and all states avoid horizontal overflow. Desktop and mobile pairs
+were visually reviewed. An additional full-document crop verifies the enlarged
+newsletter without fixed navigation obscuring the component capture.
+
+Focused lint and spelling passed with zero warnings; Astro checked 506 files
+with zero errors, warnings, or hints. The 450-page production build, 452-page OG
+audit, archive assembly, and CV freshness check passed without PDF regeneration.
+The optional Workspace Organizer sitemap was unavailable and followed the
+existing skip behavior. Published changelog entries remain unchanged.
+
+The latest full workspace gate remains the successful `10c7050c` run. This
+approved newsletter follow-up uses affected checks; no duplicate full gate is
+queued, and no remote publication is part of the integration.

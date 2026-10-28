@@ -155,7 +155,7 @@ for (const width of [390, 1440]) {
           const email = newsletter.getByRole('textbox', { name: 'Email address' })
           const button = newsletter.getByRole('button', { name: 'Get new posts' })
 
-          await expectWholeWords(newsletter.locator('h3'))
+          await expectWholeWords(newsletter.getByRole('heading', { level: 2 }))
           await page.keyboard.press('Tab')
           for (const forcedColors of ['none', 'active'] as const) {
             await page.emulateMedia({ forcedColors })
