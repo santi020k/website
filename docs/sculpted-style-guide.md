@@ -289,7 +289,13 @@ spine inset 1.625rem from the top and bottom. Hover changes only the relevant ti
 color; the surface does not lift.
 
 The upper native link opens the series overview and ends with “Explore the {count}
-articles,” with singular and empty-count variants. A separate sibling link forms
+articles,” with singular and empty-count variants. The **Reading estimate** sits
+below that action: “About {minutes} min across the series,” in .75rem ink-soft
+type, weight 400, line-height 1.8, and .375rem top spacing. Center the existing
+arrow beside this text group. Derive the estimate once in the shared series
+summary by summing each published chapter's rounded reading time; omit it for
+empty series. Preserve the separate first-article duration and both native links.
+A separate sibling link forms
 the tinted lower panel: “Start with article 1,” the actual first article's full
 title at 1.125rem, an ArrowExchange, its type, and its reading time. Use the first
 post from the existing sorted series summary, never the newest post or a guessed
@@ -426,6 +432,20 @@ Article recommendations retain their open reading rows. Regular Blog, topic arch
 and DX shelves retain their editorial grids.
 
 ### Reading bridge series ending
+
+The Series index also ends with **Reading bridge**, after its chooser cards and
+before the shared footer. Keep the index opening, counts, and chooser cards intact.
+Use a passive Lumen Card with an opaque surface, fine border, alternating .375rem
+and 1.75rem corners, and no backing shadow. Leave 2.5rem after the cards and use
+1.75rem insets. The 1.75rem heading introduces a .8125rem reading description.
+
+Offer Browse the Blog and Explore topics as two native, localized links with
+complete supporting captions, independent top rules, and right ArrowExchange
+icons. Use 1.0625rem link titles, .75rem captions, and 1.5rem between columns.
+Stack links below 31rem of card width; reduce outer insets to 1.375rem below
+31rem of section width and 1rem below 18rem. At enlarged-text widths, reduce the
+heading to 1.375rem. Keep visible keyboard focus, stationary pointer feedback,
+and reduced-motion support. The index never links back to itself in this close.
 
 Individual Series pages end their chapter list with **Reading bridge**, before the
 shared contact footer. Reuse a Lumen Card section with an opaque surface, fine border,

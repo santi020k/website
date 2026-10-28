@@ -1,6 +1,7 @@
 import type { CollectionEntry } from 'astro:content'
 
 import { getCachedPosts, getCachedSeries } from '@/utils/content'
+import { getReadingTime } from '@/utils/reading-time'
 import { getAdjacentSeriesPosts, sortSeriesPosts } from '@/utils/series'
 
 export const getAllSeries = async (): Promise<CollectionEntry<'series'>[]> => {
@@ -29,6 +30,7 @@ export const getSeriesSummaries = async () => {
     return [{
       postCount: seriesPosts.length,
       posts: seriesPosts,
+      readingMinutes: seriesPosts.reduce((minutes, post) => minutes + getReadingTime(post.body), 0),
       series
     }]
   })

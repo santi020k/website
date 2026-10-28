@@ -8,6 +8,9 @@
 
 ### Minor Changes
 
+- Close the Series index with the approved Reading bridge and localized links to
+  standalone articles and topics, preserving the existing series chooser.
+
 - Align Work with the editorial homepage and About direction: compact proof points,
   open career rows with company marks, clearer typography, and refined toolkit spacing.
   Preserve complete experience content, chronology, native links, and responsive access.
@@ -336,6 +339,8 @@
 - Organize article opening references into a shared Reference ledger and connect the Supabase article to its related ESLint series with the same accessible treatment. Preserve authored destinations and reuse the existing series navigation for a single onward chapter action.
 
 ### Patch Changes
+
+- Add a localized reading estimate to Series cards on the Blog and Series index, using the sum of published chapter durations while preserving the direct first-article link.
 
 - Lead the homepage with larger bilingual typography and real Lumen UI and PostLens interface previews. Keep the portrait as a personal signature, prioritize selected work, and add a brief accessible entrance with responsive, reduced-motion, and script-free fallbacks.
 

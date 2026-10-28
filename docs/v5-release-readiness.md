@@ -2638,3 +2638,26 @@ baseline remains unchanged and requires later preflight verification.
 
 Changesets are folded into unpublished 5.0.0 with published notes unchanged. Evidence:
 `.cache/v5-impactful-hero/`. Root full gate remains `0319556c`; no remote action occurred.
+
+## Series index ending and reading estimates integration
+
+Approved source `a2759fae` preserves index-ending source `d2395d14` and is integrated
+over `495f572f`. The Series index ends with native Blog and Topics destinations.
+Shared chooser cards now show a localized total derived from the existing rounded
+reading duration of each published chapter. Drafts, scheduled posts and unrelated
+articles remain excluded; empty series omit the estimate. The first-article duration
+and both native links remain separate. Production sources and tests match the handoff.
+
+All 82 affected Chromium/WebKit cases pass, covering both chooser routes, languages,
+themes, narrow and enlarged-text layouts, keyboard focus and script-free navigation.
+The 1,551 focused catalog, Series and reading-time units and affected zero-warning
+lint pass. Six rendered chapter-list comparisons confirm totals of 47, 34 and 70
+minutes in both languages. Sixteen matched contracts and thirty-two captures preserve
+existing titles, descriptions, destinations and metadata; sixteen normal-text axe
+scans pass.
+
+The 904-page build and 906-page SEO audit pass. Five regenerated PDF page rasters
+remain identical and public/built artifacts match. Only generated PDFs conflicted;
+the documented generator resolved them. Both Changesets are folded into 5.0.0 with
+published notes unchanged. Evidence: `.cache/v5-series-ending/` and
+`.cache/v5-series-blog/`. Root full gate remains `0319556c`; no remote action occurred.

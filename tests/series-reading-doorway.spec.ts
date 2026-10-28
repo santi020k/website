@@ -27,6 +27,9 @@ for (const locale of ['en', 'es'] as const) {
             'Start with article 1')
           expect((await request.get(requireValue(await first.getAttribute('href')))).status()).toBe(200)
           await expect(first.locator('[data-series-card-start-meta]')).toContainText(/min/u)
+          await expect(card.locator('[data-series-card-estimate]')).toHaveText(locale === 'es' ?
+            /^Unos \d+ min para toda la serie$/u :
+            /^About \d+ min across the series$/u)
         }
         for (const [width, size] of [[1440, 100], [1024, 100], [768, 100], [390, 100], [320, 200]] as const) {
           await page.setViewportSize({ width, height: 1100 })
@@ -37,7 +40,7 @@ for (const locale of ['en', 'es'] as const) {
           const geometry = await cards.evaluateAll(elements => elements.map(card => {
             const bounds = card.getBoundingClientRect()
             const start = card.querySelector('[data-series-card-start]')?.getBoundingClientRect()
-            const clipped = [...card.querySelectorAll('h3,p,li,[data-series-card-start-title],[data-series-card-start-label]')]
+            const clipped = [...card.querySelectorAll('h3,p,li,[data-series-card-start-title],[data-series-card-start-label],[data-series-card-estimate]')]
               .some(copy => {
                 const range = document.createRange()
 
@@ -65,11 +68,15 @@ for (const locale of ['en', 'es'] as const) {
         const seriesPath = requireValue(await main.getAttribute('href'))
         const firstPath = requireValue(await first.getAttribute('href'))
         const firstTitle = await first.locator('[data-series-card-start-title]').innerText()
+        const estimate = Number.parseInt(requireValue(/\d+/u.exec(await cards.first().locator('[data-series-card-estimate]').innerText())?.[0]), 10)
 
         await main.click()
         await expect(page).toHaveURL(seriesPath)
         await expect(page.locator('[data-series-entry-first]')).toHaveAttribute('href', firstPath)
         await expect(page.locator('[data-series-entry-first] h2')).toHaveText(firstTitle)
+        const durations = await page.locator('[data-post-gallery-footer] > span:last-child').allTextContents()
+
+        expect(durations.reduce((sum, duration) => sum + Number.parseInt(duration, 10), 0)).toBe(estimate)
         await page.goto(`${prefix}${route}`)
         await main.focus()
         await expect(main).toHaveCSS('outline-style', 'solid')
@@ -83,13 +90,15 @@ for (const locale of ['en', 'es'] as const) {
     }
 
     test.describe(`series reading doorway without scripts: ${route}, ${locale}`, () => {
-      test.use({ javaScriptEnabled: false })
+      test.use({ javaScriptEnabled: false, reducedMotion: 'reduce' })
 
       test('opens article one directly', async ({ page }) => {
         await page.goto(`${prefix}${route}`)
         const first = page.locator('[data-series-card-start]').first()
         const destination = requireValue(await first.getAttribute('href'))
 
+        await expect(page.locator('[data-series-card-estimate]').first()).toContainText(/\d+ min/u)
+        await page.evaluate(() => document.fonts.ready)
         await first.click()
         await expect(page).toHaveURL(destination)
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
