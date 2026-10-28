@@ -9,6 +9,7 @@ import ArticleExampleFolds from '@/components/molecules/ArticleExampleFolds.astr
 import ArticleFigureViewers from '@/components/molecules/ArticleFigureViewers.astro'
 import ArticleSectionReferences from '@/components/molecules/ArticleSectionReferences.astro'
 import CommentsSection from '@/components/molecules/CommentsSection.astro'
+import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
 import ReadingChapterOpener from '@/components/molecules/ReadingChapterOpener.astro'
 import ReadingContents from '@/components/molecules/ReadingContents.astro'
@@ -35,7 +36,8 @@ import { getSeriesContext } from '@/data/series'
 import {
   createAuthorSchema,
   createPublisherSchema,
-  createWebsiteSchemaReference
+  createWebsiteSchemaReference,
+  siteConfig
 } from '@/site.config'
 
 interface Props {
@@ -194,6 +196,12 @@ mainClass="remaining-pages remaining-pages--reading"
     </p>
   </article>
 
+  {siteConfig.newsletter && (
+    <aside aria-label="Newsletter" class="section-container-wide" data-article-newsletter>
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} idSuffix="article" />
+    </aside>
+  )}
+
   <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} excludeUrls={recommendationUrls} tags={post.data.tags} />
 
   <div class="section-container-wide" data-post-final-return>
@@ -203,6 +211,8 @@ mainClass="remaining-pages remaining-pages--reading"
 </BaseLayout>
 
 <style>
+  [data-article-newsletter] { max-width: 56rem; margin-block: 3rem 0; }
+
   @container reading-layout (width < 40rem) {
     [data-reading-body] { padding-block-start: 1.75rem; }
     [data-post-mobile-toc] { margin-block-end: 1.75rem; }

@@ -106,7 +106,7 @@ test('footer keeps technical XML endpoints out of user-facing resources', async 
   )
 })
 
-test('homepage ships no client-side analytics beacon', async ({ page }) => {
+test('homepage ships no analytics beacon unless a Cloudflare token is configured', async ({ page }) => {
   await page.goto('/')
 
   await expect(page.locator('script[src*="cloudflareinsights.com"]')).toHaveCount(0)
@@ -129,7 +129,7 @@ test('homepage exposes IndieAuth.com discovery and rel=me on silo links', async 
     ['me', 'noopener', 'noreferrer'].sort()
   )
 
-  for (const link of await page.locator('footer a[href^="https://api.whatsapp.com/"]').all()) {
+  for (const link of await page.locator('footer a[href^="https://wa.me/"]').all()) {
     const rel = await link.getAttribute('rel')
     expect(rel?.split(/\s+/).filter(Boolean).sort()).toEqual(['noopener', 'noreferrer'].sort())
   }

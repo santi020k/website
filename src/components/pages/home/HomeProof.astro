@@ -1,0 +1,61 @@
+---
+import FaqList from '@/components/molecules/FaqList.astro'
+import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
+import HomeSectionHeading from '@/components/pages/home/HomeSectionHeading.astro'
+
+import { testimonials } from '@/data/profile'
+import type { FaqItem } from '@/data/work-with-me'
+import { siteConfig } from '@/site.config'
+
+interface Props {
+  faq: FaqItem[]
+}
+
+const { faq } = Astro.props
+const homeTestimonials = testimonials.slice(0, 3)
+---
+
+<section aria-labelledby="home-testimonials-heading" class="studio-section" data-home-testimonials>
+  <HomeSectionHeading
+    action="Read more recommendations"
+    description="From people I’ve managed, worked beside, and built for."
+    eyebrow="In their words"
+    href="/about/#about-recommendations"
+    id="home-testimonials-heading"
+    number="05"
+    title="What working together is like."
+  />
+  <div data-home-testimonial-grid>
+    {homeTestimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
+      <TestimonialCard authorName={name} avatarInitials={avatarInitials} avatarUrl={avatarUrl} quote={quote} relationship={relationship} role={role} />
+    ))}
+  </div>
+</section>
+
+<section aria-labelledby="home-faq-heading" class="studio-section" data-home-faq>
+  <HomeSectionHeading
+    action="Work with me"
+    description="Talks, roles, growing teams, AI, and code quality. Here’s what people ask before reaching out."
+    eyebrow="Questions"
+    href={siteConfig.contact.workWithMe}
+    id="home-faq-heading"
+    number="06"
+    title="Before you write."
+  />
+  <FaqList items={faq} />
+</section>
+
+<style>
+  /* The community section above already ends with the section gap. */
+  [data-home-testimonials] { padding-top: 0; }
+  [data-home-testimonial-grid] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  [data-home-faq] { padding-bottom: 7rem; }
+  @container home-content (width < 64rem) {
+    /* The community section above already ends with the section gap. */
+  [data-home-testimonials] { padding-top: 0; }
+  [data-home-testimonial-grid] { grid-template-columns: minmax(0, 1fr); }
+  }
+  @container home-content (width < 48rem) {
+    [data-home-faq] { padding-bottom: 4.5rem; }
+  }
+</style>

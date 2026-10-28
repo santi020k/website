@@ -34,19 +34,29 @@ test.describe('Newsletter signup', () => {
     await expect(form.locator('input[name="email"]')).toBeVisible()
     await expect(form.locator('input[name="email"]')).toHaveAttribute('autocomplete', /^email$/)
     await expect(form.locator('input[name="email"]')).toHaveAttribute('required', /^$/)
-    await expect(form.getByRole('button', { name: /Get new posts/i })).toBeVisible()
+    await expect(form.getByRole('button', { name: /Subscribe/i })).toBeVisible()
 
     const privacyLink = newsletter.getByRole('link', { name: 'Privacy' })
 
     await expect(privacyLink).toHaveAttribute('href', /^\/privacy\/$/)
   })
 
-  test('newsletter heading welcomes the wider writing topics', async ({ page }) => {
+  test('newsletter ending presents one invitation with the wider writing topics', async ({ page }) => {
     await page.goto('/blog/')
 
-    const heading = page.getByRole('heading', { name: 'New posts and discoveries' })
+    const newsletter = page.locator('[data-newsletter]')
+    const heading = page.getByRole('heading', { name: 'Keep up with new writing.', level: 2 })
 
+    await expect(heading).toHaveCount(1)
     await expect(heading).toBeVisible()
+    await expect(newsletter.getByRole('heading')).toHaveCount(1)
+    await expect(newsletter.getByRole('heading')).toHaveText('Keep up with new writing.')
+    await expect(newsletter).toContainText('software, reading, gaming, and everyday discoveries.')
+    await expect(page.getByRole('heading', { name: 'New posts and discoveries' })).toHaveCount(0)
+    await expect(newsletter.getByRole('form', { name: 'Keep up with new writing.' })).toBeVisible()
+    await expect(newsletter.getByRole('link', { name: 'RSS' })).toHaveAttribute('href', '/feed.xml')
+    await page.goto('/blog/2/')
+    await expect(page.locator('[data-newsletter]')).toHaveCount(0)
   })
 
   test('newsletter form submits a native POST carrying the email, without leaking it into the request URL', async ({ context, page }) => {
@@ -74,7 +84,7 @@ test.describe('Newsletter signup', () => {
 
     const [popup] = await Promise.all([
       context.waitForEvent('page'),
-      form.getByRole('button', { name: /Get new posts/i }).click()
+      form.getByRole('button', { name: /Subscribe/i }).click()
     ])
 
     await popup.waitForLoadState('domcontentloaded')
@@ -107,7 +117,7 @@ test.describe('Newsletter signup', () => {
 
     const pagesBefore = context.pages().length
 
-    await form.getByRole('button', { name: /Get new posts/i }).click()
+    await form.getByRole('button', { name: /Subscribe/i }).click()
 
     // Native constraint validation blocks the submit event before any navigation starts.
     expect(context.pages()).toHaveLength(pagesBefore)

@@ -9,7 +9,7 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 - **Styling**: Tailwind CSS v4 — configured via `src/styles/global.css` `@theme` block (no `tailwind.config.js`)
 - **Language**: TypeScript (strict)
 - **Deployment**: Static output (`dist/`); redirects and headers are configured at your CDN or host (see `docs/deployment.md`)
-- **Analytics**: None bundled; Lighthouse CI in `pnpm run ci:verify` for lab performance
+- **Analytics**: Optional cookieless Cloudflare Web Analytics, rendered only in production when `CLOUDFLARE_WEB_ANALYTICS_TOKEN` is set; Lighthouse CI in `pnpm run ci:verify` for lab performance
 - **Testing**: Vitest (unit) + Playwright (E2E)
 - **Linting**: ESLint with `@santi020k/eslint-config-*` packages
 - **Commits**: Conventional Commits (Commitprompt + quality hooks + lint-staged)

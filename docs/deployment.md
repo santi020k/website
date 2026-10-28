@@ -15,7 +15,7 @@ Redirects, cache headers, and security headers are versioned in the repo:
 
 Cloudflare Pages picks both files up at the edge automatically. The header defaults include:
 
-- **Content-Security-Policy**: allows the configured Giscus, Webmention, and Buttondown integrations; no analytics are bundled.
+- **Content-Security-Policy**: allows the configured Giscus, Webmention, Buttondown, and optional Cloudflare Web Analytics integrations. The analytics beacon is emitted only in production with `CLOUDFLARE_WEB_ANALYTICS_TOKEN` set at build time.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **X-Content-Type-Options**: `nosniff`

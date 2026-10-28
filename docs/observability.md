@@ -33,8 +33,10 @@ Lighthouse CI reports. Keep private analytics exports outside the repository.
 ## Instrumentation notes
 
 - Cloudflare provides aggregate traffic and performance metrics at the hosting
-  layer. Production builds do not inject an analytics beacon or ship an
-  analytics SDK.
+  layer. Production builds optionally load Cloudflare Web Analytics when the public
+  `CLOUDFLARE_WEB_ANALYTICS_TOKEN` is configured; leaving it unset ships no beacon.
+  The beacon reports page views and performance, including client-side navigation.
+  A WhatsApp handoff or retry is not proof of a sent message or a new contact.
 - Lab performance coverage comes from **`pnpm run lighthouse`** / CI.
-- If you add client-side analytics or error reporting later, document the
-  vendor and events beside this file.
+- Changes to analytics or error reporting require explicit authorization and
+  corresponding privacy, environment-schema, and CSP updates.

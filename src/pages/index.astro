@@ -1,7 +1,9 @@
 ---
 import HomeCommunity from '@/components/pages/home/HomeCommunity.astro'
 import HomeHero from '@/components/pages/home/HomeHero.astro'
+import HomeLogoStrip from '@/components/pages/home/HomeLogoStrip.astro'
 import HomeProjectShowcase from '@/components/pages/home/HomeProjectShowcase.astro'
+import HomeProof from '@/components/pages/home/HomeProof.astro'
 import HomeStats from '@/components/pages/home/HomeStats.astro'
 import HomeWriting from '@/components/pages/home/HomeWriting.astro'
 import PageLayout from '@/layouts/Base.astro'
@@ -11,6 +13,7 @@ import { collectionRelevanceSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 import { getStartHerePosts } from '@/utils/start-here'
 
+import { createFaqSchema, workWithMeFaq } from '@/data/work-with-me'
 import {
   createSchemaEntityId,
   createWebsiteSchemaReference,
@@ -44,6 +47,7 @@ const homeDescription =
   'Santiago Molina, known online as santi020k, is an engineering leader and full-stack architect building modern systems and better developer experiences.'
 
 const homeUrl = new URL('/', Astro.site).href
+const homeFaq = workWithMeFaq.slice(0, 5)
 
 const homePageSchema = {
   '@context': 'https://schema.org',
@@ -90,7 +94,8 @@ const homePageSchema = {
         url: new URL(getPostPath(post.id), Astro.site).href,
         name: post.data.title
       }))
-    }
+    },
+    createFaqSchema(homeFaq, homeUrl)
   ]
 }
 
@@ -105,10 +110,12 @@ const meta = {
 <PageLayout backdrop="particles" headerVariant="signature" mainClass="home-page" meta={meta}>
   <HomeHero />
   <div class="studio-home" data-home-content>
+    <HomeLogoStrip />
     <HomeStats yearsOfExperience={yearsOfExperience} />
     <HomeProjectShowcase kind="work" projects={workProjects} />
     <HomeProjectShowcase kind="projects" projects={personalProjects} />
     <HomeWriting posts={latestPosts} startHerePosts={startHerePosts} />
     <HomeCommunity />
+    <HomeProof faq={homeFaq} />
   </div>
 </PageLayout>

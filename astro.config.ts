@@ -198,6 +198,7 @@ export default defineConfig({
       // so draft pages never generate URLs and are never included in the sitemap.
       filter: page => !page.endsWith('/offline/') &&
         !page.endsWith('/404/') &&
+        !page.endsWith('/work-with-me/sent/') &&
         !nonCanonicalPageUrls.has(page),
       serialize(item) {
         const contentLastmod = contentLastmodMap.get(item.url)
@@ -300,6 +301,12 @@ export default defineConfig({
         optional: true
       }),
       WEBMENTION_PINGBACK: envField.string({
+        context: 'client',
+        access: 'public',
+        optional: true
+      }),
+      // Site token from Cloudflare dashboard → Web Analytics. Leave unset to ship no beacon.
+      CLOUDFLARE_WEB_ANALYTICS_TOKEN: envField.string({
         context: 'client',
         access: 'public',
         optional: true

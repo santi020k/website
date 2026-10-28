@@ -9,7 +9,7 @@ test('the hero connects products, personal background, and the full portfolio', 
 
   await expect(page.locator('h1')).toHaveCount(1)
   await expect(hero.locator('h1')).toContainText('I build products.')
-  await expect(hero.locator('.maker-hero-description')).toHaveText('Engineering lead and creator of Lumen UI. I build commerce platforms, native apps, and developer tools.')
+  await expect(hero.locator('.maker-hero-description')).toHaveText('Engineering lead and creator of Lumen UI. I build commerce platforms, native apps, and developer tools, and help teams ship with better code and practical AI.')
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAccessibleName('See selected work')
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAttribute('href', '/portfolio/')
   await expect(hero.locator('a[href="/portfolio/lumen-ui/"]')).toHaveAttribute('href', '/portfolio/lumen-ui/')
@@ -17,11 +17,11 @@ test('the hero connects products, personal background, and the full portfolio', 
   await expect(hero.locator('img[alt="Portrait of Santiago Molina, smiling"]')).toBeVisible()
   await expect(hero.locator('img[alt="Portrait of Santiago Molina, smiling"]')).toHaveJSProperty('complete', true)
 
-  await hero.locator('a[href="/about/"]').click()
-  await expect(page).toHaveURL(/\/about\/$/)
-  await expect(page.locator('h1')).toContainText('Calm systems.')
-  await expect(page.locator('img[alt="Portrait of Santiago Molina (@santi020k)"]')).toBeVisible()
-  await expect(page.locator('[data-about-hero] a[href="/resume/"]')).toHaveAttribute('href', '/resume/')
+  await expect(hero.locator('a[href="/work-with-me/"]')).toHaveAccessibleName('Work with me')
+  await hero.locator('a[href="/work-with-me/"]').click()
+  await expect(page).toHaveURL(/\/work-with-me\/$/)
+  await expect(page.locator('h1')).toContainText('Let’s work')
+  await expect(page.locator('form[data-whatsapp-intake]')).toBeVisible()
 
   await page.goBack()
   await expect(page).toHaveURL(/\/$/)
@@ -63,7 +63,7 @@ for (const theme of ['light', 'dark'] as const) {
     const portrait = hero.getByRole('img', { name: 'Portrait of Santiago Molina, smiling' })
 
     await expect(hero.getByRole('link', { name: 'See selected work', exact: true })).toBeInViewport({ ratio: 1 })
-    await expect(hero.getByRole('link', { name: 'About me', exact: true })).toBeInViewport({ ratio: 1 })
+    await expect(hero.getByRole('link', { name: 'Work with me', exact: true })).toBeInViewport({ ratio: 1 })
     await expect(hero.getByText('Medellín, Colombia', { exact: true })).toBeInViewport({ ratio: 1 })
     await expect(hero.getByRole('link', { name: 'Lumen UI Web and native components' })).toBeInViewport({ ratio: 1 })
     await expect(hero.getByRole('link', { name: 'PostLens Private photo editing for iPhone' })).toBeInViewport({ ratio: 1 })
@@ -150,7 +150,7 @@ for (const theme of ['light', 'dark'] as const) {
       await expect(action).toBeVisible()
       await action.focus()
       await expect(action).toBeFocused()
-      await expect(hero.locator('a[href="/about/"]')).toBeVisible()
+      await expect(hero.locator('a[href="/work-with-me/"]')).toBeVisible()
     }
 
     await expectNoUnexpectedAccessibilityViolations(page)

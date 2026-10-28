@@ -27,6 +27,9 @@ export interface SiteConfig {
   /** Concise brand name preferred for search-result site names and social metadata. */
   siteName: string
   contact: {
+
+    /** Public booking page for a short introductory call. */
+    calendar: string
     email: string
     github: string
     linkedin: string
@@ -34,6 +37,9 @@ export interface SiteConfig {
     resume: string
     whatsapp: string
     whatsappPhone: string
+
+    /** Internal page that explains the ways to work together and starts a WhatsApp conversation. */
+    workWithMe: string
   }
   date: {
     locale: string | string[] | undefined

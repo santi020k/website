@@ -1,0 +1,84 @@
+---
+import { Image } from 'astro:assets'
+
+import { getCachedProjects } from '@/utils/content'
+import { getPortfolioPath } from '@/utils/links'
+import { getProjectBrandStyle } from '@/utils/project-brand'
+
+import { selectedOrganizations } from '@/data/profile'
+
+const projectsById = new Map((await getCachedProjects()).map(project => [project.id, project]))
+
+const organizations = selectedOrganizations
+  .filter(({ projectId }) => projectId !== 'react-js-colombia')
+  .map(organization => {
+    const project = projectsById.get(organization.projectId)
+
+    if (!project) throw new Error(`Missing project for home logo strip: ${organization.projectId}`)
+
+    return {
+      href: getPortfolioPath(project.id),
+      label: organization.label,
+      logo: project.data.coverImage?.logo,
+      style: getProjectBrandStyle(project.data.brand),
+      surface: organization.logoSurface ?? project.data.coverImage?.logoSurface ?? 'dark'
+    }
+  })
+---
+
+<section aria-labelledby="home-logos-heading" data-home-logos>
+  <h2 id="home-logos-heading">Trusted by product teams at</h2>
+  <ul>
+    {organizations.map(({ href, label, logo, style, surface }) => (
+      <li style={style}>
+        <a aria-label={`${label} case study`} data-logo-tile data-logo-surface={surface} href={href}>
+          {logo ?
+            <Image alt="" loading="lazy" sizes="6rem" src={logo} width={Math.min(logo.width, 192)} widths={[96, 192].filter(width => width <= logo.width)} /> :
+            <span aria-hidden="true">{label}</span>}
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  [data-home-logos] {
+    display: grid;
+    grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+    align-items: center;
+    gap: 2rem;
+    padding-top: max(0px, calc(5rem - var(--page-flow-gap)));
+  }
+  h2 { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.6875rem; font-weight: 600; line-height: 1.6; letter-spacing: 0.13em; text-transform: uppercase; }
+  ul { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0.625rem; margin: 0; padding: 0; list-style: none; }
+  li { min-width: 0; }
+  [data-logo-tile] {
+    --logo-tile-surface: hsl(var(--project-surface));
+    display: grid;
+    height: 4rem;
+    place-items: center;
+    padding: 0.75rem;
+    border: 1px solid hsl(var(--line) / 0.65);
+    border-radius: 0.875rem;
+    background: var(--logo-tile-surface);
+    color: var(--color-portrait-ink);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+  [data-logo-surface="light"], [data-logo-surface="neutral"] { --logo-tile-surface: var(--color-logo-paper); color: var(--color-portrait-scrim); }
+  [data-logo-tile] :global(img) { width: auto; height: auto; max-width: 80%; max-height: 2.25rem; object-fit: contain; }
+  [data-logo-tile]:hover { border-color: hsl(var(--project-primary) / 0.7); transform: translateY(-2px); }
+  [data-logo-tile]:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-logo-tile] { transition: none; }
+    [data-logo-tile]:hover { transform: none; }
+  }
+  @container home-content (width < 64rem) {
+    [data-home-logos] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  }
+  @container home-content (width < 40rem) {
+    ul { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+</style>
