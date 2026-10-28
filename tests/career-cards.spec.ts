@@ -129,8 +129,9 @@ for (const theme of ['light', 'dark']) {
 
           await expect(link).toHaveAttribute('href', /^\/portfolio\/.+\/$/u)
           const company = await row.locator('[data-career-title]').innerText()
+          const date = requireValue(await row.locator('[data-career-date]').textContent()).trim()
 
-          await expect(link).toHaveAccessibleName(`${company}: Read case study`)
+          await expect(link).toHaveAccessibleName(`${company}: Read case study, ${date}`)
           await expect(row.locator('[data-career-action]')).toHaveText('Read case study')
           const clipped = await link.evaluate(element => {
             const bounds = element.getBoundingClientRect()
@@ -152,7 +153,21 @@ for (const theme of ['light', 'dark']) {
           const company = panel.getAttribute('data-company')
 
           if (!(image instanceof HTMLImageElement) || !company) throw new Error('Each company needs its original logo and identity')
+          const loaded = new Promise<void>((resolve, reject) => {
+            if (image.complete && image.naturalWidth > 0) {
+              resolve()
+              return
+            }
+            image.addEventListener('load', () => {
+              resolve()
+            }, { once: true })
+            image.addEventListener('error', () => {
+              reject(new Error(`${company} logo failed to load`))
+            }, { once: true })
+          })
+
           image.loading = 'eager'
+          await loaded
           await image.decode()
           const canvas = document.createElement('canvas')
 
@@ -248,8 +263,9 @@ for (const theme of ['light', 'dark'] as const) {
       await expect(link).toHaveAttribute('href', /^\/es\/portfolio\/.+\/$/u)
       const company = await link.locator('[data-career-title]').innerText()
       const action = await link.locator('[data-career-action]').innerText()
+      const date = requireValue(await link.locator('[data-career-date]').textContent()).trim()
 
-      await expect(link).toHaveAccessibleName(`${company}: ${action}`)
+      await expect(link).toHaveAccessibleName(`${company}: ${action}, ${date}`)
       await expect(link.locator('img')).toHaveAttribute('alt', '')
     }
     for (const width of [320, 390, 768, 1440]) {

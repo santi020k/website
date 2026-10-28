@@ -1259,7 +1259,7 @@ Keep the continuous date rail, semantic dates, chronological order, and the fina
 marker endpoint. The three newest roles retain their status masthead and 2rem
 company headings; earlier completed roles use 1.75rem headings and tighter spacing.
 Keep every role, description, technology label, and case-study action visible.
-Name each whole-row link with its company and localized case-study action so
+Name each whole-row link with its company, localized case-study action, and dates so
 screen-reader link lists identify the destination instead of only the dates.
 
 Place each collection-owned company mark in a quiet panel at the right. Preserve
