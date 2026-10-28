@@ -611,14 +611,22 @@ the heading to 1.75rem. Preserve readable complete words at enlarged text sizes,
 light/dark contrast, and a visible focus outline inset from the clipped surface.
 The blog destination stays a native link; no new client JavaScript is needed.
 
-### Compact topic cards
+### Named index topic cards
 
-Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.
-Place the name and a single readable post-count badge on the top row, followed
-by a 3px decorative meter. Use 1.25rem padding on phones and 1.375rem vertical
-with 1.5rem horizontal padding on larger screens. Remove the repeated count
-below the meter. Preserve the whole-card link, filtering, sorting, and focus outline.
-At enlarged text sizes, reduce the insets and let the badge wrap below long names.
+Topic cards use **Named index**, combining the sculpted Named topics surface with
+Reading index's simple hierarchy. Show the readable topic name, one quiet post
+count, and a right-aligned Arrow exchange. Remove hashtags, count badges, and
+relative-frequency meters. Use the shared topic-label helper; preserve original
+slugs for URLs, motion identity, and backwards-compatible search queries.
+Search also matches displayed labels, including names with spaces or punctuation.
+A–Z follows those labels; By count restores frequency order with stable slug ties.
+
+Keep the whole surface a native Lumen link with .4375rem / 1.5rem sculpted corners,
+1.375rem insets, a 1.25rem name, and a .75rem count. Hover and focus tint the surface,
+underline the name, and emphasize its border without moving the card. Use the
+shared arrow effect and reduced-motion behavior. At narrow card widths, reduce
+insets and type, and move the arrow beside the count when the title needs the full
+row. Preserve visible focus, complete words where space allows, and both themes.
 
 ### Speaking and engineering-principle cards with clear hierarchy
 
@@ -1994,6 +2002,22 @@ inset and text at 18.75rem and 14rem; allow decorative arrows to wrap below a lo
 label with enlarged text. Preserve complete labels, visible keyboard outlines,
 brand/accent theme colors, and the reduced-motion entrance. This needs no new script.
 
+### Link recovery
+
+Article hero utilities and the shared closing `ShareButtons` use `LinkRecovery`
+for clipboard failures. Preserve the current button and its aligned icon; show
+Try again and a persistent margin note with a labeled, read-only Lumen Textarea
+containing the clean server-rendered permalink. Keep recovery beneath the series
+byline, below the standalone topic links, or between the closing share header and
+social destinations. Hide the panel in print and until copying fails.
+
+Focus stays on the initiating button. Tab or focus selects the address for manual
+copying; a successful retry removes the panel. Use one result announcement,
+preserve the existing delayed repeat announcement, and keep native sharing,
+cancellation, pending-operation protection, and Astro navigation cleanup. Only
+success feedback resets after two seconds. Width changes schedule field sizing
+outside ResizeObserver delivery; height changes do not trigger another resize.
+
 ### Margin imprint project header facts
 
 Project headers use one semantic description list between fine horizontal rules.
@@ -2905,7 +2929,7 @@ opening, without another section introduction or static featured-topic labels.
 Keep both navigation links native, with the shared text-link and Arrow exchange
 feedback, visible focus, and wrapping at narrow widths or enlarged text sizes.
 The total describes the complete archive; the search footer separately announces
-filtered matches. Preserve search normalization, sort order, Compact cards, the
+filtered matches. Preserve search normalization, sort order, Named index cards, the
 Catalog note empty state, statistics, metadata, and navigation lifecycle.
 
 ### Search folio Blog topics controls
@@ -2918,7 +2942,7 @@ At narrow widths, let the footer wrap and separate the joined options when neede
 keep all controls and text within the panel at enlarged text sizes.
 Preserve query normalization, both sort orders, topic links, the Catalog note empty
 state, and the existing motion and navigation lifecycle. This treatment belongs to
-the search controls; the approved Compact topic cards remain independent below it.
+the search controls; the approved Named index topic cards remain independent below it.
 
 ### Sculpted tags related-topic shortcuts
 
@@ -3012,10 +3036,10 @@ chooser so shared Projects, Work, and related-topic tags retain their own treatm
 - Shiki's light comments use the shared theme's `descriptionForeground` color, retaining
   their italic style. The theme's original comment color is too faint on the reading canvas.
 - The share "Link copied!" state uses a solid `brand-soft` background, with `brand` text in the
-  light theme and a contrast-adjusted `accent` for text and border in the dark theme. Success, failure, reset,
-  Web Share, and clipboard behavior are unchanged. The failed-copy state uses opaque `surface`
-  with `ink` text and a `danger` border and icon; the visible failure label supplies the meaning
-  without relying on color or translucent backgrounds.
+  light theme and a contrast-adjusted `accent` for text and border in the dark theme. The
+  Link recovery failure treatment keeps the neutral action and reveals a persistent,
+  selectable address beside a brand/accent margin rule. Native sharing and cancellation
+  remain available; only successful copy feedback resets after two seconds.
 
 ### Recovery and discussion states
 

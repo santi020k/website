@@ -1,5 +1,6 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
 
 import { Button, Card, Icon } from '@santi020k/lumen-astro'
 
@@ -47,15 +48,15 @@ const shareLinks = [
       variant="outline"
     >
       <span data-copy-action-content>
-        <span id="copy-label">Copy link</span>
+        <span id="copy-label" data-copy-label>Copy link</span>
         <span data-copy-action-icon>
           <Icon name="link" data-copy-icon class="size-4" />
           <Icon name="check" data-check-icon class="hidden size-4" />
-          <Icon name="circle-alert" data-failed-icon class="hidden size-4" />
         </span>
       </span>
     </Button>
   </header>
+  <LinkRecovery buttonId="copy-link-btn" statusId="copy-status" url={url} nativeShare />
   <div data-share-platforms>
     {shareLinks.map(link => (
       <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
@@ -64,8 +65,6 @@ const shareLinks = [
       </a>
     ))}
   </div>
-  <!-- Only results are announced here; the button's own name and idle labels stay silent. -->
-  <p aria-atomic="true" aria-live="polite" class="sr-only" id="copy-status" role="status"></p>
 </Card>
 
 <style>
@@ -110,6 +109,9 @@ const shareLinks = [
     letter-spacing: -0.03em;
     overflow-wrap: anywhere;
   }
+
+  :global([data-share-card] [data-link-recovery]) { margin: 0 1.75rem 1.5rem; }
+  :global([data-share-variant='colophon'] [data-link-recovery]) { grid-column: 2; margin: .5rem 0; }
 
   [data-share-platforms] {
     display: flex;
@@ -205,208 +207,7 @@ const shareLinks = [
     :global([data-share-variant='colophon']) #share-heading { grid-row: auto; padding-top: 0; }
     :global([data-share-variant='colophon']) #share-heading,
     :global([data-share-variant='colophon']) [data-share-header],
-    :global([data-share-variant='colophon']) [data-share-platforms] { grid-column: 1 / -1; }
+    :global([data-share-variant='colophon']) [data-share-platforms],
+    :global([data-share-variant='colophon'] [data-link-recovery]) { grid-column: 1 / -1; }
   }
 </style>
-
-<script>
-  const setup = function () {
-    const btn = document.getElementById('copy-link-btn')
-
-    if (!btn) return () => undefined
-
-    const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
-    const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
-    const failedIcon = btn.querySelector<HTMLElement>('[data-failed-icon]')
-    const label = document.getElementById('copy-label')
-    const status = document.getElementById('copy-status')
-    let timer: ReturnType<typeof setTimeout> | null = null
-    let announcementTimer: ReturnType<typeof setTimeout> | null = null
-    let pending = false
-    // Cleared before Astro swaps the body, so a share sheet that settles after
-    // the visitor leaves cannot copy the previous article or touch its control.
-    let active = true
-
-    const setPending = (value: boolean) => {
-      pending = value
-
-      if (value) btn.setAttribute('aria-busy', 'true')
-      else btn.removeAttribute('aria-busy')
-    }
-
-    const supportsWebShare = (): boolean => {
-      if (typeof navigator === 'undefined' || typeof navigator.share !== 'function') {
-        return false
-      }
-
-      const isCoarsePointer = window.matchMedia?.('(pointer: coarse)').matches === true
-
-      return isCoarsePointer
-    }
-
-    const idleLabel = supportsWebShare() ? 'Share link' : 'Copy link'
-    const STATE_RESET_MS = 2000
-    const ANNOUNCEMENT_DELAY_MS = 100
-
-    if (label) label.textContent = idleLabel
-
-    const clearAnnouncement = () => {
-      if (announcementTimer) clearTimeout(announcementTimer)
-
-      announcementTimer = null
-    }
-
-    const resetState = () => {
-      clearAnnouncement()
-
-      btn.classList.remove('copied', 'copy-failed')
-
-      copyIcon?.classList.remove('hidden')
-
-      checkIcon?.classList.add('hidden')
-
-      failedIcon?.classList.add('hidden')
-
-      if (label) label.textContent = idleLabel
-
-      if (status) status.textContent = ''
-    }
-
-    /** Shows a transient result state and announces it through `#copy-status`. */
-    const showResultState = (outcome: 'copied' | 'failed') => {
-      if (!active || !btn.isConnected) return
-
-      const succeeded = outcome === 'copied'
-
-      btn.classList.remove('copied', 'copy-failed')
-
-      btn.classList.add(succeeded ? 'copied' : 'copy-failed')
-
-      copyIcon?.classList.add('hidden')
-
-      checkIcon?.classList.toggle('hidden', !succeeded)
-
-      failedIcon?.classList.toggle('hidden', succeeded)
-
-      // Kept short so the control still fits a 320px viewport with enlarged text.
-      if (label) label.textContent = succeeded ? 'Link copied!' : 'Copy failed'
-
-      clearAnnouncement()
-
-      // Empty the region, then write the result in a later task: restoring the
-      // same text within the task that cleared it leaves no distinct change.
-      if (status) {
-        const message = succeeded ? 'Link copied!' : 'Copy failed. Select and copy the address manually.'
-
-        status.textContent = ''
-
-        announcementTimer = setTimeout(() => {
-          announcementTimer = null
-
-          if (active && status.isConnected) status.textContent = message
-        }, ANNOUNCEMENT_DELAY_MS)
-      }
-
-      if (timer) clearTimeout(timer)
-
-      timer = setTimeout(() => {
-        resetState()
-
-        timer = null
-      }, STATE_RESET_MS)
-    }
-
-    const share = async (shareUrl: string, shareTitle: string) => {
-      if (supportsWebShare()) {
-        try {
-          await navigator.share({
-            title: shareTitle,
-            url: shareUrl
-          })
-
-          return
-        } catch (error) {
-          // Cancellation leaves the clipboard unchanged; other errors use the fallback.
-          if (error instanceof DOMException && error.name === 'AbortError') {
-            return
-          }
-        }
-
-        if (!active || !btn.isConnected) return
-      }
-
-      try {
-        await navigator.clipboard.writeText(shareUrl)
-
-        showResultState('copied')
-      } catch {
-        // Insecure contexts and denied permissions both land here. Telling the
-        // visitor beats a button that appears to do nothing at all.
-        showResultState('failed')
-      }
-    }
-
-    const onClick = async () => {
-      // One share sheet or clipboard write at a time: a second `navigator.share`
-      // call rejects while the first is open and would otherwise fall back to copying.
-      if (pending) return
-
-      // Share the server-rendered permalink, like the social links, never the
-      // live address bar with its fragment or query. Read both values before any
-      // await so a route change during the share sheet cannot swap the page.
-      const shareUrl = btn.dataset.shareUrl ?? ''
-      const shareTitle = document.title
-
-      // A previous result must not reset the label in the middle of this operation.
-      if (timer) {
-        clearTimeout(timer)
-
-        timer = null
-
-        resetState()
-      }
-
-      if (!shareUrl) {
-        showResultState('failed')
-
-        return
-      }
-
-      setPending(true)
-
-      try {
-        await share(shareUrl, shareTitle)
-      } finally {
-        if (active && btn.isConnected) setPending(false)
-      }
-    }
-
-    btn.addEventListener('click', onClick)
-
-    return () => {
-      active = false
-
-      btn.removeEventListener('click', onClick)
-
-      if (timer) clearTimeout(timer)
-
-      timer = null
-
-      clearAnnouncement()
-    }
-  }
-
-  let cleanup = setup()
-
-  document.addEventListener('astro:before-swap', () => {
-    cleanup()
-
-    cleanup = () => undefined
-  })
-
-  document.addEventListener('astro:after-swap', () => {
-    cleanup()
-
-    cleanup = setup()
-  })
-</script>

@@ -179,10 +179,6 @@
   }
 }
 
-@utility topic-meter-fill {
-  @apply h-full rounded-full bg-linear-to-r from-brand/55 to-accent/75 transition-all duration-500 motion-reduce:transition-none;
-}
-
 /**
  * Shared width for wide site sections.
  */

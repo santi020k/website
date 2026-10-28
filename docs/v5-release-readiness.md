@@ -1438,3 +1438,77 @@ pinned Playwright Firefox build and trying a fresh temporary profile directory.
 This matches the [upstream macOS startup report](https://github.com/microsoft/playwright/issues/42768).
 Firefox verification remains an explicit environment limitation; no browser result
 or refreshed Firefox image is claimed.
+
+## Persistent article Link recovery follow-up
+
+Approved source `3157c7c3`, based on `46782c13`, is integrated over the completed
+contact-funnel candidate `86f7ab64`. Article hero and shared article/project
+closing controls use one LinkRecovery controller. A failed copy keeps a labeled,
+read-only permalink available for selection and a Try again action. Successful
+retry removes recovery; native sharing and cancellation, canonical URLs, pending
+operations, repeated announcements, and Astro navigation cleanup are preserved.
+Recovery is hidden in print, and nonfunctional copy controls remain hidden without
+JavaScript. Section-reference controls are not changed by this integration.
+
+All 136 targeted Chromium/WebKit cases passed with one worker and retries
+disabled: 72 recovery, hero, lifecycle, and announcement cases plus 64 affected
+copy, accessibility, and project-closing cases. Coverage includes missing or denied
+clipboard access, retry, manual selection, clean URLs, resize errors, enlarged
+text, native-share cancellation, stale operations, keyboard focus, reduced motion,
+and navigation without JavaScript.
+
+Thirty-two matched before/after captures cover series and standalone article
+heroes plus article and project closing controls at 390/1440px in both themes,
+at rest and after copying fails. All 16 idle captures are pixel-identical.
+Representative mobile and desktop failure states were visually reviewed. Ten
+application/test files match the approved source exactly. The style guide, Base
+layout, and share/newsletter test file combine the approved source with the newer
+Topic first and contact-funnel changes; their merged differences were reviewed.
+
+Only generated resume assets conflicted. The documented generator regenerated
+both PDFs and their source metadata from the combined application; freshness
+passed and all five rendered pages remain pixel-identical to `86f7ab64`.
+Focused lint and spelling passed with zero warnings; Astro checked 517 files with
+zero errors, warnings, or hints. The 452-page build, 454-page OG audit, and archive
+assembly passed. The optional Workspace Organizer sitemap used its existing
+unavailable-source skip. The Changeset is folded into unpublished 5.0.0 while
+published changelog entries are unchanged.
+
+The latest full workspace gate is the successful contact-funnel run on
+`10745545`, whose complete log was inspected and retained. This later integration
+uses the affected checks above. The existing Firefox runtime/baseline limitation
+remains documented; no Firefox result or remote publication is claimed here.
+
+## Named index topic cards follow-up
+
+Approved source `bdba4c2d`, based on `10745545`, combines sculpted topic links
+with readable names, quiet post counts, and the shared right arrow. Hashtags,
+count badges, and relative-frequency meters are removed. The existing label
+helper supplies display names; original slugs still own URLs and motion identity.
+Search accepts either display names or original slugs, including the existing
+leading-hash normalization. A–Z sorts displayed names; By count restores frequency
+order with stable slug ties. Obsolete meter and card-padding styles are removed.
+
+All 38 focused Chromium/WebKit filter, sort, motion, hover, focus, and reflow cases
+passed together with one worker and retries disabled. They cover readable names
+with spaces/punctuation, legacy queries, both sort orders, native keyboard
+destinations, stable hover geometry, reduced motion, and 320/390/1440px with
+100/200% text in both themes.
+
+Eight matched before/after states also cover tablet width. All 112 raw topic
+identities, counts, URLs, and initial order remain identical. The opening,
+statistics, search controls, title, description, and canonical URL are preserved;
+every state avoids horizontal overflow. Representative desktop, mobile, and
+enlarged-text results were visually reviewed. All six application/style/test
+files match the approved source exactly; the style guide retains Link recovery.
+
+Focused lint and spelling passed with zero warnings; Astro checked 517 files
+with zero errors, warnings, or hints. The 452-page build, 454-page OG audit, and
+archive assembly passed. Shared-style fingerprint changes required normal resume
+regeneration; freshness passed and all five rendered pages remain pixel-identical.
+The optional Workspace Organizer sitemap used its existing unavailable-source
+skip. The Changeset is folded into unpublished 5.0.0, preserving published notes.
+
+The latest full gate remains the successful `10745545` contact-funnel run. This
+follow-up uses affected checks. The next statistics comparison stays outside the
+application; no remote publication is included.

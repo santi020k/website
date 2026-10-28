@@ -209,16 +209,16 @@ for (const width of [320, 390, 1440]) {
           const topic = page.locator('#tags-list a:visible')
 
           await expect(topic).toHaveCount(1)
-          await expect(topic).toHaveAccessibleName(/^#documentation \d+ posts?$/u)
-          await expectInside(topic.locator('[data-topic-card] > div > span'))
-          await expectReadingWords(topic.locator('[data-topic-card] > div > span:first-child'), width)
+          await expect(topic).toHaveAccessibleName(/^Documentation \d+ posts?$/u)
+          await expectInside(topic.locator('[data-topic-name], [data-topic-count]'))
+          await expectReadingWords(topic.locator('[data-topic-name]'), width)
           await expect(page.locator('#tag-filter-status')).toContainText('1 topic')
           await tabTo(page, topic, browserName)
           await expect(topic).toBeFocused()
           await expectOutline(topic)
           await page.keyboard.press('Enter')
           await expect(page).toHaveURL(/\/blog\/tags\/documentation\/$/)
-          await expect(page.getByRole('heading', { level: 1 })).toContainText('documentation')
+          await expect(page.getByRole('heading', { level: 1 })).toContainText('Documentation')
         })
 
         test('speaking actions and evidence labels keep readable words', async ({ page, browserName }) => {

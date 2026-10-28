@@ -312,6 +312,12 @@
 
 ### Patch Changes
 
+- Refine Blog Topics into sculpted Named index links with readable names, post counts, and directional arrows; match search and sorting to displayed names.
+
+- Keep a selectable clean permalink available when article link copying fails. Share
+  the recovery behavior with the closing sharing controls, preserve native sharing
+  and cancellation, and remove the recovery field after a successful retry.
+
 - Bring topic search closer to a single Blog Topics introduction with a live archive count and reading paths.
 
 - Unify the Blog newsletter ending into one Letter close invitation with a clear heading, topic description, and existing native signup form.
