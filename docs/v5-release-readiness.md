@@ -1765,3 +1765,38 @@ remain unchanged. The optional Workspace Organizer sitemap skip remains. The
 latest full workspace gate remains `b6dce4e5`; this follow-up uses affected checks.
 The pending typed-message migration must retain these localized headings/ranges
 with English as the primary language and default fallback.
+
+## Publication sharing follow-up
+
+Approved source `8e67f105`, based on `ee248e73`, is integrated over homepage
+integration `34d97a2d`. Syndicated article heroes retain Copy link beside their
+existing Read on Medium destination, in either the series byline or standalone
+Topics placement. Copying uses the local article URL and current interface locale,
+without query parameters or fragments. Both placements reuse one recovery field;
+the publication URL and safe new-tab attributes are unchanged. The production
+components and three affected test files match the approved source exactly.
+
+The paired controls share aligned icon compartments and an 11.5rem column. Copy
+hover/focus uses the accent surface, while the publication action uses a quieter
+surface and underline. Existing icons, the 480ms Arrow exchange, copied/failed
+states, reduced motion, print hiding, and native publication navigation remain.
+Copy-only articles retain their 10.5rem utility width with the refined hover.
+
+All 80 affected Chromium/WebKit hero, publication-sharing, and link-recovery
+cases passed together with one worker and retries disabled. Coverage includes
+both locales, standalone and series articles, local copy URLs, external link
+attributes, keyboard focus, clipboard recovery, 320/390/1440px, 200% text, both
+themes, axe, hover geometry, reduced motion, print, and no-JavaScript navigation.
+Two additional Chromium forced-color focus states and four copy-only native
+layouts passed. Sixteen matched before/after screenshot pairs cover mobile and
+desktop in both languages/themes, with another 24 hover/focus captures. English
+desktop and English/Spanish mobile treatments were visually reviewed.
+
+Current-site lint passed without warnings; Astro checked 571 files with zero
+errors, warnings, or hints. The 904-page build, 906-page OG audit, and archive
+assembly passed. Resume freshness passes without regeneration. The existing
+optional Workspace Organizer sitemap skip remains. The publication Changeset and
+the already-integrated homepage's pending Changeset are folded into 5.0.0 while
+published notes remain unchanged. The latest full workspace gate retained by the
+coordinator is `b6dce4e5`; this follow-up uses affected checks. The separate typed
+translation migration must preserve both sharing actions and recovery placements.
