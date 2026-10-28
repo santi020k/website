@@ -2380,3 +2380,39 @@ The patch Changeset is folded into unpublished 5.0.0 while preserving published
 4.0.0 notes. Evidence is in `.cache/v5-series-chapter-brief/`. The full workspace
 gate remains the recorded `0319556c` run; this approved follow-up uses affected
 checks. Push, PR, tags, release and deployment remain outside this local handoff.
+
+## Homepage recommendations and photo polish integration
+
+Approved source `621640f7` is integrated over `2a088a9e` into local v5. The
+homepage uses one featured recommendation and two open supporting quotations,
+with complete original attribution and localized roles. Responsive photographs
+keep their source aspect ratio until the CSS frame applies the final crop;
+readable captions omit ordering numbers. Existing Lumen groups provide a
+one-time slow entrance with a 90ms stagger and explicit zero threshold, preserving
+reduced-motion preferences and content visibility without JavaScript. The source
+components and regression test match exactly; About testimonials and shared
+styles, catalogs, runtime, newsletter and Series work remain unchanged.
+
+Root affected checks pass: 132 desktop and 28 mobile Chromium/WebKit cases, 13
+profile units, current-site zero-warning lint, and Astro checks for 597 files
+without diagnostics. The 904-page build, 906-page OG audit, archive assembly,
+926-image freshness and PDF freshness pass. Both PDFs and their source metadata
+remain byte-identical to the preceding candidate and match the built copies.
+Eight homepage contracts, eight About testimonial layout contracts, 48 matched
+captures and eight normal-text axe scans pass. Browser cases cover complete
+quotes, native destinations/focus, photo loading, both languages/themes, narrow
+screens, enlarged text, viewport entrances, live reduced-motion changes and no JS.
+
+The canonical local Lighthouse check passes with performance 93 and accessibility,
+best practices and SEO 100; LCP 2.95s, CLS 0, TBT 0 and transfer 325,830 bytes.
+Its first attempt encountered CHROME_INTERSTITIAL_ERROR before loading the page:
+the default readiness expression matched pnpm's Already up to date output while
+Astro refused a second tracked preview. The local runner now uses Astro's supported
+foreground concurrent-preview option and waits for its actual URL, with a bounded
+30-second startup. This preserves the existing preview and all audit assertions;
+the canonical command then passes. README and a folded Changeset record the fix.
+
+The source also passed its full `verify:fast` gate: 2,663 units, seven motion checks,
+all five builds and 2,194 documents / 8,619 local targets. This is source evidence;
+the root's latest full workspace baseline remains `0319556c`. Root follow-ups use
+affected checks. Evidence: `.cache/v5-home-testimonial-polish/`. No remote action.

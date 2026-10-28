@@ -2,7 +2,9 @@
   "ci": {
     "collect": {
       "numberOfRuns": 1,
-      "startServerCommand": "pnpm run preview --host 127.0.0.1 --port 59123",
+      "startServerCommand": "pnpm run preview --ignore-lock --host 127.0.0.1 --port 59123",
+      "startServerReadyPattern": "http://127\\.0\\.0\\.1:59123/",
+      "startServerReadyTimeout": 30000,
       "url": ["http://127.0.0.1:59123/"]
     },
     "assert": {

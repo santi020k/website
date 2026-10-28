@@ -276,6 +276,8 @@ SKIP_BUILD=1 pnpm run test:e2e:ci:stable tests/lumen-interactions.spec.ts --retr
 needed. Run `pnpm run build` first when verifying changed routes. Use `pnpm run lighthouse`
 for a quick homepage lab audit. The full Lighthouse configuration also covers a long article
 with code examples and the Smith Commerce case study, alongside the main landing pages.
+The local Lighthouse run starts a separate foreground preview and waits for its URL
+before collecting, so an existing development preview stays available.
 Passing checks describe the revision tested; badges above describe their
 workflow runs and do not certify an unpublished release candidate.
 

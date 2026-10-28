@@ -325,6 +325,12 @@
 
 ### Patch Changes
 
+- Allow the local Lighthouse check to start a separate foreground preview and wait
+  for its URL, preserving an existing preview and avoiding premature collection.
+
+- Refine homepage recommendations with a featured quotation, clearer attribution,
+  responsive photo crops, and restrained entrances that respect reduced motion.
+
 - Open each Blog Series with its first article and a native chapter-list shortcut,
   using a localized Chapter brief while preserving authored content and reading order.
 
