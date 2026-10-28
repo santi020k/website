@@ -2095,3 +2095,29 @@ all five page rasters remain unchanged and public/built artifacts match. The
 Changeset is folded into unpublished 5.0.0 with published notes intact. This
 follow-up uses affected checks; the full workspace baseline remains `a19890c0`.
 Evidence is retained in `.cache/v5-aligned-inline/`. No remote action occurred.
+
+## Writing first topic flow follow-up
+
+Approved source `8e9e4cd1`, based on `6d0ea7fd`, moves the existing Related topics
+navigation after the gallery and pagination in document order. Reading caption
+owns its separator and 1.5rem gallery gap. The same order applies to one-post,
+two-post, larger, and later-page archives. Topic note, card/tag designs, article
+ordering, related-topic ranking/counts, destinations, metadata, and Archive close
+remain. Main Blog is unchanged. A stale style-guide reference to six related
+topics is corrected to the existing four-topic runtime limit.
+
+All 76 affected Chromium/WebKit topic-order, gallery, opening, and archive-closing
+cases pass with one worker and retries disabled. They cover both locales/themes,
+mobile/desktop, 200% text, native keyboard order, pagination, accessibility, and
+no-JavaScript navigation. All 24 matched content, metadata, destination, card,
+related-topic, and pagination contracts remain unchanged. Forty-eight before/after
+captures cover one-post, two-post, and later-page archives at 390px/1440px in both
+locales/themes; English desktop and Spanish mobile pairs were reviewed. The full
+228-page topic description/canonical/heading audit also passes.
+
+Current-site lint passes with zero warnings, and Astro checks 589 files with zero
+diagnostics. The 904-page build, 906-page OG audit, archive assembly, and resume
+freshness pass without regenerated PDFs. The Changeset is folded into unpublished
+5.0.0 with published notes intact. This design follow-up uses affected checks; the
+full workspace baseline remains `a19890c0`. Evidence is retained in
+`.cache/v5-writing-first/`. No remote action occurred.

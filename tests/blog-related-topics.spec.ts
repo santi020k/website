@@ -6,6 +6,27 @@ for (const locale of ['en', 'es'] as const) {
   const prefix = locale === 'es' ? '/es' : ''
   const name = locale === 'es' ? 'Temas relacionados' : 'Related topics'
 
+  test(`${locale} articles lead the archive before pagination and related topics`, async ({ page, browserName }) => {
+    for (const archive of [
+      { path: 'wine', posts: 1, continuation: '[data-topic-guide-catalog]', middle: [] },
+      { path: 'developer-tools', posts: 2, continuation: '[data-topic-guide-catalog]', middle: [] },
+      { path: 'developer-experience', posts: 12, continuation: '[data-pager-number]', middle: ['data-split-pager'] },
+      { path: 'developer-experience/2', posts: 4, continuation: '[data-pager-number]', middle: ['data-split-pager'] },
+      { path: 'typescript/2', posts: 1, continuation: '[data-pager-number]', middle: ['data-split-pager'] }
+    ]) {
+      await page.goto(`${prefix}/blog/tags/${archive.path}/`)
+      const reading = page.locator('[data-topic-reading]')
+      const order = await reading.locator('[data-topic-reading-caption], [data-post-gallery-grid], [data-split-pager], [data-blog-topic-guide]').evaluateAll(elements => elements.map(element => element.getAttributeNames().find(attribute => ['data-topic-reading-caption', 'data-post-gallery-grid', 'data-split-pager', 'data-blog-topic-guide'].includes(attribute))))
+
+      expect(order).toEqual(['data-topic-reading-caption', 'data-post-gallery-grid', ...archive.middle, 'data-blog-topic-guide'])
+      await expect(page.locator('[data-post-gallery-card]')).toHaveCount(archive.posts)
+      await expect(page.getByRole('navigation', { name, exact: true })).toHaveCount(1)
+      await page.locator('[data-post-gallery-card] a').last().focus()
+      await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+      await expect(reading.locator(archive.continuation).first()).toBeFocused()
+    }
+  })
+
   test(`${locale} related topics use the full archive on every page and retain destination totals`, async ({ page }) => {
     for (const suffix of ['', '2/']) {
       await page.goto(`${prefix}/blog/tags/developer-experience/${suffix}`)

@@ -325,6 +325,9 @@
 
 ### Patch Changes
 
+- Put writing first on Blog topic pages: show articles and their pagination before
+  related topics, retaining the existing cards, navigation, and localized context.
+
 - Keep browse-link arrows beside wrapped labels using the shared action alignment while preserving inline spacing and hover feedback.
 
 - Introduce topic-specific English and Spanish notes for Blog archives, sharing
