@@ -2,6 +2,62 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
+test.describe('topic evidence destinations without JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+
+  for (const { locale, prefix, description, unit, searchLabel, browseLabel } of [
+    {
+      locale: 'en',
+      prefix: '',
+      description: 'is the most explored topic.',
+      unit: 'posts',
+      searchLabel: 'Return to topic search',
+      browseLabel: 'Browse all writing'
+    },
+    {
+      locale: 'es',
+      prefix: '/es',
+      description: 'es el tema más explorado.',
+      unit: 'artículos',
+      searchLabel: 'Volver a buscar temas',
+      browseLabel: 'Ver todos los artículos'
+    }
+  ]) {
+    test(`keeps ${locale} topic evidence readable and links in the current language`, async ({ page }) => {
+      const route = `${prefix}/blog/tags/`
+
+      await page.goto(route)
+      const topic = page.locator('[data-topic-entry]').first()
+      const name = await topic.getAttribute('data-name') ?? ''
+      const href = await topic.locator('a').getAttribute('href') ?? ''
+      const stats = page.locator('[data-stats-section]')
+
+      expect(name).not.toBe('')
+      expect(href).not.toBe('')
+
+      await expect(stats.getByRole('link')).toHaveCount(3)
+      await expect(stats.locator('[data-stat-description]').last()).toHaveText(`${name} ${description}`)
+      await expect(stats.locator('[data-stat-suffix]')).toHaveText(unit)
+
+      const destinations = [
+        { label: searchLabel, href: '#topic-index-heading' },
+        { label: browseLabel, href: `${prefix}/blog/#posts` },
+        { label: name, href }
+      ]
+
+      for (const destination of destinations) {
+        await page.goto(route)
+        const link = stats.getByRole('link', { name: destination.label, exact: true })
+
+        await expect(link).toHaveAttribute('href', destination.href)
+        await link.focus()
+        await page.keyboard.press('Enter')
+        await expect(page).toHaveURL(new URL(destination.href, new URL(route, page.url())).href)
+      }
+    })
+  }
+})
+
 test('Spanish collection navigation stays in Spanish', async ({ page }) => {
   await page.goto('/es/blog/')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Cosas que construyo')

@@ -322,6 +322,8 @@
 
 ### Patch Changes
 
+- Connect Blog Topics statistics to topic search, all writing, and the dynamically named leading topic with Evidence captions.
+
 - Preserve the full width of article section headings when print hides their copy
   controls and link recovery field.
 

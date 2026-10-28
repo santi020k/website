@@ -3,6 +3,15 @@ import { describe, expect, test } from 'vitest'
 import { translateCollection } from '../collection-copy'
 
 describe('Spanish collection UI', () => {
+  test('translates topic evidence captions while retaining authored topic names', () => {
+    expect(translateCollection('Topics to explore')).toBe('Temas para explorar')
+    expect(translateCollection('Posts in the archive')).toBe('Artículos en el archivo')
+    expect(translateCollection('Most written about')).toBe('El tema más explorado')
+    expect(translateCollection('Return to topic search')).toBe('Volver a buscar temas')
+    expect(translateCollection('Browse all writing')).toBe('Ver todos los artículos')
+    expect(translateCollection('CI/CD is the most explored topic.')).toBe('CI/CD es el tema más explorado.')
+  })
+
   test('translates controls without changing authored entry names', () => {
     expect(translateCollection('Next page')).toBe('Página siguiente')
     expect(translateCollection('Read the case study: Lumen UI')).toBe('Leer el caso de estudio: Lumen UI')

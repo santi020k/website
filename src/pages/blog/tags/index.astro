@@ -17,7 +17,7 @@ const locale = getLocale(Astro.url.pathname)
 const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
-const topTagCount = allTags[0]?.[1] ?? 0
+const topTag = allTags[0]
 
 const breadcrumbs = [
   { name: t('Home'), url: localizePath('/', locale) },
@@ -180,10 +180,31 @@ mainClass="remaining-pages"
     </script>
   </section>
 
-  <StatsGrid columns={3}>
-    <StatCard description={t('Distinct recurring topics across the current writing archive.')} icon="hash" label={t('Topics')} value={allTags.length} />
-    <StatCard description={t('Published posts that can be reached through these topic pages.')} icon="file-text" label={t('Posts')} value={posts.length} />
-    <StatCard description={t('How often the most-used topic currently appears in the archive.')} icon="trending-up" label={t('Top topic')} suffix="x" value={topTagCount} />
+  <StatsGrid columns={topTag ? 3 : 2}>
+    <StatCard
+      description={t('Find a subject that fits what you want to read next.')}
+      icon="hash"
+      label={t('Topics to explore')}
+      source={{ href: '#topic-index-heading', label: t('Return to topic search') }}
+      value={allTags.length}
+    />
+    <StatCard
+      description={t('Read across topics, with the latest writing first.')}
+      icon="file-text"
+      label={t('Posts in the archive')}
+      source={{ href: localizePath('/blog/#posts', locale), label: t('Browse all writing') }}
+      value={posts.length}
+    />
+    {topTag && (
+      <StatCard
+        description={t(`${getBlogTopicLabel(topTag[0])} is the most explored topic.`)}
+        icon="trending-up"
+        label={t('Most written about')}
+        source={{ href: localizePath(getTagPath(topTag[0]), locale), label: getBlogTopicLabel(topTag[0]) }}
+        suffix={topTag[1] === 1 ? t('post') : t('posts')}
+        value={topTag[1]}
+      />
+    )}
   </StatsGrid>
 </PageLayout>
 

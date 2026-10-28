@@ -1602,9 +1602,45 @@ its own fallback. See `docs/i18n.md` for maintenance boundaries.
 
 The candidate includes the frozen contact and section-recovery integration at
 `e8ab81bc`. Focused Chromium/WebKit verification covers 326 cases; the unit suite
-covers 1,044 cases. Final integration must also pass `pnpm run verify:fast`. Local
+covers 1,044 cases. The final `pnpm run verify:fast` passed at `b6dce4e5`: all
+workspace lint and Astro diagnostics were clear, seven motion cases passed, all
+five builds completed, and the audit verified 1,288 archive pages and 2,194
+documents / 8,606 local targets with zero errors. The complete log was inspected
+and retained by the coordinator. Twelve visual snapshots passed; local mobile
+Lighthouse performance was 94/93/92 for English home, Spanish home, and Spanish
+contact, with accessibility and SEO at 100. Final resume regeneration preserved
+all five rendered pages pixel for pixel. This is the latest full gate. Local
 CSP browser fixtures preserve production source restrictions and omit the HTTPS
 upgrade directive only while serving HTTP; hosted HTTPS remains a deployment
 smoke check. Task evidence lives in the ignored
 `.cache/reviews/v5-spanish-search/` directory of the primary checkout. No push or
 deployment is part of this local integration.
+
+## Bilingual Evidence captions follow-up
+
+Approved source `7cbf0605` is integrated over the completed bilingual candidate
+`b6dce4e5`. The existing StatCard source footer links topic statistics to the topic
+search, all writing, and the dynamically named leading topic. Its count and link
+come from the same topic tuple; an empty topic collection omits the third card.
+The locale merge preserves Spanish controls and destinations, using the shared
+collection dictionary for descriptions and the post unit while retaining authored
+topic names. Shared components, styles, and client filtering remain unchanged.
+
+Five collection translation unit cases and all ten Chromium/WebKit collection
+cases passed. The four new native-link cases were confirmed after test formatting;
+they cover all three destinations in both languages without JavaScript. Thirty-two
+additional browser/layout states cover both languages and themes at 390/768/1440px
+and 320px with 200% text, live counts, keyboard focus, 44px targets, overflow, and
+scoped accessibility. Sixteen matched before/after screenshots cover mobile and
+desktop in both languages/themes. The opening, search, metadata, and all 112 topic
+identities/counts/destinations are preserved. Spanish desktop and mobile captures
+were visually reviewed.
+
+Current-site lint and focused spelling passed with zero warnings; Astro checked
+567 files with zero errors, warnings, or hints. The 904-page build, 906-page OG
+audit, and archive assembly passed. Collection translations participate in the
+resume fingerprint, so the documented generator refreshed the PDFs and metadata;
+freshness passed and all five rendered pages remain pixel-identical. The Changeset
+is folded into 5.0.0, preserving published notes. The optional Workspace Organizer
+sitemap retains its established unavailable-source skip. This follow-up uses
+affected checks; the latest full workspace gate remains `b6dce4e5`.

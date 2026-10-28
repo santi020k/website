@@ -42,6 +42,7 @@ export const collectionCopy: Record<string, string> = {
   'Blog series': 'Series del blog',
   'Browse Santiago Molina’s capabilities and technologies across frontend architecture, product systems, testing, and delivery.': 'Explora las capacidades y tecnologías de Santiago Molina en arquitectura frontend, sistemas de producto, pruebas y entrega.',
   'Browse all posts': 'Ver todos los artículos',
+  'Browse all writing': 'Ver todos los artículos',
   'Browse all series': 'Ver todas las series',
   'Browse by topic': 'Explorar por tema',
   'Browse by topic.': 'Explora por tema.',
@@ -86,6 +87,7 @@ export const collectionCopy: Record<string, string> = {
   'Filtered archive': 'Archivo filtrado',
   'Find a technology': 'Buscar una tecnología',
   'Find a topic': 'Buscar un tema',
+  'Find a subject that fits what you want to read next.': 'Encuentra un tema sobre lo que quieres leer ahora.',
   'Find related writing fast.': 'Encuentra artículos relacionados.',
   'Focus areas': 'Áreas de enfoque',
   'Follow it into the work.': 'Descubre cómo las uso.',
@@ -126,6 +128,10 @@ export const collectionCopy: Record<string, string> = {
   'Personal Blog — Santiago Molina': 'Blog personal — Santiago Molina',
   Portfolio: 'Portafolio',
   Posts: 'Artículos',
+  'Posts in the archive': 'Artículos en el archivo',
+  'Most written about': 'El tema más explorado',
+  'Read across topics, with the latest writing first.': 'Explora distintos temas, con los artículos más recientes primero.',
+  'Return to topic search': 'Volver a buscar temas',
   'Posts connected by this topic in the archive.': 'Artículos del archivo conectados por este tema.',
   'Posts grouped': 'Artículos agrupados',
   'Posts that belong to a series rather than standing alone in the archive.': 'Artículos que forman parte de una serie dentro del archivo.',
@@ -189,6 +195,7 @@ export const collectionCopy: Record<string, string> = {
   'Top topic': 'Tema principal',
   'Topic archive': 'Archivo del tema',
   Topics: 'Temas',
+  'Topics to explore': 'Temas para explorar',
   'Topics shared with these recommendations': 'Temas compartidos con estas recomendaciones',
   'Total topics': 'Total de temas',
   'Try a broader term or clear the search field.': 'Prueba un término más amplio o borra la búsqueda.',
@@ -357,6 +364,7 @@ export const translateCollection = (text: string): string => {
   if (exact) return exact
 
   return text
+    .replace(/^(.+) is the most explored topic\.$/u, '$1 es el tema más explorado.')
     .replace(/^Visit (.+)$/u, 'Visitar $1')
     .replace(/^View (.+) archive$/u, 'Ver el archivo de $1')
     .replace(/^View (.+) previews$/u, 'Ver imágenes de $1')
