@@ -39,6 +39,72 @@ test.describe('Index filters', () => {
     await expect(page.locator('#tags-list > [data-label]:visible')).toHaveCount(await topics.count())
   })
 
+  test('named topics match readable labels and legacy slugs, then restore count order', async ({ page }) => {
+    await page.goto('/blog/tags/')
+    const entries = page.locator('#tags-list > [data-label]')
+    const initialOrder = await entries.evaluateAll(items => items.map(item => item.getAttribute('data-label')))
+    const search = page.getByRole('searchbox', { name: 'Find a topic' })
+
+    for (const [query, slug, name] of [
+      ['Developer experience', 'developer-experience', 'Developer experience'],
+      ['  #DEVELOPER-EXPERIENCE  ', 'developer-experience', 'Developer experience'],
+      ['Next.js', 'nextjs', 'Next.js'],
+      ['nextjs', 'nextjs', 'Next.js'],
+      ['CI/CD', 'ci-cd', 'CI/CD'],
+      ['#ci-cd', 'ci-cd', 'CI/CD']
+    ] as const) {
+      await search.fill(query)
+      const result = page.locator('#tags-list > [data-label]:visible')
+
+      await expect(result).toHaveCount(1)
+      await expect(result.getByRole('link')).toHaveAttribute('href', `/blog/tags/${slug}/`)
+      await expect(result.locator('[data-topic-name]')).toHaveText(name)
+      await expect(page.locator('#tag-filter-status')).toHaveText('1 topic found.')
+    }
+    await search.fill('')
+    await page.getByRole('button', { name: 'A → Z' }).press('Enter')
+    const names = await entries.locator('[data-topic-name]').evaluateAll(elements => elements.map(element => element.textContent))
+
+    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)))
+    await page.getByRole('button', { name: 'By count' }).press('Enter')
+    expect(await entries.evaluateAll(items => items.map(item => item.getAttribute('data-label')))).toEqual(initialOrder)
+  })
+
+  for (const theme of ['light', 'dark']) {
+    test(`named topic links retain their footprint and keyboard feedback in ${theme}`, async ({ page }) => {
+      await page.addInitScript(value => {
+        localStorage.setItem('theme', value)
+      }, theme)
+      await page.emulateMedia({ reducedMotion: 'no-preference' })
+      await page.goto('/blog/tags/')
+      const search = page.getByRole('searchbox', { name: 'Find a topic' })
+
+      await search.fill('Developer experience')
+      const link = page.locator('#tags-list a:visible')
+
+      await expect(link).toHaveCount(1)
+      await expect(link).toHaveAccessibleName('Developer experience 16 posts')
+      await link.scrollIntoViewIfNeeded()
+      const resting = await link.boundingBox()
+      const background = await link.evaluate(element => getComputedStyle(element).backgroundColor)
+
+      await link.hover()
+      await expect(link).not.toHaveCSS('background-color', background)
+      await expect(link.locator('[data-topic-name]')).toHaveCSS('text-decoration-line', 'underline')
+      await expect(link.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'arrow-exchange')
+      expect(await link.boundingBox()).toEqual(resting)
+      await page.mouse.move(0, 0)
+      await link.focus()
+      await expect(link).toHaveCSS('outline-style', 'solid')
+      await expect(link.locator('[data-topic-arrow]')).toHaveAttribute('aria-hidden', 'true')
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await expect(link).toHaveCSS('transition-property', 'none')
+      await expect(link.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'none')
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL('/blog/tags/developer-experience/')
+    })
+  }
+
   test('filters technologies into an evidence ledger and exposes an empty state', async ({ page }) => {
     await page.goto('/technologies/')
 

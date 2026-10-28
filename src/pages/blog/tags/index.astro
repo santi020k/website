@@ -6,7 +6,7 @@ import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
-import { getAllTags } from '@/utils/tags'
+import { getAllTags, getBlogTopicLabel } from '@/utils/tags'
 
 import { Card, Icon, Input, Link, MotionGroup, Toggle } from '@santi020k/lumen-astro'
 
@@ -87,70 +87,16 @@ mainClass="remaining-pages"
         "
         id="tags-list"
       >
-        {allTags.map(([tag, count]) => {
-          const pct = allTags[0]?.[1] ? Math.round((count / allTags[0][1]) * 100) : 0
+        {allTags.map(([tag, count]) => (
+          <span data-count={String(count)} data-label={tag} data-name={getBlogTopicLabel(tag)} data-topic-entry data-ui-motion-key={tag}>
+            <Link data-topic-card href={localizePath(getTagPath(tag), locale)} variant="inherit">
+              <span data-topic-name>{getBlogTopicLabel(tag)}</span>
+              <span data-topic-count>{count} {count === 1 ? t('post') : t('posts')}</span>
+              <ArrowExchange class="size-4.5" data-topic-arrow direction="right" />
+            </Link>
+          </span>
+        ))}
 
-          return (
-            <span data-count={String(count)} data-label={tag} data-ui-motion-key={tag}>
-              <Link
-                class="
-                  group block h-full rounded-[1.35rem] font-normal text-inherit
-                  no-underline
-                  focus-visible:ring-2 focus-visible:ring-brand/50
-                  focus-visible:outline-hidden
-                "
-                href={localizePath(getTagPath(tag), locale)}
-              >
-                <Card
-                  class="
-                    relative flex h-full flex-col gap-5 rounded-[1.35rem] p-5
-                    sm:px-6 sm:py-5.5
-                  "
-                  data-topic-card
-                  variant="default"
-                >
-                  <div class="
-                    flex flex-wrap items-baseline justify-between gap-x-4
-                    gap-y-2
-                  "
-                  >
-                    <span class="
-                      max-w-full min-w-0 text-base font-medium tracking-tight
-                      text-ink transition-colors duration-200
-                      group-hover:text-brand
-                      motion-reduce:transition-none
-                    "
-                    >
-                      #{tag}
-                    </span>
-                    <span
-                      class="
-                        shrink-0 rounded-full border border-brand/20
-                        bg-brand-soft/60 px-2 text-xs font-medium
-                        whitespace-nowrap text-ink tabular-nums
-                      "
-                    >
-                      {count} {count === 1 ? t('post') : t('posts')}
-                    </span>
-                  </div>
-
-                  <div
-                    aria-hidden="true"
-                    class="
-                      mt-auto h-0.75 w-full overflow-hidden rounded-full
-                      bg-line/35
-                    "
-                  >
-                    <div
-                      class="topic-meter-fill"
-                      style={`width: ${pct}%;`}
-                    />
-                  </div>
-                </Card>
-              </Link>
-            </span>
-          )
-        })}
       </MotionGroup>
       <section
         aria-labelledby="topic-empty-heading"
@@ -182,12 +128,13 @@ mainClass="remaining-pages"
         const items = [...list.children].filter((item): item is HTMLElement => item instanceof HTMLElement)
 
         const updateFilter = () => {
-          // Visible labels render as #tag, so accept one leading # before matching data-label.
+          // Preserve slug queries while also matching the readable topic names.
           const query = input.value.trim().replace(/^#/u, '').trim().toLocaleLowerCase()
           let visibleCount = 0
 
           items.forEach(item => {
-            const matches = !query || (item.dataset.label ?? '').toLocaleLowerCase().includes(query)
+            const matches = !query || [item.dataset.label, item.dataset.name]
+              .some(label => label?.toLocaleLowerCase().includes(query))
 
             item.hidden = !matches
 
@@ -216,8 +163,9 @@ mainClass="remaining-pages"
             const sort = btn.getAttribute('data-sort-btn')
 
             items.sort((a, b) => sort === 'alpha' ?
-              (a.dataset.label ?? '').localeCompare(b.dataset.label ?? '') :
-              Number(b.dataset.count) - Number(a.dataset.count))
+              (a.dataset.name ?? '').localeCompare(b.dataset.name ?? '') :
+              Number(b.dataset.count) - Number(a.dataset.count) ||
+              (a.dataset.label ?? '').localeCompare(b.dataset.label ?? ''))
 
             items.forEach(item => list.appendChild(item))
 
@@ -282,6 +230,67 @@ mainClass="remaining-pages"
   :global([data-theme='dark'] [data-topic-series]) { color: hsl(var(--accent)); }
   @container topic-opening (width < 18rem) {
     [data-topic-opening] h1 { font-size: 2rem; }
+  }
+
+  [data-topic-entry] { container: topic-card / inline-size; min-width: 0; }
+  :global(a[data-topic-card]) {
+    --topic-card-accent: hsl(var(--brand));
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1.125rem;
+    align-content: center;
+    align-items: center;
+    gap: .625rem 1.375rem;
+    min-width: 0;
+    min-height: 7.25rem;
+    height: 100%;
+    padding: 1.375rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: .4375rem 1.5rem 1.5rem 1.5rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    font-weight: 400;
+    text-decoration: none;
+    transition: border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+  }
+  :global([data-theme='dark'] a[data-topic-card]) { --topic-card-accent: hsl(var(--accent)); }
+  [data-topic-name] {
+    grid-column: 1;
+    min-width: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -.035em;
+    overflow-wrap: anywhere;
+  }
+  [data-topic-count] { grid-column: 1; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.8; font-variant-numeric: tabular-nums; }
+  :global([data-topic-arrow]) { grid-column: 2; grid-row: 1 / span 2; color: var(--topic-card-accent); }
+  :global(a[data-topic-card]:is(:hover, :focus-visible)) {
+    border-color: var(--topic-card-accent);
+    background: color-mix(in srgb, hsl(var(--brand-soft)) 25%, hsl(var(--surface)));
+    box-shadow: inset 0 0 0 1px var(--topic-card-accent);
+  }
+  :global(a[data-topic-card]:is(:hover, :focus-visible)) [data-topic-name] {
+    color: var(--topic-card-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .25rem;
+  }
+  :global(a[data-topic-card]:focus-visible) { outline: 2px solid var(--topic-card-accent); outline-offset: 4px; }
+  @container topic-card (width < 20rem) {
+    :global(a[data-topic-card]) { gap: .625rem 1rem; min-height: 6.75rem; padding: 1.25rem; }
+    [data-topic-name] { font-size: 1.125rem; }
+  }
+  @container topic-card (width < 14rem) {
+    :global(a[data-topic-card]) { gap: .5rem .75rem; padding: .75rem; }
+    [data-topic-name] { font-size: 1rem; }
+  }
+  @container topic-card (width < 11rem) {
+    :global(a[data-topic-card]) { padding: .5rem; }
+    :global([data-topic-arrow]) { grid-row: 2; }
+    [data-topic-name] { grid-column: 1 / -1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(a[data-topic-card]) { transition: none; }
   }
 
   [data-topic-index] { container: topic-index / inline-size; }

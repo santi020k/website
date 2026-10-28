@@ -310,6 +310,8 @@
 
 ### Patch Changes
 
+- Refine Blog Topics into sculpted Named index links with readable names, post counts, and directional arrows; match search and sorting to displayed names.
+
 - Keep a selectable clean permalink available when article link copying fails. Share
   the recovery behavior with the closing sharing controls, preserve native sharing
   and cancellation, and remove the recovery field after a successful retry.
