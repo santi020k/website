@@ -70,20 +70,25 @@ entrance keeps its content fully opaque and its primary actions immediately avai
 Featured work uses an open two-column story and artwork spread, with the story
 below the image on small screens. Avoid overlapping the text panel and artwork.
 
-### Homepage recommendations
+### Homepage and contact recommendations
 
-Preserve the three complete quotations, their order, English quotation language,
-and localized author roles and relationships from the profile data. Reuse
-`TestimonialCard`; homepage-only styles give the first quotation a quiet featured
-surface and larger 1.75rem text, with two open supporting quotations separated by
+Preserve the homepage’s three complete quotations, their order, English quotation
+language, and localized author roles and relationships from the profile data. Reuse
+`TestimonialSpotlight`, which composes the existing `TestimonialCard`, to give the
+first quotation a quiet featured surface and larger 1.75rem text, with two open
+supporting quotations separated by
 a fine rule. Supporting quotations use 1.0625rem text. Keep authors and context
 together under the quote, using readable 0.8125rem roles and 0.75rem relationships.
 
-Use a 1.1:1 desktop spread with a 3rem column gap. Below 56rem of home content,
+Work with me reuses this treatment for its existing two quotations, centering the
+supporting quotation beside the featured one. Preserve each page’s selection and
+localized recommendations link.
+
+Use a 1.1:1 desktop spread with a 3rem column gap. Below 56rem of collection width,
 stack the recommendations in their original reading order with 2rem gaps.
 Reduce featured padding and type at narrow and enlarged-text widths; allow the
-identity row to stack without clipping. These overrides belong to HomeProof and
-must not change the About page's recommendation cards. Do not rotate, truncate,
+identity row to stack without clipping. These overrides belong to TestimonialSpotlight
+and must not change the About page's recommendation cards. Do not rotate, truncate,
 or auto-advance quotations.
 
 ## Typography
