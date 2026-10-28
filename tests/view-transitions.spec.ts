@@ -273,49 +273,24 @@ test.describe('View transitions', () => {
     await expect(page.locator('#main')).not.toBeFocused()
   })
 
-  test('keeps the topic filter in place while filtering blog posts', async ({ page }) => {
+  test('topic navigation opens the new archive without restoring an obsolete selected pill', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/blog/')
+    for (const [path, heading] of [['react', 'React'], ['typescript', 'TypeScript']] as const) {
+      await page.locator(`[data-blog-tag-filter] a[href="/blog/tags/${path}/"]`).press('Enter')
+      await expect(page).toHaveURL(`/blog/tags/${path}/`)
+      await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/u)
+      await expect(page.locator('#main')).toBeFocused()
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(heading)
+      await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
+      const main = page.locator('#main')
+      await expectStableTop(main, await main.evaluate(element => element.getBoundingClientRect().top))
+    }
 
-    const topicFilter = page.locator('[data-blog-tag-filter]')
-
-    await topicFilter.evaluate(element => {
-      element.scrollIntoView({ behavior: 'instant', block: 'center' })
-    })
-
-    const initialFilterTop = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
-
-    await topicFilter.getByRole('link', { name: /react/i }).click()
-
-    await expect(page).toHaveURL(/\/blog\/tags\/react\/$/)
-    await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/)
-    await expect(topicFilter).toBeVisible()
-
-    const filteredPagePosition = await topicFilter.evaluate(element => ({
-      scrollY: window.scrollY,
-      top: element.getBoundingClientRect().top
-    }))
-
-    expect(filteredPagePosition.scrollY).toBeGreaterThan(0)
-    await expect.poll(() => topicFilter.evaluate(element => element.getBoundingClientRect().top))
-      .toBeCloseTo(initialFilterTop, 0)
-
-    await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition')
-
-    // Position must remain stable after the page-load event, including any
-    // browser scrolling queued while focus moved to the new document.
-    await expectStableTop(topicFilter, initialFilterTop)
-
-    const filterTopBeforeReset = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
-
-    await topicFilter.getByRole('link', { name: 'All posts' }).click()
-
-    await expect(page).toHaveURL(/\/blog\/$/)
-    await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/)
-
-    await expect.poll(() => topicFilter.evaluate(element => element.getBoundingClientRect().top))
-      .toBeCloseTo(filterTopBeforeReset, 0)
-    await expectStableTop(topicFilter, initialFilterTop)
+    await page.locator('[data-topic-archive-blog]').press('Enter')
+    await expect(page).toHaveURL('/blog/')
+    await expect(page.locator('#main')).toBeFocused()
+    await expect(page.locator('[data-blog-tag-filter]').getByRole('link', { name: 'All posts' })).toHaveAttribute('aria-current', 'page')
   })
 
   test('disables smooth scrolling when reduced motion is requested', async ({ page }) => {

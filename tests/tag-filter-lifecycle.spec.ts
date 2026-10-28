@@ -34,7 +34,7 @@ const holdRequest = async (page: Page, url: string, occurrence = 1) => {
   }
 }
 
-test('a newer navigation cancels the previous topic restoration frame', async ({ page }) => {
+test('a newer navigation prevents an outgoing topic page from moving the viewport', async ({ page }) => {
   await page.goto('/blog/')
   await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/u)
   await page.locator('[data-blog-tag-filter]').evaluate(element => {
@@ -85,208 +85,58 @@ test('a newer navigation cancels the previous topic restoration frame', async ({
   }
 })
 
-test('an earlier page-load leaves a newer topic restoration in place', async ({ page }) => {
+test('a topic chosen during an earlier page swap settles at the newer archive heading', async ({ page }) => {
   await page.goto('/blog/')
   await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/u)
-
-  const typescriptRequest = await holdRequest(page, '**/blog/tags/typescript/')
+  const held = await holdRequest(page, '**/blog/tags/typescript/')
 
   try {
-    // Start the TypeScript topic navigation after React's body swap, before
-    // Astro finishes that page's scripts and dispatches its page-load event.
-    const capturedTop = await page.evaluate(() => new Promise<number>((resolve, reject) => {
-      const react = document.querySelector<HTMLAnchorElement>('[data-blog-tag-filter] a[href="/blog/tags/react/"]')
-
-      if (!react) {
-        reject(new Error('React topic is missing'))
-
-        return
-      }
-
+    await page.evaluate(() => {
       document.addEventListener('astro:after-swap', () => {
-        const filter = document.querySelector<HTMLElement>('[data-blog-tag-filter]')
-        const typescript = filter?.querySelector<HTMLAnchorElement>('a[href="/blog/tags/typescript/"]')
+        const next = document.querySelector<HTMLAnchorElement>('[data-blog-related-topics] a[href="/blog/tags/typescript/"]')
 
-        if (!filter || !typescript) {
-          reject(new Error('TypeScript topic is missing'))
+        if (!next) throw new Error('Related TypeScript link is missing')
 
-          return
-        }
-
-        filter.scrollIntoView({ behavior: 'instant', block: 'center' })
-
-        const { bottom, top } = filter.getBoundingClientRect()
-
-        if (top <= 0 || bottom >= window.innerHeight) {
-          reject(new Error('Topic filter is not fully visible'))
-
-          return
-        }
-
-        document.addEventListener('astro:page-load', () => {
-          resolve(top)
-        }, { once: true })
-        typescript.click()
+        next.scrollIntoView({ block: 'center', behavior: 'instant' })
+        next.click()
       }, { once: true })
-
-      react.click()
-    }))
-
-    await expect(page).toHaveURL(/\/blog\/tags\/react\/$/u)
-    await typescriptRequest.release()
-    await expect(page).toHaveURL(/\/blog\/tags\/typescript\/$/u)
-
-    const filter = page.locator('[data-blog-tag-filter]')
-    const typescript = filter.locator('a[href="/blog/tags/typescript/"]')
-
-    await expect(typescript).toHaveAttribute('aria-current', 'page')
-    await expect(typescript).toBeFocused()
-
-    // Sample consecutive paints so the render correction cannot drift the strip.
-    const tops = await filter.evaluate(async element => {
-      const values: number[] = []
-
-      for (let frame = 0; frame < 4; frame += 1) {
-        await new Promise<void>(resolve => {
-          requestAnimationFrame(() => {
-            resolve()
-          })
-        })
-        values.push(element.getBoundingClientRect().top)
-      }
-
-      return values
     })
-
-    expect(Math.max(...tops.map(top => Math.abs(top - capturedTop)))).toBeLessThanOrEqual(0.5)
+    await page.locator('[data-blog-tag-filter] a[href="/blog/tags/react/"]').click()
+    await expect(page).toHaveURL('/blog/tags/react/')
+    await held.release()
+    await expect(page).toHaveURL('/blog/tags/typescript/')
+    await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/u)
+    await expect(page.locator('#main')).toBeFocused()
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('TypeScript')
+    await expect(page.locator('[data-blog-related-topics] [aria-current]')).toHaveCount(0)
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
   } finally {
     await page.unrouteAll({ behavior: 'ignoreErrors' })
   }
 })
 
-test('an earlier page-load of the same topic leaves a repeated topic restoration in place', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 })
+test('repeated mixed-feed navigation does not restore an outgoing topic position', async ({ page }) => {
   await page.goto('/blog/')
   await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/u)
-
-  // The first React document loads normally; only the repeated click stays in preparation.
-  const repeatedRequest = await holdRequest(page, '**/blog/tags/react/', 2)
+  const held = await holdRequest(page, '**/blog/', 2)
 
   try {
-    // Click React again after its own body swap, before that page's page-load. Astro
-    // still fetches a same-path URL without a hash, so the URL already matches while
-    // the older page-load runs against the filter the repeated click started from.
-    const captured = await page.evaluate(() => new Promise<{
-      path: string
-      sameFilter: boolean
-      scrollLeft: number
-      top: number
-    }>((resolve, reject) => {
-      const react = document.querySelector<HTMLAnchorElement>('[data-blog-tag-filter] a[href="/blog/tags/react/"]')
-
-      if (!react) {
-        reject(new Error('React topic is missing'))
-
-        return
-      }
-
+    await page.evaluate(() => {
       document.addEventListener('astro:after-swap', () => {
-        const filter = document.querySelector<HTMLElement>('[data-blog-tag-filter]')
-        const current = filter?.querySelector<HTMLAnchorElement>('a[href="/blog/tags/react/"]')
+        const current = document.querySelector<HTMLAnchorElement>('[data-blog-tag-filter] a[href="/blog/"]')
 
-        if (!filter || !current) {
-          reject(new Error('Selected React topic is missing'))
+        if (!current) throw new Error('All posts link is missing')
 
-          return
-        }
-
-        filter.scrollIntoView({ behavior: 'instant', block: 'center' })
-
-        const { bottom, left, right, top } = filter.getBoundingClientRect()
-        const exposed = current.getBoundingClientRect()
-        const { scrollLeft } = filter
-
-        if (top <= 0 || bottom >= window.innerHeight || scrollLeft !== 0 ||
-          exposed.left < Math.max(left, 0) || exposed.right > Math.min(right, window.innerWidth)) {
-          reject(new Error('Selected React topic is not contained in the visible wrapping filter'))
-
-          return
-        }
-
-        document.addEventListener('astro:page-load', () => {
-          resolve({
-            path: window.location.pathname,
-            sameFilter: document.querySelector('[data-blog-tag-filter]') === filter,
-            scrollLeft,
-            top
-          })
-        }, { once: true })
+        current.scrollIntoView({ block: 'center', behavior: 'instant' })
         current.click()
       }, { once: true })
-
-      react.click()
-    }))
-
-    // The older page-load saw the matching URL and the repeated click's own source filter.
-    expect(captured.path).toBe('/blog/tags/react/')
-    expect(captured.sameFilter).toBe(true)
-
-    const filter = page.locator('[data-blog-tag-filter]')
-
-    // Mark the older strip and the next page-load so only the repeated navigation's
-    // own completion, with a newly installed filter, can satisfy the waits below.
-    await filter.evaluate(element => {
-      element.dataset.olderFilter = ''
     })
-    await page.evaluate(() => {
-      delete document.documentElement.dataset.repeatedLoaded
-      document.addEventListener('astro:page-load', () => {
-        document.documentElement.dataset.repeatedLoaded = ''
-      }, { once: true })
-    })
-    await repeatedRequest.release()
-    await expect(page.locator('html')).toHaveAttribute('data-repeated-loaded', '')
-    await expect(page.locator('[data-older-filter]')).toHaveCount(0)
-
-    const react = filter.locator('a[href="/blog/tags/react/"]')
-
-    await expect(react).toHaveAttribute('aria-current', 'page')
-    await expect(react).toBeFocused()
-
-    // Sample consecutive paints so the render correction cannot drift the strip.
-    const settled = await react.evaluate(async link => {
-      const strip = link.closest<HTMLElement>('[data-blog-tag-filter]')
-
-      if (!strip) throw new Error('Selected topic is outside the filter strip')
-
-      const tops: number[] = []
-
-      for (let frame = 0; frame < 4; frame += 1) {
-        await new Promise<void>(resolve => {
-          requestAnimationFrame(() => {
-            resolve()
-          })
-        })
-        tops.push(strip.getBoundingClientRect().top)
-      }
-
-      const pill = link.getBoundingClientRect()
-      const bounds = strip.getBoundingClientRect()
-
-      return {
-        clippedLeft: Math.max(bounds.left, 0) - pill.left,
-        clippedRight: pill.right - Math.min(bounds.right, window.innerWidth),
-        overflows: strip.scrollWidth > strip.clientWidth,
-        scrollLeft: strip.scrollLeft,
-        tops
-      }
-    })
-
-    expect(settled.overflows).toBe(false)
-    expect(settled.clippedLeft).toBeLessThanOrEqual(0)
-    expect(settled.clippedRight).toBeLessThanOrEqual(0)
-    expect(settled.scrollLeft).toBeCloseTo(captured.scrollLeft, 0)
-    expect(Math.max(...settled.tops.map(top => Math.abs(top - captured.top)))).toBeLessThanOrEqual(0.5)
+    await page.locator('[data-blog-tag-filter] a[href="/blog/"]').click()
+    await held.release()
+    await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/u)
+    await expect(page.locator('#main')).toBeFocused()
+    await expect(page.locator('[data-blog-tag-filter] a[href="/blog/"]')).toHaveAttribute('aria-current', 'page')
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
   } finally {
     await page.unrouteAll({ behavior: 'ignoreErrors' })
   }

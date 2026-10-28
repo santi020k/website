@@ -69,18 +69,15 @@ test.describe('Blog topic filter aria-current semantics', () => {
     for (const link of await tagLinks.all()) await expect(link).not.toHaveAttribute('aria-current')
   })
 
-  test('marks the active tag as current on a filtered archive without changing its link target', async ({ page }) => {
+  test('uses related destinations without repeating the current archive as a selected link', async ({ page }) => {
     await page.goto('/blog/tags/react/')
 
-    const filter = page.locator('[data-blog-tag-filter]')
-    const activeTag = filter.getByRole('link', { name: /react/i })
-    const allPosts = filter.getByRole('link', { name: 'All posts' })
+    const related = page.getByRole('navigation', { name: 'Related topics' })
 
-    await expect(activeTag).toHaveAttribute('aria-current', 'page')
-    await expect(activeTag).toHaveAttribute('href', '/blog/tags/react/')
-
-    await expect(allPosts).not.toHaveAttribute('aria-current')
-    await expect(allPosts).toHaveAttribute('href', '/blog/')
+    await expect(related.getByRole('link')).toHaveCount(4)
+    await expect(related.locator('[aria-current]')).toHaveCount(0)
+    await expect(related.locator('a[href="/blog/tags/react/"]')).toHaveCount(0)
+    await expect(page.locator('[data-topic-archive-blog]')).toHaveAttribute('href', '/blog/')
   })
 })
 

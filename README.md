@@ -112,6 +112,8 @@ and existing Lumen contracts, rather than restoring retired utility layers.
 
 - **Blog:** one chronological feed for software, reading, gaming, hobbies, and everyday experiences.
   Published tags generate topic archives; reading and gaming remain discoverable in the filters.
+  Each topic archive links to up to four related topics, ranked by shared published articles
+  across all its pages. Counts describe the destination's complete archive, not an intersection.
 - **Travel:** Lumen `WorldMap` connects country visit counts with personal notes. Follow the
   [travel editing guide](docs/editorial/travel.md) for data and title-only drafts.
 - **Projects:** `relevanceWeight` ranks personal projects across the homepage and portfolio.

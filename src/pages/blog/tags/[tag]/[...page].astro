@@ -15,7 +15,7 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
-import { getAllTags, getBlogBrowseTags, getBlogTopicLabel } from '@/utils/tags'
+import { getAllTags, getBlogTopicLabel, getRelatedBlogTags } from '@/utils/tags'
 
 import { Link } from '@santi020k/lumen-astro'
 
@@ -48,8 +48,7 @@ interface Props {
 
 const { page, tag, totalTopics } = Astro.props
 const allPosts = await getCachedPosts()
-const allTags = getAllTags(allPosts)
-const topTags = getBlogBrowseTags(allTags)
+const relatedTags = getRelatedBlogTags(allPosts, tag)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
 const topicLabel = getBlogTopicLabel(tag)
@@ -121,7 +120,7 @@ data-topic-archive-opening
     </header>
 
     <div class="space-y-8">
-      <TagFilter activeTag={tag} tags={topTags} totalTopics={totalTopics} />
+      {relatedTags.length > 0 && <TagFilter tags={relatedTags} totalTopics={totalTopics} variant="related" />}
 
       {page.data.length > 0 ?
         (

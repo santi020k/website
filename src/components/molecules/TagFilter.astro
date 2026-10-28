@@ -18,9 +18,12 @@ interface Props {
   showDivider?: boolean
   tags: [string, number][]
   totalTopics: number
+  variant?: 'browse' | 'related'
 }
 
-const { activeTag, showDivider = false, tags, totalTopics } = Astro.props
+const { activeTag, showDivider = false, tags, totalTopics, variant = 'browse' } = Astro.props
+const isRelated = variant === 'related'
+const TopicLinks = isRelated ? 'nav' : 'div'
 
 // Later archive pages keep their group selected, but only its first page is the current page.
 const getAriaCurrent = (href: string, isSelected: boolean) => {
@@ -45,21 +48,24 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
 )}
 <div data-blog-topic-guide>
   <div data-topic-guide-heading>
-    <p>{t('Browse by topic')}</p>
+    <p>{t(isRelated ? 'Related topics' : 'Browse by topic')}</p>
     <Link data-topic-guide-catalog href={localizePath('/blog/tags/', locale)} variant="inherit">
-      <span>{`All ${totalTopics} ${totalTopics === 1 ? t('topic') : t('topics')}`}</span>
+      <span>{t(`All ${totalTopics} ${totalTopics === 1 ? 'topic' : 'topics'}`)}</span>
       <ArrowExchange direction="up-right" size="sm" />
     </Link>
   </div>
-  <div
-    aria-label={t('Filter by topic')}
+  <TopicLinks
+    aria-label={t(isRelated ? 'Related topics' : 'Filter by topic')}
     class="@container/sculpted-tags flex flex-wrap gap-2.5"
     data-blog-tag-filter
-    role="group"
+    data-blog-related-topics={isRelated ? '' : undefined}
+    role={isRelated ? undefined : 'group'}
   >
-    <SculptedTag aria-current={getAriaCurrent('/blog/', !activeTag)} href={localizePath('/blog/', locale)} label={t('All posts')}>
+    {!isRelated && (
+<SculptedTag aria-current={getAriaCurrent('/blog/', !activeTag)} href={localizePath('/blog/', locale)} label={t('All posts')}>
       <Icon class="size-4.5" name="layers" slot="count" />
     </SculptedTag>
+)}
     {tags.map(([tag, count]) => (
       <SculptedTag
         aria-current={getAriaCurrent(getTagPath(tag), activeTag === tag)}
@@ -68,7 +74,7 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
         label={getBlogTopicLabel(tag)}
       />
     ))}
-  </div>
+  </TopicLinks>
 </div>
 
 <style>
@@ -79,7 +85,7 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
   [data-topic-guide-catalog][data-slot='link'] { display: inline-flex; align-items: center; gap: 0.625rem; min-height: 2.75rem; max-width: 100%; color: var(--topic-guide-accent); font-size: 0.8125rem; line-height: 1.8; text-decoration: none; }
   [data-topic-guide-catalog]:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.25em; }
   [data-topic-guide-catalog]:focus-visible { outline: 2px solid var(--topic-guide-accent); outline-offset: 4px; }
-  [data-blog-tag-filter] :global([data-sculpted-tag]) { transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease; }
+  [data-blog-tag-filter] :global([data-sculpted-tag]) { cursor: pointer; transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease; }
   [data-blog-tag-filter] :global([data-sculpted-tag-count]) { transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease; }
   [data-blog-tag-filter] :global([data-sculpted-tag]:is(:hover, :focus-visible)) { box-shadow: 0 3px 0 color-mix(in srgb, var(--sculpted-tag-accent) 18%, transparent); }
   [data-blog-tag-filter] :global([data-sculpted-tag]:is(:hover, :focus-visible):not([aria-current])) { border-color: var(--sculpted-tag-accent); background: color-mix(in srgb, var(--sculpted-tag-accent) 6%, hsl(var(--surface))); color: var(--sculpted-tag-accent); }
@@ -90,125 +96,3 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
     [data-blog-tag-filter] :global([data-sculpted-tag-count]) { transition: none; }
   }
 </style>
-
-<script>
-  import { TransitionBeforePreparationEvent } from 'astro:transitions/client'
-
-  interface PreservedFilterState {
-    pathname: string
-    scrollLeft: number
-    sourceFilter: HTMLElement
-    top: number
-  }
-
-  let preservedFilter: PreservedFilterState | undefined
-  let restoreFrame = 0
-
-  // Every transition starts clean; only a topic link inside the filter records state.
-  document.addEventListener('astro:before-preparation', event => {
-    cancelAnimationFrame(restoreFrame)
-
-    restoreFrame = 0
-
-    preservedFilter = undefined
-
-    if (!(event instanceof TransitionBeforePreparationEvent)) return
-
-    const { sourceElement } = event
-    const link = sourceElement?.closest<HTMLAnchorElement>('a[href]')
-    const filter = link?.closest<HTMLElement>('[data-blog-tag-filter]')
-
-    if (!link || !filter) return
-
-    preservedFilter = {
-      pathname: new URL(link.href).pathname,
-      scrollLeft: filter.scrollLeft,
-      sourceFilter: filter,
-      top: filter.getBoundingClientRect().top
-    }
-  })
-
-  // Computed scroll padding keeps percentages unresolved and reports `auto` as is.
-  const getScrollPadding = (value: string, viewportWidth: number) => {
-    if (value.endsWith('%')) return Number.parseFloat(value) / 100 * viewportWidth
-
-    return value.endsWith('px') ? Number.parseFloat(value) : 0
-  }
-
-  // Without a preserved strip position, a clipped selected topic scrolls just into the
-  // padded strip. Only the strip moves, so the page and focus stay where they are.
-  const revealActiveTopic = (filter: HTMLElement) => {
-    // The wrapping layout has nothing to scroll.
-    if (filter.scrollWidth <= filter.clientWidth) return
-
-    const active = filter.querySelector<HTMLAnchorElement>('a[aria-current]')
-
-    if (!active) return
-
-    const { scrollPaddingLeft, scrollPaddingRight } = getComputedStyle(filter)
-    const { clientLeft, clientWidth } = filter
-    const viewportLeft = filter.getBoundingClientRect().left + clientLeft
-    const start = viewportLeft + getScrollPadding(scrollPaddingLeft, clientWidth)
-    const end = viewportLeft + clientWidth - getScrollPadding(scrollPaddingRight, clientWidth)
-    const { left, right } = active.getBoundingClientRect()
-    const offset = left < start ? left - start : Math.max(0, Math.min(right - end, left - start))
-
-    if (offset !== 0) filter.scrollBy({ behavior: 'instant', left: offset })
-  }
-
-  // Restore after the layout moves focus to #main, so the selected topic keeps
-  // keyboard focus. The render-frame correction handles styles settling later.
-  document.addEventListener('astro:page-load', () => {
-    const state = preservedFilter
-    const filter = document.querySelector<HTMLElement>('[data-blog-tag-filter]')
-
-    // An older page can finish while the next topic is still preparing. Keep
-    // its saved position until that navigation has installed its own filter.
-    if (state && (window.location.pathname !== state.pathname || filter === state.sourceFilter)) return
-
-    preservedFilter = undefined
-
-    if (!filter) return
-
-    if (!state) {
-      revealActiveTopic(filter)
-
-      return
-    }
-
-    filter.scrollLeft = state.scrollLeft
-
-    const destination = Array.from(filter.querySelectorAll<HTMLAnchorElement>('a[href]'))
-      .find(link => new URL(link.href).pathname === state.pathname)
-
-    if (destination) {
-      destination.focus({ preventScroll: true })
-
-      // Minimally expose a clipped topic; one that already fits keeps its position.
-      destination.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' })
-    }
-
-    const restoreTop = () => window.scrollTo({
-      behavior: 'instant',
-      left: window.scrollX,
-      // An absolute pixel target avoids accumulating rounding error when
-      // WebKit applies successive fractional scrollBy offsets.
-      top: Math.round(window.scrollY + filter.getBoundingClientRect().top - state.top)
-    })
-
-    restoreTop()
-
-    // Newly inserted stylesheets can affect WebKit layout after page-load.
-    // Recheck on the next render without delaying the initial focus/scroll.
-    const restoredURL = window.location.href
-
-    restoreFrame = requestAnimationFrame(() => {
-      restoreFrame = 0
-
-      if (!filter.isConnected || window.location.href !== restoredURL ||
-        document.activeElement !== destination) return
-
-      restoreTop()
-    })
-  })
-</script>
