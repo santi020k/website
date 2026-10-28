@@ -704,11 +704,26 @@ titles, descriptions, canonical and alternate URLs, structured data, and native
 article and pagination links.
 
 Use an open, wrapping row with baseline alignment, a 1.75rem heading and .75rem
-count. Below 26rem of section width, reduce the heading to 1.625rem. Share the
-existing topic filter's top rule as the separator, with 1.25rem below the caption;
-remove the old large-heading description, eyebrow, and extra gap. Keep the filters,
-article cards and section rhythm unchanged. The later Archive close treatment
+count. Below 26rem of section width, reduce the heading to 1.625rem. The caption
+owns its bottom rule, with 1.25rem below the text and 1.5rem before the gallery.
+Keep the article cards and section rhythm unchanged. The Archive close treatment
 below replaces the ending statistics. Add no client JavaScript.
+
+### Writing first topic flow
+
+Topic archives use **Writing first**: place the article gallery directly after
+Reading caption, followed by pagination when the archive has multiple pages, then
+Related topics. Keep continuing the current archive beside its articles before
+offering another topic. The same order applies to single-post, two-post, and larger
+archives, including later pages, in both language shells.
+
+Move the existing Related topics component in document order; do not duplicate it,
+collapse it, or rearrange it only with CSS. Preserve its sculpted tags, ranking,
+destination totals, catalog link, native keyboard order, and script-free behavior.
+Retain the 2rem gaps between the gallery, pagination, and topic guide, and omit the
+guide when no connected topics exist. Keep Topic note, Focused gallery, article
+order, metadata, and Archive close unchanged. The main Blog keeps its topic chooser
+above the feed.
 
 ### Archive close topic ending
 
@@ -3141,7 +3156,7 @@ the search controls; the approved Named index topic cards remain independent bel
 
 ### Sculpted tags related-topic shortcuts
 
-Topic archives use **Sculpted tags** for the Related topics links below their introduction.
+Topic archives use **Sculpted tags** for the Related topics links after their writing.
 Keep the existing up-to-six topic selection, exclude the current topic, and preserve counts,
 order, and canonical archive destinations. The named navigation contains a semantic list;
 links wrap at every width and retain the shared count compartments and visible focus outline.
@@ -3202,7 +3217,7 @@ introduces Browse by topic and a native All topics link with the collection-deri
 total. Keep the existing filter order, counts, and slug destinations; present readable
 labels such as Developer experience, TypeScript, Next.js, and Open source.
 
-Individual topic archives use **Related topics** beneath Reading caption. Show up
+Individual topic archives use **Related topics** after the gallery and pagination. Show up
 to four topics ranked by shared published articles across the full current-topic
 archive, breaking ties alphabetically by slug. Exclude the current topic; keep
 counts as each destination's full archive total. Links open that topic's complete

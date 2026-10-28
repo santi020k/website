@@ -119,8 +119,6 @@ data-topic-archive-opening
     </header>
 
     <div class="space-y-8">
-      {relatedTags.length > 0 && <TagFilter tags={relatedTags} totalTopics={totalTopics} variant="related" />}
-
       {page.data.length > 0 ?
         (
           <PostsGallery columns={postCount === 2 ? 2 : 3} layout={postCount === 1 ? 'focused' : 'grid'} posts={page.data} />
@@ -135,6 +133,8 @@ data-topic-archive-opening
         )}
 
       <Pagination baseUrl={localizePath(getTagPath(tag), locale)} page={page} />
+
+      {relatedTags.length > 0 && <TagFilter tags={relatedTags} totalTopics={totalTopics} variant="related" />}
     </div>
   </section>
 
@@ -272,6 +272,8 @@ data-topic-close
     justify-content: space-between;
     gap: .75rem 1.75rem;
     padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid hsl(var(--line));
   }
   [data-topic-reading-caption] h2 {
     min-width: 0;
