@@ -2,6 +2,8 @@ import type { TravelCountry } from '@/data/travel'
 import { travelCountries } from '@/data/travel'
 import type { Locale } from '@/i18n'
 
+import { sharedTranslator } from './shared-copy'
+
 const placesEs: Readonly<Record<string, string>> = {
   'Mexico City (DF)': 'Ciudad de México (DF)',
   'Guatemala City': 'Ciudad de Guatemala',
@@ -44,42 +46,36 @@ export const getLocalizedTravelCountries = (locale: Locale): readonly TravelCoun
 }
 
 export const getLocalizedVisitLabel = (country: TravelCountry, locale: Locale): string => {
-  if (country.connection === 'home') return locale === 'es' ? 'País de origen' : 'Home country'
+  const t = sharedTranslator(locale)
 
-  const singular = locale === 'es' ? 'visita' : 'visit'
-  const plural = locale === 'es' ? 'visitas' : 'visits'
+  if (country.connection === 'home') return t('travel.homeCountry')
+
+  const singular = t('travel.visit')
+  const plural = t('travel.visits')
   const count = `${country.visits} ${country.visits === 1 ? singular : plural}`
-  const residence = locale === 'es' ? 'País de residencia' : 'Country of residence'
+  const residence = t('travel.residence')
 
   return country.connection === 'resident' ? `${count} · ${residence}` : count
 }
 
-export const getTravelControlCopy = (locale: Locale) => locale === 'es' ?
-  {
-    closed: 'Detalles del país cerrados.',
-    choose: 'Elige un país destacado para explorar los lugares que he visitado.',
-    discover: 'Más lugares por descubrir',
-    beyond: 'Más allá del cuaderno',
-    home: 'Donde empieza mi historia',
-    noEntry: 'Sin entrada en mi diario de viajes',
-    previous: 'País anterior',
-    residence: 'País de residencia',
-    story: 'Un lugar en mi historia',
-    visit: 'visita',
-    visits: 'visitas',
-    from: 'Soy de Colombia. Aquí empieza mi historia.'
-  } :
-  {
-    closed: 'Country details closed.',
-    choose: 'Choose a highlighted country to explore the places I have visited.',
-    discover: 'More places to discover',
-    beyond: 'Beyond the notebook',
-    home: 'Where my story begins',
-    noEntry: 'No entry in my travel journal',
-    previous: 'Previous country',
-    residence: 'Country of residence',
-    story: 'A place in my story',
-    visit: 'visit',
-    visits: 'visits',
-    from: 'I’m from Colombia. This is where my story begins.'
+export const getTravelControlCopy = (locale: Locale) => {
+  const t = sharedTranslator(locale)
+
+  return {
+    closed: t('travel.closed'),
+    choose: t('travel.choose'),
+    discover: t('travel.discover'),
+    beyond: t('travel.beyond'),
+    home: t('travel.home'),
+    noEntry: t('travel.noEntry'),
+    previous: t('travel.previous'),
+    residence: t('travel.residence'),
+    story: t('travel.story'),
+    visit: t('travel.visit'),
+    visits: t('travel.visits'),
+    from: t('travel.from'),
+    placeholder: t('travel.placeholder'),
+    notebook: t('travel.notebook'),
+    remaining: t('travel.remaining')
   }
+}

@@ -1,3 +1,5 @@
+import type { Locale } from './i18n/index.ts'
+import { defaultLocale, sharedTranslator } from './i18n/index.ts'
 import type { SiteConfig, SiteLink } from './types/site'
 
 export const CAREER_START_YEAR = 2014
@@ -121,40 +123,46 @@ export const createWebsiteSchemaReference = (siteUrl: URL | undefined) => ({
   '@id': createSchemaEntityId('website', siteUrl)
 })
 
-export const menuLinks: SiteLink[] = [
-  {
-    icon: 'tabler:home-2',
-    path: '/',
-    title: 'Home'
-  },
-  {
-    icon: 'tabler:user-circle',
-    path: '/about/',
-    title: 'About'
-  },
-  {
-    icon: 'tabler:timeline',
-    path: '/work/',
-    title: 'Work'
-  },
-  {
-    icon: 'tabler:layers-intersect',
-    path: '/projects/',
-    title: 'Projects'
-  },
-  {
-    icon: 'tabler:speakerphone',
-    path: '/speaking/',
-    title: 'Speaking & Community'
-  },
-  {
-    icon: 'tabler:world',
-    path: '/travel/',
-    title: 'Travel'
-  },
-  {
-    icon: 'tabler:edit',
-    path: '/blog/',
-    title: 'Blog'
-  }
-]
+export const getMenuLinks = (locale: Locale = defaultLocale): SiteLink[] => {
+  const t = sharedTranslator(locale)
+
+  return [
+    {
+      icon: 'tabler:home-2',
+      path: '/',
+      title: t('nav.home')
+    },
+    {
+      icon: 'tabler:user-circle',
+      path: '/about/',
+      title: t('nav.about')
+    },
+    {
+      icon: 'tabler:timeline',
+      path: '/work/',
+      title: t('nav.work')
+    },
+    {
+      icon: 'tabler:layers-intersect',
+      path: '/projects/',
+      title: t('nav.projects')
+    },
+    {
+      icon: 'tabler:speakerphone',
+      path: '/speaking/',
+      title: t('nav.speakingCommunity')
+    },
+    {
+      icon: 'tabler:world',
+      path: '/travel/',
+      title: t('nav.travel')
+    },
+    {
+      icon: 'tabler:edit',
+      path: '/blog/',
+      title: t('nav.blog')
+    }
+  ]
+}
+
+export const menuLinks = getMenuLinks()

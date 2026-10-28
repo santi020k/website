@@ -1,10 +1,10 @@
 ---
 import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
 
-import { getLocale, translate } from '@/i18n'
+import { getLocale, sharedTranslator } from '@/i18n'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
+const t = sharedTranslator(locale)
 
 ---
 
@@ -23,31 +23,31 @@ const t = (text: string) => translate(locale, text)
     <div data-site-search-panel role="document">
       <div data-site-search-heading>
         <div data-site-search-identity>
-          <span aria-hidden="true" data-site-search-label>{t('Site index')}</span>
-          <h2 id="site-search-title">{t('Search')}</h2>
-          <p data-site-search-description>{t('Posts, projects, and community.')}</p>
+          <span aria-hidden="true" data-site-search-label>{t('shared.siteIndex')}</span>
+          <h2 id="site-search-title">{t('search.title')}</h2>
+          <p data-site-search-description>{t('shared.postsProjectsAndCommunity')}</p>
         </div>
         <Button data-site-search-close size="icon" type="button" variant="ghost">
           <Icon class="size-5" name="x" />
-          <span class="sr-only">{t('Close search')}</span>
+          <span class="sr-only">{t('shared.closeSearch')}</span>
         </Button>
       </div>
 
       <div data-site-search-body>
         <div data-site-search-field>
           <Icon class="size-5 shrink-0" name="search" />
-          <label class="sr-only" for="site-search-input">{t('Search posts, projects, and community work')}</label>
+          <label class="sr-only" for="site-search-input">{t('shared.searchPostsProjectsAndCommunityWork')}</label>
           <SearchField
             aria-describedby="site-search-help"
             autocomplete="off"
             class="peer"
             id="site-search-input"
-            placeholder={t('Search the site…')}
+            placeholder={t('shared.searchTheSite')}
             spellcheck="false"
             type="search"
           />
           <Button
-            aria-label={t('Clear search')}
+            aria-label={t('shared.clearSearch')}
             class="peer-placeholder-shown:invisible"
             data-site-search-input-clear
             size="icon"
@@ -62,12 +62,12 @@ const t = (text: string) => translate(locale, text)
         <ul id="site-search-results"></ul>
 
         <div data-site-search-footer id="site-search-help">
-          <span><Kbd><span aria-hidden="true">↑ ↓</span><span class="sr-only">{t('Arrow keys')}</span></Kbd> {t('Move')}</span>
+          <span><Kbd><span aria-hidden="true">↑ ↓</span><span class="sr-only">{t('shared.arrowKeys')}</span></Kbd> {t('shared.move')}</span>
           <span><Kbd><Icon name="corner-down-left" class="size-3" /><span class="
             sr-only
           "
-                                                                    >{t('Enter')}</span></Kbd> {t('Open')}</span>
-          <span><Kbd>Esc</Kbd> {t('Close')}</span>
+                                                                    >{t('shared.enter')}</span></Kbd> {t('shared.open')}</span>
+          <span><Kbd>Esc</Kbd> {t('shared.close')}</span>
         </div>
       </div>
     </div>

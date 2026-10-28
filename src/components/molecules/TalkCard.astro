@@ -5,7 +5,7 @@ import { Card, Link } from '@santi020k/lumen-astro'
 
 import type { SpeakingFormat, SpeakingTopic } from '@/data/profile'
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 
 interface Props {
   description: string
@@ -22,7 +22,7 @@ const readingSource = variant === 'topic' ? source : undefined
 const formatOutcome = variant === 'format' ? outcome : undefined
 const hasCaption = Boolean(readingSource ?? formatOutcome)
 const locale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(locale, source)
+const t = pageTranslator(locale)
 ---
 
 <Card
@@ -49,7 +49,7 @@ const t = (source: string) => translatePage(locale, source)
   <p class="text-sm/7 text-ink-soft">{description}</p>
   {readingSource && (
     <footer data-talk-source>
-      <p>{t('Read the approach')}</p>
+      <p>{t('page.readTheApproach')}</p>
       <Link href={localizePath(readingSource.href, locale)} variant="inherit">
         <span>{readingSource.label}</span><ArrowExchange data-talk-source-icon direction="up-right" size="sm" />
       </Link>
@@ -57,7 +57,7 @@ const t = (source: string) => translatePage(locale, source)
   )}
   {formatOutcome && (
     <footer data-talk-outcome>
-      <p>{t('Good fit')}</p>
+      <p>{t('page.goodFit')}</p>
       <p data-talk-fit>{formatOutcome.fit}</p>
       <Link href={localizePath(formatOutcome.href, locale)} variant="inherit">
         <span>{formatOutcome.label}</span><ArrowExchange data-talk-outcome-icon direction="down-right" size="sm" />

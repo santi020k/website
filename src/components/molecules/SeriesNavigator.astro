@@ -9,10 +9,10 @@ import { getPostPath, getSeriesPath } from '@/utils/links'
 import { Collapsible, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   currentPostId: string
@@ -32,16 +32,16 @@ const isLatestChapter = !next
 <section class="not-prose mt-16 py-8" data-series-content data-series-close={isLatestChapter || undefined} id="series-navigation">
   <header data-series-intro>
     <div data-series-context>
-      <span>{isLatestChapter ? t('Latest published chapter') : t('Continue the series')}</span>
-      <span data-series-position>{locale === 'es' ? `Artículo ${position} de ${total}` : `Post ${position} of ${total}`}</span>
+      <span>{isLatestChapter ? t('collection.latestPublishedChapter') : t('collection.continueTheSeries')}</span>
+      <span data-series-position>{t('series.position', { position, total })}</span>
     </div>
     {isLatestChapter ?
 (
       <>
-        <h2 data-series-heading>{t('At the latest chapter.')}</h2>
+        <h2 data-series-heading>{t('collection.atTheLatestChapter')}</h2>
         <a data-series-navigator-title href={localizePath(seriesPath, locale)}>{series.data.title}</a>
         <p data-series-description>
-          {previous ? t('Revisit an earlier chapter, or explore the series overview.') : t('Explore the series overview.')}
+          {previous ? t('collection.revisitAnEarlierChapterOrExplore') : t('collection.exploreTheSeriesOverview')}
         </p>
       </>
     ) :
@@ -57,7 +57,7 @@ const isLatestChapter = !next
 
   {(previous ?? next) && (
     <nav
-      aria-label={(locale === 'es' ? `Continúa leyendo ${series.data.title}` : `Continue reading ${series.data.title}`)}
+      aria-label={(t('series.continueReading', { title: series.data.title }))}
       data-series-pagination
       data-single={!(previous && next) || undefined}
     >
@@ -70,11 +70,11 @@ const isLatestChapter = !next
           {isLatestChapter ?
 (
             <span data-series-close-meta>
-              <span data-series-adjacent-direction>{t('Previous')}<span class="
+              <span data-series-adjacent-direction>{t('collection.previous')}<span class="
                 sr-only
               "
-                                                                  >{t('in series')}</span></span>
-              <span data-series-adjacent-part>{t('Part')} {String(position - 1).padStart(2, '0')}</span>
+                                                                             >{t('collection.inSeries')}</span></span>
+              <span data-series-adjacent-part>{t('collection.part')} {String(position - 1).padStart(2, '0')}</span>
             </span>
           ) :
 (
@@ -86,7 +86,7 @@ class="
 "
 direction="left"
             />
-            <span>{t('Previous in series')}</span>
+            <span>{t('collection.previousInSeries')}</span>
             </span>
           )}
           <h3 data-series-adjacent-title>{previous.data.title}</h3>
@@ -101,7 +101,7 @@ direction="left"
             />
           ) :
 (
-            <span data-series-adjacent-part>{t('Part')} {String(position - 1).padStart(2, '0')}</span>
+            <span data-series-adjacent-part>{t('collection.part')} {String(position - 1).padStart(2, '0')}</span>
           )}
         </a>
       )}
@@ -113,7 +113,7 @@ direction="left"
           rel="next"
         >
           <span data-series-adjacent-direction>
-            <span>{t('Next in series')}</span>
+            <span>{t('collection.nextInSeries')}</span>
             <ArrowExchange
 class="
   size-4.5 shrink-0 text-brand
@@ -123,7 +123,7 @@ direction="right"
             />
           </span>
           <h3 data-series-adjacent-title>{next.data.title}</h3>
-          <span data-series-adjacent-part>{t('Part')} {String(position + 1).padStart(2, '0')}</span>
+          <span data-series-adjacent-part>{t('collection.part')} {String(position + 1).padStart(2, '0')}</span>
         </a>
       )}
     </nav>
@@ -131,10 +131,10 @@ direction="right"
 
   <Collapsible data-series-fold>
     <summary data-series-fold-summary>
-      <span>{locale === 'es' ? `Los ${total} capítulos` : `All ${total} ${total === 1 ? 'chapter' : 'chapters'}`}</span>
+      <span>{t(total === 1 ? 'series.allChapter' : 'series.allChapters', { total })}</span>
       <Icon class="size-4 shrink-0" name="chevron-down" />
     </summary>
-    <nav aria-label={(locale === 'es' ? `Capítulos de ${series.data.title}` : `Chapters in ${series.data.title}`)} data-series-index>
+    <nav aria-label={(t('series.chapters', { title: series.data.title }))} data-series-index>
       <ol data-series-track>
         {posts.map((seriesPost, index) => {
           const isCurrentPost = seriesPost.id === currentPostId
@@ -147,11 +147,11 @@ direction="right"
                 href={localizePath(getPostPath(seriesPost.id), locale)}
               >
                 <span data-series-step-number>
-                  <span class="sr-only">{t('Part')} {index + 1}</span>
+                  <span class="sr-only">{t('collection.part')} {index + 1}</span>
                   <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 </span>
                 <span data-series-step-copy>
-                  <span data-series-step-label>{isCurrentPost ? t('Reading now') : t('In this series')}</span>
+                  <span data-series-step-label>{isCurrentPost ? t('collection.readingNow') : t('collection.inThisSeries')}</span>
                   <span data-series-step-title>{seriesPost.data.title}</span>
                 </span>
               </a>
@@ -163,7 +163,7 @@ direction="right"
   </Collapsible>
 
   <div data-series-footer>
-    <ButtonLink href={localizePath(seriesPath, locale)} showArrow variant="inline">{t('Explore the series')}</ButtonLink>
+    <ButtonLink href={localizePath(seriesPath, locale)} showArrow variant="inline">{t('collection.exploreTheSeries')}</ButtonLink>
   </div>
 </section>
 

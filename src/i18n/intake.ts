@@ -1,22 +1,18 @@
 import type { Locale } from '@/i18n'
 
+import { sharedTranslator } from './shared-copy'
+
 /** Compose only the supplied draft; this helper never stores or sends its values. */
 export const createIntakeIntroduction = (locale: Locale, name: string, company: string): string => {
-  if (locale === 'es') {
-    if (name) return `Hola Santiago, soy ${name}${company ? ` de ${company}` : ''}.`
+  const t = sharedTranslator(locale)
 
-    return `Hola Santiago${company ? `, te escribo desde ${company}` : ''}.`
-  }
+  if (name && company) return t('intake.namedCompany', { name, company })
 
-  if (name) return `Hi Santiago, I’m ${name}${company ? ` from ${company}` : ''}.`
+  if (name) return t('intake.named', { name })
 
-  return `Hi Santiago${company ? `, I’m reaching out from ${company}` : ''}.`
+  return company ? t('intake.company', { company }) : t('intake.greeting')
 }
 
-export const getIntakeStatus = (locale: Locale): string => locale === 'es' ?
-  'Tu mensaje está listo. Revísalo en WhatsApp y pulsa enviar.' :
-  'Your message is ready. Review it in WhatsApp, then press send.'
+export const getIntakeStatus = (locale: Locale): string => sharedTranslator(locale)('intake.status')
 
-export const getDirectContactMessage = (locale: Locale): string => locale === 'es' ?
-  'Hola Santiago, vi tu sitio web y me gustaría hablar sobre' :
-  'Hi Santiago, I found your website and I’d like to talk about'
+export const getDirectContactMessage = (locale: Locale): string => sharedTranslator(locale)('intake.direct')

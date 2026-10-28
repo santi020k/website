@@ -11,7 +11,7 @@ import { Button } from '@santi020k/lumen-astro'
 
 import type { SocialProofItem } from '@/data/profile'
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 
 interface OrganizationLogoRailItem extends SocialProofItem {
   project: CollectionEntry<'project'>
@@ -31,12 +31,12 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
   .sort((left, right) => left - right)
 
 const locale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(locale, source)
+const t = pageTranslator(locale)
 ---
 
 <section
-  aria-label={t('Selected products, companies, and communities')}
-  aria-roledescription={t('carousel')}
+  aria-label={t('page.selectedProductsCompaniesAndCommunities')}
+  aria-roledescription={t('page.carousel')}
   class="min-w-0"
   data-organization-carousel
 >
@@ -96,7 +96,7 @@ const t = (source: string) => translatePage(locale, source)
               <h3 data-carousel-title>{label}</h3>
               <p data-carousel-description>{context}</p>
               <span data-carousel-action>
-                {t('Read case study')}
+                {t('page.readCaseStudy')}
                 <ArrowExchange
                   class="size-4"
                   direction="right"
@@ -111,7 +111,7 @@ const t = (source: string) => translatePage(locale, source)
 
   <div data-carousel-controls hidden>
     <p aria-live="polite" class="text-sm font-medium text-ink-muted" data-carousel-status />
-    <nav aria-label={t('Choose an organization')}>
+    <nav aria-label={t('page.chooseAnOrganization')}>
       <ol data-organization-index>
         {organizations.map(({ label }, index) => (
           <li>
@@ -231,10 +231,10 @@ const t = (source: string) => translatePage(locale, source)
 </style>
 
 <script>
-  import { getLocale } from '@/i18n'
+  import { getLocale, sharedTranslator } from '@/i18n'
 
   const initializeOrganizationCarousels = (): void => {
-    const locale = getLocale(window.location.pathname)
+    const t = sharedTranslator(() => getLocale(window.location.pathname))
     const carousels = document.querySelectorAll<HTMLElement>('[data-organization-carousel]')
 
     for (const carousel of carousels) {
@@ -281,11 +281,9 @@ const t = (source: string) => translatePage(locale, source)
 
         controls.hidden = items.length <= pageSize
 
-        const displayCount = pageSize === 1 ?
-          `Showing ${startIndex + 1} of ${items.length}` :
-          `Showing ${startIndex + 1}–${Math.min(startIndex + pageSize, items.length)} of ${items.length}`
-
-        const statusText = locale === 'es' ? displayCount.replace('Showing', 'Mostrando').replace(' of ', ' de ') : displayCount
+        const statusText = pageSize === 1 ?
+          t('carousel.showingOne', { start: startIndex + 1, total: items.length }) :
+          t('carousel.showingRange', { start: startIndex + 1, end: Math.min(startIndex + pageSize, items.length), total: items.length })
 
         if (status.textContent !== statusText) status.textContent = statusText
 

@@ -15,7 +15,7 @@ import { getCachedProjects } from '@/utils/content'
 import { ButtonLink, Link, Stat } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 import { getLocalizedProfile } from '@/i18n/profile'
 import {
   AUTHOR_JOB_TITLE,
@@ -27,7 +27,7 @@ import {
 } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 const { collaborationLanes, engineeringPrinciples, selectedOrganizations, testimonials } = getLocalizedProfile(pageLocale)
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 const projectsById = new Map((await getCachedProjects()).map(project => [project.id, project]))
@@ -52,69 +52,69 @@ const aboutPortraitImage = await getImage({
 
 const profileStats = [
   {
-    description: t('Building web, mobile, backend, automation, and developer experience systems.'),
-    label: t('Experience'),
-    source: { href: localizePath('/work/#experience-heading', pageLocale), label: t('Career timeline') },
+    description: t('page.buildingWebMobileBackendAutomationAnd'),
+    label: t('shared.experience'),
+    source: { href: localizePath('/work/#experience-heading', pageLocale), label: t('page.careerTimeline') },
     value: yearsOfExperience,
-    unit: t('years')
+    unit: t('page.years')
   },
   {
-    description: t('Largest cross-functional team led across product, design, frontend, and backend.'),
-    label: t('Team leadership'),
-    source: { href: localizePath('/portfolio/void/#what-i-led', pageLocale), label: t('Void.GG · What I led') },
+    description: t('page.largestCrossFunctionalTeamLedAcross'),
+    label: t('page.teamLeadership'),
+    source: { href: localizePath('/portfolio/void/#what-i-led', pageLocale), label: t('page.voidGgWhatILed') },
     value: '14',
-    unit: t('people')
+    unit: t('page.people')
   },
   {
-    description: t('Through CI/CD and improved release workflows.'),
-    label: t('Faster deployments'),
-    source: { href: localizePath('/portfolio/void/#key-outcomes', pageLocale), label: t('Void.GG · Key outcomes') },
+    description: t('page.throughCiCdAndImprovedRelease'),
+    label: t('page.fasterDeployments'),
+    source: { href: localizePath('/portfolio/void/#key-outcomes', pageLocale), label: t('page.voidGgKeyOutcomes') },
     value: '60%',
     unit: ''
   }
 ]
 
 const profileChapters = [
-  { id: 'about-collaboration', index: '02', label: t('Collaboration') },
-  { id: 'about-organizations', index: '03', label: t('Context') },
-  { id: 'about-principles', index: '04', label: t('Principles') },
-  { id: 'about-recommendations', index: '05', label: t('Recommendations') }
+  { id: 'about-collaboration', index: '02', label: t('page.collaboration') },
+  { id: 'about-organizations', index: '03', label: t('page.context') },
+  { id: 'about-principles', index: '04', label: t('page.principles') },
+  { id: 'about-recommendations', index: '05', label: t('page.recommendations') }
 ]
 
 const storyBeats = [
-  t('Based in Medellín, Colombia, I have spent the last decade-plus shipping products across commerce, SaaS, gaming, real estate, and media.'),
-  t('Across these projects, I focus on architecture that can evolve, delivery pipelines that catch problems early, and team habits that make decisions clearer.'),
-  t('I like being close to the product and close to the code. The best technical leadership I have seen is practical, calm, and specific enough that teams can move faster without guessing what “good” means.')
+  t('about.locationDescription'),
+  t('page.acrossTheseProjectsIFocusOn'),
+  t('page.iLikeBeingCloseToThe')
 ]
 
 const workingModes = [
   {
-    title: t('Architecture'),
-    description: t('Architecture and modernization for products that need to keep shipping.')
+    title: t('page.architecture'),
+    description: t('page.architectureAndModernizationForProductsThat')
   },
   {
-    title: t('Delivery systems'),
-    description: t('Developer experience, automation, testing, linting, and CI/CD systems that reduce review noise.')
+    title: t('page.deliverySystems'),
+    description: t('page.developerExperienceAutomationTestingLintingAnd')
   },
   {
-    title: t('Technical leadership'),
-    description: t('Technical leadership for teams that need clearer standards and calmer decisions under pressure.')
+    title: t('page.technicalLeadership7'),
+    description: t('page.technicalLeadershipForTeamsThatNeed')
   }
 ]
 
 const description =
   (pageLocale === 'es' ? `Santiago Molina es líder de ingeniería y arquitecto full-stack en Medellín, con ${yearsOfExperience} años ` : `Santiago Molina is a Medellín-based engineering leader and full-stack architect with ${yearsOfExperience} years `) +
-  t('building products, delivery systems, and developer teams.')
+  t('page.buildingProductsDeliverySystemsAndDeveloper')
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', pageLocale) },
-  { name: t('About'), url: localizePath('/about/', pageLocale) }
+  { name: t('nav.home'), url: localizePath('/', pageLocale) },
+  { name: t('nav.about'), url: localizePath('/about/', pageLocale) }
 ]
 
 const aboutPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
-  name: t('About Santiago Molina — Engineering Leader'),
+  name: t('page.aboutSantiagoMolinaEngineeringLeader'),
   description,
   url: new URL(localizePath('/about/', pageLocale), Astro.site).href,
   isPartOf: createWebsiteSchemaReference(Astro.site),
@@ -125,11 +125,11 @@ const aboutPageSchema = {
     description,
     image: new URL(aboutPortraitImage.src, Astro.site).href,
     knowsAbout: [
-      t('Full-Stack Engineering'),
-      t('Software Architecture'),
-      t('Technical Leadership'),
-      t('Developer Experience'),
-      t('Automation Systems')
+      t('page.fullStackEngineering'),
+      t('page.softwareArchitecture'),
+      t('page.technicalLeadership'),
+      t('page.developerExperience'),
+      t('page.automationSystems')
     ],
     address: {
       '@type': 'PostalAddress',
@@ -150,9 +150,9 @@ const meta = {
     imagesrcset: aboutPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
-  seoTitle: t('Santiago Molina — Engineering Leader'),
+  seoTitle: t('page.santiagoMolinaEngineeringLeader'),
   structuredData: aboutPageSchema,
-  title: t('About Santiago Molina — Engineering Leader')
+  title: t('page.aboutSantiagoMolinaEngineeringLeader')
 }
 ---
 
@@ -160,7 +160,7 @@ const meta = {
   <div class="about-page" data-about-page>
     <AboutHero />
 
-    <section id="about-profile-highlights" class="about-stats" aria-label={t('Profile highlights')}>
+    <section id="about-profile-highlights" class="about-stats" aria-label={t('page.profileHighlights')}>
       {profileStats.map(({ description: statDescription, label, source, unit, value }, index) => (
         <Stat as="article" class="about-stat" variant="bare" aria-labelledby={`about-stat-${index}`}>
           <p class="about-stat-value">{value}{unit && <> <span>{unit}</span></>}</p>
@@ -176,7 +176,7 @@ const meta = {
     </section>
 
     <nav id="about-guide" class="about-guide" aria-labelledby="about-guide-label">
-      <p id="about-guide-label">{t('Explore this profile')}</p>
+      <p id="about-guide-label">{t('page.exploreThisProfile')}</p>
       <ol role="list">
         {profileChapters.map(({ id, index, label }) => (
           <li>
@@ -190,11 +190,11 @@ const meta = {
     </nav>
 
     <section class="about-section">
-      <AboutSectionHeading index="01" eyebrow={t('The shape of the work')} title={t('Engineering, leadership, and delivery systems.')} description={t('A working model of what I care about, where I can help, and why the details matter.')} />
+      <AboutSectionHeading index="01" eyebrow={t('page.theShapeOfTheWork')} title={t('page.engineeringLeadershipAndDeliverySystems')} description={t('page.aWorkingModelOfWhatI')} />
       <div class="about-story">
         <div class="about-story-copy">{storyBeats.map(beat => <p>{beat}</p>)}</div>
         <section id="about-working-modes" class="about-working-modes" aria-labelledby="about-working-modes-heading">
-          <h3 id="about-working-modes-heading">{t('Where I usually help.')}</h3>
+          <h3 id="about-working-modes-heading">{t('page.whereIUsuallyHelp')}</h3>
           <ul>{workingModes.map(({ description: modeDescription, title }, index) => (
             <li>
               <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
@@ -206,7 +206,7 @@ const meta = {
     </section>
 
     <section id="about-collaboration" class="about-section">
-      <AboutSectionHeading index="02" eyebrow={t('Collaboration')} title={t('Range, with a clear purpose.')} description={t('The places where hands-on engineering and technical leadership can make the biggest difference.')} />
+      <AboutSectionHeading index="02" eyebrow={t('page.collaboration')} title={t('page.rangeWithAClearPurpose')} description={t('page.thePlacesWhereHandsOnEngineering')} />
       <div class="about-lanes">
         {collaborationLanes.map(({ description: laneDescription, fit, source, title }, index) => (
           <article>
@@ -215,7 +215,7 @@ const meta = {
             <p>{laneDescription}</p>
             <p class="about-lane-fit">{fit}</p>
             <div data-about-lane-source>
-              <span>{t('See it in practice')}</span>
+              <span>{t('page.seeItInPractice')}</span>
               <Link href={localizePath(source.href, pageLocale)} variant="inherit">
                 <span>{source.label}</span><ArrowExchange direction="up-right" size="sm" />
               </Link>
@@ -226,16 +226,16 @@ const meta = {
     </section>
 
     <section id="about-organizations" class="about-section">
-      <AboutSectionHeading index="03" eyebrow={t('Context')} title={t('The people and products behind the work.')} description={t('Commerce, SaaS, gaming, real estate, and community. Each brought a different problem to solve.')} />
+      <AboutSectionHeading index="03" eyebrow={t('page.context')} title={t('page.thePeopleAndProductsBehindThe')} description={t('page.commerceSaasGamingRealEstateAnd')} />
       <OrganizationLogoRail organizations={organizationRailItems} />
       <div class="about-actions">
-        <ButtonLink class="about-link" href={localizePath('/portfolio/', pageLocale)} variant="unstyled">{t('Read the case studies')}<ArrowExchange direction="right" /></ButtonLink>
-        <ButtonLink class="about-link" href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="unstyled">{t('Open LinkedIn')}<ArrowExchange direction="up-right" /></ButtonLink>
+        <ButtonLink class="about-link" href={localizePath('/portfolio/', pageLocale)} variant="unstyled">{t('page.readTheCaseStudies')}<ArrowExchange direction="right" /></ButtonLink>
+        <ButtonLink class="about-link" href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="unstyled">{t('page.openLinkedin')}<ArrowExchange direction="up-right" /></ButtonLink>
       </div>
     </section>
 
     <section id="about-principles" class="about-section">
-      <AboutSectionHeading index="04" eyebrow={t('Principles')} title={t('What I believe about engineering.')} description={t('The principles I come back to when a product is moving fast and the team needs decisions that hold.')} />
+      <AboutSectionHeading index="04" eyebrow={t('page.principles')} title={t('page.whatIBelieveAboutEngineering')} description={t('page.thePrinciplesIComeBackTo')} />
       <div class="about-principles">
         {engineeringPrinciples.map(({ body, source, title }, index) => (
           <PrincipleCard appearance="editorial" body={body} index={index} source={source} title={title} />
@@ -244,32 +244,32 @@ const meta = {
     </section>
 
     <section id="about-recommendations" class="about-section">
-      <AboutSectionHeading index="05" eyebrow={t('Recommendations')} title={t('What collaborators say about the work.')} description={t('Communication, reliability, and helping people do better work together—in their own words.')} />
+      <AboutSectionHeading index="05" eyebrow={t('page.recommendations')} title={t('page.whatCollaboratorsSayAboutTheWork')} description={t('page.communicationReliabilityAndHelpingPeopleDo')} />
       <div class="about-testimonials">
         {testimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
           <TestimonialCard authorName={name} avatarInitials={avatarInitials} avatarUrl={avatarUrl} quote={quote} relationship={relationship} role={role} />
         ))}
       </div>
       <div class="about-actions">
-        <ButtonLink class="about-link" href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="unstyled">{t('See all LinkedIn recommendations')}<ArrowExchange direction="up-right" /></ButtonLink>
+        <ButtonLink class="about-link" href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="unstyled">{t('page.seeAllLinkedinRecommendations')}<ArrowExchange direction="up-right" /></ButtonLink>
       </div>
     </section>
 
     <section id="about-explore" class="about-next" aria-labelledby="about-explore-heading">
       <div data-about-explore-copy>
-        <p class="about-eyebrow">{t('Keep exploring')}</p>
-        <h2 id="about-explore-heading">{t('Want the fuller picture?')}</h2>
-        <p>{t('The portfolio has the project evidence; the blog has the thinking behind the decisions.')}</p>
+        <p class="about-eyebrow">{t('page.keepExploring')}</p>
+        <h2 id="about-explore-heading">{t('page.wantTheFullerPicture')}</h2>
+        <p>{t('page.thePortfolioHasTheProjectEvidence')}</p>
       </div>
-      <nav aria-label={t('Continue exploring')}>
+      <nav aria-label={t('page.continueExploring')}>
         <ButtonLink class="about-explore-link" href={localizePath('/portfolio/', pageLocale)} variant="unstyled">
           <span aria-hidden="true" data-about-explore-index>01</span>
-          <span data-about-explore-label><small>{t('Project evidence')}</small><strong>{t('View portfolio')}</strong></span>
+          <span data-about-explore-label><small>{t('page.projectEvidence')}</small><strong>{t('page.viewPortfolio')}</strong></span>
           <ArrowExchange direction="up-right" size="lg" />
         </ButtonLink>
         <ButtonLink class="about-explore-link" href={localizePath('/blog/', pageLocale)} variant="unstyled">
           <span aria-hidden="true" data-about-explore-index>02</span>
-          <span data-about-explore-label><small>{t('Thinking behind the decisions')}</small><strong>{t('Read the blog')}</strong></span>
+          <span data-about-explore-label><small>{t('page.thinkingBehindTheDecisions')}</small><strong>{t('page.readTheBlog')}</strong></span>
           <ArrowExchange direction="right" size="lg" />
         </ButtonLink>
       </nav>

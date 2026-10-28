@@ -12,7 +12,7 @@ import { ButtonLink, Icon, Link } from '@santi020k/lumen-astro'
 
 import { getUniqueTechnologies } from '@/data/project'
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
 import {
   AUTHOR_JOB_TITLE,
   CAREER_START_YEAR,
@@ -21,7 +21,7 @@ import {
 } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const projectsById = new Map(allProjects.map(project => [project.id.replace(/\/index$/u, ''), project]))
 
@@ -50,18 +50,18 @@ const earlierWork = selectResumeProjects([
 const communityWork = selectResumeProjects(['react-js-colombia'])
 
 const resumeSections = [
-  { id: 'resume-experience', label: t('Experience') },
-  { id: 'resume-earlier-experience', label: t('Earlier experience') },
-  { id: 'resume-community', label: t('Community') },
-  { id: 'resume-skills', label: t('Skills & expertise') }
+  { id: 'resume-experience', label: t('shared.experience') },
+  { id: 'resume-earlier-experience', label: t('page.earlierExperience7') },
+  { id: 'resume-community', label: t('shared.community') },
+  { id: 'resume-skills', label: t('page.skillsAndExpertise7') }
 ]
 
 const technologySlugs = new Set(getUniqueTechnologies(allProjects).map(getTechnologySlug))
 
 const resumeSkillGroups = [
-  { title: t('Front-End'), skills: ['React.js', 'Next.js', 'React Native', 'Astro', 'TypeScript', 'Tailwind CSS', 'Redux', 'TanStack Query', 'Radix UI'] },
-  { title: t('Back-End'), skills: ['Node.js', 'Express.js', 'NestJS', 'REST', 'GraphQL', 'PostgreSQL', 'MongoDB', 'PHP', 'Ruby on Rails'] },
-  { title: t('DevOps & Architecture'), skills: ['AWS', 'Docker', 'CI/CD', 'GitHub Actions', t('System Design'), 'Microservices', 'Turborepo'] }
+  { title: t('page.frontEnd'), skills: ['React.js', 'Next.js', 'React Native', 'Astro', 'TypeScript', 'Tailwind CSS', 'Redux', 'TanStack Query', 'Radix UI'] },
+  { title: t('page.backEnd'), skills: ['Node.js', 'Express.js', 'NestJS', 'REST', 'GraphQL', 'PostgreSQL', 'MongoDB', 'PHP', 'Ruby on Rails'] },
+  { title: t('page.devopsAndArchitecture'), skills: ['AWS', 'Docker', 'CI/CD', 'GitHub Actions', t('page.systemDesign'), 'Microservices', 'Turborepo'] }
 ].map(group => ({
   title: group.title,
   skills: group.skills.map(label => {
@@ -80,7 +80,7 @@ const resumeDateCreated = '2024-01-01T00:00:00.000Z'
 
 const resumeDescription =
   (pageLocale === 'es' ? `Líder de ingeniería y arquitecto full-stack con más de ${new Date().getFullYear() - CAREER_START_YEAR} años construyendo productos sólidos, ` : `Engineering leader and full-stack architect with ${new Date().getFullYear() - CAREER_START_YEAR}+ years building resilient products, `) +
-  t('modernizing frontend systems, and helping teams deliver with confidence.')
+  t('page.modernizingFrontendSystemsAndHelpingTeams')
 
 const resumeDateModified = getGitLastModified([
   'scripts/py/cv.md',
@@ -96,7 +96,7 @@ const resumePageSchema = {
   dateModified: resumeDateModified,
   mainEntity: {
     ...createAuthorSchema(Astro.site),
-    jobTitle: t(AUTHOR_JOB_TITLE),
+    jobTitle: localizePageSource(pageLocale, AUTHOR_JOB_TITLE),
     description: resumeDescription,
     mainEntityOfPage: new URL(localizePath('/resume/', pageLocale), Astro.site ?? 'https://santi020k.com').href
   }
@@ -109,7 +109,7 @@ mainClass="remaining-pages"
   meta={{
     description: resumeDescription,
     structuredData: resumePageSchema,
-    title: t('Resume & Curriculum Vitae')
+    title: t('page.resumeAndCurriculumVitae')
   }}
 >
   <div
@@ -136,7 +136,7 @@ mainClass="remaining-pages"
           dark:text-accent
           print:text-black
         "
-        >{t('Resume')}
+        >{t('nav.resume')}
         </p>
         <h1
           class="
@@ -147,7 +147,7 @@ mainClass="remaining-pages"
         >
           {siteConfig.author}
         </h1>
-        <p class="mt-2 text-xl text-brand">{t(AUTHOR_JOB_TITLE)}</p>
+        <p class="mt-2 text-xl text-brand">{localizePageSource(pageLocale, AUTHOR_JOB_TITLE)}</p>
         <p class="mt-4 max-w-2xl text-ink-soft">{resumeDescription}</p>
       </div>
       <div
@@ -228,7 +228,7 @@ data-resume-contact-icon
           data-resume-downloads
         >
           <ButtonLink
-            ariaLabel={t('Download 2-page resume PDF')}
+            ariaLabel={t('page.download2PageResumePdf')}
             class="
               w-full
               sm:w-auto
@@ -238,10 +238,10 @@ data-resume-contact-icon
             href={localizePath(resumePdfPath, pageLocale)}
             variant="primary"
           >
-            <Icon class="size-4" name="download" /> {t('2-page resume')}
+            <Icon class="size-4" name="download" /> {t('resume.conciseDownload')}
           </ButtonLink>
           <ButtonLink
-            ariaLabel={t('Download full CV PDF')}
+            ariaLabel={t('page.downloadFullCvPdf')}
             class="
               w-full
               sm:w-auto
@@ -251,7 +251,7 @@ data-resume-contact-icon
             href={localizePath(fullResumePdfPath, pageLocale)}
             variant="secondary"
           >
-            <Icon class="size-4" name="download" /> {t('Full CV')}
+            <Icon class="size-4" name="download" /> {t('page.fullCv')}
           </ButtonLink>
         </div>
         <p class="
@@ -259,13 +259,13 @@ data-resume-contact-icon
           print:hidden
         "
         >
-          {t('Two-page resume for applications · Full CV with complete work history')}
+          {t('page.twoPageResumeForApplicationsFull')}
         </p>
       </div>
     </div>
 
     <nav id="resume-index" class="print:hidden" aria-labelledby="resume-index-label" data-resume-index data-print-hidden>
-      <p id="resume-index-label">{t('On this page')}</p>
+      <p id="resume-index-label">{t('page.onThisPage')}</p>
       <ol role="list">
         {resumeSections.map((section, index) => (
           <li>
@@ -289,7 +289,7 @@ class="
         mb-6 border-b border-line pb-2 text-2xl font-semibold
         print:mb-4
       "
-      >{t('Experience')}</h2>
+      >{t('shared.experience')}</h2>
       <div class="
         space-y-8
         print:space-y-6
@@ -306,13 +306,13 @@ class="
                 data-resume-compact-header
               >
                 <h3 class="text-lg font-bold text-ink">
-                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{t(project.data.role ?? '')}</span>
+                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{localizePageSource(pageLocale, project.data.role ?? '')}</span>
                 </h3>
                 <span class="text-sm font-medium text-ink-soft" data-resume-date>
-                  {new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.startingDate)} – {project.data.endingDate ? new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.endingDate) : t('Present')}
+                  {new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.startingDate)} – {project.data.endingDate ? new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.endingDate) : t('page.present')}
                 </span>
               </div>
-              <p class="mb-3 text-sm text-ink-soft">{t(project.data.description)}</p>
+              <p class="mb-3 text-sm text-ink-soft">{localizePageSource(pageLocale, project.data.description)}</p>
 
               {project.data.impactMetrics.length > 0 && (
                 <div class="mb-3" data-resume-impact>
@@ -320,14 +320,14 @@ class="
                     mb-2 text-xs font-semibold tracking-wider text-ink-muted
                     uppercase
                   "
-                  >{t('Key Impact')}
+                  >{t('page.keyImpact')}
                   </h4>
                   <ul
 role="list"
 class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft"
                   >
                     {project.data.impactMetrics.map(metric => (
-                      <li>{t(metric)}</li>
+                      <li>{localizePageSource(pageLocale, metric)}</li>
                     ))}
                   </ul>
                   <ResumeEvidenceNote project={project} />
@@ -369,7 +369,7 @@ class="
 "
       data-resume-full-only
     >
-      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">{t('Earlier Experience')}</h2>
+      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">{t('page.earlierExperience')}</h2>
       <div class="divide-y divide-line">
         {
           earlierWork.map(project => (
@@ -389,13 +389,13 @@ class="
                 data-resume-compact-header
               >
                 <h3 class="text-base font-bold text-ink">
-                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{t(project.data.role ?? '')}</span>
+                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{localizePageSource(pageLocale, project.data.role ?? '')}</span>
                 </h3>
                 <span class="text-sm font-medium text-ink-soft" data-resume-date>
-                  {new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.startingDate)} – {project.data.endingDate ? new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.endingDate) : t('Present')}
+                  {new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.startingDate)} – {project.data.endingDate ? new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.endingDate) : t('page.present')}
                 </span>
               </div>
-              <p class="text-sm text-ink-soft">{t(project.data.description)}</p>
+              <p class="text-sm text-ink-soft">{localizePageSource(pageLocale, project.data.description)}</p>
               <ResumeEvidenceNote compact project={project} />
             </div>
           ))
@@ -414,7 +414,7 @@ class="
         mb-6 border-b border-line pb-2 text-2xl font-semibold
         print:mb-4
       "
-      >{t('Community')}</h2>
+      >{t('shared.community')}</h2>
       <div class="
         space-y-8
         print:space-y-6
@@ -431,13 +431,13 @@ class="
               data-resume-community-header
               >
                 <h3 class="text-lg font-bold text-ink">
-                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{t(project.data.role ?? '')}</span>
+                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{localizePageSource(pageLocale, project.data.role ?? '')}</span>
                 </h3>
                 <span class="text-sm font-medium text-ink-soft" data-resume-date>
-                  {new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.startingDate)} – {project.data.endingDate ? new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.endingDate) : t('Present')}
+                  {new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.startingDate)} – {project.data.endingDate ? new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.endingDate) : t('page.present')}
                 </span>
               </div>
-              <p class="mb-3 text-sm text-ink-soft">{t(project.data.description)}</p>
+              <p class="mb-3 text-sm text-ink-soft">{localizePageSource(pageLocale, project.data.description)}</p>
 
               {project.data.impactMetrics.length > 0 && (
                 <div class="mb-3" data-resume-impact>
@@ -445,14 +445,14 @@ class="
                     mb-2 text-xs font-semibold tracking-wider text-ink-muted
                     uppercase
                   "
-                  >{t('Key Impact')}
+                  >{t('page.keyImpact')}
                   </h4>
                   <ul
 role="list"
 class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft"
                   >
                     {project.data.impactMetrics.map(metric => (
-                      <li>{t(metric)}</li>
+                      <li>{localizePageSource(pageLocale, metric)}</li>
                     ))}
                   </ul>
                   <ResumeEvidenceNote project={project} />
@@ -491,7 +491,7 @@ class="
         mb-6 border-b border-line pb-2 text-2xl font-semibold
         print:mb-4
       "
-      >{t('Skills & Expertise')}</h2>
+      >{t('page.skillsAndExpertise')}</h2>
       <div
 class="
   grid grid-cols-1 gap-6
@@ -504,9 +504,9 @@ class="
           <h3 class="
             mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
           "
-          >{t('Languages')}
+          >{t('page.languages')}
           </h3>
-          <p class="text-sm text-ink-soft">{t('Spanish (native), English (C1).')}</p>
+          <p class="text-sm text-ink-soft">{t('page.spanishNativeEnglishC1')}</p>
         </div>
         {resumeSkillGroups.map(group => (
           <div>
@@ -514,7 +514,7 @@ class="
               mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
             "
             >{group.title}</h3>
-            <ul class="print:hidden" role="list" aria-label={`${group.title} ${t('skills')}`} data-resume-skill-links data-print-hidden>
+            <ul class="print:hidden" role="list" aria-label={`${group.title} ${t('page.skills')}`} data-resume-skill-links data-print-hidden>
               {group.skills.map(skill => (
                 <li>{skill.href ? <Link href={localizePath(skill.href, pageLocale)} variant="inherit">{skill.label}</Link> : <span>{skill.label}</span>}</li>
               ))}

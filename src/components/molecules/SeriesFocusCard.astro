@@ -2,10 +2,10 @@
 import { Card, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   areas: string[]
@@ -15,10 +15,10 @@ const { areas } = Astro.props
 ---
 
 <Card as="section" aria-labelledby="series-focus-heading" data-series-focus variant="unstyled">
-  <h2 id="series-focus-heading">{t('Focus areas')}<Icon
+  <h2 id="series-focus-heading">{t('collection.focusAreas')}<Icon
 name="focus"
 class="size-4 shrink-0"
-                                                  />
+                                                            />
   </h2>
   <ul role="list">
     {areas.map((area, index) => (

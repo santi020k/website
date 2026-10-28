@@ -18,12 +18,13 @@ import { getBlogTopicLabel } from '@/utils/tags'
 import { Breadcrumb, Icon, Link } from '@santi020k/lumen-astro'
 
 import { getSeriesContext } from '@/data/series'
-import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { getLocale, localizePath, sharedTranslator } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
 import { siteConfig } from '@/site.config'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
+const controls = sharedTranslator(locale)
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -32,7 +33,7 @@ interface Props {
 const { post } = Astro.props
 const { canonicalUrl, description, publishDate, title, updatedDate, tags } = post.data
 const { minutes, words: wordCount } = getReadingStats(post.body)
-const readingTimeText = t(`${minutes} min read`)
+const readingTimeText = t('reading.duration', { minutes: minutes })
 const seriesContext = await getSeriesContext(post)
 const copyUrl = new URL(Astro.url.pathname, Astro.site).href
 
@@ -41,8 +42,8 @@ const coverAspectRatio = post.data.coverImage ?
   16 / 10
 
 const useWideCoverFrame = coverAspectRatio > 1.08
-// Use the first tag as an editorial eyebrow label, fallback to {t("Article")}
-const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('Article')
+// Use the first tag as an editorial eyebrow label, fallback to {t("collection.article")}
+const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.article')
 
 ---
 
@@ -78,7 +79,7 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('Article')
             >Blog
             </a>
           </li>
-          <li><span aria-current="page" class="text-ink-soft">{t('Article')}</span></li>
+          <li><span aria-current="page" class="text-ink-soft">{t('collection.article')}</span></li>
         </ol>
       </Breadcrumb>
     </div>
@@ -109,7 +110,7 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('Article')
     <div data-cover-lead>
       <p lang="en" data-editorial-summary class="p-summary text-ink-soft">{description}</p>
       <p data-cover-byline class="text-sm/6 text-ink-muted">
-        <span>{t('Written by')}</span>
+        <span>{t('collection.writtenBy')}</span>
         <a
           class="
             p-author h-card font-semibold text-ink-soft transition-colors
@@ -134,12 +135,12 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('Article')
     <div data-publication-imprint>
       <dl data-publication-dates>
         <div data-publication-field="published">
-          <dt>{t('Published')}</dt>
+          <dt>{t('collection.published')}</dt>
           <dd><FormattedDate date={publishDate} /></dd>
         </div>
         {updatedDate && (
           <div data-publication-field="updated">
-            <dt>{t('Updated')}</dt>
+            <dt>{t('collection.updated')}</dt>
             <dd><FormattedDate date={updatedDate} /></dd>
           </div>
         )}
@@ -147,15 +148,15 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('Article')
       <div data-publication-reading>
         <dl>
           <div data-publication-field="reading">
-            <dt>{t('Reading')}</dt>
+            <dt>{t('collection.reading')}</dt>
             <dd>{readingTimeText}</dd>
           </div>
         </dl>
         <div data-reading-utilities>
           <dl>
             <div data-publication-field="words">
-              <dt class="sr-only">{t('Word count')}</dt>
-              <dd>{wordCount.toLocaleString(locale === 'es' ? 'es-419' : 'en-US')} {t('words')}</dd>
+              <dt class="sr-only">{t('collection.wordCount')}</dt>
+              <dd>{wordCount.toLocaleString(locale === 'es' ? 'es-419' : 'en-US')} {t('collection.words')}</dd>
             </div>
           </dl>
           <ArticlePrintAction />
@@ -180,7 +181,7 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('Article')
             name={tags.length > 0 ? 'hash' : 'share-2'}
             class="size-4.5 shrink-0"
           />
-          <h2 id="article-topics-heading">{tags.length > 0 ? t('Topics') : t('Share')}</h2>
+          <h2 id="article-topics-heading">{tags.length > 0 ? t('collection.topics') : t('shared.share')}</h2>
         </div>
         {!seriesContext && (
           <div data-topic-action>
@@ -203,7 +204,7 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('Article')
         </nav>
       )}
       {!seriesContext && (
-        <LinkRecovery buttonId="article-copy-link" url={copyUrl} copiedLabel="Copied!" copiedAnnouncement="Copied! Article link copied" />
+        <LinkRecovery buttonId="article-copy-link" url={copyUrl} copiedLabel={controls('shared.copied')} copiedAnnouncement={controls('shared.copiedArticleLinkCopied')} />
       )}
     </div>
   )}
@@ -233,7 +234,7 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('Article')
         </div>
         <ArticleLinkAction {canonicalUrl} {copyUrl} />
       </div>
-      <LinkRecovery buttonId="article-copy-link" url={copyUrl} copiedLabel="Copied!" copiedAnnouncement="Copied! Article link copied" />
+      <LinkRecovery buttonId="article-copy-link" url={copyUrl} copiedLabel={controls('shared.copied')} copiedAnnouncement={controls('shared.copiedArticleLinkCopied')} />
     </div>
   )}
 

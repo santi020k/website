@@ -8,12 +8,9 @@ import {
   rankSearchEntry
 } from '@/utils/search'
 
-import { getLocale, localizePath, translate } from '@/i18n'
+import { getLocale, localizePath, sharedTranslator } from '@/i18n'
 
-const t = (text: string, values: Readonly<Record<string, number | string>> = {}) => (
-  translate(getLocale(window.location.pathname), text, values)
-)
-
+const t = sharedTranslator(() => getLocale(window.location.pathname))
 const fullTextSearch = createFullTextSearch()
 let renderRevision = 0
 let navigatedSinceRender = false
@@ -134,7 +131,7 @@ const describeResultAt = (index: number, total: number): string => {
 
   if (!title) return ''
 
-  return t('{title}, {position} of {total}', { title, position: index + 1, total })
+  return t('shared.titlePositionOfTotal', { title, position: index + 1, total })
 }
 
 const renderRecoveryCard = (results: HTMLElement, kind: 'empty' | 'idle' | 'error') => {
@@ -156,12 +153,12 @@ const renderEmptyState = (results: HTMLElement) => {
   if (items.length === 0) {
     renderRecoveryCard(results, 'idle')
 
-    setStatusMessage(t('Type at least two characters to search.'))
+    setStatusMessage(t('shared.typeAtLeastTwoCharactersTo'))
 
     return
   }
 
-  const heading = t(hasRecentSearches ? 'Recent searches' : 'Popular topics')
+  const heading = t(hasRecentSearches ? 'shared.recentSearches' : 'shared.popularTopics')
   const li = document.createElement('li')
 
   li.className = 'site-search-hint'
@@ -206,7 +203,7 @@ const renderEmptyState = (results: HTMLElement) => {
 
   results.appendChild(li)
 
-  setStatusMessage(t('{count} {heading} available.', { count: items.length, heading: heading.toLowerCase() }))
+  setStatusMessage(t('shared.countHeadingAvailable', { count: items.length, heading: heading.toLowerCase() }))
 }
 
 const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e.description) => {
@@ -291,15 +288,15 @@ const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e
 
   typeEl.setAttribute('data-site-search-result-type', '')
 
-  let resultTypeLabel = 'Project'
+  let resultTypeLabel = t('shared.project')
 
   if (e.type === 'post') {
-    resultTypeLabel = 'Post'
+    resultTypeLabel = t('shared.post')
   } else if (e.type === 'community') {
-    resultTypeLabel = 'Community'
+    resultTypeLabel = t('shared.community')
   }
 
-  typeEl.textContent = t(resultTypeLabel)
+  typeEl.textContent = resultTypeLabel
 
   const titleEl = document.createElement('span')
 
@@ -365,9 +362,9 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
   results.dataset.siteSearchState = 'pending'
 
   if (shown.length === 0) {
-    renderLoadingState(results, t('Searching article text…'))
+    renderLoadingState(results, t('shared.searchingArticleText'))
 
-    setStatusMessage(t('Searching article text.'))
+    setStatusMessage(t('shared.searchingArticleText7'))
   }
 
   const outcome = await fullTextSearch(query, entries, new Set(shown.map(entry => entry.path)), window.location.origin)
@@ -383,7 +380,7 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
   if (shown.length === 0 && hits.length === 0 && !outcome.unavailable) {
     renderRecoveryCard(results, 'empty')
 
-    setStatusMessage(t('No matching results for {query}. Try different keywords.', { query }))
+    setStatusMessage(t('shared.noMatchingResultsForQueryTry', { query }))
   }
 
   if (hits.length > 0) {
@@ -396,7 +393,7 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
 
     heading.setAttribute('data-site-search-group-title', '')
 
-    heading.textContent = t('Mentioned in')
+    heading.textContent = t('shared.mentionedIn')
 
     group.append(heading)
 
@@ -412,8 +409,8 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
       const count = shown.length + hits.length
 
       setStatusMessage(t(count === 1 ?
-        '{count} result available. Use arrow keys to navigate.' :
-        '{count} results available. Use arrow keys to navigate.', { count }))
+        'shared.countResultAvailableUseArrowKeys' :
+        'shared.countResultsAvailableUseArrowKeys', { count }))
     }
   }
 
@@ -422,7 +419,7 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
 
     note.className = 'site-search-hint px-4 py-8 text-center text-sm text-ink-soft'
 
-    note.textContent = t('Content search is temporarily unavailable. Showing title and tag matches.')
+    note.textContent = t('shared.contentSearchIsTemporarilyUnavailableShowing')
 
     results.replaceChildren(note)
 
@@ -448,9 +445,9 @@ const render = (query: string) => {
   if (indexLoadState === 'loading') {
     selectedResultIndex = -1
 
-    renderLoadingState(results, t('Loading search index…'))
+    renderLoadingState(results, t('shared.loadingSearchIndex'))
 
-    setStatusMessage(t('Loading search index.'))
+    setStatusMessage(t('shared.loadingSearchIndex7'))
 
     return
   }
@@ -460,7 +457,7 @@ const render = (query: string) => {
 
     renderRecoveryCard(results, 'error')
 
-    setStatusMessage(t('Search is temporarily unavailable.'))
+    setStatusMessage(t('shared.searchIsTemporarilyUnavailable'))
 
     return
   }
@@ -497,7 +494,7 @@ const render = (query: string) => {
 
     renderRecoveryCard(results, 'empty')
 
-    setStatusMessage(t('No matching results for {query}. Try different keywords.', { query: trimmed }))
+    setStatusMessage(t('shared.noMatchingResultsForQueryTry', { query: trimmed }))
 
     void appendBodyMatches(trimmed, [], results, renderRevision)
 
@@ -512,8 +509,8 @@ const render = (query: string) => {
 
   setStatusMessage(
     t(matches.length === 1 ?
-      '{count} result available. Use arrow keys to navigate.' :
-      '{count} results available. Use arrow keys to navigate.', { count: matches.length })
+      'shared.countResultAvailableUseArrowKeys' :
+      'shared.countResultsAvailableUseArrowKeys', { count: matches.length })
   )
 
   void appendBodyMatches(trimmed, matches.map(match => match.entry), results, renderRevision)

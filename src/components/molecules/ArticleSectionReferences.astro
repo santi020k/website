@@ -6,10 +6,10 @@ import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
 import { Button, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale, localeLanguage } from '@/i18n'
-import { translateArticle } from '@/i18n/article-copy'
+import { articleTranslator } from '@/i18n/article-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translateArticle(locale, text)
+const t = articleTranslator(locale)
 
 interface Props {
   headings: MarkdownHeading[]
@@ -33,7 +33,7 @@ const sections = headings.filter(heading => heading.depth === 2 || heading.depth
       <div lang={localeLanguage(locale)} data-section-reference-for={slug}>
         <span lang={localeLanguage(locale)} aria-hidden="true" data-section-arrival>
           <Icon name="corner-down-right" />
-          <span>{t('Linked section')}</span>
+          <span>{t('article.linkedSection')}</span>
         </span>
         {depth === 2 && (
 <>
@@ -43,8 +43,8 @@ const sections = headings.filter(heading => heading.depth === 2 || heading.depth
           data-share-url={destination.href}
           size="icon"
           variant="outline"
-          aria-label={t(`Copy link to section: ${text}`)}
-          title={t('Copy section link')}
+          aria-label={t('article.section.copy', { heading: text })}
+          title={t('article.copySectionLink')}
         >
           <Icon data-copy-icon name="link" />
           <Icon class="hidden" data-check-icon name="check" />
@@ -55,10 +55,10 @@ const sections = headings.filter(heading => heading.depth === 2 || heading.depth
             buttonId={buttonId}
             url={destination.href}
             idleLabel=""
-            copiedLabel={t('Copied')}
-            copiedAnnouncement={t(`Copied link to section: ${text}`)}
-            retryAnnouncement={t(`Try again to copy link to section: ${text}`)}
-            addressLabel={t('Select and copy this section’s address')}
+            copiedLabel={t('article.copied')}
+            copiedAnnouncement={t('article.section.copied', { heading: text })}
+            retryAnnouncement={t('article.section.retry', { heading: text })}
+            addressLabel={t('article.selectAndCopyThisSectionS')}
           />
         </div>
         </>

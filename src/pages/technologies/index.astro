@@ -13,10 +13,10 @@ import { Card, Icon, Input, Link, MotionGroup } from '@santi020k/lumen-astro'
 
 import { getTechnologyEntryCounts } from '@/data/project'
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 const allProjects = await getCachedProjects()
 const technologies = getTechnologyEntryCounts(allProjects)
 const coreTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count >= 4))
@@ -26,33 +26,33 @@ const selectiveTechnologies = sortTechnologyCountsByInterest(technologies.filter
 const technologyGroups = [
   {
     items: coreTechnologies,
-    recurrence: locale === 'es' ? '4 o más entradas cada una' : '4+ entries each',
-    summary: t('Repeated foundations across product architecture, delivery workflows, and the portfolio surface.'),
-    title: t('Core')
+    recurrence: t('technology.coreRecurrence'),
+    summary: t('collection.repeatedFoundationsAcrossProductArchitectureDelivery'),
+    title: t('collection.core')
   },
   {
     items: regularTechnologies,
-    recurrence: locale === 'es' ? '2–3 entradas cada una' : '2–3 entries each',
-    summary: t('Reliable companion tools that help teams ship, test, document, and maintain production systems.'),
-    title: t('Regular')
+    recurrence: t('technology.regularRecurrence'),
+    summary: t('collection.reliableCompanionToolsThatHelpTeams'),
+    title: t('collection.regular')
   },
   {
     items: selectiveTechnologies,
-    recurrence: locale === 'es' ? '1 entrada cada una' : '1 entry each',
-    summary: t('Context-specific platforms, APIs, and product capabilities used when the problem calls for them.'),
-    title: t('Selective')
+    recurrence: t('technology.selectiveRecurrence'),
+    summary: t('collection.contextSpecificPlatformsApisAndProduct'),
+    title: t('collection.selective')
   }
 ].filter(group => group.items.length > 0)
 
 const evidencePaths = [
-  { href: '/work/', title: t('Work experience'), description: t('Roles, teams, and systems shipped.') },
-  { href: '/projects/', title: t('Independent projects'), description: t('Apps, tools, and ideas I build.') },
-  { href: '/blog/', title: t('Writing'), description: t('Decisions, experiments, and lessons.') }
+  { href: '/work/', title: t('collection.workExperience'), description: t('collection.rolesTeamsAndSystemsShipped') },
+  { href: '/projects/', title: t('collection.independentProjects'), description: t('collection.appsToolsAndIdeasIBuild') },
+  { href: '/blog/', title: t('collection.writing'), description: t('collection.decisionsExperimentsAndLessons') }
 ]
 
 const meta = {
-  description: t('Browse Santiago Molina’s capabilities and technologies across frontend architecture, product systems, testing, and delivery.'),
-  title: t('Capabilities & Technologies')
+  description: t('collection.browseSantiagoMolinaSCapabilitiesAnd'),
+  title: t('collection.capabilitiesAndTechnologies')
 }
 
 ---
@@ -61,10 +61,10 @@ const meta = {
   <div data-technology-opening>
     <PageHero
       compact
-      description={t(`Explore ${technologies.length} technologies and capabilities through the projects where they appear.`)}
-      eyebrow={t('Capabilities index')}
-      gradientText={t('real work.')}
-      title={t('Tools, connected to')}
+      description={t('technology.indexDescription', { count: technologies.length })}
+      eyebrow={t('collection.capabilitiesIndex')}
+      gradientText={t('collection.realWork')}
+      title={t('collection.toolsConnectedTo')}
     >
       <div data-technology-index data-technology-opening-controls slot="after-description">
         <div data-technology-filter-row>
@@ -72,13 +72,13 @@ const meta = {
             <div data-technology-search-field>
               <span data-technology-search-mark><Icon class="size-5.25" name="search" /></span>
               <div>
-                <label for="technology-filter">{t('Find a technology')}</label>
+                <label for="technology-filter">{t('collection.findATechnology')}</label>
                 <Input
                   aria-describedby="technology-filter-status"
                   autocomplete="off"
                   data-technology-search-input
                   id="technology-filter"
-                  placeholder={t('Search…')}
+                  placeholder={t('collection.search')}
                   spellcheck="false"
                   type="search"
                 />
@@ -90,34 +90,34 @@ const meta = {
               data-technology-search-counter
               id="technology-filter-status"
             >
-              <span class="sr-only" data-technology-result-prefix>{t('Showing all')}</span><span data-technology-result-count>{technologies.length}</span>{' '}<span data-technology-result-unit>{t('technologies')}</span><span
+              <span class="sr-only" data-technology-result-prefix>{t('collection.showingAll')}</span><span data-technology-result-count>{technologies.length}</span>{' '}<span data-technology-result-unit>{t('collection.technologies7')}</span><span
 class="sr-only"
 data-technology-result-suffix
-                                                                                                                                                                                                                           >.</span>
+                                                                                                                                                                                                                                                 >.</span>
             </p>
           </div>
         </div>
-        <nav aria-label={t('Browse technology groups')} data-technology-group-navigation>
+        <nav aria-label={t('collection.browseTechnologyGroups')} data-technology-group-navigation>
           {technologyGroups.map((group, index) => (
             <Link href={`#technology-group-${index}`} variant="inherit">
-              <span data-technology-shortcut-title>{t(group.title)}</span>
+              <span data-technology-shortcut-title>{localizeCollectionSource(locale, group.title)}</span>
               <ArrowExchange class="size-4" direction="down" />
               <span data-technology-shortcut-meta>
-                {group.items.length} {group.items.length === 1 ? t('technology') : t('technologies')}<br />
+                {group.items.length} {group.items.length === 1 ? t('collection.technology') : t('collection.technologies7')}<br />
                 {group.recurrence}
               </span>
             </Link>
           ))}
         </nav>
         <div data-technology-opening-actions>
-          <Link href={localizePath('/work/', locale)} variant="inherit">{t('Browse work')}<ArrowExchange
+          <Link href={localizePath('/work/', locale)} variant="inherit">{t('collection.browseWork')}<ArrowExchange
 class="size-4"
 direction="right"
-                                                                                          /></Link>
-          <Link href={localizePath('/portfolio/', locale)} variant="inherit">{t('Portfolio')}<ArrowExchange
+                                                                                                    /></Link>
+          <Link href={localizePath('/portfolio/', locale)} variant="inherit">{t('collection.portfolio')}<ArrowExchange
 class="size-4"
 direction="right"
-                                                                                             /></Link>
+                                                                                                        /></Link>
         </div>
       </div>
     </PageHero>
@@ -128,10 +128,10 @@ direction="right"
       <div data-technology-index>
         <section aria-labelledby="technology-matches-heading" data-technology-matches hidden>
           <header data-technology-matches-header>
-            <h2 id="technology-matches-heading">{t('Matches for')} “<span data-technology-match-query></span>”</h2>
-            <p>{t('Counts reflect portfolio entries')}</p>
+            <h2 id="technology-matches-heading">{t('collection.matchesFor')} “<span data-technology-match-query></span>”</h2>
+            <p>{t('collection.countsReflectPortfolioEntries')}</p>
           </header>
-          <div aria-label={t('Matching technologies')} data-technology-matches-list role="list"></div>
+          <div aria-label={t('collection.matchingTechnologies')} data-technology-matches-list role="list"></div>
         </section>
         <div data-technology-groups>
           {technologyGroups.map((group, index) => (
@@ -148,19 +148,19 @@ data-technology-number
                     >
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <span data-technology-title>{t(group.title)}
+                    <span data-technology-title>{localizeCollectionSource(locale, group.title)}
                     </span>
                   </span>
                   <span
 data-technology-group-count
                   >
-                    {group.items.length} {group.items.length === 1 ? t('tool') : t('tools')}
+                    {group.items.length} {group.items.length === 1 ? t('collection.tool') : t('home.hero.emphasis')}
                   </span>
                 </h2>
                 <p class="max-w-sm text-sm/6 text-ink-soft">{group.summary}</p>
               </div>
 
-              <MotionGroup aria-label={t(`${t(group.title)} technologies`)} data-technology-links enterExit={false} role="list">
+              <MotionGroup aria-label={t('technology.collection', { name: localizeCollectionSource(locale, group.title) })} data-technology-links enterExit={false} role="list">
                 {group.items.map(([technology, count]) => (
                   <span data-label={technology} data-technology-item data-ui-motion-key={technology} role="listitem">
                     <Link
@@ -168,11 +168,11 @@ data-technology-group-count
                       variant="inherit"
                     >
                       <span data-technology-label>{technology}</span>{' '}
-                      <span data-technology-match-group>{t(group.title)}</span>{' '}
+                      <span data-technology-match-group>{localizeCollectionSource(locale, group.title)}</span>{' '}
                       <span data-technology-project-count>{count}<span
 class="sr-only"
 data-technology-entry-unit
-                                                                 > {count === 1 ? t('entry') : t('entries')}</span></span>
+                                                                 > {count === 1 ? t('collection.entry') : t('collection.entries')}</span></span>
                       <span data-technology-match-arrow><ArrowExchange
 class="size-4"
 direction="up-right"
@@ -192,8 +192,8 @@ direction="up-right"
         >
           <span data-technology-empty-icon><Icon class="size-5.5" name="search-x" /></span>
           <div>
-            <h2 id="technology-empty-heading">{t('No technologies match that search.')}</h2>
-            <p>{t('Try a broader term or clear the search field.')}</p>
+            <h2 id="technology-empty-heading">{t('collection.noTechnologiesMatchThatSearch')}</h2>
+            <p>{t('collection.tryABroaderTermOrClear')}</p>
           </div>
         </section>
       </div>
@@ -205,17 +205,17 @@ direction="up-right"
   <PageSection layout="stacked">
     <section aria-labelledby="technology-evidence-heading" data-technology-evidence-paths id="trace-the-evidence">
       <header data-evidence-paths-header>
-        <p data-evidence-paths-label>{t('Beyond the toolkit')}</p>
-        <h2 id="technology-evidence-heading">{t('Follow it into the work.')}</h2>
-        <p data-evidence-paths-copy>{t('See the roles, products, and decisions behind these tools.')}</p>
+        <p data-evidence-paths-label>{t('collection.beyondTheToolkit')}</p>
+        <h2 id="technology-evidence-heading">{t('collection.followItIntoTheWork')}</h2>
+        <p data-evidence-paths-copy>{t('collection.seeTheRolesProductsAndDecisions')}</p>
       </header>
-      <nav aria-label={t('Explore beyond the toolkit')} data-evidence-paths-navigation>
+      <nav aria-label={t('collection.exploreBeyondTheToolkit')} data-evidence-paths-navigation>
         {evidencePaths.map((path, index) => (
           <Link data-evidence-path href={localizePath(path.href, locale)} variant="inherit">
             <span aria-hidden="true" data-evidence-path-number>{String(index + 1).padStart(2, '0')}</span>
             <span data-evidence-path-body>
-              <span data-evidence-path-title>{t(path.title)}</span>{' '}
-              <span data-evidence-path-description>{t(path.description)}</span>
+              <span data-evidence-path-title>{localizeCollectionSource(locale, path.title)}</span>{' '}
+              <span data-evidence-path-description>{localizeCollectionSource(locale, path.description)}</span>
             </span>
             <ArrowExchange data-evidence-path-arrow direction="up-right" />
           </Link>

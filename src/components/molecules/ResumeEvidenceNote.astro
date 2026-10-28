@@ -8,7 +8,7 @@ import { getPortfolioPath } from '@/utils/links'
 import { Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 interface Props {
   compact?: boolean
@@ -16,14 +16,14 @@ interface Props {
 }
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 const { compact = false, project } = Astro.props
 ---
 
 <div class="print:hidden" data-resume-evidence-note data-compact={compact || undefined} data-print-hidden>
-  {!compact && <p>{t('The decisions behind these results')}</p>}
+  {!compact && <p>{t('collection.theDecisionsBehindTheseResults')}</p>}
   <Link href={localizePath(getPortfolioPath(project.id), locale)} variant="inherit">
-    <span data-resume-evidence-label>{t(`Read the ${project.data.title} case study`)}</span>
+    <span data-resume-evidence-label>{t('collection.readNamedCaseStudy', { project: project.data.title })}</span>
     <span data-resume-evidence-arrow><ArrowExchange direction="right" /></span>
   </Link>
 </div>

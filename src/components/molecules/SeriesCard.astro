@@ -8,10 +8,10 @@ import { getSeriesPath } from '@/utils/links'
 import { Card, Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   postCount: number
@@ -19,9 +19,9 @@ interface Props {
 }
 
 const { postCount, series } = Astro.props
-const postCountLabel = `${postCount} ${postCount === 1 ? t('article') : t('articles')}`
+const postCountLabel = `${postCount} ${postCount === 1 ? t('collection.article7') : t('collection.articles')}`
 const seriesPath = getSeriesPath(series.id)
-const statusLabel = series.data.status === 'planned' ? t('Planned series') : t('Active series')
+const statusLabel = series.data.status === 'planned' ? t('collection.plannedSeries') : t('collection.activeSeries')
 ---
 
 <Card as="article" data-series-card>
@@ -35,14 +35,14 @@ const statusLabel = series.data.status === 'planned' ? t('Planned series') : t('
     <p lang="en">{series.data.description}</p>
 
     {!!series.data.focusAreas.length && (
-      <ul aria-label={t('Focus areas')}>
+      <ul aria-label={t('collection.focusAreas')}>
         {series.data.focusAreas.map(area => <li>{area}</li>)}
       </ul>
     )}
 
     <div data-series-card-footer>
       <span data-series-card-action>
-        <span>{t('Explore series')}</span>
+        <span>{t('collection.exploreSeries')}</span>
         <ArrowExchange class="size-4.5 shrink-0" direction="right" />
       </span>
     </div>

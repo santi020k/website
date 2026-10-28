@@ -9,51 +9,51 @@ import Portrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
 import { Card, Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 ---
 
 <section aria-labelledby="contact-heading" class="section-container-wide" data-contact-hero>
   <div data-contact-opening>
-    <p class="editorial-eyebrow">{t('Work with me')}</p>
-    <h1 class="editorial-page-title" id="contact-heading">{t('Let’s work')}{' '}<span class="
+    <p class="editorial-eyebrow">{t('shared.workWithMe')}</p>
+    <h1 class="editorial-page-title" id="contact-heading">{t('page.letSWork')}{' '}<span class="
       editorial-page-emphasis
     "
-                                                                                >{t('together.')}</span></h1>
-    <p class="editorial-page-description">{t('I give tech talks, lead engineering teams, and help companies grow with better code quality and practical AI. Tell me what you’re working on and we’ll find the right shape.')}</p>
+                                                                                   >{t('page.together')}</span></h1>
+    <p class="editorial-page-description">{t('page.iGiveTechTalksLeadEngineering')}</p>
     <div class="editorial-page-actions section-actions">
-      <ButtonLink href="#start" showArrow>{t('Message me on WhatsApp')}</ButtonLink>
-      <ButtonLink href={siteConfig.contact.calendar} newTab showArrow variant="secondary">{t('Book a call')}</ButtonLink>
+      <ButtonLink href="#start" showArrow>{t('page.messageMeOnWhatsapp')}</ButtonLink>
+      <ButtonLink href={siteConfig.contact.calendar} newTab showArrow variant="secondary">{t('page.bookACall')}</ButtonLink>
     </div>
   </div>
 
-  <Card as="section" aria-label={t('Your collaborator')} data-contact-profile variant="unstyled">
+  <Card as="section" aria-label={t('page.yourCollaborator')} data-contact-profile variant="unstyled">
     <div data-contact-identity>
       <Image alt="Santiago Molina" format="avif" height={120} loading="eager" sizes="5.5rem" src={Portrait} width={88} widths={[88, 176]} />
       <div>
-        <p data-contact-caption>{t('Your next collaborator')}</p>
+        <p data-contact-caption>{t('page.yourNextCollaborator')}</p>
         <p data-contact-name>Santiago Molina</p>
-        <p data-contact-role>{t('Engineering lead.')}<br />{t('Builder. Speaker.')}</p>
+        <p data-contact-role>{t('page.engineeringLead')}<br />{t('page.builderSpeaker')}</p>
       </div>
     </div>
     <dl data-contact-details>
-      <div><dt>{t('Based in')}</dt><dd>Medellín, Colombia</dd></div>
-      <div><dt>{t('Working with')}</dt><dd>{t('Teams worldwide · UTC−5')}</dd></div>
-      <div><dt>{t('Languages')}</dt><dd>{t('English & Spanish')}</dd></div>
+      <div><dt>{t('page.basedIn')}</dt><dd>Medellín, Colombia</dd></div>
+      <div><dt>{t('page.workingWith')}</dt><dd>{t('page.teamsWorldwideUtc5')}</dd></div>
+      <div><dt>{t('page.languages')}</dt><dd>{t('page.englishAndSpanish')}</dd></div>
     </dl>
     <div data-contact-profile-links>
-      <Link href={localizePath(siteConfig.contact.resume, pageLocale)} variant="inherit">{t('View resume')} <ArrowExchange direction="right" size="sm" /></Link>
-      <Link href={localizePath('/speaking/', pageLocale)} variant="inherit">{t('Explore my talks')} <ArrowExchange direction="right" size="sm" /></Link>
+      <Link href={localizePath(siteConfig.contact.resume, pageLocale)} variant="inherit">{t('shared.viewResume')} <ArrowExchange direction="right" size="sm" /></Link>
+      <Link href={localizePath('/speaking/', pageLocale)} variant="inherit">{t('page.exploreMyTalks')} <ArrowExchange direction="right" size="sm" /></Link>
     </div>
   </Card>
 
-  <nav aria-label={t('On this page')} data-contact-index>
-    <a href="#ways-to-work"><span data-contact-index-number aria-hidden="true">01</span><span data-contact-index-label>{t('Ways to work')}</span><ArrowExchange direction="down-right" size="sm" /></a>
-    <a href="#start"><span data-contact-index-number aria-hidden="true">03</span><span data-contact-index-label>{t('Start a conversation')}</span><ArrowExchange direction="down-right" size="sm" /></a>
-    <a href="#contact-faq"><span data-contact-index-number aria-hidden="true">05</span><span data-contact-index-label>{t('Common questions')}</span><ArrowExchange direction="down-right" size="sm" /></a>
+  <nav aria-label={t('page.onThisPage')} data-contact-index>
+    <a href="#ways-to-work"><span data-contact-index-number aria-hidden="true">01</span><span data-contact-index-label>{t('page.waysToWork')}</span><ArrowExchange direction="down-right" size="sm" /></a>
+    <a href="#start"><span data-contact-index-number aria-hidden="true">03</span><span data-contact-index-label>{t('page.startAConversation')}</span><ArrowExchange direction="down-right" size="sm" /></a>
+    <a href="#contact-faq"><span data-contact-index-number aria-hidden="true">05</span><span data-contact-index-label>{t('page.commonQuestions')}</span><ArrowExchange direction="down-right" size="sm" /></a>
   </nav>
 </section>
 

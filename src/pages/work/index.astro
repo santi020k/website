@@ -13,21 +13,21 @@ import { ButtonLink, Card, Link, Stat } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const workProjects = allProjects.filter(p => p.data.typesId === 'professional')
 const allTechnologies = getUniqueTechnologiesWithCount(workProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 
 const toolkitLanes = [
-  { id: 'web', title: t('Web foundations'), names: ['React.js', 'Next.js', 'TypeScript'] },
-  { id: 'mobile', title: t('Mobile'), names: ['React Native', 'Expo'] },
-  { id: 'data', title: t('Data & state'), names: ['Node.js', 'GraphQL', 'Apollo Client', 'TanStack Query', 'OpenAPI', 'Zustand', 'Redux Toolkit', 'Redux Sagas', 'Redux'] },
-  { id: 'ui', title: t('UI systems'), names: ['Storybook', 'Tailwind CSS', 'Radix UI', 'Mantine UI'] }
+  { id: 'web', title: t('page.webFoundations'), names: ['React.js', 'Next.js', 'TypeScript'] },
+  { id: 'mobile', title: t('page.mobile'), names: ['React Native', 'Expo'] },
+  { id: 'data', title: t('page.dataAndState'), names: ['Node.js', 'GraphQL', 'Apollo Client', 'TanStack Query', 'OpenAPI', 'Zustand', 'Redux Toolkit', 'Redux Sagas', 'Redux'] },
+  { id: 'ui', title: t('page.uiSystems'), names: ['Storybook', 'Tailwind CSS', 'Radix UI', 'Mantine UI'] }
 ]
 
 const groupedTechnologyNames = new Set(toolkitLanes.flatMap(lane => lane.names))
@@ -38,47 +38,47 @@ const toolkitGroups = [
     title: lane.title,
     items: technologies.filter(([name]) => lane.names.includes(name))
   })),
-  { id: 'other', title: t('Other tools'), items: technologies.filter(([name]) => !groupedTechnologyNames.has(name)) }
+  { id: 'other', title: t('page.otherTools'), items: technologies.filter(([name]) => !groupedTechnologyNames.has(name)) }
 ].filter(group => group.items.length > 0)
 
 const careerStats = [
   {
-    label: t('Professional roles'),
+    label: t('page.professionalRoles'),
     value: String(workProjects.length),
-    description: t('Across commerce, gaming, agencies, and SaaS.'),
-    source: { href: '#experience-heading', label: t('Explore the timeline') }
+    description: t('page.acrossCommerceGamingAgenciesAndSaas'),
+    source: { href: '#experience-heading', label: t('page.exploreTheTimeline') }
   },
   {
-    label: t('Largest team led'),
+    label: t('page.largestTeamLed'),
     value: '14',
-    description: t('Product, design, frontend, and backend.'),
-    source: { href: localizePath('/portfolio/void/#what-i-led', pageLocale), label: t('Void.GG · What I led') }
+    description: t('page.productDesignFrontendAndBackend'),
+    source: { href: localizePath('/portfolio/void/#what-i-led', pageLocale), label: t('page.voidGgWhatILed') }
   },
   {
-    label: t('Production technologies'),
+    label: t('page.productionTechnologies'),
     value: String(allTechnologies.length),
-    description: t('Tools chosen to fit the product.'),
-    source: { href: '#tools-heading', label: t('Explore the toolkit') }
+    description: t('page.toolsChosenToFitTheProduct'),
+    source: { href: '#tools-heading', label: t('page.exploreTheToolkit') }
   },
   {
-    label: t('Faster deployments'),
+    label: t('page.fasterDeployments'),
     value: '60%',
-    description: t('Through CI/CD and improved release workflows.'),
-    source: { href: localizePath('/portfolio/void/#key-outcomes', pageLocale), label: t('Void.GG · Key outcomes') }
+    description: t('page.throughCiCdAndImprovedRelease'),
+    source: { href: localizePath('/portfolio/void/#key-outcomes', pageLocale), label: t('page.voidGgKeyOutcomes') }
   }
 ]
 
 const careerDestinations = [
-  { id: 'resume', category: t('Experience'), title: t('Open resume'), description: t('Roles, projects, and skills in one readable view.'), href: siteConfig.contact.resume },
-  { id: 'technologies', category: t('Technology index'), title: t('Explore the full toolkit'), description: t('Browse the tools used across all projects.'), href: localizePath('/technologies/', pageLocale) }
+  { id: 'resume', category: t('shared.experience'), title: t('page.openResume'), description: t('page.rolesProjectsAndSkillsInOne'), href: siteConfig.contact.resume },
+  { id: 'technologies', category: t('page.technologyIndex'), title: t('page.exploreTheFullToolkit'), description: t('page.browseTheToolsUsedAcrossAll'), href: localizePath('/technologies/', pageLocale) }
 ]
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', pageLocale) },
-  { name: t('Work'), url: localizePath('/work/', pageLocale) }
+  { name: t('nav.home'), url: localizePath('/', pageLocale) },
+  { name: t('nav.work'), url: localizePath('/work/', pageLocale) }
 ]
 
-const workListSchema = createProjectCollectionSchema(t('Work Experience — Santiago Molina'), localizePath('/work/', pageLocale), workProjects, Astro.site)
+const workListSchema = createProjectCollectionSchema(t('page.workExperienceSantiagoMolina'), localizePath('/work/', pageLocale), workProjects, Astro.site)
 ---
 
 <PageLayout
@@ -86,10 +86,10 @@ backdrop="plain"
   headerVariant="signature"
   meta={{
     breadcrumbs,
-    description: t('Explore Santiago Molina’s engineering work across commerce, SaaS, gaming, and platforms, including architecture, delivery systems, and technical leadership.'),
-    seoTitle: t('Santiago Molina — Engineering Leadership Work'),
+    description: t('page.exploreSantiagoMolinaSEngineeringWork'),
+    seoTitle: t('page.santiagoMolinaEngineeringLeadershipWork'),
     structuredData: workListSchema,
-    title: t('Work Experience — Santiago Molina')
+    title: t('page.workExperienceSantiagoMolina')
   }}
 >
   <div class="work-page" data-work-page>
@@ -99,24 +99,24 @@ backdrop="plain"
           <p class="maker-hero-eyebrow"><span
   aria-hidden="true"
   class="maker-hero-signal"
-                                        ></span>{t('Work experience / US & LATAM')}</p>
-          <h1 id="work-heading" class="work-heading">{t('Products shipped.')}<br /><span class="
+                                        ></span>{t('page.workExperienceUsAndLatam')}</p>
+          <h1 id="work-heading" class="work-heading">{t('page.productsShipped')}<br /><span class="
             maker-hero-emphasis
           "
-                                                                                   >{t('Teams led.')}</span></h1>
+                                                                                      >{t('page.teamsLed')}</span></h1>
         </div>
         <div>
-          <p class="text-lg/7 font-medium tracking-tight text-ink">{t('Good software takes more than code.')}</p>
-          <p class="mt-4 text-sm/7 text-ink-soft">{t('I help teams turn complex problems into products that hold up. Architecture decisions, delivery systems, and hands-on technical leadership, from startup pressure to scale-up complexity.')}</p>
+          <p class="text-lg/7 font-medium tracking-tight text-ink">{t('page.goodSoftwareTakesMoreThanCode')}</p>
+          <p class="mt-4 text-sm/7 text-ink-soft">{t('page.iHelpTeamsTurnComplexProblems')}</p>
           <div class="maker-hero-actions" data-work-hero-actions>
             <ButtonLink class="maker-hero-primary" href="#experience-heading" variant="unstyled">
-              {t('Explore experience')} <span
+              {t('page.exploreExperience')} <span
 aria-hidden="true"
 class="maker-hero-arrow"
-                                        ><ArrowExchange direction="down" /></span>
+                                            ><ArrowExchange direction="down" /></span>
             </ButtonLink>
             <div class="work-hero-secondary-links">
-              <ButtonLink class="maker-hero-secondary" href={localizePath(siteConfig.contact.resume, pageLocale)} variant="unstyled">{t('Open resume')} <ArrowExchange direction="right" /></ButtonLink>
+              <ButtonLink class="maker-hero-secondary" href={localizePath(siteConfig.contact.resume, pageLocale)} variant="unstyled">{t('page.openResume')} <ArrowExchange direction="right" /></ButtonLink>
               <ButtonLink class="maker-hero-secondary" data-work-hero-external href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="unstyled">LinkedIn <ArrowExchange /></ButtonLink>
             </div>
           </div>
@@ -125,7 +125,7 @@ class="maker-hero-arrow"
 
       <section
 id="career-at-a-glance"
-aria-label={t('Career at a glance')}
+aria-label={t('page.careerAtAGlance')}
 class="work-stats"
       >
         {careerStats.map(({ description, label, source, value }, index) => (
@@ -154,14 +154,14 @@ class="
 "
     >
       <div class="work-section-heading">
-        <div><p class="maker-hero-eyebrow mb-4">{t('01 / Experience')}</p><h2
+        <div><p class="maker-hero-eyebrow mb-4">{t('work.chapterExperience')}</p><h2
 id="experience-heading"
 class="
   text-3xl/tight font-semibold tracking-tighter text-ink
   sm:text-4xl
 "
-                                                                          >{t('The work, over time.')}</h2></div>
-        <p class="max-w-sm text-sm/7 text-ink-soft">{t('Client and product work where architecture, team habits, and release quality had to improve together.')}</p>
+                                                                                 >{t('page.theWorkOverTime')}</h2></div>
+        <p class="max-w-sm text-sm/7 text-ink-soft">{t('page.clientAndProductWorkWhereArchitecture')}</p>
       </div>
       <CareerTimeline projects={workProjects} />
     </section>
@@ -174,14 +174,14 @@ class="
 "
     >
       <div class="work-section-heading">
-        <div><p class="maker-hero-eyebrow mb-4">{t('02 / Toolkit')}</p><h2
+        <div><p class="maker-hero-eyebrow mb-4">{t('work.chapterToolkit')}</p><h2
 id="tools-heading"
 class="
   text-3xl/tight font-semibold tracking-tighter text-ink
   sm:text-4xl
 "
-                                                                       >{t('The tools behind the work.')}</h2></div>
-        <p class="max-w-sm text-sm/7 text-ink-soft">{t('React and TypeScript at the center. Backend, mobile, testing, and delivery tools to fit the problem.')}</p>
+                                                                              >{t('page.theToolsBehindTheWork')}</h2></div>
+        <p class="max-w-sm text-sm/7 text-ink-soft">{t('page.reactAndTypescriptAtTheCenter')}</p>
       </div>
       <div data-work-stack>
         {toolkitGroups.map((group, index) => (
@@ -199,8 +199,8 @@ class="@container/sculpted-tags flex flex-wrap gap-2.5"
           </section>
         ))}
       </div>
-      <p class="mt-7 text-xs/6 text-ink-soft">{t('Numbers indicate the professional projects using each technology.')}</p>
-      <nav id="work-next-steps" class="work-close" aria-label={t('Continue exploring work')} data-work-close>
+      <p class="mt-7 text-xs/6 text-ink-soft">{t('page.numbersIndicateTheProfessionalProjectsUsing')}</p>
+      <nav id="work-next-steps" class="work-close" aria-label={t('page.continueExploringWork')} data-work-close>
         {careerDestinations.map(destination => (
           <Link class="work-close-link" href={localizePath(destination.href, pageLocale)} variant="inherit">
             <Card as="div" variant="unstyled" data-work-close-card={destination.id}>

@@ -11,7 +11,7 @@ import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { Card, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 interface Props {
   index: number
@@ -19,7 +19,7 @@ interface Props {
 }
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 const { index, project } = Astro.props
 const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
 ---
@@ -47,18 +47,18 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
   </div>
   <div data-related-body>
     <div data-related-heading>
-      <p data-related-role lang={project.data.role ? 'en' : undefined}>{project.data.role ?? t('Engineering')}</p>
+      <p data-related-role lang={project.data.role ? 'en' : undefined}>{project.data.role ?? t('collection.engineering')}</p>
       <h3 lang="en">{project.data.title}</h3>
     </div>
     <p data-related-description lang="en">{project.data.description}</p>
     <div data-related-footer>
       <span data-related-action>
-        {t('Read case study')}
+        {t('collection.readCaseStudy')}
         <span data-related-arrow><ArrowExchange class="size-4" direction="right" /></span>
       </span>
     </div>
   </div>
-  <a data-related-link href={localizePath(getPortfolioPath(project.id), locale)} aria-label={`${t('Read case study')}: ${project.data.title}`}></a>
+  <a data-related-link href={localizePath(getPortfolioPath(project.id), locale)} aria-label={`${t('collection.readCaseStudy')}: ${project.data.title}`}></a>
 </Card>
 
 <style>

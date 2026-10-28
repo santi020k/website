@@ -5,8 +5,8 @@ import { getNavigationCurrent } from '@/utils/links'
 
 import { ButtonLink } from '@santi020k/lumen-astro'
 
-import { getLocale, localizePath, stripLocale, translate } from '@/i18n'
-import { menuLinks, siteConfig } from '@/site.config'
+import { getLocale, localizePath, sharedTranslator, stripLocale } from '@/i18n'
+import { getMenuLinks, siteConfig } from '@/site.config'
 
 import { version } from '../../../package.json'
 
@@ -16,24 +16,24 @@ interface Props {
 
 const { variant = 'default' } = Astro.props
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
+const t = sharedTranslator(locale)
 const year = new Date().getFullYear()
 const currentPath = Astro.url.pathname
 
 const navLinks = [
-  ...menuLinks.map(link => ({
+  ...getMenuLinks(locale).map(link => ({
     ...link,
-    title: link.path === '/speaking/' ? 'Speaking' : link.title
+    title: link.path === '/speaking/' ? t('nav.speaking') : link.title
   })),
-  { path: siteConfig.contact.workWithMe, title: 'Work with me' }
-].map(link => ({ ...link, path: localizePath(link.path, locale), title: t(link.title) }))
+  { path: siteConfig.contact.workWithMe, title: t('shared.workWithMe') }
+].map(link => ({ ...link, path: localizePath(link.path, locale) }))
 
 const resourceLinks = [
-  { path: '/history/', title: 'Website history' },
-  { path: '/accessibility/', title: 'Accessibility' },
-  { path: '/privacy/', title: 'Privacy' },
-  { path: '/terms/', title: 'Terms' }
-].map(link => ({ path: localizePath(link.path, locale), title: t(link.title) }))
+  { path: '/history/', title: t('shared.websiteHistory') },
+  { path: '/accessibility/', title: t('shared.accessibility') },
+  { path: '/privacy/', title: t('shared.privacy') },
+  { path: '/terms/', title: t('shared.terms') }
+].map(link => ({ path: localizePath(link.path, locale), title: link.title }))
 
 const activePath = [...navLinks, ...resourceLinks]
   .filter(link => getNavigationCurrent(stripLocale(currentPath), stripLocale(link.path)))
@@ -45,9 +45,9 @@ const activePath = [...navLinks, ...resourceLinks]
     {variant !== 'compact' && (
       <section class="maker-footer-invitation" aria-labelledby="footer-heading">
         <div class="maker-footer-intro">
-          <p class="maker-footer-label"><span class="maker-hero-signal" aria-hidden="true"></span><span>{t('Good things start with a conversation')}</span></p>
-          <h2 id="footer-heading">{t('Let’s build ')}<span>{t('something useful.')}</span></h2>
-          <p class="maker-footer-description">{t('Invite me to give a talk, tell me about an engineering role, or let’s grow your team with better code quality and practical AI.')}</p>
+          <p class="maker-footer-label"><span class="maker-hero-signal" aria-hidden="true"></span><span>{t('shared.goodThingsStartWithAConversation')}</span></p>
+          <h2 id="footer-heading">{t('shared.letSBuild')}<span>{t('shared.somethingUseful')}</span></h2>
+          <p class="maker-footer-description">{t('shared.inviteMeToGiveATalk')}</p>
         </div>
         <div class="maker-footer-contact">
           <div class="maker-footer-action-sheet">
@@ -56,20 +56,20 @@ const activePath = [...navLinks, ...resourceLinks]
 direction="up-right"
 class="maker-footer-action-arrow"
               />
-              <span class="maker-footer-action-copy"><span>{t('Let’s talk')}</span><span>{t('Pick a topic and message me on WhatsApp')}</span></span>
+              <span class="maker-footer-action-copy"><span>{t('shared.letSTalk')}</span><span>{t('shared.pickATopicAndMessageMe')}</span></span>
             </ButtonLink>
           </div>
           <a class="maker-footer-email" href={siteConfig.contact.calendar} rel="noopener noreferrer" target="_blank">
-            <span><span>{t('Rather talk first?')}</span><span>{t('Book a call')}</span></span><ArrowExchange
+            <span><span>{t('shared.ratherTalkFirst')}</span><span>{t('shared.bookACall')}</span></span><ArrowExchange
 class="maker-footer-email-arrow"
 direction="up-right"
-                                                                                              />
+                                                                                                       />
           </a>
           <a class="maker-footer-email" href={`mailto:${siteConfig.contact.email}`}>
-            <span><span>{t('Prefer email?')}</span><span>{siteConfig.contact.email}</span></span><ArrowExchange
+            <span><span>{t('shared.preferEmail')}</span><span>{siteConfig.contact.email}</span></span><ArrowExchange
 class="maker-footer-email-arrow"
 direction="up-right"
-                                                                                                 />
+                                                                                                      />
           </a>
         </div>
       </section>
@@ -78,13 +78,13 @@ direction="up-right"
     <div class="maker-footer-directory">
       <div class="maker-footer-identity">
         <a class="maker-footer-wordmark" href="https://santi020k.com" aria-label="Santiago Molina — santi020k">santi020k<span>.</span></a>
-        <p>{t('Engineer. Maker. Always curious.')}</p>
+        <p>{t('shared.engineerMakerAlwaysCurious')}</p>
         <p class="maker-footer-location">{siteConfig.location}</p>
-        <a class="maker-footer-resume" data-text-link href={localizePath(siteConfig.contact.resume, locale)}><span data-text-link-label>{t('View resume')}</span><ArrowExchange direction="up-right" /></a>
+        <a class="maker-footer-resume" data-text-link href={localizePath(siteConfig.contact.resume, locale)}><span data-text-link-label>{t('shared.viewResume')}</span><ArrowExchange direction="up-right" /></a>
       </div>
 
-      <nav class="maker-footer-navigation" aria-label={t('Footer navigation')}>
-        <p class="maker-footer-label">{t('Explore')}</p>
+      <nav class="maker-footer-navigation" aria-label={t('shared.footerNavigation')}>
+        <p class="maker-footer-label">{t('shared.explore')}</p>
         <ul>
           {navLinks.map(link => (
             <li><a data-text-link href={link.path} aria-current={activePath === link.path ? getNavigationCurrent(stripLocale(currentPath), stripLocale(link.path)) : undefined}><span data-text-link-label>{link.title}</span></a></li>
@@ -92,8 +92,8 @@ direction="up-right"
         </ul>
       </nav>
 
-      <nav class="maker-footer-social" aria-label={t('Connect with Santiago')}>
-        <p class="maker-footer-label">{t('Elsewhere')}</p>
+      <nav class="maker-footer-social" aria-label={t('shared.connectWithSantiago')}>
+        <p class="maker-footer-label">{t('shared.elsewhere')}</p>
         <ul>
           {siteConfig.socialLinks.map(({ href, indieAuthRelMe, label }) => (
             <li>
@@ -107,12 +107,12 @@ direction="up-right"
     </div>
 
     <div class="maker-footer-colophon">
-      <p>&copy; {year} {siteConfig.author}<span aria-hidden="true"> / </span><a data-text-link href="https://lumen.santi020k.com" rel="noopener noreferrer" target="_blank"><span data-text-link-label>{t('Built with Lumen')}</span></a></p>
-      <nav aria-label={t('Site information')}>
+      <p>&copy; {year} {siteConfig.author}<span aria-hidden="true"> / </span><a data-text-link href="https://lumen.santi020k.com" rel="noopener noreferrer" target="_blank"><span data-text-link-label>{t('shared.builtWithLumen')}</span></a></p>
+      <nav aria-label={t('shared.siteInformation')}>
         {resourceLinks.map(({ path, title }) => (
           <a data-text-link href={path} aria-current={activePath === path ? getNavigationCurrent(stripLocale(currentPath), stripLocale(path)) : undefined}><span data-text-link-label>{title}</span></a>
         ))}
-        <a data-text-link href="https://github.com/santi020k/website/issues/new/choose" rel="noopener noreferrer" target="_blank"><span data-text-link-label>{t('Report an issue')}</span></a>
+        <a data-text-link href="https://github.com/santi020k/website/issues/new/choose" rel="noopener noreferrer" target="_blank"><span data-text-link-label>{t('shared.reportAnIssue')}</span></a>
       </nav>
       <a class="maker-footer-version" data-text-link href="https://github.com/santi020k/website" rel="noopener noreferrer" target="_blank" aria-label={`v${version} — Website source`}><span data-text-link-label>v{version}</span><ArrowExchange direction="up-right" /></a>
     </div>

@@ -1,5 +1,8 @@
 import type { LumenIconName } from '@santi020k/lumen-core'
 
+import type { Locale } from '@/i18n'
+import { defaultLocale, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
 export type WorkTopicId = 'ai' | 'other' | 'quality' | 'role' | 'talk' | 'team'
@@ -28,99 +31,123 @@ export interface FaqItem {
   question: string
 }
 
-export const workWithMeServices: WorkWithMeService[] = [
-  {
-    description: 'Talks and hands-on workshops for conferences, meetups, and internal engineering teams.',
-    examples: ['Conference and meetup talks', 'Team workshops and live builds', 'Panels, Q&A, and fireside chats'],
-    icon: 'presentation',
-    id: 'talk',
-    proof: { href: '/speaking/', label: 'Topics and past talks' },
-    title: 'Tech talks and workshops'
-  },
-  {
-    description: 'Tech lead, staff-level full-stack, and engineering leadership roles, remote or hybrid from Medellín.',
-    examples: ['Tech lead and staff engineer roles', 'Engineering manager and head of engineering', 'Remote teams in the Americas'],
-    icon: 'briefcase-business',
-    id: 'role',
-    proof: { href: siteConfig.contact.resume, label: 'Resume and career timeline' },
-    title: 'Engineering roles'
-  },
-  {
-    description: 'Hands-on leadership for companies that are growing: clearer standards, calmer releases, and stronger technical decisions.',
-    examples: ['Technical direction and architecture', 'Hiring, onboarding, and mentoring', 'Delivery rhythm for growing teams'],
-    icon: 'users',
-    id: 'team',
-    proof: { href: '/portfolio/void/#what-i-led', label: 'Leading a team of 14 at Void' },
-    title: 'Growing teams and companies'
-  },
-  {
-    description: 'Put AI coding tools to work without losing control of quality, review, and delivery.',
-    examples: ['AI-assisted workflows with guardrails', 'Agent-ready repositories and docs', 'Faster, cheaper automation'],
-    icon: 'sparkles',
-    id: 'ai',
-    proof: { href: '/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/', label: 'Why AI needs a reliable process' },
-    title: 'AI in everyday engineering'
-  },
-  {
-    description: 'Linting, testing, CI/CD, and shared components that keep a codebase easy to change as it grows.',
-    examples: ['Code standards teams actually adopt', 'Testing and accessibility checks', 'CI/CD and release automation'],
-    icon: 'shield-check',
-    id: 'quality',
-    proof: { href: '/developer-experience/', label: 'Developer experience guide' },
-    title: 'Code quality and developer experience'
-  }
-]
+export const getWorkWithMeServices = (locale: Locale = defaultLocale): WorkWithMeService[] => {
+  const t = pageTranslator(locale)
 
-export const workTopics: WorkTopic[] = [
-  { id: 'talk', label: 'A talk or workshop', opener: 'I’d like to invite you to give a talk or workshop.' },
-  { id: 'role', label: 'An engineering role', opener: 'I’m hiring for an engineering role and think you could be a fit.' },
-  { id: 'team', label: 'Growing our team', opener: 'I’d like help growing our engineering team.' },
-  { id: 'ai', label: 'Using AI in engineering', opener: 'I’d like help using AI in our engineering work.' },
-  { id: 'quality', label: 'Code quality and DX', opener: 'I’d like help improving our code quality and developer experience.' },
-  { id: 'other', label: 'Something else', opener: 'I’d like to talk about a project.' }
-]
+  return [
+    {
+      description: t('page.talksAndHandsOnWorkshopsFor'),
+      examples: [t('page.conferenceAndMeetupTalks'), t('page.teamWorkshopsAndLiveBuilds'), t('page.panelsQAndAAndFireside')],
+      icon: 'presentation',
+      id: 'talk',
+      proof: { href: localizePath('/speaking/', locale), label: t('page.topicsAndPastTalks') },
+      title: t('page.techTalksAndWorkshops')
+    },
+    {
+      description: t('page.techLeadStaffLevelFullStack'),
+      examples: [t('page.techLeadAndStaffEngineerRoles'), t('page.engineeringManagerAndHeadOfEngineering'), t('page.remoteTeamsInTheAmericas')],
+      icon: 'briefcase-business',
+      id: 'role',
+      proof: { href: localizePath(siteConfig.contact.resume, locale), label: t('page.resumeAndCareerTimeline') },
+      title: t('page.engineeringRoles')
+    },
+    {
+      description: t('page.handsOnLeadershipForCompaniesThat'),
+      examples: [t('page.technicalDirectionAndArchitecture'), t('page.hiringOnboardingAndMentoring'), t('page.deliveryRhythmForGrowingTeams')],
+      icon: 'users',
+      id: 'team',
+      proof: { href: localizePath('/portfolio/void/#what-i-led', locale), label: t('page.leadingATeamOf14At') },
+      title: t('page.growingTeamsAndCompanies')
+    },
+    {
+      description: t('page.putAiCodingToolsToWork'),
+      examples: [t('page.aiAssistedWorkflowsWithGuardrails'), t('page.agentReadyRepositoriesAndDocs'), t('page.fasterCheaperAutomation')],
+      icon: 'sparkles',
+      id: 'ai',
+      proof: { href: localizePath('/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/', locale), label: t('page.whyAiNeedsAReliableProcess') },
+      title: t('page.aiInEverydayEngineering')
+    },
+    {
+      description: t('page.lintingTestingCiCdAndShared'),
+      examples: [t('page.codeStandardsTeamsActuallyAdopt'), t('page.testingAndAccessibilityChecks'), t('page.ciCdAndReleaseAutomation')],
+      icon: 'shield-check',
+      id: 'quality',
+      proof: { href: localizePath('/developer-experience/', locale), label: t('page.developerExperienceGuide') },
+      title: t('page.codeQualityAndDeveloperExperience')
+    }
+  ]
+}
 
-export const workProcess = [
-  {
-    body: 'Pick a topic and add a line of context. The form writes the WhatsApp message for you.',
-    title: 'Send a message'
-  },
-  {
-    body: 'I reply on WhatsApp with questions or a time to talk. You can also book a call directly.',
-    title: 'Have a short call'
-  },
-  {
-    body: 'We agree on the format, scope, and timing that fit your team or event.',
-    title: 'Agree on next steps'
-  }
-] as const
+export const workWithMeServices = getWorkWithMeServices()
 
-export const workWithMeFaq: FaqItem[] = [
-  {
-    question: 'What kind of work are you open to?',
-    answer: 'Tech talks and workshops, full-time tech lead and engineering leadership roles, and hands-on work with growing teams on AI adoption, code quality, and developer experience.'
-  },
-  {
-    question: 'Where are you based, and do you work remotely?',
-    answer: 'I live in Medellín, Colombia (UTC−5), and work remotely with teams worldwide. My hours overlap fully with North and South American time zones.'
-  },
-  {
-    question: 'Which languages do you work in?',
-    answer: 'Spanish (native) and English (C1). Talks, workshops, and day-to-day work can happen in either.'
-  },
-  {
-    question: 'Can you help us adopt AI tools without hurting code quality?',
-    answer: 'Yes. I treat AI output as probabilistic and make the delivery process deterministic: clear standards, automated checks, focused review, and repositories that agents can understand.'
-  },
-  {
-    question: 'How do we get started?',
-    answer: 'Send a WhatsApp message with a line of context, or book a short call on my calendar. I’ll reply with questions or a proposed next step.'
-  },
-  {
-    question: 'How is the work scoped?',
-    answer: 'It depends on the goal: a single talk, a workshop, a focused improvement project, or a longer engagement. We agree on scope and timing after the first conversation.'
-  }
-]
+export const getWorkTopics = (locale: Locale = defaultLocale): WorkTopic[] => {
+  const t = pageTranslator(locale)
+
+  return [
+    { id: 'talk', label: t('page.aTalkOrWorkshop'), opener: t('page.iDLikeToInviteYou') },
+    { id: 'role', label: t('page.anEngineeringRole'), opener: t('page.iMHiringForAnEngineering') },
+    { id: 'team', label: t('page.growingOurTeam'), opener: t('page.iDLikeHelpGrowingOur') },
+    { id: 'ai', label: t('page.usingAiInEngineering'), opener: t('page.iDLikeHelpUsingAi') },
+    { id: 'quality', label: t('page.codeQualityAndDx'), opener: t('page.iDLikeHelpImprovingOur') },
+    { id: 'other', label: t('page.somethingElse'), opener: t('page.iDLikeToTalkAbout') }
+  ]
+}
+
+export const workTopics = getWorkTopics()
+
+export const getWorkProcess = (locale: Locale = defaultLocale) => {
+  const t = pageTranslator(locale)
+
+  return [
+    {
+      body: t('page.pickATopicAndAddALine'),
+      title: t('page.sendAMessage')
+    },
+    {
+      body: t('page.iReplyOnWhatsappWithQuestions'),
+      title: t('page.haveAShortCall')
+    },
+    {
+      body: t('page.weAgreeOnTheFormatScope'),
+      title: t('page.agreeOnNextSteps')
+    }
+  ] as const
+}
+
+export const workProcess = getWorkProcess()
+
+export const getWorkWithMeFaq = (locale: Locale = defaultLocale): FaqItem[] => {
+  const t = pageTranslator(locale)
+
+  return [
+    {
+      question: t('page.whatKindOfWorkAreYou'),
+      answer: t('page.techTalksAndWorkshopsFullTime')
+    },
+    {
+      question: t('page.whereAreYouBasedAndDo'),
+      answer: t('contact.locationAnswer')
+    },
+    {
+      question: t('page.whichLanguagesDoYouWorkIn'),
+      answer: t('page.spanishNativeAndEnglishC1Talks')
+    },
+    {
+      question: t('page.canYouHelpUsAdoptAi'),
+      answer: t('page.yesITreatAiOutputAs')
+    },
+    {
+      question: t('page.howDoWeGetStarted'),
+      answer: t('page.sendAWhatsappMessageWithA')
+    },
+    {
+      question: t('page.howIsTheWorkScoped'),
+      answer: t('page.itDependsOnTheGoalA')
+    }
+  ]
+}
+
+export const workWithMeFaq = getWorkWithMeFaq()
 
 /** FAQPage structured data for pages that render a visible FAQ. */
 export const createFaqSchema = (items: FaqItem[], pageUrl: string) => ({

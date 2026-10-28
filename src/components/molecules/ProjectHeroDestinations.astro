@@ -8,10 +8,10 @@ import { getProjectPrimaryDestination } from '@/utils/project-destinations'
 import { ButtonLink, Card, Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   hasProductPreviews: boolean
@@ -24,15 +24,15 @@ const { githubUrl, liveDemoUrl, previews } = project.data
 const destination = getProjectPrimaryDestination(project.data)
 ---
 
-<nav aria-label={t('Project destinations')} data-project-destinations id="project-destinations">
+<nav aria-label={t('collection.projectDestinations')} data-project-destinations id="project-destinations">
   {destination && (
     <Card data-destination-brief variant="unstyled">
       <div data-destination-copy>
-        <p data-destination-context>{t(destination.context)}</p>
+        <p data-destination-context>{localizeCollectionSource(locale, destination.context)}</p>
         <p data-destination-name>{destination.name}</p>
       </div>
       <ButtonLink class="btn-primary" data-destination-primary href={destination.href} newTab variant="unstyled">
-        <span>{t(destination.action)}</span>
+        <span>{localizeCollectionSource(locale, destination.action)}</span>
         <ArrowExchange direction="up-right" size="sm" />
       </ButtonLink>
     </Card>
@@ -40,18 +40,18 @@ const destination = getProjectPrimaryDestination(project.data)
   <div data-destination-links>
     {hasProductPreviews && (
       <Link href="#inside-the-product" variant="inherit">
-        <span>{t(previews?.linkLabel ?? 'View product previews')}</span>
+        <span>{localizeCollectionSource(locale, previews?.linkLabel ?? 'View product previews')}</span>
         <ArrowExchange direction="down" size="sm" />
       </Link>
     )}
     {liveDemoUrl && githubUrl && (
       <Link href={githubUrl} newTab variant="inherit">
-        <span>{t('Open repository')}</span>
+        <span>{t('collection.openRepository')}</span>
         <ArrowExchange direction="up-right" size="sm" />
       </Link>
     )}
     <Link href={localizePath(parentPage.url, locale)} variant="inherit">
-      <span>{locale === 'es' ? 'Explorar' : 'Browse'} {t(parentPage.name).toLocaleLowerCase(locale)}</span>
+      <span>{t('project.browse')} {localizeCollectionSource(locale, parentPage.name).toLocaleLowerCase(locale)}</span>
       <ArrowExchange direction="right" size="sm" />
     </Link>
   </div>

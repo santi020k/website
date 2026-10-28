@@ -8,10 +8,10 @@ import { getArchivePageUrl, getPaginationItems, PAGINATION_GAP } from '@/utils/p
 import { ButtonLink, Icon, Link, Pagination } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   baseUrl?: string
@@ -36,7 +36,7 @@ const nextUrl = currentPage < lastPage ? localizePath(getArchivePageUrl(baseUrl,
 (
           <Link
             aria-current={item === currentPage ? 'page' : undefined}
-            aria-label={t(`Page ${item}`)}
+            aria-label={t('pagination.page', { page: item })}
             data-pager-number
             href={localizePath(getArchivePageUrl(baseUrl, item), locale)}
             variant="inherit"
@@ -47,7 +47,7 @@ const nextUrl = currentPage < lastPage ? localizePath(getArchivePageUrl(baseUrl,
         {previousUrl ?
 (
           <Link
-            aria-label={t('Previous page')}
+            aria-label={t('collection.previousPage')}
             data-pager-previous
             href={previousUrl}
             rel="prev"
@@ -62,19 +62,19 @@ const nextUrl = currentPage < lastPage ? localizePath(getArchivePageUrl(baseUrl,
         {nextUrl ?
 (
           <ButtonLink
-            ariaLabel={t('Next page')}
+            ariaLabel={t('collection.nextPage')}
             data-pager-next
             href={nextUrl}
             rel="next"
             variant="unstyled"
           >
-            <span>{t('Next page')}</span>
+            <span>{t('collection.nextPage')}</span>
             <span data-pager-arrow><ArrowExchange direction="right" size="sm" /></span>
           </ButtonLink>
         ) :
 (
           <span aria-hidden="true" data-pager-next data-pagination-placeholder="next">
-            <span>{t('Next page')}</span>
+            <span>{t('collection.nextPage')}</span>
             <span data-pager-arrow><Icon name="arrow-right" size="sm" /></span>
           </span>
         )}

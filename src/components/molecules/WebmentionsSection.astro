@@ -13,10 +13,10 @@ import Icon from '@santi020k/lumen-astro/components/Icon'
 import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getLocale, localeLanguage } from '@/i18n'
-import { translateArticle } from '@/i18n/article-copy'
+import { articleTranslator } from '@/i18n/article-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translateArticle(locale, text)
+const t = articleTranslator(locale)
 
 interface Props {
   mentions: WebmentionsChildren[]
@@ -78,14 +78,14 @@ const showSection = likes.length > 0 || replies.length > 0
             <h2 data-webmention-likes-heading>
               <span data-webmention-likes-count>
                 <span data-webmention-likes-total>{likes.length}</span>
-                <span>{likes.length === 1 ? t('like') : t('likes')}</span>
+                <span>{likes.length === 1 ? t('shared.like') : t('shared.likes')}</span>
               </span>
-              <span data-webmention-likes-context>{t('Across the IndieWeb')}</span>
+              <span data-webmention-likes-context>{t('mentions.heading')}</span>
             </h2>
             <ul data-webmention-readers role="list">
               {likes.map(entry => {
                 const photo = authorPhoto(entry)
-                const name = entry.author?.name ?? t('Someone')
+                const name = entry.author?.name ?? t('shared.someone')
                 const href = entry.author?.url ?? entry['wm-source']
 
                 return (
@@ -122,11 +122,11 @@ const showSection = likes.length > 0 || replies.length > 0
               class="mr-1 size-4 align-text-bottom"
               name="message-circle"
             />
-            {t('Replies & mentions')}
+            {t('article.repliesAndMentions')}
           </h2>
           <ul class="space-y-4">
             {replies.map(entry => {
-              const name = entry.author?.name ?? t('Anonymous')
+              const name = entry.author?.name ?? t('article.anonymous')
               const authorUrl = entry.author?.url
               const source = entry['wm-source']
               const text = replyText(entry)
@@ -162,7 +162,7 @@ const showSection = likes.length > 0 || replies.length > 0
                         newTab
                         variant="inherit"
                       >
-                        {t('View original')}
+                        {t('article.viewOriginal')}
                         <ArrowExchange class="size-3.5 shrink-0" direction="up-right" />
                       </Link>
                     </div>

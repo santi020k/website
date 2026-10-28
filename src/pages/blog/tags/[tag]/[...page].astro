@@ -20,10 +20,10 @@ import { getAllTags, getBlogTopicLabel, getRelatedBlogTags } from '@/utils/tags'
 import { Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -52,21 +52,21 @@ const relatedTags = getRelatedBlogTags(allPosts, tag)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
 const topicLabel = getBlogTopicLabel(tag)
-const archiveDescription = t(`Articles, guides, and personal notes about ${topicLabel}.`)
-let postRange = `0 ${t('posts')}`
+const archiveDescription = t('topic.description', { topic: topicLabel })
+let postRange = `0 ${t('collection.posts7')}`
 
 if (page.data.length > 0) {
   postRange = postCount === 1 ?
-`1 ${t('post')}` :
-    t(`Posts ${page.start + 1}–${page.end + 1} of ${postCount}`)
+`1 ${t('collection.post')}` :
+    t('topic.postRange', { start: page.start + 1, end: page.end + 1, total: postCount })
 }
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', locale) },
+  { name: t('nav.home'), url: localizePath('/', locale) },
   { name: 'Blog', url: localizePath('/blog/', locale) },
-  { name: t('Topics'), url: localizePath('/blog/tags/', locale) },
+  { name: t('collection.topics'), url: localizePath('/blog/tags/', locale) },
   { name: topicLabel, url: getTagPath(tag) },
-  ...(page.currentPage > 1 ? [{ name: t(`Page ${page.currentPage}`), url: Astro.url.pathname }] : [])
+  ...(page.currentPage > 1 ? [{ name: t('pagination.page', { page: page.currentPage }), url: Astro.url.pathname }] : [])
 ]
 ---
 
@@ -76,10 +76,10 @@ mainClass="remaining-pages"
     breadcrumbs,
     description: isFirstPage ?
       archiveDescription :
-      t(`${archiveDescription} Page ${page.currentPage} of ${page.lastPage}.`),
+      t('pagination.description', { description: archiveDescription, page: page.currentPage, total: page.lastPage }),
     title: isFirstPage ?
-      t(`${topicLabel} posts`) :
-      t(`${topicLabel} posts · Page ${page.currentPage} of ${page.lastPage}`)
+      t('topic.postsTitle', { topic: topicLabel }) :
+      t('topic.pageTitle', { topic: topicLabel, page: page.currentPage, total: page.lastPage })
   }}
 >
   <section
@@ -90,20 +90,20 @@ data-topic-archive-opening
     <div data-topic-archive-topline>
       <Link data-text-link data-topic-archive-return href={localizePath('/blog/tags/', locale)} variant="inherit">
         <ArrowExchange class="size-4 shrink-0" direction="left" />
-        <span data-text-link-label>{t('All topics')}</span>
+        <span data-text-link-label>{t('collection.allTopics')}</span>
       </Link>
       <p data-topic-archive-count>
-        {locale === 'es' ? `${postCount} ${postCount === 1 ? 'artículo' : 'artículos'}` : `${postCount} ${postCount === 1 ? 'post' : 'posts'}`}
+        {postCount} {t(postCount === 1 ? 'collection.post' : 'collection.posts7')}
       </p>
     </div>
     <h1 id="topic-archive-heading">{topicLabel}</h1>
-    <p data-topic-archive-description>{t('Explore articles, guides, and personal notes on this topic.')}</p>
+    <p data-topic-archive-description>{t('topic.introduction')}</p>
     <div data-topic-archive-footer>
       <p data-topic-archive-position>
-        {t('Latest first')}{page.lastPage > 1 && <> · {t(`Page ${page.currentPage} of ${page.lastPage}`)}</>}
+        {t('collection.latestFirst')}{page.lastPage > 1 && <> · {t('pagination.position', { page: page.currentPage, total: page.lastPage })}</>}
       </p>
       <Link data-text-link data-topic-archive-blog href={localizePath('/blog/', locale)} variant="inherit">
-        <span data-text-link-label>{t('Back to blog')}</span>
+        <span data-text-link-label>{t('collection.backToBlog')}</span>
         <ArrowExchange class="size-4 shrink-0" direction="right" />
       </Link>
     </div>
@@ -115,7 +115,7 @@ data-topic-archive-opening
     data-topic-reading
   >
     <header data-topic-reading-caption>
-      <h2 id="topic-posts-heading">{t(isFirstPage ? 'Latest writing' : 'Earlier writing')}</h2>
+      <h2 id="topic-posts-heading">{t(isFirstPage ? 'topic.latestWriting' : 'topic.earlierWriting')}</h2>
       <p data-topic-reading-range>{postRange}</p>
     </header>
 
@@ -129,9 +129,9 @@ data-topic-archive-opening
         (
           <div class="flex flex-col items-center gap-4 py-16 text-center">
             <p class="text-lg text-ink-soft">
-              {t('No posts found for')} <strong class="text-ink">{topicLabel}</strong>.
+              {t('collection.noPostsFoundFor')} <strong class="text-ink">{topicLabel}</strong>.
             </p>
-            <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('Back to all posts')}</ButtonLink>
+            <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('collection.backToAllPosts')}</ButtonLink>
           </div>
         )}
 
@@ -141,9 +141,9 @@ data-topic-archive-opening
 
   {isFirstPage && (
     <StatsGrid columns={page.lastPage > 1 ? 3 : 2}>
-      <StatCard description={t('Posts connected by this topic in the archive.')} icon="file-text" label={t('Posts')} value={postCount} />
-      <StatCard description={t('Distinct topics across the full writing archive.')} icon="hash" label={t('Total topics')} value={totalTopics} />
-      {page.lastPage > 1 && <StatCard description={t('Pagination for this topic archive.')} icon="list-ordered" label={t('Page')} value={`${page.currentPage} / ${page.lastPage}`} />}
+      <StatCard description={t('collection.postsConnectedByThisTopicIn')} icon="file-text" label={t('collection.posts')} value={postCount} />
+      <StatCard description={t('collection.distinctTopicsAcrossTheFullWriting')} icon="hash" label={t('collection.totalTopics')} value={totalTopics} />
+      {page.lastPage > 1 && <StatCard description={t('collection.paginationForThisTopicArchive')} icon="list-ordered" label={t('collection.page')} value={`${page.currentPage} / ${page.lastPage}`} />}
     </StatsGrid>
   )}
 </PageLayout>

@@ -15,7 +15,7 @@ import { getStartHerePosts } from '@/utils/start-here'
 
 import { createFaqSchema } from '@/data/work-with-me'
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 import { getLocalizedWorkWithMe } from '@/i18n/work-with-me'
 import {
   createSchemaEntityId,
@@ -25,7 +25,7 @@ import {
 } from '@/site.config'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 const { workWithMeFaq } = getLocalizedWorkWithMe(pageLocale)
 const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
 
@@ -50,7 +50,7 @@ const latestPosts = allPosts
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 
 const homeDescription =
-  t('Santiago Molina, known online as santi020k, is an engineering leader and full-stack architect building modern systems and better developer experiences.')
+  t('page.santiagoMolinaKnownOnlineAsSanti020k')
 
 const homeUrl = new URL(localizePath('/', pageLocale), Astro.site).href
 const homeFaq = workWithMeFaq.slice(0, 5)
@@ -73,7 +73,7 @@ const homePageSchema = {
     },
     {
       '@type': 'ItemList',
-      name: t('Work experience'),
+      name: t('page.workExperience'),
       itemListElement: workProjects.map((project, index) => ({
         '@type': 'ListItem',
         position: index + 1,
@@ -83,7 +83,7 @@ const homePageSchema = {
     },
     {
       '@type': 'ItemList',
-      name: t('Side projects'),
+      name: t('page.sideProjects'),
       itemListElement: personalProjects.map((project, index) => ({
         '@type': 'ListItem',
         position: index + 1,
@@ -93,7 +93,7 @@ const homePageSchema = {
     },
     {
       '@type': 'ItemList',
-      name: t('Latest writing'),
+      name: t('page.latestWriting'),
       itemListElement: latestPosts.map((post, index) => ({
         '@type': 'ListItem',
         position: index + 1,
@@ -107,9 +107,9 @@ const homePageSchema = {
 
 const meta = {
   description: homeDescription,
-  seoTitle: t('Santiago Molina — Full-Stack Engineer'),
+  seoTitle: t('page.santiagoMolinaFullStackEngineer'),
   structuredData: homePageSchema,
-  title: t('Engineering Leader & Full-Stack Architect')
+  title: t('page.engineeringLeaderAndFullStackArchitect')
 }
 ---
 

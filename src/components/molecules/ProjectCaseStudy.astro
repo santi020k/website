@@ -2,7 +2,7 @@
 import { Card, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 
 interface CaseStudyRow {
   body: string
@@ -14,19 +14,19 @@ interface Props {
 }
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 const { rows } = Astro.props
 ---
 
 {!!rows.length && (
-  <Card as="section" aria-label={t('Case study summary')} data-project-case-study variant="unstyled">
-    <h2>{t('Case study')}<Icon class="size-4 shrink-0" name="notebook-text" /></h2>
+  <Card as="section" aria-label={t('collection.caseStudySummary')} data-project-case-study variant="unstyled">
+    <h2>{t('collection.caseStudy7')}<Icon class="size-4 shrink-0" name="notebook-text" /></h2>
     <ol role="list">
       {rows.map((row, i) => (
         <li data-project-case-row>
           <span aria-hidden="true" data-project-case-number>{String(i + 1).padStart(2, '0')}</span>
           <div data-project-case-copy>
-            <h3>{t(row.label)}</h3>
+            <h3>{localizeCollectionSource(locale, row.label)}</h3>
             <p lang="en">{row.body}</p>
           </div>
         </li>

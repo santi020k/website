@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 
 import { testimonials } from '@/data/profile'
 import { travelCountries } from '@/data/travel'
-import { translatePage } from '@/i18n/page-copy'
+import { localizePageSource } from '@/i18n/page-copy'
 import { getLocalizedProfile } from '@/i18n/profile'
 import { getLocalizedCountryName, getLocalizedTravelCountries, getLocalizedVisitLabel, getTravelControlCopy } from '@/i18n/travel'
 
@@ -10,16 +10,16 @@ describe('current-site Spanish page copy', () => {
   test('preserves English text and whitespace exactly', () => {
     const copy = '  Work experience\n'
 
-    expect(translatePage('en', copy)).toBe(copy)
-    expect(translatePage('es', copy)).toBe('  Experiencia laboral\n')
-    expect(translatePage('es', 'ProductName')).toBe('ProductName')
-    expect(translatePage('es', '  ')).toBe('  ')
+    expect(localizePageSource('en', copy)).toBe(copy)
+    expect(localizePageSource('es', copy)).toBe('  Experiencia laboral\n')
+    expect(localizePageSource('es', 'ProductName')).toBe('ProductName')
+    expect(localizePageSource('es', '  ')).toBe('  ')
   })
 
   test('translates page and policy content without changing quoted recommendations', () => {
     const spanish = getLocalizedProfile('es')
 
-    expect(translatePage('es', 'Privacy questions should be easy to ask.')).toBe('Preguntar sobre privacidad debería ser sencillo.')
+    expect(localizePageSource('es', 'Privacy questions should be easy to ask.')).toBe('Preguntar sobre privacidad debería ser sencillo.')
     expect(spanish.engineeringPrinciples[0]?.title).toBe('Automatiza la fricción, conserva el criterio')
     expect(spanish.speakingFormats[1]?.title).toBe('Talleres')
     expect(spanish.speakingTopics[0]?.source.href).toMatch(/^\/es\/blog\//u)

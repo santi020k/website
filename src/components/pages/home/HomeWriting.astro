@@ -13,12 +13,12 @@ import { getReadingTime } from '@/utils/reading-time'
 import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale, localeLanguage, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
-import { translatePage } from '@/i18n/page-copy'
+import { localizeCollectionSource } from '@/i18n/collection-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
-const entryType = (source: string) => pageLocale === 'es' ? translateCollection(source) : source
+const t = pageTranslator(pageLocale)
+const entryType = (source: string) => localizeCollectionSource(pageLocale, source)
 const latestArticleLabel = pageLocale === 'es' ? 'Artículo más reciente' : 'Latest article'
 
 interface Props {
@@ -34,13 +34,13 @@ const { posts, startHerePosts } = Astro.props
     <HomeSectionHeading
       id="writing-heading"
       number="03"
-      eyebrow={t('The notebook')}
-      title={t('A few things on my mind.')}
-      description={t('Notes from the work, and the life around it. Software, books, games, and things worth figuring out.')}
+      eyebrow={t('page.theNotebook')}
+      title={t('page.aFewThingsOnMyMind')}
+      description={t('page.notesFromTheWorkAndThe')}
       href={localizePath('/blog/', pageLocale)}
-      action={t('Read all articles')}
+      action={t('page.readAllArticles')}
     />
-    <h3 data-writing-heading id="latest-writing-heading">{t('Latest writing')}</h3>
+    <h3 data-writing-heading id="latest-writing-heading">{t('page.latestWriting')}</h3>
     <ol aria-labelledby="latest-writing-heading" data-writing-list>
       {posts.map((post, index) => (
         <li>
@@ -68,12 +68,12 @@ const { posts, startHerePosts } = Astro.props
                 </p>
                 <p data-writing-meta>
                   <time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate, {}, localeLanguage(pageLocale))}</time>
-                  <span>{getReadingTime(post.body)} {t('min read')}</span>
+                  <span>{getReadingTime(post.body)} {t('page.minRead')}</span>
                 </p>
                 <h4 lang="en">{post.data.title}</h4>
                 <p lang="en" data-writing-description>{post.data.description}</p>
                 <span data-writing-action>
-                  {t('Read article')}
+                  {t('page.readArticle')}
                   <ArrowExchange class="size-4.5 shrink-0" direction="up-right" />
                 </span>
               </div>
@@ -85,8 +85,8 @@ const { posts, startHerePosts } = Astro.props
     {startHerePosts.length > 0 && (
       <section aria-labelledby="start-here-heading" data-start-here>
         <div data-start-here-intro>
-          <h3 data-writing-heading id="start-here-heading">{t('Start here')}</h3>
-          <p>{t('Three ways into my work: the tools, the decisions, and the reasons behind them.')}</p>
+          <h3 data-writing-heading id="start-here-heading">{t('page.startHere')}</h3>
+          <p>{t('page.threeWaysIntoMyWorkThe')}</p>
         </div>
         <ol data-start-here-grid>
           {startHerePosts.map((post, index) => post.data.startHere && (
@@ -105,8 +105,8 @@ const { posts, startHerePosts } = Astro.props
       </section>
     )}
     <div class="studio-writing-follow">
-      <p>{t('Prefer a quieter way to keep up?')}</p>
-      <ButtonLink class="studio-text-link" data-text-link href={localizePath('/feed.xml', pageLocale)} variant="unstyled"><span data-text-link-label>{t('Follow via RSS')}</span> <Icon name="rss" /></ButtonLink>
+      <p>{t('page.preferAQuieterWayToKeep')}</p>
+      <ButtonLink class="studio-text-link" data-text-link href={localizePath('/feed.xml', pageLocale)} variant="unstyled"><span data-text-link-label>{t('page.followViaRss')}</span> <Icon name="rss" /></ButtonLink>
     </div>
   </section>
 )}

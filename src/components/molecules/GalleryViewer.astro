@@ -3,7 +3,7 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { Button, ButtonLink, Dialog, DialogClose, DialogTitle, Icon } from '@santi020k/lumen-astro'
 
-import { getLocale, translate } from '@/i18n'
+import { getLocale, sharedTranslator } from '@/i18n'
 
 interface Props {
   id: string
@@ -14,7 +14,7 @@ interface Props {
 
 const { id, title, caption, source } = Astro.props
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => translate(locale, text)
+const t = sharedTranslator(locale)
 
 ---
 
@@ -27,33 +27,33 @@ const t = (text: string) => translate(locale, text)
   <div data-gallery-actions>
     {source.kind === 'asset' && (
 <ButtonLink
-      ariaLabel={translate(locale, 'View larger: {title}', { title })}
+      ariaLabel={t('shared.viewLargerTitle', { title })}
       data-gallery-fallback
       data-gallery-control
       href={source.kind === 'asset' ? source.src : ''}
       newTab
       variant="unstyled"
-><Icon name="expand" class="size-4" />{t('View larger')}</ButtonLink>
+><Icon name="expand" class="size-4" />{t('shared.viewLarger')}</ButtonLink>
 )}
     <Button
-      aria-label={translate(locale, 'View larger: {title}', { title })}
+      aria-label={t('shared.viewLargerTitle', { title })}
       data-gallery-control
       data-gallery-open
       data-ui-dialog-trigger={id}
       hidden
       variant="outline"
-    ><Icon name="expand" class="size-4" />{t('View larger')}</Button>
+    ><Icon name="expand" class="size-4" />{t('shared.viewLarger')}</Button>
   </div>
 
   <Dialog aria-labelledby={`${id}-title`} data-gallery-dialog id={id}>
     <div data-gallery-heading>
       <DialogTitle id={`${id}-title`}>{title}</DialogTitle>
       <DialogClose autofocus data-gallery-control variant="outline">
-        <Icon name="x" class="size-4" />{t('Close')}
+        <Icon name="x" class="size-4" />{t('shared.close')}
       </DialogClose>
     </div>
     <div
-      aria-label={translate(locale, 'Image: {title}', { title })}
+      aria-label={t('shared.imageTitle', { title })}
       data-gallery-canvas
       data-zoomed="false"
       id={`${id}-canvas`}
@@ -61,12 +61,12 @@ const t = (text: string) => translate(locale, text)
       tabindex="0"
     ></div>
     <div data-gallery-tools>
-      <p aria-live="polite" data-gallery-status>{t('Loading image…')}</p>
+      <p aria-live="polite" data-gallery-status>{t('shared.loadingImage')}</p>
       <Button aria-controls={`${id}-canvas`} data-gallery-control data-gallery-zoom variant="outline">
-        <Icon name="zoom-in" class="size-4" /><span data-gallery-zoom-label>{t('Inspect detail')}</span>
+        <Icon name="zoom-in" class="size-4" /><span data-gallery-zoom-label>{t('shared.inspectDetail')}</span>
       </Button>
       <ButtonLink data-gallery-error-link data-gallery-control hidden href={source.kind === 'asset' ? source.src : ''} newTab variant="unstyled">
-        <ArrowExchange direction="up-right" class="size-4" />{t('Open original image')}
+        <ArrowExchange direction="up-right" class="size-4" />{t('shared.openOriginalImage')}
       </ButtonLink>
     </div>
     {caption && <p data-gallery-caption>{caption}</p>}

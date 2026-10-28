@@ -325,6 +325,8 @@
 
 ### Patch Changes
 
+- Use stable, typed translation keys for current-site pages and controls. Keep English as the primary language, default locale, and missing-translation fallback; verify Spanish coverage and interpolation fields without duplicating page implementations.
+
 - Use Related topics on individual Blog topic archives: four connections drawn from
   published articles, full destination counts, and the existing sculpted tags with
   a hand cursor. Preserve the main Blog's topic mix and native archive navigation.

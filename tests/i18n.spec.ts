@@ -4,6 +4,24 @@ import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibili
 
 const translatedPages = ['/', '/about/', '/work/', '/resume/', '/speaking/', '/privacy/', '/terms/', '/accessibility/', '/travel/', '/history/', '/developer-experience/', '/projects/', '/portfolio/', '/technologies/', '/blog/', '/blog/tags/', '/blog/series/', '/work-with-me/']
 
+test.describe('English default language', () => {
+  test.use({ locale: 'es-CO' })
+
+  test('uses English for a Spanish browser and after visiting Spanish pages', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en-US')
+    await expect(page).toHaveURL(/\/$/u)
+    await expect(page.locator('[data-home-hero-heading]')).toContainText('I build products.')
+    await page.goto('/es/')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'es-419')
+    await page.goto('/')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en-US')
+    await expect(page.locator('[data-language-switch="header"]')).toHaveAttribute('href', '/es/')
+    await page.locator('[data-site-search-trigger]').click()
+    await expect(page.locator('#site-search-title')).toHaveText('Search')
+  })
+})
+
 for (const path of translatedPages) {
   test(`Spanish ${path} has a localized document and matching alternates`, async ({ page }) => {
     await page.goto(`/es${path}`)

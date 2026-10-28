@@ -4,38 +4,38 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 ---
 
 <section aria-labelledby="community-heading" data-home-community>
   <Card variant="unstyled" data-community-folio>
     <div data-community-intro>
-      <p data-community-eyebrow><span>04</span> {t('Beyond the code')}</p>
-      <h2 id="community-heading">{t('Better when')}<br /> {t('shared.')}</h2>
-      <p data-community-description>{t('Good ideas grow through conversation. I help bring people together to learn, build, and share what actually works.')}</p>
+      <p data-community-eyebrow><span>04</span> {t('page.beyondTheCode')}</p>
+      <h2 id="community-heading">{t('page.betterWhen')}<br /> {t('page.shared')}</h2>
+      <p data-community-description>{t('page.goodIdeasGrowThroughConversationI')}</p>
       <div data-community-symbol aria-hidden="true"><Icon class="size-16" name="messages-square" /></div>
     </div>
     <div data-community-sheet>
       <a data-community-link href="https://www.meetup.com/react-js-medellin/" target="_blank" rel="noopener noreferrer">
-        <span data-community-eyebrow><span data-community-number aria-hidden="true">01</span><span>{t('Community / Co-organizer')}</span></span>
+        <span data-community-eyebrow><span data-community-number aria-hidden="true">01</span><span>{t('page.communityCoOrganizer')}</span></span>
         <h3>ReactJS Colombia</h3>
-        <p>{t('Meetups, workshops, and a local community of people who care about building for the web.')}</p>
-        <span data-community-action>{t('Join the community')}</span>
+        <p>{t('page.meetupsWorkshopsAndALocalCommunity')}</p>
+        <span data-community-action>{t('page.joinTheCommunity')}</span>
         <span data-community-arrow><ArrowExchange class="size-4.5" direction="up-right" /></span>
       </a>
       <a data-community-link href={localizePath('/speaking/', pageLocale)}>
-        <span data-community-eyebrow><span data-community-number aria-hidden="true">02</span><span>{t('Speaking / Knowledge sharing')}</span></span>
-        <h3>{t('Lessons from the work')}</h3>
-        <p>{t('Practical talks on developer experience, architecture, automation, and leading engineering teams.')}</p>
-        <span data-community-action>{t('Explore speaking')}</span>
+        <span data-community-eyebrow><span data-community-number aria-hidden="true">02</span><span>{t('page.speakingKnowledgeSharing')}</span></span>
+        <h3>{t('page.lessonsFromTheWork')}</h3>
+        <p>{t('page.practicalTalksOnDeveloperExperienceArchitecture')}</p>
+        <span data-community-action>{t('page.exploreSpeaking')}</span>
         <span data-community-arrow><ArrowExchange class="size-4.5" direction="up-right" /></span>
       </a>
       <div data-community-footer>
         <ButtonLink href={localizePath('/speaking/', pageLocale)} variant="unstyled" data-community-footer-link data-text-link>
-          <span data-text-link-label>{t('Speaking & Community')}</span>
+          <span data-text-link-label>{t('page.speakingAndCommunity')}</span>
           <ArrowExchange class="size-4.5" direction="right" />
         </ButtonLink>
       </div>

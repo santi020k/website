@@ -19,11 +19,11 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
  */
 import { Collapsible, Icon } from '@santi020k/lumen-astro'
 
-import { getDiscussionTerm, getLocale, translate } from '@/i18n'
+import { getDiscussionTerm, getLocale, sharedTranslator } from '@/i18n'
 import { siteConfig } from '@/site.config'
 
 const { giscus } = siteConfig
-const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
+const t = sharedTranslator(getLocale(Astro.url.pathname))
 
 ---
 
@@ -40,21 +40,21 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
   >
     <div data-discussion-invitation>
       <header data-discussion-header>
-        <h2 id="comments-heading">{t('Comments')}</h2>
+        <h2 id="comments-heading">{t('shared.comments')}</h2>
       </header>
       <div data-discussion-body>
-        <p data-discussion-lead>{t('Join the conversation.')}</p>
-        <p>{t('Read replies, ask a question, or share another perspective.')}</p>
+        <p data-discussion-lead>{t('shared.joinTheConversation')}</p>
+        <p>{t('shared.readRepliesAskAQuestionOr')}</p>
         <Collapsible data-discussion-fold>
           <summary data-discussion-summary>
-            <span data-discussion-open-label>{t('Open discussion')}</span>
-            <span data-discussion-close-label>{t('Hide discussion')}</span>
+            <span data-discussion-open-label>{t('shared.openDiscussion')}</span>
+            <span data-discussion-close-label>{t('shared.hideDiscussion')}</span>
             <Icon name="chevron-down" class="size-4 shrink-0" />
           </summary>
           <noscript>
-            <p data-discussion-noscript>{t('Browse GitHub discussions below to read replies or add a comment.')}</p>
+            <p data-discussion-noscript>{t('shared.browseGithubDiscussionsBelowToRead')}</p>
           </noscript>
-          <p data-giscus-loading role="status" hidden>{t('Loading discussion…')}</p>
+          <p data-giscus-loading role="status" hidden>{t('shared.loadingDiscussion')}</p>
           <!-- Render the empty live region before a load failure fills it. -->
           <p aria-live="polite" data-giscus-error role="status"></p>
           <div data-giscus-mount></div>
@@ -65,7 +65,7 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
             rel="noopener noreferrer"
             target="_blank"
           >
-            <span>{t('Browse GitHub discussions')}</span>
+            <span>{t('shared.browseGithubDiscussions')}</span>
             <ArrowExchange direction="up-right" class="size-4 shrink-0" />
           </a>
         </footer>
@@ -213,7 +213,7 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
 </style>
 
 <script>
-  import { getLocale, translate } from '@/i18n'
+  import { getLocale, sharedTranslator } from '@/i18n'
 
   // Custom brand themes (public/styles/giscus-*.css). giscus only accepts
   // https:// theme URLs, so plain dev servers fall back to built-in themes.
@@ -236,7 +236,6 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
   const FRAME_SELECTOR = '#comments iframe.giscus-frame'
   // Covers both the client script and the widget's first ready message.
   const INIT_DEADLINE_MS = 15_000
-  const LOAD_FAILURE_MESSAGE = 'Comments could not load. You can still browse discussions on GitHub using the link below.'
 
   interface FrameThemeState {
     // Whether the current widget document has already been force-synced.
@@ -291,7 +290,7 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
 
     const status = section.querySelector('[data-giscus-error]')
 
-    if (status) status.textContent = translate(getLocale(window.location.pathname), LOAD_FAILURE_MESSAGE)
+    if (status) status.textContent = sharedTranslator(getLocale(window.location.pathname))('shared.commentsCouldNotLoadYouCan')
   }
 
   // A ready widget supersedes any earlier deadline fallback.

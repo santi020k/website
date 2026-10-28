@@ -1857,3 +1857,56 @@ The Changeset is folded into 5.0.0 while published notes stay unchanged. This
 follow-up uses affected checks; the latest full workspace gate remains
 `34d97a2d`. The pending typed-message migration must preserve related-topic copy,
 localized destinations, ranking, and native navigation behavior.
+
+## English-first typed messages
+
+Approved source `bf8ff2dc` is integrated over Related topics candidate `480f8a4c`.
+The responsive homepage, article sharing and recovery, section/subsection arrival,
+and native related-topic navigation remain. The three newer related-topic labels
+use typed catalog keys, with English/Spanish singular and plural regression checks.
+Current-site pages continue to share their implementations across both languages. Stable message keys replace English
+sentences as UI identifiers, with required interpolation values and complete
+catalog coverage checked during development. English remains the primary language,
+default locale, and runtime fallback for missing or blank Spanish messages.
+Unprefixed URLs remain English regardless of browser language or previous visits.
+
+Profile/contact factories and client controls use the same catalogs. Authored
+content retains explicit source-text adapters, and blog/case-study prose and
+historical versions keep their existing language. No dependency or duplicate page
+implementation is introduced. See `docs/i18n.md` for maintenance conventions and
+`src/i18n/__tests__/messages.test.ts` for the default, fallback, coverage, and
+interpolation contract. The generated Changesets note is folded into unpublished
+5.0.0, preserving the published release notes. This work is local only.
+
+The initial combined browser matrix passed 401 of 402 cases and reproduced the
+source's travel return-navigation failure. Instrumentation showed that the test
+selected Mexico on the outgoing Travel document before its Blog-and-back
+navigation completed; the arriving document then replaced that selection. The
+map controller correctly handled the selection, so its runtime is unchanged. The
+regression now asserts both destination URLs, retains all keyboard, zoom, reset,
+and selection expectations, and runs in English and Spanish. All 20 isolated
+repetitions passed across Chromium/WebKit with retries disabled.
+
+Before/after comparisons cover all 906 current-site documents. Text, semantic
+links and accessibility labels, metadata, and structured data remain identical
+apart from generated OG cache keys and random map IDs. Sixty-four screenshots
+cover home, contact, topic archives, and articles across both languages/themes at
+390/1440px, with no horizontal overflow. Thirty of 32 pairs are pixel-identical;
+two initial article captures preceded the cover image loading, while their text
+and layout match. Representative Spanish mobile and English desktop views were
+reviewed. All five regenerated resume pages remain pixel-identical.
+
+The final 24-spec production-browser matrix passed all 404 cases in Chromium and
+WebKit with one worker and retries disabled, including both localized travel
+journeys. It used a frozen copy of this merged production output while the full
+workspace gate rebuilt the sites. The initial failed run and diagnostic evidence
+remain retained rather than being reported as a clean first pass.
+
+The final merged `pnpm run verify:fast` completed with exit code 0 after the test
+correction: zero-warning workspace lint, strict Astro checks with zero diagnostics
+(579 current-site files), spelling, Markdown/content and resume freshness checks,
+2,497 unit tests in 73 files, seven motion cases, and all five site builds. The
+archive audit covered 1,288 pages; the assembled-page audit verified 2,194 documents
+and 8,606 local targets with zero errors. The existing optional Workspace Organizer
+sitemap omission remains. This replaces `34d97a2d` as the latest full validation
+baseline for the locally integrated application. No push or deployment occurred.

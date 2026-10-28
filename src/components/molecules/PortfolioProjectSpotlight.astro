@@ -14,10 +14,10 @@ import { sortTechnologiesByInterest } from '@/utils/technologies'
 import { Badge, Card, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   featured?: boolean
@@ -70,14 +70,14 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
     <div data-portfolio-project-body>
       <p data-portfolio-date>{timeline}</p>
       <h3 data-portfolio-title>{project.data.title}</h3>
-      <p data-portfolio-role>{project.data.role ?? t('Engineering')}</p>
+      <p data-portfolio-role>{project.data.role ?? t('collection.engineering')}</p>
       <p data-portfolio-description>{project.data.description}</p>
 
       {impactMetrics.length > 0 && (
-        <ul data-portfolio-outcomes aria-label={t('Project outcomes')}>
+        <ul data-portfolio-outcomes aria-label={t('collection.projectOutcomes')}>
           {impactMetrics.map(metric => (
             <li data-portfolio-metric={metric.value ? 'measured' : 'qualitative'}>
-              <span data-portfolio-evidence-label aria-hidden="true">{t('Selected outcome')}</span>
+              <span data-portfolio-evidence-label aria-hidden="true">{t('collection.selectedOutcome')}</span>
               {metric.value ?
 (
                 <>
@@ -94,18 +94,18 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
 
       <div data-portfolio-footer>
         {technologies.length > 0 && (
-          <ul data-portfolio-technologies aria-label={t('Technologies')}>
+          <ul data-portfolio-technologies aria-label={t('collection.technologies')}>
             {technologies.map(technology => <li>{technology}</li>)}
           </ul>
         )}
-        <span data-portfolio-action>{t('Read case study')}<ArrowExchange
+        <span data-portfolio-action>{t('collection.readCaseStudy')}<ArrowExchange
 class="size-4"
 direction="up-right"
-                                                          /></span>
+                                                                   /></span>
       </div>
     </div>
   </div>
-  <a data-portfolio-link href={projectLink} aria-label={locale === 'es' ? `Leer el caso de estudio: ${project.data.title}` : `Read case study: ${project.data.title}`} ></a>
+  <a data-portfolio-link href={projectLink} aria-label={t('project.caseStudyAction', { title: project.data.title })} ></a>
 </Card>
 
 <style>

@@ -11,10 +11,10 @@ import { sortTechnologiesByInterest } from '@/utils/technologies'
 import { Card, Icon, Timeline } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   projects: CollectionEntry<'project'>[]
@@ -27,11 +27,11 @@ const careerItems = projects.map((project, index) => ({
   company: project.data.title,
   description: project.data.description,
   endDate: project.data.endingDate?.toISOString().slice(0, 10),
-  endLabel: project.data.endingDate ? getFormattedDate(project.data.endingDate, { day: undefined, month: 'short', year: 'numeric' }, locale === 'es' ? 'es-419' : 'en-US') : t('Present'),
+  endLabel: project.data.endingDate ? getFormattedDate(project.data.endingDate, { day: undefined, month: 'short', year: 'numeric' }, locale === 'es' ? 'es-419' : 'en-US') : t('collection.present'),
   href: localizePath(getPortfolioPath(project.id), locale),
   isActive: !project.data.endingDate,
   isCompact: index >= 3 && Boolean(project.data.endingDate),
-  role: project.data.role ?? t('Engineer'),
+  role: project.data.role ?? t('collection.engineer'),
   startDate: project.data.startingDate.toISOString().slice(0, 10),
   startMonth: getFormattedDate(project.data.startingDate, { day: undefined, month: 'short', year: undefined }),
   startYear: getFormattedDate(project.data.startingDate, { day: undefined, month: undefined, year: 'numeric' }),
@@ -39,7 +39,7 @@ const careerItems = projects.map((project, index) => ({
 }))
 ---
 
-<Timeline data-career-timeline aria-label={t('Professional experience, newest first')}>
+<Timeline data-career-timeline aria-label={t('collection.professionalExperienceNewestFirst')}>
   {careerItems.map(item => (
     <li
 data-timeline-row={item.isActive ? 'active' : 'completed'}
@@ -56,7 +56,7 @@ style={getProjectBrandStyle(item.brand)}
           <div data-career-content>
             {!item.isCompact && (
 <div data-career-masthead>
-              <span data-career-status={item.isActive ? 'current' : 'completed'}>{item.isActive ? t('Current') : t('Completed')}</span>
+              <span data-career-status={item.isActive ? 'current' : 'completed'}>{item.isActive ? t('shared.current') : t('collection.completed')}</span>
               <span data-career-icon><Icon
 name={item.isActive ? 'briefcase-business' : 'check'}
 class="size-4"
@@ -69,14 +69,14 @@ class="size-4"
           </div>
           <div data-career-footer>
             {item.technologies.length > 0 && (
-              <ul data-career-technologies aria-label={t(`${item.company} technologies`)}>
+              <ul data-career-technologies aria-label={t('technology.collection', { name: item.company })}>
                 {item.technologies.map(technology => <li>{technology}</li>)}
               </ul>
             )}
-            <span data-career-action>{t('Read case study')}<ArrowExchange
+            <span data-career-action>{t('collection.readCaseStudy')}<ArrowExchange
 direction="right"
 class="size-4"
-                                                           /></span>
+                                                                    /></span>
           </div>
         </Card>
       </a>

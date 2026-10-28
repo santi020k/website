@@ -6,10 +6,10 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import { Card, Icon, Link, Timeline } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { translatePage } from '@/i18n/page-copy'
+import { pageTranslator } from '@/i18n/page-copy'
 
 const pageLocale = getLocale(Astro.url.pathname)
-const t = (source: string) => translatePage(pageLocale, source)
+const t = pageTranslator(pageLocale)
 
 interface Props {
   talks: CollectionEntry<'talk'>['data'][]
@@ -24,9 +24,9 @@ const dateFormatter = new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : '
 })
 
 const evidenceDetails = {
-  private: { icon: 'briefcase-business', label: t('Private sessions') },
-  public: { icon: 'check', label: t('Public record') },
-  reconstructed: { icon: 'history', label: t('Reconstructed') }
+  private: { icon: 'briefcase-business', label: t('page.privateSessions') },
+  public: { icon: 'check', label: t('page.publicRecord') },
+  reconstructed: { icon: 'history', label: t('page.reconstructed') }
 } as const
 ---
 
@@ -70,32 +70,32 @@ const evidenceDetails = {
             <p data-session-description>{talk.description}</p>
           </div>
           <div data-session-footer>
-            <ul data-session-tags aria-label={t('Topics')}>
+            <ul data-session-tags aria-label={t('page.topics')}>
               {talk.tags.map(tag => <li>{tag}</li>)}
             </ul>
             {hasLinks && (
               <div data-session-links>
                 {talk.links.event && (
                   <div data-session-resource>
-                    <p>{t('Event')}</p>
+                    <p>{t('page.event')}</p>
                     <Link href={localizePath(talk.links.event, pageLocale)} newTab variant="inherit">
-                      <span>{t('View record')}</span><ArrowExchange data-session-resource-arrow direction="up-right" size="sm" />
+                      <span>{t('page.viewRecord')}</span><ArrowExchange data-session-resource-arrow direction="up-right" size="sm" />
                     </Link>
                   </div>
                 )}
                 {talk.links.slides && (
                   <div data-session-resource>
-                    <p>{t('Slides')}</p>
+                    <p>{t('page.slides')}</p>
                     <Link href={localizePath(talk.links.slides, pageLocale)} newTab variant="inherit">
-                      <span>{t('Open deck')}</span><ArrowExchange data-session-resource-arrow direction="up-right" size="sm" />
+                      <span>{t('page.openDeck')}</span><ArrowExchange data-session-resource-arrow direction="up-right" size="sm" />
                     </Link>
                   </div>
                 )}
                 {talk.links.video && (
                   <div data-session-resource>
-                    <p>{t('Recording')}</p>
+                    <p>{t('page.recording')}</p>
                     <Link href={localizePath(talk.links.video, pageLocale)} newTab variant="inherit">
-                      <span>{t('Watch talk')}</span><ArrowExchange data-session-resource-arrow direction="up-right" size="sm" />
+                      <span>{t('page.watchTalk')}</span><ArrowExchange data-session-resource-arrow direction="up-right" size="sm" />
                     </Link>
                   </div>
                 )}

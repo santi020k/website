@@ -32,11 +32,11 @@ import { RevealGroup, ScrollProgress } from '@santi020k/lumen-astro'
 
 import { ogManifest } from '@/data/og-manifest'
 import { getLocale, localizePath } from '@/i18n'
-import { translateCollection } from '@/i18n/collection-copy'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
 
 const locale = getLocale(Astro.url.pathname)
-const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+const t = collectionTranslator(locale)
 
 interface Props {
   headings: MarkdownHeading[]
@@ -47,7 +47,7 @@ interface Props {
 const { headings, project, relatedProjects = [] } = Astro.props
 const narrative = addProjectReadingBrief(await Astro.slots.render('default') ?? '')
 const relatedWriting = await getProjectWriting(project.data.relatedWriting)
-const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? t('Project')}`
+const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? t('shared.project')}`
 const metaDescription = project.data.seoDescription ?? project.data.description
 
 const socialImage = getSocialImageURL(
@@ -70,10 +70,10 @@ const hasProductPreviews = Boolean(project.data.previews) && headings.some(headi
 
 const caseStudyRows = caseStudy ?
   [
-    { body: caseStudy.problem, label: t('Problem') },
-    { body: caseStudy.approach, label: t('Approach') },
-    { body: caseStudy.outcome, label: t('Outcome') },
-    { body: caseStudy.metrics, label: t('Metrics') }
+    { body: caseStudy.problem, label: t('collection.problem') },
+    { body: caseStudy.approach, label: t('collection.approach') },
+    { body: caseStudy.outcome, label: t('collection.outcome') },
+    { body: caseStudy.metrics, label: t('collection.metrics') }
   ].filter((row): row is { body: string, label: string } => Boolean(row.body?.trim())) :
   []
 
@@ -94,18 +94,18 @@ const projectSchema: Record<string, unknown> = {
 
 const parentPage = (() => {
   if (project.data.typesId === 'community') {
-    return { name: t('Speaking & Community'), url: localizePath('/speaking/', locale) }
+    return { name: t('collection.speakingAndCommunity'), url: localizePath('/speaking/', locale) }
   }
 
   if (project.data.typesId === 'personal') {
-    return { name: t('Projects'), url: localizePath('/projects/', locale) }
+    return { name: t('nav.projects'), url: localizePath('/projects/', locale) }
   }
 
-  return { name: t('Work'), url: localizePath('/work/', locale) }
+  return { name: t('nav.work'), url: localizePath('/work/', locale) }
 })()
 
 const breadcrumbs = [
-  { name: t('Home'), url: localizePath('/', locale) },
+  { name: t('nav.home'), url: localizePath('/', locale) },
   parentPage,
   { name: project.data.title, url: Astro.url.pathname }
 ]
@@ -153,7 +153,7 @@ mainClass="remaining-pages remaining-pages--reading"
             <ContentNotesHeader
               description={projectNotesDescription}
               label={projectNotesLabel}
-              pill={t(projectStageLabel)}
+              pill={localizeCollectionSource(locale, projectStageLabel)}
             />
           )}
 
@@ -183,11 +183,11 @@ mainClass="remaining-pages remaining-pages--reading"
   {!!relatedProjects.length && (
     <PageSection layout="stacked">
       <SectionHeader
-        description={t('Selected work connected by shared technologies and ideas.')}
-        eyebrow={t('Related work')}
+        description={t('collection.selectedWorkConnectedBySharedTechnologies')}
+        eyebrow={t('collection.relatedWork')}
         id="related-work"
         linkHref={localizePath(parentPage.url, locale)}
-        linkLabel={t(`Browse all ${parentPage.name.toLowerCase()}`)}
+        linkLabel={t('collection.browseAll', { collection: parentPage.name.toLowerCase() })}
         title={projectRelatedHeading}
         variant="shelf"
       />
