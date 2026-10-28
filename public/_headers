@@ -16,6 +16,10 @@
 /og/manifest.json
   Cache-Control: public, max-age=0, must-revalidate
 
+/pagefind/*
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex
+
 # ─── Service worker — must revalidate on every request ───────────────────────
 /sw.js
   Cache-Control: public, max-age=0, must-revalidate
@@ -67,4 +71,4 @@
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://giscus.app; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://webmention.io https://buttondown.com; frame-src https://giscus.app; frame-ancestors 'none'; form-action 'self' https://buttondown.com; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://giscus.app; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://webmention.io https://buttondown.com; frame-src https://giscus.app; frame-ancestors 'none'; form-action 'self' https://buttondown.com; upgrade-insecure-requests

@@ -378,7 +378,7 @@ describe('Service worker fetch handling', () => {
     expect(await storedResponse?.text()).toBe('updated asset')
   })
 
-  test.each(['/api/data', '/_image?src=cover.webp', '/_vercel/insights', 'https://example.com/image.png'])('leaves excluded requests to the browser: %s', path => {
+  test.each(['/api/data', '/pagefind/pagefind.js', '/pagefind/pagefind-entry.json', '/pagefind/wasm.en.pagefind', '/_image?src=cover.webp', '/_vercel/insights', 'https://example.com/image.png'])('leaves excluded requests to the browser: %s', path => {
     const worker = setupWorker()
     const event = worker.dispatch(makeRequest(path))
 

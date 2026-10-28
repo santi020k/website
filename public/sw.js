@@ -45,6 +45,9 @@ const shouldHandleRequest = (request, url) => request.method === 'GET' &&
   url.origin === self.location.origin &&
   !url.pathname.startsWith('/_vercel/') &&
   !url.pathname.startsWith('/api/') &&
+  // Pagefind's entry module selects content-hashed fragments; let HTTP
+  // revalidation keep the deployment coherent instead of returning a stale module.
+  !url.pathname.startsWith('/pagefind/') &&
   // Historical apps own their assets and never participate in the current cache.
   !/^\/v[1-9]\d*(?:\/|$)/.test(url.pathname) &&
   // Astro dev image pipeline — let the browser hit the dev server directly so

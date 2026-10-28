@@ -2,7 +2,7 @@
 // Archived pages remain crawlable so their noindex directives can be read.
 export const GET = (): Response => {
   const policies = ['OAI-SearchBot', 'PerplexityBot', 'Claude-SearchBot', 'Claude-User', '*']
-    .map(userAgent => `User-agent: ${userAgent}\nDisallow: /search-index.json\nAllow: /`)
+    .map(userAgent => `User-agent: ${userAgent}\nDisallow: /search-index.json\nDisallow: /pagefind/\nAllow: /`)
     .join('\n\n')
 
   const sitemap = new URL('/sitemap.xml', import.meta.env.SITE)

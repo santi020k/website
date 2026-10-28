@@ -1,4 +1,5 @@
 import type { SearchIndexEntry } from '@/types/search'
+import { createFullTextSearch } from '@/utils/full-text-search'
 import {
   getPopularTopics,
   isSearchableQuery,
@@ -7,6 +8,9 @@ import {
   rankSearchEntry
 } from '@/utils/search'
 
+const fullTextSearch = createFullTextSearch()
+let renderRevision = 0
+let navigatedSinceRender = false
 let entries: SearchIndexEntry[] = []
 let selectedResultIndex = -1
 let searchURL = window.location.href
@@ -199,10 +203,190 @@ const renderEmptyState = (results: HTMLElement) => {
   setStatusMessage(`${items.length} ${heading.toLowerCase()} available.`)
 }
 
+const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e.description) => {
+  const arrowTemplate = document.querySelector('[data-site-search-result-arrow-template]')
+  const li = document.createElement('li')
+  const a = document.createElement('a')
+
+  a.href = e.path
+
+  a.setAttribute('data-site-search-result', '')
+
+  const thumbHost = document.createElement('span')
+
+  thumbHost.setAttribute('data-site-search-thumb-frame', '')
+
+  if (e.coverUrl) {
+    const placeholder = document.createElement('span')
+
+    placeholder.setAttribute('aria-hidden', 'true')
+
+    placeholder.setAttribute('data-site-search-thumb-placeholder', '')
+
+    const picture = document.createElement('picture')
+
+    if (e.coverAvifUrl) {
+      const avifSource = document.createElement('source')
+
+      avifSource.type = 'image/avif'
+
+      avifSource.srcset = e.coverAvifUrl
+
+      picture.appendChild(avifSource)
+    }
+
+    const img = document.createElement('img')
+
+    img.src = e.coverUrl
+
+    // The adjacent title already names this link; artwork is decorative.
+    img.alt = ''
+
+    img.decoding = 'async'
+
+    img.loading = 'eager'
+
+    img.setAttribute('data-site-search-thumb', '')
+
+    img.setAttribute('data-site-search-thumb-state', 'loading')
+
+    img.addEventListener('load', () => {
+      img.setAttribute('data-site-search-thumb-state', 'loaded')
+
+      thumbHost.setAttribute('data-site-search-thumb-loaded', 'true')
+    })
+
+    img.addEventListener('error', () => {
+      img.setAttribute('data-site-search-thumb-state', 'error')
+
+      thumbHost.removeAttribute('data-site-search-thumb-loaded')
+
+      img.alt = ''
+    })
+
+    picture.appendChild(img)
+
+    thumbHost.append(placeholder, picture)
+  } else {
+    const ph = document.createElement('span')
+
+    ph.className = 'block size-full grid-fade'
+
+    ph.setAttribute('aria-hidden', 'true')
+
+    thumbHost.appendChild(ph)
+  }
+
+  const body = document.createElement('span')
+
+  body.setAttribute('data-site-search-result-body', '')
+
+  const typeEl = document.createElement('span')
+
+  typeEl.setAttribute('data-site-search-result-type', '')
+
+  let resultTypeLabel = 'Project'
+
+  if (e.type === 'post') {
+    resultTypeLabel = 'Post'
+  } else if (e.type === 'community') {
+    resultTypeLabel = 'Community'
+  }
+
+  typeEl.textContent = resultTypeLabel
+
+  const titleEl = document.createElement('span')
+
+  titleEl.setAttribute('data-site-search-result-title', '')
+
+  titleEl.textContent = e.title
+
+  const descEl = document.createElement('span')
+
+  descEl.setAttribute('data-site-search-result-description', '')
+
+  descEl.textContent = description
+
+  body.append(typeEl, titleEl, descEl)
+
+  a.append(thumbHost, body)
+
+  if (arrowTemplate instanceof HTMLTemplateElement) {
+    const arrow = document.createElement('span')
+
+    arrow.setAttribute('data-site-search-result-arrow', '')
+
+    arrow.setAttribute('aria-hidden', 'true')
+
+    arrow.append(arrowTemplate.content.cloneNode(true))
+
+    a.append(arrow)
+  }
+
+  li.appendChild(a)
+
+  results.appendChild(li)
+}
+
+const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], results: HTMLElement, revision: number) => {
+  if (shown.length >= 8 || !getDialog()?.open) return
+
+  results.dataset.siteSearchState = 'pending'
+
+  const outcome = await fullTextSearch(query, entries, new Set(shown.map(entry => entry.path)), window.location.origin)
+
+  if (revision !== renderRevision || results !== getResults() || !getDialog()?.open) return
+
+  results.dataset.siteSearchState = 'settled'
+
+  results.toggleAttribute('data-site-search-content-unavailable', outcome.unavailable)
+
+  const hits = outcome.hits.slice(0, 8 - shown.length)
+
+  if (hits.length > 0) {
+    if (shown.length === 0) results.replaceChildren()
+
+    const group = document.createElement('li')
+    const heading = document.createElement('div')
+
+    group.setAttribute('data-site-search-full-text', '')
+
+    heading.setAttribute('data-site-search-group-title', '')
+
+    heading.textContent = 'Mentioned in'
+
+    group.append(heading)
+
+    results.append(group)
+
+    for (const hit of hits) appendResult(results, hit.entry, hit.excerpt)
+
+    if (selectedResultIndex < 0) selectedResultIndex = 0
+
+    syncResultSelection()
+
+    if (!navigatedSinceRender) {
+      const count = shown.length + hits.length
+
+      setStatusMessage(`${count} ${count === 1 ? 'result' : 'results'} available. Use arrow keys to navigate.`)
+    }
+  }
+
+  if (outcome.unavailable && shown.length === 0 && !navigatedSinceRender) {
+    setStatusMessage('Content search is temporarily unavailable. Showing title and tag matches.')
+  }
+}
+
 const render = (query: string) => {
   const results = getResults()
 
   if (!results) return
+
+  renderRevision += 1
+
+  navigatedSinceRender = false
+
+  results.dataset.siteSearchState = 'settled'
 
   results.innerHTML = ''
 
@@ -275,143 +459,22 @@ const render = (query: string) => {
 
     setStatusMessage(`No matching results for ${trimmed}. Try different keywords.`)
 
+    void appendBodyMatches(trimmed, [], results, renderRevision)
+
     return
   }
 
   selectedResultIndex = Math.min(Math.max(selectedResultIndex, 0), matches.length - 1)
 
-  const arrowTemplate = document.querySelector('[data-site-search-result-arrow-template]')
-
-  for (const match of matches) {
-    const e = match.entry
-    const li = document.createElement('li')
-    const a = document.createElement('a')
-
-    a.href = e.path
-
-    a.setAttribute('data-site-search-result', '')
-
-    const thumbHost = document.createElement('span')
-
-    thumbHost.setAttribute('data-site-search-thumb-frame', '')
-
-    if (e.coverUrl) {
-      const placeholder = document.createElement('span')
-
-      placeholder.setAttribute('aria-hidden', 'true')
-
-      placeholder.setAttribute('data-site-search-thumb-placeholder', '')
-
-      const picture = document.createElement('picture')
-
-      if (e.coverAvifUrl) {
-        const avifSource = document.createElement('source')
-
-        avifSource.type = 'image/avif'
-
-        avifSource.srcset = e.coverAvifUrl
-
-        picture.appendChild(avifSource)
-      }
-
-      const img = document.createElement('img')
-
-      img.src = e.coverUrl
-
-      // The adjacent title already names this link; artwork is decorative.
-      img.alt = ''
-
-      img.decoding = 'async'
-
-      img.loading = 'eager'
-
-      img.setAttribute('data-site-search-thumb', '')
-
-      img.setAttribute('data-site-search-thumb-state', 'loading')
-
-      img.addEventListener('load', () => {
-        img.setAttribute('data-site-search-thumb-state', 'loaded')
-
-        thumbHost.setAttribute('data-site-search-thumb-loaded', 'true')
-      })
-
-      img.addEventListener('error', () => {
-        img.setAttribute('data-site-search-thumb-state', 'error')
-
-        thumbHost.removeAttribute('data-site-search-thumb-loaded')
-
-        img.alt = ''
-      })
-
-      picture.appendChild(img)
-
-      thumbHost.append(placeholder, picture)
-    } else {
-      const ph = document.createElement('span')
-
-      ph.className = 'block size-full grid-fade'
-
-      ph.setAttribute('aria-hidden', 'true')
-
-      thumbHost.appendChild(ph)
-    }
-
-    const body = document.createElement('span')
-
-    body.setAttribute('data-site-search-result-body', '')
-
-    const typeEl = document.createElement('span')
-
-    typeEl.setAttribute('data-site-search-result-type', '')
-
-    let resultTypeLabel = 'Project'
-
-    if (e.type === 'post') {
-      resultTypeLabel = 'Post'
-    } else if (e.type === 'community') {
-      resultTypeLabel = 'Community'
-    }
-
-    typeEl.textContent = resultTypeLabel
-
-    const titleEl = document.createElement('span')
-
-    titleEl.setAttribute('data-site-search-result-title', '')
-
-    titleEl.textContent = e.title
-
-    const descEl = document.createElement('span')
-
-    descEl.setAttribute('data-site-search-result-description', '')
-
-    descEl.textContent = e.description
-
-    body.append(typeEl, titleEl, descEl)
-
-    a.append(thumbHost, body)
-
-    if (arrowTemplate instanceof HTMLTemplateElement) {
-      const arrow = document.createElement('span')
-
-      arrow.setAttribute('data-site-search-result-arrow', '')
-
-      arrow.setAttribute('aria-hidden', 'true')
-
-      arrow.append(arrowTemplate.content.cloneNode(true))
-
-      a.append(arrow)
-    }
-
-    li.appendChild(a)
-
-    results.appendChild(li)
-  }
+  for (const match of matches) appendResult(results, match.entry)
 
   syncResultSelection()
 
   setStatusMessage(
     `${matches.length} ${matches.length === 1 ? 'result' : 'results'} available. Use arrow keys to navigate.`
   )
+
+  void appendBodyMatches(trimmed, matches.map(match => match.entry), results, renderRevision)
 }
 
 // Keep only one close cycle alive so a stale callback cannot close a reopened dialog.
@@ -478,6 +541,8 @@ const openSearch = () => {
 }
 
 const closeSearch = (options: { focusTrigger?: boolean } = {}) => {
+  renderRevision += 1
+
   const { focusTrigger = false } = options
   const dialog = getDialog()
 
@@ -763,6 +828,8 @@ const bindUi = () => {
 
     e.preventDefault()
 
+    navigatedSinceRender = true
+
     // Step from the focused result, even when the pointer moved the highlight.
     if (focusedIndex >= 0) selectedResultIndex = focusedIndex
 
@@ -906,6 +973,8 @@ const bindUi = () => {
 
     selectedResultIndex = next
 
+    navigatedSinceRender = true
+
     syncResultSelection()
   }
 
@@ -997,6 +1066,8 @@ window.addEventListener('popstate', onPopState)
 bindUi()
 
 document.addEventListener('astro:before-swap', () => {
+  renderRevision += 1
+
   cancelPendingClose()
 
   setScrollLock(false)

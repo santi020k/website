@@ -1,0 +1,5 @@
+# Search published, current English article/case-study bodies only. Archives
+# and translated UI shells are deliberately excluded from the discovery glob.
+site: dist
+glob: "{blog,portfolio}/**/*.html"
+force_language: en
