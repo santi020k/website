@@ -325,6 +325,9 @@
 
 ### Patch Changes
 
+- Use readable topic names and quiet dotted captions in shared article cards,
+  preserving their existing layouts and native reading destinations.
+
 - Keep the floating return control clear of article and project closing links while preserving keyboard focus and native navigation.
 
 - Give the homepage a more personal opening with Santiago's natural portrait and

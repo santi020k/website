@@ -2175,3 +2175,28 @@ notes are folded into 5.0.0 with published notes preserved.
 
 The fixed-group full workspace gate follows the ready Named captions integration.
 Evidence is in `.cache/v5-contextual-return/`. No remote action occurred.
+
+## Named captions integration
+
+Approved source `758f06ed`, based on `7d9a2440`, is integrated over Contextual
+return candidate `c9d35d57`. Shared article cards format their original first two
+topics through `getBlogTopicLabel` with muted captions and a decorative separator.
+The semantic list keeps its localized Topics label; authored topic names remain
+English. Whole-card destinations, grid/focused/chapter layouts, article copy,
+metadata, image behavior, and native keyboard/no-JavaScript navigation remain.
+The homepage, return controller, and typed catalogs are unchanged.
+
+All 23 topic-label unit tests and 24 Chromium/WebKit gallery cases pass with one
+browser worker and retries disabled. They cover both locales/themes, all gallery
+consumers, 320px/enlarged text, accessibility, keyboard, and native no-JavaScript
+navigation. Sixteen before/after contracts preserve page copy, metadata, and link
+destinations while confirming the readable topic names. Thirty-two captures
+cover both locales/themes and mobile/desktop; English desktop and Spanish mobile
+pairs were reviewed. The production build, 906-page OG audit, archive assembly,
+and PDF freshness pass. All five generated PDF page rasters remain unchanged.
+Product/tests match the source; Changeset notes are folded into unpublished 5.0.0
+with published notes intact. Evidence is in `.cache/v5-named-captions/`.
+
+This completes the fixed integration group with the personal homepage and
+Contextual return. Its full workspace gate follows the local merge commit.
+No remote action occurred.

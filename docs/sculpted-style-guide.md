@@ -157,7 +157,7 @@ presentation.
 All `PostsGallery` consumers use open cards with 16:9 artwork and 1rem image corners.
 Place the post type and date beneath the image, followed by the complete 1.5rem title
 at weight 500 and 1.35 leading. Descriptions use 0.875rem text with 1.75 leading;
-metadata and the first two plain topic labels use 0.75rem. Keep a 1.25rem image-to-copy
+metadata uses 0.75rem and topic labels follow Named captions below. Keep a 1.25rem image-to-copy
 gap, then one “Read article” footer with an arrow, reading time, and a fine bottom rule.
 Align neighboring metadata, title, summary, topic, and footer rows without clamping titles
 or descriptions. Shared grid tracks let the longest content in each shelf set its shared rows;
@@ -168,6 +168,24 @@ characters, with `description` as the fallback. The full description remains aut
 for the article, search, feeds, and metadata. Preserve series sequence and draft labels.
 The complete card is one naturally named link with a visible outline; hover changes
 only the title color. Artwork stays still, and metadata and footers wrap for enlarged text.
+
+### Named captions for article card topics
+
+Every shared `PostsGallery` card uses **Named captions** below its description:
+the original first two topics, formatted with `getBlogTopicLabel`, in 0.8125rem
+muted text. Separate them with a small brand-colored middle dot, using the accent
+token in dark mode. Keep the 1.125rem top margin, .625rem bottom margin, 1.7 leading,
+and wrapping layout with .75rem gaps. Attach the decorative separator to the
+following label so it cannot become an orphan when the caption wraps.
+
+Keep the semantic list and translated Topics label; mark each authored topic name
+as English and hide the separator from assistive technology. A single topic has
+no separator; no topics means no caption. The whole card remains one native Lumen
+link, with no nested topic actions, extra surface, or client JavaScript. Preserve
+grid, focused, and chapter layouts, shared row alignment, metadata, images,
+article destinations, and the existing hover/focus and reduced-motion behavior.
+This applies to Blog and topic archives, series, related writing, and the Developer
+Experience page; canonical tag identifiers and article content remain unchanged.
 
 ### Focused gallery for small topic archives
 
