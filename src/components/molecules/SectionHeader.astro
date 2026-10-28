@@ -143,13 +143,14 @@ const headingId = id ? `${id}-heading` : undefined
   [data-section-header-margin]:not(:has(> [data-margin-header-label])) { grid-template-columns: minmax(0, 1fr); }
   :global([data-theme='dark']) [data-section-header-margin] { --margin-emphasis: hsl(var(--accent)); }
   [data-margin-header-label] {
-    max-width: 4.375rem;
+    max-width: 100%;
     margin: 0;
     padding-top: 0.4375rem;
     color: var(--margin-emphasis);
     font-size: 0.75rem;
     line-height: 1.7;
     font-weight: 500;
+    overflow-wrap: normal;
   }
   [data-margin-header-copy] {
     position: relative;

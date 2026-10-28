@@ -18,6 +18,38 @@ const previousKeys = {
 
 test.use({ reducedMotion: 'reduce' })
 
+for (const locale of ['en', 'es'] as const) {
+  test(`section labels keep complete words in ${locale}`, async ({ page }) => {
+    await page.goto(`${locale === 'es' ? '/es' : ''}/blog/playwright-accessibility-checks-that-teams-keep-running/`)
+    const label = page.locator('#related-writing [data-margin-header-label]')
+    await expect(label).toHaveText(locale === 'es' ? 'Artículos relacionados' : 'Related writing')
+
+    for (const width of [320, 800, 1440]) {
+      await page.setViewportSize({ width, height: 1000 })
+      for (const textSize of ['100%', '200%']) {
+        await page.evaluate(async size => {
+          document.documentElement.style.fontSize = size
+          await document.fonts.ready
+        }, textSize)
+        expect(await label.evaluate(element => {
+          const text = element.firstChild
+          if (text?.nodeType !== Node.TEXT_NODE) throw new Error('Expected a text section label')
+          const bounds = element.getBoundingClientRect()
+          return [...(text.textContent ?? '').matchAll(/\S+/gu)].filter(match => {
+            const range = document.createRange()
+            range.setStart(text, match.index)
+            range.setEnd(text, match.index + match[0].length)
+            const rectangles = [...range.getClientRects()]
+            return new Set(rectangles.map(rectangle => rectangle.top)).size !== 1 ||
+              rectangles.some(rectangle => rectangle.left < bounds.left - 1 || rectangle.right > bounds.right + 1)
+          }).map(match => match[0])
+        }), `${locale} label at ${width}px and ${textSize} text`).toEqual([])
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+      }
+    }
+  })
+}
+
 for (const width of [320, 1440]) {
   for (const theme of ['light', 'dark'] as const) {
     test(`Topic context remains readable and keyboard usable at ${width}px in ${theme}`, async ({ page, browserName }) => {
