@@ -11,6 +11,11 @@ import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
 import current from '@santi020k/website-history/current'
 import versions from '@santi020k/website-history/versions'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
 const captures = import.meta.glob<{ default: ImageMetadata }>('../assets/website-history/*.webp', { eager: true })
 
 const eras = [
@@ -26,13 +31,13 @@ const imageFor = (id: string, device: 'desktop' | 'mobile') => {
   return capture
 }
 
-const formatDate = (date: string) => new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))
+const formatDate = (date: string) => new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))
 const archiveNavigation = { 'data-astro-reload': '' }
 
 const meta = {
-  title: 'Website history',
-  description: 'A living history of santi020k.com. Explore five design eras, see real desktop and mobile screenshots, and browse preserved versions of the website.',
-  breadcrumbs: [{ name: 'Home', url: '/' }, { name: 'Website history', url: '/history/' }]
+  title: t('Website history'),
+  description: t('A living history of santi020k.com. Explore five design eras, see real desktop and mobile screenshots, and browse preserved versions of the website.'),
+  breadcrumbs: [{ name: t('Home'), url: localizePath('/', pageLocale) }, { name: t('Website history'), url: localizePath('/history/', pageLocale) }]
 }
 ---
 
@@ -41,52 +46,52 @@ const meta = {
     <header class="signature-frame history-intro">
       <div class="history-hero-stage">
         <div class="history-hero-copy">
-          <p class="editorial-eyebrow">A digital time capsule · Est. 2026</p>
-          <h1 class="editorial-page-title">A website,<span class="
+          <p class="editorial-eyebrow">{t('A digital time capsule · Est. 2026')}</p>
+          <h1 class="editorial-page-title">{t('A website,')}<span class="
             editorial-page-emphasis
           "
-                                                     >over time.</span></h1>
-          <p class="editorial-page-description">Same maker. Different chapters. A collection of changing ideas, growing craft, and the websites that made this one possible.</p>
+                                                            >{t('over time.')}</span></h1>
+          <p class="editorial-page-description">{t('Same maker. Different chapters. A collection of changing ideas, growing craft, and the websites that made this one possible.')}</p>
           <div class="maker-hero-actions">
             <ButtonLink class="maker-hero-primary" href="#versions" variant="unstyled">
-              Explore the versions
+              {t('Explore the versions')}
               <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange direction="down" /></span>
             </ButtonLink>
           </div>
-          <p class="history-hero-note">Nothing lost. Every old door still opens.</p>
+          <p class="history-hero-note">{t('Nothing lost. Every old door still opens.')}</p>
         </div>
-        <div class="history-hero-exhibit" role="group" aria-label="Website design previews">
+        <div class="history-hero-exhibit" role="group" aria-label={t('Website design previews')}>
           <figure class="history-hero-print" data-history-hero-current>
-            <Image src={imageFor(current.id, 'desktop')} alt={`${current.id.toUpperCase()} homepage capture`} widths={[320, 640, 960]} sizes="(min-width: 1200px) 528px, (min-width: 960px) calc(50vw - 4.5rem), (min-width: 640px) 512px, calc(100vw - 4rem)" loading="eager" />
+            <Image src={imageFor(current.id, 'desktop')} alt={`${current.id.toUpperCase()} ${t('homepage capture')}`} widths={[320, 640, 960]} sizes="(min-width: 1200px) 528px, (min-width: 960px) calc(50vw - 4.5rem), (min-width: 640px) 512px, calc(100vw - 4rem)" loading="eager" />
             <figcaption>
               <span class="history-hero-current-version">{current.id.toUpperCase()}</span>
-              <Pill label="Today" tone="brand" />
+              <Pill label={t('Today')} tone="brand" />
             </figcaption>
           </figure>
           <div class="history-hero-past">
             {['v1', 'v2'].map(id => (
               <figure class="history-hero-print">
-                <Image src={imageFor(id, 'desktop')} alt={`${id.toUpperCase()} homepage capture`} widths={[160, 320, 480]} sizes="(min-width: 1200px) 254px, (min-width: 960px) calc(25vw - 2.875rem), (min-width: 640px) 246px, calc(50vw - 2.5rem)" loading="eager" />
+                <Image src={imageFor(id, 'desktop')} alt={`${id.toUpperCase()} ${t('homepage capture')}`} widths={[160, 320, 480]} sizes="(min-width: 1200px) 254px, (min-width: 960px) calc(25vw - 2.875rem), (min-width: 640px) 246px, calc(50vw - 2.5rem)" loading="eager" />
                 <figcaption class="history-hero-print-label">
                   <span>{id.toUpperCase()}</span>
-                  <span>From the archive</span>
+                  <span>{t('From the archive')}</span>
                 </figcaption>
               </figure>
             ))}
           </div>
-          <p class="history-hero-caption"><span>Actual pages. Real evolution.</span><span>2026 — now <Icon name="arrow-up-right" /></span></p>
+          <p class="history-hero-caption"><span>{t('Actual pages. Real evolution.')}</span><span>{t('2026 — now')} <Icon name="arrow-up-right" /></span></p>
         </div>
       </div>
-      <nav class="history-hero-chapters" aria-label="Jump to a design era">
-        <p class="history-hero-chapter-intro"><span>Five chapters.</span><span>Still being written.</span></p>
+      <nav class="history-hero-chapters" aria-label={t('Jump to a design era')}>
+        <p class="history-hero-chapter-intro"><span>{t('Five chapters.')}</span><span>{t('Still being written.')}</span></p>
         <ol class="history-hero-chapter-links">
           {[...eras].reverse().map(era => (
             <li>
-              <a href={`#${era.id}`} data-history-current-era={era.current ? '' : undefined}>
+              <a href={localizePath(`#${era.id}`, pageLocale)} data-history-current-era={era.current ? '' : undefined}>
                 <span class="history-hero-chapter-version">{era.id.toUpperCase()}</span>
                 <ArrowExchange data-history-chapter-icon direction="down-right" />
                 <time class="history-hero-chapter-date" datetime={era.date}>{formatDate(era.date)}</time>
-                <span class="history-hero-chapter-state">{era.current ? 'The current canvas' : 'An earlier idea'}</span>
+                <span class="history-hero-chapter-state">{era.current ? t('The current canvas') : t('An earlier idea')}</span>
               </a>
             </li>
           ))}
@@ -94,7 +99,7 @@ const meta = {
       </nav>
     </header>
 
-    <ol class="history-timeline" id="versions" aria-label="Website design eras, newest first">
+    <ol class="history-timeline" id="versions" aria-label={t('Website design eras, newest first')}>
       {eras.map(era => (
         <li class="history-era" id={era.id}>
           <article class="history-era-body" aria-labelledby={`${era.id}-title`}>
@@ -102,12 +107,12 @@ const meta = {
               <div class="history-era-marker">
                 <span class="history-version">{era.id.toUpperCase()}</span>
                 <time datetime={era.date}>{formatDate(era.date)}</time>
-                {era.release && <span class="history-release">Release {era.release}</span>}
-                <span class="history-status">{era.current ? 'Current chapter' : 'Preserved chapter'}</span>
+                {era.release && <span class="history-release">{t('Release')} {era.release}</span>}
+                <span class="history-status">{era.current ? t('Current chapter') : t('Preserved chapter')}</span>
               </div>
               <div class="history-era-heading">
-                <h2 id={`${era.id}-title`}>{era.title}</h2>
-                <p>{era.description}</p>
+                <h2 id={`${era.id}-title`}>{t(era.title)}</h2>
+                <p>{t(era.description)}</p>
               </div>
             </Card>
             <Card class="history-captures" data-history-captures variant="unstyled">
@@ -117,26 +122,26 @@ const meta = {
               </div>
               <div class="history-capture-pair">
                 <figure class="history-desktop">
-                  <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} homepage at desktop size`} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 805px, (min-width: 648px) calc(75vw - 6rem), (min-width: 458px) calc(75vw - 5rem), calc(100vw - 5rem)" loading="lazy" />
+                  <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} ${t('homepage at desktop size')}`} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 805px, (min-width: 648px) calc(75vw - 6rem), (min-width: 458px) calc(75vw - 5rem), calc(100vw - 5rem)" loading="lazy" />
                   <figcaption>
-                    <span class="history-capture-device">Desktop</span>
+                    <span class="history-capture-device">{t('Desktop')}</span>
                     <span class="history-capture-dimensions">1440 × 1000</span>
                   </figcaption>
                 </figure>
                 <figure class="history-mobile">
-                  <Image src={imageFor(era.id, 'mobile')} alt={`${era.id.toUpperCase()} homepage at mobile size`} widths={[195, 390]} sizes="(min-width: 1200px) 276px, (min-width: 648px) calc(25vw - 1.5rem), (min-width: 458px) calc(25vw - 1.25rem), 130px" loading="lazy" />
+                  <Image src={imageFor(era.id, 'mobile')} alt={`${era.id.toUpperCase()} ${t('homepage at mobile size')}`} widths={[195, 390]} sizes="(min-width: 1200px) 276px, (min-width: 648px) calc(25vw - 1.5rem), (min-width: 458px) calc(25vw - 1.25rem), 130px" loading="lazy" />
                   <figcaption>
-                    <span class="history-capture-device">Mobile</span>
+                    <span class="history-capture-device">{t('Mobile')}</span>
                     <span class="history-capture-dimensions">390 × 844</span>
                   </figcaption>
                 </figure>
               </div>
             </Card>
             <div class="history-era-actions">
-              <ButtonLink data-history-era-action href={era.current ? '/' : `/${era.id}/`} {...archiveNavigation} variant="secondary">
-                {era.current ? 'Explore the current website' : `Open ${era.id.toUpperCase()}`}<ArrowExchange direction="up-right" />
+              <ButtonLink data-history-era-action href={localizePath(era.current ? '/' : `/${era.id}/`, pageLocale)} {...archiveNavigation} variant="secondary">
+                {era.current ? t('Explore the current website') : `${t('Open')} ${era.id.toUpperCase()}`}<ArrowExchange direction="up-right" />
               </ButtonLink>
-              <span>{era.current ? 'Still evolving.' : 'Browseable, with the content of its time.'}</span>
+              <span>{era.current ? t('Still evolving.') : t('Browseable, with the content of its time.')}</span>
             </div>
           </article>
         </li>
@@ -146,13 +151,13 @@ const meta = {
     <aside class="history-footnote" aria-labelledby="history-note-title">
       <div class="history-colophon">
         <header>
-          <p class="history-colophon-eyebrow">A note on preservation</p>
-          <h2 id="history-note-title">Old ideas. Open doors.</h2>
+          <p class="history-colophon-eyebrow">{t('A note on preservation')}</p>
+          <h2 id="history-note-title">{t('Old ideas. Open doors.')}</h2>
           <span class="history-colophon-seal"><Icon name="book-open" /></span>
         </header>
         <div class="history-colophon-copy">
-          <p>V1 and V2 are curated design eras, chosen from stable snapshots before a larger visual change. They are labels for this collection, rather than formal release numbers. V3 preserves release 3.11.0, and V4 preserves release 4.0.0 before the V5 editorial redesign.</p>
-          <p>The archived designs and content stay frozen. Their software stays maintained. Forms and comments are disabled, and every archive has a way back to today’s website.</p>
+          <p>{t('V1 and V2 are curated design eras, chosen from stable snapshots before a larger visual change. They are labels for this collection, rather than formal release numbers. V3 preserves release 3.11.0, and V4 preserves release 4.0.0 before the V5 editorial redesign.')}</p>
+          <p>{t('The archived designs and content stay frozen. Their software stays maintained. Forms and comments are disabled, and every archive has a way back to today’s website.')}</p>
         </div>
       </div>
     </aside>

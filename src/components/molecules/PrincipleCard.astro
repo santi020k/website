@@ -4,6 +4,8 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import { Card, Link } from '@santi020k/lumen-astro'
 
 import type { EngineeringPrinciple } from '@/data/profile'
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
 
 interface Props {
   appearance?: 'default' | 'editorial'
@@ -16,6 +18,8 @@ interface Props {
 
 const { appearance = 'default', index, source, subtitle, title, body } = Astro.props
 const formattedIndex = String(index + 1).padStart(2, '0')
+const locale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(locale, source)
 ---
 
 <Card
@@ -45,8 +49,8 @@ const formattedIndex = String(index + 1).padStart(2, '0')
   <p class="text-sm/7 text-ink-soft" data-principle-body>{body}</p>
   {appearance === 'editorial' && source && (
     <div data-principle-source>
-      <p>Read the approach</p>
-      <Link href={source.href} variant="inherit">
+      <p>{t('Read the approach')}</p>
+      <Link href={localizePath(source.href, locale)} variant="inherit">
         <span>{source.label}</span><ArrowExchange direction="up-right" size="sm" />
       </Link>
     </div>

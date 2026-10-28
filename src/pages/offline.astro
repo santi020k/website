@@ -6,42 +6,47 @@ import PageLayout from '@/layouts/Base.astro'
 
 import { Card, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+
 const meta = {
-  description: 'Offline fallback page for the santi020k portfolio and blog.',
+  description: t('Offline fallback page for the santi020k portfolio and blog.'),
   noindex: true,
-  title: 'Offline'
+  title: t('Offline')
 }
 ---
 
 <PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
   <div class="section-container-wide" data-offline-layout>
     <PageHero
-      description="Your connection or the site may be unavailable. Try again, or open a previously visited page from the local cache."
-      eyebrow="Offline"
-      gradientText="but cached pages are within reach."
-      metaItems={['Cached pages', 'Static-first', 'Try again anytime']}
-      title="Page unavailable,"
+      description={t('Your connection or the site may be unavailable. Try again, or open a previously visited page from the local cache.')}
+      eyebrow={t('Offline')}
+      gradientText={t('but cached pages are within reach.')}
+      metaItems={[t('Cached pages'), t('Static-first'), t('Try again anytime')]}
+      title={t('Page unavailable,')}
     >
-      <ButtonLink href="/" variant="secondary">
-        Go home
+      <ButtonLink href={localizePath('/', pageLocale)} variant="secondary">
+        {t('Go home')}
       </ButtonLink>
-      <ButtonLink href="/portfolio/" variant="ghost">
-        Browse projects
+      <ButtonLink href={localizePath('/portfolio/', pageLocale)} variant="ghost">
+        {t('Browse projects')}
       </ButtonLink>
       <Button data-retry-connection>
-        Try again
+        {t('Try again')}
       </Button>
     </PageHero>
 
     <div data-offline-support>
       <Card as="section" variant="unstyled" data-offline-folio aria-labelledby="offline-cache-heading">
         <header data-offline-header>
-          <h2 id="offline-cache-heading">What's cached</h2>
+          <h2 id="offline-cache-heading">{t('What\'s cached')}</h2>
           <Icon name="cloud-download" class="size-5.5 shrink-0" />
         </header>
         <p data-offline-copy>
-          Previously visited pages may still be available offline. The freshest posts, projects, and
-          profile updates will appear once the site responds again.
+          {t('Previously visited pages may still be available offline. The freshest posts, projects, and profile updates will appear once the site responds again.')}
         </p>
         <footer data-offline-footer>
           <span data-connection-indicator>
@@ -49,7 +54,7 @@ const meta = {
             <span data-connection-online hidden><Icon name="wifi" class="size-4" /></span>
           </span>
           <p aria-live="polite" aria-atomic="true" data-connection-status>
-            Try again, or open a previously visited page.
+            {t('Try again, or open a previously visited page.')}
           </p>
         </footer>
       </Card>
@@ -57,6 +62,8 @@ const meta = {
   </div>
 
   <script>
+    import { getLocale } from '@/i18n'
+
     let offlineControls: AbortController | undefined
 
     const setupOfflineControls = () => {
@@ -82,9 +89,15 @@ const meta = {
 
         // navigator.onLine only reflects the browser's network link; it cannot
         // tell whether this site is reachable or merely slow.
-        status.textContent = navigator.onLine ?
-          'Your browser reports a connection. Try again to load the latest page.' :
-          'Your browser reports no connection.'
+        const spanish = getLocale(window.location.pathname) === 'es'
+
+        const onlineMessage = spanish ?
+          'Tu navegador indica que hay conexión. Inténtalo de nuevo para cargar la página actualizada.' :
+          'Your browser reports a connection. Try again to load the latest page.'
+
+        const offlineMessage = spanish ? 'Tu navegador indica que no hay conexión.' : 'Your browser reports no connection.'
+
+        status.textContent = navigator.onLine ? onlineMessage : offlineMessage
       }
 
       retry.addEventListener('click', () => window.location.reload(), { signal })

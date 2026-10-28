@@ -11,6 +11,7 @@ const pageLocale = getLocale(Astro.url.pathname)
 const t = (source: string) => translatePage(pageLocale, source)
 const travelCountries = getLocalizedTravelCountries(pageLocale)
 const regionNames = new Intl.DisplayNames(['es-419'], { type: 'region' })
+
 const labels = pageLocale === 'es' ?
   Object.fromEntries(lumenWorldMapCountries.map(country => [country.id, regionNames.of(country.id) ?? country.name])) :
   Object.fromEntries(travelCountries.map(country => [country.code, country.name]))
