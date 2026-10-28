@@ -628,6 +628,21 @@ shared arrow effect and reduced-motion behavior. At narrow card widths, reduce
 insets and type, and move the arrow beside the count when the title needs the full
 row. Preserve visible focus, complete words where space allows, and both themes.
 
+### Evidence captions Blog Topics ending
+
+The Blog Topics ending keeps the shared sculpted statistics and uses their
+existing source-link footer for **Evidence captions**. Topics to explore returns
+to the topic opening, Posts in the archive leads to the Blog post list, and Most
+written about names and links to the most frequent published topic. Derive its
+readable name, count, and archive URL from the same sorted topic data; show the
+post unit instead of an anonymous frequency multiplier. If no topics exist, omit
+that card and retain the two archive totals.
+
+Preserve the shared card geometry, typography, hover and keyboard feedback,
+reduced motion, and responsive reflow. These are native links using the existing
+StatCard source contract; no new styles or client controller are needed. Leave
+the Named index cards, search, sorting, opening, and metadata unchanged.
+
 ### Speaking and engineering-principle cards with clear hierarchy
 
 Speaking topic, format, and boxed engineering-principle cards share one treatment:

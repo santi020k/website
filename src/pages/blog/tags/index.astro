@@ -12,7 +12,7 @@ import { Card, Icon, Input, Link, MotionGroup, Toggle } from '@santi020k/lumen-a
 
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
-const topTagCount = allTags[0]?.[1] ?? 0
+const topTag = allTags[0]
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -169,10 +169,31 @@ mainClass="remaining-pages"
     </script>
   </section>
 
-  <StatsGrid columns={3}>
-    <StatCard description="Distinct recurring topics across the current writing archive." icon="hash" label="Topics" value={allTags.length} />
-    <StatCard description="Published posts that can be reached through these topic pages." icon="file-text" label="Posts" value={posts.length} />
-    <StatCard description="How often the most-used topic currently appears in the archive." icon="trending-up" label="Top topic" suffix="x" value={topTagCount} />
+  <StatsGrid columns={topTag ? 3 : 2}>
+    <StatCard
+      description="Find a subject that fits what you want to read next."
+      icon="hash"
+      label="Topics to explore"
+      source={{ href: '#topic-index-heading', label: 'Return to topic search' }}
+      value={allTags.length}
+    />
+    <StatCard
+      description="Read across topics, with the latest writing first."
+      icon="file-text"
+      label="Posts in the archive"
+      source={{ href: '/blog/#posts', label: 'Browse all writing' }}
+      value={posts.length}
+    />
+    {topTag && (
+      <StatCard
+        description={`${getBlogTopicLabel(topTag[0])} is the most explored topic.`}
+        icon="trending-up"
+        label="Most written about"
+        source={{ href: getTagPath(topTag[0]), label: getBlogTopicLabel(topTag[0]) }}
+        suffix={topTag[1] === 1 ? 'post' : 'posts'}
+        value={topTag[1]}
+      />
+    )}
   </StatsGrid>
 </PageLayout>
 
