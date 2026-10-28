@@ -350,18 +350,22 @@ a fine bottom rule, and 1.5rem before the first chapter row. Keep the native
 `#series-chapters` destination and the title's semantic h2 level. Localize the
 heading, guidance and singular/plural count through the collection catalog.
 
-Series detail pages use the approved reading-index rhythm for their ordered article
-list. Reuse `PostsGallery` with its chapter layout: compact artwork at the left, a
-plain part number before the type, the complete title and summary, then topics and
-one reading action. Separate entries with fine rules, without enclosing cards. Keep
-the publication date and reading time aligned at the right edge. Titles use 1.625rem,
-and the same image, metadata, and single native link as the regular editorial grid.
+Series detail pages use **Chapter sleeve** for their ordered article list. Scope the
+treatment to `.series-detail-page`; reuse `PostsGallery` and its single native link.
+Use an opaque surface, fine border, 1.5rem corners with a .375rem lower-right corner,
+and a .375rem brand-soft backing offset right and upward. Keep the backing on hover.
+Each link owns the complete 1.5rem inset and visible focus outline. Separate sleeves
+by 2rem. Use 8rem artwork at the left, a 1.375rem column gap, and 1.375rem titles at
+weight 500. Preserve the plain part number before the type, complete title and
+summary, topics, publication date, reading time, and existing arrow. Add a fine top
+rule to the reading footer, with 1.125rem above it and 1rem below it before the action.
 
-Use a 14rem artwork column, then 10rem below 46rem of gallery width; stack the artwork
-above the copy below 34rem. Narrow enlarged-text rows use 1.125rem titles below 20rem.
-Preserve complete titles, sequence, native navigation, focus outlines, and readable
-fallbacks without JavaScript. The regular Blog, topic archives, and DX shelves retain
-their editorial grid.
+Below 31.25rem of gallery width, stack the artwork above the copy at 16:9 with
+1.25rem insets and gap. Below 20rem, use .75rem insets and 1.125rem titles to retain
+reading width with enlarged text. Keep the title color interaction, reduced-motion
+support and native navigation without JavaScript; add no extra keyboard stops.
+Article recommendations retain their open reading rows. Regular Blog, topic archives,
+and DX shelves retain their editorial grids.
 
 ### Reading rows related articles
 
