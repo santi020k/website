@@ -267,6 +267,30 @@ behavior. Use typed collection translations, localized native links, singular
 count labels, and the existing text-link and Arrow exchange feedback. Keep page
 metadata and series-detail pages unchanged; add no client JavaScript.
 
+### Chapter brief individual series openings
+
+Individual series use **Chapter brief**: a quiet All series link and the published
+article count above a fine rule, then the complete title and description beside the
+first article. Read the first article from the same ordered collection used by the
+chapter list. Its title, localized article type, and computed reading time accompany
+the Begin with article 1 caption and Start reading action. Use one Lumen Card and
+one native link for the entire first-article surface, with a continuous focus outline.
+
+Use a 1.35:1 grid with a 1.75rem gap, a 2.25rem title, .875rem introduction, and
+1.375rem first-article title. The card uses 1.5rem insets and corners, a .375rem
+lower-right corner, and a .4375rem offset brand-soft sheet. Preserve the sheet on
+hover and change the title color. Stack the spread below 38rem of section width;
+tighten card insets and fit headings to the column below 20rem for enlarged text.
+
+Show the complete cadence once in the ruled row beneath the opening, alongside a
+native All chapters link to `#series-chapters`. Keep the article count singular when
+appropriate and omit both first-article actions for an empty development series.
+Follow with the authored introduction and Focus ledger after 2.5rem. Remove the
+repeated A reading track suffix, hero metadata, and three summary cards. Preserve
+the chapter order/cards, authored prose, focus content, metadata and structured data.
+The language shell localizes interface copy and destinations; authored titles,
+descriptions and cadence remain marked as English. Add no client JavaScript.
+
 ### Reading folio series cadence cards
 
 `SeriesCadenceCard` pairs a tinted Cadence header and decorative book icon with the
@@ -282,8 +306,8 @@ works without JavaScript in both themes.
 The series introduction and `SeriesFocusCard` form one open, ruled spread. Use the
 page's editorial heading weight and 0.9375rem body text instead of the article-prose
 heading, left accent bar, and larger paragraphs. Keep the heading flush with the top
-of the focus ledger. The series page owns its section spacing: use 4rem before the
-summary and introduction, then the regular PageSection spacing before the chapter list,
+of the focus ledger. The series page owns its section spacing: follow Chapter brief
+with a 2.5rem gap before the introduction, then regular PageSection spacing before the chapter list,
 without an additional page-frame gap. Above 52rem of section width, use a wider introduction column
 and a narrower one-column focus list, separated by a fine vertical rule. Below that,
 stack the introduction before the focus list and replace the vertical rule with a top

@@ -2348,3 +2348,35 @@ notes are folded into unpublished 5.0.0 and published notes are preserved.
 This approved follow-up uses affected checks; the full workspace baseline remains
 `0319556c`. Evidence is retained in `.cache/v5-email-recovery/`.
 No remote action occurred.
+
+## Individual series Chapter brief integration
+
+Approved source `6fee0445` is integrated over Email recovery `b051b0b3` into
+local `release/v5.0.0`. Each series opening presents the first ordered article,
+its actual title/type/reading time, a localized return link and article count,
+the full authored cadence, and a native chapter-list shortcut. The full
+introduction, focus ledger, chapter order/destinations, metadata and structured
+data are preserved. No client JavaScript is added. Series source, catalog and
+tests match the approved commit exactly; newsletter/shared catalog, Series
+index and homepage components remain unchanged.
+
+Affected validation passes:
+
+- 80 Chromium/WebKit cases for the index, Chapter brief and existing series
+  composition, plus two mobile index baselines (82 total), one worker and no retries.
+- 1,517 translation, series ordering/filtering and reading-time unit tests.
+- Current-site lint with zero warnings and Astro checks for 596 files with zero
+  errors, warnings or hints; 904-page build, 906-page OG audit, four-archive
+  assembly and freshness for all 926 social images.
+- 24 matched series metadata/content/order/destination contracts, 48 captures
+  across both languages/themes and mobile/desktop, and 24 normal-text axe scans.
+  Browser cases also exercise 320px/200% text, keyboard focus, native chapter
+  navigation and operation without JavaScript.
+- The normal PDF generator resolves the three artifact conflicts on the combined
+  source. Both PDFs are fresh, public/built artifacts match, and all five page
+  rasters remain identical to the preceding candidate.
+
+The patch Changeset is folded into unpublished 5.0.0 while preserving published
+4.0.0 notes. Evidence is in `.cache/v5-series-chapter-brief/`. The full workspace
+gate remains the recorded `0319556c` run; this approved follow-up uses affected
+checks. Push, PR, tags, release and deployment remain outside this local handoff.

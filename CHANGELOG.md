@@ -325,6 +325,9 @@
 
 ### Patch Changes
 
+- Open each Blog Series with its first article and a native chapter-list shortcut,
+  using a localized Chapter brief while preserving authored content and reading order.
+
 - Add accessible inline newsletter email validation in English and Spanish while preserving native signup and RSS recovery.
 
 - Give the Blog Series index a compact reading brief with localized guidance and
