@@ -310,6 +310,16 @@
 
 ### Patch Changes
 
+- Preserve the full width of article section headings when print hides their copy
+  controls and link recovery field.
+
+- Reuse the persistent link recovery field for article section links. Failed copies keep
+  the exact heading address available for manual selection and retry without changing
+  the heading, moving focus, or sharing tracking parameters.
+
+  Keep address selection after Safari keyboard focus and defer the shared Lumen scroll
+  cue's resize writes to avoid observer loops while article layouts reflow.
+
 - Refine Blog Topics into sculpted Named index links with readable names, post counts, and directional arrows; match search and sorting to displayed names.
 
 - Keep a selectable clean permalink available when article link copying fails. Share

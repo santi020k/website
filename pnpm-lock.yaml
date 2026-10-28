@@ -262,7 +262,7 @@ overrides:
 
 patchedDependencies:
   '@lhci/utils@0.15.1': d543de2cd2dadadbb6465e9411e7bc12dd6706a75c6d3ef9fe352cf51f90761c
-  '@santi020k/lumen-astro@4.1.0': 195b479f82e779f1f52cc89c844fd406c4d20de823f226b2681d17112e205c36
+  '@santi020k/lumen-astro@4.1.0': f8e43ac25e0202841a08e263745fb02838b9d3b6e4dc82940b7647b316ada6cd
   '@santi020k/og@1.2.0': adefa3153db9a28e5bf35d4abdcb3387bd87b4a984e6f488f798fda46c7bf004
 
 importers:
@@ -283,7 +283,7 @@ importers:
         version: 4.2.0
       '@santi020k/lumen-astro':
         specifier: 'catalog:'
-        version: 4.1.0(patch_hash=195b479f82e779f1f52cc89c844fd406c4d20de823f226b2681d17112e205c36)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
+        version: 4.1.0(patch_hash=f8e43ac25e0202841a08e263745fb02838b9d3b6e4dc82940b7647b316ada6cd)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
       '@santi020k/lumen-core':
         specifier: 'catalog:'
         version: 4.1.0
@@ -482,7 +482,7 @@ importers:
     dependencies:
       '@santi020k/lumen-astro':
         specifier: 'catalog:'
-        version: 4.1.0(patch_hash=195b479f82e779f1f52cc89c844fd406c4d20de823f226b2681d17112e205c36)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
+        version: 4.1.0(patch_hash=f8e43ac25e0202841a08e263745fb02838b9d3b6e4dc82940b7647b316ada6cd)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
       '@santi020k/theme':
         specifier: 'catalog:'
         version: 2.0.1
@@ -668,7 +668,7 @@ importers:
         version: 4.0.19
       '@santi020k/lumen-astro':
         specifier: 'catalog:'
-        version: 4.1.0(patch_hash=195b479f82e779f1f52cc89c844fd406c4d20de823f226b2681d17112e205c36)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
+        version: 4.1.0(patch_hash=f8e43ac25e0202841a08e263745fb02838b9d3b6e4dc82940b7647b316ada6cd)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
       '@santi020k/og':
         specifier: 'catalog:'
         version: 1.2.0(patch_hash=adefa3153db9a28e5bf35d4abdcb3387bd87b4a984e6f488f798fda46c7bf004)(@types/node@26.6.4)
@@ -747,7 +747,7 @@ importers:
         version: 4.2.0
       '@santi020k/lumen-astro':
         specifier: 'catalog:'
-        version: 4.1.0(patch_hash=195b479f82e779f1f52cc89c844fd406c4d20de823f226b2681d17112e205c36)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
+        version: 4.1.0(patch_hash=f8e43ac25e0202841a08e263745fb02838b9d3b6e4dc82940b7647b316ada6cd)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
       '@santi020k/lumen-core':
         specifier: 'catalog:'
         version: 4.1.0
@@ -10569,7 +10569,7 @@ snapshots:
       - supports-color
       - ts-declaration-location
 
-  '@santi020k/lumen-astro@4.1.0(patch_hash=195b479f82e779f1f52cc89c844fd406c4d20de823f226b2681d17112e205c36)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))':
+  '@santi020k/lumen-astro@4.1.0(patch_hash=f8e43ac25e0202841a08e263745fb02838b9d3b6e4dc82940b7647b316ada6cd)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))':
     dependencies:
       '@santi020k/lumen': 4.2.0
       '@santi020k/lumen-core': 4.1.0
