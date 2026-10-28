@@ -3,6 +3,7 @@ import type { GetStaticPaths, Page } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
@@ -20,7 +21,7 @@ import { getPostPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
 import { getAllTags, getBlogBrowseTags } from '@/utils/tags'
 
-import { RevealGroup } from '@santi020k/lumen-astro'
+import { Link, RevealGroup } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
 import { getLocale, localizePath } from '@/i18n'
@@ -136,13 +137,16 @@ const blogListSchema = {
 
   {isFirstPage && !!activeSeries.length && (
     <PageSection layout="stacked">
-      <SectionHeader
-        description={t('collection.goDeeperWithConnectedPostsOn')}
-        eyebrow="Series"
-        linkHref={localizePath('/blog/series/', locale)}
-        linkLabel={t('collection.browseAllSeries')}
-        title={t('collection.followRelatedPostsInOrder')}
-      />
+      <header id="blog-series" class="scroll-mt-28" data-blog-series-caption>
+        <div>
+          <h2>{t('series.shelfHeading')}</h2>
+          <p>{t('series.shelfDescription')}</p>
+        </div>
+        <Link data-blog-series-browse data-text-link href={localizePath('/blog/series/', locale)} variant="inherit">
+          <span data-text-link-label>{t('collection.browseAllSeries')}</span>
+          <ArrowExchange direction="right" />
+        </Link>
+      </header>
 
       <RevealGroup
 class="
@@ -167,3 +171,59 @@ threshold={0}
   )}
 
 </PageLayout>
+
+<style>
+  [data-blog-series-caption] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 1.75rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+
+  [data-blog-series-caption] h2 {
+    color: hsl(var(--ink));
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.045em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  [data-blog-series-caption] p {
+    margin-top: 0.75rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+  }
+
+  [data-blog-series-caption] :global([data-blog-series-browse]) {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    color: hsl(var(--brand));
+    cursor: pointer;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.7;
+  }
+
+  :global([data-theme='dark']) [data-blog-series-caption] :global([data-blog-series-browse]) {
+    color: hsl(var(--accent));
+  }
+
+  @container page-section (width < 34rem) {
+    [data-blog-series-caption] {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    [data-blog-series-caption] :global([data-blog-series-browse]) {
+      justify-self: start;
+    }
+  }
+</style>

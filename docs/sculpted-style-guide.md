@@ -280,6 +280,21 @@ make focus labels additional actions inside the overview link. Localize interfac
 labels, type, duration, and both destinations; preserve English authored content.
 No client JavaScript is added.
 
+### Reading caption Blog Series introduction
+
+The first Blog page introduces its Series shelf with **Reading caption**: a compact
+“Follow a series.” heading, guidance to start with article 1 or explore the complete
+reading path, and the existing Browse all series link. Use an open, ruled header
+with 1.75rem Montserrat 500 type, .8125rem guidance and link text, .75rem between
+heading and guidance, and 2rem padding above the bottom rule. The native Lumen Link
+uses the existing text-label and right ArrowExchange feedback with a 2.75rem target.
+
+Place the action beside the copy with a 1.75rem gap, then stack it below the copy
+with a 1rem gap below 34rem of section width. Localize all interface copy and the
+destination, preserve full text with enlargement, and omit the redundant eyebrow.
+Keep the Blog section order, Reading doorway cards, Series index opening, and
+individual series pages unchanged. Add no client JavaScript.
+
 ### Reading brief Series opening
 
 The Blog Series index uses **Reading brief** in both language shells. A quiet,
