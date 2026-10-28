@@ -50,7 +50,7 @@ test('topic sorting animates stable identities and retains control focus', async
   await sort.focus()
   await page.keyboard.press('Enter')
   await expect(sort).toBeFocused()
-  const sorted = await list.locator(':scope > [data-label]:not([data-ui-motion-ghost])').evaluateAll(items => items.map(item => item.getAttribute('data-label') ?? ''))
+  const sorted = await list.locator(':scope > [data-label]:not([data-ui-motion-ghost])').evaluateAll(items => items.map(item => item.getAttribute('data-name') ?? ''))
   expect(sorted).toEqual([...sorted].sort((a, b) => a.localeCompare(b)))
   await page.locator('#tag-filter').fill('accessibility')
   await expect(page.locator('#tag-filter-status')).toHaveText('1 topic found.')

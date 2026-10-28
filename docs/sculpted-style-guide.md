@@ -611,14 +611,22 @@ the heading to 1.75rem. Preserve readable complete words at enlarged text sizes,
 light/dark contrast, and a visible focus outline inset from the clipped surface.
 The blog destination stays a native link; no new client JavaScript is needed.
 
-### Compact topic cards
+### Named index topic cards
 
-Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.
-Place the name and a single readable post-count badge on the top row, followed
-by a 3px decorative meter. Use 1.25rem padding on phones and 1.375rem vertical
-with 1.5rem horizontal padding on larger screens. Remove the repeated count
-below the meter. Preserve the whole-card link, filtering, sorting, and focus outline.
-At enlarged text sizes, reduce the insets and let the badge wrap below long names.
+Topic cards use **Named index**, combining the sculpted Named topics surface with
+Reading index's simple hierarchy. Show the readable topic name, one quiet post
+count, and a right-aligned Arrow exchange. Remove hashtags, count badges, and
+relative-frequency meters. Use the shared topic-label helper; preserve original
+slugs for URLs, motion identity, and backwards-compatible search queries.
+Search also matches displayed labels, including names with spaces or punctuation.
+A–Z follows those labels; By count restores frequency order with stable slug ties.
+
+Keep the whole surface a native Lumen link with .4375rem / 1.5rem sculpted corners,
+1.375rem insets, a 1.25rem name, and a .75rem count. Hover and focus tint the surface,
+underline the name, and emphasize its border without moving the card. Use the
+shared arrow effect and reduced-motion behavior. At narrow card widths, reduce
+insets and type, and move the arrow beside the count when the title needs the full
+row. Preserve visible focus, complete words where space allows, and both themes.
 
 ### Speaking and engineering-principle cards with clear hierarchy
 
@@ -2921,7 +2929,7 @@ opening, without another section introduction or static featured-topic labels.
 Keep both navigation links native, with the shared text-link and Arrow exchange
 feedback, visible focus, and wrapping at narrow widths or enlarged text sizes.
 The total describes the complete archive; the search footer separately announces
-filtered matches. Preserve search normalization, sort order, Compact cards, the
+filtered matches. Preserve search normalization, sort order, Named index cards, the
 Catalog note empty state, statistics, metadata, and navigation lifecycle.
 
 ### Search folio Blog topics controls
@@ -2934,7 +2942,7 @@ At narrow widths, let the footer wrap and separate the joined options when neede
 keep all controls and text within the panel at enlarged text sizes.
 Preserve query normalization, both sort orders, topic links, the Catalog note empty
 state, and the existing motion and navigation lifecycle. This treatment belongs to
-the search controls; the approved Compact topic cards remain independent below it.
+the search controls; the approved Named index topic cards remain independent below it.
 
 ### Sculpted tags related-topic shortcuts
 
