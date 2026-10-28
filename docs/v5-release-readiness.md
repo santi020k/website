@@ -1393,3 +1393,48 @@ optional Workspace Organizer sitemap followed its existing unavailable-source
 skip behavior. The latest full workspace gate remains the successful
 `10c7050c` run; this follow-up uses affected checks. The next topic-card
 readability comparison remains outside the application and is not integrated.
+
+## Contact funnel and resilient WhatsApp handoff
+
+Santiago approved the complete existing `feature/v5-contact-funnel` work for local
+integration on October 28. Source `0383aaab` adds Work with me, linked services
+and evidence, homepage proof and FAQs, calendar alternatives, contact entry points,
+article newsletter placement, and optional Cloudflare Web Analytics. No analytics
+token was configured. `5af4c6c7` keeps generated Playwright review scripts in
+`.cache` out of Vitest discovery without excluding intended unit suites.
+
+The WhatsApp intake appears only after its submit handler is attached. A direct
+WhatsApp link remains usable without JavaScript or when scripts cannot execute.
+Opening WhatsApp keeps the original form and complete draft in the document;
+the native retry link follows edits to the name, company, context, and topic.
+Drafts are not saved to browser storage or site URLs. Direct visits to the retained
+handoff route make no success claim. Homepage copy restores concrete commerce,
+native-app, and developer-tool experience beside the engineering offer.
+
+Reconciliation `10745545` preserves the already-integrated Letter close newsletter
+and Topic first archive. Local v5 was fast-forwarded to that candidate after the
+integration owner's checkout became clean and idle. Both source commits are
+contained by Git ancestry; no push, remote merge, publication, or deployment ran.
+
+`pnpm run verify:fast` passed on the integrated application: workspace lint and
+Astro types with zero diagnostics, documentation and content checks, fresh resume
+PDFs, 993 unit cases, seven motion checks, all five builds, 1,288 historical pages,
+and 1,742 documents / 8,147 local targets with zero audit errors. Both resume PDFs
+were regenerated through the documented command after shared-footer changes.
+
+All 256 selected Chromium/WebKit browser cases passed, including the reruns after
+refreshing homepage baselines and restoring the repository's existing 3,000-pixel
+snapshot tolerance in the temporary test harness. The application test rules were
+not weakened. Twelve additional layout states cover both browsers and themes,
+390/1440px and 320px at 200% text, without horizontal overflow and with keyboard
+focus on retry. Matched mobile/desktop before-and-after captures use the same
+fictional visitor details and are retained outside the repository.
+
+The Chromium, WebKit, Mobile Chrome, and Mobile Safari homepage baselines were
+reviewed, refreshed, and verified by a subsequent comparison run. Firefox's existing
+baseline is retained and still needs refreshing: its local runtime exits before
+tests with `Could not find profile folder`, including after reinstalling the
+pinned Playwright Firefox build and trying a fresh temporary profile directory.
+This matches the [upstream macOS startup report](https://github.com/microsoft/playwright/issues/42768).
+Firefox verification remains an explicit environment limitation; no browser result
+or refreshed Firefox image is claimed.
