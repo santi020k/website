@@ -1,7 +1,7 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { CopyButton, Icon, Link } from '@santi020k/lumen-astro'
+import { Button, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   canonicalUrl: string | undefined
@@ -20,28 +20,22 @@ const { canonicalUrl, copyUrl } = Astro.props
   </Link>
 ) :
 (
-  <CopyButton
+  <Button
+    id="article-copy-link"
     variant="outline"
     class="article-copy-action"
     data-article-copy
-    copiedLabel="Copied! Article link copied"
-    errorLabel="Copy link failed. Select and copy the address manually."
-    label="Copy link to article"
-    value={copyUrl}
+    data-share-url={copyUrl}
+    aria-label="Copy link to article"
   >
     <span data-copy-action-content>
       <span data-copy-label>Copy link</span>
-      <span data-copy-action-icon><Icon class="size-4" data-copy-icon name="link" /></span>
+      <span data-copy-action-icon>
+        <Icon class="size-4" data-copy-icon name="link" />
+        <Icon class="hidden size-4" data-check-icon name="check" />
+      </span>
     </span>
-    <span slot="copied" data-copy-action-content>
-      <span data-copied-label>Copied!</span>
-      <span data-copy-action-icon><Icon class="size-4" name="check" /></span>
-    </span>
-    <span slot="error" data-copy-action-content>
-      <span>Copy failed</span>
-      <span data-copy-action-icon><Icon class="size-4" name="circle-alert" /></span>
-    </span>
-  </CopyButton>
+  </Button>
 )}
 </div>
 

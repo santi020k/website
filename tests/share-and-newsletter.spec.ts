@@ -391,20 +391,20 @@ test.describe('Share buttons — clipboard failure', () => {
     await page.keyboard.press('Enter')
 
     // The visible label stays short; the status region adds the recovery step.
-    await expect(label).toHaveText('Copy failed')
-    await expect(copyButton).toHaveAccessibleName('Copy failed')
+    await expect(label).toHaveText('Try again')
+    await expect(copyButton).toHaveAccessibleName('Try again')
     await expect(status).toBeEmpty()
-    await expect(copyButton).toHaveClass(/copy-failed/)
+    await expect(copyButton).toHaveAttribute('data-link-recovery-active')
     await expect(copyButton).not.toHaveClass(/(^|\s)copied(\s|$)/)
 
     await page.clock.runFor(100)
-    await expect(status).toHaveText('Copy failed. Select and copy the address manually.')
+    await expect(status).toHaveText('Copy failed. Select and copy the address below, or try again.')
 
-    // State is transient: the control returns to its idle label without announcing it.
+    // Recovery remains available after the old transient feedback period.
     await page.clock.runFor(1900)
-    await expect(label).toHaveText('Copy link')
-    await expect(status).toBeEmpty()
-    await expect(copyButton).not.toHaveClass(/copy-failed/)
+    await expect(label).toHaveText('Try again')
+    await expect(page.locator('#copy-link-btn-recovery textarea')).toBeVisible()
+    await expect(copyButton).toHaveAttribute('data-link-recovery-active')
     await expect(copyButton).toBeFocused()
   })
 })

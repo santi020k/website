@@ -103,23 +103,23 @@ for (const width of [320, 390, 1440]) {
 
           await button.focus()
           await page.keyboard.press('Enter')
-          await expect(button).toHaveText('Copy failed')
+          await expect(button).toHaveText('Try again')
           await expect(button).toBeFocused()
           // The button's changing label is not itself a live announcement.
           await expect(button.locator('#copy-label')).not.toHaveAttribute('aria-live')
           await expect(status).toHaveRole('status')
           await expect(status).toHaveAttribute('aria-live', 'polite')
           await expect(status).toHaveAttribute('aria-atomic', 'true')
-          await expect(status).toHaveText('Copy failed. Select and copy the address manually.')
+          await expect(status).toHaveText('Copy failed. Select and copy the address below, or try again.')
           await expectCopyInside(button)
           const scan = await new AxeBuilder({ page }).include('#copy-link-btn').analyze()
 
           expect(scan.violations).toEqual([])
           expect(scan.incomplete.filter(result => result.id === 'color-contrast')).toEqual([])
-          await expect(button).toHaveText('Copy link')
-          await expect(status).toBeEmpty()
+          await expect(page.locator('#copy-link-btn-recovery textarea')).toBeVisible()
+          await expect(button).toHaveText('Try again')
           await expect(button).toBeFocused()
-          await expect(button).not.toHaveClass(/copy-failed/u)
+          await expect(button).toHaveAttribute('data-link-recovery-active')
         })
 
         test('blocked comments expose readable recovery guidance without an empty widget', async ({ page }) => {

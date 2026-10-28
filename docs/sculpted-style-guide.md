@@ -1994,6 +1994,22 @@ inset and text at 18.75rem and 14rem; allow decorative arrows to wrap below a lo
 label with enlarged text. Preserve complete labels, visible keyboard outlines,
 brand/accent theme colors, and the reduced-motion entrance. This needs no new script.
 
+### Link recovery
+
+Article hero utilities and the shared closing `ShareButtons` use `LinkRecovery`
+for clipboard failures. Preserve the current button and its aligned icon; show
+Try again and a persistent margin note with a labeled, read-only Lumen Textarea
+containing the clean server-rendered permalink. Keep recovery beneath the series
+byline, below the standalone topic links, or between the closing share header and
+social destinations. Hide the panel in print and until copying fails.
+
+Focus stays on the initiating button. Tab or focus selects the address for manual
+copying; a successful retry removes the panel. Use one result announcement,
+preserve the existing delayed repeat announcement, and keep native sharing,
+cancellation, pending-operation protection, and Astro navigation cleanup. Only
+success feedback resets after two seconds. Width changes schedule field sizing
+outside ResizeObserver delivery; height changes do not trigger another resize.
+
 ### Margin imprint project header facts
 
 Project headers use one semantic description list between fine horizontal rules.
@@ -2999,10 +3015,10 @@ chooser so shared Projects, Work, and related-topic tags retain their own treatm
 - Shiki's light comments use the shared theme's `descriptionForeground` color, retaining
   their italic style. The theme's original comment color is too faint on the reading canvas.
 - The share "Link copied!" state uses a solid `brand-soft` background, with `brand` text in the
-  light theme and a contrast-adjusted `accent` for text and border in the dark theme. Success, failure, reset,
-  Web Share, and clipboard behavior are unchanged. The failed-copy state uses opaque `surface`
-  with `ink` text and a `danger` border and icon; the visible failure label supplies the meaning
-  without relying on color or translucent backgrounds.
+  light theme and a contrast-adjusted `accent` for text and border in the dark theme. The
+  Link recovery failure treatment keeps the neutral action and reveals a persistent,
+  selectable address beside a brand/accent margin rule. Native sharing and cancellation
+  remain available; only successful copy feedback resets after two seconds.
 
 ### Recovery and discussion states
 
