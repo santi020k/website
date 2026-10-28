@@ -130,10 +130,13 @@ test('keyboard reading continues from the contents into the closing flow', async
   await expect(page.locator('#series-navigation').getByRole('link').first()).toBeFocused()
   await page.getByRole('link', { name: 'Share on WhatsApp', exact: true }).focus()
   await page.keyboard.press(nextKey)
+  await expect(page.locator('#related-writing').getByRole('link').first()).toBeFocused()
+  await page.locator('[data-page-section]:has(#related-writing)').getByRole('link').last().focus()
+  await page.keyboard.press(nextKey)
   await expect(page.locator('[data-article-newsletter] input[type="email"]')).toBeFocused()
   await page.locator('[data-article-newsletter] a[href="/feed.xml"]').focus()
   await page.keyboard.press(nextKey)
-  await expect(page.locator('#related-writing').getByRole('link').first()).toBeFocused()
+  await expect(page.locator('[data-post-final-return]').getByRole('link', { name: 'Back to Blog' })).toBeFocused()
 })
 
 test('the rail boundary and section links work without JavaScript', async ({ browser }) => {

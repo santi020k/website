@@ -1985,12 +1985,23 @@ the shared components' default variants.
 ### Final return article closing links
 
 Place the existing Reader colophon Back to Blog and Back to top links after the
-optional related-writing section. The final row spans the page's content container
+optional related-writing section and newsletter. The final row spans the page's content container
 and uses the shared `ProjectFooterNav` colophon variant, with no additional card
 surface or client behavior. Keep exactly one page-end navigation landmark.
 `RelatedPosts` owns its conditional section wrapper, so an article without
-recommendations proceeds directly from sharing to the return row without an empty
+recommendations proceeds from sharing to the newsletter and return row without an empty
 section. Preserve the native `/blog/` and `#main` destinations and wrapping controls.
+
+### Reading first article newsletter placement
+
+Keep related writing immediately after the article closing, followed by the existing
+Letter folio newsletter and Final return. Readers can continue with another article
+before reaching the signup invitation. The same DOM order governs keyboard navigation
+on mobile and desktop in both locales. Reuse the current signup, spacing, copy, native
+form validation, and Privacy/RSS destinations without adding another card or disclosure.
+When no related articles exist, omit that section and place the newsletter after the
+article. When the newsletter is not configured, the return row follows related writing
+or the article directly. Related writing and the signup remain hidden in print.
 
 ### Article progress
 
