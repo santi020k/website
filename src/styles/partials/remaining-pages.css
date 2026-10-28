@@ -550,7 +550,6 @@
 /* Preserve reading space when enlarged text makes the card insets too large. */
 @container page-section (width < 20rem) {
   .remaining-pages :is([data-principle], [data-talk-card], [data-series-card], [data-speaking-community], [data-speaking-booking], [data-section-header-shelf]) { padding: 0.75rem; }
-  .remaining-pages [data-topic-card] { padding: 0.5rem; }
 }
 
 @media (width >= 64rem) {
