@@ -2058,6 +2058,15 @@ preview. Announce how to copy the selection using the keyboard or device menu;
 do not claim that manual copying has succeeded. A successful retry removes the
 recovery row. Preserve normal copying and hide the recovery row in print.
 
+Shared copy recovery extends that same component to article package-manager tabs,
+including Markdown-generated tab groups. Place its row below the tab/copy toolbar
+and above the active command, retaining the Tab folio grid at every width. Select
+only the active command, without its decorative prompt or hidden alternatives.
+Clear recovery after a successful retry or a package-manager change, including
+synchronized groups. Ignore delayed failures from hidden panels. Preserve Lumen's
+keyboard navigation, remembered selection, clipboard operation, and announcements;
+reuse the existing localized recovery copy and native Range selection.
+
 Print edition keeps the article title, description, author, publication dates,
 prose, illustrations, and complete examples in a single paper column. Preserve
 the Code folio frame, filename, syntax colors, and source line numbers; wrap long

@@ -2437,3 +2437,29 @@ remain identical and public/built artifacts match. The patch is folded into 5.0.
 with published notes preserved. Evidence: `.cache/v5-series-chapter-caption/`.
 The root full gate remains `0319556c`; this follow-up uses affected checks only.
 No push, PR, release, tag or deployment occurred.
+
+## Package-manager Shared copy recovery integration
+
+Approved source `54a1384c` is integrated over Chapter caption `3414bd50` into
+local v5. Article package-manager tabs now reuse the existing manual Select code
+fallback after clipboard failure. Selection covers only the complete active
+command; successful retries and originating/synchronized manager changes clear
+recovery. Delayed failures from hidden panels are ignored. The Tab folio reserves
+space for the fallback while preserving Lumen's keyboard, storage, scrolling and
+clipboard behavior. Existing localized strings, template, Button/Icon and public
+events are reused; no library, controller or dependency is replaced.
+
+All 70 affected Chromium/WebKit cases and 13 rendering units pass, with one worker
+and retries disabled. Cases cover denied/missing clipboard support, successful
+retry, selected/synchronized/remembered managers, delayed failures, keyboard/focus,
+Astro Back, English/Spanish, 320/768/1440px, enlarged text, axe, print and no JS.
+Current lint is clean and Astro checks 598 files without diagnostics. The 904-page
+build, 906-page OG audit, archive assembly and 926-image freshness pass. Eight
+matched metadata/tab/command contracts and 16 captures pass without overflow.
+PDFs and source metadata remain fresh and byte-identical, including built copies.
+
+The component, test and Lumen guide match source exactly. Home polish, Series
+caption, newsletter/shared catalog and the local Lighthouse correction are
+preserved. The Changeset is folded into unpublished 5.0.0; published notes remain
+unchanged. Evidence: `.cache/v5-tab-copy-recovery/`. Full root gate remains
+`0319556c`; this follow-up uses affected checks. No remote action occurred.

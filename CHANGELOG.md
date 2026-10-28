@@ -325,6 +325,8 @@
 
 ### Patch Changes
 
+- Reuse article copy recovery for package-manager tabs, with manual command selection and cleanup when the selected manager changes.
+
 - Introduce series chapters with a compact reading-order caption, short guidance,
   and a localized article count while preserving every complete chapter row.
 
