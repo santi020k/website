@@ -2285,3 +2285,33 @@ and return behavior is preserved. Changeset notes are folded into unpublished
 5.0.0 with published notes intact. This approved follow-up uses affected checks;
 the full workspace baseline remains `0319556c`. Evidence is retained in
 `.cache/v5-signup-handoff/`. No remote action occurred.
+
+## Reading brief Series opening integration
+
+Approved source `d002062f`, based on `39daef42`, is integrated over Signup handoff
+candidate `db62551d`. The Series index uses a compact native Back to blog link,
+a split introduction with two margin totals, and a short Choose a series caption.
+Both totals derive from the active published series displayed in the cards. The
+English/Spanish opening shares typed collection messages and adds no client
+JavaScript. Existing Series cards, authored content, order, article counts, native
+destinations, metadata, and detail pages are preserved. The newsletter controller
+and shared catalog remain exactly as integrated in Signup handoff.
+
+All 32 Chromium/WebKit functional cases and four desktop/mobile visual baselines
+pass with one worker and retries disabled. Coverage includes both locales/themes,
+1440/768/390px layouts, 320px at 200% text, keyboard focus, native no-JavaScript
+navigation, accessibility, card navigation, and unchanged detail headings. Eight
+matched contracts preserve metadata, structured data, card content/counts/order,
+and link destinations. Sixteen captures cover both locales/themes and desktop/
+mobile; representative English desktop and Spanish mobile results were reviewed.
+All 1,485 translation checks pass. Current lint has zero warnings, and Astro
+checks 594 files without diagnostics. The 904-page build, 906-page OG audit,
+four-archive assembly, and 926-image freshness check pass.
+
+Generated PDF conflicts were resolved by the normal generator on the combined
+source. Both PDFs match the merged fingerprint and built files, retaining all
+five page rasters. Series product/tests/snapshots match the approved source.
+Changeset notes are folded into unpublished 5.0.0 with published notes intact.
+This follow-up uses affected checks; the full workspace baseline remains
+`0319556c`. Evidence is retained in `.cache/v5-series-reading-brief/`.
+No remote action occurred.

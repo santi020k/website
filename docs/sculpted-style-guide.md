@@ -245,6 +245,28 @@ Hover changes only the title color. Preserve planned status, zero and singular a
 counts and theme contrast. When enlarged text narrows the section, tighten the insets
 and size the title to its reading column so ordinary words stay intact.
 
+### Reading brief Series opening
+
+The Blog Series index uses **Reading brief** in both language shells. A quiet,
+native Back to blog link precedes a split opening: Blog series / Follow the thread
+and its short introduction on the left, with the active-series and grouped-article
+totals in a ruled margin on the right. Derive both totals from the same active,
+published series shown in the existing cards. Replace the three separate statistic
+cards, duplicate reading-track count, and generic metadata row.
+
+Use a 2.625rem heading, .9375rem introduction at 1.8 leading, and a 12rem totals
+column separated by a 2rem gap. Totals use 2.375rem brand/accent numbers and .75rem
+labels in a semantic definition list. Below 38rem of opening width, place the
+totals in two columns beneath a top rule; below 16rem, stack them. Size the heading
+to its reading column below 26rem so enlarged text remains readable.
+
+Follow the opening after 2.25rem with a fine rule, a 1.75rem Choose a series heading,
+and concise reading guidance. Preserve Soft editorial cards, their selection,
+order, authored English content, counts, destinations, and existing responsive
+behavior. Use typed collection translations, localized native links, singular
+count labels, and the existing text-link and Arrow exchange feedback. Keep page
+metadata and series-detail pages unchanged; add no client JavaScript.
+
 ### Reading folio series cadence cards
 
 `SeriesCadenceCard` pairs a tinted Cadence header and decorative book icon with the

@@ -325,6 +325,9 @@
 
 ### Patch Changes
 
+- Give the Blog Series index a compact reading brief with localized guidance and
+  two collection-derived totals, preserving its existing series cards and links.
+
 - Explain the newsletter's Buttondown handoff before and after native signup submission in English and Spanish.
 
 - Make newsletter RSS access clearer with a canonical feed copy action and shared accessible copy recovery in both site languages.
