@@ -33,6 +33,10 @@ for (const locale of ['en', 'es'] as const) {
         await expect(page.locator('[data-series-summary]')).toHaveCount(0)
         await expect(page.getByRole('heading', { level: 1 })).toHaveAttribute('lang', 'en')
         await expect(page.locator('[data-series-entry-return]')).toHaveAttribute('href', `${prefix}/blog/series/`)
+        const chapterCaption = page.locator('[data-series-chapter-caption]')
+
+        await expect(chapterCaption.getByRole('heading', { level: 2 })).toHaveText(locale === 'es' ? 'Artículos en orden de lectura.' : 'Articles in reading order.')
+        await expect(chapterCaption.locator('[data-series-chapter-count]')).toHaveText(locale === 'es' ? `${count} artículos` : `${count} articles`)
 
         for (const [width, fontSize, stacked] of [[1440, '100%', false], [768, '100%', false], [390, '100%', true], [320, '200%', true]] as const) {
           await page.setViewportSize({ width, height: 1100 })
@@ -51,6 +55,21 @@ for (const locale of ['en', 'es'] as const) {
           })
           expect(geometry.stacked).toBe(stacked)
           expect(geometry.fits).toBe(true)
+          const caption = await chapterCaption.evaluate(element => {
+            const title = element.querySelector('h2')
+            const count = element.querySelector('[data-series-chapter-count]')
+            if (!title || !count) throw new Error('Missing chapter-list introduction')
+
+            const titleBounds = title.getBoundingClientRect()
+            const countBounds = count.getBoundingClientRect()
+
+            return {
+              fits: [...element.querySelectorAll('h2,p')].every(node => node.scrollWidth <= node.clientWidth + 1),
+              distinct: countBounds.left >= titleBounds.right || countBounds.top >= titleBounds.bottom
+            }
+          })
+          expect(caption.fits).toBe(true)
+          expect(caption.distinct).toBe(true)
           expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
         }
         expect(await chapters.getByRole('link').evaluateAll(links => links.map(link => link.getAttribute('href')))).toEqual(destinations)

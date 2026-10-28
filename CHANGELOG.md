@@ -325,6 +325,9 @@
 
 ### Patch Changes
 
+- Introduce series chapters with a compact reading-order caption, short guidance,
+  and a localized article count while preserving every complete chapter row.
+
 - Allow the local Lighthouse check to start a separate foreground preview and wait
   for its URL, preserving an existing preview and avoiding premature collection.
 

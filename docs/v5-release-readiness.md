@@ -2416,3 +2416,24 @@ The source also passed its full `verify:fast` gate: 2,663 units, seven motion ch
 all five builds and 2,194 documents / 8,619 local targets. This is source evidence;
 the root's latest full workspace baseline remains `0319556c`. Root follow-ups use
 affected checks. Evidence: `.cache/v5-home-testimonial-polish/`. No remote action.
+
+## Series Chapter caption integration
+
+Approved source `fcf3ac38` is integrated over home polish `a6e11a34` into local
+v5. The chapter-list introduction now uses a compact semantic heading, concise
+guidance, localized count, fine rule and 1.5rem gap. The opening, full chapter rows,
+reading order, authored introduction/focus and SEO metadata remain unchanged.
+The source route, collection catalog, test and generated PDFs match exactly;
+newsletter/shared catalog, home components and local Lighthouse correction are preserved.
+
+All 46 affected Chromium/WebKit cases and 1,511 focused unit tests pass, with
+one browser worker and retries disabled. Current lint is clean; Astro checks
+597 files without diagnostics. Build, 906-page OG audit, four-archive assembly,
+926-image freshness and PDF freshness pass. Twenty-four matched content/metadata/
+order/destination contracts, 48 captures and 24 normal-text axe scans pass, along
+with keyboard/native anchors, enlarged text and no-JavaScript cases. Both source
+PDFs match the combined fingerprint without regeneration; all five page rasters
+remain identical and public/built artifacts match. The patch is folded into 5.0.0
+with published notes preserved. Evidence: `.cache/v5-series-chapter-caption/`.
+The root full gate remains `0319556c`; this follow-up uses affected checks only.
+No push, PR, release, tag or deployment occurred.
