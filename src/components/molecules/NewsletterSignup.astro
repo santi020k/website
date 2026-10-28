@@ -5,10 +5,14 @@ import { Button, Card, Icon, Input, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   formAction: string
+
+  /** Distinguishes fields and headings when multiple signups share a page. */
+  idSuffix?: string
 }
 
-const { formAction } = Astro.props
-const emailId = 'newsletter-email-compact'
+const { formAction, idSuffix = 'compact' } = Astro.props
+const emailId = `newsletter-email-${idSuffix}`
+const headingId = `newsletter-heading-${idSuffix}`
 ---
 
 <Card data-newsletter variant="unstyled">
@@ -17,14 +21,14 @@ const emailId = 'newsletter-email-compact'
       <p data-newsletter-eyebrow>Newsletter</p>
       <span data-newsletter-postmark><Icon class="size-7" name="mail" /></span>
     </div>
-    <h2 id="newsletter-heading">Keep up with new writing.</h2>
+    <h2 id={headingId}>Keep up with new writing.</h2>
     <p data-newsletter-description>
       A low-volume email with new posts on software, reading, gaming, and everyday discoveries.
     </p>
   </header>
   <form
     action={formAction}
-    aria-labelledby="newsletter-heading"
+    aria-labelledby={headingId}
     method="post"
     rel="noopener noreferrer"
     target="_blank"
@@ -48,7 +52,7 @@ const emailId = 'newsletter-email-compact'
         type="submit"
       >
         <span data-newsletter-submit-content>
-          <span data-newsletter-submit-label>Get new posts</span>
+          <span data-newsletter-submit-label>Subscribe</span>
           <ArrowExchange class="size-4 shrink-0" direction="up-right" />
         </span>
       </Button>

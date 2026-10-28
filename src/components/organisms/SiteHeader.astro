@@ -84,7 +84,12 @@ const getAriaCurrent = (path: string) => getNavigationCurrent(Astro.url.pathname
         >
           Discuss a role
         </ButtonLink>
-        <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+        <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={siteConfig.contact.workWithMe}
+variant="unstyled"
+        >
           <span class="site-nav-contact-label">Let&apos;s talk</span>
           <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
         </NavigationLink>
@@ -135,7 +140,12 @@ href="/"
           <SiteSearch />
           <ThemeToggle />
           <div class="site-header-contact">
-            <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+            <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={siteConfig.contact.workWithMe}
+variant="unstyled"
+            >
               <span class="site-nav-contact-label">Let&apos;s talk</span>
               <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
@@ -191,7 +201,12 @@ href="/"
             })}
           </div>
           <div data-mobile-nav-actions>
-            <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+            <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={siteConfig.contact.workWithMe}
+variant="unstyled"
+            >
               <span class="site-nav-contact-label">Let&apos;s talk</span>
               <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>

@@ -1,0 +1,303 @@
+---
+import { getEntry } from 'astro:content'
+
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import FaqList from '@/components/molecules/FaqList.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
+import WhatsAppIntake from '@/components/molecules/WhatsAppIntake.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { getPortfolioPath } from '@/utils/links'
+
+import { Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
+
+import { testimonials } from '@/data/profile'
+import { createFaqSchema, workProcess, workWithMeFaq, workWithMeServices } from '@/data/work-with-me'
+import { createAuthorSchema, createWebsiteSchemaReference, siteConfig } from '@/site.config'
+
+const description =
+  'Invite Santiago Molina to speak, talk about an engineering role, or get help growing your team, adopting AI in engineering, and raising code quality.'
+
+const resultProjectIds = ['void', 'smith-commerce', 'optic-power'] as const
+
+const results = await Promise.all(resultProjectIds.map(async id => {
+  const project = await getEntry('project', id)
+  const metric = project?.data.impactMetrics[0]
+
+  if (!project || !metric) throw new Error(`Work with me needs a project with an impact metric: ${id}`)
+
+  return { href: getPortfolioPath(project.id), metric, title: project.data.title }
+}))
+
+const featuredTestimonials = testimonials.slice(0, 2)
+const canonicalUrl = new URL('/work-with-me/', Astro.site).href
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${canonicalUrl}#page`,
+    name: 'Work with Santiago Molina',
+    description,
+    url: canonicalUrl,
+    about: createAuthorSchema(Astro.site),
+    isPartOf: createWebsiteSchemaReference(Astro.site)
+  },
+  { '@context': 'https://schema.org', ...createFaqSchema(workWithMeFaq, canonicalUrl) }
+]
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Work with me', url: '/work-with-me/' }
+]
+---
+
+<PageLayout
+  mainClass="remaining-pages"
+  meta={{
+    breadcrumbs,
+    description,
+    seoTitle: 'Work with Santiago Molina — Talks, Roles, and Engineering Help',
+    structuredData,
+    title: 'Work with me'
+  }}
+>
+  <PageHero
+    description="I give tech talks, lead engineering teams, and help companies grow with better code quality and practical AI. Tell me what you’re working on and we’ll find the right shape."
+    eyebrow="Work with me"
+    gradientText="together."
+    metaItems={['Tech talks', 'Engineering roles', 'Teams, AI, and code quality']}
+    title="Let’s work"
+  >
+    <ButtonLink href="#start" showArrow>
+      Message me on WhatsApp
+    </ButtonLink>
+    <ButtonLink href={siteConfig.contact.calendar} newTab showArrow variant="secondary">
+      Book a call
+    </ButtonLink>
+  </PageHero>
+
+  <PageSection layout="stacked">
+    <SectionHeader
+      description="Five kinds of work, all built on the same things: shipping real products, leading teams, and making engineering easier."
+      eyebrow="Ways I can help"
+      title="Pick what fits. Or mix them."
+    />
+
+    <RevealGroup data-services stagger={60} threshold={0}>
+      {workWithMeServices.map(service => (
+        <article data-service>
+          <span data-service-icon><Icon class="size-5.5" name={service.icon} /></span>
+          <h3>{service.title}</h3>
+          <p data-service-description>{service.description}</p>
+          <ul>
+            {service.examples.map(example => <li><Icon class="size-4 shrink-0" name="check" />{example}</li>)}
+          </ul>
+          <Link data-service-proof href={service.proof.href} variant="inherit">
+            <span>{service.proof.label}</span><ArrowExchange class="shrink-0" direction="right" size="sm" />
+          </Link>
+        </article>
+      ))}
+    </RevealGroup>
+  </PageSection>
+
+  <PageSection layout="stacked">
+    <SectionHeader
+      description="A few results from client work. Each case study explains the problem, the decisions, and how the result was measured."
+      eyebrow="Proof"
+      linkHref="/portfolio/"
+      linkLabel="Read the case studies"
+      title="Results teams can feel."
+    />
+    <ul data-results>
+      {results.map(result => (
+        <li>
+          <a data-result href={result.href}>
+            <span data-result-metric>{result.metric}</span>
+            <span data-result-project>{result.title}<ArrowExchange
+class="shrink-0"
+direction="right"
+size="sm"
+                                                    /></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </PageSection>
+
+  <PageSection layout="stacked">
+    <SectionHeader
+      id="start"
+      description="WhatsApp is the fastest way to reach me. If you’d rather talk first, book a call."
+      eyebrow="Start a conversation"
+      title="One message is enough."
+    />
+
+    <div data-start-grid>
+      <WhatsAppIntake />
+
+      <aside aria-label="Other ways to reach me" data-start-aside>
+        <ol data-process>
+          {workProcess.map((step, index) => (
+            <li>
+              <span data-process-number aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div data-channels>
+          <p data-channels-label>Prefer another channel?</p>
+          <a data-channel href={siteConfig.contact.calendar} rel="noopener noreferrer" target="_blank">
+            <Icon class="size-5 shrink-0" name="calendar-days" />
+            <span><strong>Book a call</strong><span>Pick a time on my calendar</span></span>
+            <ArrowExchange class="shrink-0" direction="up-right" size="sm" />
+          </a>
+          <a data-channel href={`mailto:${siteConfig.contact.email}`}>
+            <Icon class="size-5 shrink-0" name="mail" />
+            <span><strong>Email</strong><span>{siteConfig.contact.email}</span></span>
+            <ArrowExchange class="shrink-0" direction="up-right" size="sm" />
+          </a>
+          <a data-channel href={siteConfig.contact.linkedin} rel="noopener noreferrer" target="_blank">
+            <Icon class="size-5 shrink-0" name="briefcase-business" />
+            <span><strong>LinkedIn</strong><span>For recruiters and fuller briefs</span></span>
+            <ArrowExchange class="shrink-0" direction="up-right" size="sm" />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </PageSection>
+
+  <PageSection layout="stacked">
+    <SectionHeader
+      description="From people I’ve managed, worked beside, and built for."
+      eyebrow="In their words"
+      linkHref="/about/#about-recommendations"
+      linkLabel="Read more recommendations"
+      title="What working together is like."
+    />
+    <div data-work-testimonials>
+      {featuredTestimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
+        <TestimonialCard authorName={name} avatarInitials={avatarInitials} avatarUrl={avatarUrl} quote={quote} relationship={relationship} role={role} />
+      ))}
+    </div>
+  </PageSection>
+
+  <PageSection layout="stacked">
+    <SectionHeader
+      description="Still unsure? These are the questions people usually ask first."
+      eyebrow="FAQ"
+      title="Before you write."
+    />
+    <FaqList items={workWithMeFaq} />
+  </PageSection>
+</PageLayout>
+
+<style>
+  [data-services] {
+    --service-accent: var(--brand);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr));
+    gap: 1.25rem;
+  }
+  :global(:root[data-theme='dark']) [data-services], :global(:root[data-theme='dark']) [data-results], :global(:root[data-theme='dark']) [data-start-grid] { --service-accent: var(--accent); }
+  [data-service] {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.625rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+    background: hsl(var(--surface));
+    overflow-wrap: anywhere;
+  }
+  [data-service-icon] { display: grid; width: 2.75rem; height: 2.75rem; place-items: center; border-radius: 0.875rem; background: hsl(var(--brand-soft)); color: hsl(var(--service-accent)); }
+  [data-service] h3 { margin: 0; color: hsl(var(--ink)); font-size: 1.3125rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.04em; }
+  [data-service-description] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
+  [data-service] ul { display: grid; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+  [data-service] li { display: flex; align-items: start; gap: 0.5rem; color: hsl(var(--ink)); font-size: 0.8125rem; line-height: 1.6; }
+  [data-service] li :global(svg) { margin-top: 0.15rem; color: hsl(var(--service-accent)); }
+  [data-service-proof][data-slot='link'] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid hsl(var(--line));
+    color: hsl(var(--service-accent));
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  [data-service-proof]:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.25em; }
+
+  [data-results] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+  [data-results] li { min-width: 0; }
+  [data-result] {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 0 0;
+    border-top: 2px solid hsl(var(--service-accent));
+    color: hsl(var(--ink));
+    text-decoration: none;
+  }
+  [data-result-metric] { font-size: 1.5rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.045em; overflow-wrap: anywhere; }
+  [data-result-project] { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.8125rem; font-weight: 500; }
+  [data-result]:is(:hover, :focus-visible) [data-result-project] { color: hsl(var(--service-accent)); text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-result]:focus-visible { outline: 2px solid hsl(var(--service-accent)); outline-offset: 0.375rem; }
+
+  [data-start-grid] { container: start-grid / inline-size; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: start; gap: 2rem; }
+  [data-start-aside] { display: grid; min-width: 0; gap: 2rem; }
+  [data-process] { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+  [data-process] li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.75rem; padding-block: 1.125rem; border-top: 1px solid hsl(var(--line)); }
+  [data-process] li:last-child { border-bottom: 1px solid hsl(var(--line)); }
+  [data-process-number] { color: hsl(var(--service-accent)); font-size: 0.6875rem; font-variant-numeric: tabular-nums; letter-spacing: 0.08em; line-height: 2.2; }
+  [data-process] h3 { margin: 0; color: hsl(var(--ink)); font-size: 1rem; font-weight: 600; line-height: 1.6; letter-spacing: -0.02em; }
+  [data-process] p { margin: 0.25rem 0 0; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
+  [data-channels] { display: grid; gap: 0.625rem; }
+  [data-channels-label] { margin: 0 0 0.25rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-channel] {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.875rem;
+    min-height: 3.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1rem;
+    color: hsl(var(--ink));
+    text-decoration: none;
+    transition: border-color 160ms ease, background-color 160ms ease;
+  }
+  [data-channel] > span { display: flex; min-width: 0; flex-direction: column; }
+  [data-channel] strong { font-size: 0.875rem; font-weight: 600; }
+  [data-channel] > span > span { color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.6; overflow-wrap: anywhere; }
+  [data-channel] :global(svg) { color: hsl(var(--service-accent)); }
+  [data-channel]:hover { border-color: hsl(var(--service-accent) / 0.6); background: hsl(var(--brand-soft) / 0.6); }
+  [data-channel]:focus-visible { outline: 2px solid hsl(var(--service-accent)); outline-offset: 2px; }
+
+  [data-work-testimonials] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-channel] { transition: none; }
+  }
+  @media (max-width: 63.99rem) {
+    [data-start-grid] { grid-template-columns: minmax(0, 1fr); }
+    [data-work-testimonials] { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 47.99rem) {
+    [data-results] { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

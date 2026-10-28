@@ -8,6 +8,8 @@
 
 ### Minor Changes
 
+- Add a Work with me contact page with topic-based WhatsApp drafts, calendar and email alternatives, linked proof, testimonials, and FAQs. Keep complete drafts editable and retryable on the page, and offer a direct WhatsApp link when JavaScript is unavailable. Connect homepage, header, footer, Speaking, and article newsletter entry points; add optional Cloudflare Web Analytics without enabling a token.
+
 - Align shared arrow-button labels and trailing icons consistently, keeping long labels beside their arrows and preserving compact desktop actions and existing motion.
 
 - Carry readable topic names into archive headings and metadata, with a concise post-count introduction and unchanged archive URLs and pagination.
@@ -307,6 +309,8 @@
 - Organize article opening references into a shared Reference ledger and connect the Supabase article to its related ESLint series with the same accessible treatment. Preserve authored destinations and reuse the existing series navigation for a single onward chapter action.
 
 ### Patch Changes
+
+- Bring topic search closer to a single Blog Topics introduction with a live archive count and reading paths.
 
 - Unify the Blog newsletter ending into one Letter close invitation with a clear heading, topic description, and existing native signup form.
 

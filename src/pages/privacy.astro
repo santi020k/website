@@ -13,7 +13,7 @@ const description =
   'How santi020k.com stores preferences, recent searches, offline pages, and data sent to third-party services.'
 
 /** Single source of truth for the review date shown in the hero and the footnote. */
-const lastReviewed = 'October 23, 2026'
+const lastReviewed = 'October 28, 2026'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -36,8 +36,12 @@ const sections = [
     body: 'Theme preference and recent site-search terms are stored in localStorage on your device. The service worker may also keep previously visited pages and assets in Cache Storage for offline access. Saved responses can retain their original URL, including search terms. Clearing this site’s browser data removes both.'
   },
   {
-    label: 'Hosting analytics',
-    body: 'Cloudflare provides aggregate server-side traffic and performance metrics as the site host. This site sends no first-party analytics beacon and sets no analytics cookies.'
+    label: 'Analytics',
+    body: 'Cloudflare hosts the site and provides aggregate traffic metrics. When enabled, Cloudflare Web Analytics counts visits and page performance without cookies, local storage, or fingerprinting, and does not track you across sites.'
+  },
+  {
+    label: 'Contact form',
+    body: 'The Work with me form writes a WhatsApp message in your browser and opens WhatsApp; nothing you type is sent to this site. Your draft stays in the open form so you can edit or retry it; it is not saved to browser storage or this site’s URLs. WhatsApp applies its own privacy terms to the conversation.'
   },
   {
     label: 'Third-party services',

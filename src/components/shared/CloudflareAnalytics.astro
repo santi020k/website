@@ -1,0 +1,11 @@
+---
+interface Props {
+
+  /** Serialized `data-cf-beacon` settings: the site token plus SPA tracking. */
+  config: string
+}
+
+const { config } = Astro.props
+---
+
+<script data-cf-beacon={config} defer is:inline src="https://static.cloudflareinsights.com/beacon.min.js"></script>

@@ -1,0 +1,78 @@
+---
+import { Icon } from '@santi020k/lumen-astro'
+
+import type { FaqItem } from '@/data/work-with-me'
+
+interface Props {
+  items: FaqItem[]
+}
+
+const { items } = Astro.props
+---
+
+<div data-faq-list>
+  {items.map(({ answer, question }, index) => (
+    <details data-faq-item open={index === 0}>
+      <summary>
+        <span data-faq-number aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        <span data-faq-question>{question}</span>
+        <span data-faq-icon><Icon class="size-4.5" name="plus" /></span>
+      </summary>
+      <p data-faq-answer>{answer}</p>
+    </details>
+  ))}
+</div>
+
+<style>
+  [data-faq-list] {
+    --faq-accent: var(--brand);
+    container: faq-list / inline-size;
+    min-width: 0;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  :global(:root[data-theme='dark']) [data-faq-list] { --faq-accent: var(--accent); }
+  [data-faq-item] { border-top: 1px solid hsl(var(--line)); }
+  summary {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    min-height: 4.5rem;
+    padding-block: 1rem;
+    color: hsl(var(--ink));
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:focus-visible { outline: 2px solid hsl(var(--faq-accent)); outline-offset: 0.25rem; border-radius: 0.25rem; }
+  [data-faq-number] { color: hsl(var(--faq-accent)); font-size: 0.6875rem; font-variant-numeric: tabular-nums; letter-spacing: 0.08em; }
+  [data-faq-question] { font-size: 1.0625rem; font-weight: 500; line-height: 1.5; letter-spacing: -0.03em; overflow-wrap: anywhere; }
+  [data-faq-icon] {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border: 1px solid hsl(var(--line));
+    border-radius: 999px;
+    color: hsl(var(--ink));
+    transition: transform 200ms ease, background-color 200ms ease;
+  }
+  summary:hover [data-faq-icon] { background: hsl(var(--brand-soft)); }
+  [data-faq-item][open] [data-faq-icon] { transform: rotate(45deg); }
+  [data-faq-answer] {
+    max-width: 42rem;
+    margin: 0;
+    padding: 0 3.25rem 1.5rem 3.5rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.9375rem;
+    line-height: 1.9;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-faq-icon] { transition: none; }
+  }
+  @container faq-list (width < 30rem) {
+    summary { grid-template-columns: minmax(0, 1fr) auto; }
+    [data-faq-number] { display: none; }
+    [data-faq-answer] { padding: 0 0 1.25rem; }
+  }
+</style>

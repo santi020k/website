@@ -7,6 +7,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TalkCard from '@/components/molecules/TalkCard.astro'
+import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import SpeakingHero from '@/components/pages/speaking/SpeakingHero.astro'
@@ -19,7 +20,7 @@ import { getPortfolioPath } from '@/utils/links'
 
 import { Card, Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
 
-import { speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
+import { speakingFormats, speakingHighlights, speakingTopics, testimonials } from '@/data/profile'
 import {
   AUTHOR_JOB_TITLE,
   createAuthorSchema,
@@ -64,6 +65,9 @@ const speakerPortraitImage = await getImage({
   src: SpeakerPortrait,
   widths: [336, 384, 672, 768]
 })
+
+// Recommendations that speak to explaining ideas and sharing knowledge, the core of a good talk.
+const speakingTestimonials = testimonials.filter(({ name }) => name === 'Raphael Drummond' || name === 'David Delgado')
 
 const bookingNotes = [
   {
@@ -295,9 +299,24 @@ mainClass="remaining-pages"
     </PageSection>
   )}
 
+  <PageSection layout="stacked">
+    <SectionHeader
+      description="Clear explanations and generous knowledge sharing, in the words of people I’ve worked with."
+      eyebrow="In their words"
+      linkHref="/about/#about-recommendations"
+      linkLabel="Read more recommendations"
+      title="Complex ideas, explained clearly."
+    />
+    <div data-speaking-testimonials>
+      {speakingTestimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
+        <TestimonialCard authorName={name} avatarInitials={avatarInitials} avatarUrl={avatarUrl} quote={quote} relationship={relationship} role={role} />
+      ))}
+    </div>
+  </PageSection>
+
   <PageSection>
     <SectionHeader
-      description="Share a little context and I can suggest the right shape for the session. WhatsApp is fastest for a short introduction; LinkedIn works well for a fuller brief."
+      description="Share a little context and I can suggest the right shape for the session. WhatsApp is fastest for a short introduction; a call works when there’s more to discuss."
       eyebrow="Booking"
       title="Bring the audience. I’ll shape the session."
     />
@@ -328,9 +347,12 @@ class="size-6.5"
               </ButtonLink>
             </div>
             <div data-invitation-secondary>
-              <p data-invitation-channel-label>Prefer a fuller brief?</p>
+              <p data-invitation-channel-label>Rather talk it through?</p>
+              <Link data-invitation-link href={siteConfig.contact.calendar} newTab variant="inherit">
+                <span>Book a call</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
+              </Link>
               <Link data-invitation-link href={siteConfig.contact.linkedin} newTab variant="inherit">
-                <span>Connect on LinkedIn</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
+                <span>Send a fuller brief on LinkedIn</span><ArrowExchange data-invitation-link-icon direction="up-right" size="sm" />
               </Link>
             </div>
           </div>
@@ -511,7 +533,11 @@ class="size-6.5"
 
   [data-invitation-action] { width: 100%; max-width: 100%; margin-top: auto; }
   [data-speaking-invitation] [data-invitation-channel-label] { margin-bottom: 0.5rem; font-size: 0.6875rem; line-height: 1.8; }
-  [data-invitation-secondary] { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid hsl(var(--line)); }
+  [data-invitation-secondary] { display: grid; gap: 0.25rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid hsl(var(--line)); }
+  [data-speaking-testimonials] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  @media (max-width: 63.99rem) {
+    [data-speaking-testimonials] { grid-template-columns: minmax(0, 1fr); }
+  }
   [data-invitation-link] { display: flex; min-height: 2.75rem; align-items: center; justify-content: space-between; gap: 0.75rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; line-height: 1.8; text-decoration: none; }
   [data-invitation-link] span { min-width: 0; overflow-wrap: anywhere; }
   [data-invitation-link] :global([data-invitation-link-icon]) { flex-shrink: 0; color: hsl(var(--brand)); }

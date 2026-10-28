@@ -17,10 +17,13 @@ const { variant = 'default' } = Astro.props
 const year = new Date().getFullYear()
 const currentPath = Astro.url.pathname
 
-const navLinks = menuLinks.map(link => ({
-  ...link,
-  title: link.path === '/speaking/' ? 'Speaking' : link.title
-}))
+const navLinks = [
+  ...menuLinks.map(link => ({
+    ...link,
+    title: link.path === '/speaking/' ? 'Speaking' : link.title
+  })),
+  { path: siteConfig.contact.workWithMe, title: 'Work with me' }
+]
 
 const resourceLinks = [
   { path: '/history/', title: 'Website history' },
@@ -41,18 +44,24 @@ const activePath = [...navLinks, ...resourceLinks]
         <div class="maker-footer-intro">
           <p class="maker-footer-label"><span class="maker-hero-signal" aria-hidden="true"></span><span>Good things start with a conversation</span></p>
           <h2 id="footer-heading">Let’s build <span>something useful.</span></h2>
-          <p class="maker-footer-description">Tell me about an engineering role, a product collaboration, or a speaking invitation.</p>
+          <p class="maker-footer-description">Invite me to give a talk, tell me about an engineering role, or let’s grow your team with better code quality and practical AI.</p>
         </div>
         <div class="maker-footer-contact">
           <div class="maker-footer-action-sheet">
-            <ButtonLink class="maker-footer-action" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+            <ButtonLink class="maker-footer-action" href={`${siteConfig.contact.workWithMe}#start`} variant="unstyled">
               <ArrowExchange
 direction="up-right"
 class="maker-footer-action-arrow"
               />
-              <span class="maker-footer-action-copy"><span>Let’s talk</span><span>Start a conversation on WhatsApp</span></span>
+              <span class="maker-footer-action-copy"><span>Let’s talk</span><span>Pick a topic and message me on WhatsApp</span></span>
             </ButtonLink>
           </div>
+          <a class="maker-footer-email" href={siteConfig.contact.calendar} rel="noopener noreferrer" target="_blank">
+            <span><span>Rather talk first?</span><span>Book a call</span></span><ArrowExchange
+class="maker-footer-email-arrow"
+direction="up-right"
+                                                                                />
+          </a>
           <a class="maker-footer-email" href={`mailto:${siteConfig.contact.email}`}>
             <span><span>Prefer email?</span><span>{siteConfig.contact.email}</span></span><ArrowExchange
 class="maker-footer-email-arrow"

@@ -1,9 +1,6 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -32,27 +29,24 @@ mainClass="remaining-pages"
     title: 'Blog Topics'
   }}
 >
-  <PageHero
-    description="Browse the archive by recurring topics so related posts are easier to find without hunting through the full feed."
-    eyebrow="Topics"
-    gradientText="Find related writing fast."
-    metaItems={['Architecture', 'Automation', 'Developer experience']}
-    title="Browse by topic."
-  >
-    <ButtonLink href="/blog/" showArrow variant="secondary">
-      Back to blog
-    </ButtonLink>
-    <ButtonLink href="/blog/series/" showArrow variant="secondary">
-      Browse series
-    </ButtonLink>
-  </PageHero>
-
-  <PageSection layout="stacked">
-    <SectionHeader
-      description="Each topic opens a filtered archive page with the related posts."
-      eyebrow="All topics"
-      title="Recurring themes across the archive."
-    />
+  <section aria-labelledby="topic-index-heading" class="section-container-wide" data-topic-catalog>
+    <header data-topic-opening>
+      <div data-topic-opening-topline>
+        <Link data-text-link data-topic-return href="/blog/" variant="inherit">
+          <ArrowExchange class="size-4 shrink-0" direction="left" />
+          <span data-text-link-label>Back to blog</span>
+        </Link>
+        <p class="section-label" data-topic-total>{allTags.length} {allTags.length === 1 ? 'topic' : 'topics'}</p>
+      </div>
+      <h1 id="topic-index-heading">Browse by topic.</h1>
+      <p data-topic-opening-description>
+        Find related writing on software, reading, gaming, and everyday discoveries.
+      </p>
+      <Link data-text-link data-topic-series href="/blog/series/" variant="inherit">
+        <span data-text-link-label>Prefer a connected reading path?</span>
+        <ArrowExchange class="size-4 shrink-0" direction="right" />
+      </Link>
+    </header>
 
     <div class="space-y-4" data-topic-index>
       <Card data-topic-search-folio variant="unstyled">
@@ -159,7 +153,7 @@ mainClass="remaining-pages"
         hidden
       >
         <span data-topic-empty-icon><Icon class="size-5.5" name="search-x" /></span>
-        <h3 id="topic-empty-heading">No topics match that search.</h3>
+        <h2 id="topic-empty-heading">No topics match that search.</h2>
       </section>
     </div>
 
@@ -226,7 +220,7 @@ mainClass="remaining-pages"
 
       document.addEventListener('astro:page-load', setupTopicIndex)
     </script>
-  </PageSection>
+  </section>
 
   <StatsGrid columns={3}>
     <StatCard description="Distinct recurring topics across the current writing archive." icon="hash" label="Topics" value={allTags.length} />
@@ -236,6 +230,50 @@ mainClass="remaining-pages"
 </PageLayout>
 
 <style>
+  [data-topic-opening] { container: topic-opening / inline-size; margin-bottom: 1.75rem; }
+  [data-topic-opening-topline] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem 1.5rem;
+    padding-bottom: .875rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  :global([data-topic-return]), :global([data-topic-series]) {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: 2.75rem;
+    max-width: 100%;
+    font-size: .8125rem;
+    line-height: 1.7;
+  }
+  :global([data-topic-return]) { color: hsl(var(--ink-soft)); }
+  [data-topic-total] { margin: 0; }
+  [data-topic-opening] h1 {
+    max-width: 22ch;
+    margin: 2rem 0 0;
+    color: hsl(var(--ink));
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -.055em;
+    overflow-wrap: anywhere;
+  }
+  [data-topic-opening-description] {
+    max-width: 50ch;
+    margin: 1.5rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .9375rem;
+    line-height: 1.85;
+  }
+  :global([data-topic-series]) { margin-top: .875rem; color: hsl(var(--brand)); }
+  :global([data-theme='dark'] [data-topic-series]) { color: hsl(var(--accent)); }
+  @container topic-opening (width < 18rem) {
+    [data-topic-opening] h1 { font-size: 2rem; }
+  }
+
   [data-topic-index] { container: topic-index / inline-size; }
   :global(.remaining-pages [data-topic-search-folio][data-slot='card']) {
     --topic-search-accent: hsl(var(--brand));
@@ -383,7 +421,7 @@ mainClass="remaining-pages"
     color: hsl(var(--brand));
   }
   :global([data-theme='dark']) [data-topic-empty-icon] { color: hsl(var(--accent)); }
-  [data-tags-empty] h3 {
+  [data-tags-empty] h2 {
     margin: 0;
     color: hsl(var(--ink));
     font-size: 1.5rem;
@@ -395,7 +433,7 @@ mainClass="remaining-pages"
   @container topic-index (width < 32rem) {
     [data-tags-empty] { padding-block: 1.5rem; }
     [data-tags-empty]:not([hidden]) { gap: 1rem; }
-    [data-tags-empty] h3 { font-size: 1.375rem; }
+    [data-tags-empty] h2 { font-size: 1.375rem; }
   }
   @container topic-index (width < 18rem) {
     [data-tags-empty]:not([hidden]) { grid-template-columns: minmax(0, 1fr); }

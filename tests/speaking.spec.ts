@@ -70,7 +70,7 @@ test.describe('Speaking page', () => {
       const hero = page.locator('[data-speaking-hero]')
       const invitation = hero.getByRole('link', { name: 'Plan a session', exact: true })
       await expect(hero.getByRole('link')).toHaveCount(1)
-      await expect(hero).toContainText('Start with the brief, then choose WhatsApp or LinkedIn.')
+      await expect(hero).toContainText('Start with the brief, then message me on WhatsApp or book a call.')
       await expect(invitation).toHaveAttribute('href', '#speaking-booking-heading')
       await expect(invitation).not.toHaveAttribute('target', '_blank')
       const originalDocument = await page.evaluateHandle(() => document)
@@ -89,7 +89,7 @@ test.describe('Speaking page', () => {
   }
 
   test('should link to LinkedIn', async ({ page }) => {
-    const linkedInLink = page.getByRole('link', { name: /Connect on LinkedIn/i })
+    const linkedInLink = page.getByRole('link', { name: /on LinkedIn/i })
     await expect(linkedInLink.first()).toBeVisible()
     await expect(linkedInLink.first()).toHaveAttribute('href', /linkedin/)
   })
@@ -117,14 +117,14 @@ test.describe('Speaking page', () => {
     }
 
     await expect(booking).toContainText('For a quick introduction')
-    await expect(booking).toContainText('Prefer a fuller brief?')
+    await expect(booking).toContainText('Rather talk it through?')
     const contact = booking.getByRole('link', { name: 'Message on WhatsApp' })
     const href = await contact.getAttribute('href')
     expect(href).not.toBeNull()
     const destination = new URL(href ?? '')
-    expect(destination.origin).toBe('https://api.whatsapp.com')
-    expect(destination.pathname).toBe('/send')
-    expect(destination.searchParams.get('text')).toContain('Event: Audience: Date: Format: Goal:')
+    expect(destination.origin).toBe('https://wa.me')
+    expect(destination.pathname).toBe('/573507990136')
+    expect(destination.searchParams.get('text')).toContain('Event and date:')
     await expect(contact).toHaveAttribute('target', '_blank')
     await expect(contact).toHaveAttribute('rel', /\bnoopener\b/)
     await expect(contact).toHaveAttribute('rel', /\bnoreferrer\b/)
@@ -132,11 +132,18 @@ test.describe('Speaking page', () => {
     await expect(contact).toBeFocused()
     await expect(contact).toHaveCSS('outline-style', 'solid')
 
-    const linkedIn = booking.getByRole('link', { name: 'Connect on LinkedIn', exact: true })
+    const calendar = booking.getByRole('link', { name: 'Book a call', exact: true })
+    await expect(calendar).toHaveAttribute('href', 'https://calendar.app.google/pQyPiv1yMViZUEcj8')
+    await expect(calendar).toHaveAttribute('target', '_blank')
+    await expect(calendar).toHaveAttribute('rel', /\bnoopener\b/)
+
+    const linkedIn = booking.getByRole('link', { name: 'Send a fuller brief on LinkedIn', exact: true })
     await expect(linkedIn).toHaveAttribute('href', 'https://linkedin.com/in/santi020k')
     await expect(linkedIn).toHaveAttribute('target', '_blank')
     await expect(linkedIn).toHaveAttribute('rel', /\bnoopener\b/)
     await expect(linkedIn).toHaveAttribute('rel', /\bnoreferrer\b/)
+    await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+    await expect(calendar).toBeFocused()
     await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
     await expect(linkedIn).toBeFocused()
     await expect(linkedIn).toHaveCSS('outline-style', 'solid')

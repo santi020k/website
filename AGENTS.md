@@ -17,7 +17,7 @@ the repository root. See `docs/v5-release-readiness.md` for scope and gates.
 - **Styling**: Tailwind CSS v4 — configured via `src/styles/global.css` `@theme` block (no `tailwind.config.js`)
 - **Language**: TypeScript (strict)
 - **Deployment**: Static output (`dist/`); configure redirects and headers at your CDN or host (`docs/deployment.md`)
-- **Analytics**: None bundled; Lighthouse CI covers lab performance in `pnpm run ci:verify`
+- **Analytics**: Optional Cloudflare Web Analytics when `CLOUDFLARE_WEB_ANALYTICS_TOKEN` is configured; Lighthouse CI covers lab performance in `pnpm run ci:verify`
 - **Testing**: Vitest (unit) + Playwright (E2E)
 - **Linting**: ESLint with `@santi020k/eslint-config-*` packages
 - **Commits**: Conventional Commits (Commitprompt + quality hooks + lint-staged)

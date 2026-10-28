@@ -9,6 +9,7 @@ import { ButtonLink, Icon } from '@santi020k/lumen-astro'
 
 import LumenLogo from '@/content/project/lumen-ui/logo.webp'
 import PostLensLogo from '@/content/project/postlens/logo.webp'
+import { siteConfig } from '@/site.config'
 ---
 
 <section class="signature-frame maker-hero" aria-labelledby="home-heading" data-home-hero>
@@ -26,15 +27,15 @@ import PostLensLogo from '@/content/project/postlens/logo.webp'
       <p class="maker-hero-description">
         Engineering lead and creator of{' '}
         <span class="whitespace-nowrap">Lumen UI</span>.
-        I build commerce platforms, native apps, and developer tools.
+        I build commerce platforms, native apps, and developer tools, and help teams ship with better code and practical AI.
       </p>
       <div class="maker-hero-actions">
-        <ButtonLink class="maker-hero-primary" href="/portfolio/" variant="unstyled">
-          See selected work
+        <ButtonLink class="maker-hero-primary" href={siteConfig.contact.workWithMe} variant="unstyled">
+          Work with me
           <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange /></span>
         </ButtonLink>
-        <ButtonLink class="maker-hero-secondary" data-text-link href="/about/" variant="unstyled">
-          <span data-text-link-label>About me</span> <ArrowExchange direction="right" />
+        <ButtonLink class="maker-hero-secondary" data-text-link href="/portfolio/" variant="unstyled">
+          <span data-text-link-label>See selected work</span> <ArrowExchange direction="right" />
         </ButtonLink>
       </div>
     </div>

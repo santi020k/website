@@ -38,7 +38,8 @@ export default defineConfig({
     environment: 'jsdom',
     pool: 'vmThreads',
     setupFiles: ['./src/test-setup.ts'],
-    exclude: ['**/node_modules/**', '**/tests/**', '**/dist/**'],
+    // Generated review scripts can use Playwright and are not Vitest suites.
+    exclude: ['**/node_modules/**', '**/tests/**', '**/dist/**', '**/.cache/**'],
     alias: {
       '@': path.resolve(import.meta.dirname, './src')
     },

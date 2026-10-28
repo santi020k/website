@@ -121,7 +121,8 @@ for (const example of [
 
     expect(await finalReturn.evaluate((element, hasRecommendations) => {
       const previous = element.previousElementSibling
-      return hasRecommendations ? Boolean(previous?.querySelector('#related-writing')) : previous?.matches('article')
+      // Without recommendations, the newsletter invitation sits between the article and the final return.
+      return hasRecommendations ? Boolean(previous?.querySelector('#related-writing')) : previous?.matches('article, [data-article-newsletter]')
     }, example.hasRecommendations)).toBe(true)
     await expect(page.getByRole('navigation', { name: 'Page-end navigation' })).toHaveCount(1)
     await finalReturn.getByRole('link', { name: 'Back to top' }).press('Enter')

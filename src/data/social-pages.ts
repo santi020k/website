@@ -91,6 +91,19 @@ export const staticSocialPages: SocialPageDefinition[] = [
     type: 'Technology'
   },
   {
+    description:
+      'Invite Santiago Molina to speak, talk about an engineering role, or get help growing your team, adopting AI in engineering, and raising code quality.',
+    pathname: '/work-with-me/',
+    title: 'Work with me',
+    type: 'Contact'
+  },
+  {
+    description: 'Write a message to Santiago Molina or choose another way to get in touch.',
+    pathname: '/work-with-me/sent/',
+    title: 'Start a conversation',
+    type: 'Status'
+  },
+  {
     description: 'Offline fallback page for the santi020k portfolio and blog.',
     pathname: '/offline/',
     title: 'Offline',

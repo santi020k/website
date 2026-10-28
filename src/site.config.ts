@@ -6,29 +6,33 @@ export const WRITING_START_YEAR = 2017
 const whatsappPhone = '573507990136'
 
 export const whatsappMessages = {
-  default:
-    'Hi Santiago, I found your website and would like to talk about a role, project, or technical collaboration. Here is a bit of context:',
-  speaking:
-    'Hi Santiago, I found your speaking page and would like to invite you to a talk or workshop. Event: Audience: Date: Format: Goal:'
+  default: 'Hi Santiago, I found your website and I’d like to talk about',
+  speaking: 'Hi Santiago, I found your speaking page and I’d like to invite you to a talk or workshop. Event and date:'
 } as const
 
+/**
+ * `wa.me` is WhatsApp's official click-to-chat link. It opens the app directly on phones and
+ * offers WhatsApp Web or the desktop app on computers, without the extra api.whatsapp.com hop.
+ */
 export const createWhatsAppHref = (message: string = whatsappMessages.default) => {
   const text = encodeURIComponent(message)
 
-  return `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${text}`
+  return `https://wa.me/${whatsappPhone}?text=${text}`
 }
 
 export const siteConfig: SiteConfig = {
   author: 'Santiago Molina',
   availability: 'Available for tech lead, staff-level full-stack, and engineering leadership roles',
   contact: {
+    calendar: 'https://calendar.app.google/pQyPiv1yMViZUEcj8',
     email: 'hi@santi020k.com',
     github: 'https://github.com/santi020k',
     linkedin: 'https://linkedin.com/in/santi020k',
     medium: 'https://medium.com/@santi020k',
     resume: '/resume/',
     whatsapp: createWhatsAppHref(),
-    whatsappPhone
+    whatsappPhone,
+    workWithMe: '/work-with-me/'
   },
   date: {
     locale: 'en-US',

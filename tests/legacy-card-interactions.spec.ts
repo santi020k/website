@@ -56,7 +56,7 @@ const hoverAppearance = (card: Locator) => card.evaluate(element => [
 }))
 
 const expectNewsletterLayout = async (newsletter: Locator, stacked: boolean) => {
-  const button = newsletter.getByRole('button', { name: 'Get new posts' })
+  const button = newsletter.getByRole('button', { name: 'Subscribe' })
   // Native focus can still be scrolling; read all boxes in the same frame.
   const { field, action, controls } = await newsletter.evaluate(element => {
     const input = element.querySelector('input[type="email"]')
@@ -153,7 +153,7 @@ for (const width of [390, 1440]) {
           }
           const newsletter = page.locator('[data-newsletter]')
           const email = newsletter.getByRole('textbox', { name: 'Email address' })
-          const button = newsletter.getByRole('button', { name: 'Get new posts' })
+          const button = newsletter.getByRole('button', { name: 'Subscribe' })
 
           await expectWholeWords(newsletter.getByRole('heading', { level: 2 }))
           await page.keyboard.press('Tab')
@@ -227,7 +227,7 @@ test('newsletter submit label stays inside the button at 320px with enlarged tex
   await page.goto('/blog/')
   await page.evaluate(() => document.fonts.ready)
   const newsletter = page.locator('[data-newsletter]')
-  const button = newsletter.getByRole('button', { name: 'Get new posts' })
+  const button = newsletter.getByRole('button', { name: 'Subscribe' })
 
   await expectNewsletterLayout(newsletter, true)
   const fits = await button.evaluate(element => {
