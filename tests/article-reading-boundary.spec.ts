@@ -136,6 +136,8 @@ test('keyboard reading continues from the contents into the closing flow', async
   await expect(page.locator('[data-article-newsletter] input[type="email"]')).toBeFocused()
   await page.locator('[data-article-newsletter] a[href="/feed.xml"]').focus()
   await page.keyboard.press(nextKey)
+  await expect(page.locator('[data-article-newsletter] [data-newsletter-copy]')).toBeFocused()
+  await page.keyboard.press(nextKey)
   await expect(page.locator('[data-post-final-return]').getByRole('link', { name: 'Back to Blog' })).toBeFocused()
 })
 

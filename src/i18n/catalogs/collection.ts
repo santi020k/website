@@ -4,6 +4,7 @@ import { sharedMessages } from './shared.ts'
 
 /** Stable IDs; edit English wording without changing its key. */
 export const collectionMessages = {
+  'reading.englishArticle': { en: 'Article in English', es: 'Artículo en inglés' },
   'collection.aCloserLookAtTheDelivery': { en: 'A closer look at the delivery decisions, technical tradeoffs, and product constraints behind this work.', es: 'Las decisiones de entrega, alternativas técnicas y restricciones de producto detrás de este trabajo.' },
   'collection.aCloserLookAtTheDesign': { en: 'A closer look at the design decisions, technical choices, and problems this project was built to solve.', es: 'Las decisiones de diseño, elecciones técnicas y problemas que este proyecto busca resolver.' },
   'collection.aCloserLookAtTheEvents': { en: 'A closer look at the events, mentorship, and organizing work behind this developer community.', es: 'Los eventos, el acompañamiento y la organización detrás de esta comunidad de desarrollo.' },
@@ -408,6 +409,9 @@ export const collectionMessages = {
   'project.browse': { en: 'Browse', es: 'Explorar' },
   'project.caseStudyAction': { en: 'Read case study: {title}', es: 'Leer el caso de estudio: {title}' },
   'reading.chapterOverview': { en: 'Chapter overview: {title}', es: 'Resumen del capítulo: {title}' },
+  'reading.chapterPosition': { en: '{current} of {total}', es: '{current} de {total}' },
+  'reading.sectionCountOne': { en: '{count} section', es: '{count} sección' },
+  'reading.sectionCount': { en: '{count} sections', es: '{count} secciones' },
   'reading.namedOverview': { en: '{name} overview', es: 'Resumen de {name}' },
   'technology.listedOnce': { en: 'Listed in {count} entry', es: 'Presente en {count} entrada' },
   'technology.listedMany': { en: 'Listed in {count} entries', es: 'Presente en {count} entradas' },
