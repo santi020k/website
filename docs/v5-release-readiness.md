@@ -1988,3 +1988,30 @@ because no resume source changed. The patch Changeset is folded into the unpubli
 5.0.0 notes; published notes and the full-gate baseline `a19890c0` remain intact.
 No remote action occurred. Evidence is in `.cache/v5-reading-first/` in the release
 checkout and `.cache/reading-first/` in the source checkout.
+
+## Focused gallery follow-up
+
+Approved source `bb18b02d`, based on Reading first candidate `45c5d1f3`, gives
+one-post topic archives an open cover-and-copy spread and two-post archives the
+existing balanced two-column gallery. Selection uses the full published archive
+count, preserving the three-column layout on short final pages of larger topics.
+The shared cards retain their artwork, metadata, native links, focus, and hover
+behavior. Main Blog and chapter-style galleries retain their existing layouts.
+No copy, translation, content, URL, pagination, or client-script changes are added.
+
+All 40 affected Chromium/WebKit cases pass with one worker and retries disabled:
+Focused gallery, Topic brief, and Related writing headers. Coverage includes both
+locales, themes, 320/390/768/1440px, 200% text, keyboard navigation, visible focus,
+reduced motion, accessibility, and no-JavaScript links. All 28 matched metadata,
+main-content, and destination comparisons pass, including Main Blog, a series,
+and an article. Thirty-two before/after captures cover small topics in both
+locales and themes at mobile and desktop sizes. Desktop spreads, balanced columns,
+and Spanish mobile layouts were reviewed with loaded artwork.
+
+Current-site lint passes with zero warnings; Astro checks 585 files with zero
+errors, warnings, or hints. The 904-page build, 906-page OG audit, archive assembly,
+and resume freshness pass. All five resume page rasters are unchanged, and public
+and built PDF artifacts match. The source Changeset is folded into unpublished
+5.0.0; published notes are preserved. The full workspace gate remains `a19890c0`;
+this approved design follow-up uses affected checks. Evidence is retained in
+`.cache/v5-focused-gallery/`. No remote action occurred.

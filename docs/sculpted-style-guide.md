@@ -147,6 +147,22 @@ for the article, search, feeds, and metadata. Preserve series sequence and draft
 The complete card is one naturally named link with a visible outline; hover changes
 only the title color. Artwork stays still, and metadata and footers wrap for enlarged text.
 
+### Focused gallery for small topic archives
+
+Choose the topic gallery from the archive's full published post count, not the
+number of articles on its current pagination page. A one-post archive uses the
+shared `PostsGallery` focused layout: one open spread with 16:9 artwork beside its
+existing copy, a .95:1.05 column ratio, a 1.75rem gap, and a 1.75rem title. Below
+38rem of gallery width, stack the artwork over the copy with a 1.25rem gap and the
+usual 1.5rem title. Preserve native links, full descriptions, metadata, plain topic
+labels, reading time, focus outlines, and the existing reduced-motion hover.
+
+Two-post topics use the existing two-column editorial grid, including its aligned
+content rows and responsive stacking. Archives with three or more total posts keep
+their three-column gallery, including short final pages. Keep the topic opening,
+Related topics, pagination, and Archive close unchanged. Other gallery consumers
+retain their current layout; no client script or content reordering is needed.
+
 ### Reading paths Blog opening
 
 Keep the Blog headline, description, and latest article together in the existing hero.

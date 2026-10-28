@@ -325,6 +325,10 @@
 
 ### Patch Changes
 
+- Give small Blog topic archives a Focused gallery: one post uses an open cover-and-copy
+  spread, and two posts use balanced columns. Preserve the existing gallery for larger
+  archives and all article content, navigation, and localized metadata.
+
 - Show related articles before the article newsletter so readers can continue reading before the signup invitation.
 
 - Replace repeated topic-archive statistics with Archive close: an editorial sheet
