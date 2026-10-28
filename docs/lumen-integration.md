@@ -642,11 +642,14 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   preserving Lumen's region and description binding. Initialization is idempotent
   on Astro navigation; the action is absent without JavaScript and hidden in print.
   `ArticleCodeRecovery` listens to the public `ui:copy-error` and `ui:copy-success`
-  events on standalone article Code folios. It uses Lumen Button/Icon for a manual
+  events on article Code folios and package-manager tabs. It uses Lumen Button/Icon for a manual
   selection fallback, retaining Lumen's clipboard operation and timed feedback.
   Native Range selection covers the complete highlighted source; opening folded
   examples and returning focus are site-owned composition. The recovery persists
-  until a successful retry or navigation, and does not affect code tabs or projects.
+  until a successful retry or navigation. Package-manager tabs also clear recovery
+  on the public `ui:tabs-change` event, including synchronized groups, and ignore
+  delayed failures from hidden panels. Both Astro and Markdown-generated tabs reuse
+  this controller and template. Project code remains outside the article scope.
   Scroll cue uses Lumen's shared `data-ui-scroll-cue` contract inside each standalone
   article figure. The runtime observes the existing code region and content, showing a
   footer and accessible description only on horizontal overflow. It cleans up on Astro

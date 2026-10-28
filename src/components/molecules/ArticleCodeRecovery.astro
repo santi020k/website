@@ -28,7 +28,9 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
   const articleCodeForEvent = (event: Event): HTMLElement | null => {
     if (!(event.target instanceof HTMLButtonElement) || !event.target.matches('[data-ui-code-copy]')) return null
 
-    return event.target.closest<HTMLElement>('[data-article-prose] [data-article-code-folio]')
+    return event.target.closest<HTMLElement>(
+      '[data-article-prose] :is([data-article-code-folio], [data-package-manager-code-tabs] [data-ui-code])'
+    )
   }
 
   const showCodeRecovery = (event: Event) => {
@@ -38,7 +40,7 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
     const pre = figure?.querySelector<HTMLElement>('[data-code-complete], pre')
     const code = pre?.querySelector('code')
 
-    if (!figure || !template || !heading || !pre || !code) return
+    if (!figure || !template || !heading || !pre || !code || figure.closest('[role="tabpanel"][hidden]')) return
 
     const existing = figure.querySelector<HTMLElement>('[data-code-recovery-status]')
 
@@ -89,6 +91,13 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
   document.addEventListener('ui:copy-success', event => {
     articleCodeForEvent(event)?.querySelector('[data-code-recovery]')?.remove()
   })
+
+  document.addEventListener('ui:tabs-change', event => {
+    if (!(event.target instanceof HTMLElement) || !event.target.matches('[data-package-manager-code-tabs]')) return
+
+    // Lumen also emits this event for synchronized groups; retain its tab controller.
+    event.target.querySelectorAll('[data-code-recovery]').forEach(recovery => recovery.remove())
+  })
 </script>
 
 <style>
@@ -125,7 +134,7 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
     padding: .5rem .75rem;
     border-radius: .75rem .75rem .25rem .75rem;
     background: hsl(var(--canvas));
-    color: var(--folio-accent);
+    color: var(--folio-accent, var(--tab-folio-accent));
     white-space: normal;
     font: 500 .8125rem/1.6 var(--font-sans);
     box-shadow: none;
@@ -140,8 +149,25 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
     background: hsl(var(--brand-soft));
   }
 
-  :global([data-article-prose] [data-article-code-folio]:has([data-code-recovery]) pre) {
+  :global([data-article-prose] [data-ui-code]:has([data-code-recovery]) pre) {
     scroll-margin-block-start: 1rem;
+  }
+
+  :global([data-article-prose] [data-package-manager-code-tabs]:has([data-code-recovery])) {
+    grid-template-rows: auto auto auto auto;
+  }
+
+  :global([data-package-manager-code-tabs] [data-code-recovery]) {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+
+  :global([data-article-prose] [data-package-manager-code-tabs] [data-ui-code]:has([data-code-recovery]) > pre) {
+    grid-row: 4;
+  }
+
+  @container tab-folio (width < 28rem) {
+    :global([data-package-manager-code-tabs] [data-code-recovery]) { padding-inline: 1.125rem; }
   }
 
   @container code-folio (width < 27rem) {
