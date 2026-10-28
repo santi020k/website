@@ -678,6 +678,21 @@ widths. Translate collection UI through the existing dictionary and preserve
 locale-aware destinations. Keep the post list, filters, pagination, statistics,
 metadata, topic names, and authored content unchanged.
 
+### Topic note archive context
+
+Use **Topic note** within the approved Topic brief opening: one short paragraph
+describing the writing actually available in that topic. Keep the headline,
+ruled topline, count, footer, and spacing. Widen only the description's reading
+measure from 44ch to 57ch; it still wraps naturally on narrow screens and with
+enlarged text. Do not add a separate card, illustration, or extra action.
+
+Author English and Spanish notes in `src/i18n/catalogs/topic-notes.ts`, using the
+original tag as the stable identifier. Reuse the resolved note for the visible
+introduction and page metadata. Later pages retain the same note and append their
+existing page position in metadata. Unknown future tags use the localized generic
+description. Preserve titles, canonical URLs, language alternates, article content,
+ordering, related-topic links, and pagination. Add no client JavaScript.
+
 ### Reading caption topic archive introduction
 
 Follow Topic brief with **Reading caption**: a compact h2, Latest writing on the

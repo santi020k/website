@@ -325,6 +325,10 @@
 
 ### Patch Changes
 
+- Introduce topic-specific English and Spanish notes for Blog archives, sharing
+  the visible introduction with page metadata while preserving archive navigation
+  and the approved editorial layout.
+
 - Keep related-writing section labels readable in English and Spanish by allowing complete words to use the existing editorial margin.
 
 - Give small Blog topic archives a Focused gallery: one post uses an open cover-and-copy

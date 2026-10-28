@@ -2041,3 +2041,30 @@ No resume source changed, so the already verified PDFs are retained. The Changes
 is folded into unpublished 5.0.0 with published notes intact. This follow-up uses
 affected checks; the latest full workspace gate remains `a19890c0`. Evidence is
 retained in `.cache/v5-natural-margin/`. No remote action occurred.
+
+## Topic note follow-up
+
+Approved source `2462d716`, based on `f0d51c73`, adds contextual English/Spanish
+introductions for all 112 published topics. Canonical tag keys use the existing
+typed message catalog and translator, retaining English as default and fallback.
+Unknown future tags use the localized generic description. The visible note and
+description metadata share one source; later pages retain their position suffix.
+The approved reading measure widens from 44ch to 57ch. Titles, canonical URLs,
+language alternates, article content/order, navigation, and client scripts remain.
+
+All 1,576 focused catalog, collection, and topic-copy unit checks pass. All 72
+Chromium/WebKit topic-opening, gallery, related-topic, and archive-closing cases
+pass with one worker and retries disabled. Coverage includes both locales/themes,
+320–1440px, 200% text, accessibility, keyboard navigation, pagination, and native
+no-JavaScript links. The built-page audit verifies all 228 archive pages share
+visible and SEO descriptions, preserve canonical URLs, and have one main heading.
+All 24 matched title/URL/alternate/link/card contracts remain unchanged. Forty-eight
+before/after captures cover three topics, both locales/themes, mobile and desktop;
+English desktop and Spanish mobile pairs were reviewed.
+
+Current-site lint passes with zero warnings, and Astro checks 588 files with zero
+diagnostics. The 904-page build, 906-page OG audit, archive assembly, and resume
+freshness pass without regenerating PDFs. The Changeset is folded into unpublished
+5.0.0 and published notes are preserved. This approved follow-up uses affected
+checks; the full workspace baseline remains `a19890c0`. Evidence is retained in
+`.cache/v5-topic-note/`. No remote action occurred.

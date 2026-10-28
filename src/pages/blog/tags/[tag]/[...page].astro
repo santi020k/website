@@ -19,6 +19,7 @@ import { Link } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
+import { getBlogTopicNote } from '@/i18n/topic-copy'
 
 const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
@@ -50,7 +51,7 @@ const relatedTags = getRelatedBlogTags(allPosts, tag)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
 const topicLabel = getBlogTopicLabel(tag)
-const archiveDescription = t('topic.description', { topic: topicLabel })
+const archiveDescription = getBlogTopicNote(tag, locale) ?? t('topic.description', { topic: topicLabel })
 let postRange = `0 ${t('collection.posts7')}`
 
 if (page.data.length > 0) {
@@ -95,7 +96,7 @@ data-topic-archive-opening
       </p>
     </div>
     <h1 id="topic-archive-heading">{topicLabel}</h1>
-    <p data-topic-archive-description>{t('topic.introduction')}</p>
+    <p data-topic-archive-description>{archiveDescription}</p>
     <div data-topic-archive-footer>
       <p data-topic-archive-position>
         {t('collection.latestFirst')}{page.lastPage > 1 && <> · {t('pagination.position', { page: page.currentPage, total: page.lastPage })}</>}
@@ -333,7 +334,7 @@ data-topic-close
     overflow-wrap: anywhere;
   }
   [data-topic-archive-description] {
-    max-width: 44ch;
+    max-width: 57ch;
     margin: 1rem 0 0;
     color: hsl(var(--ink-soft));
     font-size: .9375rem;
