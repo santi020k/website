@@ -1,3 +1,5 @@
+import { getPortfolioMetricDisplay } from '@/utils/portfolio-metric'
+
 import { workProcess, workTopics, workWithMeFaq, workWithMeServices } from '@/data/work-with-me'
 import type { Locale } from '@/i18n'
 import { localizePath } from '@/i18n'
@@ -18,5 +20,18 @@ export const getLocalizedWorkWithMe = (locale: Locale) => {
       proof: { href: localizePath(service.proof.href, locale), label: t(service.proof.label) },
       title: t(service.title)
     }))
+  }
+}
+
+/** Preserve the approved metric parsing and values; only the contact label is localized. */
+export const getLocalizedContactMetric = (metric: string, locale: Locale) => {
+  const display = getPortfolioMetricDisplay(metric)
+
+  if (locale === 'en') return display
+
+  return {
+    ...display,
+    label: translatePage(locale, display.label),
+    ...(display.value ? { value: display.value.replace(/ less$/u, ' menos') } : {})
   }
 }

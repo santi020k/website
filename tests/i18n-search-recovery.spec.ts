@@ -61,6 +61,23 @@ test('Spanish article link recovery keeps a selectable address and translated re
   await expect(page.locator('#article-copy-link-status')).toHaveText(
     'No se pudo copiar. Selecciona y copia la dirección de abajo o inténtalo de nuevo.'
   )
+
+  await page.setViewportSize({ width: 320, height: 900 })
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = '200%'
+  })
+  const section = page.locator('[data-section-copy]').first()
+  const sectionId = await section.evaluate(element => element.id)
+
+  await section.click()
+  await expect(section).toHaveAccessibleName(/^Vuelve a intentar copiar el enlace a la sección:/u)
+  const sectionRecovery = page.locator(`[id="${sectionId}-recovery"]`)
+
+  await expect(sectionRecovery).toBeVisible()
+  await expect(sectionRecovery.getByLabel('Selecciona y copia la dirección de esta sección')).toHaveValue(
+    /^https:\/\/santi020k\.com\/es\/blog\/astro-doctor-announcement\/#.+/u
+  )
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })
 
 test('an unvisited Spanish route receives the Spanish offline recovery document', async ({ browser, baseURL }) => {

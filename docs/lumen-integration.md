@@ -761,6 +761,9 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   The opt-in Astro `Code`/`Table` API and runtime are tracked upstream for Lumen 4.4.0;
   the version-pinned 4.1.0 patch carries this additive change until publication. The cue
   stays hidden without JavaScript, leaving native table semantics and keyboard scrolling.
+  Its resize observer schedules cue updates in the next animation frame so showing
+  the message cannot resize its observed viewport during delivery. Cancel pending
+  frames on cleanup; this avoids WebKit resize-loop warnings when text or width changes.
   Anchored comparison keeps the article table's first column at the inline start during
   horizontal scrolling, using opaque cells and the existing first-column tint. Separate
   cell borders travel with the pinned labels. Below 12rem of table space (including enlarged

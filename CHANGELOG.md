@@ -8,6 +8,18 @@
 
 ### Minor Changes
 
+- Add Latin American Spanish pages and interface controls to the current site, preserving English URLs, authored
+  article and case-study prose, and the archived site versions. Share page components and content queries across
+  locales, add language switching and alternate metadata, and generate localized social cards through the existing
+  pipeline.
+
+- Add lazy full-text search for published article and case-study bodies while preserving existing title/tag ranking,
+  keyboard navigation, and the eight-result limit. Bound module, search, and fragment requests, settle failures
+  safely, reject unknown result paths, and ignore stale responses after query changes or navigation. Keep historical
+  archives and unpublished drafts outside the index.
+
+- Refine Work with me with a personal opening, native chapter links, open numbered service rows, clearer authored outcomes, and a unified Lumen contact form with responsive topic choices. Preserve all contact destinations and resilient WhatsApp retries.
+
 - Add a Work with me contact page with topic-based WhatsApp drafts, calendar and email alternatives, linked proof, testimonials, and FAQs. Keep complete drafts editable and retryable on the page, and offer a direct WhatsApp link when JavaScript is unavailable. Connect homepage, header, footer, Speaking, and article newsletter entry points; add optional Cloudflare Web Analytics without enabling a token.
 
 - Align shared arrow-button labels and trailing icons consistently, keeping long labels beside their arrows and preserving compact desktop actions and existing motion.
@@ -309,6 +321,16 @@
 - Organize article opening references into a shared Reference ledger and connect the Supabase article to its related ESLint series with the same accessible treatment. Preserve authored destinations and reuse the existing series navigation for a single onward chapter action.
 
 ### Patch Changes
+
+- Preserve the full width of article section headings when print hides their copy
+  controls and link recovery field.
+
+- Reuse the persistent link recovery field for article section links. Failed copies keep
+  the exact heading address available for manual selection and retry without changing
+  the heading, moving focus, or sharing tracking parameters.
+
+  Keep address selection after Safari keyboard focus and defer the shared Lumen scroll
+  cue's resize writes to avoid observer loops while article layouts reflow.
 
 - Refine Blog Topics into sculpted Named index links with readable names, post counts, and directional arrows; match search and sorting to displayed names.
 

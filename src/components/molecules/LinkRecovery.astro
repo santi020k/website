@@ -1,7 +1,7 @@
 ---
 import { Textarea } from '@santi020k/lumen-astro'
 
-import { getLocale, translate } from '@/i18n'
+import { getLocale, localeLanguage, translate } from '@/i18n'
 
 interface Props {
   buttonId: string
@@ -9,6 +9,9 @@ interface Props {
   nativeShare?: boolean
   copiedLabel?: string
   copiedAnnouncement?: string
+  idleLabel?: string
+  retryAnnouncement?: string
+  addressLabel?: string
   statusId?: string
 }
 
@@ -18,28 +21,42 @@ const {
   nativeShare = false,
   copiedLabel = 'Link copied!',
   copiedAnnouncement = copiedLabel,
+  idleLabel = 'Copy link',
+  retryAnnouncement = 'Try again',
+  addressLabel = 'Select and copy the address',
   statusId = `${buttonId}-status`
 } = Astro.props
 
 const id = `${buttonId}-recovery`
-const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translate(locale, text)
 ---
 
 <div
+  lang={localeLanguage(locale)}
   id={id}
   data-link-recovery
   data-link-button={buttonId}
   data-native-share={nativeShare}
   data-copied-label={t(copiedLabel)}
   data-copied-announcement={t(copiedAnnouncement)}
+  data-idle-label={t(idleLabel)}
+  data-retry-announcement={t(retryAnnouncement)}
   data-status-id={statusId}
   hidden
 >
   <p id={`${id}-notice`}>{t('Automatic copying isn’t available.')}</p>
-  <label for={`${id}-address`}>{t('Select and copy the address')}</label>
+  <label for={`${id}-address`}>{t(addressLabel)}</label>
   <Textarea id={`${id}-address`} readonly spellcheck="false" rows={3}>{url}</Textarea>
 </div>
-<p id={statusId} aria-atomic="true" aria-live="polite" class="sr-only" role="status"></p>
+<p
+lang={localeLanguage(locale)}
+id={statusId}
+aria-atomic="true"
+aria-live="polite"
+class="sr-only"
+role="status"
+></p>
 
 <style>
   [data-link-recovery] {
@@ -92,6 +109,7 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
     const successLabel = recovery.dataset.copiedLabel ?? t('Link copied!')
     const successAnnouncement = recovery.dataset.copiedAnnouncement ?? successLabel
     let resizeFrame = 0
+    let selectionFrame = 0
     let observedWidth = -1
 
     const resizeAddress = () => {
@@ -120,7 +138,19 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
 
     observer.observe(recovery)
 
-    const selectAddress = () => address?.select()
+    const selectAddress = () => {
+      address?.select()
+
+      // WebKit restores its keyboard caret after focus handlers finish.
+      // Select again after that default action, while this field still owns focus.
+      cancelAnimationFrame(selectionFrame)
+
+      selectionFrame = requestAnimationFrame(() => {
+        selectionFrame = 0
+
+        if (document.activeElement === address) address?.select()
+      })
+    }
 
     address?.addEventListener('focus', selectAddress)
 
@@ -148,7 +178,7 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
       return isCoarsePointer
     }
 
-    const idleLabel = t(supportsWebShare() ? 'Share link' : 'Copy link')
+    const idleLabel = supportsWebShare() ? t('Share link') : recovery.dataset.idleLabel ?? t('Copy link')
     const STATE_RESET_MS = 2000
     const ANNOUNCEMENT_DELAY_MS = 100
 
@@ -202,7 +232,7 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
       // Kept short so the control still fits a 320px viewport with enlarged text.
       if (label) label.textContent = succeeded ? successLabel : t('Try again')
 
-      btn.setAttribute('aria-label', succeeded ? successAnnouncement : t('Try again'))
+      btn.setAttribute('aria-label', succeeded ? successAnnouncement : recovery.dataset.retryAnnouncement ?? t('Try again'))
 
       if (succeeded) {
         hideRecovery()
@@ -286,8 +316,8 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
       // call rejects while the first is open and would otherwise fall back to copying.
       if (pending) return
 
-      // Share the server-rendered permalink, like the social links, never the
-      // live address bar with its fragment or query. Read both values before any
+      // Copy the server-rendered destination, including an authored section
+      // fragment, never the live address bar's query or fragment. Read both values before any
       // await so a route change during the share sheet cannot swap the page.
       const shareUrl = btn.dataset.shareUrl ?? ''
       const shareTitle = document.title
@@ -332,6 +362,8 @@ const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
       observer.disconnect()
 
       cancelAnimationFrame(resizeFrame)
+
+      cancelAnimationFrame(selectionFrame)
 
       address?.removeEventListener('focus', selectAddress)
 

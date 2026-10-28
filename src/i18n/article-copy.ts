@@ -8,6 +8,7 @@ const articleCopy: Readonly<Record<string, string>> = {
   Copy: 'Copiar',
   Copied: 'Copiado',
   'Copy failed': 'No se pudo copiar',
+  'Select and copy this section’s address': 'Selecciona y copia la dirección de esta sección',
   'Copy section link': 'Copiar enlace de la sección',
   'Could not copy the section link. Open this section from the contents and copy the address.': 'No se pudo copiar el enlace de la sección. Ábrela desde el contenido y copia la dirección.',
   'Show full example': 'Ver el ejemplo completo',
@@ -28,6 +29,7 @@ export const translateArticle = (locale: Locale, text: string): string => {
 
   return articleCopy[text] ?? text
     .replace(/^Copy link to section: /u, 'Copiar enlace a la sección: ')
+    .replace(/^Try again to copy link to section: /u, 'Vuelve a intentar copiar el enlace a la sección: ')
     .replace(/^Copied link to section: /u, 'Enlace copiado a la sección: ')
     .replace(/^(\d+) lines · Copy includes the complete example$/u, '$1 líneas · Se copia el ejemplo completo')
     .replace(/^Code example (\d+): /u, 'Ejemplo de código $1: ')

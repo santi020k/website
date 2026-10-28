@@ -31,7 +31,8 @@ for (const theme of ['light', 'dark'] as const) {
     const labelBefore = await label.boundingBox()
     const headingBefore = await heading.boundingBox()
     const valueBefore = await value.boundingBox()
-    await page.keyboard.press('ArrowRight')
+    // WebKit's native scrolling needs a real key hold, not a zero-duration tap.
+    await page.keyboard.press('ArrowRight', { delay: 100 })
     await expect.poll(() => viewport.evaluate(element => element.scrollLeft)).toBeGreaterThan(0)
     await expect(viewport).toBeFocused()
     expect((await cue.boundingBox())?.x).toBe(before?.x)
@@ -87,7 +88,7 @@ test.describe('without JavaScript', () => {
     await viewport.focus()
     const label = viewport.locator('tbody tr').first().locator(':scope > :first-child')
     const before = await label.boundingBox()
-    await page.keyboard.press('ArrowRight')
+    await page.keyboard.press('ArrowRight', { delay: 100 })
     await expect.poll(() => viewport.evaluate(element => element.scrollLeft)).toBeGreaterThan(0)
     expect((await label.boundingBox())?.x).toBe(before?.x)
   })

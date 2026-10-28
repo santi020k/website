@@ -19,12 +19,17 @@ test('Spanish contact intake composes and retries a localized draft without send
     }
   })
 
-  await expect(page.locator('.editorial-page-meta')).toContainText('Charlas técnicas')
-  await expect(page.locator('.editorial-page-meta')).toContainText('Equipos, IA y calidad del código')
+  await expect(page.locator('[data-contact-caption]')).toHaveText('Tu próximo colaborador')
+  await expect(page.locator('[data-contact-index]')).toContainText('Formas de trabajar')
+  await expect(page.locator('[data-contact-index] a[href="#ways-to-work"]')).toBeVisible()
+  await expect(page.locator('[data-contact-profile-links] a').first()).toHaveAttribute('href', '/es/resume/')
+  await expect(page.locator('[data-result-label]').first()).toHaveText('Mejor rendimiento del sistema')
+  await expect(page.locator('[data-result-value]')).toHaveText(['35%', '35 → 98', '40%'])
 
   const form = page.locator('[data-whatsapp-intake]')
 
   await expect(form).toBeVisible()
+  await expect(form.locator('[data-intake-fields] legend')).toHaveText('02 Un poco de contexto')
   await form.locator('[data-intake-name]').fill('Ana')
   await form.locator('[data-intake-company]').fill('Equipo Ejemplo')
   await form.locator('[data-intake-context]').fill('Un taller para nuestro equipo.')

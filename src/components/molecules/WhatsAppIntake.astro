@@ -1,7 +1,8 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import Button from '@/components/atoms/Button.astro'
 
-import { Icon } from '@santi020k/lumen-astro'
+import { Card, Icon, Input, Textarea } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
 import { getDirectContactMessage } from '@/i18n/intake'
@@ -15,10 +16,11 @@ const { workTopics } = getLocalizedWorkWithMe(pageLocale)
 const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
 ---
 
-<div data-whatsapp-intake-shell>
+<Card data-whatsapp-intake-shell variant="unstyled">
   <header data-intake-header>
     <span data-intake-icon><Icon class="size-6" name="message-circle" /></span>
     <div>
+      <p data-intake-eyebrow>{t('A quick introduction')}</p>
       <h3 id="intake-heading">{t('Message me on WhatsApp')}</h3>
       <p>{t('Pick a topic and add a line of context. I’ll write the message for you; you review it before sending.')}</p>
     </div>
@@ -37,7 +39,7 @@ const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
     hidden
   >
     <fieldset data-intake-topics>
-      <legend>{t('What would you like to talk about?')}</legend>
+      <legend><span data-intake-step aria-hidden="true">01</span>{' '}{t('What would you like to talk about?')}</legend>
       <div data-intake-topic-grid>
         {workTopics.map((topic, index) => (
           <label data-intake-topic>
@@ -48,26 +50,32 @@ const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
       </div>
     </fieldset>
 
-    <div data-intake-fields>
-      <label data-intake-field>
-        <span>{t('Your name')} <em>{t('optional')}</em></span>
-        <input autocomplete="name" data-intake-name maxlength="80" type="text" />
-      </label>
-      <label data-intake-field>
-        <span>{t('Company or event')} <em>{t('optional')}</em></span>
-        <input autocomplete="organization" data-intake-company maxlength="120" type="text" />
-      </label>
-      <label data-intake-field data-intake-wide>
-        <span>{t('A line of context')} <em>{t('optional')}</em></span>
-        <textarea data-intake-context maxlength="600" placeholder={t('Dates, team size, the problem you want to solve…')} rows="3"></textarea>
-      </label>
-    </div>
+    <fieldset data-intake-fields>
+      <legend><span data-intake-step aria-hidden="true">02</span>{' '}{t('A little context')}</legend>
+      <div data-intake-field-grid>
+        <label data-intake-field>
+          <span>{t('Your name')} <em>{t('optional')}</em></span>
+          <Input autocomplete="name" data-intake-name maxlength="80" type="text" />
+        </label>
+        <label data-intake-field>
+          <span>{t('Company or event')} <em>{t('optional')}</em></span>
+          <Input autocomplete="organization" data-intake-company maxlength="120" type="text" />
+        </label>
+        <label data-intake-field data-intake-wide>
+          <span>{t('A line of context')} <em>{t('optional')}</em></span>
+          <Textarea data-intake-context maxlength="600" placeholder={t('Dates, team size, the problem you want to solve…')} rows="3" />
+        </label>
+      </div>
+    </fieldset>
 
     <div data-intake-actions>
-      <button data-intake-submit type="submit">
+      <Button data-intake-submit type="submit">
         <span>{t('Open WhatsApp')}</span>
-        <ArrowExchange class="size-4.5 shrink-0" direction="up-right" />
-      </button>
+        <span aria-hidden="true" class="site-action-arrow"><ArrowExchange
+class="size-4.5 shrink-0"
+direction="up-right"
+                                                           /></span>
+      </Button>
       <p data-intake-note>{t('Opens WhatsApp in a new tab. Nothing is stored on this site.')}</p>
     </div>
 
@@ -77,7 +85,7 @@ const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
       <a data-intake-retry href={localizePath(whatsappHref, pageLocale)} rel="noopener noreferrer" target="_blank">{t('Try WhatsApp again')}</a>
     </div>
   </form>
-</div>
+</Card>
 
 <script>
   import { createIntakeIntroduction, getIntakeStatus } from '@/i18n/intake'
@@ -139,103 +147,58 @@ const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
 </script>
 
 <style>
-  [data-whatsapp-intake-shell] {
-    --intake-accent: var(--brand);
-    container: whatsapp-intake / inline-size;
-    display: grid;
-    gap: 1.75rem;
-    min-width: 0;
-    padding: 1.75rem;
-    border: 1px solid hsl(var(--line));
-    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
-    background: hsl(var(--surface));
-    color: hsl(var(--ink));
-    overflow-wrap: anywhere;
-  }
+  [data-whatsapp-intake-shell][data-slot='card'] { --intake-accent: var(--brand); container: whatsapp-intake / inline-size; display: grid; min-width: 0; gap: 0; padding: 0; border: 1px solid hsl(var(--line)); border-radius: var(--radius-folio); background: hsl(var(--surface)); color: hsl(var(--ink)); box-shadow: none; overflow-wrap: anywhere; }
   :global(:root[data-theme='dark']) [data-whatsapp-intake-shell] { --intake-accent: var(--accent); }
-  [data-whatsapp-intake]:not([hidden]) { display: grid; gap: 1.75rem; min-width: 0; }
-  [data-intake-handoff]:not([hidden]) { display: grid; gap: 0.75rem; padding-top: 1.25rem; border-top: 1px solid hsl(var(--line)); }
-  [data-intake-handoff] p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; }
-  [data-intake-status] { color: hsl(var(--ink)); font-weight: 500; }
-  [data-intake-retry] { display: inline-flex; width: fit-content; min-height: 2.75rem; align-items: center; color: hsl(var(--intake-accent)); font-size: 0.875rem; text-decoration: underline; text-underline-offset: 0.25em; }
-  [data-intake-retry]:focus-visible, [data-intake-fallback] a:focus-visible { outline: 2px solid hsl(var(--intake-accent)); outline-offset: 3px; }
-  [data-intake-header] { display: flex; align-items: start; gap: 1rem; }
-  [data-intake-icon] { display: grid; flex: none; width: 3rem; height: 3rem; place-items: center; border-radius: 1rem; background: hsl(var(--brand-soft)); color: hsl(var(--intake-accent)); }
-  [data-intake-header] h3 { margin: 0; font-size: 1.5rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.045em; }
-  [data-intake-header] p { margin: 0.5rem 0 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; }
+  [data-whatsapp-intake]:not([hidden]) { display: grid; gap: 2rem; min-width: 0; padding: 2rem; }
+  [data-intake-header] { display: flex; align-items: start; gap: 1rem; padding: 2rem; border-radius: 1.6875rem 1.6875rem 0 0; background: hsl(var(--brand-soft)); }
+  [data-intake-icon] { display: grid; flex: none; width: 3rem; height: 3rem; place-items: center; border: 1px solid hsl(var(--line)); border-radius: 1rem; color: hsl(var(--intake-accent)); }
+  [data-intake-header] [data-intake-eyebrow] { margin: 0 0 0.625rem; color: hsl(var(--ink-soft)); font-size: 0.625rem; line-height: 1.8; letter-spacing: 0.13em; text-transform: uppercase; }
+  [data-intake-header] h3 { margin: 0; font-size: 1.75rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.045em; }
+  [data-intake-header] p { margin: 0.875rem 0 0; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.85; }
   fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
-  legend, [data-intake-field] > span { margin-bottom: 0.75rem; padding: 0; color: hsl(var(--ink)); font-size: 0.8125rem; font-weight: 600; line-height: 1.6; }
-  [data-intake-field] em { margin-left: 0.375rem; color: hsl(var(--ink-soft)); font-style: normal; font-weight: 400; }
-  [data-intake-topic-grid] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.625rem; }
+  legend { display: flex; width: 100%; align-items: baseline; gap: 0.75rem; margin-bottom: 1rem; padding: 0; color: hsl(var(--ink)); font-size: 0.8125rem; font-weight: 500; line-height: 1.8; }
+  [data-intake-step] { color: hsl(var(--intake-accent)); font-size: 0.625rem; font-variant-numeric: tabular-nums; }
+  [data-intake-topic-grid] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
   [data-intake-topic] { position: relative; display: flex; min-width: 0; }
   [data-intake-topic] input { position: absolute; opacity: 0; pointer-events: none; }
-  [data-intake-topic] span {
-    display: flex;
-    width: 100%;
-    min-height: 3rem;
-    align-items: center;
-    padding: 0.625rem 0.875rem;
-    border: 1px solid hsl(var(--line));
-    border-radius: 0.75rem;
-    color: hsl(var(--ink-soft));
-    font-size: 0.8125rem;
-    line-height: 1.4;
-    cursor: pointer;
-    transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
-  }
-  [data-intake-topic]:hover span { border-color: hsl(var(--intake-accent) / 0.6); color: hsl(var(--ink)); }
-  [data-intake-topic] input:checked + span { border-color: hsl(var(--intake-accent)); background: hsl(var(--brand-soft)); color: hsl(var(--ink)); font-weight: 600; }
-  [data-intake-topic] input:focus-visible + span { outline: 2px solid hsl(var(--intake-accent)); outline-offset: 2px; }
-  [data-intake-fields] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-  [data-intake-field] { display: flex; min-width: 0; flex-direction: column; }
+  [data-intake-topic] span { display: flex; width: 100%; min-height: 3.75rem; align-items: center; gap: 0.75rem; padding: 0.875rem 1rem; border: 1px solid hsl(var(--line)); border-radius: 0.875rem; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.5; cursor: pointer; transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease; }
+  [data-intake-topic] span::before { content: ''; flex: none; width: 0.875rem; height: 0.875rem; border: 1px solid currentColor; border-radius: 50%; }
+  [data-intake-topic]:hover span { border-color: hsl(var(--intake-accent)); color: hsl(var(--ink)); }
+  [data-intake-topic] input:checked + span { border-color: hsl(var(--intake-accent)); background: hsl(var(--brand-soft)); color: hsl(var(--ink)); }
+  [data-intake-topic] input:checked + span::before { border: 0.25rem solid hsl(var(--intake-accent)); }
+  [data-intake-topic] input:focus-visible + span { outline: 2px solid hsl(var(--intake-accent)); outline-offset: 3px; }
+  [data-intake-field-grid] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  [data-intake-field] { display: flex; min-width: 0; flex-direction: column; gap: 0.625rem; }
+  [data-intake-field] > span { color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; line-height: 1.8; }
+  [data-intake-field] em { margin-left: 0.375rem; color: hsl(var(--ink-soft)); font-style: normal; font-weight: 400; }
   [data-intake-wide] { grid-column: 1 / -1; }
-  [data-intake-field] :is(input, textarea) {
-    width: 100%;
-    min-height: 2.875rem;
-    padding: 0.625rem 0.875rem;
-    border: 1px solid hsl(var(--line));
-    border-radius: 0.75rem;
-    background: hsl(var(--surface));
-    color: hsl(var(--ink));
-    font: inherit;
-    font-size: 0.9375rem;
-    line-height: 1.6;
+  [data-intake-field] :global(input), [data-intake-field] :global(textarea) { width: 100%; min-width: 0; min-height: 3rem; padding: 0.75rem 0.875rem; border: 1px solid hsl(var(--line)); border-radius: 0.75rem; background: hsl(var(--surface)); color: hsl(var(--ink)); font: inherit; font-size: 0.9375rem; line-height: 1.7; }
+  [data-intake-field] :global(textarea) { min-height: 7rem; resize: vertical; }
+  [data-intake-field] :global(input:focus-visible), [data-intake-field] :global(textarea:focus-visible) { border-color: hsl(var(--intake-accent)); outline: 2px solid hsl(var(--intake-accent)); outline-offset: 2px; }
+  [data-intake-actions] { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; padding-top: 1.5rem; border-top: 1px solid hsl(var(--line)); }
+  [data-intake-actions] :global([data-intake-submit]) { min-height: 3rem; }
+  [data-intake-note], [data-intake-fallback] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
+  [data-intake-note] { max-width: 24ch; }
+  [data-intake-fallback] { padding: 2rem; }
+  [data-intake-fallback] a { display: inline-flex; min-height: 2.75rem; align-items: center; color: hsl(var(--intake-accent)); text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-intake-handoff]:not([hidden]) { display: grid; gap: 0.75rem; padding-top: 1.5rem; border-top: 1px solid hsl(var(--line)); }
+  [data-intake-handoff] p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
+  [data-intake-handoff] [data-intake-status] { color: hsl(var(--ink)); font-weight: 500; }
+  [data-intake-retry] { display: inline-flex; width: fit-content; min-height: 2.75rem; align-items: center; color: hsl(var(--intake-accent)); font-size: 0.8125rem; text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-intake-retry]:focus-visible, [data-intake-fallback] a:focus-visible { outline: 2px solid hsl(var(--intake-accent)); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { [data-intake-topic] span { transition: none; } }
+  @media (forced-colors: active) { [data-intake-topic] input:checked + span { border: 2px solid Highlight; } [data-intake-topic] input:checked + span::before { border-color: Highlight; } }
+  @container whatsapp-intake (width < 28rem) {
+    [data-intake-header], [data-whatsapp-intake]:not([hidden]), [data-intake-fallback] { padding: 1.5rem; }
+    [data-intake-header] { flex-direction: column; }
+    [data-intake-header] h3 { font-size: 1.5rem; }
+    [data-intake-field-grid] { grid-template-columns: minmax(0, 1fr); }
+    [data-intake-topic] span { flex-direction: column; align-items: start; padding: 0.875rem; }
+    [data-intake-note] { max-width: none; }
   }
-  [data-intake-field] textarea { resize: vertical; }
-  [data-intake-field] :is(input, textarea):focus-visible { border-color: hsl(var(--intake-accent)); outline: 2px solid hsl(var(--intake-accent) / 0.35); outline-offset: 1px; }
-  [data-intake-actions] { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
-  [data-intake-submit] {
-    display: inline-flex;
-    min-height: 3rem;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 1.25rem;
-    border: 1px solid hsl(var(--ink));
-    border-radius: 0.75rem;
-    background: hsl(var(--ink));
-    color: hsl(var(--surface));
-    font: inherit;
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 160ms ease, color 160ms ease;
-  }
-  [data-intake-submit]:hover { background: hsl(var(--intake-accent)); border-color: hsl(var(--intake-accent)); }
-  [data-intake-submit]:focus-visible { outline: 2px solid hsl(var(--intake-accent)); outline-offset: 3px; }
-  [data-intake-note], [data-intake-fallback] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.7; }
-  [data-intake-fallback] a { color: hsl(var(--intake-accent)); text-decoration: underline; }
-  @media (prefers-reduced-motion: reduce) {
-    [data-intake-topic] span, [data-intake-submit] { transition: none; }
-  }
-  @media (forced-colors: active) {
-    [data-intake-topic] input:checked + span { border: 2px solid Highlight; }
-  }
-  @container whatsapp-intake (width < 36rem) {
-    [data-intake-topic-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    [data-intake-fields] { grid-template-columns: minmax(0, 1fr); }
-  }
-  @container whatsapp-intake (width < 22rem) {
-    [data-whatsapp-intake-shell] { padding: 1.25rem; }
+  @container whatsapp-intake (width < 17rem) {
     [data-intake-topic-grid] { grid-template-columns: minmax(0, 1fr); }
+    [data-intake-header], [data-whatsapp-intake]:not([hidden]), [data-intake-fallback] { padding: 1rem; }
+    [data-intake-header] h3 { font-size: 1.25rem; }
   }
 </style>

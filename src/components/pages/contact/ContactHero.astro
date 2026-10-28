@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets'
+
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+
+import Portrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
+
+import { Card, Link } from '@santi020k/lumen-astro'
+
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+import { siteConfig } from '@/site.config'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+---
+
+<section aria-labelledby="contact-heading" class="section-container-wide" data-contact-hero>
+  <div data-contact-opening>
+    <p class="editorial-eyebrow">{t('Work with me')}</p>
+    <h1 class="editorial-page-title" id="contact-heading">{t('Let’s work')}{' '}<span class="
+      editorial-page-emphasis
+    "
+                                                                                >{t('together.')}</span></h1>
+    <p class="editorial-page-description">{t('I give tech talks, lead engineering teams, and help companies grow with better code quality and practical AI. Tell me what you’re working on and we’ll find the right shape.')}</p>
+    <div class="editorial-page-actions section-actions">
+      <ButtonLink href="#start" showArrow>{t('Message me on WhatsApp')}</ButtonLink>
+      <ButtonLink href={siteConfig.contact.calendar} newTab showArrow variant="secondary">{t('Book a call')}</ButtonLink>
+    </div>
+  </div>
+
+  <Card as="section" aria-label={t('Your collaborator')} data-contact-profile variant="unstyled">
+    <div data-contact-identity>
+      <Image alt="Santiago Molina" format="avif" height={120} loading="eager" sizes="5.5rem" src={Portrait} width={88} widths={[88, 176]} />
+      <div>
+        <p data-contact-caption>{t('Your next collaborator')}</p>
+        <p data-contact-name>Santiago Molina</p>
+        <p data-contact-role>{t('Engineering lead.')}<br />{t('Builder. Speaker.')}</p>
+      </div>
+    </div>
+    <dl data-contact-details>
+      <div><dt>{t('Based in')}</dt><dd>Medellín, Colombia</dd></div>
+      <div><dt>{t('Working with')}</dt><dd>{t('Teams worldwide · UTC−5')}</dd></div>
+      <div><dt>{t('Languages')}</dt><dd>{t('English & Spanish')}</dd></div>
+    </dl>
+    <div data-contact-profile-links>
+      <Link href={localizePath(siteConfig.contact.resume, pageLocale)} variant="inherit">{t('View resume')} <ArrowExchange direction="right" size="sm" /></Link>
+      <Link href={localizePath('/speaking/', pageLocale)} variant="inherit">{t('Explore my talks')} <ArrowExchange direction="right" size="sm" /></Link>
+    </div>
+  </Card>
+
+  <nav aria-label={t('On this page')} data-contact-index>
+    <a href="#ways-to-work"><span data-contact-index-number aria-hidden="true">01</span><span data-contact-index-label>{t('Ways to work')}</span><ArrowExchange direction="down-right" size="sm" /></a>
+    <a href="#start"><span data-contact-index-number aria-hidden="true">03</span><span data-contact-index-label>{t('Start a conversation')}</span><ArrowExchange direction="down-right" size="sm" /></a>
+    <a href="#contact-faq"><span data-contact-index-number aria-hidden="true">05</span><span data-contact-index-label>{t('Common questions')}</span><ArrowExchange direction="down-right" size="sm" /></a>
+  </nav>
+</section>
+
+<style>
+  [data-contact-hero] { --contact-accent: var(--brand); container: contact-hero / inline-size; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); align-items: center; gap: 3rem 5rem; padding-top: 1rem; }
+  :global(:root[data-theme='dark']) [data-contact-hero] { --contact-accent: var(--accent); }
+  [data-contact-opening] { min-width: 0; }
+  .editorial-page-title { font-size: clamp(3rem, 6.2vw, 5.5rem); }
+  .editorial-page-description { max-width: 35rem; }
+  [data-contact-profile][data-slot='card'] { min-width: 0; padding: 2rem; border: 1px solid hsl(var(--line)); border-radius: var(--radius-folio); background: hsl(var(--brand-soft)); box-shadow: none; }
+  [data-contact-identity] { display: flex; align-items: center; gap: 1.25rem; }
+  [data-contact-identity] :global(img) { width: 5.5rem; height: 7.5rem; flex: none; border-radius: 1rem 1rem 0.375rem 1rem; object-fit: cover; }
+  [data-contact-caption] { margin: 0 0 0.625rem; color: hsl(var(--ink-soft)); font-size: 0.625rem; line-height: 1.7; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-contact-name] { margin: 0; color: hsl(var(--ink)); font-size: 1.125rem; font-weight: 500; line-height: 1.4; letter-spacing: -0.035em; }
+  [data-contact-role] { margin: 0.375rem 0 0; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.7; }
+  [data-contact-details] { display: grid; gap: 0.875rem; margin: 1.75rem 0 0; padding-top: 1.5rem; border-top: 1px solid hsl(var(--line)); }
+  [data-contact-details] > div { display: grid; gap: 0.25rem; }
+  dt { color: hsl(var(--ink-soft)); font-size: 0.625rem; line-height: 1.7; letter-spacing: 0.1em; text-transform: uppercase; }
+  dd { margin: 0; color: hsl(var(--ink)); font-size: 0.8125rem; line-height: 1.7; }
+  [data-contact-profile-links] { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: 1.25rem; }
+  [data-contact-profile-links] :global(a) { display: inline-flex; min-height: 2.75rem; align-items: center; gap: 0.625rem; color: hsl(var(--ink)); font-size: 0.75rem; text-decoration: none; }
+  [data-contact-profile-links] :global(svg) { color: hsl(var(--contact-accent)); }
+  [data-contact-profile-links] :global(a:hover) { text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-contact-index] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-column: 1 / -1; margin-top: 0.5rem; border-block: 1px solid hsl(var(--line)); }
+  [data-contact-index] a { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1rem; min-height: 4.5rem; padding: 1rem 1.5rem; color: hsl(var(--ink)); font-size: 0.8125rem; text-decoration: none; }
+  [data-contact-index] a:first-child { padding-left: 0; }
+  [data-contact-index] a + a { border-left: 1px solid hsl(var(--line)); }
+  [data-contact-index-number] { color: hsl(var(--contact-accent)); font-size: 0.625rem; font-variant-numeric: tabular-nums; }
+  [data-contact-index] a:hover { color: hsl(var(--contact-accent)); }
+  [data-contact-index] a:focus-visible { outline: 2px solid hsl(var(--contact-accent)); outline-offset: 0.25rem; }
+  @media (max-width: 63.99rem) {
+    [data-contact-hero] { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+    [data-contact-profile][data-slot='card'] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem 2rem; }
+    [data-contact-details] { margin: 0; padding: 0 0 0 2rem; border-top: 0; border-left: 1px solid hsl(var(--line)); }
+    [data-contact-profile-links] { grid-column: 1 / -1; margin: 0; }
+  }
+  @container contact-hero (width < 38rem) {
+    .editorial-page-title { font-size: clamp(2.5rem, 12cqi, 4.5rem); }
+    [data-contact-profile][data-slot='card'] { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding: 1.5rem; }
+    [data-contact-details] { padding: 1.25rem 0 0; border-left: 0; border-top: 1px solid hsl(var(--line)); }
+    [data-contact-index] { grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+    [data-contact-index] a { min-height: 3.75rem; padding: 0.75rem 0; }
+    [data-contact-index] a + a { border-left: 0; border-top: 1px solid hsl(var(--line)); }
+  }
+  @container contact-hero (width < 18rem) {
+    .editorial-page-title { font-size: 15cqi; }
+    [data-contact-profile][data-slot='card'] { padding: 1rem; }
+    [data-contact-identity] { flex-wrap: wrap; }
+    [data-contact-index] a { grid-template-columns: minmax(0, 1fr) auto; gap: 0.5rem; }
+    [data-contact-index-label] { grid-column: 1 / -1; grid-row: 2; }
+    .editorial-page-actions :global(.site-action-arrow) { display: none; }
+    .editorial-page-actions :global([data-slot='button-link']) { width: 100%; }
+  }
+</style>

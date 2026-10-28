@@ -1,8 +1,10 @@
+import { getPortfolioMetricDisplay } from '@/utils/portfolio-metric'
+
 import { describe, expect, test } from 'vitest'
 
 import { createFaqSchema, workProcess, workTopics, workWithMeFaq, workWithMeServices } from '@/data/work-with-me'
 import { createIntakeIntroduction, getDirectContactMessage, getIntakeStatus } from '@/i18n/intake'
-import { getLocalizedWorkWithMe } from '@/i18n/work-with-me'
+import { getLocalizedContactMetric, getLocalizedWorkWithMe } from '@/i18n/work-with-me'
 import { siteConfig } from '@/site.config'
 
 describe('localized contact content', () => {
@@ -71,5 +73,21 @@ describe('contact draft introductions', () => {
     expect(getIntakeStatus('es')).toBe('Tu mensaje está listo. Revísalo en WhatsApp y pulsa enviar.')
     expect(getIntakeStatus('en')).toBe('Your message is ready. Review it in WhatsApp, then press send.')
     expect(getDirectContactMessage('es')).toBe('Hola Santiago, vi tu sitio web y me gustaría hablar sobre')
+  })
+})
+
+describe('localized contact metric displays', () => {
+  const examples = [
+    ['35% better system performance', '35%', 'Mejor rendimiento del sistema'],
+    ['Marcone: Lighthouse score improved from 35 to 98', '35 → 98', 'Marcone: puntuación de Lighthouse'],
+    ['40% better API performance', '40%', 'Mejor rendimiento de las API']
+  ] as const
+
+  test.each(examples)('preserves the approved English display for %s', metric => {
+    expect(getLocalizedContactMetric(metric, 'en')).toEqual(getPortfolioMetricDisplay(metric))
+  })
+
+  test.each(examples)('translates the caption without changing the numbers for %s', (metric, value, label) => {
+    expect(getLocalizedContactMetric(metric, 'es')).toEqual({ value, label })
   })
 })

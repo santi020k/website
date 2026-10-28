@@ -1515,11 +1515,16 @@ treatments. The rule is decorative and adds no navigation label.
 Section reference adds a 2.75rem Lumen copy control after the trailing rule. Keep the
 button outside the native heading so its accessible name and contents label remain
 unchanged. Use a neutral border, canvas fill, brand/accent icon, and 0.75rem corners
-with a 0.25rem lower-right corner. Show a check and “Copied” after success, and a
-clear failure state with accessible recovery guidance. Preserve the visible focus
-outline. Below 32rem, reduce the row gap to 0.75rem; below 16rem, give the heading
+with a 0.25rem lower-right corner. Show a check and “Copied” after success. Use
+Section link recovery on failure: retain the link icon, show “Try again”, and reveal
+the shared `LinkRecovery` field beneath the heading with its complete canonical
+section address. Keep the fallback persistent, preserve focus on the initiating
+button, and select the address when its field receives focus. A successful retry
+removes the field; each heading keeps its own recovery and announcement. Preserve
+the visible focus outline. Below 32rem, reduce the row gap to 0.75rem; below 16rem, give the heading
 the full line and align the control beneath it at the end. Without JavaScript,
 leave the original Section cadence layout and native contents navigation intact.
+In print, hide the copy control and recovery field and let the heading fill the row.
 
 Article body h3 elements use Subsection cadence: 1.3125rem type at weight 500,
 1.4 line height, and -0.025em tracking. Leave 2.25rem before a subsection and
@@ -3074,3 +3079,21 @@ library implementation classes to extend this appearance.
 
 See [remaining page coverage](remaining-page-designs.md) for route families, evidence,
 validation, and local integration status.
+
+### Contact page Conversation desk
+
+Work with me uses a personal opening beside a compact collaborator profile and
+three native chapter links. Keep the existing two hero actions, the contact
+channels, and the same-page conversation target. The five service offerings use
+open numbered rows with a fine rule, summary, examples, and one evidence link.
+Reuse the shared portfolio-metric formatter for the three outcome figures,
+retaining each complete claim as its accessible link description and visible client
+attribution in the label.
+
+The intake is one Lumen Card with a tinted header and two labeled field groups. Use
+Lumen Input and Textarea and the site Button wrapper. Radio choices keep native
+keyboard behavior and a visible selected indicator. Channels and next steps use
+open ruled rows beside the form. Stack the layout for narrow screens and reflow
+again for enlarged text. Keep all headings, labels, and evidence readable without
+clamping. The JavaScript fallback and complete in-memory retry behavior remain
+owned by the existing intake controller.

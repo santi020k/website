@@ -83,6 +83,7 @@
     [data-article-prose] :is(p, li, blockquote) { font-size: 11pt; line-height: 1.65; orphans: 3; widows: 3; }
     [data-article-prose] > :is(p, ul, ol, dl) { max-inline-size: none; }
     [data-article-prose] :is(h2, h3, h4), [data-section-reference-row] { break-after: avoid; }
+    [data-article-prose] > [data-section-reference-row] { display: block; }
     [data-article-prose] h2[data-article-section-heading] { font-size: 17pt; }
     [data-article-prose] > h3 { font-size: 14pt; }
     [data-article-prose] :is(a, :not(pre) > code) { overflow-wrap: anywhere; }

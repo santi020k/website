@@ -87,7 +87,7 @@ const technologyListSchema = createProjectCollectionSchema(
 const meta = {
   breadcrumbs,
   description: locale === 'es' ? `Proyectos y casos de estudio donde ${technology} dio forma a la arquitectura, el flujo de entrega o la experiencia de producto.` : `Projects and case studies where ${technology} shaped the architecture, delivery workflow, or product experience.`,
-  ogImage: getSocialImageURL(Astro.url.pathname, Astro.site, undefined, ogManifest),
+  ogImage: getSocialImageURL(localizePath(getTechnologyPath(technology), locale), Astro.site, undefined, ogManifest),
   structuredData: technologyListSchema,
   title: t(`${technology} · Technology`)
 }

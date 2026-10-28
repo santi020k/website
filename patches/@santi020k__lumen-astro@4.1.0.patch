@@ -529,10 +529,10 @@ index 6f616c13e406958847d5bb1485d25208e2db5a67..95cbc3c9c542874962fff0136a2be5ba
  export const initDocumentNavigationControllers = (scope: ParentNode): void => {
 diff --git a/runtime/controllers/scroll-cue.ts b/runtime/controllers/scroll-cue.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..23bbec647e4900b8a4abd8c48817a3d273976dda
+index 0000000000000000000000000000000000000000..36f866cac64723c89815859657d97fbbe88250f5
 --- /dev/null
 +++ b/runtime/controllers/scroll-cue.ts
-@@ -0,0 +1,86 @@
+@@ -0,0 +1,101 @@
 +const bindings = new Map<HTMLElement, () => void>()
 +let nextId = 0
 +
@@ -573,6 +573,7 @@ index 0000000000000000000000000000000000000000..23bbec647e4900b8a4abd8c48817a3d2
 +
 +  const id = message.id
 +  let active = true
++  let resizeFrame = 0
 +
 +  const update = (): void => {
 +    if (!active || !root.isConnected) return
@@ -584,7 +585,19 @@ index 0000000000000000000000000000000000000000..23bbec647e4900b8a4abd8c48817a3d2
 +    updateDescription(viewport, id, visible)
 +  }
 +
-+  const observer = new ResizeObserver(update)
++  const requestUpdate = (): void => {
++    if (resizeFrame) return
++
++    // Showing the cue resizes its scroll viewport. Write layout outside the
++    // observer delivery so WebKit can finish notifying all observed elements.
++    resizeFrame = requestAnimationFrame(() => {
++      resizeFrame = 0
++
++      update()
++    })
++  }
++
++  const observer = new ResizeObserver(requestUpdate)
 +
 +  observer.observe(viewport)
 +
@@ -594,6 +607,8 @@ index 0000000000000000000000000000000000000000..23bbec647e4900b8a4abd8c48817a3d2
 +    active = false
 +
 +    observer.disconnect()
++
++    cancelAnimationFrame(resizeFrame)
 +
 +    message.hidden = true
 +

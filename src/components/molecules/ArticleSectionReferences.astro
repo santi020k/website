@@ -1,7 +1,9 @@
 ---
 import type { MarkdownHeading } from 'astro'
 
-import { CopyButton, Icon } from '@santi020k/lumen-astro'
+import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
+
+import { Button, Icon } from '@santi020k/lumen-astro'
 
 import { getLocale, localeLanguage } from '@/i18n'
 import { translateArticle } from '@/i18n/article-copy'
@@ -23,32 +25,37 @@ const sections = headings.filter(heading => heading.depth === 2)
 <div hidden data-section-reference-controls>
   {sections.map(({ slug, text }) => {
     const destination = new URL(url)
+    const buttonId = `article-section-link-${slug}`
 
     destination.hash = slug
 
     return (
-      <span lang={localeLanguage(locale)} data-section-reference-for={slug}>
-        <CopyButton
+      <div lang={localeLanguage(locale)} data-section-reference-for={slug}>
+        <Button
+          id={buttonId}
           data-section-copy
+          data-share-url={destination.href}
           size="icon"
           variant="outline"
-          label={t(`Copy link to section: ${text}`)}
-          copiedLabel={t(`Copied link to section: ${text}`)}
-          errorLabel={t('Could not copy the section link. Open this section from the contents and copy the address.')}
+          aria-label={t(`Copy link to section: ${text}`)}
           title={t('Copy section link')}
-          value={destination.href}
         >
-          <Icon name="link" />
-          <span slot="copied">
-            <Icon name="check" />
-            <span data-section-copy-feedback>{t('Copied')}</span>
-          </span>
-          <span slot="error">
-            <Icon name="circle-alert" />
-            <span data-section-copy-feedback>{t('Copy failed')}</span>
-          </span>
-        </CopyButton>
-      </span>
+          <Icon data-copy-icon name="link" />
+          <Icon class="hidden" data-check-icon name="check" />
+          <span data-copy-label data-section-copy-feedback></span>
+        </Button>
+        <div lang={localeLanguage(locale)} class="not-prose" data-section-recovery-container>
+          <LinkRecovery
+            buttonId={buttonId}
+            url={destination.href}
+            idleLabel=""
+            copiedLabel={t('Copied')}
+            copiedAnnouncement={t(`Copied link to section: ${text}`)}
+            retryAnnouncement={t(`Try again to copy link to section: ${text}`)}
+            addressLabel={t('Select and copy this section’s address')}
+          />
+        </div>
+      </div>
     )
   })}
 </div>
@@ -67,6 +74,10 @@ const sections = headings.filter(heading => heading.depth === 2)
       heading.before(row)
 
       row.append(heading, control)
+
+      const recovery = control.querySelector('[data-section-recovery-container]')
+
+      if (recovery) row.append(recovery)
     }
   }
 
@@ -77,19 +88,20 @@ const sections = headings.filter(heading => heading.depth === 2)
 
 <style>
   :global([data-article-prose] > [data-section-reference-row]) {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: 1.5rem;
+    column-gap: 1.5rem;
     margin-block: 2.5rem 1.5rem;
   }
 
   :global([data-section-reference-row] > h2[data-article-section-heading]) {
-    flex: 1;
     min-width: 0;
     margin: 0;
   }
 
-  [data-section-reference-for] { flex: 0 0 auto; }
+  [data-section-reference-for] { justify-self: end; }
+  [data-section-recovery-container] { grid-column: 1 / -1; min-width: 0; }
 
   [data-section-reference-for] :global([data-section-copy]) {
     position: relative;
@@ -121,8 +133,6 @@ const sections = headings.filter(heading => heading.depth === 2)
 
   :global([data-theme='dark']) [data-section-reference-for] :global([data-section-copy]) { color: hsl(var(--accent)); }
   [data-section-reference-for] :global(svg) { width: 1rem; height: 1rem; }
-  [data-section-reference-for] :global([data-slot^='copy-']:not([hidden])),
-  [data-section-reference-for] :global([data-slot^='copy-'] > span) { display: flex; align-items: center; justify-content: center; }
 
   [data-section-copy-feedback] {
     position: absolute;
@@ -134,14 +144,15 @@ const sections = headings.filter(heading => heading.depth === 2)
     white-space: nowrap;
   }
 
+  [data-section-copy-feedback]:empty { display: none; }
+
   @container article-prose (width < 32rem) {
-    :global([data-article-prose] > [data-section-reference-row]) { gap: .75rem; }
+    :global([data-article-prose] > [data-section-reference-row]) { column-gap: .75rem; }
   }
 
   @container article-prose (width < 16rem) {
-    :global([data-article-prose] > [data-section-reference-row]) { flex-wrap: wrap; gap: .5rem; }
-    :global([data-section-reference-row] > h2[data-article-section-heading]) { flex-basis: 100%; }
-    [data-section-reference-for] { margin-inline-start: auto; }
+    :global([data-article-prose] > [data-section-reference-row]) { grid-template-columns: minmax(0, 1fr); }
+    [data-section-reference-for] { margin-block-start: .5rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {

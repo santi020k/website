@@ -1512,3 +1512,81 @@ skip. The Changeset is folded into unpublished 5.0.0, preserving published notes
 The latest full gate remains the successful `10745545` contact-funnel run. This
 follow-up uses affected checks. The next statistics comparison stays outside the
 application; no remote publication is included.
+
+## Section link recovery follow-up
+
+Approved source `dd0ac516`, based on `2d237c7d`, is integrated over Named index
+candidate `a43d43ed`. Each article section reuses LinkRecovery for a persistent,
+selectable canonical heading address after clipboard failure. Retry, successful
+reset, separate announcements, heading text, fragments, focus, script-free contents,
+and print hiding are preserved. Safari address selection is restored on the next
+frame only while the field retains focus, and pending frames are canceled on cleanup.
+
+The existing Lumen 4.1.0 patch defers scroll-cue resize writes to the next frame
+and cancels them on disposal, resolving the observed WebKit resize loop. The lock
+changes only six patch hashes; package versions and reveal timing are unchanged.
+Frozen installation passed. Table keyboard tests use a 100ms native key hold while
+retaining their scrolling and pinned-label assertions.
+
+All 46 focused Chromium/WebKit recovery, section-reference, code-scroll, and
+table-scroll cases passed together on the final build with one worker and retries
+disabled. During integration, print inspection found that the new grid left an
+empty button column and narrowed headings by 24px. A print-only block layout
+restores the full heading width. The added regression assertion failed against
+the original merged build in both browsers and passed with the correction.
+Print geometry and captures confirm the correction; the prior layout was also
+reproduced by restoring its grid style for a matched comparison.
+
+Sixteen matched mobile/desktop captures cover 390/1440px, both themes, and idle
+or failed copying. All four idle pairs are pixel-identical; heading identities,
+section destinations, title, canonical URL, and absence of horizontal overflow
+are unchanged. Representative failure states were visually reviewed. Six source
+files match exactly; the style guide combines Named index with print guidance,
+and the section test adds the print regression assertion.
+
+Current-site lint passed with zero warnings; the added test assertion also passed
+focused lint. Astro checked 517 files with zero errors, warnings, or hints. The
+452-page build, 454-page OG audit, and archive assembly passed. The optional
+Workspace Organizer sitemap used its existing unavailable-source skip. Resume
+PDFs were regenerated after the patch and print fingerprint changes; freshness
+passed and all five rendered pages remain pixel-identical to `a43d43ed`. Public
+and preview resume files match. Both release notes are folded into unpublished
+5.0.0 while published changelog entries remain unchanged.
+
+The latest full workspace gate remains the successful `10745545` run; this
+follow-up uses affected checks. Section arrival stays proposal-only. The existing
+Firefox environment limitation remains; no remote publication is included.
+
+## Contact page Conversation desk follow-up
+
+Approved source `79154aac`, containing implementation `1f15f0f5` and reconciliation
+with `a43d43ed`, is integrated over Section link recovery candidate `1348bc94`.
+Work with me gains a personal opening and collaborator profile, native chapter
+links, numbered open service rows, shared portfolio-metric presentation, and a
+unified Lumen contact form. Full original outcome claims remain in accessible
+link descriptions. The complete WhatsApp controller is byte-identical to the
+previous release candidate, preserving editable drafts and retry behavior.
+
+All 30 focused Chromium/WebKit contact cases passed together with one worker
+and retries disabled. They cover both themes, 390/1440px and 320px at 200% text,
+native section navigation, keyboard radio selection, 44px controls, accessibility,
+blocked popups, retained drafts, route transitions, missing scripts, and no
+JavaScript. Twenty-four matched before/after captures cover opening, services,
+and form at mobile and desktop sizes in both themes. Representative results were
+visually reviewed. Existing service, proof, channel, title, canonical, and overflow
+contracts are unchanged. A comparison against the source's complete before-link
+inventory confirms every original destination remains present.
+
+All four application and test files match the source exactly. Changelog and style
+guide merges retain the newer section-recovery and print corrections. Current-site
+lint passed with zero warnings; Astro checked 518 files without errors, warnings,
+or hints. The 452-page build, 454-page OG audit, archive assembly, spelling, and
+normal commit hooks passed. The optional Workspace Organizer sitemap retains its
+existing unavailable-source skip. Resume freshness passes without regeneration;
+this contact-only change does not alter its inputs. The prepared note remains
+under 5.0.0, preserving published changelog entries.
+
+The source owner separately recorded workspace lint/types, 993 unit cases, seven
+motion cases, all five builds, and the complete page audit. This integration uses
+the affected checks above; the latest complete coordinator gate remains
+`10745545`. No remote action or publication is included.
