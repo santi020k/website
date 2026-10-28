@@ -2590,3 +2590,26 @@ existing About baseline was not refreshed. Firefox validation remains a release
 preflight requirement when that local runtime can launch. Evidence is in
 `.cache/v5-about-editorial/`. The root full gate remains `0319556c`; no remote
 action occurred.
+
+## Work editorial integration
+
+Approved source `33644d25` is integrated over `bf1dcc7e`. Work uses open career
+rows, collection-owned decorative company marks, a responsive four-column results
+ledger and localized Spanish start months. All nine role descriptions, chronology,
+semantic dates, technology labels and native destinations remain intact. Production
+components and affected tests match the immutable source exactly.
+
+All 120 career/toolkit browser cases and 56 layout cases pass across Chromium,
+WebKit, Mobile Chrome and Mobile Safari with one worker and retries disabled.
+Thirteen profile units, affected zero-warning lint, the 904-page build and 906-page
+SEO audit pass. Eight matched contracts, sixteen captures and eight normal-text axe
+scans preserve the page content and metadata. Five regenerated PDF page rasters
+remain identical; freshness and public/built artifact equality pass.
+
+The source owner's later human-approved timeline and optical logo refinement is
+queued separately; this receipt does not claim that refinement is implemented.
+Only generated PDFs conflicted and were rebuilt normally. Changesets are folded
+into 5.0.0 without changing published notes. Normal commit hooks run the current
+Astro check. Firefox remains unavailable due to its profile startup failure.
+Evidence: `.cache/v5-work-editorial/`. Root full gate remains `0319556c`; no remote
+action occurred.

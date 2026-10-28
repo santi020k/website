@@ -169,22 +169,18 @@ for (const width of [320, 390, 1440]) {
           await expect(page.getByRole('heading', { level: 1 })).toContainText('Developer Experience')
         })
 
-        test('Work timeline icons leave clear space around the role labels', async ({ page }) => {
+        test('Work company marks leave clear space around the role labels', async ({ page }) => {
           await openPage(page, '/work/', textSize)
-          const fullRows = page.locator('[data-career-density="full"]')
-          const compactRows = page.locator('[data-career-density="compact"]')
+          const rows = page.locator('[data-career-row]')
 
-          expect(await fullRows.count()).toBeGreaterThan(0)
-          expect(await compactRows.count()).toBeGreaterThan(0)
-          // Compact entries intentionally omit the repeated status masthead and icon.
-          await expect(compactRows.locator('[data-career-icon]')).toHaveCount(0)
-          const separated = await fullRows.evaluateAll(rows => rows.every(row => {
-            const marker = row.querySelector('[data-career-icon]')?.getBoundingClientRect()
-            const role = row.querySelector('[data-career-role]')?.getBoundingClientRect()
+          await expect(rows.locator('[data-career-identity] img')).toHaveCount(9)
+          const separated = await rows.evaluateAll(items => items.every(row => {
+            const mark = row.querySelector('[data-career-identity]')?.getBoundingClientRect()
+            const copy = row.querySelector('[data-career-content]')?.getBoundingClientRect()
             const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
 
-            if (!marker || !role) return false
-            return role.left - marker.right >= 0.75 * rem || role.top - marker.bottom >= 0.5 * rem
+            if (!mark || !copy) return false
+            return mark.left - copy.right >= 0.75 * rem || copy.top - mark.bottom >= 0.5 * rem
           }))
 
           expect(separated).toBe(true)

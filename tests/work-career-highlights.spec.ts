@@ -85,3 +85,49 @@ test('career evidence captions reach the relevant sections and preserve keyboard
     expect(new URL(page.url()).hash).toBe(source.href.slice(source.href.indexOf('#')))
   }
 })
+
+for (const route of ['/work/', '/es/work/']) {
+  test(`Work introduction keeps whole words and visible actions with enlarged text at ${route}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto(route)
+    for (const width of [320, 390, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 })
+      await page.evaluate(async () => {
+        document.documentElement.style.fontSize = '200%'
+        await document.fonts.ready
+      })
+      const broken = await page.locator('#work-heading, [data-work-eyebrow-copy]').evaluateAll(elements => elements.flatMap(element => {
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+        const words: string[] = []
+        let node = walker.nextNode()
+
+        while (node) {
+          for (const match of (node.textContent ?? '').matchAll(/\p{L}+/gu)) {
+            const range = document.createRange()
+
+            range.setStart(node, match.index)
+            range.setEnd(node, match.index + match[0].length)
+            const lines = new Set([...range.getClientRects()]
+              .filter(rect => rect.width > 0).map(rect => Math.round(rect.y)))
+
+            if (lines.size > 1) words.push(match[0])
+          }
+          node = walker.nextNode()
+        }
+        return words
+      }))
+
+      expect(broken, `Headline and eyebrow words must stay whole at ${width}px`).toEqual([])
+      const actions = page.locator('[data-work-hero-actions] a')
+
+      await expect(actions).toHaveCount(3)
+      for (const link of await actions.all()) {
+        const bounds = await link.boundingBox()
+
+        expect(bounds?.x).toBeGreaterThanOrEqual(0)
+        expect((bounds?.x ?? 0) + (bounds?.width ?? 0)).toBeLessThanOrEqual(width)
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+    }
+  })
+}
