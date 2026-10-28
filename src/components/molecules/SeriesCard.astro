@@ -7,36 +7,42 @@ import { getSeriesPath } from '@/utils/links'
 
 import { Card, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   postCount: number
   series: CollectionEntry<'series'>
 }
 
 const { postCount, series } = Astro.props
-const postCountLabel = `${postCount} ${postCount === 1 ? 'article' : 'articles'}`
+const postCountLabel = `${postCount} ${postCount === 1 ? t('article') : t('articles')}`
 const seriesPath = getSeriesPath(series.id)
-const statusLabel = series.data.status === 'planned' ? 'Planned series' : 'Active series'
+const statusLabel = series.data.status === 'planned' ? t('Planned series') : t('Active series')
 ---
 
 <Card as="article" data-series-card>
-  <Link data-series-card-link href={seriesPath} variant="inherit">
+  <Link data-series-card-link href={localizePath(seriesPath, locale)} variant="inherit">
     <div data-series-card-meta>
       <span data-series-card-status>{statusLabel}</span>
       <span>{postCountLabel}</span>
     </div>
 
-    <h3>{series.data.title}</h3>
-    <p>{series.data.description}</p>
+    <h3 lang="en">{series.data.title}</h3>
+    <p lang="en">{series.data.description}</p>
 
     {!!series.data.focusAreas.length && (
-      <ul aria-label="Focus areas">
+      <ul aria-label={t('Focus areas')}>
         {series.data.focusAreas.map(area => <li>{area}</li>)}
       </ul>
     )}
 
     <div data-series-card-footer>
       <span data-series-card-action>
-        <span>Explore series</span>
+        <span>{t('Explore series')}</span>
         <ArrowExchange class="size-4.5 shrink-0" direction="right" />
       </span>
     </div>

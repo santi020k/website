@@ -15,6 +15,11 @@ import PageLayout from '@/layouts/Base.astro'
 import { getPostPath } from '@/utils/links'
 
 import { getSeriesSummaries } from '@/data/series'
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 
 export const getStaticPaths = async () => {
   const seriesSummaries = await getSeriesSummaries()
@@ -42,8 +47,8 @@ const metaDescription = series.data.seoDescription ?? series.data.description
 const heroTitle = series.data.title.trimEnd()
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
+  { name: t('Home'), url: localizePath('/', locale) },
+  { name: 'Blog', url: localizePath('/blog/', locale) },
   { name: series.data.title, url: Astro.url.pathname }
 ]
 
@@ -73,25 +78,21 @@ mainClass="remaining-pages series-detail-page"
 >
   <PageHero
     description={series.data.description}
-    eyebrow="Blog series"
-    gradientText="A reading track."
-    metaItems={['Start to finish', series.data.cadence, `${postCount} ${postCount === 1 ? 'post' : 'posts'}`]}
+    eyebrow={t('Blog series')}
+    gradientText={t('A reading track.')}
+    metaItems={[t('Start to finish'), series.data.cadence, `${postCount} ${postCount === 1 ? t('post') : t('posts')}`]}
     title={/[.!?…]$/u.test(heroTitle) ? heroTitle : `${heroTitle}.`}
   >
-    <ButtonLink href="/blog/series/" showArrow>
-      Browse all series
-    </ButtonLink>
-    <ButtonLink href="/blog/" showArrow variant="secondary">
-      Back to blog
-    </ButtonLink>
+    <ButtonLink href={localizePath('/blog/series/', locale)} showArrow>{t('Browse all series')}</ButtonLink>
+    <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('Back to blog')}</ButtonLink>
   </PageHero>
 
   <div class="section-container-wide" data-series-summary>
   <StatsGrid columns={series.data.focusAreas.length > 0 ? 3 : 2} showDivider={false}>
-    <StatCard description="Articles collected into this reading track." icon="file-text" label="Posts" value={postCount} />
+    <StatCard description={t('Articles collected into this reading track.')} icon="file-text" label={t('Posts')} value={postCount} />
     <SeriesCadenceCard cadence={series.data.cadence} />
     {!!series.data.focusAreas.length && (
-      <StatCard description="Recurring themes shaping the articles in this track." icon="focus" label="Focus areas" value={series.data.focusAreas.length} />
+      <StatCard description={t('Recurring themes shaping the articles in this track.')} icon="focus" label={t('Focus areas')} value={series.data.focusAreas.length} />
     )}
   </StatsGrid>
   </div>
@@ -109,9 +110,9 @@ mainClass="remaining-pages series-detail-page"
 
   <PageSection layout="stacked">
     <SectionHeader
-      description="Read these in order if you want the clearest progression from foundations to deeper implementation decisions."
-      eyebrow="Posts"
-      title="Articles in this series."
+      description={t('Read these in order if you want the clearest progression from foundations to deeper implementation decisions.')}
+      eyebrow={t('Posts')}
+      title={t('Articles in this series.')}
     />
 
     <PostsGallery layout="chapters" posts={posts} showSequence />

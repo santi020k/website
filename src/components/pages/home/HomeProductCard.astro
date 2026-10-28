@@ -12,6 +12,12 @@ import { getProjectTimelineLabel } from '@/utils/project-meta'
 
 import { Card } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+
 interface Props {
   project: CollectionEntry<'project'>
 }
@@ -21,7 +27,7 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
 ---
 
 <Card as="article" class="studio-project" variant="unstyled" data-home-product style={getProjectBrandStyle(project.data.brand)}>
-  <a class="studio-project-link" href={getPortfolioPath(project.id)} data-project-card data-showcase-feature>
+  <a class="studio-project-link" href={localizePath(getPortfolioPath(project.id), pageLocale)} data-project-card data-showcase-feature>
     {project.data.previews ?
 <HomeProductPreview previews={project.data.previews} /> :
 (
@@ -42,7 +48,7 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
     <div data-product-sheet>
       <div data-product-identity>
         <div>
-          <p data-product-category>Independent product</p>
+          <p data-product-category>{t('Independent product')}</p>
           <h3>{project.data.title}</h3>
         </div>
         {project.data.coverImage?.logo && <Image src={project.data.coverImage.logo} alt="" width={48} height={48} widths={[48, 96]} sizes="3rem" loading="lazy" data-product-logo />}
@@ -52,10 +58,10 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
         <span>{project.data.technologies.slice(0, 3).join(' / ')}</span>
         <span>{getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)}</span>
       </div>
-      <span data-product-action>Explore the project <ArrowExchange
+      <span data-product-action>{t('Explore the project')} <ArrowExchange
 class="size-4"
 direction="up-right"
-                                                    /></span>
+                                                           /></span>
     </div>
   </a>
 </Card>

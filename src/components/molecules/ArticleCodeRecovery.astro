@@ -1,21 +1,30 @@
 ---
 import { Button, Icon } from '@santi020k/lumen-astro'
+
+import { getLocale, translate } from '@/i18n'
+
+const t = (text: string) => translate(getLocale(Astro.url.pathname), text)
+
 ---
 
 <template data-code-recovery-template>
-  <div data-code-recovery>
+  <div data-code-recovery lang={getLocale(Astro.url.pathname)}>
     <div data-code-recovery-message>
-      <p data-code-recovery-title>Copy didn’t work.</p>
-      <p data-code-recovery-status role="status">Select the code and copy it manually.</p>
+      <p data-code-recovery-title>{t('Copy didn’t work.')}</p>
+      <p data-code-recovery-status role="status">{t('Select the code and copy it manually.')}</p>
     </div>
     <Button data-select-code size="sm" variant="outline">
       <Icon name="text-select" />
-      Select code
+      {t('Select code')}
     </Button>
   </div>
 </template>
 
 <script>
+  import { getLocale, translate } from '@/i18n'
+
+  const clientTranslate = (text: string) => translate(getLocale(window.location.pathname), text)
+
   const articleCodeForEvent = (event: Event): HTMLElement | null => {
     if (!(event.target instanceof HTMLButtonElement) || !event.target.matches('[data-ui-code-copy]')) return null
 
@@ -34,7 +43,7 @@ import { Button, Icon } from '@santi020k/lumen-astro'
     const existing = figure.querySelector<HTMLElement>('[data-code-recovery-status]')
 
     if (existing) {
-      existing.textContent = 'Select the code and copy it manually.'
+      existing.textContent = clientTranslate('Select the code and copy it manually.')
 
       return
     }
@@ -69,7 +78,7 @@ import { Button, Icon } from '@santi020k/lumen-astro'
 
       pre.scrollIntoView({ behavior: 'instant', block: 'start' })
 
-      status.textContent = 'Code selected. Use your keyboard or device menu to copy.'
+      status.textContent = clientTranslate('Code selected. Use your keyboard or device menu to copy.')
     })
 
     heading.after(recovery)

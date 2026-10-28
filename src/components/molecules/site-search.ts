@@ -8,6 +8,12 @@ import {
   rankSearchEntry
 } from '@/utils/search'
 
+import { getLocale, localizePath, translate } from '@/i18n'
+
+const t = (text: string, values: Readonly<Record<string, number | string>> = {}) => (
+  translate(getLocale(window.location.pathname), text, values)
+)
+
 const fullTextSearch = createFullTextSearch()
 let renderRevision = 0
 let navigatedSinceRender = false
@@ -128,7 +134,7 @@ const describeResultAt = (index: number, total: number): string => {
 
   if (!title) return ''
 
-  return `${title}, ${index + 1} of ${total}`
+  return t('{title}, {position} of {total}', { title, position: index + 1, total })
 }
 
 const renderRecoveryCard = (results: HTMLElement, kind: 'empty' | 'idle' | 'error') => {
@@ -150,12 +156,12 @@ const renderEmptyState = (results: HTMLElement) => {
   if (items.length === 0) {
     renderRecoveryCard(results, 'idle')
 
-    setStatusMessage('Type at least two characters to search.')
+    setStatusMessage(t('Type at least two characters to search.'))
 
     return
   }
 
-  const heading = hasRecentSearches ? 'Recent searches' : 'Popular topics'
+  const heading = t(hasRecentSearches ? 'Recent searches' : 'Popular topics')
   const li = document.createElement('li')
 
   li.className = 'site-search-hint'
@@ -200,7 +206,7 @@ const renderEmptyState = (results: HTMLElement) => {
 
   results.appendChild(li)
 
-  setStatusMessage(`${items.length} ${heading.toLowerCase()} available.`)
+  setStatusMessage(t('{count} {heading} available.', { count: items.length, heading: heading.toLowerCase() }))
 }
 
 const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e.description) => {
@@ -208,7 +214,7 @@ const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e
   const li = document.createElement('li')
   const a = document.createElement('a')
 
-  a.href = e.path
+  a.href = localizePath(e.path, getLocale(window.location.pathname))
 
   a.setAttribute('data-site-search-result', '')
 
@@ -293,7 +299,7 @@ const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e
     resultTypeLabel = 'Community'
   }
 
-  typeEl.textContent = resultTypeLabel
+  typeEl.textContent = t(resultTypeLabel)
 
   const titleEl = document.createElement('span')
 
@@ -301,11 +307,15 @@ const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e
 
   titleEl.textContent = e.title
 
+  titleEl.lang = 'en'
+
   const descEl = document.createElement('span')
 
   descEl.setAttribute('data-site-search-result-description', '')
 
   descEl.textContent = description
+
+  descEl.lang = 'en'
 
   body.append(typeEl, titleEl, descEl)
 
@@ -355,9 +365,9 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
   results.dataset.siteSearchState = 'pending'
 
   if (shown.length === 0) {
-    renderLoadingState(results, 'Searching article text…')
+    renderLoadingState(results, t('Searching article text…'))
 
-    setStatusMessage('Searching article text.')
+    setStatusMessage(t('Searching article text.'))
   }
 
   const outcome = await fullTextSearch(query, entries, new Set(shown.map(entry => entry.path)), window.location.origin)
@@ -373,7 +383,7 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
   if (shown.length === 0 && hits.length === 0 && !outcome.unavailable) {
     renderRecoveryCard(results, 'empty')
 
-    setStatusMessage(`No matching results for ${query}. Try different keywords.`)
+    setStatusMessage(t('No matching results for {query}. Try different keywords.', { query }))
   }
 
   if (hits.length > 0) {
@@ -386,7 +396,7 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
 
     heading.setAttribute('data-site-search-group-title', '')
 
-    heading.textContent = 'Mentioned in'
+    heading.textContent = t('Mentioned in')
 
     group.append(heading)
 
@@ -401,7 +411,9 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
     if (!navigatedSinceRender) {
       const count = shown.length + hits.length
 
-      setStatusMessage(`${count} ${count === 1 ? 'result' : 'results'} available. Use arrow keys to navigate.`)
+      setStatusMessage(t(count === 1 ?
+        '{count} result available. Use arrow keys to navigate.' :
+        '{count} results available. Use arrow keys to navigate.', { count }))
     }
   }
 
@@ -410,7 +422,7 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
 
     note.className = 'site-search-hint px-4 py-8 text-center text-sm text-ink-soft'
 
-    note.textContent = 'Content search is temporarily unavailable. Showing title and tag matches.'
+    note.textContent = t('Content search is temporarily unavailable. Showing title and tag matches.')
 
     results.replaceChildren(note)
 
@@ -436,9 +448,9 @@ const render = (query: string) => {
   if (indexLoadState === 'loading') {
     selectedResultIndex = -1
 
-    renderLoadingState(results, 'Loading search index…')
+    renderLoadingState(results, t('Loading search index…'))
 
-    setStatusMessage('Loading search index.')
+    setStatusMessage(t('Loading search index.'))
 
     return
   }
@@ -448,7 +460,7 @@ const render = (query: string) => {
 
     renderRecoveryCard(results, 'error')
 
-    setStatusMessage('Search is temporarily unavailable.')
+    setStatusMessage(t('Search is temporarily unavailable.'))
 
     return
   }
@@ -485,7 +497,7 @@ const render = (query: string) => {
 
     renderRecoveryCard(results, 'empty')
 
-    setStatusMessage(`No matching results for ${trimmed}. Try different keywords.`)
+    setStatusMessage(t('No matching results for {query}. Try different keywords.', { query: trimmed }))
 
     void appendBodyMatches(trimmed, [], results, renderRevision)
 
@@ -499,7 +511,9 @@ const render = (query: string) => {
   syncResultSelection()
 
   setStatusMessage(
-    `${matches.length} ${matches.length === 1 ? 'result' : 'results'} available. Use arrow keys to navigate.`
+    t(matches.length === 1 ?
+      '{count} result available. Use arrow keys to navigate.' :
+      '{count} results available. Use arrow keys to navigate.', { count: matches.length })
   )
 
   void appendBodyMatches(trimmed, matches.map(match => match.entry), results, renderRevision)

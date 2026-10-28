@@ -3,33 +3,41 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { Icon } from '@santi020k/lumen-astro'
 
-import { workTopics } from '@/data/work-with-me'
-import { siteConfig } from '@/site.config'
+import { getLocale, localizePath } from '@/i18n'
+import { getDirectContactMessage } from '@/i18n/intake'
+import { translatePage } from '@/i18n/page-copy'
+import { getLocalizedWorkWithMe } from '@/i18n/work-with-me'
+import { createWhatsAppHref, siteConfig } from '@/site.config'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+const { workTopics } = getLocalizedWorkWithMe(pageLocale)
+const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
 ---
 
 <div data-whatsapp-intake-shell>
   <header data-intake-header>
     <span data-intake-icon><Icon class="size-6" name="message-circle" /></span>
     <div>
-      <h3 id="intake-heading">Message me on WhatsApp</h3>
-      <p>Pick a topic and add a line of context. I’ll write the message for you; you review it before sending.</p>
+      <h3 id="intake-heading">{t('Message me on WhatsApp')}</h3>
+      <p>{t('Pick a topic and add a line of context. I’ll write the message for you; you review it before sending.')}</p>
     </div>
   </header>
 
   <p data-intake-fallback>
-    <a href={siteConfig.contact.whatsapp} rel="noopener noreferrer" target="_blank">Open WhatsApp directly</a>{' '}
-    or choose another contact option below.
+    <a href={localizePath(whatsappHref, pageLocale)} rel="noopener noreferrer" target="_blank">{t('Open WhatsApp directly')}</a>{' '}
+    {t('or choose another contact option below.')}
   </p>
 
   <form
     aria-labelledby="intake-heading"
     data-whatsapp-intake
+    data-intake-locale={pageLocale}
     data-whatsapp-phone={siteConfig.contact.whatsappPhone}
     hidden
   >
     <fieldset data-intake-topics>
-      <legend>What would you like to talk about?</legend>
+      <legend>{t('What would you like to talk about?')}</legend>
       <div data-intake-topic-grid>
         {workTopics.map((topic, index) => (
           <label data-intake-topic>
@@ -42,42 +50,45 @@ import { siteConfig } from '@/site.config'
 
     <div data-intake-fields>
       <label data-intake-field>
-        <span>Your name <em>optional</em></span>
+        <span>{t('Your name')} <em>{t('optional')}</em></span>
         <input autocomplete="name" data-intake-name maxlength="80" type="text" />
       </label>
       <label data-intake-field>
-        <span>Company or event <em>optional</em></span>
+        <span>{t('Company or event')} <em>{t('optional')}</em></span>
         <input autocomplete="organization" data-intake-company maxlength="120" type="text" />
       </label>
       <label data-intake-field data-intake-wide>
-        <span>A line of context <em>optional</em></span>
-        <textarea data-intake-context maxlength="600" placeholder="Dates, team size, the problem you want to solve…" rows="3"></textarea>
+        <span>{t('A line of context')} <em>{t('optional')}</em></span>
+        <textarea data-intake-context maxlength="600" placeholder={t('Dates, team size, the problem you want to solve…')} rows="3"></textarea>
       </label>
     </div>
 
     <div data-intake-actions>
       <button data-intake-submit type="submit">
-        <span>Open WhatsApp</span>
+        <span>{t('Open WhatsApp')}</span>
         <ArrowExchange class="size-4.5 shrink-0" direction="up-right" />
       </button>
-      <p data-intake-note>Opens WhatsApp in a new tab. Nothing is stored on this site.</p>
+      <p data-intake-note>{t('Opens WhatsApp in a new tab. Nothing is stored on this site.')}</p>
     </div>
 
     <div data-intake-handoff hidden>
       <p data-intake-status role="status"></p>
-      <p>If WhatsApp didn’t open, try again. You can edit your details above before retrying.</p>
-      <a data-intake-retry href={siteConfig.contact.whatsapp} rel="noopener noreferrer" target="_blank">Try WhatsApp again</a>
+      <p>{t('If WhatsApp didn’t open, try again. You can edit your details above before retrying.')}</p>
+      <a data-intake-retry href={localizePath(whatsappHref, pageLocale)} rel="noopener noreferrer" target="_blank">{t('Try WhatsApp again')}</a>
     </div>
   </form>
 </div>
 
 <script>
+  import { createIntakeIntroduction, getIntakeStatus } from '@/i18n/intake'
+
   const buildMessage = (form: HTMLFormElement) => {
     const topic = form.querySelector<HTMLInputElement>('input[name="topic"]:checked')
     const name = form.querySelector<HTMLInputElement>('[data-intake-name]')?.value.trim()
     const company = form.querySelector<HTMLInputElement>('[data-intake-company]')?.value.trim()
     const context = form.querySelector<HTMLTextAreaElement>('[data-intake-context]')?.value.trim()
-    const intro = name ? `Hi Santiago, I’m ${name}${company ? ` from ${company}` : ''}.` : `Hi Santiago${company ? `, I’m reaching out from ${company}` : ''}.`
+    const locale = form.dataset.intakeLocale === 'es' ? 'es' : 'en'
+    const intro = createIntakeIntroduction(locale, name ?? '', company ?? '')
 
     return [intro, topic?.dataset.opener ?? '', context ?? ''].filter(Boolean).join(' ')
   }
@@ -109,7 +120,7 @@ import { siteConfig } from '@/site.config'
         // Keep the draft in this document so blocked or failed handoffs can be retried.
         handoff.hidden = false
 
-        status.textContent = 'Your message is ready. Review it in WhatsApp, then press send.'
+        status.textContent = getIntakeStatus(form.dataset.intakeLocale === 'es' ? 'es' : 'en')
 
         window.open(retry.href, '_blank', 'noopener,noreferrer')
       })

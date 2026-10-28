@@ -10,14 +10,19 @@ import { getAllTags } from '@/utils/tags'
 
 import { Card, Icon, Input, Link, MotionGroup, Toggle } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
 const topTagCount = allTags[0]?.[1] ?? 0
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
-  { name: 'Topics', url: '/blog/tags/' }
+  { name: t('Home'), url: localizePath('/', locale) },
+  { name: 'Blog', url: localizePath('/blog/', locale) },
+  { name: t('Topics'), url: localizePath('/blog/tags/', locale) }
 ]
 ---
 
@@ -25,25 +30,25 @@ const breadcrumbs = [
 mainClass="remaining-pages"
   meta={{
     breadcrumbs,
-    description: 'Browse posts about software, reading, gaming, and everyday discoveries by topic.',
-    title: 'Blog Topics'
+    description: t('Browse posts about software, reading, gaming, and everyday discoveries by topic.'),
+    title: t('Blog Topics')
   }}
 >
   <section aria-labelledby="topic-index-heading" class="section-container-wide" data-topic-catalog>
     <header data-topic-opening>
       <div data-topic-opening-topline>
-        <Link data-text-link data-topic-return href="/blog/" variant="inherit">
+        <Link data-text-link data-topic-return href={localizePath('/blog/', locale)} variant="inherit">
           <ArrowExchange class="size-4 shrink-0" direction="left" />
-          <span data-text-link-label>Back to blog</span>
+          <span data-text-link-label>{t('Back to blog')}</span>
         </Link>
-        <p class="section-label" data-topic-total>{allTags.length} {allTags.length === 1 ? 'topic' : 'topics'}</p>
+        <p class="section-label" data-topic-total>{allTags.length} {allTags.length === 1 ? t('topic') : t('topics')}</p>
       </div>
-      <h1 id="topic-index-heading">Browse by topic.</h1>
+      <h1 id="topic-index-heading">{t('Browse by topic.')}</h1>
       <p data-topic-opening-description>
-        Find related writing on software, reading, gaming, and everyday discoveries.
+        {locale === 'es' ? 'Encuentra artículos relacionados sobre software, lectura, videojuegos y descubrimientos cotidianos.' : 'Find related writing on software, reading, gaming, and everyday discoveries.'}
       </p>
-      <Link data-text-link data-topic-series href="/blog/series/" variant="inherit">
-        <span data-text-link-label>Prefer a connected reading path?</span>
+      <Link data-text-link data-topic-series href={localizePath('/blog/series/', locale)} variant="inherit">
+        <span data-text-link-label>{locale === 'es' ? '¿Prefieres un recorrido de lectura?' : 'Prefer a connected reading path?'}</span>
         <ArrowExchange class="size-4 shrink-0" direction="right" />
       </Link>
     </header>
@@ -51,26 +56,26 @@ mainClass="remaining-pages"
     <div class="space-y-4" data-topic-index>
       <Card data-topic-search-folio variant="unstyled">
         <div data-topic-search-field>
-          <label for="tag-filter"><Icon class="size-4.5 shrink-0" name="search" /><span>Find a topic</span></label>
+          <label for="tag-filter"><Icon class="size-4.5 shrink-0" name="search" /><span>{t('Find a topic')}</span></label>
           <Input
             aria-describedby="tag-filter-status"
             autocomplete="off"
             data-topic-search-input
             id="tag-filter"
-            placeholder="Search topics…"
+            placeholder={t('Search topics…')}
             spellcheck="false"
             type="search"
           />
         </div>
         <div data-topic-search-footer>
           <div data-topic-search-sort>
-            <span class="section-label">Sort</span>
-            <div aria-label="Sort topics" data-topic-search-options role="group">
-              <Toggle controlled data-sort-btn="count" pressed>By count</Toggle>
+            <span class="section-label">{t('Sort')}</span>
+            <div aria-label={t('Sort topics')} data-topic-search-options role="group">
+              <Toggle controlled data-sort-btn="count" pressed>{t('By count')}</Toggle>
               <Toggle controlled data-sort-btn="alpha">A → Z</Toggle>
             </div>
           </div>
-          <p aria-live="polite" id="tag-filter-status">Showing all {allTags.length} topics.</p>
+          <p aria-live="polite" id="tag-filter-status">{locale === 'es' ? `Mostrando los ${allTags.length} temas.` : `Showing all ${allTags.length} topics.`}</p>
         </div>
       </Card>
 
@@ -94,7 +99,7 @@ mainClass="remaining-pages"
                   focus-visible:ring-2 focus-visible:ring-brand/50
                   focus-visible:outline-hidden
                 "
-                href={getTagPath(tag)}
+                href={localizePath(getTagPath(tag), locale)}
               >
                 <Card
                   class="
@@ -125,7 +130,7 @@ mainClass="remaining-pages"
                         whitespace-nowrap text-ink tabular-nums
                       "
                     >
-                      {count} {count === 1 ? 'post' : 'posts'}
+                      {count} {count === 1 ? t('post') : t('posts')}
                     </span>
                   </div>
 
@@ -153,17 +158,22 @@ mainClass="remaining-pages"
         hidden
       >
         <span data-topic-empty-icon><Icon class="size-5.5" name="search-x" /></span>
-        <h2 id="topic-empty-heading">No topics match that search.</h2>
+        <h2 id="topic-empty-heading">{t('No topics match that search.')}</h2>
       </section>
     </div>
 
     <script>
       const setupTopicIndex = () => {
+        const isSpanish = document.documentElement.lang.startsWith('es')
+        const singular = isSpanish ? 'tema encontrado' : 'topic found'
+        const plural = isSpanish ? 'temas encontrados' : 'topics found'
+        const allLabel = isSpanish ? 'Mostrando los' : 'Showing all'
+        const topicLabel = isSpanish ? 'temas' : 'topics'
         const list = document.getElementById('tags-list')
         const input = document.querySelector<HTMLInputElement>('#tag-filter')
         const status = document.getElementById('tag-filter-status')
         const empty = document.querySelector<HTMLElement>('[data-tags-empty]')
-        const btns = document.querySelectorAll<HTMLButtonElement>('[data-sort-btn]')
+        const sortButtons = document.querySelectorAll<HTMLButtonElement>('[data-sort-btn]')
 
         if (!list || !input || !status || !empty || list.dataset.filterReady === 'true') return
 
@@ -186,14 +196,14 @@ mainClass="remaining-pages"
 
           empty.hidden = visibleCount > 0
 
-          status.textContent = query ?
-            `${visibleCount} ${visibleCount === 1 ? 'topic' : 'topics'} found.` :
-            `Showing all ${items.length} topics.`
+          const resultLabel = visibleCount === 1 ? singular : plural
+
+          status.textContent = query ? `${visibleCount} ${resultLabel}.` : `${allLabel} ${items.length} ${topicLabel}.`
         }
 
         const setActive = (active: HTMLButtonElement) => {
           queueMicrotask(() => {
-            btns.forEach(button => {
+            sortButtons.forEach(button => {
               const isActive = button === active
 
               button.setAttribute('aria-pressed', String(isActive))
@@ -201,7 +211,7 @@ mainClass="remaining-pages"
           })
         }
 
-        btns.forEach(btn => {
+        sortButtons.forEach(btn => {
           btn.addEventListener('click', () => {
             const sort = btn.getAttribute('data-sort-btn')
 
@@ -223,9 +233,9 @@ mainClass="remaining-pages"
   </section>
 
   <StatsGrid columns={3}>
-    <StatCard description="Distinct recurring topics across the current writing archive." icon="hash" label="Topics" value={allTags.length} />
-    <StatCard description="Published posts that can be reached through these topic pages." icon="file-text" label="Posts" value={posts.length} />
-    <StatCard description="How often the most-used topic currently appears in the archive." icon="trending-up" label="Top topic" suffix="x" value={topTagCount} />
+    <StatCard description={t('Distinct recurring topics across the current writing archive.')} icon="hash" label={t('Topics')} value={allTags.length} />
+    <StatCard description={t('Published posts that can be reached through these topic pages.')} icon="file-text" label={t('Posts')} value={posts.length} />
+    <StatCard description={t('How often the most-used topic currently appears in the archive.')} icon="trending-up" label={t('Top topic')} suffix="x" value={topTagCount} />
   </StatsGrid>
 </PageLayout>
 

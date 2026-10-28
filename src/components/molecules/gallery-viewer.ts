@@ -1,3 +1,7 @@
+import { getLocale, translate } from '@/i18n'
+
+const t = (text: string) => translate(getLocale(window.location.pathname), text)
+
 class GalleryViewerElement extends HTMLElement {
   #events: AbortController | undefined
   #binding: MutationObserver | undefined
@@ -13,9 +17,9 @@ class GalleryViewerElement extends HTMLElement {
     canvas.dataset.zoomed = String(zoomed)
 
     // The label names the next action, so it is not also a pressed toggle.
-    label.textContent = zoomed ? 'Fit image' : 'Inspect detail'
+    label.textContent = t(zoomed ? 'Fit image' : 'Inspect detail')
 
-    status.textContent = zoomed ? 'Full detail · scroll or use arrow keys' : 'Complete image'
+    status.textContent = t(zoomed ? 'Full detail · scroll or use arrow keys' : 'Complete image')
 
     canvas.scrollTo({ left: 0, top: 0, behavior: 'instant' })
   }
@@ -37,7 +41,7 @@ class GalleryViewerElement extends HTMLElement {
 
     recovery.hidden = !failed
 
-    status.textContent = failed ? 'The preview could not load. Open the original image to try again.' : 'Complete image'
+    status.textContent = t(failed ? 'The preview could not load. Open the original image to try again.' : 'Complete image')
   }
 
   #prepareImage = () => {
@@ -64,7 +68,7 @@ class GalleryViewerElement extends HTMLElement {
 
     button.disabled = true
 
-    status.textContent = 'Loading image…'
+    status.textContent = t('Loading image…')
 
     canvas.replaceChildren(content)
 

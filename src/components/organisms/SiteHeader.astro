@@ -3,6 +3,7 @@ import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
+import LanguageSwitcher from '@/components/molecules/LanguageSwitcher.astro'
 import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
 import type { SiteLink } from '@/types/site'
@@ -10,6 +11,7 @@ import { getNavigationCurrent } from '@/utils/links'
 
 import { Button, ButtonLink as NavigationLink, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath, stripLocale, translate } from '@/i18n'
 import { menuLinks, siteConfig } from '@/site.config'
 
 interface Props {
@@ -22,8 +24,10 @@ const isAvailableForBanner =
   siteConfig.availability.trim().toLowerCase().startsWith('open') &&
   siteConfig.showAvailabilityBanner !== false
 
-const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
-const getAriaCurrent = (path: string) => getNavigationCurrent(Astro.url.pathname, path)
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translate(locale, text)
+const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/').map(link => ({ ...link, path: localizePath(link.path, locale), title: t(link.title) }))
+const getAriaCurrent = (path: string) => getNavigationCurrent(stripLocale(Astro.url.pathname), stripLocale(path))
 
 ---
 
@@ -82,27 +86,27 @@ const getAriaCurrent = (path: string) => getNavigationCurrent(Astro.url.pathname
           showArrow
           variant="secondary"
         >
-          Discuss a role
+          {t('Discuss a role')}
         </ButtonLink>
         <NavigationLink
 aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
 class="site-nav-contact"
-href={siteConfig.contact.workWithMe}
+href={localizePath(siteConfig.contact.workWithMe, locale)}
 variant="unstyled"
         >
-          <span class="site-nav-contact-label">Let&apos;s talk</span>
+          <span class="site-nav-contact-label">{t('Let\'s talk')}</span>
           <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
         </NavigationLink>
       </div>
     </div>
   )}
-  <site-header-mobile-nav class="contents">
+  <site-header-mobile-nav class="contents" data-close-label={t('Close')} data-menu-label={t('Menu')}>
     <div class="contents" data-mobile-nav>
       <div class="site-header-shell" data-header-frame={variant === 'signature' ? '' : undefined} data-header-shell data-scrolled="false">
         <a
 aria-label="santi020k — Santiago Molina home"
 class="site-header-brand"
-href="/"
+href={localizePath('/', locale)}
         >
           <span class="
             site-header-mark
@@ -124,7 +128,7 @@ href="/"
                                                                                       >.</span></span>
         </a>
 
-        <nav aria-label="Main menu" class="site-desktop-nav">
+        <nav aria-label={t('Main menu')} class="site-desktop-nav">
           {navigationLinks.map((link: SiteLink) => (
             <a
               aria-current={getAriaCurrent(link.path)}
@@ -139,14 +143,15 @@ href="/"
         <div class="site-header-actions">
           <SiteSearch />
           <ThemeToggle />
+          <LanguageSwitcher />
           <div class="site-header-contact">
             <NavigationLink
 aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
 class="site-nav-contact"
-href={siteConfig.contact.workWithMe}
+href={localizePath(siteConfig.contact.workWithMe, locale)}
 variant="unstyled"
             >
-              <span class="site-nav-contact-label">Let&apos;s talk</span>
+              <span class="site-nav-contact-label">{t('Let\'s talk')}</span>
               <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
           </div>
@@ -162,8 +167,8 @@ variant="unstyled"
               <span data-mobile-nav-menu-icon><Icon class="size-5" name="menu" /></span>
               <span data-mobile-nav-close-icon hidden><Icon class="size-5" name="x" /></span>
             </span>
-            <span class="site-menu-label" data-mobile-nav-toggle-label>Menu</span>
-            <span class="sr-only">navigation</span>
+            <span class="site-menu-label" data-mobile-nav-toggle-label>{t('Menu')}</span>
+            <span class="sr-only">{t('navigation')}</span>
           </Button>
         </div>
       </div>
@@ -173,7 +178,7 @@ variant="unstyled"
       <nav
         id="mobile-nav"
         aria-hidden="true"
-        aria-label="Main menu"
+        aria-label={t('Main menu')}
         class="site-mobile-nav"
         data-mobile-nav-panel
         hidden
@@ -194,24 +199,25 @@ variant="unstyled"
                   <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                   <span>{link.title}</span>
                   {current === 'page' ?
-                    <span class="site-mobile-nav-current" aria-hidden="true">Current</span> :
+                    <span class="site-mobile-nav-current" aria-hidden="true">{t('Current')}</span> :
                     <ArrowExchange class="site-mobile-nav-arrow" direction="right" />}
                 </a>
               )
             })}
           </div>
           <div data-mobile-nav-actions>
+            <LanguageSwitcher variant="menu" />
             <NavigationLink
 aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
 class="site-nav-contact"
-href={siteConfig.contact.workWithMe}
+href={localizePath(siteConfig.contact.workWithMe, locale)}
 variant="unstyled"
             >
-              <span class="site-nav-contact-label">Let&apos;s talk</span>
+              <span class="site-nav-contact-label">{t('Let\'s talk')}</span>
               <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
-            <NavigationLink class="site-nav-resume" href={siteConfig.contact.resume} variant="unstyled">
-              <span>View resume</span>
+            <NavigationLink class="site-nav-resume" href={localizePath(siteConfig.contact.resume, locale)} variant="unstyled">
+              <span>{t('View resume')}</span>
               <ArrowExchange class="size-4" direction="right" />
             </NavigationLink>
           </div>
@@ -555,7 +561,7 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.toggle.setAttribute('aria-expanded', String(isOpen))
 
-    this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
+    this.toggleLabel.textContent = isOpen ? (this.dataset.closeLabel ?? 'Close') : (this.dataset.menuLabel ?? 'Menu')
 
     this.menuIcon.hidden = isOpen
 

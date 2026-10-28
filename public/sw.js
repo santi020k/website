@@ -13,6 +13,7 @@ const NETWORK_HEADER_DEADLINE_MS = 8_000
 const CORE_ROUTES = [
   '/',
   '/offline/',
+  '/es/offline/',
   '/manifest.webmanifest',
   '/favicon.svg',
   '/favicon.webp',
@@ -208,7 +209,11 @@ const networkFirst = (request, pageFallback = false, cacheKey = request) => {
 
     return (await matchCached(cache, cacheKey)) ??
       (aliasKey ? await matchCached(cache, aliasKey) : undefined) ??
-      (pageFallback ? await matchCached(cache, '/offline/') : undefined)
+      (pageFallback ?
+        await matchCached(cache, /^\/es(?:\/|$)/.test(new URL(request.url).pathname) ?
+          '/es/offline/' :
+          '/offline/') :
+        undefined)
   }
 
   // A connection can accept a request and never send headers. After the deadline,

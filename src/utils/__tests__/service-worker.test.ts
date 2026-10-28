@@ -104,9 +104,21 @@ describe('Service worker fetch handling', () => {
     } })
     await installation
     expect(worker.cache.addAll).toHaveBeenCalledWith(expect.arrayContaining([
-      '/', '/offline/', '/_astro/shell.js', '/_astro/style.css', '/_astro/font.woff2'
+      '/', '/offline/', '/es/offline/', '/_astro/shell.js', '/_astro/style.css', '/_astro/font.woff2'
     ]))
     expect(worker.skipWaiting).toHaveBeenCalledOnce()
+  })
+
+  test.each(['/es/missing/', '/es/missing?campaign=example', '/es'])('uses Spanish offline recovery for %s', async path => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'English recovery', '/es/offline/': 'Spanish recovery' })
+
+    const event = worker.dispatch(makeRequest(path, true))
+
+    expect(await (await event.response)?.text()).toBe('Spanish recovery')
+    await Promise.all(event.lifetime)
   })
 
   test('does not activate an incomplete shell', async () => {

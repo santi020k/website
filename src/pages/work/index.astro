@@ -12,18 +12,22 @@ import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 import { ButtonLink, Card, Link, Stat } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const workProjects = allProjects.filter(p => p.data.typesId === 'professional')
 const allTechnologies = getUniqueTechnologiesWithCount(workProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 
 const toolkitLanes = [
-  { id: 'web', title: 'Web foundations', names: ['React.js', 'Next.js', 'TypeScript'] },
-  { id: 'mobile', title: 'Mobile', names: ['React Native', 'Expo'] },
-  { id: 'data', title: 'Data & state', names: ['Node.js', 'GraphQL', 'Apollo Client', 'TanStack Query', 'OpenAPI', 'Zustand', 'Redux Toolkit', 'Redux Sagas', 'Redux'] },
-  { id: 'ui', title: 'UI systems', names: ['Storybook', 'Tailwind CSS', 'Radix UI', 'Mantine UI'] }
+  { id: 'web', title: t('Web foundations'), names: ['React.js', 'Next.js', 'TypeScript'] },
+  { id: 'mobile', title: t('Mobile'), names: ['React Native', 'Expo'] },
+  { id: 'data', title: t('Data & state'), names: ['Node.js', 'GraphQL', 'Apollo Client', 'TanStack Query', 'OpenAPI', 'Zustand', 'Redux Toolkit', 'Redux Sagas', 'Redux'] },
+  { id: 'ui', title: t('UI systems'), names: ['Storybook', 'Tailwind CSS', 'Radix UI', 'Mantine UI'] }
 ]
 
 const groupedTechnologyNames = new Set(toolkitLanes.flatMap(lane => lane.names))
@@ -34,47 +38,47 @@ const toolkitGroups = [
     title: lane.title,
     items: technologies.filter(([name]) => lane.names.includes(name))
   })),
-  { id: 'other', title: 'Other tools', items: technologies.filter(([name]) => !groupedTechnologyNames.has(name)) }
+  { id: 'other', title: t('Other tools'), items: technologies.filter(([name]) => !groupedTechnologyNames.has(name)) }
 ].filter(group => group.items.length > 0)
 
 const careerStats = [
   {
-    label: 'Professional roles',
+    label: t('Professional roles'),
     value: String(workProjects.length),
-    description: 'Across commerce, gaming, agencies, and SaaS.',
-    source: { href: '#experience-heading', label: 'Explore the timeline' }
+    description: t('Across commerce, gaming, agencies, and SaaS.'),
+    source: { href: '#experience-heading', label: t('Explore the timeline') }
   },
   {
-    label: 'Largest team led',
+    label: t('Largest team led'),
     value: '14',
-    description: 'Product, design, frontend, and backend.',
-    source: { href: '/portfolio/void/#what-i-led', label: 'Void.GG · What I led' }
+    description: t('Product, design, frontend, and backend.'),
+    source: { href: localizePath('/portfolio/void/#what-i-led', pageLocale), label: t('Void.GG · What I led') }
   },
   {
-    label: 'Production technologies',
+    label: t('Production technologies'),
     value: String(allTechnologies.length),
-    description: 'Tools chosen to fit the product.',
-    source: { href: '#tools-heading', label: 'Explore the toolkit' }
+    description: t('Tools chosen to fit the product.'),
+    source: { href: '#tools-heading', label: t('Explore the toolkit') }
   },
   {
-    label: 'Faster deployments',
+    label: t('Faster deployments'),
     value: '60%',
-    description: 'Through CI/CD and improved release workflows.',
-    source: { href: '/portfolio/void/#key-outcomes', label: 'Void.GG · Key outcomes' }
+    description: t('Through CI/CD and improved release workflows.'),
+    source: { href: localizePath('/portfolio/void/#key-outcomes', pageLocale), label: t('Void.GG · Key outcomes') }
   }
 ]
 
 const careerDestinations = [
-  { id: 'resume', category: 'Experience', title: 'Open resume', description: 'Roles, projects, and skills in one readable view.', href: siteConfig.contact.resume },
-  { id: 'technologies', category: 'Technology index', title: 'Explore the full toolkit', description: 'Browse the tools used across all projects.', href: '/technologies/' }
+  { id: 'resume', category: t('Experience'), title: t('Open resume'), description: t('Roles, projects, and skills in one readable view.'), href: siteConfig.contact.resume },
+  { id: 'technologies', category: t('Technology index'), title: t('Explore the full toolkit'), description: t('Browse the tools used across all projects.'), href: localizePath('/technologies/', pageLocale) }
 ]
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Work', url: '/work/' }
+  { name: t('Home'), url: localizePath('/', pageLocale) },
+  { name: t('Work'), url: localizePath('/work/', pageLocale) }
 ]
 
-const workListSchema = createProjectCollectionSchema('Work Experience — Santiago Molina', '/work/', workProjects, Astro.site)
+const workListSchema = createProjectCollectionSchema(t('Work Experience — Santiago Molina'), localizePath('/work/', pageLocale), workProjects, Astro.site)
 ---
 
 <PageLayout
@@ -82,10 +86,10 @@ backdrop="plain"
   headerVariant="signature"
   meta={{
     breadcrumbs,
-    description: 'Explore Santiago Molina’s engineering work across commerce, SaaS, gaming, and platforms, including architecture, delivery systems, and technical leadership.',
-    seoTitle: 'Santiago Molina — Engineering Leadership Work',
+    description: t('Explore Santiago Molina’s engineering work across commerce, SaaS, gaming, and platforms, including architecture, delivery systems, and technical leadership.'),
+    seoTitle: t('Santiago Molina — Engineering Leadership Work'),
     structuredData: workListSchema,
-    title: 'Work Experience — Santiago Molina'
+    title: t('Work Experience — Santiago Molina')
   }}
 >
   <div class="work-page" data-work-page>
@@ -95,25 +99,25 @@ backdrop="plain"
           <p class="maker-hero-eyebrow"><span
   aria-hidden="true"
   class="maker-hero-signal"
-                                        ></span>Work experience / US &amp; LATAM</p>
-          <h1 id="work-heading" class="work-heading">Products shipped.<br /><span class="
+                                        ></span>{t('Work experience / US & LATAM')}</p>
+          <h1 id="work-heading" class="work-heading">{t('Products shipped.')}<br /><span class="
             maker-hero-emphasis
           "
-                                                                            >Teams led.</span></h1>
+                                                                                   >{t('Teams led.')}</span></h1>
         </div>
         <div>
-          <p class="text-lg/7 font-medium tracking-tight text-ink">Good software takes more than code.</p>
-          <p class="mt-4 text-sm/7 text-ink-soft">I help teams turn complex problems into products that hold up. Architecture decisions, delivery systems, and hands-on technical leadership, from startup pressure to scale-up complexity.</p>
+          <p class="text-lg/7 font-medium tracking-tight text-ink">{t('Good software takes more than code.')}</p>
+          <p class="mt-4 text-sm/7 text-ink-soft">{t('I help teams turn complex problems into products that hold up. Architecture decisions, delivery systems, and hands-on technical leadership, from startup pressure to scale-up complexity.')}</p>
           <div class="maker-hero-actions" data-work-hero-actions>
             <ButtonLink class="maker-hero-primary" href="#experience-heading" variant="unstyled">
-              Explore experience <span
+              {t('Explore experience')} <span
 aria-hidden="true"
 class="maker-hero-arrow"
-                                 ><ArrowExchange direction="down" /></span>
+                                        ><ArrowExchange direction="down" /></span>
             </ButtonLink>
             <div class="work-hero-secondary-links">
-              <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.resume} variant="unstyled">Open resume <ArrowExchange direction="right" /></ButtonLink>
-              <ButtonLink class="maker-hero-secondary" data-work-hero-external href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <ArrowExchange /></ButtonLink>
+              <ButtonLink class="maker-hero-secondary" href={localizePath(siteConfig.contact.resume, pageLocale)} variant="unstyled">{t('Open resume')} <ArrowExchange direction="right" /></ButtonLink>
+              <ButtonLink class="maker-hero-secondary" data-work-hero-external href={localizePath(siteConfig.contact.linkedin, pageLocale)} newTab variant="unstyled">LinkedIn <ArrowExchange /></ButtonLink>
             </div>
           </div>
         </div>
@@ -121,7 +125,7 @@ class="maker-hero-arrow"
 
       <section
 id="career-at-a-glance"
-aria-label="Career at a glance"
+aria-label={t('Career at a glance')}
 class="work-stats"
       >
         {careerStats.map(({ description, label, source, value }, index) => (
@@ -131,7 +135,7 @@ class="work-stats"
               <h2 id={`work-stat-${index}`}>{label}</h2>
               <p>{description}</p>
               {source && (
-                <ButtonLink data-work-stat-source href={source.href} variant="unstyled">
+                <ButtonLink data-work-stat-source href={localizePath(source.href, pageLocale)} variant="unstyled">
                   <span>{source.label}</span><ArrowExchange direction={source.href.startsWith('#') ? 'down' : 'right'} />
                 </ButtonLink>
               )}
@@ -150,14 +154,14 @@ class="
 "
     >
       <div class="work-section-heading">
-        <div><p class="maker-hero-eyebrow mb-4">01 / Experience</p><h2
+        <div><p class="maker-hero-eyebrow mb-4">{t('01 / Experience')}</p><h2
 id="experience-heading"
 class="
   text-3xl/tight font-semibold tracking-tighter text-ink
   sm:text-4xl
 "
-                                                                   >The work, over time.</h2></div>
-        <p class="max-w-sm text-sm/7 text-ink-soft">Client and product work where architecture, team habits, and release quality had to improve together.</p>
+                                                                          >{t('The work, over time.')}</h2></div>
+        <p class="max-w-sm text-sm/7 text-ink-soft">{t('Client and product work where architecture, team habits, and release quality had to improve together.')}</p>
       </div>
       <CareerTimeline projects={workProjects} />
     </section>
@@ -170,14 +174,14 @@ class="
 "
     >
       <div class="work-section-heading">
-        <div><p class="maker-hero-eyebrow mb-4">02 / Toolkit</p><h2
+        <div><p class="maker-hero-eyebrow mb-4">{t('02 / Toolkit')}</p><h2
 id="tools-heading"
 class="
   text-3xl/tight font-semibold tracking-tighter text-ink
   sm:text-4xl
 "
-                                                                >The tools behind the work.</h2></div>
-        <p class="max-w-sm text-sm/7 text-ink-soft">React and TypeScript at the center. Backend, mobile, testing, and delivery tools to fit the problem.</p>
+                                                                       >{t('The tools behind the work.')}</h2></div>
+        <p class="max-w-sm text-sm/7 text-ink-soft">{t('React and TypeScript at the center. Backend, mobile, testing, and delivery tools to fit the problem.')}</p>
       </div>
       <div data-work-stack>
         {toolkitGroups.map((group, index) => (
@@ -190,15 +194,15 @@ class="
 aria-label={`${group.title} technologies`}
 class="@container/sculpted-tags flex flex-wrap gap-2.5"
             >
-              {group.items.map(([name, count]) => <li class="max-w-full min-w-0"><SculptedTag count={count} href={getTechnologyPath(name)} label={name} /></li>)}
+              {group.items.map(([name, count]) => <li class="max-w-full min-w-0"><SculptedTag count={count} href={localizePath(getTechnologyPath(name), pageLocale)} label={name} /></li>)}
             </ul>
           </section>
         ))}
       </div>
-      <p class="mt-7 text-xs/6 text-ink-soft">Numbers indicate the professional projects using each technology.</p>
-      <nav id="work-next-steps" class="work-close" aria-label="Continue exploring work" data-work-close>
+      <p class="mt-7 text-xs/6 text-ink-soft">{t('Numbers indicate the professional projects using each technology.')}</p>
+      <nav id="work-next-steps" class="work-close" aria-label={t('Continue exploring work')} data-work-close>
         {careerDestinations.map(destination => (
-          <Link class="work-close-link" href={destination.href} variant="inherit">
+          <Link class="work-close-link" href={localizePath(destination.href, pageLocale)} variant="inherit">
             <Card as="div" variant="unstyled" data-work-close-card={destination.id}>
               <p data-work-close-category>{destination.category}</p>
               <h3 id={`work-close-${destination.id}`}>{destination.title}</h3>

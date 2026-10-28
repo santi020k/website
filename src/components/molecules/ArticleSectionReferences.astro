@@ -3,6 +3,12 @@ import type { MarkdownHeading } from 'astro'
 
 import { CopyButton, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, localeLanguage } from '@/i18n'
+import { translateArticle } from '@/i18n/article-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translateArticle(locale, text)
+
 interface Props {
   headings: MarkdownHeading[]
   url: string
@@ -21,25 +27,25 @@ const sections = headings.filter(heading => heading.depth === 2)
     destination.hash = slug
 
     return (
-      <span data-section-reference-for={slug}>
+      <span lang={localeLanguage(locale)} data-section-reference-for={slug}>
         <CopyButton
           data-section-copy
           size="icon"
           variant="outline"
-          label={`Copy link to section: ${text}`}
-          copiedLabel={`Copied link to section: ${text}`}
-          errorLabel="Could not copy the section link. Open this section from the contents and copy the address."
-          title="Copy section link"
+          label={t(`Copy link to section: ${text}`)}
+          copiedLabel={t(`Copied link to section: ${text}`)}
+          errorLabel={t('Could not copy the section link. Open this section from the contents and copy the address.')}
+          title={t('Copy section link')}
           value={destination.href}
         >
           <Icon name="link" />
           <span slot="copied">
             <Icon name="check" />
-            <span data-section-copy-feedback>Copied</span>
+            <span data-section-copy-feedback>{t('Copied')}</span>
           </span>
           <span slot="error">
             <Icon name="circle-alert" />
-            <span data-section-copy-feedback>Copy failed</span>
+            <span data-section-copy-feedback>{t('Copy failed')}</span>
           </span>
         </CopyButton>
       </span>

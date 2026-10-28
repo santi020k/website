@@ -3,6 +3,8 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { Button, Card, Icon, Input, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath, translate } from '@/i18n'
+
 interface Props {
   formAction: string
 
@@ -13,17 +15,19 @@ interface Props {
 const { formAction, idSuffix = 'compact' } = Astro.props
 const emailId = `newsletter-email-${idSuffix}`
 const headingId = `newsletter-heading-${idSuffix}`
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translate(locale, text)
 ---
 
 <Card data-newsletter variant="unstyled">
   <header data-newsletter-header>
     <div data-newsletter-masthead>
-      <p data-newsletter-eyebrow>Newsletter</p>
+      <p data-newsletter-eyebrow>{t('Newsletter')}</p>
       <span data-newsletter-postmark><Icon class="size-7" name="mail" /></span>
     </div>
-    <h2 id={headingId}>Keep up with new writing.</h2>
+    <h2 id={headingId}>{t('Keep up with new writing.')}</h2>
     <p data-newsletter-description>
-      A low-volume email with new posts on software, reading, gaming, and everyday discoveries.
+      {t('A low-volume email with new posts on software, reading, gaming, and everyday discoveries.')}
     </p>
   </header>
   <form
@@ -35,7 +39,7 @@ const headingId = `newsletter-heading-${idSuffix}`
     data-newsletter-form
   >
     <input name="embed" type="hidden" value="1" />
-    <label data-newsletter-label for={emailId}>Email address</label>
+    <label data-newsletter-label for={emailId}>{t('Email address')}</label>
     <div data-newsletter-controls>
       <Input
         autocomplete="email"
@@ -52,7 +56,7 @@ const headingId = `newsletter-heading-${idSuffix}`
         type="submit"
       >
         <span data-newsletter-submit-content>
-          <span data-newsletter-submit-label>Subscribe</span>
+          <span data-newsletter-submit-label>{t('Subscribe')}</span>
           <ArrowExchange class="size-4 shrink-0" direction="up-right" />
         </span>
       </Button>
@@ -60,8 +64,8 @@ const headingId = `newsletter-heading-${idSuffix}`
   </form>
   <footer data-newsletter-footer>
     <p>
-      Monthly at most. Unsubscribe anytime.<br />
-      <Link className="privacy-inline-link" href="/privacy/" variant="inherit">Privacy</Link>
+      {t('Monthly at most. Unsubscribe anytime.')}<br />
+      <Link className="privacy-inline-link" href={localizePath('/privacy/', locale)} variant="inherit">{t('Privacy')}</Link>
     </p>
     <a data-newsletter-rss data-text-link href="/feed.xml">
       <Icon class="size-4" name="rss" />

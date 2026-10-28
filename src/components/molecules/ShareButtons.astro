@@ -4,6 +4,8 @@ import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
 
 import { Button, Card, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, translate } from '@/i18n'
+
 interface Props {
   title: string
   url: string
@@ -31,14 +33,18 @@ const shareLinks = [
     platform: 'WhatsApp'
   }
 ]
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translate(locale, text)
+
 ---
 
 <Card aria-labelledby="share-heading" as="section" data-share-card data-share-variant={variant} variant="unstyled">
-  {variant === 'colophon' && <h2 id="share-heading">Share</h2>}
+  {variant === 'colophon' && <h2 id="share-heading">{t('Share')}</h2>}
   <header data-share-header>
     <div>
-      {variant === 'sleeve' && <h2 id="share-heading">Share this piece</h2>}
-      <p data-share-lead>Pass it on.</p>
+      {variant === 'sleeve' && <h2 id="share-heading">{t('Share this piece')}</h2>}
+      <p data-share-lead>{t('Pass it on.')}</p>
     </div>
     <Button
       id="copy-link-btn"
@@ -48,7 +54,7 @@ const shareLinks = [
       variant="outline"
     >
       <span data-copy-action-content>
-        <span id="copy-label" data-copy-label>Copy link</span>
+        <span id="copy-label" data-copy-label>{t('Copy link')}</span>
         <span data-copy-action-icon>
           <Icon name="link" data-copy-icon class="size-4" />
           <Icon name="check" data-check-icon class="hidden size-4" />
@@ -59,7 +65,7 @@ const shareLinks = [
   <LinkRecovery buttonId="copy-link-btn" statusId="copy-status" url={url} nativeShare />
   <div data-share-platforms>
     {shareLinks.map(link => (
-      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={t(link.label)}>
         <span>{link.platform}</span>
         <ArrowExchange direction="up-right" class="size-4 shrink-0" />
       </a>

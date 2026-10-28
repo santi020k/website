@@ -12,6 +12,15 @@ import { getReadingTime } from '@/utils/reading-time'
 
 import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, localeLanguage, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+import { translatePage } from '@/i18n/page-copy'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+const entryType = (source: string) => pageLocale === 'es' ? translateCollection(source) : source
+const latestArticleLabel = pageLocale === 'es' ? 'Artículo más reciente' : 'Latest article'
+
 interface Props {
   posts: CollectionEntry<'post'>[]
   startHerePosts: CollectionEntry<'post'>[]
@@ -25,18 +34,18 @@ const { posts, startHerePosts } = Astro.props
     <HomeSectionHeading
       id="writing-heading"
       number="03"
-      eyebrow="The notebook"
-      title="A few things on my mind."
-      description="Notes from the work, and the life around it. Software, books, games, and things worth figuring out."
-      href="/blog/"
-      action="Read all articles"
+      eyebrow={t('The notebook')}
+      title={t('A few things on my mind.')}
+      description={t('Notes from the work, and the life around it. Software, books, games, and things worth figuring out.')}
+      href={localizePath('/blog/', pageLocale)}
+      action={t('Read all articles')}
     />
-    <h3 data-writing-heading id="latest-writing-heading">Latest writing</h3>
+    <h3 data-writing-heading id="latest-writing-heading">{t('Latest writing')}</h3>
     <ol aria-labelledby="latest-writing-heading" data-writing-list>
       {posts.map((post, index) => (
         <li>
           <Card as="article" variant="unstyled" data-writing-card data-featured={index === 0 ? '' : undefined}>
-            <a data-writing-row data-writing-featured={index === 0 ? '' : undefined} href={getPostPath(post.id)}>
+            <a data-writing-row data-writing-featured={index === 0 ? '' : undefined} href={localizePath(getPostPath(post.id), pageLocale)}>
               {post.data.coverImage && (
                 <div data-writing-artwork>
                   <Image
@@ -54,17 +63,17 @@ const { posts, startHerePosts } = Astro.props
               )}
               <div data-writing-body>
                 <p data-writing-kicker>
-                  <span>{index === 0 ? 'Latest article' : post.data.postType}</span>
+                  <span>{index === 0 ? latestArticleLabel : entryType(post.data.postType)}</span>
                   <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 </p>
                 <p data-writing-meta>
-                  <time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate)}</time>
-                  <span>{getReadingTime(post.body)} min read</span>
+                  <time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate, {}, localeLanguage(pageLocale))}</time>
+                  <span>{getReadingTime(post.body)} {t('min read')}</span>
                 </p>
-                <h4>{post.data.title}</h4>
-                <p data-writing-description>{post.data.description}</p>
+                <h4 lang="en">{post.data.title}</h4>
+                <p lang="en" data-writing-description>{post.data.description}</p>
                 <span data-writing-action>
-                  Read article
+                  {t('Read article')}
                   <ArrowExchange class="size-4.5 shrink-0" direction="up-right" />
                 </span>
               </div>
@@ -76,15 +85,15 @@ const { posts, startHerePosts } = Astro.props
     {startHerePosts.length > 0 && (
       <section aria-labelledby="start-here-heading" data-start-here>
         <div data-start-here-intro>
-          <h3 data-writing-heading id="start-here-heading">Start here</h3>
-          <p>Three ways into my work: the tools, the decisions, and the reasons behind them.</p>
+          <h3 data-writing-heading id="start-here-heading">{t('Start here')}</h3>
+          <p>{t('Three ways into my work: the tools, the decisions, and the reasons behind them.')}</p>
         </div>
         <ol data-start-here-grid>
           {startHerePosts.map((post, index) => post.data.startHere && (
             <li>
               <StartHereCard
                 coverImage={post.data.coverImage}
-                href={getPostPath(post.id)}
+                href={localizePath(getPostPath(post.id), pageLocale)}
                 label={post.data.startHere.label}
                 position={index + 1}
                 reason={post.data.startHere.reason}
@@ -96,8 +105,8 @@ const { posts, startHerePosts } = Astro.props
       </section>
     )}
     <div class="studio-writing-follow">
-      <p>Prefer a quieter way to keep up?</p>
-      <ButtonLink class="studio-text-link" data-text-link href="/feed.xml" variant="unstyled"><span data-text-link-label>Follow via RSS</span> <Icon name="rss" /></ButtonLink>
+      <p>{t('Prefer a quieter way to keep up?')}</p>
+      <ButtonLink class="studio-text-link" data-text-link href={localizePath('/feed.xml', pageLocale)} variant="unstyled"><span data-text-link-label>{t('Follow via RSS')}</span> <Icon name="rss" /></ButtonLink>
     </div>
   </section>
 )}

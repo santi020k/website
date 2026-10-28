@@ -5,19 +5,26 @@ import PageLayout from '@/layouts/Base.astro'
 
 import { ButtonLink, Card, Collapsible, Icon } from '@santi020k/lumen-astro'
 
-import { getTravelVisitLabel, travelCountries, travelPageDescription } from '@/data/travel'
+import { travelPageDescription } from '@/data/travel'
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+import { getLocalizedTravelCountries, getLocalizedVisitLabel } from '@/i18n/travel'
 import { createAuthorSchema } from '@/site.config'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+const travelCountries = getLocalizedTravelCountries(pageLocale)
+
 const meta = {
-  breadcrumbs: [{ name: 'Home', url: '/' }, { name: 'Travel', url: '/travel/' }],
-  description: travelPageDescription,
-  title: 'Travel & Life Abroad',
+  breadcrumbs: [{ name: t('Home'), url: localizePath('/', pageLocale) }, { name: t('Travel'), url: localizePath('/travel/', pageLocale) }],
+  description: t(travelPageDescription),
+  title: t('Travel & Life Abroad'),
   structuredData: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Travel & Life Abroad',
-    description: travelPageDescription,
-    url: new URL('/travel/', Astro.site).href,
+    name: t('Travel & Life Abroad'),
+    description: t(travelPageDescription),
+    url: new URL(localizePath('/travel/', pageLocale), Astro.site).href,
     author: createAuthorSchema(Astro.site)
   }
 }
@@ -29,14 +36,14 @@ const meta = {
   <section data-travel-section data-travel-roots aria-labelledby="travel-story-heading">
     <Card variant="unstyled" data-travel-origin-spread>
       <header>
-        <p data-travel-roots-eyebrow>Roots &amp; returns<Icon data-travel-roots-book name="book-open" /></p>
-        <h2 id="travel-story-heading">Colombia, Paraguay,<br />and the places between.</h2>
+        <p data-travel-roots-eyebrow>{t('Roots & returns')}<Icon data-travel-roots-book name="book-open" /></p>
+        <h2 id="travel-story-heading">{t('Colombia, Paraguay,')}<br />{t('and the places between.')}</h2>
       </header>
       <div data-travel-roots-body>
-        <p data-travel-roots-lead>Colombia is where I’m from. Paraguay is part of my story as both a destination and my country of residence: I have been there seven times, with visits to Asunción, Encarnación, and Ciudad del Este.</p>
+        <p data-travel-roots-lead>{t('Colombia is where I’m from. Paraguay is part of my story as both a destination and my country of residence: I have been there seven times, with visits to Asunción, Encarnación, and Ciudad del Este.')}</p>
         <div data-travel-roots-copy>
-          <p>Some countries appear once on this map; others are places I have returned to. I have visited Mexico seven times, and the United States, Brazil, and Argentina twice each.</p>
-          <p>I’m starting this journal with the places. Over time, I’ll add the stories behind them: everyday life while traveling, working from different places, and the memories I want to keep.</p>
+          <p>{t('Some countries appear once on this map; others are places I have returned to. I have visited Mexico seven times, and the United States, Brazil, and Argentina twice each.')}</p>
+          <p>{t('I’m starting this journal with the places. Over time, I’ll add the stories behind them: everyday life while traveling, working from different places, and the memories I want to keep.')}</p>
         </div>
       </div>
     </Card>
@@ -44,16 +51,16 @@ const meta = {
 
   <section data-travel-section id="travel-countries" aria-labelledby="country-list-heading">
     <div data-travel-section-heading>
-      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>The notebook</p>
-      <h2 id="country-list-heading">Places I’ve kept<br />along the way.</h2>
-      <p>The countries, cities, and regions I have visited, with room for more memories as I write.</p>
+      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>{t('The notebook')}</p>
+      <h2 id="country-list-heading">{t('Places I’ve kept')}<br />{t('along the way.')}</h2>
+      <p>{t('The countries, cities, and regions I have visited, with room for more memories as I write.')}</p>
     </div>
     <Collapsible id="travel-notebook">
       <summary>
-        <span data-travel-index-count>All <span data-travel-index-total>{travelCountries.length}</span></span>
+        <span data-travel-index-count>{t('All')} <span data-travel-index-total>{travelCountries.length}</span></span>
         <span data-travel-index-copy>
-          <span data-travel-index-title>countries</span>
-          <span data-travel-index-subtitle>&amp; the places within them</span>
+          <span data-travel-index-title>{t('countries')}</span>
+          <span data-travel-index-subtitle>{t('& the places within them')}</span>
         </span>
         <Icon data-travel-index-chevron name="chevron-down" />
       </summary>
@@ -64,7 +71,7 @@ const meta = {
             <div data-travel-country-content>
               <header data-travel-country-heading>
                 <h3 id={`country-name-${country.code.toLowerCase()}`}>{country.name}</h3>
-                <span data-travel-visit-label>{getTravelVisitLabel(country)}</span>
+                <span data-travel-visit-label>{getLocalizedVisitLabel(country, pageLocale)}</span>
               </header>
               {country.places.length > 0 ?
 (
@@ -72,7 +79,7 @@ const meta = {
                   {country.places.map(place => <li>{place}</li>)}
                 </ul>
               ) :
-<p data-travel-home-copy>I’m from Colombia. This is where my story begins.</p>}
+<p data-travel-home-copy>{t('I’m from Colombia. This is where my story begins.')}</p>}
               {country.note && <p data-travel-country-note>{country.note}</p>}
             </div>
           </article>
@@ -84,13 +91,13 @@ const meta = {
   <section data-travel-section data-travel-stories aria-labelledby="travel-stories-heading">
     <Card variant="unstyled" data-travel-story-sleeve>
       <header data-travel-stories-cover>
-        <p data-travel-stories-eyebrow>Stories to come<Icon data-travel-stories-book name="book-open" /></p>
-        <h2 id="travel-stories-heading">More than places<br />on a map.</h2>
+        <p data-travel-stories-eyebrow>{t('Stories to come')}<Icon data-travel-stories-book name="book-open" /></p>
+        <h2 id="travel-stories-heading">{t('More than places')}<br />{t('on a map.')}</h2>
       </header>
       <div data-travel-stories-body>
-        <p>I’m collecting the stories behind these journeys. Travel posts will join my blog as I finish writing them.</p>
-        <ButtonLink href="/blog/" variant="unstyled" data-travel-stories-link>
-          <span>Read the blog</span>
+        <p>{t('I’m collecting the stories behind these journeys. Travel posts will join my blog as I finish writing them.')}</p>
+        <ButtonLink href={localizePath('/blog/', pageLocale)} variant="unstyled" data-travel-stories-link>
+          <span>{t('Read the blog')}</span>
           <span data-travel-stories-arrow><ArrowExchange data-travel-stories-arrow-icon direction="up-right" /></span>
         </ButtonLink>
       </div>

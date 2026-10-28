@@ -3,9 +3,15 @@ import FaqList from '@/components/molecules/FaqList.astro'
 import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
 import HomeSectionHeading from '@/components/pages/home/HomeSectionHeading.astro'
 
-import { testimonials } from '@/data/profile'
 import type { FaqItem } from '@/data/work-with-me'
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+import { getLocalizedProfile } from '@/i18n/profile'
 import { siteConfig } from '@/site.config'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+const { testimonials } = getLocalizedProfile(pageLocale)
 
 interface Props {
   faq: FaqItem[]
@@ -17,13 +23,13 @@ const homeTestimonials = testimonials.slice(0, 3)
 
 <section aria-labelledby="home-testimonials-heading" class="studio-section" data-home-testimonials>
   <HomeSectionHeading
-    action="Read more recommendations"
-    description="From people I’ve managed, worked beside, and built for."
-    eyebrow="In their words"
-    href="/about/#about-recommendations"
+    action={t('Read more recommendations')}
+    description={t('From people I’ve managed, worked beside, and built for.')}
+    eyebrow={t('In their words')}
+    href={localizePath('/about/#about-recommendations', pageLocale)}
     id="home-testimonials-heading"
     number="05"
-    title="What working together is like."
+    title={t('What working together is like.')}
   />
   <div data-home-testimonial-grid>
     {homeTestimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
@@ -34,13 +40,13 @@ const homeTestimonials = testimonials.slice(0, 3)
 
 <section aria-labelledby="home-faq-heading" class="studio-section" data-home-faq>
   <HomeSectionHeading
-    action="Work with me"
-    description="Talks, roles, growing teams, AI, and code quality. Here’s what people ask before reaching out."
-    eyebrow="Questions"
-    href={siteConfig.contact.workWithMe}
+    action={t('Work with me')}
+    description={t('Talks, roles, growing teams, AI, and code quality. Here’s what people ask before reaching out.')}
+    eyebrow={t('Questions')}
+    href={localizePath(siteConfig.contact.workWithMe, pageLocale)}
     id="home-faq-heading"
     number="06"
-    title="Before you write."
+    title={t('Before you write.')}
   />
   <FaqList items={faq} />
 </section>

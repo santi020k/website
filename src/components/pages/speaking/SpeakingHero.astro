@@ -9,10 +9,16 @@ import SpeakerPortrait from '@/assets/photos/originals/me-1-square.webp'
 
 import { Card, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+
 const sessionTraits = [
-  'Grounded in shipped work',
-  'Tailored to the audience',
-  'Community-led since 2017'
+  t('Grounded in shipped work'),
+  t('Tailored to the audience'),
+  t('Community-led since 2017')
 ]
 ---
 
@@ -31,7 +37,7 @@ const sessionTraits = [
           animate-slide-up whitespace-normal
           motion-reduce:animate-none
         "
-        label="Speaking & community"
+        label={t('Speaking & community')}
         tone="brand"
       />
 
@@ -42,16 +48,15 @@ const sessionTraits = [
         "
       >
         <h1 class="editorial-page-title">
-          Technical talks.
-          <span class="editorial-page-emphasis">Practical takeaways.</span>
+          {t('Technical talks.')}
+          <span class="editorial-page-emphasis">{t('Practical takeaways.')}</span>
         </h1>
         <p class="
           max-w-2xl text-base/7 text-ink-soft
           sm:text-lg/8
         "
         >
-          Technical sessions grounded in real delivery constraints, plus community
-          work that helps engineers learn, connect, and share what they know.
+          {t('Technical sessions grounded in real delivery constraints, plus community work that helps engineers learn, connect, and share what they know.')}
         </p>
       </div>
 
@@ -64,14 +69,14 @@ const sessionTraits = [
         <div class="space-y-3">
           <div class="section-actions">
             <ButtonLink className="site-action-aligned" href="#speaking-booking-heading">
-              <span>Plan a session</span>
+              <span>{t('Plan a session')}</span>
               <span aria-hidden="true" class="site-action-arrow">
                 <ArrowExchange direction="down-right" size="sm" />
               </span>
             </ButtonLink>
           </div>
           <p class="text-xs/6 text-ink-soft">
-            Start with the brief, then message me on WhatsApp or book a call.
+            {t('Start with the brief, then message me on WhatsApp or book a call.')}
           </p>
         </div>
 
@@ -93,7 +98,7 @@ const sessionTraits = [
     </div>
 
     <aside
-      aria-label="Speaker profile"
+      aria-label={t('Speaker profile')}
       class="
         mx-auto w-full max-w-84
         sm:max-w-92
@@ -103,7 +108,7 @@ const sessionTraits = [
       <Card data-speaker-cover variant="unstyled">
         <div data-speaker-cover-portrait>
           <Image
-            alt="Santiago Molina, engineering leader and speaker"
+            alt={t('Santiago Molina, engineering leader and speaker')}
             decoding="sync"
             fetchpriority="high"
             format="avif"
@@ -113,21 +118,21 @@ const sessionTraits = [
             widths={[336, 384, 672, 768]}
           />
           <header data-speaker-cover-identity>
-            <p>Speaker profile</p>
+            <p>{t('Speaker profile')}</p>
             <h2>Santiago Molina</h2>
           </header>
         </div>
         <div data-speaker-cover-copy>
           <p>
-            Engineering leader, full-stack architect, and ReactJS Colombia co-organizer.
+            {t('Engineering leader, full-stack architect, and ReactJS Colombia co-organizer.')}
           </p>
           <dl>
             <div class="min-w-0">
-              <dt>Community</dt>
-              <dd>Since 2017</dd>
+              <dt>{t('Community')}</dt>
+              <dd>{t('Since 2017')}</dd>
             </div>
             <div class="min-w-0">
-              <dt>Based in</dt>
+              <dt>{t('Based in')}</dt>
               <dd>Medellín</dd>
             </div>
           </dl>

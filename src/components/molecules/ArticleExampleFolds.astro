@@ -1,12 +1,17 @@
 ---
 import { Button, Icon } from '@santi020k/lumen-astro'
+
+import { getLocale, localeLanguage } from '@/i18n'
+import { translateArticle } from '@/i18n/article-copy'
+
+const locale = getLocale(Astro.url.pathname)
 ---
 
 <template data-fold-return-template>
-  <div data-code-fold-footer>
+  <div lang={localeLanguage(locale)} data-code-fold-footer>
     <Button data-fold-return size="sm" variant="outline">
       <Icon name="chevrons-up" />
-      Collapse example
+      {translateArticle(locale, 'Collapse example')}
     </Button>
   </div>
 </template>

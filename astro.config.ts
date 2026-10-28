@@ -15,6 +15,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 // Remark plugins
 import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
+import { stripLocale } from './src/i18n'
 import { codeHighlightingOptions } from './src/plugins/code-highlighting'
 import { rehypeArticleChecklists } from './src/plugins/rehype-article-checklists'
 import { rehypeArticleFigures } from './src/plugins/rehype-article-figures'
@@ -32,6 +33,14 @@ import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
 const siteOrigin = 'https://santi020k.com'
+
+const canonicalContentURL = (value: string): string => {
+  const url = new URL(value)
+
+  url.pathname = stripLocale(url.pathname)
+
+  return url.href
+}
 
 /**
  * Builds sitemap metadata for content-collection routes from frontmatter.
@@ -188,20 +197,22 @@ const legacyRedirects: Record<string, string> = {
 
 // https://astro.build/config
 export default defineConfig({
+  i18n: { defaultLocale: 'en', locales: ['en', 'es'], routing: { prefixDefaultLocale: false } },
   redirects: legacyRedirects,
   // Editorial images are local. Leave third-party mention avatars as browser
   // requests so an unavailable author image cannot fail the static build.
   integrations: [
     icon(),
     sitemap({
+      i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
       // Draft filtering happens at route level (getStaticPaths / getCachedPosts / getAllProjects)
       // so draft pages never generate URLs and are never included in the sitemap.
       filter: page => !page.endsWith('/offline/') &&
         !page.endsWith('/404/') &&
         !page.endsWith('/work-with-me/sent/') &&
-        !nonCanonicalPageUrls.has(page),
+        !nonCanonicalPageUrls.has(canonicalContentURL(page)),
       serialize(item) {
-        const contentLastmod = contentLastmodMap.get(item.url)
+        const contentLastmod = contentLastmodMap.get(canonicalContentURL(item.url))
 
         return contentLastmod ? { ...item, lastmod: contentLastmod } : item
       }

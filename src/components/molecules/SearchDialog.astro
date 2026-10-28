@@ -1,5 +1,11 @@
 ---
 import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
+
+import { getLocale, translate } from '@/i18n'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translate(locale, text)
+
 ---
 
 <Dialog
@@ -17,31 +23,31 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
     <div data-site-search-panel role="document">
       <div data-site-search-heading>
         <div data-site-search-identity>
-          <span aria-hidden="true" data-site-search-label>Site index</span>
-          <h2 id="site-search-title">Search</h2>
-          <p data-site-search-description>Posts, projects, and community.</p>
+          <span aria-hidden="true" data-site-search-label>{t('Site index')}</span>
+          <h2 id="site-search-title">{t('Search')}</h2>
+          <p data-site-search-description>{t('Posts, projects, and community.')}</p>
         </div>
         <Button data-site-search-close size="icon" type="button" variant="ghost">
           <Icon class="size-5" name="x" />
-          <span class="sr-only">Close search</span>
+          <span class="sr-only">{t('Close search')}</span>
         </Button>
       </div>
 
       <div data-site-search-body>
         <div data-site-search-field>
           <Icon class="size-5 shrink-0" name="search" />
-          <label class="sr-only" for="site-search-input">Search posts, projects, and community work</label>
+          <label class="sr-only" for="site-search-input">{t('Search posts, projects, and community work')}</label>
           <SearchField
             aria-describedby="site-search-help"
             autocomplete="off"
             class="peer"
             id="site-search-input"
-            placeholder="Search the site…"
+            placeholder={t('Search the site…')}
             spellcheck="false"
             type="search"
           />
           <Button
-            aria-label="Clear search"
+            aria-label={t('Clear search')}
             class="peer-placeholder-shown:invisible"
             data-site-search-input-clear
             size="icon"
@@ -56,12 +62,12 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
         <ul id="site-search-results"></ul>
 
         <div data-site-search-footer id="site-search-help">
-          <span><Kbd><span aria-hidden="true">↑ ↓</span><span class="sr-only">Arrow keys</span></Kbd> Move</span>
+          <span><Kbd><span aria-hidden="true">↑ ↓</span><span class="sr-only">{t('Arrow keys')}</span></Kbd> {t('Move')}</span>
           <span><Kbd><Icon name="corner-down-left" class="size-3" /><span class="
             sr-only
           "
-                                                                    >Enter</span></Kbd> Open</span>
-          <span><Kbd>Esc</Kbd> Close</span>
+                                                                    >{t('Enter')}</span></Kbd> {t('Open')}</span>
+          <span><Kbd>Esc</Kbd> {t('Close')}</span>
         </div>
       </div>
     </div>

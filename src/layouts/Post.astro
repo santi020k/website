@@ -21,6 +21,7 @@ import PostHero from '@/components/organisms/PostHero.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
 import type { PrintReference } from '@/plugins/rehype-print-references'
+import { localizeArticleControls } from '@/utils/article-control-language'
 import { getArticlePageImprint } from '@/utils/article-page-imprint'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingStats } from '@/utils/reading-time'
@@ -33,12 +34,17 @@ import { ScrollProgress } from '@santi020k/lumen-astro'
 
 import { ogManifest } from '@/data/og-manifest'
 import { getSeriesContext } from '@/data/series'
+import { getLocale, localizePath, stripLocale } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
 import {
   createAuthorSchema,
   createPublisherSchema,
   createWebsiteSchemaReference,
   siteConfig
 } from '@/site.config'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 
 interface Props {
   figureCaptions: string[]
@@ -49,12 +55,13 @@ interface Props {
 }
 
 const { figureCaptions, headings, post, printReferences, recommendationUrls } = Astro.props
+const articleHtml = localizeArticleControls(await Astro.slots.render('default') ?? '', locale)
 const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
 
 const ogImage = getSocialImageURL(
   Astro.url.pathname,
   Astro.site,
-  `/og/blog/${getPostSlug(post.id)}.webp`,
+  locale === 'es' ? undefined : `/og/blog/${getPostSlug(post.id)}.webp`,
   ogManifest
 )
 
@@ -63,7 +70,7 @@ const localURL = new URL(Astro.url.pathname, Astro.site)
 const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : localURL
 const seriesContext = await getSeriesContext(post)
 const hasContents = headings.some(heading => heading.depth <= 3)
-const pageTargetUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com').href
+const pageTargetUrl = new URL(stripLocale(Astro.url.pathname), Astro.site ?? 'https://santi020k.com').href
 
 const webmentions = WEBMENTION_API_KEY ?
   await fetchWebmentionsForTarget(pageTargetUrl, WEBMENTION_API_KEY) :
@@ -91,8 +98,8 @@ const blogPostingSchema: Record<string, unknown> = {
 }
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
+  { name: t('Home'), url: localizePath('/', locale) },
+  { name: 'Blog', url: localizePath('/blog/', locale) },
   { name: title, url: Astro.url.pathname }
 ]
 
@@ -136,8 +143,8 @@ mainClass="remaining-pages remaining-pages--reading"
           </div>
         )}
         <div class="e-content max-w-none">
-          <div class="prose-santi max-w-none" data-article-prose data-pagefind-body id="article-content">
-            <slot />
+          <div lang="en" class="prose-santi max-w-none" data-article-prose data-pagefind-body id="article-content">
+            <Fragment set:html={articleHtml} />
           </div>
           {figureCaptions.length > 0 && <ArticleFigureViewers captions={figureCaptions} />}
           <ArticleSectionReferences headings={headings} url={localURL.href} />
@@ -205,7 +212,7 @@ mainClass="remaining-pages remaining-pages--reading"
   <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} excludeUrls={recommendationUrls} tags={post.data.tags} />
 
   <div class="section-container-wide" data-post-final-return>
-    <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} variant="colophon" />
+    <ProjectFooterNav parentPage={{ name: 'Blog', url: localizePath('/blog/', locale) }} variant="colophon" />
   </div>
 
 </BaseLayout>

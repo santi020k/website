@@ -3,8 +3,14 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { Button, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, translate } from '@/i18n'
+
 import SearchDialog from './SearchDialog.astro'
 import SearchRecoveryState from './SearchRecoveryState.astro'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => translate(locale, text)
+
 ---
 
 <div class="relative flex shrink-0 items-center" data-site-search>
@@ -13,14 +19,14 @@ import SearchRecoveryState from './SearchRecoveryState.astro'
     aria-expanded="false"
     aria-haspopup="dialog"
     aria-keyshortcuts="Control+K Meta+K"
-    aria-label="Open site search (Ctrl/⌘ K)"
+    aria-label={t('Open site search (Ctrl/⌘ K)')}
     data-site-search-trigger
     size="icon"
     type="button"
     variant="ghost"
   >
     <Icon class="size-5 shrink-0" name="search" />
-    <span class="site-header-search-label" aria-hidden="true">Search</span>{' '}
+    <span class="site-header-search-label" aria-hidden="true">{t('Search')}</span>{' '}
     <kbd class="site-header-search-shortcut" aria-hidden="true">Ctrl/⌘ K</kbd>
   </Button>
 

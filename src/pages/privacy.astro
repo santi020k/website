@@ -7,86 +7,91 @@ import PageLayout from '@/layouts/Base.astro'
 
 import { Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+
 const description =
-  'How santi020k.com stores preferences, recent searches, offline pages, and data sent to third-party services.'
+  t('How santi020k.com stores preferences, recent searches, offline pages, and data sent to third-party services.')
 
 /** Single source of truth for the review date shown in the hero and the footnote. */
-const lastReviewed = 'October 28, 2026'
+const lastReviewed = t('October 28, 2026')
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Privacy', url: '/privacy/' }
+  { name: t('Home'), url: localizePath('/', pageLocale) },
+  { name: t('Privacy'), url: localizePath('/privacy/', pageLocale) }
 ]
 
 const meta = {
   breadcrumbs,
   description,
-  title: 'Privacy & analytics'
+  title: t('Privacy & analytics')
 }
 
 const sections = [
   {
-    label: 'What runs here',
-    body: 'Static HTML built with Astro, delivered via CDN. No third-party ad pixels, no visitor profiling.'
+    label: t('What runs here'),
+    body: t('Static HTML built with Astro, delivered via CDN. No third-party ad pixels, no visitor profiling.')
   },
   {
-    label: 'Browser storage',
-    body: 'Theme preference and recent site-search terms are stored in localStorage on your device. The service worker may also keep previously visited pages and assets in Cache Storage for offline access. Saved responses can retain their original URL, including search terms. Clearing this site’s browser data removes both.'
+    label: t('Browser storage'),
+    body: t('Theme preference and recent site-search terms are stored in localStorage on your device. The service worker may also keep previously visited pages and assets in Cache Storage for offline access. Saved responses can retain their original URL, including search terms. Clearing this site’s browser data removes both.')
   },
   {
-    label: 'Analytics',
-    body: 'Cloudflare hosts the site and provides aggregate traffic metrics. When enabled, Cloudflare Web Analytics counts visits and page performance without cookies, local storage, or fingerprinting, and does not track you across sites.'
+    label: t('Analytics'),
+    body: t('Cloudflare hosts the site and provides aggregate traffic metrics. When enabled, Cloudflare Web Analytics counts visits and page performance without cookies, local storage, or fingerprinting, and does not track you across sites.')
   },
   {
-    label: 'Contact form',
-    body: 'The Work with me form writes a WhatsApp message in your browser and opens WhatsApp; nothing you type is sent to this site. Your draft stays in the open form so you can edit or retry it; it is not saved to browser storage or this site’s URLs. WhatsApp applies its own privacy terms to the conversation.'
+    label: t('Contact form'),
+    body: t('The Work with me form writes a WhatsApp message in your browser and opens WhatsApp; nothing you type is sent to this site. Your draft stays in the open form so you can edit or retry it; it is not saved to browser storage or this site’s URLs. WhatsApp applies its own privacy terms to the conversation.')
   },
   {
-    label: 'Third-party services',
-    body: 'Newsletter subscriptions are processed by Buttondown. Comments are provided by Giscus through GitHub Discussions. When comments load, Giscus receives the page URL, which can include an open site-search query. These services also receive the information you submit and apply their own privacy terms.'
+    label: t('Third-party services'),
+    body: t('Newsletter subscriptions are processed by Buttondown. Comments are provided by Giscus through GitHub Discussions. When comments load, Giscus receives the page URL, which can include an open site-search query. These services also receive the information you submit and apply their own privacy terms.')
   },
   {
     label: 'Webmentions',
-    body: 'Blog posts may show public reactions retrieved through Webmention.io. These are interactions already published on the open web; removal requests can be sent to the contact address below. Reaction profile pictures load directly from Webmention.io or the author’s site, so that host receives your IP address when your browser fetches the image. These requests send no referrer.'
+    body: t('Blog posts may show public reactions retrieved through Webmention.io. These are interactions already published on the open web; removal requests can be sent to the contact address below. Reaction profile pictures load directly from Webmention.io or the author’s site, so that host receives your IP address when your browser fetches the image. These requests send no referrer.')
   }
 ]
 ---
 
 <PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
   <PageHero
-    description="No ad trackers or visitor profiles. This page explains the browser storage and third-party services the site does use."
-    eyebrow="Legal"
-    gradientText="without the maze."
-    metaItems={['No ad pixels', 'No profiling', `Reviewed ${lastReviewed}`]}
-    title="Privacy"
+    description={t('No ad trackers or visitor profiles. This page explains the browser storage and third-party services the site does use.')}
+    eyebrow={t('Legal')}
+    gradientText={t('without the maze.')}
+    metaItems={['No ad pixels', 'No profiling', `${t('Reviewed')} ${lastReviewed}`]}
+    title={t('Privacy')}
   />
 
   <PolicySections {sections} />
 
-  <PolicyContactCard label="Questions" title="Privacy questions should be easy to ask.">
+  <PolicyContactCard label={t('Questions')} title={t('Privacy questions should be easy to ask.')}>
     <p>
-      Reach out at{' '}
+      {t('Reach out at')}{' '}
       <Link
 variant="inherit"
-href={`mailto:${siteConfig.contact.email}`}
+href={localizePath(`mailto:${siteConfig.contact.email}`, pageLocale)}
       >
         {siteConfig.contact.email}
       </Link>
-      {' '}for anything privacy-related.
+      {' '}{t('for anything privacy-related.')}
     </p>
     <p slot="note">
-      Last reviewed {lastReviewed}. I aim to acknowledge privacy and deletion requests within five business days.
+      {t('Last reviewed')} {lastReviewed}{t('. I aim to acknowledge privacy and deletion requests within five business days.')}
     </p>
   </PolicyContactCard>
 
   <div class="section-container-wide section-actions">
-    <ButtonLink href="/" showArrow variant="secondary">
-      Back home
+    <ButtonLink href={localizePath('/', pageLocale)} showArrow variant="secondary">
+      {t('Back home')}
     </ButtonLink>
-    <ButtonLink href="/accessibility/" showArrow variant="ghost">
-      Accessibility statement
+    <ButtonLink href={localizePath('/accessibility/', pageLocale)} showArrow variant="ghost">
+      {t('Accessibility statement')}
     </ButtonLink>
   </div>
 </PageLayout>

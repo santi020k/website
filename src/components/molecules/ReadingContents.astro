@@ -5,12 +5,20 @@ import { getReadingChapters } from '@/utils/reading-chapters'
 
 import { Anchor, Collapsible, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   headings: MarkdownHeading[]
   embedded?: boolean
 }
 
 const { headings, embedded = false } = Astro.props
+const chapterOverview = (text: string) => locale === 'es' ? `Resumen del capítulo: ${text}` : `Chapter overview: ${text}`
+const namedOverview = (name: string) => locale === 'es' ? `Resumen de ${name}` : `${name} overview`
 
 const chapters = getReadingChapters(headings).map(chapter => {
   const separator = chapter.heading.text.indexOf(': ')
@@ -23,11 +31,9 @@ const chapters = getReadingChapters(headings).map(chapter => {
 
 {chapters.length > 0 && (
   <reading-contents>
-    <Anchor activationOffset={120} aria-label="Table of contents" data-reading-contents data-contents-embedded={embedded || undefined}>
+    <Anchor activationOffset={120} aria-label={t('Table of contents')} data-reading-contents data-contents-embedded={embedded || undefined}>
       {!embedded && (
-        <p data-chapters-title>
-          On this page
-          <Icon class="size-4 shrink-0" name="list" />
+        <p data-chapters-title>{t('On this page')}<Icon class="size-4 shrink-0" name="list" />
         </p>
       )}
       <ol data-chapter-list role="list">
@@ -48,7 +54,7 @@ const chapters = getReadingChapters(headings).map(chapter => {
                   <Icon class="size-4 shrink-0" data-chapter-toggle-icon name="chevron-down" />
                 </summary>
                 <ol data-chapter-sections role="list">
-                  <li><a href={`#${heading.slug}`} aria-label={label ? undefined : `Chapter overview: ${heading.text}`}>{label ? `${label.name} overview` : 'Chapter overview'}</a></li>
+                  <li><a href={`#${heading.slug}`} aria-label={label ? undefined : chapterOverview(heading.text)}>{label ? namedOverview(label.name) : t('Chapter overview')}</a></li>
                   {sections.map(section => <li><a href={`#${section.slug}`}>{section.text}</a></li>)}
                 </ol>
               </Collapsible>

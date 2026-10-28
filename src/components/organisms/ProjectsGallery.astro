@@ -13,6 +13,12 @@ import { getProjectDateRangeLabel, getProjectStatusLabel } from '@/utils/project
 
 import { ButtonLink, Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   matchedTechnology?: string
   productFirst?: boolean
@@ -36,7 +42,7 @@ const projectItems = projects.map(project => {
     cardDescription: project.data.cardDescription ?? project.data.description,
     destination: productFirst ? getProjectPrimaryDestination(project.data) : undefined,
     hasMatch,
-    href: getPortfolioPath(project.id),
+    href: localizePath(getPortfolioPath(project.id), locale),
     status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
     technologies,
     title: project.data.title
@@ -69,16 +75,16 @@ const projectItems = projects.map(project => {
         <div class="projects-editorial-copy">
           <div class="projects-editorial-meta">
             <span>{String(index + 1).padStart(2, '0')} / {project.dateRange}</span>
-            <Pill label={project.status} tone="outline" />
+            <Pill label={t(project.status)} tone="outline" />
           </div>
-          <h3>{project.title}</h3>
-          <p>{project.cardDescription}</p>
+          <h3 lang="en">{project.title}</h3>
+          <p lang="en">{project.cardDescription}</p>
           {project.technologies.length > 0 && (
-            <ul aria-label={project.hasMatch ? undefined : 'Core technologies'} data-matched-stack={project.hasMatch ? '' : undefined}>
+            <ul aria-label={project.hasMatch ? undefined : t('Core technologies')} data-matched-stack={project.hasMatch ? '' : undefined}>
               {project.technologies.map((technology, technologyIndex) => (
                 <li data-technology-match={project.hasMatch && technologyIndex === 0 ? '' : undefined}>
                   {project.hasMatch && technologyIndex === 0 && (
-<><Icon name="check" size="sm" /><span class="sr-only">Archive match: </span></>
+<><Icon name="check" size="sm" /><span class="sr-only">{t('Archive match:')}</span></>
 )}
                   <span>{technology}</span>
                 </li>
@@ -90,24 +96,24 @@ const projectItems = projects.map(project => {
             <div data-project-destinations>
               {project.destination && (
                 <ButtonLink data-project-visit href={project.destination.href} newTab variant="unstyled">
-                  <span>{project.destination.action}</span>
+                  <span>{t(project.destination.action)}</span>
                   <ArrowExchange direction="up-right" />
                 </ButtonLink>
               )}
               <Link
                 aria-label={`Read the case study: ${project.title}`}
                 data-project-case-study
-                href={project.href}
+                href={localizePath(project.href, locale)}
                 variant="inherit"
               >
-                <span>Read the case study</span>
+                <span>{t('Read the case study')}</span>
                 <ArrowExchange direction="right" />
               </Link>
             </div>
           ) :
 (
             <span class="projects-editorial-action">
-              View project
+              {t('View project')}
               <ArrowExchange class="size-4.5 shrink-0" direction="right" />
             </span>
           )}

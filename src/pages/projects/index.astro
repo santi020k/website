@@ -14,8 +14,12 @@ import { ButtonLink as LumenButtonLink, Link } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import { projectPurposeIds, projectPurposes } from '@/data/project-purposes'
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
 import { siteConfig } from '@/site.config'
 
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
 const rankedProjects = [...sideProjects].sort(collectionRelevanceSortProjects)
@@ -31,11 +35,11 @@ const allTechnologies = getUniqueTechnologiesWithCount(sideProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Projects', url: '/projects/' }
+  { name: t('Home'), url: localizePath('/', locale) },
+  { name: t('Projects'), url: localizePath('/projects/', locale) }
 ]
 
-const projectsListSchema = createProjectCollectionSchema('Side Projects — Santiago Molina', '/projects/', showcaseProjects, Astro.site)
+const projectsListSchema = createProjectCollectionSchema(t('Side Projects — Santiago Molina'), '/projects/', showcaseProjects, Astro.site)
 ---
 
 <PageLayout
@@ -44,61 +48,57 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
   mainClass="projects-page"
   meta={{
     breadcrumbs,
-    description: 'Independent apps, developer tools, and experiments — explore the projects I build beyond client work by what they help people do.',
+    description: t('Independent apps, developer tools, and experiments — explore the projects I build beyond client work by what they help people do.'),
     structuredData: projectsListSchema,
-    title: 'Side Projects — Santiago Molina'
+    title: t('Side Projects — Santiago Molina')
   }}
 >
   <section class="signature-frame maker-hero projects-intro" aria-labelledby="projects-heading" data-projects-page>
     <p class="maker-hero-eyebrow">
       <span aria-hidden="true" class="maker-hero-signal"></span>
-      <span>Independent making / {showcaseProjects.length} {showcaseProjects.length === 1 ? 'project' : 'projects'}</span>
+      <span>{t('Independent making')} / {showcaseProjects.length} {showcaseProjects.length === 1 ? t('project') : t('projects')}</span>
     </p>
     <div class="projects-intro-stage">
       <h1 id="projects-heading">
-        <span>Built for the{' '}</span>
-        <span class="maker-hero-emphasis">love of it.</span>
+        <span>{t('Built for the')}{' '}</span>
+        <span class="maker-hero-emphasis">{t('love of it.')}</span>
       </h1>
-      <p class="maker-hero-description">
-        Useful products. Better tools. Room to explore.
-        Choose what you want to discover.
-      </p>
+      <p class="maker-hero-description">{t('Useful products. Better tools. Room to explore. Choose what you want to discover.')}</p>
     </div>
     <nav
-      aria-label="Browse projects by purpose"
+      aria-label={t('Browse projects by purpose')}
       class="@container/sculpted-tags projects-intro-paths"
     >
       {purposeGroups.map(group => (
         <SculptedTag
           count={group.projects.length}
           href={`#${group.id}`}
-          label={group.title}
+          label={t(group.title)}
         />
       ))}
     </nav>
     <div class="projects-intro-footer">
-      <p>From developer foundations to everyday apps.</p>
-      <LumenButtonLink class="maker-hero-secondary" href={siteConfig.contact.github} newTab variant="unstyled">
-        View GitHub <ArrowExchange />
+      <p>{t('From developer foundations to everyday apps.')}</p>
+      <LumenButtonLink class="maker-hero-secondary" href={siteConfig.contact.github} newTab variant="unstyled">{t('View GitHub')}<ArrowExchange />
       </LumenButtonLink>
     </div>
   </section>
 
   <section
-    aria-label={`${showcaseProjects.length} personal projects`}
+    aria-label={t(`${showcaseProjects.length} personal projects`)}
     class="section-container-wide scroll-mt-28 page-section-space"
     id="projects"
   >
     <SectionHeader
-      description="Start with what you want to explore: tools for building software, apps for everyday life, or an idea taking shape."
-      eyebrow={`${showcaseProjects.length} project stories`}
-      title="The work behind the logos."
+      description={t('Start with what you want to explore: tools for building software, apps for everyday life, or an idea taking shape.')}
+      eyebrow={t(`${showcaseProjects.length} project stories`)}
+      title={t('The work behind the logos.')}
     />
   </section>
 
   {purposeGroups.map(group => (
     <section
-      aria-label={group.title}
+      aria-label={t(group.title)}
       class="section-container-wide scroll-mt-28 space-y-8 page-section-space"
       data-project-purpose-group={group.id}
       id={group.id}
@@ -107,13 +107,13 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       <div data-project-chapter>
         <div data-project-chapter-heading>
           <SectionHeader
-            description={group.description}
-            eyebrow={`${group.projects.length} ${group.projects.length === 1 ? 'project story' : 'project stories'}`}
-            title={group.title}
+            description={t(group.description)}
+            eyebrow={`${group.projects.length} ${group.projects.length === 1 ? t('project story') : t('project stories')}`}
+            title={t(group.title)}
           />
           {purposeGroups.length > 1 && (
-            <nav aria-label={`Explore beyond ${group.title}`} data-project-chapter-links>
-              <p>Keep exploring</p>
+            <nav aria-label={t(`Explore beyond ${t(group.title)}`)} data-project-chapter-links>
+              <p>{t('Keep exploring')}</p>
               <ul>
                 {purposeGroups.filter(destination => destination.id !== group.id).map(destination => (
                   <li>
@@ -123,9 +123,9 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
                       variant="inherit"
                     >
                       <span data-project-chapter-label>
-                        <span>{destination.title}</span>{' '}
+                        <span>{t(destination.title)}</span>{' '}
                         <span data-project-chapter-count>
-                          {destination.projects.length}<span class="sr-only"> {destination.projects.length === 1 ? 'project' : 'projects'}</span>
+                          {destination.projects.length}<span class="sr-only"> {destination.projects.length === 1 ? t('project') : t('projects')}</span>
                         </span>
                       </span>
                       <ArrowExchange direction="right" />

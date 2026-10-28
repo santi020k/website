@@ -13,6 +13,12 @@ import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 import { Badge, Card, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   featured?: boolean
   imagePriority?: boolean
@@ -20,7 +26,7 @@ interface Props {
 }
 
 const { featured = false, imagePriority = false, project } = Astro.props
-const projectLink = getPortfolioPath(project.id)
+const projectLink = localizePath(getPortfolioPath(project.id), locale)
 const previewImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
 const timeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const projectStatus = getProjectStatusLabel(project.data.draft, project.data.endingDate)
@@ -64,14 +70,14 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
     <div data-portfolio-project-body>
       <p data-portfolio-date>{timeline}</p>
       <h3 data-portfolio-title>{project.data.title}</h3>
-      <p data-portfolio-role>{project.data.role ?? 'Engineering'}</p>
+      <p data-portfolio-role>{project.data.role ?? t('Engineering')}</p>
       <p data-portfolio-description>{project.data.description}</p>
 
       {impactMetrics.length > 0 && (
-        <ul data-portfolio-outcomes aria-label="Project outcomes">
+        <ul data-portfolio-outcomes aria-label={t('Project outcomes')}>
           {impactMetrics.map(metric => (
             <li data-portfolio-metric={metric.value ? 'measured' : 'qualitative'}>
-              <span data-portfolio-evidence-label aria-hidden="true">Selected outcome</span>
+              <span data-portfolio-evidence-label aria-hidden="true">{t('Selected outcome')}</span>
               {metric.value ?
 (
                 <>
@@ -88,18 +94,18 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
 
       <div data-portfolio-footer>
         {technologies.length > 0 && (
-          <ul data-portfolio-technologies aria-label="Technologies">
+          <ul data-portfolio-technologies aria-label={t('Technologies')}>
             {technologies.map(technology => <li>{technology}</li>)}
           </ul>
         )}
-        <span data-portfolio-action>Read case study <ArrowExchange
+        <span data-portfolio-action>{t('Read case study')}<ArrowExchange
 class="size-4"
 direction="up-right"
-                                                    /></span>
+                                                          /></span>
       </div>
     </div>
   </div>
-  <a data-portfolio-link href={projectLink} aria-label={`Read case study: ${project.data.title}`}></a>
+  <a data-portfolio-link href={projectLink} aria-label={locale === 'es' ? `Leer el caso de estudio: ${project.data.title}` : `Read case study: ${project.data.title}`} ></a>
 </Card>
 
 <style>

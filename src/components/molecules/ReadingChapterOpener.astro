@@ -5,6 +5,12 @@ import ReadingContents from '@/components/molecules/ReadingContents.astro'
 
 import { Collapsible, Icon } from '@santi020k/lumen-astro'
 
+import { getLocale } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   headings: MarkdownHeading[]
 }
@@ -18,7 +24,7 @@ const sectionCount = tocHeadings.filter(heading => heading.depth <= 2).length ||
   <div data-chapter-opener>
     <Collapsible data-toc-opener>
       <summary data-toc-summary>
-        <span>On this page</span>{' '}
+        <span>{t('On this page')}</span>{' '}
         <span data-toc-count>{sectionCount} {sectionCount === 1 ? 'section' : 'sections'}</span>
         <Icon class="size-4 shrink-0" data-toc-toggle-icon name="chevron-down" />
       </summary>

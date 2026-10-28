@@ -6,7 +6,11 @@ import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 
 import { selectedOrganizations } from '@/data/profile'
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
 const projectsById = new Map((await getCachedProjects()).map(project => [project.id, project]))
 
 const organizations = selectedOrganizations
@@ -27,11 +31,11 @@ const organizations = selectedOrganizations
 ---
 
 <section aria-labelledby="home-logos-heading" data-home-logos>
-  <h2 id="home-logos-heading">Trusted by product teams at</h2>
+  <h2 id="home-logos-heading">{t('Trusted by product teams at')}</h2>
   <ul>
     {organizations.map(({ href, label, logo, style, surface }) => (
       <li style={style}>
-        <a aria-label={`${label} case study`} data-logo-tile data-logo-surface={surface} href={href}>
+        <a aria-label={pageLocale === 'es' ? `${label}: ${t('case study')}` : `${label} case study`} data-logo-tile data-logo-surface={surface} href={localizePath(href, pageLocale)}>
           {logo ?
             <Image alt="" loading="lazy" sizes="6rem" src={logo} width={Math.min(logo.width, 192)} widths={[96, 192].filter(width => width <= logo.width)} /> :
             <span aria-hidden="true">{label}</span>}

@@ -10,6 +10,8 @@ import { getProjectBrandStyle } from '@/utils/project-brand'
 import { Button } from '@santi020k/lumen-astro'
 
 import type { SocialProofItem } from '@/data/profile'
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
 
 interface OrganizationLogoRailItem extends SocialProofItem {
   project: CollectionEntry<'project'>
@@ -27,11 +29,14 @@ const logoFrameWidth = { square: 8, tall: 5, wide: 13 } satisfies Record<LogoAsp
 const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Set([displayWidth, displayWidth * 2, maximumWidth])]
   .filter(width => width > 0 && width <= maximumWidth)
   .sort((left, right) => left - right)
+
+const locale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(locale, source)
 ---
 
 <section
-  aria-label="Selected products, companies, and communities"
-  aria-roledescription="carousel"
+  aria-label={t('Selected products, companies, and communities')}
+  aria-roledescription={t('carousel')}
   class="min-w-0"
   data-organization-carousel
 >
@@ -56,7 +61,7 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
               focus-visible:ring-2 focus-visible:ring-brand/50
               focus-visible:outline-hidden
             "
-            href={getPortfolioPath(project.id)}
+            href={localizePath(getPortfolioPath(project.id), locale)}
           >
             <span
               data-carousel-logo
@@ -91,7 +96,7 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
               <h3 data-carousel-title>{label}</h3>
               <p data-carousel-description>{context}</p>
               <span data-carousel-action>
-                Read case study
+                {t('Read case study')}
                 <ArrowExchange
                   class="size-4"
                   direction="right"
@@ -106,7 +111,7 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
 
   <div data-carousel-controls hidden>
     <p aria-live="polite" class="text-sm font-medium text-ink-muted" data-carousel-status />
-    <nav aria-label="Choose an organization">
+    <nav aria-label={t('Choose an organization')}>
       <ol data-organization-index>
         {organizations.map(({ label }, index) => (
           <li>
@@ -226,7 +231,10 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
 </style>
 
 <script>
+  import { getLocale } from '@/i18n'
+
   const initializeOrganizationCarousels = (): void => {
+    const locale = getLocale(window.location.pathname)
     const carousels = document.querySelectorAll<HTMLElement>('[data-organization-carousel]')
 
     for (const carousel of carousels) {
@@ -273,9 +281,11 @@ const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Se
 
         controls.hidden = items.length <= pageSize
 
-        const statusText = pageSize === 1 ?
+        const displayCount = pageSize === 1 ?
           `Showing ${startIndex + 1} of ${items.length}` :
           `Showing ${startIndex + 1}–${Math.min(startIndex + pageSize, items.length)} of ${items.length}`
+
+        const statusText = locale === 'es' ? displayCount.replace('Showing', 'Mostrando').replace(' of ', ' de ') : displayCount
 
         if (status.textContent !== statusText) status.textContent = statusText
 

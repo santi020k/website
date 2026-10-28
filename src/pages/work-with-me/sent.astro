@@ -5,13 +5,20 @@ import PageLayout from '@/layouts/Base.astro'
 
 import { Icon } from '@santi020k/lumen-astro'
 
-import { siteConfig } from '@/site.config'
+import { getLocale, localizePath } from '@/i18n'
+import { getDirectContactMessage } from '@/i18n/intake'
+import { translatePage } from '@/i18n/page-copy'
+import { createWhatsAppHref, siteConfig } from '@/site.config'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+const whatsappHref = createWhatsAppHref(getDirectContactMessage(pageLocale))
 
 // Retain the old handoff URL without treating a direct visit as a sent message.
 const meta = {
-  description: 'Write a message to Santiago Molina or choose another way to get in touch.',
+  description: t('Write a message to Santiago Molina or choose another way to get in touch.'),
   noindex: true,
-  title: 'Start a conversation'
+  title: t('Start a conversation')
 }
 
 ---
@@ -19,16 +26,16 @@ const meta = {
 <PageLayout footerVariant="compact" mainClass="remaining-pages" meta={meta}>
   <PageHero
     compact
-    description="Return to the form to write or edit your message, or choose another contact option below. Nothing is sent until you press send in WhatsApp."
-    eyebrow="Start a conversation"
-    gradientText="Let’s talk."
-    title="Have something in mind?"
+    description={t('Return to the form to write or edit your message, or choose another contact option below. Nothing is sent until you press send in WhatsApp.')}
+    eyebrow={t('Start a conversation')}
+    gradientText={t('Let’s talk.')}
+    title={t('Have something in mind?')}
   >
-    <ButtonLink href="/work-with-me/#start" variant="secondary">
-      Write a message
+    <ButtonLink href={localizePath('/work-with-me/#start', pageLocale)} variant="secondary">
+      {t('Write a message')}
     </ButtonLink>
-    <ButtonLink href="/portfolio/" variant="ghost">
-      Browse the work
+    <ButtonLink href={localizePath('/portfolio/', pageLocale)} variant="ghost">
+      {t('Browse the work')}
     </ButtonLink>
   </PageHero>
 
@@ -37,20 +44,20 @@ aria-labelledby="sent-fallback-heading"
 class="section-container-wide"
 data-sent-fallback
   >
-    <h2 id="sent-fallback-heading">Other ways to reach me</h2>
-    <p>Open WhatsApp directly, book a call, or send an email.</p>
+    <h2 id="sent-fallback-heading">{t('Other ways to reach me')}</h2>
+    <p>{t('Open WhatsApp directly, book a call, or send an email.')}</p>
     <div data-sent-channels>
-      <a data-sent-channel data-sent-whatsapp href={siteConfig.contact.whatsapp} rel="noopener noreferrer" target="_blank">
+      <a data-sent-channel data-sent-whatsapp href={localizePath(whatsappHref, pageLocale)} rel="noopener noreferrer" target="_blank">
         <Icon class="size-5 shrink-0" name="message-circle" />
-        <span><strong>Open WhatsApp directly</strong><span>Opens WhatsApp Web or the app</span></span>
+        <span><strong>{t('Open WhatsApp directly')}</strong><span>{t('Opens WhatsApp Web or the app')}</span></span>
       </a>
-      <a data-sent-channel href={siteConfig.contact.calendar} rel="noopener noreferrer" target="_blank">
+      <a data-sent-channel href={localizePath(siteConfig.contact.calendar, pageLocale)} rel="noopener noreferrer" target="_blank">
         <Icon class="size-5 shrink-0" name="calendar-days" />
-        <span><strong>Book a call</strong><span>Pick a time on my calendar</span></span>
+        <span><strong>{t('Book a call')}</strong><span>{t('Pick a time on my calendar')}</span></span>
       </a>
-      <a data-sent-channel href={`mailto:${siteConfig.contact.email}`}>
+      <a data-sent-channel href={localizePath(`mailto:${siteConfig.contact.email}`, pageLocale)}>
         <Icon class="size-5 shrink-0" name="mail" />
-        <span><strong>Send an email</strong><span>{siteConfig.contact.email}</span></span>
+        <span><strong>{t('Send an email')}</strong><span>{siteConfig.contact.email}</span></span>
       </a>
     </div>
   </section>

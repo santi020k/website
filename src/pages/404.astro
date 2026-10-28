@@ -5,16 +5,22 @@ import PageLayout from '@/layouts/Base.astro'
 
 import { Card, Icon, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+
 const recoveryPages = [
-  { slug: 'portfolio', title: 'Portfolio', description: 'Recent case studies, shipped systems, and product work.' },
-  { slug: 'blog', title: 'Blog', description: 'Architecture, automation, and developer experience writing.' },
-  { slug: 'about', title: 'About', description: 'A quick overview of experience, leadership style, and community work.' }
+  { slug: 'portfolio', title: t('Portfolio'), description: t('Recent case studies, shipped systems, and product work.') },
+  { slug: 'blog', title: 'Blog', description: t('Architecture, automation, and developer experience writing.') },
+  { slug: 'about', title: t('About'), description: t('A quick overview of experience, leadership style, and community work.') }
 ]
 
 const meta = {
-  description: 'The page you are looking for could not be found.',
+  description: t('The page you are looking for could not be found.'),
   noindex: true,
-  title: 'Page not found'
+  title: t('Page not found')
 }
 ---
 
@@ -29,7 +35,7 @@ const meta = {
     "
   >
     <div class="space-y-6">
-      <p class="editorial-eyebrow">404 · Page not found</p>
+      <p class="editorial-eyebrow">{t('404 · Page not found')}</p>
 
       <div class="space-y-4">
         <div data-recovery-status>
@@ -94,19 +100,19 @@ const meta = {
           "
           id="error-heading"
         >
-          This page drifted out of orbit.
+          {t('This page drifted out of orbit.')}
         </h1>
         <p class="max-w-md text-base/7 text-ink-soft">
-          The route may have changed, or the page may never have existed in this version of the site.
+          {t('The route may have changed, or the page may never have existed in this version of the site.')}
         </p>
       </div>
 
       <div class="section-actions">
-        <ButtonLink href="/" showArrow>
-          Back home
+        <ButtonLink href={localizePath('/', pageLocale)} showArrow>
+          {t('Back home')}
         </ButtonLink>
-        <ButtonLink href="/blog/" showArrow variant="secondary">
-          Read blog
+        <ButtonLink href={localizePath('/blog/', pageLocale)} showArrow variant="secondary">
+          {t('Read blog')}
         </ButtonLink>
       </div>
     </div>
@@ -114,13 +120,13 @@ const meta = {
     <div class="editorial-rail">
       <Card as="section" variant="unstyled" data-recovery-card aria-labelledby="recovery-heading">
         <header data-recovery-header>
-          <h2 id="recovery-heading" data-recovery-heading>Try these instead</h2>
+          <h2 id="recovery-heading" data-recovery-heading>{t('Try these instead')}</h2>
           <Icon name="signpost" class="size-5.5 shrink-0" />
         </header>
         <nav data-recovery-links aria-labelledby="recovery-heading">
           {recoveryPages.map(({ slug, title, description }) => (
             <Link
-              href={`/${slug}/`}
+              href={localizePath(`/${slug}/`, pageLocale)}
               variant="inherit"
               data-recovery-link
             >

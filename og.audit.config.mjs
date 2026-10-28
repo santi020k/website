@@ -17,7 +17,7 @@ export default defineAuditConfig({
         '/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/',
         '/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/',
         '/blog/storybook-in-action-with-next-js-tailwind-and-typescript/'
-      ],
+      ].flatMap(pathname => [pathname, `/es${pathname}`]),
       reportOrphans: true
     }
   })

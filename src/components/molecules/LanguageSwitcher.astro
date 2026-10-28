@@ -1,0 +1,60 @@
+---
+import { getLocale, localizePath } from '@/i18n'
+
+interface Props {
+  variant?: 'header' | 'menu'
+}
+
+const { variant = 'header' } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const target = locale === 'en' ? 'es' : 'en'
+const label = locale === 'en' ? 'Leer en español' : 'Read in English'
+const destination = localizePath(`${Astro.url.pathname}${Astro.url.search}`, target)
+---
+
+<a
+
+  data-language-switch={variant}
+  href={destination}
+  hreflang={target}
+  lang={target}
+  aria-label={label}
+>
+  <span aria-hidden="true">{variant === 'menu' ? label : target.toUpperCase()}</span>
+</a>
+
+<style>
+  [data-language-switch] {
+    display: inline-flex;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: .25rem;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    font-weight: 600;
+  }
+  [data-language-switch]:hover { color: hsl(var(--brand)); }
+  [data-language-switch]:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 3px; }
+  [data-language-switch="menu"] { justify-content: start; font-size: .875rem; }
+  @media (max-width: 639px) {
+    [data-language-switch="header"] { display: none; }
+  }
+</style>
+
+<script>
+  document.addEventListener('click', event => {
+    const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('[data-language-switch]') : null
+
+    if (!link) return
+
+    const destination = new URL(link.href)
+
+    destination.search = window.location.search
+
+    destination.hash = window.location.hash
+
+    link.href = destination.href
+  }, { capture: true })
+</script>

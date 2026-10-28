@@ -12,7 +12,11 @@ import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 import { Card, Icon, Input, Link, MotionGroup } from '@santi020k/lumen-astro'
 
 import { getTechnologyEntryCounts } from '@/data/project'
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
 
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 const allProjects = await getCachedProjects()
 const technologies = getTechnologyEntryCounts(allProjects)
 const coreTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count >= 4))
@@ -22,33 +26,33 @@ const selectiveTechnologies = sortTechnologyCountsByInterest(technologies.filter
 const technologyGroups = [
   {
     items: coreTechnologies,
-    recurrence: '4+ entries each',
-    summary: 'Repeated foundations across product architecture, delivery workflows, and the portfolio surface.',
-    title: 'Core'
+    recurrence: locale === 'es' ? '4 o más entradas cada una' : '4+ entries each',
+    summary: t('Repeated foundations across product architecture, delivery workflows, and the portfolio surface.'),
+    title: t('Core')
   },
   {
     items: regularTechnologies,
-    recurrence: '2–3 entries each',
-    summary: 'Reliable companion tools that help teams ship, test, document, and maintain production systems.',
-    title: 'Regular'
+    recurrence: locale === 'es' ? '2–3 entradas cada una' : '2–3 entries each',
+    summary: t('Reliable companion tools that help teams ship, test, document, and maintain production systems.'),
+    title: t('Regular')
   },
   {
     items: selectiveTechnologies,
-    recurrence: '1 entry each',
-    summary: 'Context-specific platforms, APIs, and product capabilities used when the problem calls for them.',
-    title: 'Selective'
+    recurrence: locale === 'es' ? '1 entrada cada una' : '1 entry each',
+    summary: t('Context-specific platforms, APIs, and product capabilities used when the problem calls for them.'),
+    title: t('Selective')
   }
 ].filter(group => group.items.length > 0)
 
 const evidencePaths = [
-  { href: '/work/', title: 'Work experience', description: 'Roles, teams, and systems shipped.' },
-  { href: '/projects/', title: 'Independent projects', description: 'Apps, tools, and ideas I build.' },
-  { href: '/blog/', title: 'Writing', description: 'Decisions, experiments, and lessons.' }
+  { href: '/work/', title: t('Work experience'), description: t('Roles, teams, and systems shipped.') },
+  { href: '/projects/', title: t('Independent projects'), description: t('Apps, tools, and ideas I build.') },
+  { href: '/blog/', title: t('Writing'), description: t('Decisions, experiments, and lessons.') }
 ]
 
 const meta = {
-  description: 'Browse Santiago Molina’s capabilities and technologies across frontend architecture, product systems, testing, and delivery.',
-  title: 'Capabilities & Technologies'
+  description: t('Browse Santiago Molina’s capabilities and technologies across frontend architecture, product systems, testing, and delivery.'),
+  title: t('Capabilities & Technologies')
 }
 
 ---
@@ -57,10 +61,10 @@ const meta = {
   <div data-technology-opening>
     <PageHero
       compact
-      description={`Explore ${technologies.length} technologies and capabilities through the projects where they appear.`}
-      eyebrow="Capabilities index"
-      gradientText="real work."
-      title="Tools, connected to"
+      description={t(`Explore ${technologies.length} technologies and capabilities through the projects where they appear.`)}
+      eyebrow={t('Capabilities index')}
+      gradientText={t('real work.')}
+      title={t('Tools, connected to')}
     >
       <div data-technology-index data-technology-opening-controls slot="after-description">
         <div data-technology-filter-row>
@@ -68,13 +72,13 @@ const meta = {
             <div data-technology-search-field>
               <span data-technology-search-mark><Icon class="size-5.25" name="search" /></span>
               <div>
-                <label for="technology-filter">Find a technology</label>
+                <label for="technology-filter">{t('Find a technology')}</label>
                 <Input
                   aria-describedby="technology-filter-status"
                   autocomplete="off"
                   data-technology-search-input
                   id="technology-filter"
-                  placeholder="Search…"
+                  placeholder={t('Search…')}
                   spellcheck="false"
                   type="search"
                 />
@@ -86,34 +90,34 @@ const meta = {
               data-technology-search-counter
               id="technology-filter-status"
             >
-              <span class="sr-only" data-technology-result-prefix>Showing all </span><span data-technology-result-count>{technologies.length}</span>{' '}<span data-technology-result-unit>technologies</span><span
+              <span class="sr-only" data-technology-result-prefix>{t('Showing all')}</span><span data-technology-result-count>{technologies.length}</span>{' '}<span data-technology-result-unit>{t('technologies')}</span><span
 class="sr-only"
 data-technology-result-suffix
-                                                                                                                                                                                                              >.</span>
+                                                                                                                                                                                                                           >.</span>
             </p>
           </div>
         </div>
-        <nav aria-label="Browse technology groups" data-technology-group-navigation>
+        <nav aria-label={t('Browse technology groups')} data-technology-group-navigation>
           {technologyGroups.map((group, index) => (
             <Link href={`#technology-group-${index}`} variant="inherit">
-              <span data-technology-shortcut-title>{group.title}</span>
+              <span data-technology-shortcut-title>{t(group.title)}</span>
               <ArrowExchange class="size-4" direction="down" />
               <span data-technology-shortcut-meta>
-                {group.items.length} {group.items.length === 1 ? 'technology' : 'technologies'}<br />
+                {group.items.length} {group.items.length === 1 ? t('technology') : t('technologies')}<br />
                 {group.recurrence}
               </span>
             </Link>
           ))}
         </nav>
         <div data-technology-opening-actions>
-          <Link href="/work/" variant="inherit">Browse work <ArrowExchange
+          <Link href={localizePath('/work/', locale)} variant="inherit">{t('Browse work')}<ArrowExchange
 class="size-4"
 direction="right"
-                                                            /></Link>
-          <Link href="/portfolio/" variant="inherit">Portfolio <ArrowExchange
+                                                                                          /></Link>
+          <Link href={localizePath('/portfolio/', locale)} variant="inherit">{t('Portfolio')}<ArrowExchange
 class="size-4"
 direction="right"
-                                                               /></Link>
+                                                                                             /></Link>
         </div>
       </div>
     </PageHero>
@@ -124,10 +128,10 @@ direction="right"
       <div data-technology-index>
         <section aria-labelledby="technology-matches-heading" data-technology-matches hidden>
           <header data-technology-matches-header>
-            <h2 id="technology-matches-heading">Matches for “<span data-technology-match-query></span>”</h2>
-            <p>Counts reflect portfolio entries</p>
+            <h2 id="technology-matches-heading">{t('Matches for')} “<span data-technology-match-query></span>”</h2>
+            <p>{t('Counts reflect portfolio entries')}</p>
           </header>
-          <div aria-label="Matching technologies" data-technology-matches-list role="list"></div>
+          <div aria-label={t('Matching technologies')} data-technology-matches-list role="list"></div>
         </section>
         <div data-technology-groups>
           {technologyGroups.map((group, index) => (
@@ -144,31 +148,31 @@ data-technology-number
                     >
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <span data-technology-title>{group.title}
+                    <span data-technology-title>{t(group.title)}
                     </span>
                   </span>
                   <span
 data-technology-group-count
                   >
-                    {group.items.length} {group.items.length === 1 ? 'tool' : 'tools'}
+                    {group.items.length} {group.items.length === 1 ? t('tool') : t('tools')}
                   </span>
                 </h2>
                 <p class="max-w-sm text-sm/6 text-ink-soft">{group.summary}</p>
               </div>
 
-              <MotionGroup aria-label={`${group.title} technologies`} data-technology-links enterExit={false} role="list">
+              <MotionGroup aria-label={t(`${t(group.title)} technologies`)} data-technology-links enterExit={false} role="list">
                 {group.items.map(([technology, count]) => (
                   <span data-label={technology} data-technology-item data-ui-motion-key={technology} role="listitem">
                     <Link
-                      href={getTechnologyPath(technology)}
+                      href={localizePath(getTechnologyPath(technology), locale)}
                       variant="inherit"
                     >
                       <span data-technology-label>{technology}</span>{' '}
-                      <span data-technology-match-group>{group.title}</span>{' '}
+                      <span data-technology-match-group>{t(group.title)}</span>{' '}
                       <span data-technology-project-count>{count}<span
 class="sr-only"
 data-technology-entry-unit
-                                                                 > {count === 1 ? 'entry' : 'entries'}</span></span>
+                                                                 > {count === 1 ? t('entry') : t('entries')}</span></span>
                       <span data-technology-match-arrow><ArrowExchange
 class="size-4"
 direction="up-right"
@@ -188,8 +192,8 @@ direction="up-right"
         >
           <span data-technology-empty-icon><Icon class="size-5.5" name="search-x" /></span>
           <div>
-            <h2 id="technology-empty-heading">No technologies match that search.</h2>
-            <p>Try a broader term or clear the search field.</p>
+            <h2 id="technology-empty-heading">{t('No technologies match that search.')}</h2>
+            <p>{t('Try a broader term or clear the search field.')}</p>
           </div>
         </section>
       </div>
@@ -201,17 +205,17 @@ direction="up-right"
   <PageSection layout="stacked">
     <section aria-labelledby="technology-evidence-heading" data-technology-evidence-paths id="trace-the-evidence">
       <header data-evidence-paths-header>
-        <p data-evidence-paths-label>Beyond the toolkit</p>
-        <h2 id="technology-evidence-heading">Follow it into the work.</h2>
-        <p data-evidence-paths-copy>See the roles, products, and decisions behind these tools.</p>
+        <p data-evidence-paths-label>{t('Beyond the toolkit')}</p>
+        <h2 id="technology-evidence-heading">{t('Follow it into the work.')}</h2>
+        <p data-evidence-paths-copy>{t('See the roles, products, and decisions behind these tools.')}</p>
       </header>
-      <nav aria-label="Explore beyond the toolkit" data-evidence-paths-navigation>
+      <nav aria-label={t('Explore beyond the toolkit')} data-evidence-paths-navigation>
         {evidencePaths.map((path, index) => (
-          <Link data-evidence-path href={path.href} variant="inherit">
+          <Link data-evidence-path href={localizePath(path.href, locale)} variant="inherit">
             <span aria-hidden="true" data-evidence-path-number>{String(index + 1).padStart(2, '0')}</span>
             <span data-evidence-path-body>
-              <span data-evidence-path-title>{path.title}</span>{' '}
-              <span data-evidence-path-description>{path.description}</span>
+              <span data-evidence-path-title>{t(path.title)}</span>{' '}
+              <span data-evidence-path-description>{t(path.description)}</span>
             </span>
             <ArrowExchange data-evidence-path-arrow direction="up-right" />
           </Link>
@@ -222,6 +226,8 @@ direction="up-right"
 
   <script>
     const setupTechnologyIndex = () => {
+      const isSpanish = document.documentElement.lang.startsWith('es')
+      const copy = isSpanish ? { all: 'Mostrando todas las ', singular: 'tecnología', plural: 'tecnologías', foundOne: ' encontrada.', foundMany: ' encontradas.' } : { all: 'Showing all ', singular: 'technology', plural: 'technologies', foundOne: ' found.', foundMany: ' found.' }
       const groups = document.querySelector<HTMLElement>('[data-technology-groups]')
       const input = document.querySelector<HTMLInputElement>('#technology-filter')
       const status = document.getElementById('technology-filter-status')
@@ -279,13 +285,15 @@ direction="up-right"
 
         empty.hidden = visibleTotal > 0
 
-        statusPrefix.textContent = searching ? '' : 'Showing all '
+        statusPrefix.textContent = searching ? '' : copy.all
 
         statusCount.textContent = String(visibleTotal)
 
-        statusUnit.textContent = visibleTotal === 1 ? 'technology' : 'technologies'
+        statusUnit.textContent = visibleTotal === 1 ? copy.singular : copy.plural
 
-        statusSuffix.textContent = searching ? ' found.' : '.'
+        const foundLabel = visibleTotal === 1 ? copy.foundOne : copy.foundMany
+
+        statusSuffix.textContent = searching ? foundLabel : '.'
       }
 
       input.addEventListener('input', updateResults)

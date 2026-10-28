@@ -28,7 +28,7 @@ export const generateOfflineWorker = async (root = projectRoot) => {
 
   const hash = createHash('sha256').update(template)
 
-  for (const file of ['index.html', 'offline/index.html', ...assets.map(asset => join('_astro', asset))]) {
+  for (const file of ['index.html', 'offline/index.html', 'es/offline/index.html', ...assets.map(asset => join('_astro', asset))]) {
     hash.update(file.split(sep).join('/')).update('\0')
 
     hash.update(await readFile(join(dist, file))).update('\0')

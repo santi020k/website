@@ -13,7 +13,10 @@ import { collectionRelevanceSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 import { getStartHerePosts } from '@/utils/start-here'
 
-import { createFaqSchema, workWithMeFaq } from '@/data/work-with-me'
+import { createFaqSchema } from '@/data/work-with-me'
+import { getLocale, localizePath } from '@/i18n'
+import { translatePage } from '@/i18n/page-copy'
+import { getLocalizedWorkWithMe } from '@/i18n/work-with-me'
 import {
   createSchemaEntityId,
   createWebsiteSchemaReference,
@@ -21,6 +24,9 @@ import {
   YEARS_OF_EXPERIENCE
 } from '@/site.config'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = (source: string) => translatePage(pageLocale, source)
+const { workWithMeFaq } = getLocalizedWorkWithMe(pageLocale)
 const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
 
 const workProjects = allProjects
@@ -44,9 +50,9 @@ const latestPosts = allPosts
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 
 const homeDescription =
-  'Santiago Molina, known online as santi020k, is an engineering leader and full-stack architect building modern systems and better developer experiences.'
+  t('Santiago Molina, known online as santi020k, is an engineering leader and full-stack architect building modern systems and better developer experiences.')
 
-const homeUrl = new URL('/', Astro.site).href
+const homeUrl = new URL(localizePath('/', pageLocale), Astro.site).href
 const homeFaq = workWithMeFaq.slice(0, 5)
 
 const homePageSchema = {
@@ -67,31 +73,31 @@ const homePageSchema = {
     },
     {
       '@type': 'ItemList',
-      name: 'Work experience',
+      name: t('Work experience'),
       itemListElement: workProjects.map((project, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: new URL(getPortfolioPath(project.id), Astro.site).href,
+        url: new URL(localizePath(getPortfolioPath(project.id), pageLocale), Astro.site).href,
         name: project.data.title
       }))
     },
     {
       '@type': 'ItemList',
-      name: 'Side projects',
+      name: t('Side projects'),
       itemListElement: personalProjects.map((project, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: new URL(getPortfolioPath(project.id), Astro.site).href,
+        url: new URL(localizePath(getPortfolioPath(project.id), pageLocale), Astro.site).href,
         name: project.data.title
       }))
     },
     {
       '@type': 'ItemList',
-      name: 'Latest writing',
+      name: t('Latest writing'),
       itemListElement: latestPosts.map((post, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: new URL(getPostPath(post.id), Astro.site).href,
+        url: new URL(localizePath(getPostPath(post.id), pageLocale), Astro.site).href,
         name: post.data.title
       }))
     },
@@ -101,9 +107,9 @@ const homePageSchema = {
 
 const meta = {
   description: homeDescription,
-  seoTitle: 'Santiago Molina — Full-Stack Engineer',
+  seoTitle: t('Santiago Molina — Full-Stack Engineer'),
   structuredData: homePageSchema,
-  title: 'Engineering Leader & Full-Stack Architect'
+  title: t('Engineering Leader & Full-Stack Architect')
 }
 ---
 

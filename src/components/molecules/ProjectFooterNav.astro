@@ -7,6 +7,12 @@ import { getProjectPrimaryDestination } from '@/utils/project-destinations'
 
 import { Card, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   hasProductPreviews?: boolean
   project?: CollectionEntry<'project'>
@@ -21,17 +27,17 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
 
 <footer data-reading-actions data-return-variant={variant} data-return-unified={closingLinks.length > 0 || undefined} id={project ? 'project-return' : undefined}>
   <Card variant="unstyled" data-return-folio>
-    <nav aria-label="Page-end navigation">
+    <nav aria-label={t('Page-end navigation')}>
       <div data-return-row>
-        <Link href={parentPage.url} variant="inherit" data-return-link>
+        <Link href={localizePath(parentPage.url, locale)} variant="inherit" data-return-link>
           <span data-return-mark><ArrowExchange data-return-icon direction="left" /></span>
           <span data-return-copy>
-            <span data-return-kicker>Back to</span>
-            <span data-return-destination>{parentPage.name}</span>
+            <span data-return-kicker>{t('Back to')}</span>
+            <span data-return-destination>{t(parentPage.name)}</span>
           </span>
         </Link>
         <Link href="#main" variant="inherit" data-return-top>
-          <span>Back to top</span>
+          <span>{t('Back to top')}</span>
           <ArrowExchange data-return-icon direction="up" />
         </Link>
       </div>
@@ -39,25 +45,25 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
         <div data-return-destinations>
           {liveDemoUrl && destination && (
             <Link href={liveDemoUrl} newTab variant="inherit">
-              <span>{destination.action}</span>
+              <span>{t(destination.action)}</span>
               <ArrowExchange data-return-icon direction="up-right" />
             </Link>
           )}
           {closingLinks.map(link => (
-            <Link href={link.href} newTab variant="inherit">
-              <span>{link.label}</span>
+            <Link href={localizePath(link.href, locale)} newTab variant="inherit">
+              <span>{t(link.label)}</span>
               <ArrowExchange data-return-icon direction="up-right" />
             </Link>
           ))}
           {hasProductPreviews && (
             <Link href="#inside-the-product" variant="inherit">
-              <span>{previews?.linkLabel ?? 'View product previews'}</span>
+              <span>{t(previews?.linkLabel ?? 'View product previews')}</span>
               <ArrowExchange data-return-icon direction="up" />
             </Link>
           )}
           {githubUrl && (
             <Link href={githubUrl} newTab variant="inherit">
-              <span>Open repository</span>
+              <span>{t('Open repository')}</span>
               <ArrowExchange data-return-icon direction="up-right" />
             </Link>
           )}
