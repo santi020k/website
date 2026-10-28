@@ -16,6 +16,8 @@ for (const locale of ['en', 'es'] as const) {
       const link = card.getByRole('link')
       await expect(gallery).toHaveAttribute('data-post-gallery-grid', 'focused')
       await expect(card).toHaveCount(1)
+      await expect(card.locator('[data-post-gallery-topics] li > [lang="en"]')).toHaveText(['macOS', 'Apple silicon'])
+      await expect(card.locator('[data-post-topic-separator]')).toHaveAttribute('aria-hidden', 'true')
 
       for (const [width, size, spread] of [[1440, '100%', true], [768, '100%', true], [390, '100%', false], [320, '200%', false]] as const) {
         await page.setViewportSize({ width, height: 1100 })
@@ -95,12 +97,39 @@ for (const locale of ['en', 'es'] as const) {
     await expect(page.locator('[data-post-gallery-grid]')).toHaveAttribute('data-post-gallery-grid', 'chapters')
   })
 
+  test(`${locale} shared article cards use named captions without nested links`, async ({ page }) => {
+    for (const example of [
+      { route: '/blog/', labels: ['iOS', 'SwiftUI'] },
+      { route: '/blog/tags/developer-tools/', labels: ['Developer experience', 'Developer tools'] },
+      { route: '/blog/series/eslint-in-practice/', labels: ['ESLint', 'TypeScript'] },
+      { route: '/developer-experience/', labels: ['Developer experience', 'Engineering culture'] },
+      { route: '/blog/run-repo-on-mac-with-silo-dxmt/', labels: ['macOS', 'Swift'] }
+    ]) {
+      await page.goto(`${prefix}${example.route}`)
+      const card = page.locator('[data-post-gallery-card]').first()
+      const topics = card.getByRole('list', { name: locale === 'es' ? 'Temas' : 'Topics', exact: true })
+      await expect(topics.locator('li > [lang="en"]')).toHaveText(example.labels)
+      await expect(topics.getByRole('link')).toHaveCount(0)
+      await expect(card.getByRole('link')).toHaveCount(1)
+      await expect(topics.locator('[data-post-topic-separator]')).toHaveCount(1)
+      await expect(topics).toHaveAccessibleName(locale === 'es' ? 'Temas' : 'Topics')
+      for (const [width, size] of [[390, '100%'], [320, '200%']] as const) {
+        await page.setViewportSize({ width, height: 1100 })
+        await page.evaluate(value => {
+          document.documentElement.style.fontSize = value
+        }, size)
+        expect(await topics.evaluate(element => [...element.querySelectorAll('li')].every(item => item.scrollWidth <= item.clientWidth + 1))).toBe(true)
+      }
+    }
+  })
+
   test.describe(`${locale} focused gallery without JavaScript`, () => {
     test.use({ javaScriptEnabled: false })
 
     test('the complete article card remains a native reading destination', async ({ page }) => {
       await page.goto(`${prefix}/blog/tags/wine/`)
       const link = page.locator('[data-post-gallery-card] > a')
+      await expect(link.locator('[data-post-gallery-topics] li > [lang="en"]')).toHaveText(['macOS', 'Apple silicon'])
       await expect(link).not.toHaveAttribute('target', '_blank')
       await link.press('Enter')
       await expect(page).toHaveURL(`${prefix}/blog/run-repo-on-mac-with-silo-dxmt/`)

@@ -9,6 +9,7 @@ import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingTime } from '@/utils/reading-time'
 import { getResponsiveImageDimensions } from '@/utils/responsive-image'
+import { getBlogTopicLabel } from '@/utils/tags'
 
 import { Card, Link } from '@santi020k/lumen-astro'
 
@@ -113,8 +114,13 @@ const galleryItems = posts.map(createGalleryItem)
               <p lang="en">{item.data.cardDescription ?? item.data.description}</p>
 
               {!!item.data.tags.length && (
-                <ul aria-label={t('collection.topics')}>
-                  {item.data.tags.slice(0, 2).map(tag => <li>{tag}</li>)}
+                <ul aria-label={t('collection.topics')} data-post-gallery-topics>
+                  {item.data.tags.slice(0, 2).map((tag, topicIndex) => (
+                    <li>
+                      {topicIndex > 0 && <span aria-hidden="true" data-post-topic-separator>·</span>}
+                      <span lang="en">{getBlogTopicLabel(tag)}</span>
+                    </li>
+                  ))}
                 </ul>
               )}
 
