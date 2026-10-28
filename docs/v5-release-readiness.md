@@ -2015,3 +2015,29 @@ and built PDF artifacts match. The source Changeset is folded into unpublished
 5.0.0; published notes are preserved. The full workspace gate remains `a19890c0`;
 this approved design follow-up uses affected checks. Evidence is retained in
 `.cache/v5-focused-gallery/`. No remote action occurred.
+
+## Natural margin follow-up
+
+Approved source `b9c57a9e`, based on `45c5d1f3`, is integrated over Focused gallery
+candidate `869106e1`. The shared margin label now uses its existing 6rem column
+instead of a 4.375rem cap and wraps at word boundaries. Spanish labels such as
+Artículos relacionados stay whole without moving the title or rail. Copy, actions,
+column widths, responsive stacking, and the default/shelf header variants remain.
+Both approved style-guide additions are preserved.
+
+All 44 combined Chromium/WebKit Focused gallery, Topic brief, and Related writing
+cases pass with one worker and retries disabled. Complete-word regression checks
+cover English/Spanish at 320/800/1440px and 100%/200% text, alongside the gallery,
+keyboard, focus, accessibility, themes, and no-JavaScript checks. Eight matched
+layout pairs reproduce the old Spanish split and confirm whole words, unchanged
+copy alignment, and no overflow after the change. Sixteen header screenshots cover
+both locales/themes at 390px and 1440px. Spanish desktop and mobile pairs were
+reviewed. All eight default/shelf header geometry and typography comparisons on
+Main Blog and Smith, and all 28 existing content/metadata/link contracts, pass.
+
+Current-site lint and Astro checks pass with zero diagnostics (585 files). The
+904-page build, 906-page OG audit, archive assembly, and resume freshness pass.
+No resume source changed, so the already verified PDFs are retained. The Changeset
+is folded into unpublished 5.0.0 with published notes intact. This follow-up uses
+affected checks; the latest full workspace gate remains `a19890c0`. Evidence is
+retained in `.cache/v5-natural-margin/`. No remote action occurred.
