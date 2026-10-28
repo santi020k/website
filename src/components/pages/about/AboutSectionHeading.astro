@@ -4,15 +4,16 @@ interface Props {
   eyebrow: string
   index: string
   title: string
+  headingId?: string
 }
 
-const { description, eyebrow, index, title } = Astro.props
+const { description, eyebrow, headingId, index, title } = Astro.props
 ---
 
 <header class="about-section-heading">
   <div>
     <p class="about-eyebrow"><span>{index}</span>{eyebrow}</p>
-    <h2>{title}</h2>
+    <h2 id={headingId}>{title}</h2>
   </div>
   <p>{description}</p>
 </header>

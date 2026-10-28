@@ -10,7 +10,7 @@ test.describe('About page', () => {
 
   test('should have the correct title and main heading', async ({ page }) => {
     await expect(page).toHaveTitle('Santiago Molina — Engineering Leader | santi020k')
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Calm systems. Clear delivery.')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Engineer. Maker. Always curious.')
   })
 
   test('should identify Santiago Molina as the profile page main entity', async ({ page }) => {
@@ -48,9 +48,9 @@ test.describe('About page', () => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
 
     const guide = page.getByRole('navigation', { name: 'Explore this profile' })
-    await expect(guide.getByRole('link')).toHaveCount(4)
+    await expect(guide.getByRole('link')).toHaveCount(5)
 
-    for (const name of ['Collaboration', 'Context', 'Principles', 'Recommendations']) {
+    for (const name of ['Collaboration', 'Context', 'Principles', 'Outside work', 'Recommendations']) {
       const link = guide.getByRole('link', { name, exact: true })
       await expect(link).not.toHaveAttribute('target', '_blank')
       const destination = await link.evaluate((anchor: HTMLAnchorElement) => anchor.hash)
@@ -169,7 +169,7 @@ test.describe('About page', () => {
         await page.reload()
         await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
 
-        const portrait = page.getByRole('img', { name: 'Portrait of Santiago Molina (@santi020k)' })
+        const portrait = page.getByRole('img', { name: 'Santiago Molina outdoors with his brown-and-white dog.' })
         await expect(portrait).toBeVisible()
         const portraitLoaded = await portrait.evaluate(image => {
           if (!(image instanceof HTMLImageElement)) return false
@@ -186,7 +186,7 @@ test.describe('About page', () => {
         await page.keyboard.press('Enter')
         await expect(page).toHaveURL('/resume/')
         await page.goBack()
-        await expect(page.getByRole('heading', { level: 1 })).toContainText('Calm systems. Clear delivery.')
+        await expect(page.getByRole('heading', { level: 1 })).toContainText('Engineer. Maker. Always curious.')
       })
     }
   }

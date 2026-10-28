@@ -3,7 +3,7 @@ import { Image } from 'astro:assets'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import Portrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
+import Portrait from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
 
 import { ButtonLink } from '@santi020k/lumen-astro'
 
@@ -18,9 +18,9 @@ const t = pageTranslator(pageLocale)
 <section class="signature-frame about-hero" data-about-hero>
   <div class="about-hero-copy">
     <p class="about-eyebrow">{t('page.engineeringLeaderFullStackArchitect')}</p>
-    <h1 data-about-hero-heading>{t('page.calmSystems')}{' '}<span>{t('page.clearDelivery')}</span></h1>
+    <h1 data-about-hero-heading>{t('about.hero.craft')}{' '}<span>{t('about.hero.curiosity')}</span></h1>
     <p class="about-hero-intro">
-      {t('page.iMSantiagoMolinaKnownOnline')}
+      {t('about.hero.introduction')}
     </p>
     <div class="maker-hero-actions">
       <ButtonLink class="maker-hero-primary" href={localizePath('/portfolio/', pageLocale)} variant="unstyled">
@@ -40,11 +40,11 @@ const t = pageTranslator(pageLocale)
   </div>
   <figure class="about-portrait" data-about-hero-portrait>
     <Image
-      alt={t('page.portraitOfSantiagoMolinaSanti020k')}
+      alt={t('about.hero.portraitAlt')}
       decoding="sync"
       fetchpriority="high"
       format="avif"
-      height={500}
+      height={600}
       loading="eager"
       src={Portrait}
       width={400}

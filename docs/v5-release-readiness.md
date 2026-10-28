@@ -2563,3 +2563,30 @@ combined build. Freshness passes, all five page rasters are unchanged and public
 files match. Four Changesets are folded into 5.0.0 with published notes unchanged.
 Evidence: `.cache/v5-series-navigation/`. These are affected integration checks; the
 root full workspace gate remains `0319556c`. No remote action occurred.
+
+## Personal About integration
+
+Approved source `a06e9426` is integrated over `c182a040`. About reuses the natural
+portrait, adds the personal photo chapter and presents complete testimonials with
+responsive editorial sections. Its source components, routes, catalog and tests
+match the approved commit; all four quotes, nine organizations and metadata remain
+unchanged across eight matched contracts and sixteen full-page captures.
+
+All 98 desktop and 48 mobile Chromium/WebKit cases pass, including the four updated
+macOS visual baselines. Eight normal-text axe scans, 1,522 focused units and Astro
+checks for 604 files pass. A broader reflow run passed 210 of 212 cases and exposed
+an existing Projects technology-heading wrap at 320px with 200% text in WebKit.
+Reducing that panel's narrow inline padding fixes the cause without reducing type
+or changing assertions; all 24 technology reflow cases now pass. Affected lint has
+zero warnings. The initial direct lint invocation included unsupported CSS input;
+the corrected invocation uses the repository's supported source extensions.
+
+The combined 904-page build and 906-page SEO audit pass. Generated PDFs are fresh,
+all five page rasters remain identical, and public/built artifacts match. Changesets
+are folded into unpublished 5.0.0 with the published changelog unchanged.
+
+Firefox still exits with “Could not find profile folder” before rendering; its
+existing About baseline was not refreshed. Firefox validation remains a release
+preflight requirement when that local runtime can launch. Evidence is in
+`.cache/v5-about-editorial/`. The root full gate remains `0319556c`; no remote
+action occurred.

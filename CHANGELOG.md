@@ -332,6 +332,12 @@
 
 ### Patch Changes
 
+- Keep the Projects technology heading readable at 320px with enlarged text by reducing narrow-panel inline padding.
+
+- Bring the About page into the personal editorial direction with a natural portrait,
+  clearer profile highlights, a travel-photo chapter, readable recommendations, and
+  reduced-motion-aware entrances.
+
 - Close individual series pages with a Reading bridge linking to all series and the
   Blog, with localized guidance and responsive keyboard-accessible destinations.
 

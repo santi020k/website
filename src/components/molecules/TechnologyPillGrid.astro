@@ -182,4 +182,8 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
     [data-technology-ledger] { grid-template-columns: minmax(0, 1fr); }
     [data-technology-ledger='featured'] a { font-size: 1rem; }
   }
+  @container technology-snapshot (width < 14rem) {
+    [data-technology-snapshot-header], [data-technology-snapshot-body] { padding-inline: 0.75rem; }
+    [data-technology-snapshot-footer] { padding-inline: 0.75rem; }
+  }
 </style>

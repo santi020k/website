@@ -4,6 +4,13 @@ import { sharedMessages } from './shared.ts'
 
 /** Stable IDs; edit English wording without changing its key. */
 export const pageMessages = {
+  'about.hero.craft': { en: 'Engineer. Maker.', es: 'Ingeniero. Creador.' },
+  'about.hero.curiosity': { en: 'Always curious.', es: 'Siempre curioso.' },
+  'about.hero.introduction': { en: 'I’m Santiago Molina, an engineering leader and full-stack architect based in Medellín. I build products, improve the systems behind them, and help teams do their best work.', es: 'Soy Santiago Molina, líder de ingeniería y arquitecto full-stack en Medellín. Creo productos, mejoro los sistemas que los hacen posibles y ayudo a los equipos a hacer su mejor trabajo.' },
+  'about.hero.portraitAlt': { en: 'Santiago Molina outdoors with his brown-and-white dog.', es: 'Santiago Molina al aire libre con su perro marrón y blanco.' },
+  'about.story.title': { en: 'How I think. How I work.', es: 'Cómo pienso. Cómo trabajo.' },
+  'about.life.eyebrow': { en: 'Outside work', es: 'Fuera del trabajo' },
+  'about.life.title': { en: 'Life beyond the screen.', es: 'La vida fuera de la pantalla.' },
   'home.life.eyebrow': { en: 'Outside the editor', es: 'Fuera del editor' },
   'home.life.title': { en: 'A little life between the lines.', es: 'Un poco de vida entre líneas.' },
   'home.life.description': { en: 'New cities, long walks with my dogs, and a camera roll full of small discoveries. A few things that keep me curious.', es: 'Ciudades nuevas, paseos largos con mis perros y una galería llena de pequeños descubrimientos. Algunas cosas que alimentan mi curiosidad.' },
