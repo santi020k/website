@@ -243,7 +243,7 @@ const createExampleFold = (pre: Element, lineCount: number): Element[] => {
 }
 
 const convertFigure = (
-  figure: Element, exampleNumber: number, folio: boolean, imported?: ImportedCodeMetadata
+  figure: Element, exampleNumber: number, folio: boolean, imported?: ImportedCodeMetadata, scrollCue = folio
 ): void => {
   const metadata = getCodeMetadata(figure)
   const { language, pre } = metadata
@@ -270,7 +270,7 @@ const convertFigure = (
     }
   }
 
-  if (folio && pre && !fold) figure.properties.dataUiScrollCue = ''
+  if (scrollCue && pre && !fold) figure.properties.dataUiScrollCue = ''
 
   if (pre) {
     pre.properties.tabIndex = 0
@@ -288,7 +288,7 @@ const convertFigure = (
       child.type !== 'element' ||
       dataProperty(child, 'rehype-pretty-code-title') === undefined
     )),
-    ...(folio && pre && !fold ?
+    ...(scrollCue && pre && !fold ?
       [createLumenScrollCue(imported ? undefined : `article-code-scroll-cue-${exampleNumber}`, 'Scroll horizontally to read more')] :
       [])
   ]
@@ -457,6 +457,6 @@ export const rehypeLumenCode: Plugin<[Options?], Root> = (options = {}) => (tree
 
     const isTabPanel = parent?.type === 'element' && parent.properties.role === 'tabpanel'
 
-    convertFigure(node, exampleNumber, isArticle && !isTabPanel, options.imported)
+    convertFigure(node, exampleNumber, isArticle && !isTabPanel, options.imported, isArticle)
   })
 }

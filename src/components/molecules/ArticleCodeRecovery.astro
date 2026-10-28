@@ -153,17 +153,9 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
     scroll-margin-block-start: 1rem;
   }
 
-  :global([data-article-prose] [data-package-manager-code-tabs]:has([data-code-recovery])) {
-    grid-template-rows: auto auto auto auto;
-  }
-
   :global([data-package-manager-code-tabs] [data-code-recovery]) {
     grid-column: 1 / -1;
     grid-row: 3;
-  }
-
-  :global([data-article-prose] [data-package-manager-code-tabs] [data-ui-code]:has([data-code-recovery]) > pre) {
-    grid-row: 4;
   }
 
   @container tab-folio (width < 28rem) {

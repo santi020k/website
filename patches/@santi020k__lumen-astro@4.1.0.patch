@@ -1,5 +1,5 @@
 diff --git a/README.md b/README.md
-index 21a05befc68ae34601b84b0b5407e38a05ba56de..79485dc79a6d14b648f39ba4982c804e4846d9dd 100644
+index 21a05befc68ae34601b84b0b5407e38a05ba56de..482e2bede31734766c423c450d4362680ce54ac0 100644
 --- a/README.md
 +++ b/README.md
 @@ -324,9 +324,21 @@ import { Button, Icon } from '@santi020k/lumen-astro'
@@ -45,18 +45,20 @@ index 21a05befc68ae34601b84b0b5407e38a05ba56de..79485dc79a6d14b648f39ba4982c804e
  Lumen's Astro `Image` delegates to `astro:assets`, so imported image metadata, responsive layouts,
  generated `srcset` values, output formats, quality, and remote-size inference stay available. It
  loads lazily by default. Use `loading="eager"` and `fetchpriority="high"` only for the single image
-@@ -589,6 +608,35 @@ For keyboard scrolling before JavaScript loads, give that `pre` `tabindex="0"`,
+@@ -589,6 +608,37 @@ For keyboard scrolling before JavaScript loads, give that `pre` `tabindex="0"`,
  `role="region"`, and an accessible name; existing attributes are preserved.
  Wrapped blocks do not add an extra tab stop.
  
-+Opt into `scrollCue` on an unwrapped block `Code` or a `Table` with the default
++Opt into `scrollCue` on an unwrapped block `Code`, on `CodeTabs` with `wrap={false}`,
++or on a `Table` with the default
 +`layout="scroll"`. The default messages are “Scroll horizontally to read more” and
 +“Scroll horizontally to compare”; pass a string to localize either message. Inline
 +or wrapped Code and records-layout Table ignore the option. Import `styles.css` and
 +mount `UIPrimitives` once in the root layout; it includes the cue stylesheet. The cue is hidden without JavaScript.
 +It appears only when content overflows, stays outside the scrolling viewport, and
 +updates after resizing, font loading, hidden-panel changes, and Astro navigation.
-+Native scrolling and existing accessible descriptions are preserved.
++Native scrolling and existing accessible descriptions are preserved. `CodeTabs` forwards
++the option to each Code panel so only the overflowing visible command shows guidance.
 +
 +```astro
 +<Code variant="block" code={source} language="ts" copy scrollCue />
@@ -135,6 +137,34 @@ index 51b202e1e3fa6351d41d941409c599d02cc43cb7..35273bd0b1c6ddb19c72c0285bcee495
      </figure>
    ) :
    (
+diff --git a/components/CodeTabs.astro b/components/CodeTabs.astro
+index e83155001137ec119ecb33436c55aaa8c646bf36..21272f6ce843dc34ec0d4902d996bdf6b82698bc 100644
+--- a/components/CodeTabs.astro
++++ b/components/CodeTabs.astro
+@@ -26,6 +26,7 @@ interface Props extends HTMLAttributes<'div'> {
+   errorLabel?: string
+   initialValue?: string
+   items: readonly CodeTabItem[]
++  scrollCue?: boolean | string
+   storageKey?: string
+   theme?: CodeTheme
+   wrap?: boolean
+@@ -42,6 +43,7 @@ const {
+   errorLabel = 'Could not copy code. Select and copy it manually.',
+   initialValue,
+   items,
++  scrollCue = false,
+   storageKey,
+   theme = 'auto',
+   wrap = true,
+@@ -95,6 +97,7 @@ const { classList, passthrough } = resolveLumenAstroProps(
+         copiedLabel={copiedLabel}
+         errorLabel={errorLabel}
+         {...(item.language === undefined ? {} : { language: item.language })}
++        scrollCue={scrollCue}
+         theme={theme}
+         variant="block"
+         wrap={wrap}
 diff --git a/components/CoverImage.astro b/components/CoverImage.astro
 index 1e4ff0dcf6250c42c2fd27026eac14a84a342b0f..24828b39b78c1dadc091b72f8c312d71b103fceb 100644
 --- a/components/CoverImage.astro
@@ -303,7 +333,7 @@ index 2496b8d4b619bec96051822447a3a044dee9c576..2eb8fe5fedbcca0d7143335d4548a35b
    ],
    "types": "./index.ts",
 diff --git a/runtime/UIPrimitives.astro b/runtime/UIPrimitives.astro
-index 5c8c088e6a118e8aecae49c36b89f136870185f8..222cb8958da890cb674d7904c07220d8c750ceff 100644
+index 5c8c088e6a118e8aecae49c36b89f136870185f8..7a53383957a57538d9da39b5eefc1bd3a4305692 100644
 --- a/runtime/UIPrimitives.astro
 +++ b/runtime/UIPrimitives.astro
 @@ -1,4 +1,5 @@
@@ -316,7 +346,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..222cb8958da890cb674d7904c07220d8
  import { initMessageFeeds } from './controllers/message-scroller'
  import { initOptionalMediaControllers } from './controllers/optional-media'
  import { initProgress } from './controllers/progress'
-+import { clearScrollCues, initScrollCues } from './controllers/scroll-cue'
++import { clearScrollCues, initScrollCues, refreshScrollCues } from './controllers/scroll-cue'
  
  /* eslint-disable complexity */
  /* Stateful DOM handlers stay local so Astro consumers do not need a framework runtime. */
@@ -339,12 +369,13 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..222cb8958da890cb674d7904c07220d8
        const value = tab.dataset.value ?? ''
        const wasSelected = tab.getAttribute('aria-selected') === 'true'
  
-@@ -1023,13 +1028,14 @@ const initTabs = (scope: ParentNode): void => {
+@@ -1023,13 +1028,16 @@ const initTabs = (scope: ParentNode): void => {
  
        root.dataset.value = value
  
 -      if (!emit || wasSelected) return
--
++      refreshScrollCues(root)
+ 
 -      scrollLumenTabIntoView(tab)
 +      if (source === 'initial' || wasSelected) return
  
@@ -358,7 +389,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..222cb8958da890cb674d7904c07220d8
          try {
            localStorage.setItem(storageKey, value)
          } catch {
-@@ -1044,7 +1050,8 @@ const initTabs = (scope: ParentNode): void => {
+@@ -1044,7 +1052,8 @@ const initTabs = (scope: ParentNode): void => {
            const matchingTab = [...otherRoot.querySelectorAll<HTMLElement>('[role="tab"]')]
              .find(candidate => candidate.closest('[data-ui-tabs]') === otherRoot && candidate.dataset.value === value)
  
@@ -368,7 +399,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..222cb8958da890cb674d7904c07220d8
          }
        }
  
-@@ -1072,7 +1079,9 @@ const initTabs = (scope: ParentNode): void => {
+@@ -1072,7 +1081,9 @@ const initTabs = (scope: ParentNode): void => {
          undefined
      ) ?? tabs.find(tab => tab.getAttribute('aria-selected') === 'true') ?? tabs[0]
  
@@ -379,7 +410,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..222cb8958da890cb674d7904c07220d8
  
      for (const tab of tabs) {
        tab.addEventListener('click', () => activate(tab))
-@@ -1784,6 +1793,7 @@ const initCommand = (scope: ParentNode): void => {
+@@ -1784,6 +1795,7 @@ const initCommand = (scope: ParentNode): void => {
  }
  
  document.addEventListener('astro:before-swap', clearComboboxes)
@@ -387,7 +418,7 @@ index 5c8c088e6a118e8aecae49c36b89f136870185f8..222cb8958da890cb674d7904c07220d8
  
  const initSelects = (scope: ParentNode): void => {
    for (const root of scope.querySelectorAll<HTMLElement>('[data-ui-select]')) {
-@@ -5463,6 +5473,8 @@ const initUiPrimitives = (scope: ParentNode = document): void => {
+@@ -5463,6 +5475,8 @@ const initUiPrimitives = (scope: ParentNode = document): void => {
  
    initCodeRegions(scope)
  
@@ -529,11 +560,16 @@ index 6f616c13e406958847d5bb1485d25208e2db5a67..95cbc3c9c542874962fff0136a2be5ba
  export const initDocumentNavigationControllers = (scope: ParentNode): void => {
 diff --git a/runtime/controllers/scroll-cue.ts b/runtime/controllers/scroll-cue.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..36f866cac64723c89815859657d97fbbe88250f5
+index 0000000000000000000000000000000000000000..aecab977e5d049cf407adda341a0ca6fffe69108
 --- /dev/null
 +++ b/runtime/controllers/scroll-cue.ts
-@@ -0,0 +1,101 @@
-+const bindings = new Map<HTMLElement, () => void>()
+@@ -0,0 +1,113 @@
++interface ScrollCueBinding {
++  cleanup: () => void
++  update: () => void
++}
++
++const bindings = new Map<HTMLElement, ScrollCueBinding>()
 +let nextId = 0
 +
 +const updateDescription = (viewport: HTMLElement, id: string, visible: boolean): void => {
@@ -547,7 +583,7 @@ index 0000000000000000000000000000000000000000..36f866cac64723c89815859657d97fbb
 +}
 +
 +export const clearScrollCues = (): void => {
-+  for (const cleanup of bindings.values()) cleanup()
++  for (const binding of bindings.values()) binding.cleanup()
 +
 +  bindings.clear()
 +}
@@ -603,7 +639,7 @@ index 0000000000000000000000000000000000000000..36f866cac64723c89815859657d97fbb
 +
 +  observer.observe(content)
 +
-+  bindings.set(root, () => {
++  bindings.set(root, { update, cleanup: () => {
 +    active = false
 +
 +    observer.disconnect()
@@ -613,7 +649,7 @@ index 0000000000000000000000000000000000000000..36f866cac64723c89815859657d97fbb
 +    message.hidden = true
 +
 +    updateDescription(viewport, id, false)
-+  })
++  } })
 +
 +  void root.ownerDocument.fonts.ready.then(update)
 +
@@ -622,9 +658,9 @@ index 0000000000000000000000000000000000000000..36f866cac64723c89815859657d97fbb
 +
 +/** Enhance the documented Code/Table markup without owning native scrolling or focus. */
 +export const initScrollCues = (scope: ParentNode): void => {
-+  for (const [root, cleanup] of bindings) {
++  for (const [root, binding] of bindings) {
 +    if (!root.isConnected) {
-+      cleanup()
++      binding.cleanup()
 +
 +      bindings.delete(root)
 +    }
@@ -632,6 +668,13 @@ index 0000000000000000000000000000000000000000..36f866cac64723c89815859657d97fbb
 +
 +  for (const root of scope.querySelectorAll<HTMLElement>('[data-ui-scroll-cue]')) {
 +    if (!bindings.has(root)) bindScrollCue(root)
++  }
++}
++
++/** Commit panel visibility and its cue in one layout before tabs scroll into view. */
++export const refreshScrollCues = (scope: ParentNode): void => {
++  for (const root of scope.querySelectorAll<HTMLElement>('[data-ui-scroll-cue]')) {
++    bindings.get(root)?.update()
 +  }
 +}
 diff --git a/styles/scroll-cue.css b/styles/scroll-cue.css

@@ -114,7 +114,9 @@ describe('article Code folio', () => {
       expect(block.properties.dataArticleCodeFolio).toBeUndefined()
       expect(JSON.stringify(block)).toContain('ui-code__dots')
       expect(JSON.stringify(block)).toContain('dataUiCodeCopy')
-      expect(JSON.stringify(block)).not.toContain('article-code-scroll-cue')
+      expect(block.properties.dataUiScrollCue).toBe('')
+      expect(JSON.stringify(block)).toContain('dataScrollCueMessage')
+      expect(JSON.stringify(block)).toContain('Scroll horizontally to read more')
     }
   })
 })
