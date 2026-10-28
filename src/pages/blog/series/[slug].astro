@@ -2,7 +2,6 @@
 import { type CollectionEntry, render } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesFocusCard from '@/components/molecules/SeriesFocusCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
@@ -130,12 +129,13 @@ mainClass="remaining-pages series-detail-page"
   </section>
 
   <PageSection layout="stacked">
-    <SectionHeader
-      description={t('collection.readTheseInOrderIfYou')}
-      eyebrow={t('collection.posts')}
-      id="series-chapters"
-      title={t('collection.articlesInThisSeries')}
-    />
+    <header id="series-chapters" data-series-chapter-caption>
+      <div data-series-chapter-introduction>
+        <h2 id="series-chapters-heading">{t('series.readingOrderHeading')}</h2>
+        <p>{t('series.readingOrderDescription')}</p>
+      </div>
+      <p data-series-chapter-count>{t(postCount === 1 ? 'series.chapterCountOne' : 'series.chapterCountMany', { count: postCount })}</p>
+    </header>
 
     <PostsGallery layout="chapters" posts={posts} showSequence />
   </PageSection>
@@ -271,6 +271,39 @@ mainClass="remaining-pages series-detail-page"
   :global([data-series-entry-chapters]) { color: var(--series-entry-accent); }
   [data-series-overview] { margin-top: 2.5rem; }
   :global(#series-chapters) { scroll-margin-top: 1rem; }
+  :global(.series-detail-page [data-page-section-grid]:has(> [data-series-chapter-caption])) { gap: 1.5rem; }
+  [data-series-chapter-caption] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: .75rem 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  [data-series-chapter-introduction] { flex: 1 1 26rem; min-width: 0; }
+  [data-series-chapter-caption] h2 {
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -.045em;
+    overflow-wrap: anywhere;
+  }
+  [data-series-chapter-introduction] p {
+    max-width: 46ch;
+    margin: .75rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .8125rem;
+    line-height: 1.85;
+  }
+  [data-series-chapter-count] {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.8;
+  }
   @container series-entry (width < 38rem) {
     [data-series-entry-spread] { grid-template-columns: minmax(0, 1fr); }
   }

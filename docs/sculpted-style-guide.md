@@ -317,6 +317,14 @@ Do not add a second card surface or keyboard stops; empty focus lists stay omitt
 
 ### Series chapter rows
 
+The chapter-list introduction uses **Chapter caption**: a 1.75rem, weight 500
+Articles in reading order heading, concise .8125rem guidance beneath it, and the
+published article count aligned at the right. Wrap the count below when the copy
+needs the width. Use .75rem between title and guidance, 1.5rem below the caption,
+a fine bottom rule, and 1.5rem before the first chapter row. Keep the native
+`#series-chapters` destination and the title's semantic h2 level. Localize the
+heading, guidance and singular/plural count through the collection catalog.
+
 Series detail pages use the approved reading-index rhythm for their ordered article
 list. Reuse `PostsGallery` with its chapter layout: compact artwork at the left, a
 plain part number before the type, the complete title and summary, then topics and
