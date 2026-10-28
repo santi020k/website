@@ -31,7 +31,12 @@ import { getSocialImageURL } from '@/utils/social-image'
 import { RevealGroup, ScrollProgress } from '@santi020k/lumen-astro'
 
 import { ogManifest } from '@/data/og-manifest'
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
 import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 
 interface Props {
   headings: MarkdownHeading[]
@@ -42,13 +47,13 @@ interface Props {
 const { headings, project, relatedProjects = [] } = Astro.props
 const narrative = addProjectReadingBrief(await Astro.slots.render('default') ?? '')
 const relatedWriting = await getProjectWriting(project.data.relatedWriting)
-const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
+const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? t('Project')}`
 const metaDescription = project.data.seoDescription ?? project.data.description
 
 const socialImage = getSocialImageURL(
   Astro.url.pathname,
   Astro.site,
-  `/og/portfolio/${project.id}-logo.webp`,
+  locale === 'es' ? undefined : `/og/portfolio/${project.id}-logo.webp`,
   ogManifest
 )
 
@@ -65,10 +70,10 @@ const hasProductPreviews = Boolean(project.data.previews) && headings.some(headi
 
 const caseStudyRows = caseStudy ?
   [
-    { body: caseStudy.problem, label: 'Problem' },
-    { body: caseStudy.approach, label: 'Approach' },
-    { body: caseStudy.outcome, label: 'Outcome' },
-    { body: caseStudy.metrics, label: 'Metrics' }
+    { body: caseStudy.problem, label: t('Problem') },
+    { body: caseStudy.approach, label: t('Approach') },
+    { body: caseStudy.outcome, label: t('Outcome') },
+    { body: caseStudy.metrics, label: t('Metrics') }
   ].filter((row): row is { body: string, label: string } => Boolean(row.body?.trim())) :
   []
 
@@ -89,18 +94,18 @@ const projectSchema: Record<string, unknown> = {
 
 const parentPage = (() => {
   if (project.data.typesId === 'community') {
-    return { name: 'Speaking & Community', url: '/speaking/' }
+    return { name: t('Speaking & Community'), url: localizePath('/speaking/', locale) }
   }
 
   if (project.data.typesId === 'personal') {
-    return { name: 'Projects', url: '/projects/' }
+    return { name: t('Projects'), url: localizePath('/projects/', locale) }
   }
 
-  return { name: 'Work', url: '/work/' }
+  return { name: t('Work'), url: localizePath('/work/', locale) }
 })()
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
+  { name: t('Home'), url: localizePath('/', locale) },
   parentPage,
   { name: project.data.title, url: Astro.url.pathname }
 ]
@@ -148,13 +153,13 @@ mainClass="remaining-pages remaining-pages--reading"
             <ContentNotesHeader
               description={projectNotesDescription}
               label={projectNotesLabel}
-              pill={projectStageLabel}
+              pill={t(projectStageLabel)}
             />
           )}
 
           <ProjectCaseStudy rows={caseStudyRows} />
 
-          <div class="prose-santi prose-project max-w-none">
+          <div lang="en" class="prose-santi prose-project max-w-none">
             <Fragment set:html={narrative} />
           </div>
         </div>
@@ -178,11 +183,11 @@ mainClass="remaining-pages remaining-pages--reading"
   {!!relatedProjects.length && (
     <PageSection layout="stacked">
       <SectionHeader
-        description="Selected work connected by shared technologies and ideas."
-        eyebrow="Related work"
+        description={t('Selected work connected by shared technologies and ideas.')}
+        eyebrow={t('Related work')}
         id="related-work"
-        linkHref={parentPage.url}
-        linkLabel={`Browse all ${parentPage.name.toLowerCase()}`}
+        linkHref={localizePath(parentPage.url, locale)}
+        linkLabel={t(`Browse all ${parentPage.name.toLowerCase()}`)}
         title={projectRelatedHeading}
         variant="shelf"
       />

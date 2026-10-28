@@ -1,6 +1,6 @@
 /** Shared interface copy. Product names and authored article prose retain their language. */
 export const sharedCopy: Record<string, string> = {
-  'Open site search (Ctrl/⌘ K)': 'Buscar en el sitio (Ctrl/⌘ K)',
+  'Open site search (Ctrl/⌘ K)': 'Buscar (Ctrl/⌘ K)',
   'Content search is temporarily unavailable. Showing title and tag matches.': 'La búsqueda en el contenido no está disponible temporalmente. Se muestran coincidencias en títulos y etiquetas.',
   '{title}, {position} of {total}': '{title}, {position} de {total}',
   '{count} {heading} available.': '{count} {heading} disponibles.',

@@ -7,6 +7,12 @@ import { getArchivePageUrl, getPaginationItems, PAGINATION_GAP } from '@/utils/p
 
 import { ButtonLink, Icon, Link, Pagination } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   baseUrl?: string
   page: Page<unknown>
@@ -15,8 +21,8 @@ interface Props {
 const { baseUrl = '/blog/', page } = Astro.props
 const { currentPage, lastPage } = page
 const items = getPaginationItems(currentPage, lastPage)
-const previousUrl = currentPage > 1 ? getArchivePageUrl(baseUrl, currentPage - 1) : undefined
-const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage + 1) : undefined
+const previousUrl = currentPage > 1 ? localizePath(getArchivePageUrl(baseUrl, currentPage - 1), locale) : undefined
+const nextUrl = currentPage < lastPage ? localizePath(getArchivePageUrl(baseUrl, currentPage + 1), locale) : undefined
 ---
 
 {lastPage > 1 && (
@@ -30,9 +36,9 @@ const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage 
 (
           <Link
             aria-current={item === currentPage ? 'page' : undefined}
-            aria-label={`Page ${item}`}
+            aria-label={t(`Page ${item}`)}
             data-pager-number
-            href={getArchivePageUrl(baseUrl, item)}
+            href={localizePath(getArchivePageUrl(baseUrl, item), locale)}
             variant="inherit"
           >{item}</Link>
         ))}
@@ -41,7 +47,7 @@ const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage 
         {previousUrl ?
 (
           <Link
-            aria-label="Previous page"
+            aria-label={t('Previous page')}
             data-pager-previous
             href={previousUrl}
             rel="prev"
@@ -56,19 +62,19 @@ const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage 
         {nextUrl ?
 (
           <ButtonLink
-            ariaLabel="Next page"
+            ariaLabel={t('Next page')}
             data-pager-next
             href={nextUrl}
             rel="next"
             variant="unstyled"
           >
-            <span>Next page</span>
+            <span>{t('Next page')}</span>
             <span data-pager-arrow><ArrowExchange direction="right" size="sm" /></span>
           </ButtonLink>
         ) :
 (
           <span aria-hidden="true" data-pager-next data-pagination-placeholder="next">
-            <span>Next page</span>
+            <span>{t('Next page')}</span>
             <span data-pager-arrow><Icon name="arrow-right" size="sm" /></span>
           </span>
         )}

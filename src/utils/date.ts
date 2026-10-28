@@ -7,7 +7,8 @@ import { parseContentDate } from './content-date'
 /** Format dates with the site's default locale and presentation options. */
 export const getFormattedDate = (
   input: Date | string | number | undefined,
-  options: Intl.DateTimeFormatOptions = {}
+  options: Intl.DateTimeFormatOptions = {},
+  locale: Intl.LocalesArgument = siteConfig.date.locale
 ): string => {
   if (input === undefined) return 'Invalid Date'
 
@@ -24,7 +25,7 @@ export const getFormattedDate = (
     Object.entries(mergedOptions).filter(([, v]) => v !== undefined)
   ) as Intl.DateTimeFormatOptions
 
-  return new Intl.DateTimeFormat(siteConfig.date.locale, cleanedOptions).format(date)
+  return new Intl.DateTimeFormat(locale, cleanedOptions).format(date)
 }
 
 /** Sort projects from newest to oldest using their starting date. */

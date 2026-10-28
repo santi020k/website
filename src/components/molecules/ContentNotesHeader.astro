@@ -1,4 +1,10 @@
 ---
+import { getLocale } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   description: string
   label: string
@@ -11,10 +17,10 @@ const { description, label, pill } = Astro.props
 <div data-content-notes>
   <div data-notes-spread>
     <div data-notes-margin>
-      <p data-notes-label>{label}</p>
-      <p data-notes-type>{pill}</p>
+      <p data-notes-label>{t(label)}</p>
+      <p data-notes-type>{t(pill)}</p>
     </div>
-    <p data-notes-description>{description}</p>
+    <p data-notes-description>{t(description)}</p>
   </div>
 </div>
 

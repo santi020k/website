@@ -8,7 +8,13 @@ import { getBlogTopicLabel } from '@/utils/tags'
 
 import { Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
 import SectionHeader from './SectionHeader.astro'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 
 interface Props {
   currentPostId: string
@@ -46,22 +52,22 @@ const relatedTopics = getRelatedTopics(tags, relatedPosts)
 {relatedPosts.length > 0 && (
   <PageSection layout="stacked">
     <SectionHeader
-      eyebrow="Related writing"
+      eyebrow={t('Related writing')}
       id="related-writing"
       linkHref={belongsToDeveloperExperienceHub ? '/developer-experience/' : '/blog/'}
-      linkLabel={belongsToDeveloperExperienceHub ? 'Explore the developer experience guide' : 'Browse all posts'}
-      title="Keep reading in the same thread."
+      linkLabel={belongsToDeveloperExperienceHub ? t('Explore the developer experience guide') : t('Browse all posts')}
+      title={t('Keep reading in the same thread.')}
       variant="margin"
     >
       {relatedTopics.length > 0 && (
         <div slot="description" data-related-topic-context>
-          <p>Connected through</p>
-          <nav aria-label="Topics shared with these recommendations">
+          <p>{t('Connected through')}</p>
+          <nav aria-label={t('Topics shared with these recommendations')}>
             <ul data-related-topic-list>
               {relatedTopics.map((topic, index) => (
                 <li>
                   {index > 0 && <span aria-hidden="true">·</span>}
-                  <Link href={getTagPath(topic)} variant="inherit">{getBlogTopicLabel(topic)}</Link>
+                  <Link href={localizePath(getTagPath(topic), locale)} variant="inherit">{getBlogTopicLabel(topic)}</Link>
                 </li>
               ))}
             </ul>

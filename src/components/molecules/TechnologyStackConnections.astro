@@ -8,6 +8,11 @@ import { getTechnologyPath } from '@/utils/links'
 import { Link } from '@santi020k/lumen-astro'
 
 import { getTechnologyConnections } from '@/data/project'
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 
 interface Props {
   projects: CollectionEntry<'project'>[]
@@ -27,25 +32,25 @@ const entryContext = projects.length === 1 ? 'this entry' : `these ${projects.le
     data-stack-connections
   >
     <div data-stack-connections-content>
-      <p data-stack-connections-eyebrow>Connected technologies</p>
-      <h2 id="stack-connections-heading">Used alongside {technology}</h2>
+      <p data-stack-connections-eyebrow>{t('Connected technologies')}</p>
+      <h2 id="stack-connections-heading">{locale === 'es' ? `Se usa junto a ${technology}` : `Used alongside ${technology}`}</h2>
       <p data-stack-connections-description>
-        Other technologies listed in {entryContext}{paginated ? ' on this page' : ''}.
+        {locale === 'es' ? `Otras tecnologías presentes en ${projects.length === 1 ? 'esta entrada' : `estas ${projects.length} entradas`}${paginated ? ' de esta página' : ''}.` : `Other technologies listed in ${entryContext}${paginated ? ' on this page' : ''}.`}
       </p>
-      <ul aria-label={`Technologies shared with ${technology}`} data-stack-connections-list>
+      <ul aria-label={(locale === 'es' ? `Tecnologías compartidas con ${technology}` : `Technologies shared with ${technology}`)} data-stack-connections-list>
         {connections.map(([label, count]) => (
           <li>
-            <Link href={getTechnologyPath(label)} variant="inherit">
+            <Link href={localizePath(getTechnologyPath(label), locale)} variant="inherit">
               <span data-stack-connection-label>{label}</span>
               <ArrowExchange direction="right" />
-              <span data-stack-connection-count>{count} shared {count === 1 ? 'entry' : 'entries'}</span>
+              <span data-stack-connection-count>{locale === 'es' ? `${count} ${count === 1 ? 'entrada compartida' : 'entradas compartidas'}` : `${count} shared ${count === 1 ? 'entry' : 'entries'}`}</span>
             </Link>
           </li>
         ))}
       </ul>
-      <nav aria-label="Explore more work" data-stack-connections-return>
-        <Link href="/technologies/" variant="inherit">All technologies<ArrowExchange direction="right" /></Link>
-        <Link href="/portfolio/" variant="inherit">Browse portfolio<ArrowExchange direction="right" /></Link>
+      <nav aria-label={t('Explore more work')} data-stack-connections-return>
+        <Link href={localizePath('/technologies/', locale)} variant="inherit">{t('All technologies')}<ArrowExchange direction="right" /></Link>
+        <Link href={localizePath('/portfolio/', locale)} variant="inherit">{t('Browse portfolio')}<ArrowExchange direction="right" /></Link>
       </nav>
     </div>
   </section>

@@ -5,6 +5,12 @@ import { getTechnologyPath } from '@/utils/links'
 
 import { AnimatedNumber, Card, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   projectCount: number
   technologies: [string, number][]
@@ -25,16 +31,16 @@ const supportingTechnologies = technologies.slice(6)
 
 const ledgerGroups: TechnologyLedgerGroup[] = [
   {
-    copy: 'The tools I’m most interested in reaching for.',
+    copy: t('The tools I’m most interested in reaching for.'),
     headingId: 'technology-top-of-mind',
-    label: 'Top of mind',
+    label: t('Top of mind'),
     ledger: 'featured',
     technologies: featuredTechnologies
   },
   {
-    copy: 'Supporting tools across delivery, testing, and DX.',
+    copy: t('Supporting tools across delivery, testing, and DX.'),
     headingId: 'technology-in-rotation',
-    label: 'In rotation',
+    label: t('In rotation'),
     ledger: 'supporting',
     technologies: supportingTechnologies
   }
@@ -48,22 +54,21 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
 >
   <div data-technology-snapshot-header>
     <div class="space-y-3">
-      <p data-technology-snapshot-eyebrow>Behind the projects</p>
-      <h2 data-technology-snapshot-title id="technology-snapshot-heading">Follow the stack.</h2>
+      <p data-technology-snapshot-eyebrow>{t('Behind the projects')}</p>
+      <h2 data-technology-snapshot-title id="technology-snapshot-heading">{t('Follow the stack.')}</h2>
     </div>
 
     <dl data-technology-snapshot-stats>
       <div>
-        <dt>technologies used</dt>
-        <dd><AnimatedNumber locale="en-US" value={totalTechnologyCount} /></dd>
+        <dt>{t('technologies used')}</dt>
+        <dd><AnimatedNumber locale={locale === 'es' ? 'es-419' : 'en-US'} value={totalTechnologyCount} /></dd>
       </div>
     </dl>
   </div>
 
   <div data-technology-snapshot-body>
     <p data-technology-snapshot-scope>
-      {technologies.length} selected {technologies.length === 1 ? 'technology' : 'technologies'} from {projectCount} personal {projectCount === 1 ? 'project' : 'projects'}.
-      Each count shows how many of those projects use the tool.
+      {locale === 'es' ? `${technologies.length} tecnologías seleccionadas de ${projectCount} proyectos personales. Cada cantidad indica cuántos de esos proyectos usan la herramienta.` : `${technologies.length} selected ${technologies.length === 1 ? 'technology' : 'technologies'} from ${projectCount} personal ${projectCount === 1 ? 'project' : 'projects'}. Each count shows how many of those projects use the tool.`}
     </p>
     {ledgerGroups.filter(group => group.ledger === 'featured' || group.technologies.length > 0).map(group => (
       <div class="space-y-3">
@@ -74,9 +79,9 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
         <ul aria-labelledby={group.headingId} data-technology-ledger={group.ledger}>
           {group.technologies.map(([technology, count]) => (
             <li>
-              <a href={getTechnologyPath(technology)}>
+              <a href={localizePath(getTechnologyPath(technology), locale)}>
                 <span>{technology}</span>
-                <span data-technology-count>{count}<span class="sr-only"> {count === 1 ? 'project' : 'projects'}</span></span>
+                <span data-technology-count>{count}<span class="sr-only"> {count === 1 ? t('project') : t('projects')}</span></span>
               </a>
             </li>
           ))}
@@ -85,8 +90,8 @@ const ledgerGroups: TechnologyLedgerGroup[] = [
     ))}
   </div>
   <div data-technology-snapshot-footer>
-    <Link data-technology-snapshot-more href="/technologies/" variant="inherit">
-      <span>Explore the full technology index</span>
+    <Link data-technology-snapshot-more href={localizePath('/technologies/', locale)} variant="inherit">
+      <span>{t('Explore the full technology index')}</span>
       <ArrowExchange direction="right" size="sm" />
     </Link>
   </div>

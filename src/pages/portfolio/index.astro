@@ -10,6 +10,11 @@ import { collectionRelevanceSortProjects } from '@/utils/date'
 
 import { Link, RevealGroup } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 const allProjects = (await getCachedProjects()).sort(collectionRelevanceSortProjects)
 const selectedWork = allProjects.filter(project => project.data.typesId === 'professional').slice(0, 3)
 const selectedProjects = allProjects.filter(project => project.data.typesId === 'personal').slice(0, 4)
@@ -18,21 +23,21 @@ const caseStudyCount = selectedWork.length + selectedProjects.length
 const collectionPaths = [
   {
     count: selectedWork.length,
-    description: 'Commerce, esports, and sports media.',
+    description: t('Commerce, esports, and sports media.'),
     id: 'selected-work',
-    label: 'Client work'
+    label: t('Client work')
   },
   {
     count: selectedProjects.length,
-    description: 'Shared foundations and personal products.',
+    description: t('Shared foundations and personal products.'),
     id: 'independent-builds',
-    label: 'Independent builds'
+    label: t('Independent builds')
   }
 ].filter(collection => collection.count > 0)
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Portfolio', url: '/portfolio/' }
+  { name: t('Home'), url: localizePath('/', locale) },
+  { name: t('Portfolio'), url: localizePath('/portfolio/', locale) }
 ]
 ---
 
@@ -40,38 +45,38 @@ const breadcrumbs = [
 mainClass="remaining-pages"
   meta={{
     breadcrumbs,
-    description: 'Selected client systems, product work, open-source tools, and technical experiments by Santiago Molina.',
-    title: 'Selected Portfolio — Santiago Molina'
+    description: t('Selected client systems, product work, open-source tools, and technical experiments by Santiago Molina.'),
+    title: t('Selected Portfolio — Santiago Molina')
   }}
 >
   <PageHero
     compact
-    description="The architecture, tradeoffs, and outcomes behind client systems and independent products. Choose where to start."
-    eyebrow={`Selected portfolio / ${caseStudyCount} ${caseStudyCount === 1 ? 'case study' : 'case studies'}`}
-    gradientText="Built to hold up."
-    title="Work that shipped."
+    description={t('The architecture, tradeoffs, and outcomes behind client systems and independent products. Choose where to start.')}
+    eyebrow={`${t('Selected portfolio')} / ${caseStudyCount} ${caseStudyCount === 1 ? t('case study') : t('case studies')}`}
+    gradientText={t('Built to hold up.')}
+    title={t('Work that shipped.')}
   >
     <div slot="after-description" data-portfolio-paths-container>
-      <nav aria-label="Choose a case study collection" data-portfolio-paths>
+      <nav aria-label={t('Choose a case study collection')} data-portfolio-paths>
         {collectionPaths.map(collection => (
           <Link data-portfolio-path href={`#${collection.id}`} variant="inherit">
             <span>
               <span data-portfolio-path-title>
-                <span>{collection.label}</span>{' '}
+                <span>{t(collection.label)}</span>{' '}
                 <span data-portfolio-path-count>{collection.count}<span class="
                   sr-only
                 "
-                                                                  > {collection.count === 1 ? 'case study' : 'case studies'}</span></span>
+                                                                  > {collection.count === 1 ? t('case study') : t('case studies')}</span></span>
               </span>
-              <span data-portfolio-path-description>{collection.description}</span>
+              <span data-portfolio-path-description>{t(collection.description)}</span>
             </span>
             <ArrowExchange direction="down" />
           </Link>
         ))}
       </nav>
       <div data-portfolio-paths-footer>
-        <p>Problem → decisions → outcome</p>
-        <Link data-portfolio-history-link href="/work/" variant="inherit">
+        <p>{t('Problem → decisions → outcome')}</p>
+        <Link data-portfolio-history-link href={localizePath('/work/', locale)} variant="inherit">
           View work history <ArrowExchange direction="right" />
         </Link>
       </div>
@@ -87,13 +92,13 @@ mainClass="remaining-pages"
   >
     <PortfolioCollectionHeading
       count={selectedWork.length}
-      description="Professional work where architecture, delivery systems, and technical leadership had to move together."
-      emphasis="real pressure."
-      eyebrow="Client and product work"
+      description={t('Professional work where architecture, delivery systems, and technical leadership had to move together.')}
+      emphasis={t('real pressure.')}
+      eyebrow={t('Client and product work')}
       headingId="selected-work-heading"
-      href="/work/"
-      linkLabel="Full work history"
-      title="Systems built under"
+      href={localizePath('/work/', locale)}
+      linkLabel={t('Full work history')}
+      title={t('Systems built under')}
     />
 
     <RevealGroup
@@ -125,13 +130,13 @@ mainClass="remaining-pages"
   >
     <PortfolioCollectionHeading
       count={selectedProjects.length}
-      description="Open-source and self-directed work where curiosity becomes something other people can use."
-      emphasis="useful tools."
-      eyebrow="Independent builds"
+      description={t('Open-source and self-directed work where curiosity becomes something other people can use.')}
+      emphasis={t('useful tools.')}
+      eyebrow={t('Independent builds')}
       headingId="independent-builds-heading"
-      href="/projects/"
-      linkLabel="All independent projects"
-      title="Ideas turned into"
+      href={localizePath('/projects/', locale)}
+      linkLabel={t('All independent projects')}
+      title={t('Ideas turned into')}
     />
 
     <RevealGroup

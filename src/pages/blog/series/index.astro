@@ -11,15 +11,19 @@ import PageLayout from '@/layouts/Base.astro'
 import { RevealGroup } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
 
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 const seriesSummaries = await getSeriesSummaries()
 const activeSeries = seriesSummaries.filter(item => item.postCount > 0 && item.series.data.status === 'active')
 const postsGroupedIntoSeries = activeSeries.reduce((count, item) => count + item.postCount, 0)
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
-  { name: 'Series', url: '/blog/series/' }
+  { name: t('Home'), url: localizePath('/', locale) },
+  { name: 'Blog', url: localizePath('/blog/', locale) },
+  { name: 'Series', url: localizePath('/blog/series/', locale) }
 ]
 ---
 
@@ -28,47 +32,45 @@ mainClass="remaining-pages"
   meta={{
     breadcrumbs,
     description: 'Grouped reading tracks for Santiago Molina\'s writing on architecture, tooling, testing, and delivery systems.',
-    title: 'Blog Series — Santiago Molina'
+    title: t('Blog Series — Santiago Molina')
   }}
 >
   <PageHero
-    description="Grouped reading paths — follow a topic from start to finish without hunting the archive."
+    description={t('Grouped reading paths — follow a topic from start to finish without hunting the archive.')}
     eyebrow="Series"
     gradientText="in order."
-    metaItems={['Reading tracks', 'Practical sequence', 'Connected ideas']}
-    title="Follow related posts"
+    metaItems={[t('Reading tracks'), t('Practical sequence'), t('Connected ideas')]}
+    title={t('Follow related posts')}
   >
-    <ButtonLink href="/blog/" showArrow variant="secondary">
-      Back to blog
-    </ButtonLink>
+    <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('Back to blog')}</ButtonLink>
   </PageHero>
 
   <StatsGrid columns={3}>
     <StatCard
-      description="Ongoing reading tracks with at least one published post."
+      description={t('Ongoing reading tracks with at least one published post.')}
       icon="library"
-label="Active series"
+label={t('Active series')}
       value={activeSeries.length}
     />
     <StatCard
-      description="Posts that belong to a series rather than standing alone in the archive."
+      description={t('Posts that belong to a series rather than standing alone in the archive.')}
       icon="files"
-label="Posts grouped"
+label={t('Posts grouped')}
       value={postsGroupedIntoSeries}
     />
     <StatCard
-      description="Published reading tracks, including active and archived series."
+      description={t('Published reading tracks, including active and archived series.')}
       icon="book-open"
-label="Reading tracks"
+label={t('Reading tracks')}
       value={seriesSummaries.filter(item => item.postCount > 0).length}
     />
   </StatsGrid>
 
   <PageSection layout="stacked">
     <SectionHeader
-      description="Each series is a self-contained reading track — start at post one, follow the thread, finish with a complete mental model."
+      description={t('Each series is a self-contained reading track — start at post one, follow the thread, finish with a complete mental model.')}
       eyebrow="Series"
-      title="Current series on the site."
+      title={t('Current series on the site.')}
     />
 
     <RevealGroup

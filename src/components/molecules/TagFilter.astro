@@ -7,6 +7,12 @@ import { getBlogTopicLabel } from '@/utils/tags'
 
 import { Icon, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   activeTag?: string
   showDivider?: boolean
@@ -30,7 +36,7 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
       h-px flex-1 bg-linear-to-r from-transparent via-line/40 to-transparent
     "
     />
-    <span class="section-label">Filter posts</span>
+    <span class="section-label">{t('Filter posts')}</span>
     <div class="
       h-px flex-1 bg-linear-to-r from-transparent via-line/40 to-transparent
     "
@@ -39,26 +45,26 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
 )}
 <div data-blog-topic-guide>
   <div data-topic-guide-heading>
-    <p>Browse by topic</p>
-    <Link data-topic-guide-catalog href="/blog/tags/" variant="inherit">
-      <span>{`All ${totalTopics} ${totalTopics === 1 ? 'topic' : 'topics'}`}</span>
+    <p>{t('Browse by topic')}</p>
+    <Link data-topic-guide-catalog href={localizePath('/blog/tags/', locale)} variant="inherit">
+      <span>{`All ${totalTopics} ${totalTopics === 1 ? t('topic') : t('topics')}`}</span>
       <ArrowExchange direction="up-right" size="sm" />
     </Link>
   </div>
   <div
-    aria-label="Filter by topic"
+    aria-label={t('Filter by topic')}
     class="@container/sculpted-tags flex flex-wrap gap-2.5"
     data-blog-tag-filter
     role="group"
   >
-    <SculptedTag aria-current={getAriaCurrent('/blog/', !activeTag)} href="/blog/" label="All posts">
+    <SculptedTag aria-current={getAriaCurrent('/blog/', !activeTag)} href={localizePath('/blog/', locale)} label={t('All posts')}>
       <Icon class="size-4.5" name="layers" slot="count" />
     </SculptedTag>
     {tags.map(([tag, count]) => (
       <SculptedTag
         aria-current={getAriaCurrent(getTagPath(tag), activeTag === tag)}
         count={count}
-        href={getTagPath(tag)}
+        href={localizePath(getTagPath(tag), locale)}
         label={getBlogTopicLabel(tag)}
       />
     ))}

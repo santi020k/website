@@ -13,13 +13,19 @@ import { getProjectDurationLabel, getProjectTypeLabel } from '@/utils/project-me
 
 import { Breadcrumb } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   hasProductPreviews?: boolean
   parentPage?: { name: string, url: string }
   project: CollectionEntry<'project'>
 }
 
-const { hasProductPreviews = false, parentPage = { name: 'Portfolio', url: '/portfolio/' }, project } = Astro.props
+const { hasProductPreviews = false, parentPage = { name: t('Portfolio'), url: localizePath('/portfolio/', locale) }, project } = Astro.props
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
 const heroImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
@@ -43,7 +49,7 @@ const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : '
       sm:flex-row sm:items-center sm:justify-between
     "
     >
-      <Eyebrow label={projectTypeLabel} tone="brand" />
+      <Eyebrow label={t(projectTypeLabel)} tone="brand" />
       <Breadcrumb
         class="
           flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 text-sm
@@ -53,17 +59,17 @@ const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : '
         <ol>
           <li>
             <a
-              href={parentPage.url}
+              href={localizePath(parentPage.url, locale)}
               class="
                 whitespace-nowrap transition-colors
                 hover:text-brand
                 motion-reduce:transition-none
               "
-            >{parentPage.name}
+            >{t(parentPage.name)}
             </a>
           </li>
           <li>
-            <span aria-current="page" class="min-w-0 text-ink-soft">{projectTypeLabel}</span>
+            <span aria-current="page" class="min-w-0 text-ink-soft">{t(projectTypeLabel)}</span>
           </li>
         </ol>
       </Breadcrumb>
@@ -78,13 +84,13 @@ const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : '
     "
   >
     <CoverSpread kind="project" hasCover={Boolean(heroImage)} wide={useWideCoverFrame}>
-      <h1 slot="heading">
+      <h1 lang="en" slot="heading">
         {plainWords && <span>{plainWords} </span>}
         <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
       </h1>
       <ProjectHeroCover project={project} />
     </CoverSpread>
-    <p data-editorial-summary class="text-ink-soft">{project.data.description}</p>
+    <p lang="en" data-editorial-summary class="text-ink-soft">{project.data.description}</p>
   </div>
 
   {/* ── Margin imprint ──────────────────────────────────────── */}
@@ -98,15 +104,15 @@ const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : '
 
     <dl data-project-imprint>
       <div data-project-meta="role">
-        <dt>Role</dt>
-        <dd>{project.data.role ?? 'Hands-on builder'}</dd>
+        <dt>{t('Role')}</dt>
+        <dd>{project.data.role ?? t('Hands-on builder')}</dd>
       </div>
       <div data-project-meta="timeline">
-        <dt>Timeline</dt>
+        <dt>{t('Timeline')}</dt>
         <dd><ProjectTimeline endingDate={project.data.endingDate} startingDate={project.data.startingDate} /></dd>
       </div>
       <div data-project-meta="duration">
-        <dt>Duration</dt>
+        <dt>{t('Duration')}</dt>
         <dd>{durationLabel}</dd>
       </div>
     </dl>

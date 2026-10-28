@@ -13,6 +13,12 @@ import { getResponsiveImageDimensions } from '@/utils/responsive-image'
 
 import { Card, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   latestPost: CollectionEntry<'post'> | null
   postCount: number
@@ -30,37 +36,36 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
 >
   <div data-blog-layout data-has-latest={Boolean(latestPost)}>
     <div class="space-y-6" data-blog-intro>
-      <Eyebrow label="The personal blog" tone="brand" />
+      <Eyebrow label={t('The personal blog')} tone="brand" />
       <h1
         class="editorial-page-title"
       >
-        Things I build,{' '}
+        {t('Things I build,')}{' '}
         <span
           class="editorial-page-emphasis"
         >
-          enjoy, and learn.
+          {t('enjoy, and learn.')}
         </span>
       </h1>
       <p class="editorial-page-description max-w-xl">
-        Notes on software, reading, gaming, and everyday discoveries. What I’m building,
-        what holds my attention, and what I learn along the way.
+        {t('Notes on software, reading, gaming, and everyday discoveries. What I’m building, what holds my attention, and what I learn along the way.')}
       </p>
       <div data-blog-primary-path>
-        <ButtonLink href="#posts" showArrow>Explore the writing</ButtonLink>
-        <p>{postCount} posts <span aria-hidden="true">·</span> Latest first</p>
+        <ButtonLink href="#posts" showArrow>{t('Explore the writing')}</ButtonLink>
+        <p>{postCount} {t('posts')} <span aria-hidden="true">·</span>{t('Latest first')}</p>
       </div>
-      <nav aria-label="Choose how to read" data-blog-reading-paths>
-        <Link data-blog-path href="/blog/tags/" variant="inherit">
+      <nav aria-label={t('Choose how to read')} data-blog-reading-paths>
+        <Link data-blog-path href={localizePath('/blog/tags/', locale)} variant="inherit">
           <span>
-            <span data-blog-path-caption>{topicCount} topics</span>
-            <span data-blog-path-title>Browse topics</span>
+            <span data-blog-path-caption>{topicCount} {t('topics')}</span>
+            <span data-blog-path-title>{t('Browse topics')}</span>
           </span>
           <ArrowExchange direction="up-right" size="sm" />
         </Link>
-        <Link data-blog-path href="/blog/series/" variant="inherit">
+        <Link data-blog-path href={localizePath('/blog/series/', locale)} variant="inherit">
           <span>
-            <span data-blog-path-caption>Connected posts</span>
-            <span data-blog-path-title>Follow a series</span>
+            <span data-blog-path-caption>{t('Connected posts')}</span>
+            <span data-blog-path-title>{t('Follow a series')}</span>
           </span>
           <ArrowExchange direction="up-right" size="sm" />
         </Link>
@@ -74,7 +79,7 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
       >
         <a
           data-latest-link
-          href={getPostPath(latestPost.id)}
+          href={localizePath(getPostPath(latestPost.id), locale)}
         >
           <div data-latest-cover>
             {cover ?
@@ -96,7 +101,7 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
               )}
           </div>
           <div data-latest-sheet>
-            <p data-latest-label>Latest post</p>
+            <p data-latest-label>{t('Latest post')}</p>
             <h2>
               {latestPost.data.title}
             </h2>
@@ -104,13 +109,13 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
             <div data-latest-footer>
               <p data-latest-meta>
                 <time datetime={latestPost.data.publishDate.toISOString()}>
-                  {getFormattedDate(latestPost.data.publishDate)}
+                  {getFormattedDate(latestPost.data.publishDate, {}, locale === 'es' ? 'es-419' : 'en-US')}
                 </time>
                 <span aria-hidden="true">·</span>
-                <span>{getReadingTime(latestPost.body)} min read</span>
+                <span>{t(`${getReadingTime(latestPost.body)} min read`)}</span>
               </p>
               <span data-latest-action>
-                Read post <ArrowExchange class="size-4 shrink-0" direction="up-right" />
+                {t('Read post')} <ArrowExchange class="size-4 shrink-0" direction="up-right" />
               </span>
             </div>
           </div>

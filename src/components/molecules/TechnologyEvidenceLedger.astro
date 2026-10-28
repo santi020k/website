@@ -5,6 +5,12 @@ import { getTechnologyPath } from '@/utils/links'
 
 import { Card, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   total: number
   mostRecurring?: [string, number] | undefined
@@ -19,28 +25,28 @@ class="section-container-wide"
 data-technology-summary
 >
   <header data-technology-summary-header>
-    <p data-technology-summary-eyebrow>Behind the index</p>
-    <h2 id="technology-summary-heading">Range, with a trail.</h2>
-    <p data-technology-summary-description>Follow the tools back to the work where they appear.</p>
+    <p data-technology-summary-eyebrow>{t('Behind the index')}</p>
+    <h2 id="technology-summary-heading">{t('Range, with a trail.')}</h2>
+    <p data-technology-summary-description>{t('Follow the tools back to the work where they appear.')}</p>
   </header>
   <Card data-technology-summary-ledger data-technology-summary-single={!mostRecurring ? '' : undefined} variant="unstyled">
     <div data-technology-summary-total>
       <span data-technology-summary-number>{total}</span>
-      <p data-technology-summary-label>{total === 1 ? 'Technology or capability' : 'Technologies & capabilities'}</p>
-      <p data-technology-summary-detail>Across the published portfolio.</p>
+      <p data-technology-summary-label>{total === 1 ? t('Technology or capability') : t('Technologies & capabilities')}</p>
+      <p data-technology-summary-detail>{t('Across the published portfolio.')}</p>
     </div>
     {mostRecurring && (
-      <Link data-technology-summary-link href={getTechnologyPath(mostRecurring[0])} variant="inherit">
+      <Link data-technology-summary-link href={localizePath(getTechnologyPath(mostRecurring[0]), locale)} variant="inherit">
         <div>
-          <p data-technology-summary-kicker>Most recurring</p>
+          <p data-technology-summary-kicker>{t('Most recurring')}</p>
           <h3>{mostRecurring[0]}</h3>
-          <p data-technology-summary-count>Listed in {mostRecurring[1]} {mostRecurring[1] === 1 ? 'entry' : 'entries'}</p>
+          <p data-technology-summary-count>{locale === 'es' ? `Presente en ${mostRecurring[1]} ${mostRecurring[1] === 1 ? 'entrada' : 'entradas'}` : `Listed in ${mostRecurring[1]} ${mostRecurring[1] === 1 ? 'entry' : 'entries'}`}</p>
         </div>
-        <span data-technology-summary-action>Explore the evidence<ArrowExchange direction="right" /></span>
+        <span data-technology-summary-action>{t('Explore the evidence')}<ArrowExchange direction="right" /></span>
       </Link>
     )}
   </Card>
-  <p data-technology-summary-scope>Includes professional work, independent projects, and community.</p>
+  <p data-technology-summary-scope>{t('Includes professional work, independent projects, and community.')}</p>
 </section>
 
 <style>

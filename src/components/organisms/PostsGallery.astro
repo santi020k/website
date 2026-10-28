@@ -12,6 +12,12 @@ import { getResponsiveImageDimensions } from '@/utils/responsive-image'
 
 import { Card, Link } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
+
 interface Props {
   columns?: 2 | 3
   layout?: 'grid' | 'chapters'
@@ -35,8 +41,8 @@ const createGalleryItem = (post: CollectionEntry<'post'>) => {
       getResponsiveImageDimensions(data.coverImage.src, 1600, [320, 480, 640, 800, 960, 1280, 1600]) :
       undefined,
     data,
-    formattedDate: getFormattedDate(data.publishDate),
-    href: getPostPath(post.id),
+    formattedDate: getFormattedDate(data.publishDate, {}, locale === 'es' ? 'es-419' : 'en-US'),
+    href: localizePath(getPostPath(post.id), locale),
     readingTime: getReadingTime(post.body),
     slug: getPostSlug(post.id)
   }
@@ -59,7 +65,7 @@ const galleryItems = posts.map(createGalleryItem)
     >
       {galleryItems.map((item, index) => (
         <Card as="article" data-post-gallery-card variant="unstyled">
-          <Link href={item.href} variant="inherit">
+          <Link href={localizePath(item.href, locale)} variant="inherit">
             <div
               class="
                 relative aspect-video overflow-hidden rounded-2xl
@@ -91,29 +97,29 @@ const galleryItems = posts.map(createGalleryItem)
               <div data-post-gallery-meta>
                 <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <span>{item.data.postType}</span>
-                  {showSequence && <span data-post-gallery-part>Part {item.data.seriesOrder ?? index + 1}</span>}
-                  {item.data.draft && <span class="font-semibold">Draft</span>}
+                  {showSequence && <span data-post-gallery-part>{t('Part')} {item.data.seriesOrder ?? index + 1}</span>}
+                  {item.data.draft && <span class="font-semibold">{t('Draft')}</span>}
                 </div>
                 <time datetime={item.data.publishDate.toISOString()}>
                   {item.formattedDate}
                 </time>
               </div>
 
-              <h3>{item.data.title}</h3>
-              <p>{item.data.cardDescription ?? item.data.description}</p>
+              <h3 lang="en">{item.data.title}</h3>
+              <p lang="en">{item.data.cardDescription ?? item.data.description}</p>
 
               {!!item.data.tags.length && (
-                <ul aria-label="Topics">
+                <ul aria-label={t('Topics')}>
                   {item.data.tags.slice(0, 2).map(tag => <li>{tag}</li>)}
                 </ul>
               )}
 
               <div data-post-gallery-footer>
                 <span class="inline-flex items-center gap-2">
-                  Read article
+                  {t('Read article')}
                   <ArrowExchange class="size-4 shrink-0" direction="right" />
                 </span>
-                <span class="text-xs font-normal text-ink-soft">{item.readingTime} min read</span>
+                <span class="text-xs font-normal text-ink-soft">{t(`${item.readingTime} min read`)}</span>
               </div>
             </div>
           </Link>

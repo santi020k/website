@@ -32,11 +32,16 @@ import { ScrollProgress } from '@santi020k/lumen-astro'
 
 import { ogManifest } from '@/data/og-manifest'
 import { getSeriesContext } from '@/data/series'
+import { getLocale, localizePath } from '@/i18n'
+import { translateCollection } from '@/i18n/collection-copy'
 import {
   createAuthorSchema,
   createPublisherSchema,
   createWebsiteSchemaReference
 } from '@/site.config'
+
+const locale = getLocale(Astro.url.pathname)
+const t = (text: string) => locale === 'es' ? translateCollection(text) : text
 
 interface Props {
   figureCaptions: string[]
@@ -52,7 +57,7 @@ const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } =
 const ogImage = getSocialImageURL(
   Astro.url.pathname,
   Astro.site,
-  `/og/blog/${getPostSlug(post.id)}.webp`,
+  locale === 'es' ? undefined : `/og/blog/${getPostSlug(post.id)}.webp`,
   ogManifest
 )
 
@@ -89,8 +94,8 @@ const blogPostingSchema: Record<string, unknown> = {
 }
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
+  { name: t('Home'), url: localizePath('/', locale) },
+  { name: 'Blog', url: localizePath('/blog/', locale) },
   { name: title, url: Astro.url.pathname }
 ]
 
@@ -134,7 +139,7 @@ mainClass="remaining-pages remaining-pages--reading"
           </div>
         )}
         <div class="e-content max-w-none">
-          <div class="prose-santi max-w-none" data-article-prose id="article-content">
+          <div lang="en" class="prose-santi max-w-none" data-article-prose id="article-content">
             <slot />
           </div>
           {figureCaptions.length > 0 && <ArticleFigureViewers captions={figureCaptions} />}
@@ -197,7 +202,7 @@ mainClass="remaining-pages remaining-pages--reading"
   <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} excludeUrls={recommendationUrls} tags={post.data.tags} />
 
   <div class="section-container-wide" data-post-final-return>
-    <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} variant="colophon" />
+    <ProjectFooterNav parentPage={{ name: 'Blog', url: localizePath('/blog/', locale) }} variant="colophon" />
   </div>
 
 </BaseLayout>
