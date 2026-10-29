@@ -66,7 +66,7 @@ for (const theme of ['light', 'dark'] as const) {
       })
     })
     await page.goto(`/es${article}`)
-    for (const id of ['article-copy-link', 'copy-link-btn']) {
+    for (const id of ['copy-link-btn']) {
       const button = page.locator(`#${id}`)
 
       await expectCenteredIcon(button)
@@ -104,7 +104,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.evaluate(() => {
         document.documentElement.style.fontSize = '200%'
       })
-      for (const id of ['article-copy-link', 'copy-link-btn']) await expectCenteredIcon(page.locator(`#${id}`))
+      for (const id of ['copy-link-btn']) await expectCenteredIcon(page.locator(`#${id}`))
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     }
   })

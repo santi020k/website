@@ -2554,50 +2554,52 @@ this header to avoid doubled borders. This passive composition adds no client sc
 
 ### Series byline hero actions
 
-After Topics, use an open row with the series position above its linked title and
-a quiet Copy link action alongside it. The metadata reads From the series followed
-by the current post number and series total. Use 0.75rem muted metadata, a 1.3125rem
-medium-weight title, a purple directional arrow, and a fine bottom rule with 1.5rem
-of breathing room. Separate the action row from Topics by 1.5rem. Copy link uses
-the shared `article-copy-action` treatment: an opaque surface, a fine outline,
-0.875rem corners, a 0.8125rem label, and a tinted copy icon compartment. Keep its
-10.5rem width within the available space across idle, copied, and failed states,
-with at least a 2.75rem target. Use the same treatment for closing share actions;
-reuse LinkRecovery, its accessible feedback, and native sharing. The 18px copy,
-check, or native-share glyph stays centered in the same 32px compartment with an
-8px inset from the button edge. Hover, keyboard focus, and copied feedback share
-the brand treatment. Style retry from the controller's `data-link-recovery-active`
-attribute, retaining its danger border while hovered. Feed utility keeps its quiet,
-transparent icon treatment. Honor reduced motion and forced colors.
+After Topics, use an open row with the series position above its linked title.
+The metadata reads From the series followed by the current post number and series
+total. Use 0.75rem muted metadata, a 1.3125rem medium-weight title, a purple
+directional arrow, and a fine bottom rule with 1.5rem of breathing room. Separate
+the row from Topics by 1.5rem.
 
 Use the typed series-position message and route locale for the byline caption and
 overview link. Spanish readers stay in the Spanish interface; mark the authored
-English series name with its own language attribute.
+English series name with its own language attribute. Below 32rem, use a 1.25rem
+title and place the optional publication source beneath it. Preserve full labels,
+visible focus, and brand/accent colors in both themes. The Blog breadcrumb replaces
+the redundant Browse blog button. No additional client behavior is needed.
 
-Below 32rem of available width, stack the utility beneath the series and use a
-1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
-themes. Standalone articles place their utility in the Topics group instead;
-syndicated articles use Publication sharing in the applicable utility position.
-The Blog breadcrumb replaces the redundant Browse blog button. No additional
-client behavior is needed.
+### Single sharing point
+
+Keep one article-level sharing section in the Reader colophon at the end of the
+article. Remove hero Copy link actions and their recovery panels from both series
+and standalone articles. Topics and series navigation retain their destinations;
+original posts omit empty utility wrappers. Print remains in Reading utility,
+and code, section, and feed copy controls retain their separate purposes.
+
+The closing `ShareButtons` reuses `article-copy-action`, `LinkRecovery`, and native
+sharing. Copy the local article URL with its interface locale, without a query or
+fragment. Keep the opaque surface, fine outline, 0.875rem corners, 0.8125rem label,
+and 10.5rem width within the available space across idle, copied, and failed states.
+Use a 2.75rem minimum target, with an 18px copy, check, or native-share glyph centered
+in its 32px compartment and an 8px edge inset. Hover, keyboard focus, and copied
+feedback share the brand treatment. Retry uses `data-link-recovery-active`, retaining
+its danger border while hovered. Preserve manual recovery, accessible feedback,
+platform links without JavaScript, reduced motion, forced colors, and both themes.
+Feed utility keeps its quiet, transparent icon treatment.
 
 ### Publication sharing
 
-Keep Copy link available on syndicated articles as well as original posts. It copies
-the current local article URL, including the UI locale, without query parameters or
-fragments. Place Read on Medium beneath it, retaining the existing external publication
-URL and safe new-tab attributes. The pair stays beside the series byline or inside the
-standalone Topics group; it adds no separate share card.
+Syndicated articles retain Read on Medium in the hero as a publication destination,
+independent of the closing sharing controls. `ArticleLinkAction` renders only when
+an original URL exists. Preserve that URL and safe new-tab attributes. Keep it beside
+the series byline, or inside the standalone Topics group. An article with a source
+but no topics uses an Original publication label instead of an empty Topics section.
 
-Reuse `ArticleLinkAction`, the shared copy action and `LinkRecovery`. Align both labels
-and their 2rem icon compartments within an 11.5rem column, with a 0.375rem gap. Keep
-the copy button outlined and the publication link quieter, with a fine text underline.
-Hover and keyboard focus tint the copy surface and fill its icon compartment; the
-publication row gains a muted surface, fine border, and tinted arrow compartment.
-Use the existing 480ms Arrow exchange and 240ms color transitions without moving or
-resizing either control. Preserve copied and failed states, visible focus outlines,
-full wrapping labels, reduced motion, and both themes. Hide utilities in print; the
-external destination remains available without JavaScript.
+Keep the quiet text underline and 2rem arrow compartment in an 11.5rem column.
+Hover and keyboard focus add a muted surface, fine border, and tinted arrow
+compartment. Reuse the existing 480ms Arrow exchange and 240ms color transitions
+without moving or resizing the link. Preserve wrapping labels, visible focus,
+reduced motion, and both themes. Hide the source utility in print; its destination
+remains available without JavaScript.
 
 ### Publication imprint
 

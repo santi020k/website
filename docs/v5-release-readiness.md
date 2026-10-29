@@ -2779,3 +2779,23 @@ required for the integration commit. Evidence: `.cache/v5-footer/`.
 
 This is local integration only. The latest root full-workspace gate remains
 `0319556c`; this follow-up uses the requested affected-check cadence.
+
+
+## Single article-sharing point integration (October 28)
+
+Integrated `1fa48673` over `5f7cf5f4`. Article openings retain Topics, series
+navigation, Print, and original-publication destinations. Copy and native sharing
+remain in the closing section with their existing recovery behavior. All 94 built
+EN/ES articles contain exactly one closing copy control. Source production and
+affected test files match the qualified handoff; the corrected language-control
+accessible names remain intact.
+
+Root validation passed 150 Chromium/WebKit cases covering responsive openings,
+publication links, clipboard and native-share failure/lifecycle recovery, feed
+controls, search recovery, and language imprint. Twelve article contracts preserve
+prose hashes, metadata and destinations, with 24 matched captures and twelve strict
+whole-page accessibility scans. Current build and 906-page SEO audit pass. The
+PDF generator produced five identical page rasters and an unchanged fingerprint;
+existing PDF bytes were retained in public and dist, with freshness checked again.
+Normal commit hooks and post-commit checks complete the local receipt in
+`.cache/v5-single-sharing/`. No remote action.

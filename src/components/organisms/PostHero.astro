@@ -8,7 +8,6 @@ import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
 import ArticleLinkAction from '@/components/molecules/ArticleLinkAction.astro'
 import CoverSpread from '@/components/molecules/CoverSpread.astro'
-import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
 
 import { getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
@@ -35,7 +34,6 @@ const { canonicalUrl, description, publishDate, title, updatedDate, tags } = pos
 const { minutes, words: wordCount } = getReadingStats(post.body)
 const readingTimeText = t('reading.duration', { minutes: minutes })
 const seriesContext = await getSeriesContext(post)
-const copyUrl = new URL(Astro.url.pathname, Astro.site).href
 
 const coverAspectRatio = post.data.coverImage ?
   post.data.coverImage.src.width / post.data.coverImage.src.height :
@@ -172,26 +170,26 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
   </div>
 
   {/* ── Topics — Margin topics ─────────────────────────────── */}
-  {(tags.length > 0 || !seriesContext) && (
+  {(tags.length > 0 || (!seriesContext && canonicalUrl)) && (
     <div
       class="
         animate-slide-up [animation-delay:200ms]
         motion-reduce:animate-none
       "
       data-article-topics-container
-      data-has-utility={!seriesContext}
+      data-has-utility={!seriesContext && Boolean(canonicalUrl)}
     >
       <div data-article-topics-header>
         <div data-article-topics-heading>
           <Icon
-            name={tags.length > 0 ? 'hash' : 'share-2'}
+            name={tags.length > 0 ? 'hash' : 'external-link'}
             class="size-4.5 shrink-0"
           />
-          <h2 id="article-topics-heading">{tags.length > 0 ? t('collection.topics') : t('shared.share')}</h2>
+          <h2 id="article-topics-heading">{tags.length > 0 ? t('collection.topics') : controls('publication.original')}</h2>
         </div>
-        {!seriesContext && (
+        {!seriesContext && canonicalUrl && (
           <div data-topic-action>
-            <ArticleLinkAction {canonicalUrl} {copyUrl} />
+            <ArticleLinkAction {canonicalUrl} />
           </div>
         )}
       </div>
@@ -208,9 +206,6 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
             ))}
           </ul>
         </nav>
-      )}
-      {!seriesContext && (
-        <LinkRecovery buttonId="article-copy-link" url={copyUrl} copiedLabel={controls('shared.copied')} copiedAnnouncement={controls('shared.copiedArticleLinkCopied')} />
       )}
     </div>
   )}
@@ -238,9 +233,8 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
             <ArrowExchange direction="right" class="size-4 shrink-0" data-hero-series-arrow />
           </Link>
         </div>
-        <ArticleLinkAction {canonicalUrl} {copyUrl} />
+        <ArticleLinkAction {canonicalUrl} />
       </div>
-      <LinkRecovery buttonId="article-copy-link" url={copyUrl} copiedLabel={controls('shared.copied')} copiedAnnouncement={controls('shared.copiedArticleLinkCopied')} />
     </div>
   )}
 
@@ -268,8 +262,6 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
     padding-bottom: 1.5rem;
     border-bottom: 1px solid hsl(var(--line));
   }
-
-  [data-article-topics-container] :global([data-link-recovery]) { grid-column: 1 / -1; margin-top: 0; }
 
   [data-hero-series] { min-width: 0; }
   [data-hero-series-position] {
