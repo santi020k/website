@@ -17,7 +17,8 @@ import og from '../../../../src/content/project/og/logo.png'
 import postlens from '../../../../src/content/project/postlens/logo.webp'
 import quality from '../../../../src/content/project/quality/logo.svg'
 import theme from '../../../../src/content/project/santi020k-theme/logo.webp'
-import workspace from '../../../../src/content/project/workspace-organizer/logo.webp'
+import commitprompt from '../assets/products/commitprompt.svg'
+import lumenPoster from '../assets/products/lumen-web-poster.webp'
 import mark from '../assets/products/mark.svg'
 import alpine from '../assets/products/postlens-alpine-lake.webp'
 import coastal from '../assets/products/postlens-coastal-village.webp'
@@ -38,7 +39,7 @@ const tools = [
   { name: 'OG', image: og, category: 'Identity, generated.' },
   { name: 'ESLint Config Basic', image: eslint, category: 'Standards, shared.' },
   { name: 'Auth', image: auth, category: 'Access, reusable.' },
-  { name: 'Workspace Organizer', image: workspace, category: 'Work, organized.' },
+  { name: 'Commitprompt', image: commitprompt, category: 'Commits, considered.' },
   { name: 'Theme', image: theme, category: 'One visual language.' }
 ]
 ---
@@ -69,14 +70,14 @@ const tools = [
       <section class="scene lumen-web" data-scene-start="3">
         <div class="film-top"><span>santi020k.</span><span>01 — Lumen UI</span></div>
         <div class="product-copy"><div class="product-signature"><Image src={lumen} alt="" width={64} height={64} loading="eager" /><span>Lumen UI</span></div><h2>From<br /><em>shared<br />parts.</em></h2><p>Real controls. Shared foundations.</p></div>
-        <div class="workspace-plate"><video id="lumen-recording" src="/assets/lumen-web.mp4" muted playsinline preload="auto" data-start="3" data-duration="6" aria-label="Recording of typing a task and toggling a Lumen switch"></video></div>
+        <div class="workspace-plate"><video id="lumen-recording" src="/assets/lumen-web.mp4" poster={lumenPoster.src} muted playsinline preload="auto" data-start="3" data-duration="6" aria-label="Recording of typing a task and toggling a Lumen switch"></video></div>
 
         <div class="film-bottom"><span>Accessible foundations for real products.</span><span>02 / 06</span></div>
       </section>
       <section class="scene lumen-native" data-scene-start="9">
         <div class="film-top"><span>santi020k.</span><span>01 — Lumen UI</span></div>
         <div class="native-copy"><p class="eyebrow">One design language</p><h2><span>Web.</span><span>Native.</span><em>Connected.</em></h2></div>
-        <div class="native-workspace"><Image id="native-workspace" data-start="9.15" src={web} alt="Lumen web workspace" loading="eager" quality={95} /></div>
+        <div class="native-workspace"><Image id="native-workspace" src={web} alt="Lumen web workspace" loading="eager" quality={95} /></div>
         <div class="native-phone"><Image src={native} alt="Lumen native release-checklist playground" loading="eager" quality={95} /></div>
         <div class="film-bottom"><span>Shared foundations. Native expression.</span><span>03 / 06</span></div>
       </section>

@@ -14,9 +14,14 @@ for (const [index, scene] of scenes.entries()) {
   const previous = scenes[index - 1]
 
   if (previous) {
-    timeline.fromTo(scene, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.42, ease: 'power3.inOut' }, start)
+    if (scene.classList.contains('lumen-web') || scene.classList.contains('lumen-native')) {
+      // Match-cut to the ready desktop image; keep the Lumen workspace continuous.
+      timeline.set(previous, { autoAlpha: 0 }, start)
+    } else {
+      timeline.fromTo(scene, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.42, ease: 'power3.inOut' }, start)
 
-    timeline.set(previous, { autoAlpha: 0 }, start)
+      timeline.set(previous, { autoAlpha: 0 }, start)
+    }
   }
 
   timeline.fromTo(scene.querySelectorAll('.film-top, .film-bottom'), { opacity: 0 }, { opacity: 1, duration: 0.3 }, start + 0.15)
@@ -32,11 +37,11 @@ timeline.fromTo('.opening-note', { opacity: 0, y: 16 }, { opacity: 1, y: 0, dura
 
 timeline.fromTo('.product-copy > *', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out' }, 3.25)
 
-timeline.fromTo('.workspace-plate', { x: 170, scale: 1.06, opacity: 0 }, { x: 0, scale: 1, opacity: 1, duration: 0.9, ease: 'power3.out' }, 3.15)
+timeline.fromTo('.workspace-plate', { scale: 1.02 }, { scale: 1, duration: 0.65, ease: 'power3.out' }, 3)
 
 timeline.fromTo('.native-copy > *', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power3.out' }, 9.2)
 
-timeline.fromTo('.native-workspace', { scale: 1.04, x: 80, opacity: 0 }, { scale: 1, x: 0, opacity: 1, duration: 0.75, ease: 'power3.out' }, 9.15)
+timeline.fromTo('.native-workspace', { scale: 1.02, x: 30 }, { scale: 1, x: 0, duration: 0.6, ease: 'power3.out' }, 9)
 
 timeline.fromTo('.native-phone', { y: 125, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85, ease: 'power3.out' }, 9.35)
 
