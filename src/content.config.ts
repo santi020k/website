@@ -39,6 +39,10 @@ const series = defineCollection({
     draft: z.boolean().default(false),
     focusAreas: z.array(z.string()).default([]).transform(removeDuplicates),
     order: z.number().default(0),
+    readingNote: z.object({
+      kind: z.enum(['audience', 'perspective']),
+      text: z.string().trim().min(1)
+    }).optional(),
     seoDescription: z.string().optional(),
     seoTitle: z.string().optional(),
     status: z.enum(['active', 'planned', 'archived']).default('active')

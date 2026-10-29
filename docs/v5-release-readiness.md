@@ -2591,6 +2591,29 @@ preflight requirement when that local runtime can launch. Evidence is in
 `.cache/v5-about-editorial/`. The root full gate remains `0319556c`; no remote
 action occurred.
 
+## Reader preface integration
+
+Approved source `349732ad` is integrated over `1e854bbe`. The three Series
+introductions retain their exact authored wording and separate the final audience
+or perspective paragraph under a typed localized label. The optional frontmatter
+field validates its kind and nonempty text without requiring existing series to
+provide a note. The introduction remains English; the label follows the interface
+language. Focus links, chapters, opening content and metadata are unchanged.
+
+All 34 affected Chromium/WebKit browser cases and 1,548 focused schema, Series and
+catalog units pass. Twenty-four matched contracts and forty-eight captures verify
+the preserved copy and destinations in both languages, themes and representative
+mobile/desktop sizes. Browser coverage includes strict axe scans, enlarged text,
+keyboard navigation and script-free links. The 904-page build and 906-page SEO
+audit pass. Five regenerated PDF page rasters are unchanged; freshness and
+public/built artifact equality pass. Production sources and affected tests match
+the handoff, with newer shared catalog keys retained.
+
+Only generated PDFs conflicted and were rebuilt normally. The Changeset is folded
+into 5.0.0 with published notes unchanged. Normal commit hooks run zero-warning
+lint and the current Astro check. Evidence: `.cache/v5-series-preface/`. Root full
+gate remains `0319556c`; no remote action occurred.
+
 ## Work editorial integration
 
 Approved source `33644d25` is integrated over `bf1dcc7e`. Work uses open career

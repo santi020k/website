@@ -467,17 +467,21 @@
 .series-detail-page { --page-flow-gap: 0rem; gap: 0; }
 [data-series-summary] { margin-top: 4rem; }
 
-/* A series introduction shares one ruled spread with its focus ledger. */
+/* Reader preface shares an open spread with the focus links. */
 [data-series-overview] { container: series-overview / inline-size; margin-top: 4rem; }
 [data-series-overview-grid] { display: grid; gap: 2rem; padding-top: 2rem; border-top: 1px solid hsl(var(--line)); }
-[data-series-introduction] { min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.85; }
-[data-series-introduction] h2 { max-width: 24ch; margin: 0 0 1.5rem; color: hsl(var(--ink)); font-size: 2.25rem; font-weight: 500; line-height: 1.15; letter-spacing: -0.055em; text-wrap: balance; }
-[data-series-introduction] p + p { margin-top: 1rem; }
+[data-series-introduction] { --preface-accent: hsl(var(--brand)); min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
+[data-theme='dark'] [data-series-introduction] { --preface-accent: hsl(var(--accent)); }
+[data-series-introduction] h2 { max-width: 24ch; margin: 0 0 1.25rem; color: hsl(var(--ink)); font-size: 1.75rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.045em; text-wrap: balance; }
+[data-series-preface-body] > p:first-of-type { padding-inline-start: 1.125rem; border-inline-start: 2px solid var(--preface-accent); }
+[data-series-preface-body] p + p { margin-top: 1rem; }
+[data-series-reader-note] { margin-top: 1.375rem; padding-top: 1.125rem; border-top: 1px solid hsl(var(--line)); font-size: 0.8125rem; line-height: 1.85; }
+[data-series-reader-note-label] { display: block; margin-bottom: 0.5rem; color: var(--preface-accent); font-size: 0.6875rem; font-weight: 500; line-height: 1.8; letter-spacing: 0.06em; text-transform: uppercase; }
 @container series-overview (width >= 52rem) {
   [data-series-overview-grid]:has([data-series-focus]) { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 3rem; }
 }
 @container series-overview (width < 30rem) {
-  [data-series-introduction] h2 { font-size: 1.75rem; }
+  [data-series-introduction] h2 { font-size: 1.625rem; }
 }
 @container series-overview (width < 16rem) {
   [data-series-introduction] h2 { font-size: 1.375rem; }

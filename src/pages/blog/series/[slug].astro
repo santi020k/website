@@ -117,10 +117,18 @@ mainClass="remaining-pages series-detail-page"
     </div>
   </section>
 
-  <section class="section-container-wide" data-series-overview>
+  <section class="section-container-wide" data-series-overview id="series-preface">
     <div data-series-overview-grid>
       <div data-series-introduction lang="en">
-        <Content />
+        <div data-series-preface-body><Content /></div>
+        {series.data.readingNote && (
+          <p data-series-reader-note>
+            <span data-series-reader-note-label lang={locale}>
+              {t(series.data.readingNote.kind === 'audience' ? 'series.readerAudience' : 'series.readerPerspective')}
+            </span>
+            {series.data.readingNote.text}
+          </p>
+        )}
       </div>
       {!!series.data.focusAreas.length && (
         <SeriesFocusCard areas={series.data.focusAreas} />

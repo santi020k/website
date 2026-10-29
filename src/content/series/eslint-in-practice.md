@@ -5,6 +5,9 @@ cadence: "Evergreen tooling notes for teams standardizing JavaScript and TypeScr
 focusAreas: ["ESLint", "Developer Experience", "TypeScript"]
 order: 2
 status: "active"
+readingNote:
+  kind: "audience"
+  text: "It is the best fit for engineers who want stronger defaults, cleaner pull requests, and tooling that scales with real teams."
 seoTitle: "ESLint in Practice Series"
 seoDescription: "Guides and case studies on ESLint configs, migrations, and developer experience for modern JavaScript teams."
 ---
@@ -12,5 +15,3 @@ seoDescription: "Guides and case studies on ESLint configs, migrations, and deve
 ## Tooling that earns its place
 
 Linting only helps when it reduces ambiguity instead of creating more noise. This series collects the ESLint writing on the site into one track so migrations, reusable configs, and code-quality standards feel connected instead of scattered.
-
-It is the best fit for engineers who want stronger defaults, cleaner pull requests, and tooling that scales with real teams.

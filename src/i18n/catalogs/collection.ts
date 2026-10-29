@@ -429,6 +429,8 @@ export const collectionMessages = {
   'series.exploreArticle': { en: 'Explore the article', es: 'Explora el artículo' },
   'series.exploreArticles': { en: 'Explore the {count} articles', es: 'Explora los {count} artículos' },
   'series.readingEstimate': { en: 'About {minutes} min across the series', es: 'Unos {minutes} min para toda la serie' },
+  'series.readerAudience': { en: 'Who it’s for', es: 'Para quién es' },
+  'series.readerPerspective': { en: 'The perspective', es: 'La perspectiva' },
   'series.singleChapter': { en: 'View the chapter', es: 'Ver el capítulo' },
   'series.readingOrderHeading': { en: 'Articles in reading order.', es: 'Artículos en orden de lectura.' },
   'series.readingOrderDescription': { en: 'Follow the series from foundations to deeper implementation.', es: 'Recorre la serie desde los fundamentos hasta la implementación en profundidad.' },
