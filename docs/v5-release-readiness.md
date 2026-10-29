@@ -2906,3 +2906,22 @@ image bytes are unchanged. All 926 OG outputs now pass freshness. The build,
 906-page SEO check, all five unchanged PDF rasters and built-page audit pass:
 2,194 documents, 8,640 local targets, zero errors. Normal hooks and post-commit
 checks are recorded in `.cache/v5-product-film/`. Local only.
+
+## Navbar language and search integration (October 28)
+
+Integrated `55995534` over `721f7a75`. Search uses the icon at every width while
+retaining its accessible name and keyboard shortcut. The native language link
+uses the shared Lumen ButtonLink and Languages icon with an outlined treatment;
+its destination, query/hash handling, language metadata and visible-label prefix
+remain intact. The mobile menu keeps the full interface-language label, and the
+header yields space at narrow widths or enlarged text. The already-integrated
+short-landscape minimum row height is preserved.
+
+Root validation passed all 236 Chromium/WebKit navbar, surface, language-imprint,
+localization and mobile-search-focus cases, plus eight short-landscape keyboard
+regressions. Eight header contracts match before/after links and language
+metadata, sixteen matched captures were inspected, and eight strict header
+accessibility scans pass. Current build/906-page SEO, normal PDF generation and
+freshness, and all five unchanged PDF page rasters pass. Source components/tests
+match the handoff; nav.css also retains the later responsive fix. Evidence and
+normal commit/post-commit checks are in `.cache/v5-navbar/`. Local only.

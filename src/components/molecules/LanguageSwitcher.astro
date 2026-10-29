@@ -1,4 +1,6 @@
 ---
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+
 import { getLocale, localizePath, sharedTranslator } from '@/i18n'
 
 interface Props {
@@ -14,34 +16,65 @@ const accessibleLabel = variant === 'header' ? `${target.toUpperCase()}: ${label
 const destination = localizePath(`${Astro.url.pathname}${Astro.url.search}`, target)
 ---
 
-<a
-
+<ButtonLink
+  ariaLabel={accessibleLabel}
   data-language-switch={variant}
   href={destination}
   hreflang={target}
   lang={locale}
-  aria-label={accessibleLabel}
+  title={label}
+  variant="unstyled"
 >
-  <span aria-hidden="true">{variant === 'menu' ? label : target.toUpperCase()}</span>
-</a>
+  <Icon name="languages" class="size-4 shrink-0" />
+  <span data-language-switch-label aria-hidden="true">{variant === 'menu' ? label : target.toUpperCase()}</span>
+</ButtonLink>
 
 <style>
   [data-language-switch] {
     display: inline-flex;
+    flex-shrink: 0;
     min-width: 2.75rem;
     min-height: 2.75rem;
     align-items: center;
     justify-content: center;
-    padding: .25rem;
+    gap: .5rem;
+    padding: .5rem .75rem;
+    border: 1px solid hsl(var(--line) / .8);
+    border-radius: .625rem;
+    background: hsl(var(--surface) / .6);
     color: hsl(var(--ink-soft));
     font-size: .75rem;
     font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
   }
-  [data-language-switch]:hover { color: hsl(var(--brand)); }
-  [data-language-switch]:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 3px; }
-  [data-language-switch="menu"] { justify-content: start; font-size: .875rem; }
+  [data-language-switch]:hover {
+    border-color: hsl(var(--accent) / .5);
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--ink));
+  }
+  [data-language-switch]:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 3px; }
+  [data-language-switch="menu"] {
+    min-width: 0;
+    justify-content: start;
+    gap: .75rem;
+    font-size: .8125rem;
+    font-weight: 500;
+  }
+  [data-language-switch-label] { min-width: 0; overflow-wrap: anywhere; }
+  @container site-header (width < 26rem) {
+    [data-language-switch="header"] { display: none; }
+  }
   @media (max-width: 639px) {
     [data-language-switch="header"] { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-language-switch] { transition: none; }
+  }
+  @media (forced-colors: active) {
+    [data-language-switch] { border-color: ButtonText; }
+    [data-language-switch]:focus-visible { outline-color: Highlight; }
   }
 </style>
 

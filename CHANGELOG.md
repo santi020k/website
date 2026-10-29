@@ -340,6 +340,8 @@
 
 ### Patch Changes
 
+- Keep navbar search icon-only and refine the language switch with an outlined control, translation icon, and responsive full-label menu link.
+
 - Use the current ESLint Config Basic hexagon-and-sliders project icon across the website and product films, and remove obsolete local logo files.
 
 - Refine the PostLens film gallery with clean original sample photos, consistent crops, and clear separation from the editor recording in both video formats.
