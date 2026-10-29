@@ -15,11 +15,13 @@ import native from '../../../../src/content/project/lumen-ui/preview-apple.webp'
 import web from '../../../../src/content/project/lumen-ui/preview-web.webp'
 import og from '../../../../src/content/project/og/logo.png'
 import postlens from '../../../../src/content/project/postlens/logo.webp'
-import gallery from '../../../../src/content/project/postlens/preview-photos.webp'
 import quality from '../../../../src/content/project/quality/logo.svg'
 import theme from '../../../../src/content/project/santi020k-theme/logo.webp'
 import workspace from '../../../../src/content/project/workspace-organizer/logo.webp'
 import mark from '../assets/products/mark.svg'
+import alpine from '../assets/products/postlens-alpine-lake.webp'
+import coastal from '../assets/products/postlens-coastal-village.webp'
+import sunset from '../assets/products/postlens-sunset-beach.webp'
 import timelineSource from '../scripts/product-timeline.ts?raw'
 
 interface Props { format?: 'landscape' | 'portrait' }
@@ -81,9 +83,13 @@ const tools = [
       <section class="scene postlens" data-scene-start="13">
         <div class="film-top"><span>santi020k.</span><span>02 — PostLens</span></div>
         <div class="postlens-copy"><div class="product-signature"><Image src={postlens} alt="" width={64} height={64} loading="eager" /><span>PostLens</span></div><h2>Find<br />your <em>frame.</em></h2><p>A private photo studio.</p></div>
-        <div class="photo-strip"><Image data-layout-allow-overflow src={gallery} alt="Three generated scenic sample photos in the PostLens gallery" loading="eager" quality={95} /></div>
+        <div class="photo-strip" role="group" aria-label="PostLens illustrative photo collection">
+          <Image src={alpine} alt="Generated mountain lake sample" loading="eager" quality={95} />
+          <Image src={sunset} alt="Generated beach sunset sample" loading="eager" quality={95} />
+          <Image src={coastal} alt="Generated coastal village sample" loading="eager" quality={95} />
+        </div>
         <div class="editor-phone"><video id="postlens-recording" src="/assets/postlens-editor.mp4" muted playsinline preload="auto" data-start="13" data-duration="8" aria-label="PostLens recording: open Filters, select Vibrant, compare original and edited photo"></video></div>
-        <div class="film-bottom"><span>Select. Refine. Compare.</span><span>04 / 06</span></div>
+        <div class="film-bottom"><span>AI-generated samples. Real editor recording.</span><span>04 / 06</span></div>
       </section>
       <section class="scene ecosystem" data-scene-start="21">
         <div class="film-top"><span>santi020k.</span><span>03 — Developer ecosystem</span></div>

@@ -32,8 +32,9 @@ img { display: block; max-width: 100%; height: auto; }
 .native-phone { position: absolute; top: 154px; right: 140px; width: 360px; }
 .native-phone img, .editor-phone img { width: 100%; }
 .postlens-copy h2 { font-size: 152px; }
-.photo-strip { position: absolute; left: 770px; top: 340px; width: 830px; height: 260px; border-radius: 24px; overflow: hidden; border: 1px solid hsl(var(--line)); }
-.photo-strip img { position: absolute; width: 830px; max-width: none; top: -520px; }
+.photo-strip { position: absolute; left: 760px; top: 420px; width: 650px; height: 280px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.photo-strip img { width: 100%; height: 260px; object-fit: cover; border-radius: 18px; box-shadow: 0 18px 36px hsl(var(--theme-bg) / .3); }
+.photo-strip img:nth-child(2) { margin-top: 20px; }
 .editor-phone { position: absolute; width: 350px; right: 120px; top: 140px; }
 .ecosystem h2 { position: absolute; top: 168px; left: 112px; font-size: 116px; font-weight: 550; line-height: 1.05; letter-spacing: -.07em; }
 .ecosystem-rule { position: absolute; height: 1px; top: 473px; left: 112px; right: 112px; background: hsl(var(--line)); transform-origin: left; }
@@ -81,8 +82,8 @@ html:has([data-format='portrait']), body:has([data-format='portrait']),
 [data-format='portrait'] .postlens-copy h2 { font-size: 104px; margin-top: 50px; }
 [data-format='portrait'] .postlens-copy p { font-size: 26px; }
 [data-format='portrait'] .editor-phone { top: 330px; right: 64px; width: 420px; }
-[data-format='portrait'] .photo-strip { top: 875px; left: 64px; width: 460px; height: 145px; }
-[data-format='portrait'] .photo-strip img { width: 460px; top: -288px; }
+[data-format='portrait'] .photo-strip { top: 875px; left: 64px; width: 460px; height: 204px; gap: 12px; }
+[data-format='portrait'] .photo-strip img { height: 184px; border-radius: 14px; }
 [data-format='portrait'] .ecosystem h2 { left: 64px; top: 150px; font-size: 90px; }
 [data-format='portrait'] .ecosystem-rule { left: 64px; right: 64px; top: 425px; }
 [data-format='portrait'] .tool-grid { left: 64px; right: 64px; top: 500px; grid-template-columns: repeat(2, 1fr); gap: 80px 36px; }

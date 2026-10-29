@@ -138,18 +138,18 @@ PostLens interaction was accelerated for the eight-second scene. These captures
 demonstrate interfaces; they do not establish store or provider availability.
 The native Lumen scene is a still capture, identified separately from recordings.
 
-The PostLens film and homepage previews have one rounded screen edge. The ESLint
+The PostLens film uses the three original, AI-generated PostLens website demo assets from `apps/website/src/assets/demo/` (September 13, 2026). The gallery strip uses separate, fully visible photo tiles with no screenshot borders, score badges, or clipped third image; each crop keeps its subject visible beside the real editor recording. The film and homepage previews have one rounded screen edge. The ESLint
 logo is copied unchanged from the library’s active `apps/docs/src/assets/logo-square.svg` (the hexagon with two sliders); the stale public checkmark SVG is not the project mark. Shared project
 assets are imported directly from the main site's content directory.
 
 ```bash
 pnpm --filter @santi020k/website-motion build
 HYPERFRAMES_NO_TELEMETRY=1 pnpm --filter @santi020k/website-motion exec hyperframes check dist/products --strict
-HYPERFRAMES_NO_TELEMETRY=1 pnpm --filter @santi020k/website-motion exec hyperframes render dist --composition products/index.html --output ../../public/media/products/santi020k-products.mp4 --fps 30 --quality delivery --workers 2 --experimental-fast-capture=false
+HYPERFRAMES_NO_TELEMETRY=1 pnpm --filter @santi020k/website-motion exec hyperframes render dist --composition products/index.html --output renders/santi020k-products.mp4 --fps 30 --quality delivery --workers 2 --experimental-fast-capture=false
 ```
 
 Render the phone cut with `--composition products-portrait/index.html` and
-`--output ../../public/media/products/santi020k-products-portrait.mp4`.
+`--output renders/santi020k-products-portrait.mp4`. Copy both finished exports into `public/media/products/` at the repository root before building the website. Render outside `public/` so temporary render files cannot enter a concurrent site build.
 Run the strict composition check against `dist/products-portrait` as well.
 
 The shipped posters and localized WebVTT tracks live beside the MP4 files. Keep their
