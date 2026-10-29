@@ -340,6 +340,8 @@
 
 ### Patch Changes
 
+- Reuse the homepage’s featured testimonial treatment on Work with me in English and Spanish. Show all four complete quotations, adapt the featured spread to the collection, and improve spacing and text sizes on narrow screens.
+
 - Translate portfolio collection totals into Spanish while preserving complete singular and plural labels at enlarged text sizes.
 
 - Keep community headings, portfolio labels, and technology counts readable on narrow screens with enlarged text, and keep focused navigation rows fully visible in short landscape windows.

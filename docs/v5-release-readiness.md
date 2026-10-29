@@ -2857,3 +2857,29 @@ PDF generation/freshness and five identical page rasters pass. Normal hooks and
 post-commit evidence are recorded in `.cache/v5-responsive/`. The source owner
 will run the full gate against an isolated snapshot of this merged commit; this
 receipt does not claim that gate has passed yet. Local only.
+
+
+## Complete contact testimonial integration (October 28)
+
+Integrated final source `74808aa2`, preserving `543c62db`, over `89b797e5`.
+Work with me displays all four profile quotations in authored order; the home
+page retains its selected three. A shared TestimonialSpotlight reuses existing
+Lumen/TestimonialCard components, keeps the featured quote at natural height, and
+stacks complete quotations with smaller type/insets on narrow screens. Original
+English quotations and localized attribution are preserved. About and Speaking
+remain unchanged. Production files match the source handoff.
+
+Root validation passed 50 Chromium/WebKit home/contact cases, 56 responsive
+states across both languages/themes and 320–1440px including 200% text, eight
+whole-page accessibility scans and four no-JavaScript cases. Sixteen contracts
+preserve original quotations/metadata/links and match all four contact quotations
+to the profile's existing About rendering; 32 matched captures were inspected.
+Current build/906-page SEO audit, PDF generation/freshness and five unchanged
+PDF rasters pass; unchanged fingerprint permits retaining original PDF bytes.
+Normal hooks and post-commit checks are recorded in `.cache/v5-contact-testimonials/`.
+
+The source's earlier aggregate verify:fast timed out in unchanged v3
+`about.astro:139` under `better-tailwindcss/enforce-canonical-classes`
+(`Atomics.wait() failed: timed-out`); isolated zero-warning lint passed. This
+receipt does not claim a source full-gate pass. The separate merged-snapshot
+gate for `89b797e5` remains in progress. Local only.

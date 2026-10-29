@@ -4,7 +4,7 @@ import { getEntry } from 'astro:content'
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import FaqList from '@/components/molecules/FaqList.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
-import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
+import TestimonialSpotlight from '@/components/molecules/TestimonialSpotlight.astro'
 import WhatsAppIntake from '@/components/molecules/WhatsAppIntake.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import ContactHero from '@/components/pages/contact/ContactHero.astro'
@@ -45,7 +45,6 @@ const results = await Promise.all(resultProjectIds.map(async id => {
   }
 }))
 
-const featuredTestimonials = testimonials.slice(0, 2)
 const canonicalUrl = new URL(localizePath('/work-with-me/', pageLocale), Astro.site).href
 
 const structuredData = [
@@ -192,11 +191,7 @@ size="sm"
       linkLabel={t('page.readMoreRecommendations')}
       title={t('page.whatWorkingTogetherIsLike')}
     />
-    <div data-work-testimonials>
-      {featuredTestimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
-        <TestimonialCard authorName={name} avatarInitials={avatarInitials} avatarUrl={avatarUrl} quote={quote} relationship={relationship} role={role} />
-      ))}
-    </div>
+    <TestimonialSpotlight items={testimonials} data-work-testimonials />
   </PageSection>
 
   <PageSection layout="stacked">
@@ -256,7 +251,6 @@ size="sm"
   [data-channel] :global(svg) { color: hsl(var(--service-accent)); }
   [data-channel]:hover strong { text-decoration: underline; text-underline-offset: 0.25em; }
   [data-channel]:focus-visible { outline: 2px solid hsl(var(--service-accent)); outline-offset: 3px; }
-  [data-work-testimonials] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
   @container contact-services (width < 48rem) {
     [data-service] { grid-template-columns: 2.5rem minmax(0, 1fr); gap: 1rem 1.5rem; padding-block: 2rem; }
     [data-service-detail] { grid-column: 2; }
@@ -267,7 +261,6 @@ size="sm"
     [data-start-aside] { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem 2.5rem; padding-top: 0; }
     [data-process-label] { grid-column: 1 / -1; }
     [data-channels] { margin: 0; }
-    [data-work-testimonials] { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 47.99rem) {
     [data-start-aside] { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
