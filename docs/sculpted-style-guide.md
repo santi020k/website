@@ -200,6 +200,24 @@ text-driven column reflow, and reduced-motion support. Hover changes text color 
 moving the card or cropping the artwork. Technology archives reuse this editorial
 presentation.
 
+### Archive spread Blog opening
+
+Paginated Blog openings use **Archive spread** after the first page. Preserve the
+large Writing archive heading, purple current-page line, and existing sculpted
+actions. Add a fine rule after the eyebrow and below the title, with a short accent
+at the title rule's leading edge and a subtle semantic purple wash. Place the
+existing description beside a ruled article-count margin, derived from that page's
+published articles. Replace the redundant Archive / Latest first metadata row.
+
+Use the shared compact hero scale, 1.875rem below the heading, .625rem above the
+page line, and 1.625rem above the details. The description uses .875rem type;
+the count uses 1.25rem Montserrat 500 with a .75rem On this page caption. Below
+28rem of hero width, move the count below the description, remove its side rule,
+and use .9375rem count text with wrapping. Reuse localized ButtonLink actions,
+typed singular/plural count labels, semantic tokens, and the existing enlarged-text
+heading rule. Preserve the first Blog page, feed, topic chooser, pagination, page
+metadata, and article order. Add no client script or new navigation behavior.
+
 ### Editorial blog cards
 
 All `PostsGallery` consumers use open cards with 16:9 artwork and 1rem image corners.
