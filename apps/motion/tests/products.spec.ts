@@ -45,6 +45,23 @@ for (const format of ['landscape', 'portrait'] as const) {
       ))).toBe(true)
     }
 
+    for (const [selector, times] of [
+      ['.workspace-plate', [3, 3.15, 3.4]],
+      ['.native-workspace', [9, 9.15, 9.4]]
+    ] as const) {
+      for (const time of times) {
+        await page.evaluate(time => {
+          window.__timelines?.['product-film']?.pause().seek(time)
+        }, time)
+
+        await expect(page.locator(selector)).toHaveCSS('opacity', '1')
+
+        await expect(page.locator(selector)).toBeInViewport({ ratio: 0.95 })
+
+        await page.screenshot({ path: `renders/stills/lumen-${format}-handoff-${time}.png` })
+      }
+    }
+
     expect(errors).toEqual([])
   })
 }

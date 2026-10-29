@@ -48,8 +48,8 @@ class="size-5"
 
 <style>
   home-product-film { display: block; }
-  [data-film-trigger] { display: inline-flex; max-width: 100%; min-height: 2.75rem; align-items: center; gap: 0.625rem; padding: 0.25rem 0; border: 0; background: transparent; color: hsl(var(--ink)); font: 500 0.8125rem/1.5 var(--font-sans); letter-spacing: -0.02em; text-decoration: none; }
-  [data-film-trigger] :global(.ui-button__content) { display: flex; align-items: center; gap: 0.625rem; flex-wrap: wrap; }
+  [data-film-trigger] { display: inline-flex; max-width: 100%; min-height: 2.75rem; align-items: center; gap: 0.625rem; flex-wrap: wrap; padding: 0.25rem 0; border: 0; background: transparent; color: hsl(var(--ink)); font: 500 0.8125rem/1.5 var(--font-sans); letter-spacing: -0.02em; text-decoration: none; white-space: normal; }
+  [data-film-trigger] :global(.ui-button__content) { display: flex; min-width: 0; max-width: 100%; align-items: center; gap: 0.625rem; flex-wrap: wrap; }
   [data-film-trigger][hidden], [data-film-error][hidden] { display: none; }
   [data-film-play] { display: grid; place-items: center; flex: 0 0 2.5rem; width: 2.5rem; height: 2.5rem; border: 1px solid hsl(var(--line)); border-radius: 50%; background: hsl(var(--brand-soft)); color: hsl(var(--brand)); transition: background 180ms ease, color 180ms ease; }
   [data-film-trigger]:hover [data-film-play] { background: hsl(var(--brand-solid)); color: var(--color-portrait-ink); }

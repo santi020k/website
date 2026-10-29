@@ -340,6 +340,10 @@
 
 ### Patch Changes
 
+- Keep the film trigger label and duration inside narrow layouts with enlarged text, with and without JavaScript.
+
+- Keep the Lumen desktop image visible through scene changes and replace the unreleased Workspace Organizer film tile with Commitprompt.
+
 - Refresh the current v5 History captures to show the integrated homepage and navigation.
 
 - Keep navbar search icon-only and refine the language switch with an outlined control, translation icon, and responsive full-label menu link.

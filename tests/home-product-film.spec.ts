@@ -63,6 +63,55 @@ test('the movie remains accessible without JavaScript', async ({ browser, baseUR
   await context.close()
 })
 
+for (const locale of ['en', 'es'] as const) {
+  for (const javaScriptEnabled of [true, false]) {
+    const selector = javaScriptEnabled ? '[data-film-open]' : '[data-film-fallback]'
+    const route = locale === 'en' ? '/' : '/es/'
+
+    test(`the ${locale} film trigger fits doubled text with JavaScript ${javaScriptEnabled}`, async ({ browser, baseURL }) => {
+      const context = await browser.newContext({
+        baseURL: new URL('/', baseURL).href,
+        javaScriptEnabled,
+        viewport: { width: 320, height: 900 },
+        reducedMotion: 'reduce'
+      })
+      const page = await context.newPage()
+
+      try {
+        await page.goto(route)
+        await page.evaluate(() => {
+          document.documentElement.style.setProperty('font-size', '200%', 'important')
+        })
+        await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
+        const trigger = page.locator(selector)
+
+        await expect(trigger).toBeVisible()
+        await trigger.scrollIntoViewIfNeeded()
+        await expect(trigger.locator('[data-film-duration]')).toBeVisible()
+        const geometry = await trigger.evaluate(element => {
+          const box = element.getBoundingClientRect()
+          const children = [...element.querySelectorAll('span')].map(child => child.getBoundingClientRect())
+
+          return {
+            left: box.left,
+            right: box.right,
+            fits: children.every(child => child.left >= box.left - 1 && child.right <= box.right + 1),
+            scrollWidth: element.scrollWidth,
+            clientWidth: element.clientWidth
+          }
+        })
+
+        expect(geometry.left).toBeGreaterThanOrEqual(0)
+        expect(geometry.right).toBeLessThanOrEqual(320)
+        expect(geometry.fits).toBe(true)
+        expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1)
+      } finally {
+        await context.close()
+      }
+    })
+  }
+}
+
 for (const theme of ['light', 'dark'] as const) {
   test(`the film and hero fit desktop and mobile in ${theme} mode`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })

@@ -2955,3 +2955,29 @@ build/906-page SEO audit, PDF freshness and five unchanged PDF rasters pass.
 Evidence is in `.cache/v5-history-current/`. The full gate remains held for the
 new human-requested Lumen transition/Commitprompt film follow-up; the final
 combined commit will be validated before completion. Local only.
+
+## Film continuity and enlarged-text trigger integration (October 28)
+
+Integrated `8ac69a25` over `d3136074`. Lumen's recorded and native workspace
+scenes remain visible across their handoffs, with a real first-frame poster and
+no delayed desktop-image reveal. Commitprompt replaces Workspace Organizer in
+the tools scene, English/Spanish captions and both transcripts; its icon matches
+the parent project's active mark. Both 30-second exports match the inspected
+source frames and built media. Matched frames at 3.1, 8.93, 9, 9.13, 9.3 and 9.6
+seconds confirm the former empty Lumen intervals are gone in both formats.
+
+The responsive owner found an additional film-trigger overflow at 320px with
+200% text. Root allows wrapping and normal white space on both native fallback
+and enhanced button, and constrains the Lumen content wrapper. Added behavioral
+geometry checks for both languages with and without JavaScript. They reproduce
+six failures against the old build and all eight pass after the fix. All twenty
+Chromium/WebKit film cases pass, with eight matched enlarged-text captures and
+two strict trigger accessibility scans. Native no-JavaScript destinations and
+readable labels/duration are retained.
+
+The integrated motion suite passes all nine cases, including the new 3/9-second
+scene-boundary checks; 1,541 catalog units, zero-warning focused lint, current
+build/906-page SEO, PDF freshness and five unchanged PDF rasters pass. Source
+motion/caption/transcript files are unchanged by integration. Evidence is in
+`.cache/v5-film-continuity/`. Canonical verify:fast will run against this final
+committed candidate; the external report records its exact result. Local only.
