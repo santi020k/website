@@ -139,7 +139,7 @@ demonstrate interfaces; they do not establish store or provider availability.
 The native Lumen scene is a still capture, identified separately from recordings.
 
 The PostLens film and homepage previews have one rounded screen edge. The ESLint
-logo is the original square SVG from its documentation site. Shared project
+logo is copied unchanged from the library’s active `apps/docs/src/assets/logo-square.svg` (the hexagon with two sliders); the stale public checkmark SVG is not the project mark. Shared project
 assets are imported directly from the main site's content directory.
 
 ```bash
