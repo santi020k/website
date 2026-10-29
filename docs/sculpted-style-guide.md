@@ -2343,7 +2343,7 @@ and readable header accents in both themes. This treatment requires no script.
 
 ### Reader colophon article closing
 
-Articles close with an open sequence of comments, existing webmentions, and sharing.
+Articles close with an open sequence of sharing, comments, and existing webmentions.
 Align Comments and Share in a 5.375rem margin with a 1.5rem
 column gap. The discussion invitation uses a 2px purple rail, a 1.5rem text inset,
 and a 1.4375rem lead. Use a quiet underlined Reply on GitHub link with a 44px target.
@@ -2585,6 +2585,17 @@ feedback share the brand treatment. Retry uses `data-link-recovery-active`, reta
 its danger border while hovered. Preserve manual recovery, accessible feedback,
 platform links without JavaScript, reduced motion, forced colors, and both themes.
 Feed utility keeps its quiet, transparent icon treatment.
+
+### Sharing first article closing order
+
+Place the existing `ShareButtons` before `CommentsSection` and `WebmentionsSection`
+inside the Reader colophon. Readers reach the single sharing point immediately
+after the article or series continuation, before opening the discussion. Expanding
+comments must not push sharing below the provider widget. Preserve the existing
+sections, labels, rules, clipboard recovery, and platform destinations. Give the
+discussion a 1.75rem opening inset below the sharing rule, matching its closing inset.
+Keyboard order follows the visible order: copy or native share, social links,
+discussion disclosure, then the GitHub discussion destination.
 
 ### Publication sharing
 

@@ -2799,3 +2799,20 @@ PDF generator produced five identical page rasters and an unchanged fingerprint;
 existing PDF bytes were retained in public and dist, with freshness checked again.
 Normal commit hooks and post-commit checks complete the local receipt in
 `.cache/v5-single-sharing/`. No remote action.
+
+
+## Sharing-first article close integration (October 28)
+
+Integrated `0e3ce077` over `4707a472`, preserving Single sharing point. The
+existing sharing section now precedes comments and webmentions, with a 1.75rem
+opening inset for discussion. Content, destinations, recovery controls and natural
+keyboard order remain intact. Source layout and regression test match exactly.
+
+Root validation passed 24 Chromium/WebKit closing checks, including 200% text,
+keyboard order, expanded failed discussion, accessibility, no-JavaScript access
+and unchanged project defaults. All 94 built EN/ES articles have the intended
+order. Twelve preserved article contracts, 24 matched captures and twelve strict
+whole-page accessibility scans pass. The current build/906-page SEO audit and
+normal PDF generation/freshness pass; all five PDF rasters and source fingerprint
+are unchanged, so original PDF bytes are retained. Normal hooks and post-commit
+checks are recorded in `.cache/v5-sharing-first/`. Local only.
