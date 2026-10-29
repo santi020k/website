@@ -2939,3 +2939,19 @@ The responsive-audit owner will run canonical `pnpm run verify:fast` against thi
 exact committed candidate in its isolated checkout. The external consolidation
 report records that result and final Git containment after it completes. This
 handoff does not claim the aggregate result in advance. All work remains local.
+
+## Current History exhibit refresh (October 28)
+
+The final visual audit found that the Today exhibit still showed an earlier v5
+homepage. Ran the existing `history:screenshots` generator against the integrated
+local build and retained only its v5 desktop/mobile outputs. All eight archived
+era captures remain byte-identical. The current captures now include the approved
+portrait, product previews, film entry and latest navigation.
+
+The rebuilt History page passes 50 Chromium/WebKit cases, four whole-page
+accessibility scans and eight matched English/Spanish desktop/mobile captures.
+All nine motion checks pass with the refreshed shared exhibit assets. The current
+build/906-page SEO audit, PDF freshness and five unchanged PDF rasters pass.
+Evidence is in `.cache/v5-history-current/`. The full gate remains held for the
+new human-requested Lumen transition/Commitprompt film follow-up; the final
+combined commit will be validated before completion. Local only.

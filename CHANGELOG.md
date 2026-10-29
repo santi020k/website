@@ -340,6 +340,8 @@
 
 ### Patch Changes
 
+- Refresh the current v5 History captures to show the integrated homepage and navigation.
+
 - Keep navbar search icon-only and refine the language switch with an outlined control, translation icon, and responsive full-label menu link.
 
 - Use the current ESLint Config Basic hexagon-and-sliders project icon across the website and product films, and remove obsolete local logo files.
