@@ -2758,3 +2758,24 @@ published notes. Normal commit hooks run zero-warning lint and the current Astro
 check. Evidence: `.cache/v5-work-timeline/`. Firefox remains unverified because of
 the local profile startup failure. Root full gate remains `0319556c`; no remote
 action occurred.
+
+
+## Editorial footer integration (October 28)
+
+Integrated source `cf7be8be` over `06d6c1d6` into local v5. The default footer
+uses open contact rows and a responsive link directory; the compact footer keeps
+its existing purpose. Content, destinations, current-page state, and localized
+labels are preserved. Source production and browser-test files match the handoff.
+
+Affected root validation passed: 80 footer/text-link cases, four footer-arrow
+cases, and eight unchanged Home/About viewport snapshots across Chromium, WebKit,
+Mobile Chrome, and Mobile Safari. Sixteen EN/ES, light/dark, desktop/mobile
+contracts and matched capture pairs preserve footer text and links; all sixteen
+footer accessibility scans pass, including label-in-name. Default and compact
+layouts were visually inspected. Current-site build and 906-page SEO audit pass.
+The normal generator refreshed the PDF trio; all five page rasters are unchanged
+and public/built files match. Normal commit hooks and post-commit freshness are
+required for the integration commit. Evidence: `.cache/v5-footer/`.
+
+This is local integration only. The latest root full-workspace gate remains
+`0319556c`; this follow-up uses the requested affected-check cadence.
