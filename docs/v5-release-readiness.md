@@ -2759,7 +2759,6 @@ check. Evidence: `.cache/v5-work-timeline/`. Firefox remains unverified because 
 the local profile startup failure. Root full gate remains `0319556c`; no remote
 action occurred.
 
-
 ## Editorial footer integration (October 28)
 
 Integrated source `cf7be8be` over `06d6c1d6` into local v5. The default footer
@@ -2780,7 +2779,6 @@ required for the integration commit. Evidence: `.cache/v5-footer/`.
 This is local integration only. The latest root full-workspace gate remains
 `0319556c`; this follow-up uses the requested affected-check cadence.
 
-
 ## Single article-sharing point integration (October 28)
 
 Integrated `1fa48673` over `5f7cf5f4`. Article openings retain Topics, series
@@ -2800,7 +2798,6 @@ existing PDF bytes were retained in public and dist, with freshness checked agai
 Normal commit hooks and post-commit checks complete the local receipt in
 `.cache/v5-single-sharing/`. No remote action.
 
-
 ## Sharing-first article close integration (October 28)
 
 Integrated `0e3ce077` over `4707a472`, preserving Single sharing point. The
@@ -2816,7 +2813,6 @@ whole-page accessibility scans pass. The current build/906-page SEO audit and
 normal PDF generation/freshness pass; all five PDF rasters and source fingerprint
 are unchanged, so original PDF bytes are retained. Normal hooks and post-commit
 checks are recorded in `.cache/v5-sharing-first/`. Local only.
-
 
 ## Blog Archive spread and caption integration (October 28)
 
@@ -2837,7 +2833,6 @@ headings, metadata, topic destinations and feed content, with 64 matched hero an
 introduction captures. Current build/906-page SEO audit, PDF generation/freshness
 and all five unchanged PDF page rasters pass. Normal hooks and post-commit checks
 are recorded in `.cache/v5-blog-archive/`. No remote action.
-
 
 ## Responsive audit integration (October 28)
 
