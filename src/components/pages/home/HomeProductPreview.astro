@@ -18,13 +18,15 @@ const landscape = first ? first.src.width > first.src.height : false
   <div data-preview-stage>
     {images.map((preview, index) => (
       <div data-preview-device={index === 0 ? 'primary' : 'secondary'}>
-        <DeviceFrame
+        {landscape ?
+(
+<DeviceFrame
           device={preview.src.width > preview.src.height ? 'laptop' : 'iphone'}
           screenWidth={preview.src.width}
           screenHeight={preview.src.height}
           scroll={false}
           tone="dark"
-        >
+>
           <Image
             alt={preview.alt}
             src={preview.src}
@@ -34,6 +36,8 @@ const landscape = first ? first.src.width > first.src.height : false
             loading="lazy"
           />
         </DeviceFrame>
+) :
+<div data-preview-screen><Image alt={preview.alt} src={preview.src} widths={[240, 400, 640]} sizes="(min-width: 1200px) 180px, (min-width: 768px) 16vw, 32vw" format="webp" loading="lazy" /></div>}
       </div>
     ))}
   </div>
@@ -64,6 +68,7 @@ const landscape = first ? first.src.width > first.src.height : false
   [data-preview-device='primary'] { width: 86%; left: 3%; top: 24%; }
   [data-preview-device='secondary'] { width: 26%; right: 5%; top: 14%; }
   [data-preview-device] :global([data-ui-device-screen]) { pointer-events: none; }
+  [data-preview-screen] { overflow: hidden; border: 1px solid hsl(var(--line)); border-radius: 1rem; box-shadow: var(--shadow-nav-scrolled); }
   img { display: block; width: 100%; height: auto; }
 
   [data-preview-layout='studio'] { background: color-mix(in srgb, hsl(var(--project-secondary)) 9%, hsl(var(--surface-muted))); }

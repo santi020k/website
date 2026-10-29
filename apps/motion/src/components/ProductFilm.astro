@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets'
+
+import '../styles/product-theme.css'
+import '../styles/product-film.css'
+
+import ts from 'typescript'
+
+import doctor from '../../../../src/content/project/astro-doctor/logo.webp'
+import auth from '../../../../src/content/project/auth/logo.svg'
+import beacon from '../../../../src/content/project/dep-beacon/logo.webp'
+import eslint from '../../../../src/content/project/eslint-config-basic/logo-square.svg'
+import lumen from '../../../../src/content/project/lumen-ui/logo.webp'
+import native from '../../../../src/content/project/lumen-ui/preview-apple.webp'
+import web from '../../../../src/content/project/lumen-ui/preview-web.webp'
+import og from '../../../../src/content/project/og/logo.png'
+import postlens from '../../../../src/content/project/postlens/logo.webp'
+import gallery from '../../../../src/content/project/postlens/preview-photos.webp'
+import quality from '../../../../src/content/project/quality/logo.svg'
+import theme from '../../../../src/content/project/santi020k-theme/logo.webp'
+import workspace from '../../../../src/content/project/workspace-organizer/logo.webp'
+import mark from '../assets/products/mark.svg'
+import timelineSource from '../scripts/product-timeline.ts?raw'
+
+interface Props { format?: 'landscape' | 'portrait' }
+
+const { format = 'landscape' } = Astro.props
+const width = format === 'portrait' ? 1080 : 1920
+const height = format === 'portrait' ? 1350 : 1080
+const { outputText: timeline } = ts.transpileModule(timelineSource, { compilerOptions: { target: ts.ScriptTarget.ES2022 } })
+
+const tools = [
+  { name: 'Quality', image: quality, category: 'Checks, coordinated.' },
+  { name: 'Astro Doctor', image: doctor, category: 'Astro, inspected.' },
+  { name: 'Dep Beacon', image: beacon, category: 'Dependencies, visible.' },
+  { name: 'OG', image: og, category: 'Identity, generated.' },
+  { name: 'ESLint Config Basic', image: eslint, category: 'Standards, shared.' },
+  { name: 'Auth', image: auth, category: 'Access, reusable.' },
+  { name: 'Workspace Organizer', image: workspace, category: 'Work, organized.' },
+  { name: 'Theme', image: theme, category: 'One visual language.' }
+]
+---
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Products and the tools behind them — product film</title>
+    <script is:inline src="/assets/gsap.min.js"></script>
+  </head>
+  <body>
+    <main id="product-film" data-composition-id="product-film" data-width={width} data-height={height} data-format={format} data-duration="30" data-fps="30" aria-label="santi020k product and brand film">
+      <section class="scene opening" data-scene-start="0">
+        <div class="film-top"><span>santi020k.</span><span>Products / Tools / Craft</span></div>
+        <div class="opening-type"><span class="line">I build</span><span class="
+          line accent
+        "
+                                                                   >products.</span><i class="
+                                                                     opening-rule
+                                                                   "
+                                                                                    ></i></div>
+        <div class="opening-mark"><Image src={mark} width={300} height={300} alt="santi020k mark" loading="eager" /></div>
+        <p class="opening-note">Engineering with a point of view.</p>
+        <div class="film-bottom"><span>Santiago Molina</span><span>01 / 06</span></div>
+      </section>
+      <section class="scene lumen-web" data-scene-start="3">
+        <div class="film-top"><span>santi020k.</span><span>01 — Lumen UI</span></div>
+        <div class="product-copy"><div class="product-signature"><Image src={lumen} alt="" width={64} height={64} loading="eager" /><span>Lumen UI</span></div><h2>From<br /><em>shared<br />parts.</em></h2><p>Real controls. Shared foundations.</p></div>
+        <div class="workspace-plate"><video id="lumen-recording" src="/assets/lumen-web.mp4" muted playsinline preload="auto" data-start="3" data-duration="6" aria-label="Recording of typing a task and toggling a Lumen switch"></video></div>
+
+        <div class="film-bottom"><span>Accessible foundations for real products.</span><span>02 / 06</span></div>
+      </section>
+      <section class="scene lumen-native" data-scene-start="9">
+        <div class="film-top"><span>santi020k.</span><span>01 — Lumen UI</span></div>
+        <div class="native-copy"><p class="eyebrow">One design language</p><h2><span>Web.</span><span>Native.</span><em>Connected.</em></h2></div>
+        <div class="native-workspace"><Image id="native-workspace" data-start="9.15" src={web} alt="Lumen web workspace" loading="eager" quality={95} /></div>
+        <div class="native-phone"><Image src={native} alt="Lumen native release-checklist playground" loading="eager" quality={95} /></div>
+        <div class="film-bottom"><span>Shared foundations. Native expression.</span><span>03 / 06</span></div>
+      </section>
+      <section class="scene postlens" data-scene-start="13">
+        <div class="film-top"><span>santi020k.</span><span>02 — PostLens</span></div>
+        <div class="postlens-copy"><div class="product-signature"><Image src={postlens} alt="" width={64} height={64} loading="eager" /><span>PostLens</span></div><h2>Find<br />your <em>frame.</em></h2><p>A private photo studio.</p></div>
+        <div class="photo-strip"><Image data-layout-allow-overflow src={gallery} alt="Three generated scenic sample photos in the PostLens gallery" loading="eager" quality={95} /></div>
+        <div class="editor-phone"><video id="postlens-recording" src="/assets/postlens-editor.mp4" muted playsinline preload="auto" data-start="13" data-duration="8" aria-label="PostLens recording: open Filters, select Vibrant, compare original and edited photo"></video></div>
+        <div class="film-bottom"><span>Select. Refine. Compare.</span><span>04 / 06</span></div>
+      </section>
+      <section class="scene ecosystem" data-scene-start="21">
+        <div class="film-top"><span>santi020k.</span><span>03 — Developer ecosystem</span></div>
+        <h2>And the tools<br /><em>behind them.</em></h2>
+        <div class="ecosystem-rule"></div>
+        <div class="tool-grid">{tools.map(tool => <div class="tool"><Image src={tool.image} width={76} height={76} alt="" loading="eager" /><strong>{tool.name}</strong><span>{tool.category}</span></div>)}</div>
+        <div class="film-bottom"><span>Built for the work behind the work.</span><span>05 / 06</span></div>
+      </section>
+      <section class="scene ending" data-scene-start="26">
+        <div class="film-top"><span>Products and the tools behind them.</span><span>Engineering / Design / Craft</span></div>
+        <div class="ending-brand"><Image src={mark} width={144} height={144} alt="" loading="eager" /><span>santi020k<span class="
+          dot
+        "
+                                                                                                                     >.</span></span></div>
+        <h2>Built by<br /><span>Santiago.</span></h2>
+        <a class="ending-url" href="https://santi020k.com" target="_blank" rel="noopener noreferrer">santi020k.com <span aria-hidden="true">↗</span></a>
+        <div class="film-bottom"><span>Products. Tools. Thoughtfully built.</span><span>06 / 06</span></div>
+      </section>
+      <audio id="product-soundtrack" src="/assets/chills-history-edit.mp3" preload="auto" data-start="0" data-duration="30" data-volume="0.7" aria-label="Chills by Holizna, CC0 soundtrack"></audio>
+    </main>
+    <script is:inline set:html={timeline}></script>
+  </body>
+</html>

@@ -1,12 +1,12 @@
 ---
 import { Image } from 'astro:assets'
 
-import { DeviceFrame } from '@santi020k/lumen-astro'
-
 import LumenWorkspace from '@/content/project/lumen-ui/preview-web.webp'
 import PostLensEditor from '@/content/project/postlens/preview-editor.webp'
 import { getLocale } from '@/i18n'
 import { pageTranslator } from '@/i18n/page-copy'
+
+import HomeProductFilm from './HomeProductFilm.astro'
 
 const t = pageTranslator(getLocale(Astro.url.pathname))
 ---
@@ -27,25 +27,17 @@ const t = pageTranslator(getLocale(Astro.url.pathname))
       </div>
     </div>
     <div data-hero-plate="postlens">
-      <DeviceFrame
-        device="iphone"
-        screenWidth={PostLensEditor.width}
-        screenHeight={PostLensEditor.height}
-        scroll={false}
-        tone="dark"
-      >
-        <Image
+      <Image
           src={PostLensEditor}
           alt={t('home.hero.editorAlt')}
           widths={[160, 200, 240, 320, 480]}
           sizes="(min-width: 1280px) 124px, (min-width: 768px) 200px, calc(33.333vw - 34px)"
           format="webp"
           loading="eager"
-        />
-      </DeviceFrame>
+      />
     </div>
   </div>
-  <figcaption>{t('home.hero.previewNote')}</figcaption>
+  <figcaption><HomeProductFilm /><span>{t('home.hero.previewNote')}</span></figcaption>
 </figure>
 
 <style>
@@ -56,8 +48,7 @@ const t = pageTranslator(getLocale(Astro.url.pathname))
   [data-hero-plate='lumen-ui']::before { content: ''; position: absolute; inset: 0; z-index: -1; border: 1px solid hsl(var(--brand) / 0.3); border-radius: inherit; background: hsl(var(--brand-soft)); transform: translate(0.4375rem, -0.4375rem); }
   [data-hero-workspace-crop] { overflow: hidden; aspect-ratio: 5 / 4; border: 1px solid hsl(var(--line)); border-radius: inherit; background: hsl(var(--surface)); }
   [data-hero-workspace-crop] img { width: 165%; max-width: none; height: auto; }
-  [data-hero-plate='postlens'] { position: relative; grid-column: 9 / -1; margin-top: 4rem; border-radius: 1.5rem; }
-  [data-hero-plate] :global([data-ui-device-screen]) { pointer-events: none; }
+  [data-hero-plate='postlens'] { position: relative; grid-column: 9 / -1; margin-top: 4rem; border-radius: 1rem; overflow: hidden; box-shadow: 0 0 0 1px hsl(var(--line)), var(--shadow-nav-scrolled); }
   img { display: block; width: 100%; height: auto; }
   figcaption { margin-top: 1rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; }
 

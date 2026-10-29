@@ -25,10 +25,14 @@ Below that threshold, keep identity, headline, introduction, actions, and previe
 in document order. Container queries also provide the stacked layout when text grows.
 
 Lumen's workspace appears as a flat, top-left crop with its illustrative-data
-label visible. PostLens uses the public Lumen `DeviceFrame` with an upright,
-complete editor capture. The figure's caption identifies sample content; the
-native product links below name the projects and provide their case studies.
-Keep the preview passive. At very narrow text measures, place the phone below
+label visible. PostLens uses an upright, complete editor capture with a single
+rounded screen edge; do not add a second bezel around its existing system chrome.
+The figure identifies sample content and offers a 30-second product film. The
+Lumen dialog loads the video only after an explicit play request, with native
+controls, English and Spanish captions, a visual transcript, and a direct-file
+fallback. Closing or navigating away pauses playback. Reduced motion keeps the
+static preview until the visitor requests the film. The native product links
+below name the projects and provide their case studies. At very narrow text measures, place the phone below
 the workspace so both remain legible. Selected work is the primary action;
 the adjacent invitation opens the existing work-with-me flow.
 

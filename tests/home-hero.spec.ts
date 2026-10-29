@@ -251,7 +251,8 @@ for (const route of ['/', '/es/']) {
       await page.evaluate(() => document.fonts.ready)
       const scene = page.locator('[data-home-product-scene]')
 
-      await expect(scene.locator('a, button, [tabindex="0"]')).toHaveCount(0)
+      await expect(scene.locator('[data-home-product-stage] a, [data-home-product-stage] button')).toHaveCount(0)
+      await expect(scene.locator('[data-film-open]')).toBeVisible()
       await expect(scene.locator('figcaption')).toContainText(route === '/' ? 'sample content' : 'contenido de ejemplo')
       await expect(scene.locator('img')).toHaveCount(2)
       for (const image of await scene.locator('img').all()) {

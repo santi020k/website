@@ -1,0 +1,74 @@
+---
+import { Button, ButtonLink, Dialog, DialogClose, DialogTitle, Icon } from '@santi020k/lumen-astro'
+
+import { getLocale } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = pageTranslator(locale)
+const videoUrl = '/media/products/santi020k-products.mp4'
+---
+
+<home-product-film>
+  <ButtonLink data-film-fallback data-film-trigger href={videoUrl} variant="ghost">
+    <span data-film-play><Icon name="play" class="size-4" /></span>
+    <span>{t('home.film.watch')}</span><span data-film-duration>{t('home.film.duration')}</span>
+  </ButtonLink>
+  <Button data-film-open data-film-trigger data-ui-dialog-trigger="home-product-film" hidden variant="ghost">
+    <span data-film-play><Icon name="play" class="size-4" /></span>
+    <span>{t('home.film.watch')}</span><span data-film-duration>{t('home.film.duration')}</span>
+  </Button>
+  <noscript><details><summary>{t('home.film.transcriptLabel')}</summary><p>{t('home.film.transcript')}</p></details></noscript>
+  <Dialog id="home-product-film" data-film-dialog aria-labelledby="home-product-film-title">
+    <div data-film-heading>
+      <DialogTitle id="home-product-film-title">{t('home.film.title')}</DialogTitle>
+      <DialogClose autofocus variant="outline" aria-label={t('home.film.close')}><Icon
+name="x"
+class="size-5"
+                                                                                 /></DialogClose>
+    </div>
+    <video data-film-video data-src={videoUrl} data-portrait-src="/media/products/santi020k-products-portrait.mp4" controls playsinline preload="none" data-poster="/media/products/poster.webp" data-portrait-poster="/media/products/poster-portrait.webp" width="1920" height="1080" aria-label={t('home.film.title')}>
+      <track kind="captions" src="/media/products/captions-en.vtt" srclang="en" label="English" />
+      <track kind="captions" src="/media/products/captions-es.vtt" srclang="es" label="Español" default={locale === 'es'} />
+    </video>
+    <p data-film-error role="status" hidden>{t('home.film.error')}</p>
+    <div data-film-footer>
+      <details>
+        <summary>{t('home.film.transcriptLabel')}</summary>
+        <p>{t('home.film.transcript')}</p>
+      </details>
+      <a data-film-file href={videoUrl}>{t('home.film.openFile')}</a>
+    </div>
+  </Dialog>
+</home-product-film>
+
+<script>
+  import './home-product-film'
+</script>
+
+<style>
+  home-product-film { display: block; }
+  [data-film-trigger] { display: inline-flex; max-width: 100%; min-height: 2.75rem; align-items: center; gap: 0.625rem; padding: 0.25rem 0; border: 0; background: transparent; color: hsl(var(--ink)); font: 500 0.8125rem/1.5 var(--font-sans); letter-spacing: -0.02em; text-decoration: none; }
+  [data-film-trigger] :global(.ui-button__content) { display: flex; align-items: center; gap: 0.625rem; flex-wrap: wrap; }
+  [data-film-trigger][hidden], [data-film-error][hidden] { display: none; }
+  [data-film-play] { display: grid; place-items: center; flex: 0 0 2.5rem; width: 2.5rem; height: 2.5rem; border: 1px solid hsl(var(--line)); border-radius: 50%; background: hsl(var(--brand-soft)); color: hsl(var(--brand)); transition: background 180ms ease, color 180ms ease; }
+  [data-film-trigger]:hover [data-film-play] { background: hsl(var(--brand-solid)); color: var(--color-portrait-ink); }
+  [data-film-duration] { color: hsl(var(--ink-soft)); font-size: 0.6875rem; font-weight: 400; }
+  [data-film-dialog] { inset: 0; translate: none; transform: none; width: min(75rem, calc(100% - 2rem)); max-width: none; max-height: calc(100dvh - 2rem); margin: auto; padding: 1.25rem; overflow: auto; overscroll-behavior: contain; border: 1px solid hsl(var(--line)); border-radius: var(--radius-sheet); background: hsl(var(--surface)); color: hsl(var(--ink)); }
+  [data-film-dialog][open] { display: flex; flex-direction: column; gap: 1rem; }
+  [data-film-heading] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  [data-film-heading] :global([data-slot='dialog-title']) { margin: 0; padding: 0; border: 0; color: hsl(var(--ink)); font: 500 1rem/1.5 var(--font-sans); letter-spacing: -0.025em; }
+  [data-film-heading] :global([data-slot='dialog-title'])::after { content: none; }
+  [data-film-heading] :global(button) { flex-shrink: 0; min-width: 2.75rem; min-height: 2.75rem; }
+  [data-film-video] { display: block; width: 100%; height: auto; max-height: 72dvh; aspect-ratio: 16 / 9; background: hsl(var(--theme-bg)); border-radius: 0.75rem; }
+  [data-film-video][data-format='portrait'] { aspect-ratio: 4 / 5; }
+  [data-film-footer] { display: flex; align-items: start; justify-content: space-between; flex-wrap: wrap; gap: 1rem; color: hsl(var(--ink-soft)); font: 400 0.75rem/1.7 var(--font-sans); }
+  [data-film-footer] details { flex: 1 1 18rem; }
+  [data-film-footer] summary { cursor: pointer; padding-block: 0.5rem; }
+  [data-film-footer] p { max-width: 65ch; margin-top: 0.75rem; }
+  [data-film-footer] a { padding-block: 0.5rem; color: hsl(var(--ink)); text-decoration: underline; text-underline-offset: 0.2em; }
+  [data-film-error] { margin: 0; font-size: 0.8125rem; }
+  @media (width < 30rem) { [data-film-dialog] { width: calc(100% - 1rem); max-height: calc(100dvh - 1rem); padding: 0.75rem; } }
+  @media (prefers-reduced-motion: reduce) { [data-film-play] { transition: none; } }
+  @media (forced-colors: active) { [data-film-play] { border-color: ButtonText; } }
+</style>
