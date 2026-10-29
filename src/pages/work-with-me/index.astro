@@ -45,7 +45,6 @@ const results = await Promise.all(resultProjectIds.map(async id => {
   }
 }))
 
-const featuredTestimonials = testimonials.slice(0, 2)
 const canonicalUrl = new URL(localizePath('/work-with-me/', pageLocale), Astro.site).href
 
 const structuredData = [
@@ -192,7 +191,7 @@ size="sm"
       linkLabel={t('page.readMoreRecommendations')}
       title={t('page.whatWorkingTogetherIsLike')}
     />
-    <TestimonialSpotlight items={featuredTestimonials} data-work-testimonials />
+    <TestimonialSpotlight items={testimonials} data-work-testimonials />
   </PageSection>
 
   <PageSection layout="stacked">

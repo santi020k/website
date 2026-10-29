@@ -72,24 +72,28 @@ below the image on small screens. Avoid overlapping the text panel and artwork.
 
 ### Homepage and contact recommendations
 
-Preserve the homepage’s three complete quotations, their order, English quotation
-language, and localized author roles and relationships from the profile data. Reuse
-`TestimonialSpotlight`, which composes the existing `TestimonialCard`, to give the
-first quotation a quiet featured surface and larger 1.75rem text, with two open
-supporting quotations separated by
-a fine rule. Supporting quotations use 1.0625rem text. Keep authors and context
-together under the quote, using readable 0.8125rem roles and 0.75rem relationships.
+Preserve the homepage’s three complete quotations and all four quotations on Work
+with me, in profile order, with English quotation language and localized author
+roles and relationships. `TestimonialSpotlight` composes `TestimonialCard` with a
+quiet featured surface and 1.75rem quotation text beside open supporting quotes.
+Keep authors and context together, using readable 0.8125rem roles and 0.75rem
+relationships. Supporting quotations use 1.0625rem text and fine dividing rules.
 
-Work with me reuses this treatment for its existing two quotations, centering the
-supporting quotation beside the featured one. Preserve each page’s selection and
-localized recommendations link.
+Use a 1.1:1 desktop spread with a 3rem column gap. Derive the featured quotation’s
+row span from the number of supporting quotations so the full collection stays in
+two columns. Keep its surface at its natural height instead of stretching it to
+match the whole supporting column. Supporting rows use 1.5rem insets around their
+dividers.
 
-Use a 1.1:1 desktop spread with a 3rem column gap. Below 56rem of collection width,
-stack the recommendations in their original reading order with 2rem gaps.
-Reduce featured padding and type at narrow and enlarged-text widths; allow the
-identity row to stack without clipping. These overrides belong to TestimonialSpotlight
-and must not change the About page's recommendation cards. Do not rotate, truncate,
-or auto-advance quotations.
+Below 56rem of collection width, stack the recommendations in reading order with
+2rem gaps and reduce featured insets to 2rem and quotation text to 1.5rem. Below
+32rem, use 1.5rem gaps, 1.25rem featured insets and text, and 1rem supporting text.
+Reduce the featured quote mark to 2rem. Below 18rem, tighten the featured quotation
+to 1.125rem and stack its identity so enlarged text remains readable.
+
+These overrides belong to TestimonialSpotlight and must not change the About
+page’s recommendation cards. Preserve each page’s localized recommendations link.
+Do not rotate, truncate, or auto-advance quotations.
 
 ## Typography
 
