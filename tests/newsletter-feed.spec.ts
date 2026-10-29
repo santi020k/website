@@ -104,7 +104,7 @@ test('feed copying survives route swaps without changing article sharing', async
   await page.goto(article)
   await page.locator(copy).click()
   await expect(page.locator('#copy-link-btn')).toHaveAccessibleName('Copy link')
-  await expect(page.locator('#article-copy-link')).toHaveAccessibleName('Copy link to article')
+  await expect(page.locator('#article-copy-link')).toHaveCount(0)
   await expect(page.locator('#copy-status')).toBeEmpty()
   await page.locator('[data-return-link]').click()
   await expect(page).toHaveURL('/blog/')

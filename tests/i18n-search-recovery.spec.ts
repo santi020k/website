@@ -49,16 +49,16 @@ test('Spanish article link recovery keeps a selectable address and translated re
     })
   })
   await page.goto('/es/blog/astro-doctor-announcement/')
-  await page.locator('#article-copy-link').click()
-  await expect(page.locator('#article-copy-link')).toHaveAccessibleName('Intentar de nuevo')
-  const recovery = page.locator('#article-copy-link-recovery')
+  await page.locator('#copy-link-btn').click()
+  await expect(page.locator('#copy-link-btn')).toHaveAccessibleName('Intentar de nuevo')
+  const recovery = page.locator('#copy-link-btn-recovery')
 
   await expect(recovery).toBeVisible()
   await expect(recovery).toContainText('La copia automática no está disponible.')
   await expect(recovery.getByLabel('Selecciona y copia la dirección')).toHaveValue(
     'https://santi020k.com/es/blog/astro-doctor-announcement/'
   )
-  await expect(page.locator('#article-copy-link-status')).toHaveText(
+  await expect(page.locator('#copy-status')).toHaveText(
     'No se pudo copiar. Selecciona y copia la dirección de abajo o inténtalo de nuevo.'
   )
 

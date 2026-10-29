@@ -51,13 +51,17 @@ for (const width of [320, 1440]) {
         expect(await closing.evaluate(element => {
           const comments = element.querySelector('#comments')?.getBoundingClientRect()
           const sharing = element.querySelector('[data-share-card]')?.getBoundingClientRect()
+          const invitation = element.querySelector('[data-discussion-invitation]')?.getBoundingClientRect()
           const finalReturn = document.querySelector('[data-post-final-return]')
           const navigation = finalReturn?.getBoundingClientRect()
           const related = document.querySelector('#related-writing')?.closest('[data-page-section]')?.getBoundingClientRect()
 
-          if (!comments || !sharing || !navigation || !finalReturn) throw new Error('Expected all closing sections')
-          return comments.bottom <= sharing.top && sharing.bottom <= navigation.top &&
-            (!related || (sharing.bottom <= related.top && related.bottom <= navigation.top)) &&
+          if (!comments || !sharing || !invitation || !navigation || !finalReturn) {
+            throw new Error('Expected all closing sections')
+          }
+          return sharing.bottom <= comments.top && invitation.top - sharing.bottom >= 24 &&
+            comments.bottom <= navigation.top &&
+            (!related || (comments.bottom <= related.top && related.bottom <= navigation.top)) &&
             document.documentElement.scrollWidth <= innerWidth &&
             [...element.querySelectorAll('a, button, summary'), ...finalReturn.querySelectorAll('a')].every(control => {
               const bounds = control.getBoundingClientRect()
@@ -66,13 +70,18 @@ for (const width of [320, 1440]) {
                 control.scrollWidth <= control.clientWidth + 1
             })
         })).toBe(true)
-        await closing.locator('[data-discussion-summary]').focus()
+        await copy.focus()
+        await expect(copy).toBeFocused()
+        await expect(copy).toHaveCSS('outline-style', 'solid')
+        for (const platform of ['LinkedIn', 'X', 'WhatsApp']) {
+          await page.keyboard.press(nextKey)
+          await expect(closing.getByRole('link', { name: `Share on ${platform}`, exact: true })).toBeFocused()
+        }
+        await page.keyboard.press(nextKey)
+        await expect(closing.locator('[data-discussion-summary]')).toBeFocused()
         await page.keyboard.press(nextKey)
         await expect(reply).toBeFocused()
         await expect(reply).toHaveCSS('outline-style', 'solid')
-        await page.keyboard.press(nextKey)
-        await expect(copy).toBeFocused()
-        await expect(copy).toHaveCSS('outline-style', 'solid')
         await navigation.getByRole('link', { name: 'Back to Blog' }).focus()
         await expect(navigation.getByRole('link', { name: 'Back to Blog' })).toHaveCSS('outline-style', 'solid')
         await page.keyboard.press(nextKey)

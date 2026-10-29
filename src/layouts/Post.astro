@@ -180,11 +180,11 @@ mainClass="remaining-pages remaining-pages--reading"
         )}
 
         <div data-article-closing id="article-close">
+          <ShareButtons title={title} url={localURL.href} variant="colophon" />
+
           <CommentsSection />
 
           <WebmentionsSection mentions={webmentions} />
-
-          <ShareButtons title={title} url={localURL.href} variant="colophon" />
         </div>
       </div>
     </section>
@@ -222,6 +222,8 @@ mainClass="remaining-pages remaining-pages--reading"
 </BaseLayout>
 
 <style>
+  [data-article-closing] :global(#comments) { padding-block-start: 1.75rem; }
+
   [data-post-mobile-toc][data-companion-sticky] {
     position: sticky;
     top: var(--chapter-companion-top);
