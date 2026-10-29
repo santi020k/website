@@ -26,6 +26,7 @@ const { projects } = Astro.props
 const careerItems = projects.map((project, index) => ({
   brand: project.data.brand,
   company: project.data.title,
+  companyId: project.id,
   description: project.data.description,
   endDate: project.data.endingDate?.toISOString().slice(0, 10),
   endLabel: project.data.endingDate ? getFormattedDate(project.data.endingDate, { day: undefined, month: 'short', year: 'numeric' }, locale === 'es' ? 'es-419' : 'en-US') : t('collection.present'),
@@ -56,10 +57,10 @@ style={getProjectBrandStyle(item.brand)}
           <time datetime={item.startDate} data-career-start><span data-career-month>{item.startMonth}</span>{' '}<span data-career-year>{item.startYear}</span></time>
           <span data-career-end> - {item.endDate ? <time datetime={item.endDate}>{item.endLabel}</time> : item.endLabel}</span>
         </div>
-        <Card as="article" variant="unstyled" data-career-folio>
+        <Card as="div" variant="unstyled" data-career-folio>
           {item.logo && (
-            <div data-career-identity data-logo-aspect={item.logoAspect} data-logo-surface={item.logoSurface}>
-              <Image alt="" src={item.logo} width={Math.min(item.logo.width, 320)} loading="lazy" format="webp" sizes="(min-width: 768px) 128px, 96px" />
+            <div data-career-identity data-company={item.companyId} data-logo-aspect={item.logoAspect} data-logo-surface={item.logoSurface}>
+              <Image alt="" src={item.logo} width={Math.min(item.logo.width, 320)} loading="lazy" format="webp" sizes="(min-width: 768px) 116px, 100px" />
             </div>
           )}
           <div data-career-content>
@@ -71,8 +72,8 @@ style={getProjectBrandStyle(item.brand)}
 )}
             <h3 data-career-title>{item.company}</h3>
             <p data-career-role>{item.role}</p>
-            <p data-career-description>{item.description}</p>
           </div>
+          <p data-career-description>{item.description}</p>
           <div data-career-footer>
             {item.technologies.length > 0 && (
               <ul data-career-technologies aria-label={t('technology.collection', { name: item.company })}>
@@ -115,7 +116,7 @@ class="size-4"
     position: relative;
     display: grid;
     grid-template-columns: 8.125rem minmax(0, 1fr);
-    padding: 0 0 2.5rem;
+    padding: 0 0 1.5rem;
     color: hsl(var(--ink));
     text-decoration: none;
   }
@@ -174,34 +175,37 @@ class="size-4"
     letter-spacing: -0.06em;
   }
   [data-career-folio] {
+    position: static;
     min-width: 0;
     overflow: hidden;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 10rem;
+    grid-template-columns: minmax(0, 1fr) 9rem;
     column-gap: 2rem;
-    padding: 1.75rem 1.75rem 0;
+    padding: 1.5rem 1.5rem 0;
     border: 0;
     border-top: 1px solid hsl(var(--line));
     border-radius: 0;
     background: transparent;
     box-shadow: none;
   }
-  [data-career-content] { grid-column: 1; grid-row: 1; min-width: 0; padding: 0; }
-  [data-career-identity] { grid-column: 2; grid-row: 1; display: grid; place-items: center; align-self: start; min-width: 0; height: 7.5rem; padding: 1.25rem; border-radius: 1.5rem 0.25rem 1.5rem 0.25rem; background: hsl(var(--project-surface)); }
+  [data-career-content] { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 6rem; padding: 0; }
+  [data-career-identity] { grid-column: 2; grid-row: 1; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; align-self: start; min-width: 0; width: 9rem; aspect-ratio: 3 / 2; padding: 0; overflow: hidden; border-radius: 1.25rem 0.25rem 1.25rem 0.25rem; background: hsl(var(--project-surface)); }
   [data-career-identity][data-logo-surface='light'] { background: var(--color-logo-paper); }
   [data-career-identity][data-logo-surface='dark'] { background: hsl(var(--project-surface)); }
-  [data-career-identity] img { display: block; width: 100%; max-height: 4.5rem; object-fit: contain; }
-  [data-career-identity][data-logo-aspect='square'] img { max-width: 4rem; }
-  [data-career-identity][data-logo-aspect='tall'] img { max-width: 3.5rem; }
-  [data-career-density='compact'] [data-career-identity] { height: 6rem; }
-  [data-career-masthead] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 1.25rem; }
+  [data-career-identity] img { display: block; width: 82%; height: 68%; object-fit: contain; }
+  [data-career-identity][data-logo-aspect='tall'] img { height: 66%; }
+  /* These source files include uneven transparent margins. Correct their optical
+     bounds without cropping, stretching, or replacing the original brand assets. */
+  [data-career-identity][data-company='tedx-medellin'] img { width: 78%; transform: scale(1.2) translate(2%, 5%); }
+  [data-career-identity][data-company='nebular'] img { transform: scale(1.35) translate(-5%, -2%); }
+  [data-career-masthead] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.625rem; }
   [data-career-status] { display: inline-flex; align-items: center; gap: 0.4375rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.667; }
   [data-career-status='current'] { color: hsl(var(--career-emphasis)); }
   [data-career-status='current']::before { content: ''; width: 0.3125rem; height: 0.3125rem; border-radius: 50%; background: currentColor; }
-  [data-career-title] { margin: 0; font-size: 2.375rem; font-weight: 500; line-height: 1.21; letter-spacing: -0.045em; overflow-wrap: break-word; text-wrap: wrap; word-break: normal; hyphens: manual; }
+  [data-career-title] { margin: 0; font-size: 2rem; font-weight: 500; line-height: 1.21; letter-spacing: -0.045em; overflow-wrap: break-word; text-wrap: wrap; word-break: normal; hyphens: manual; }
   [data-career-role] { margin-top: 0.5rem; color: hsl(var(--career-emphasis)); font-size: 0.875rem; line-height: 1.64; letter-spacing: -0.02em; }
-  [data-career-description] { max-width: 68ch; margin-top: 1.25rem; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.85; letter-spacing: -0.015em; text-wrap: pretty; }
-  [data-career-footer] { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem 1.5rem; padding: 1.5rem 0; margin-top: 0.5rem; background: transparent; }
+  [data-career-description] { grid-column: 1 / -1; max-width: 78ch; margin-top: 1.25rem; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.85; letter-spacing: -0.015em; text-wrap: pretty; }
+  [data-career-footer] { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem 1.5rem; padding: 1.25rem 0; margin-top: 0.25rem; background: transparent; }
   [data-career-technologies] { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0; padding: 0; list-style: none; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.667; }
   [data-career-technologies] > li { overflow-wrap: anywhere; min-width: 0; }
   [data-career-action] { display: inline-flex; align-items: center; gap: 0.5625rem; color: hsl(var(--career-emphasis)); font-size: 0.75rem; font-weight: 500; line-height: 1.667; }
@@ -210,7 +214,7 @@ class="size-4"
   [data-career-density='compact'] [data-career-date] { gap: 0.75rem; }
   [data-career-density='compact'] [data-career-folio] { padding-top: 1.5rem; }
   [data-career-density='compact'] [data-career-content] { padding: 0; }
-  [data-career-density='compact'] [data-career-title] { font-size: 1.875rem; line-height: 1.3; }
+  [data-career-density='compact'] [data-career-title] { font-size: 1.75rem; line-height: 1.3; }
   [data-career-density='compact'] [data-career-description] { margin-top: 0.75rem; }
   [data-career-density='compact'] [data-career-footer] { padding: 1.25rem 0; }
   [data-career-link]:is(:hover, :focus-visible) [data-career-folio] {
@@ -230,20 +234,19 @@ class="size-4"
     [data-career-link]::after { transition: border-color 480ms ease, background-color 480ms ease, box-shadow 480ms ease; }
   }
   @container career-timeline (width < 48rem) {
-    [data-career-folio] { grid-template-columns: minmax(0, 1fr) 7rem; gap: 0 1.5rem; padding-inline: 1.25rem; }
-    [data-career-identity] { height: 6rem; padding: 1rem; }
-    [data-career-title] { font-size: 2rem; }
+    [data-career-folio] { grid-template-columns: minmax(0, 1fr) 7.5rem; gap: 0 1.5rem; padding-inline: 1.25rem; }
+    [data-career-identity] { width: 7.5rem; }
+    [data-career-content] { min-height: 5rem; }
   }
   @container career-timeline (width < 36.25rem) {
     [data-career-row] { --career-rail-x: 0.3125rem; --career-full-year-size: 2rem; }
     [data-career-link] { grid-template-columns: minmax(0, 1fr); padding: 0 0 2rem 1.25rem; }
-    [data-career-date] { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.5625rem; padding: 0 0 1.25rem; }
+    [data-career-date] { justify-content: flex-start; gap: 0.5625rem; width: calc(100% - 8.5rem); min-height: 5rem; padding: 0; margin-bottom: 1rem; }
     [data-career-start] { flex-direction: row; align-items: center; gap: 0.5625rem; }
     [data-career-year] { order: 0; }
     [data-career-folio] { grid-template-columns: minmax(0, 1fr); padding: 1.5rem 1.25rem 0; }
-    [data-career-identity] { grid-column: 1; grid-row: 1; width: 7.5rem; height: 5rem; margin-bottom: 1.5rem; }
-    [data-career-density='compact'] [data-career-identity] { height: 4.5rem; }
-    [data-career-content] { grid-row: 2; padding: 0; }
+    [data-career-identity] { position: absolute; grid-area: auto; top: 0; right: 0; }
+    [data-career-content] { min-height: 0; padding: 0; }
     [data-career-title] { font-size: 1.6875rem; line-height: 1.26; }
     [data-career-footer] { padding: 1.25rem 0; }
   }
@@ -254,6 +257,13 @@ class="size-4"
     [data-career-identity] { max-width: 100%; }
     [data-career-row] [data-career-title] { font-size: min(1.6875rem, 10cqi); }
     [data-career-role], [data-career-description] { overflow-wrap: break-word; }
+  }
+  @container career-timeline (width < 16rem) {
+    [data-career-link] { padding-left: 0.75rem; }
+    [data-career-date] { width: 100%; min-height: 0; }
+    [data-career-folio] { padding-inline: 0.25rem; }
+    [data-career-identity] { position: static; grid-column: 1; grid-row: 1; margin-bottom: 1rem; }
+    [data-career-content] { grid-row: 2; }
   }
   @media (forced-colors: active) {
     [data-career-link]::after { border-color: CanvasText; background: Canvas; }

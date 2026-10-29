@@ -2711,3 +2711,27 @@ Only the generated PDF fingerprint conflicted and was regenerated. The Changeset
 is folded into 5.0.0 without changing published notes. Evidence:
 `.cache/v5-article-controls/`. Normal commit hooks run the current Astro check.
 Root full gate remains `0319556c`; no remote action occurred.
+
+## Work timeline and company-mark refinement integration
+
+Approved source `c75ef7b6`, including `95cc8e22` and `9e4f8c65`, is integrated over
+`bee926db`. All nine company marks share a 3:2 panel, with optical corrections for
+the transparent TEDx and Nebular artwork. Descriptions span the available width;
+mobile dates and marks align with a stacked fallback for enlarged text. Linked
+cards use their complete native accessible names, including company, dates and
+case-study action. Content, chronology, destinations and original assets remain
+unchanged. Production code and the final deterministic logo tests match the source.
+
+All 120 Work browser cases and 56 reflow cases pass in Chromium, WebKit, Mobile
+Chrome and Mobile Safari with one worker and retries disabled. Eight matched
+content contracts, sixteen full-page captures, three detailed logo captures and
+eight strict axe scans pass. Desktop and mobile images were visually reviewed.
+The 904-page build and 906-page SEO audit pass. The PDF generator produced five
+visually identical pages with an unchanged source fingerprint, so the existing
+PDF bytes were retained; freshness and public/built equality pass.
+
+The merge has no conflicts. Its Changeset is folded into 5.0.0 without changing
+published notes. Normal commit hooks run zero-warning lint and the current Astro
+check. Evidence: `.cache/v5-work-timeline/`. Firefox remains unverified because of
+the local profile startup failure. Root full gate remains `0319556c`; no remote
+action occurred.

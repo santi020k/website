@@ -1376,16 +1376,25 @@ Keep 44px evidence-link targets, visible focus outlines, and complete attributio
 Use a Lumen Timeline and one unstyled Card inside each native case-study link.
 The open rows have a fine top rule, no resting shadow, and generous reading space.
 Keep the continuous date rail, semantic dates, chronological order, and the final
-marker endpoint. The three newest roles retain their status masthead and 2.375rem
-company headings; earlier completed roles use 1.875rem headings and tighter spacing.
+marker endpoint. The three newest roles retain their status masthead and 2rem
+company headings; earlier completed roles use 1.75rem headings and tighter spacing.
 Keep every role, description, technology label, and case-study action visible.
+Render the linked Card as a div so its complete content contributes to the native
+link name. A nested article would leave only the dates in the accessible name.
+Keep the company, localized action, dates, and description available without an
+ARIA label that replaces visible text.
 
 Place each collection-owned company mark in a quiet panel at the right. Preserve
 its aspect ratio with `object-fit: contain`, and respect its declared light or dark
 logo surface. Use Astro Image for optimized, lazy-loaded decorative marks; the
 adjacent company heading provides the accessible identity. Do not substitute icons
-or generated brand marks. On narrow containers, place the mark above the content
-and move the dates above each row. Keep reading space at 200% text size.
+or generated brand marks. All logo panels share a 3:2 ratio and the same size across
+recent and earlier roles. Account for transparent padding in TEDx and Nebular with
+scoped optical adjustments; keep the visible marks centered and fully contained.
+Descriptions span the reading width beneath the company heading and logo.
+On phones, align the logo beside the date above the content, reducing repeated
+vertical space. Below 16rem of container width, stack it again to preserve reading
+space at 200% text size.
 
 Hover and keyboard focus reveal the company palette through the connector, a fine
 inset edge, a subtle surface tint, and readable light/dark text colors. Color changes

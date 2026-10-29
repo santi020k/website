@@ -1,7 +1,46 @@
+import { fileURLToPath } from 'node:url'
+
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
+import sharp from 'sharp'
 
 import { requireValue } from './helpers/assertions'
+
+interface LogoBounds {
+  width: number
+  height: number
+  left: number
+  top: number
+  right: number
+  bottom: number
+}
+
+const measuredLogos = new Map<string, LogoBounds>()
+
+const getLogoBounds = async (company: string): Promise<LogoBounds> => {
+  const cached = measuredLogos.get(company)
+
+  if (cached) return cached
+  // Read the source pixels once per worker. WebKit can return an empty canvas
+  // when drawing an offscreen lazy image, even after its decode promise resolves.
+  const path = fileURLToPath(new URL(`../src/content/project/${company}/logo.webp`, import.meta.url))
+  const { data, info } = await sharp(path).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+  const bounds = { width: info.width, height: info.height, left: info.width, top: info.height, right: 0, bottom: 0 }
+
+  for (let y = 0; y < info.height; y++) {
+    for (let x = 0; x < info.width; x++) {
+      if ((data[(y * info.width + x) * info.channels + 3] ?? 0) > 24) {
+        bounds.left = Math.min(bounds.left, x)
+        bounds.top = Math.min(bounds.top, y)
+        bounds.right = Math.max(bounds.right, x + 1)
+        bounds.bottom = Math.max(bounds.bottom, y + 1)
+      }
+    }
+  }
+  if (bounds.right <= bounds.left || bounds.bottom <= bounds.top) throw new Error(`${company} logo has no visible pixels`)
+  measuredLogos.set(company, bounds)
+  return bounds
+}
 
 for (const theme of ['light', 'dark']) {
   test(`career cards restore distinct company colors on hover and keyboard focus in ${theme}`, async ({ page }) => {
@@ -73,6 +112,7 @@ for (const theme of ['light', 'dark']) {
         await page.evaluate(() => document.fonts.ready)
         const rows = page.locator('[data-timeline-row]')
 
+        await rows.first().scrollIntoViewIfNeeded()
         expect(await rows.count()).toBeGreaterThan(1)
         await expect(rows.locator('[data-career-masthead]')).toHaveCount(3)
         await expect(rows.filter({ has: page.locator('[data-career-masthead]') }).locator('[data-career-title]')).toHaveText(['Smith Commerce', 'X Games', 'Void.GG'])
@@ -127,6 +167,12 @@ for (const theme of ['light', 'dark']) {
           const link = row.locator('[data-career-link]')
 
           await expect(link).toHaveAttribute('href', /^\/portfolio\/.+\/$/u)
+          const company = await row.locator('[data-career-title]').innerText()
+          const date = requireValue(await row.locator('[data-career-date]').textContent()).trim()
+
+          await expect(link).toHaveAccessibleName(new RegExp(company.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'u'))
+          await expect(link).toHaveAccessibleName(new RegExp(date.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'u'))
+          await expect(link).toHaveAccessibleName(/Read case study/u)
           await expect(row.locator('[data-career-action]')).toHaveText('Read case study')
           const clipped = await link.evaluate(element => {
             const bounds = element.getBoundingClientRect()
@@ -142,6 +188,74 @@ for (const theme of ['light', 'dark']) {
           })
 
           expect(clipped, 'Every date, title, description, and action remains fully visible').toBe(false)
+        }
+        const companies = await rows.locator('[data-career-identity]').evaluateAll(panels => panels.map(panel => {
+          const company = panel.getAttribute('data-company')
+
+          if (!company) throw new Error('Each logo needs its company identity')
+          return company
+        }))
+        const sourceEntries = await Promise.all(companies.map(async company => {
+          const bounds = await getLogoBounds(company)
+
+          return [company, bounds] as const
+        }))
+        const sourceBounds = Object.fromEntries(sourceEntries)
+        const marks = await rows.locator('[data-career-identity]').evaluateAll(async (panels, sources) => Promise.all(panels.map(async panel => {
+          const image = panel.querySelector('img')
+          const company = panel.getAttribute('data-company')
+
+          if (!(image instanceof HTMLImageElement) || !company) throw new Error('Each company needs its original logo and identity')
+          const loaded = new Promise<void>((resolve, reject) => {
+            if (image.complete && image.naturalWidth > 0) {
+              resolve()
+              return
+            }
+            image.addEventListener('load', () => {
+              resolve()
+            }, { once: true })
+            image.addEventListener('error', () => {
+              reject(new Error(`${company} logo failed to load`))
+            }, { once: true })
+          })
+
+          image.loading = 'eager'
+          await loaded
+          await image.decode()
+          const alpha = sources[company]
+
+          if (!alpha) throw new Error(`${company} is missing its source bounds`)
+          const { width: sourceWidth, height: sourceHeight, left, top, right, bottom } = alpha
+          const box = panel.getBoundingClientRect()
+          const imageBox = image.getBoundingClientRect()
+          const scale = Math.min(imageBox.width / sourceWidth, imageBox.height / sourceHeight)
+          const x = imageBox.left + (imageBox.width - sourceWidth * scale) / 2
+          const y = imageBox.top + (imageBox.height - sourceHeight * scale) / 2
+
+          return {
+            company,
+            width: box.width,
+            height: box.height,
+            left: (x + left * scale - box.left) / box.width,
+            right: (box.right - x - right * scale) / box.width,
+            top: (y + top * scale - box.top) / box.height,
+            bottom: (box.bottom - y - bottom * scale) / box.height,
+            presence: Math.max((right - left) * scale / box.width, (bottom - top) * scale / box.height)
+          }
+        })), sourceBounds)
+
+        expect(marks).toHaveLength(9)
+        const firstMark = requireValue(marks[0])
+
+        for (const mark of marks) {
+          expect(mark.width, `${mark.company} shares the same background width`).toBeCloseTo(firstMark.width, 0)
+          expect(mark.height, `${mark.company} shares the same background height`).toBeCloseTo(firstMark.height, 0)
+          expect(mark.width / mark.height).toBeCloseTo(1.5, 1)
+          expect(Math.min(mark.left, mark.right, mark.top, mark.bottom), `${mark.company} is entirely visible with breathing room`).toBeGreaterThan(0.08)
+          expect(Math.abs(mark.left - mark.right), `${mark.company} is optically centered horizontally`).toBeLessThan(0.12)
+          expect(Math.abs(mark.top - mark.bottom), `${mark.company} is optically centered vertically`).toBeLessThan(0.12)
+          expect(mark.presence, `${mark.company} is legible relative to its background`).toBeGreaterThan(0.6)
+          expect(mark.presence).toBeLessThan(0.85)
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
       })
@@ -180,6 +294,13 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(rows.locator('[data-career-identity] img')).toHaveCount(9)
     for (const link of await rows.locator('[data-career-link]').all()) {
       await expect(link).toHaveAttribute('href', /^\/es\/portfolio\/.+\/$/u)
+      const company = await link.locator('[data-career-title]').innerText()
+      const action = await link.locator('[data-career-action]').innerText()
+      const date = requireValue(await link.locator('[data-career-date]').textContent()).trim()
+
+      for (const label of [company, action, date]) {
+        await expect(link).toHaveAccessibleName(new RegExp(label.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'u'))
+      }
       await expect(link.locator('img')).toHaveAttribute('alt', '')
     }
     for (const width of [320, 390, 768, 1440]) {

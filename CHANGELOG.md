@@ -340,6 +340,11 @@
 
 ### Patch Changes
 
+- Refine the Work timeline with consistent company-logo panels, optical sizing for
+  transparent brand assets, full-width descriptions, and a more compact mobile date row.
+  Keep complete experience content, chronology, keyboard navigation, and reduced motion.
+  Give each case-study link a clear, localized company name for screen-reader navigation.
+
 - Keep article hero series captions and destinations in the selected site language. Refine shared copy-control icons, spacing, hover, and recovery styling, retaining the appropriate share icon when the native share sheet is available.
 
 - Keep the compact language switch’s visible EN/ES code in its accessible name so voice-control commands match the displayed label.
