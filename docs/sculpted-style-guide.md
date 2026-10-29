@@ -538,6 +538,8 @@ counts on the right. Featured names use 1.0625rem type; supporting names use
 20rem, with smaller insets; below 14rem, use 0.75rem inline padding so enlarged
 heading words keep their reading width. Keep complete labels and readable totals at enlarged
 text sizes, singular and plural accessible count labels, and visible focus outlines.
+When a name and count cannot share a row, wrap the count onto a second line aligned
+to the right. Keep the complete name and the whole link inside the panel.
 Place one full-index link in a ruled footer beneath the lists. Stack the total
 below the heading under 36rem of panel width. Preserve the technology-snapshot and
 group fragments. Hover and focus emphasize link text without moving content.
@@ -1423,6 +1425,10 @@ description and link, removing the vertical rule. Below 23.125rem, use a 2.125re
 headline and place the count beneath the label. Keep links at least 2.75rem tall,
 with visible keyboard focus. Preserve the collection anchors, card order, and
 native navigation; this composition adds no client JavaScript.
+
+Bound the label and count to the collection width and allow the label text to wrap.
+Below 12rem, omit the decorative rule and count indent and reduce label tracking
+to 0.06em, preserving room for complete Spanish words at enlarged text sizes.
 
 ### Layered editorial portfolio cards
 
@@ -2826,7 +2832,8 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   returns focus to the toggle, and switching to the desktop bar keeps the matching
   destination focused. Canceled actions leave the menu available. Below 500px of
   viewport height, compact header spacing and icon controls to leave room for a
-  full navigation row, including with enlarged text.
+  full navigation row, including with enlarged text. In those short windows, use
+  a 2.75rem row minimum with a 44px floor so a focused row fits inside the scroll region.
 - Use real outlines and borders for forced-colors focus and current-page markers;
   menu icons inherit the control's text color. Shared header styles own the search and
   theme controls; do not restore the retired conic borders or spring effects.
@@ -2985,7 +2992,10 @@ The `home-community` container stacks the destinations below the introduction un
 changes the vertical separator to a horizontal rule, and hides the decorative conversation symbol.
 Tighten insets below 21.25rem, then reduce heading sizes and omit
 decorative arrows below 16rem for enlarged text. Keep the action labels, descriptions, and all
-destinations visible. Hover underlines the title without moving the card.
+destinations visible. Bound the introduction heading to its column so long Spanish
+words wrap within the tinted surface at enlarged text sizes. Below 12rem, allow
+language-aware heading hyphenation to keep word breaks readable. Hover underlines
+the title without moving the card.
 
 ### Closing statement footer invitation
 

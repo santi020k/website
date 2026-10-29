@@ -62,7 +62,7 @@ const t = pageTranslator(pageLocale)
   [data-community-eyebrow] { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; font-weight: 500; line-height: 1.6; letter-spacing: 0.12em; text-transform: uppercase; }
   [data-community-intro] [data-community-eyebrow] > span { color: hsl(var(--ink)); }
   [data-community-number] { color: hsl(var(--ink)); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  h2 { margin-top: 0.25rem; font-size: 3rem; font-weight: 500; line-height: 1.08; letter-spacing: -0.065em; text-wrap: balance; hyphens: manual; }
+  h2 { max-width: 100%; margin-top: 0.25rem; font-size: 3rem; font-weight: 500; line-height: 1.08; letter-spacing: -0.065em; text-wrap: balance; hyphens: manual; }
   [data-community-description] { max-width: 22rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
   [data-community-symbol] { display: grid; place-items: center; width: 4rem; height: 4rem; margin-top: 1rem; color: hsl(var(--ink)); transform: rotate(-8deg); }
   [data-community-symbol] :global(svg) { stroke-width: 1; }
@@ -114,6 +114,7 @@ const t = pageTranslator(pageLocale)
 
   @container home-community (width < 12rem) {
     [data-community-folio][data-slot='card'] { padding-inline: 0.75rem; }
+    h2 { hyphens: auto; }
     [data-community-footer-link] { flex-wrap: wrap; gap: 0.5rem; }
   }
 </style>

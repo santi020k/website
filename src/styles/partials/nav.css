@@ -655,6 +655,7 @@
     min-height: 44px;
   }
   .site-header-actions [data-mobile-nav-toggle] { height: 44px; min-height: 44px; padding-block: 0; }
+  .site-mobile-nav-link { min-height: max(44px, 2.75rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
