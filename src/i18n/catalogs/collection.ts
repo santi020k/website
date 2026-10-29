@@ -76,6 +76,8 @@ export const collectionMessages = {
   'collection.capabilitiesIndex': { en: 'Capabilities index', es: 'Índice de capacidades' },
   'collection.careerNotes': { en: 'Career notes', es: 'Notas de trayectoria' },
   'collection.caseStudies': { en: 'case studies', es: 'casos de estudio' },
+  'portfolio.selectedCaseStudy': { en: '{count} selected case study', es: '{count} caso de estudio seleccionado' },
+  'portfolio.selectedCaseStudies': { en: '{count} selected case studies', es: '{count} casos de estudio seleccionados' },
   'collection.caseStudy': { en: 'Case Study', es: 'Caso de estudio' },
   'collection.caseStudy7': { en: 'Case study', es: 'Caso de estudio' },
   'collection.caseStudy8': { en: 'case study', es: 'caso de estudio' },

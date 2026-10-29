@@ -113,6 +113,8 @@ for (const theme of ['light', 'dark'] as const) {
       await page.setViewportSize({ width: 1024, height: 900 })
       await openWithTextSize(page, '/technologies/')
       const search = page.getByRole('searchbox', { name: 'Find a technology' })
+      // WebKit's native focus scroll reveals the caret, not necessarily the full input box.
+      await search.scrollIntoViewIfNeeded()
       await search.focus()
       await expect(search).toBeInViewport({ ratio: 1 })
       await search.fill('not-a-real-tool')
@@ -241,10 +243,13 @@ test('Work statistics reflow when text grows after the page loads', async ({ pag
     elements.map(element => Math.round(element.getBoundingClientRect().top))
   ).size)
   await expect(stats).toHaveCount(4)
-  await expect.poll(rowCount).toBe(2)
+  await expect.poll(rowCount).toBe(1)
   await page.evaluate(() => {
     document.documentElement.style.fontSize = '200%'
   })
+  await expect.poll(rowCount).toBe(2)
+  await expectVisibleCopyOnScreen(page.locator('.work-stats'))
+  await page.setViewportSize({ width: 768, height: 900 })
   await expect.poll(rowCount).toBe(4)
   await expectVisibleCopyOnScreen(page.locator('.work-stats'))
 })

@@ -3,6 +3,16 @@ import { describe, expect, test } from 'vitest'
 import { collectionTranslator, localizeCollectionSource } from '../collection-copy'
 
 describe('Spanish collection UI', () => {
+  test('uses complete singular and plural portfolio totals in each interface language', () => {
+    const english = collectionTranslator()
+    const spanish = collectionTranslator('es')
+
+    expect(english('portfolio.selectedCaseStudy', { count: 1 })).toBe('1 selected case study')
+    expect(english('portfolio.selectedCaseStudies', { count: 4 })).toBe('4 selected case studies')
+    expect(spanish('portfolio.selectedCaseStudy', { count: 1 })).toBe('1 caso de estudio seleccionado')
+    expect(spanish('portfolio.selectedCaseStudies', { count: 4 })).toBe('4 casos de estudio seleccionados')
+  })
+
   test('translates the archive close while retaining localized count labels', () => {
     const t = collectionTranslator('es')
     const english = collectionTranslator()

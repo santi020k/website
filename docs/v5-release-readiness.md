@@ -2837,3 +2837,23 @@ headings, metadata, topic destinations and feed content, with 64 matched hero an
 introduction captures. Current build/906-page SEO audit, PDF generation/freshness
 and all five unchanged PDF page rasters pass. Normal hooks and post-commit checks
 are recorded in `.cache/v5-blog-archive/`. No remote action.
+
+
+## Responsive audit integration (October 28)
+
+Integrated `9fac5943` over `e5b2f963`. The four approved fixes keep Spanish
+community headings, portfolio collection labels, and technology names/counts
+inside their containers, and keep each keyboard-focused menu row visible in short
+landscape windows. The existing narrow technology-panel padding is retained.
+Source production/test files match except for the portfolio localization below.
+
+Root checks passed 610 Chromium/WebKit cases with no retries across enlarged-text
+regressions, mobile interactions, menu layouts and remaining-page reflow. Visual
+review then caught an existing English-only portfolio total on Spanish pages.
+The count now uses typed singular/plural messages and the route locale; all 40
+affected portfolio cases and 1,542 catalog units pass after that correction.
+Thirty-two matched before/after states (64 captures), current build/906-page SEO,
+PDF generation/freshness and five identical page rasters pass. Normal hooks and
+post-commit evidence are recorded in `.cache/v5-responsive/`. The source owner
+will run the full gate against an isolated snapshot of this merged commit; this
+receipt does not claim that gate has passed yet. Local only.

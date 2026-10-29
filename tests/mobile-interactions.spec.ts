@@ -167,7 +167,13 @@ test('canceling a mobile action leaves its menu and focused link available', asy
       }
     }, { once: true })
   })
-  const action = page.locator('[data-mobile-nav-actions] a[target="_blank"]')
+  const action = page.locator('[data-mobile-nav-actions] .site-nav-contact')
+
+  // Exercise cancellation of a new-tab action using the current internal contact link.
+  await action.evaluate(element => {
+    element.setAttribute('target', '_blank')
+    element.setAttribute('rel', 'noopener noreferrer')
+  })
 
   await action.focus()
   await action.press('Enter')
@@ -180,11 +186,13 @@ test('a completed new-tab mobile action restores focus to the menu toggle', asyn
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await page.locator('[data-mobile-nav-toggle]').click()
-  const action = page.locator('[data-mobile-nav-actions] a[target="_blank"]')
+  const action = page.locator('[data-mobile-nav-actions] .site-nav-contact')
 
   // Keep the browser's genuine new-tab behavior without contacting an external service.
   await action.evaluate(element => {
     element.setAttribute('href', '/accessibility/')
+    element.setAttribute('target', '_blank')
+    element.setAttribute('rel', 'noopener noreferrer')
   })
   const newPage = context.waitForEvent('page')
 

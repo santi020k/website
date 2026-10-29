@@ -3,6 +3,9 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { Link } from '@santi020k/lumen-astro'
 
+import { getLocale } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+
 interface Props {
   count: number
   description: string
@@ -15,13 +18,14 @@ interface Props {
 }
 
 const { count, description, emphasis, eyebrow, headingId, href, linkLabel, title } = Astro.props
+const t = collectionTranslator(getLocale(Astro.url.pathname))
 ---
 
 <div data-portfolio-collection-container>
   <header data-portfolio-collection-heading>
     <div data-collection-masthead>
-      <p data-collection-eyebrow>{eyebrow}</p>
-      <p data-collection-count>{count} selected {count === 1 ? 'case study' : 'case studies'}</p>
+      <p data-collection-eyebrow><span>{eyebrow}</span></p>
+      <p data-collection-count>{t(count === 1 ? 'portfolio.selectedCaseStudy' : 'portfolio.selectedCaseStudies', { count })}</p>
     </div>
     <h2 id={headingId}>{title}{' '}<span>{emphasis}</span></h2>
     <div data-collection-closing>
@@ -53,11 +57,14 @@ const { count, description, emphasis, eyebrow, headingId, href, linkLabel, title
   }
   [data-collection-eyebrow] {
     display: flex;
+    max-width: 100%;
     align-items: center;
     gap: 0.75rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
   }
+  [data-collection-eyebrow] > span { min-width: 0; }
+  [data-collection-count] { max-width: 100%; }
   [data-collection-eyebrow]::before {
     content: '';
     width: 1.5rem;
@@ -118,5 +125,10 @@ const { count, description, emphasis, eyebrow, headingId, href, linkLabel, title
     h2 { font-size: 2.125rem; }
     [data-collection-masthead] { flex-direction: column; align-items: flex-start; }
     [data-collection-count] { padding-left: 2.25rem; }
+  }
+  @container portfolio-collection (width < 12rem) {
+    [data-collection-eyebrow] { letter-spacing: 0.06em; }
+    [data-collection-eyebrow]::before { display: none; }
+    [data-collection-count] { padding-left: 0; }
   }
 </style>

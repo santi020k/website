@@ -340,6 +340,10 @@
 
 ### Patch Changes
 
+- Translate portfolio collection totals into Spanish while preserving complete singular and plural labels at enlarged text sizes.
+
+- Keep community headings, portfolio labels, and technology counts readable on narrow screens with enlarged text, and keep focused navigation rows fully visible in short landscape windows.
+
 - Restore the space between the Blog article count separator and its localized sort label.
 
 - Introduce later Blog archive pages with a localized article-range caption and
