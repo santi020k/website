@@ -2759,7 +2759,6 @@ check. Evidence: `.cache/v5-work-timeline/`. Firefox remains unverified because 
 the local profile startup failure. Root full gate remains `0319556c`; no remote
 action occurred.
 
-
 ## Editorial footer integration (October 28)
 
 Integrated source `cf7be8be` over `06d6c1d6` into local v5. The default footer
@@ -2780,7 +2779,6 @@ required for the integration commit. Evidence: `.cache/v5-footer/`.
 This is local integration only. The latest root full-workspace gate remains
 `0319556c`; this follow-up uses the requested affected-check cadence.
 
-
 ## Single article-sharing point integration (October 28)
 
 Integrated `1fa48673` over `5f7cf5f4`. Article openings retain Topics, series
@@ -2800,7 +2798,6 @@ existing PDF bytes were retained in public and dist, with freshness checked agai
 Normal commit hooks and post-commit checks complete the local receipt in
 `.cache/v5-single-sharing/`. No remote action.
 
-
 ## Sharing-first article close integration (October 28)
 
 Integrated `0e3ce077` over `4707a472`, preserving Single sharing point. The
@@ -2816,7 +2813,6 @@ whole-page accessibility scans pass. The current build/906-page SEO audit and
 normal PDF generation/freshness pass; all five PDF rasters and source fingerprint
 are unchanged, so original PDF bytes are retained. Normal hooks and post-commit
 checks are recorded in `.cache/v5-sharing-first/`. Local only.
-
 
 ## Blog Archive spread and caption integration (October 28)
 
@@ -2838,7 +2834,6 @@ introduction captures. Current build/906-page SEO audit, PDF generation/freshnes
 and all five unchanged PDF page rasters pass. Normal hooks and post-commit checks
 are recorded in `.cache/v5-blog-archive/`. No remote action.
 
-
 ## Responsive audit integration (October 28)
 
 Integrated `9fac5943` over `e5b2f963`. The four approved fixes keep Spanish
@@ -2857,7 +2852,6 @@ PDF generation/freshness and five identical page rasters pass. Normal hooks and
 post-commit evidence are recorded in `.cache/v5-responsive/`. The source owner
 will run the full gate against an isolated snapshot of this merged commit; this
 receipt does not claim that gate has passed yet. Local only.
-
 
 ## Complete contact testimonial integration (October 28)
 
@@ -2925,3 +2919,23 @@ accessibility scans pass. Current build/906-page SEO, normal PDF generation and
 freshness, and all five unchanged PDF page rasters pass. Source components/tests
 match the handoff; nav.css also retains the later responsive fix. Evidence and
 normal commit/post-commit checks are in `.cache/v5-navbar/`. Local only.
+
+## Combined candidate validation handoff (October 28)
+
+Integrated the formatting-only `edfef758` over `5ae8adc1`, removing the duplicate
+blank lines reported by the earlier merged-candidate Markdown gate. Normalized
+one additional gap in a later receipt. The earlier `89b797e5` aggregate stopped
+at these MD012 errors after workspace lint/types; it was not a full-gate pass.
+
+Reviewed the three changed Home snapshot diffs: they contain the approved
+PostLens preview/frame, film trigger and desktop navigation treatment. Updated
+only Chromium, WebKit and Mobile Chrome Home baselines; preserved the passing
+Mobile Safari Home and all About baselines, as well as unavailable Firefox.
+All eight Home/About snapshot cases now pass without updates. The final
+integrated homepage has fresh English/Spanish, light/dark, desktop/mobile
+captures, including complete desktop and mobile pages.
+
+The responsive-audit owner will run canonical `pnpm run verify:fast` against this
+exact committed candidate in its isolated checkout. The external consolidation
+report records that result and final Git containment after it completes. This
+handoff does not claim the aggregate result in advance. All work remains local.
