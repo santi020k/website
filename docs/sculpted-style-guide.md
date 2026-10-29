@@ -200,6 +200,41 @@ text-driven column reflow, and reduced-motion support. Hover changes text color 
 moving the card or cropping the artwork. Technology archives reuse this editorial
 presentation.
 
+### Archive spread Blog opening
+
+Paginated Blog openings use **Archive spread** after the first page. Preserve the
+large Writing archive heading, purple current-page line, and existing sculpted
+actions. Add a fine rule after the eyebrow and below the title, with a short accent
+at the title rule's leading edge and a subtle semantic purple wash. Place the
+existing description beside a ruled article-count margin, derived from that page's
+published articles. Replace the redundant Archive / Latest first metadata row.
+
+Use the shared compact hero scale, 1.875rem below the heading, .625rem above the
+page line, and 1.625rem above the details. The description uses .875rem type;
+the count uses 1.25rem Montserrat 500 with a .75rem On this page caption. Below
+28rem of hero width, move the count below the description, remove its side rule,
+and use .9375rem count text with wrapping. Reuse localized ButtonLink actions,
+typed singular/plural count labels, semantic tokens, and the existing enlarged-text
+heading rule. Preserve the first Blog page, feed, topic chooser, pagination, page
+metadata, and article order. Add no client script or new navigation behavior.
+
+### Archive caption Blog introduction
+
+After the first Blog page, introduce the article grid with **Archive caption**:
+keep the large From the archive heading and replace the repeated page number and
+generic description with Articles start–end of total. Derive the range from the
+actual pagination data, including the shorter final page, and use singular copy
+when a page contains one article. Translate the interface in English and Spanish.
+
+Place the .8125rem brand/accent caption 1.25rem above the heading. Keep the
+1.875–2.8rem heading scale, tight tracking, and enlarged-text reflow. Finish with
+1.75rem of space and a fine bottom rule with a short purple leading accent. Place
+the existing Topic guide 1.25rem below it, omitting its duplicate top rule only
+here. Topic links, including their labels and count tiles, and All topics use the
+pointer cursor with the existing hover and keyboard focus feedback. Keep the
+first-page introduction, Archive spread hero, feed, topic order, and pagination.
+The caption is static content; add no client script or new navigation behavior.
+
 ### Editorial blog cards
 
 All `PostsGallery` consumers use open cards with 16:9 artwork and 1rem image corners.

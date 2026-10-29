@@ -340,6 +340,16 @@
 
 ### Patch Changes
 
+- Restore the space between the Blog article count separator and its localized sort label.
+
+- Introduce later Blog archive pages with a localized article-range caption and
+  the existing prominent section heading. Preserve the article feed and topic
+  destinations, and make the topic catalog link's pointer cursor explicit.
+
+- Refine paginated Blog openings with Archive spread, retaining the large heading
+  and sculpted actions while placing the actual article count in a responsive margin.
+  Localize the count and caption without changing article order or archive URLs.
+
 - Place article sharing before the discussion so it remains easy to find when comments expand.
 
 - Keep article sharing in one closing section. Remove the duplicated hero copy action and its recovery panel while preserving series navigation, topic links, original-publication destinations, and the existing closing clipboard and native-share behavior.

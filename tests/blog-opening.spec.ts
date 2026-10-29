@@ -1,5 +1,10 @@
 import { expect, test } from '@playwright/test'
 
+test('the Spanish writing count separates its sort label', async ({ page }) => {
+  await page.goto('/es/blog/')
+  await expect(page.locator('[data-blog-primary-path] p')).toHaveText(/^\d+ artículos · Más recientes primero$/u)
+})
+
 for (const theme of ['light', 'dark']) {
   test(`Reading paths support keyboard navigation in ${theme}`, async ({ page, browserName }) => {
     await page.addInitScript(value => {

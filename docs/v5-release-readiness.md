@@ -2816,3 +2816,24 @@ whole-page accessibility scans pass. The current build/906-page SEO audit and
 normal PDF generation/freshness pass; all five PDF rasters and source fingerprint
 are unchanged, so original PDF bytes are retained. Normal hooks and post-commit
 checks are recorded in `.cache/v5-sharing-first/`. Local only.
+
+
+## Blog Archive spread and caption integration (October 28)
+
+Integrated `2837d6fe`, preserving `e85c6fae`, over `d5a17536`. Later Blog pages
+show the approved Archive spread hero and actual article-range caption; the
+existing topic chooser retains native destinations and pointer feedback. Feed
+content/order, pagination, metadata and the first-page composition remain intact.
+Source production files and new browser tests match the handoff; newer shared
+translation keys from previous integrations are retained.
+
+Root checks exposed a pre-existing first-page localization defect: the count read
+`47 posts ·Latest first`. Added the missing explicit space and a Spanish regression
+without weakening the English assertion. The initial run passed 44 of 48 cases;
+its four failures were this spacing defect. After correction, all twelve opening
+cases pass, alongside the 38 unchanged archive/topic cases (50 unique cases total).
+The 1,550 catalog/pagination units pass. Sixteen archive contracts preserve
+headings, metadata, topic destinations and feed content, with 64 matched hero and
+introduction captures. Current build/906-page SEO audit, PDF generation/freshness
+and all five unchanged PDF page rasters pass. Normal hooks and post-commit checks
+are recorded in `.cache/v5-blog-archive/`. No remote action.

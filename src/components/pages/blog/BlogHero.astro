@@ -52,7 +52,7 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
       </p>
       <div data-blog-primary-path>
         <ButtonLink href="#posts" showArrow>{t('collection.exploreTheWriting')}</ButtonLink>
-        <p>{postCount} {t('collection.posts7')} <span aria-hidden="true">·</span>{t('collection.latestFirst')}</p>
+        <p>{postCount} {t('collection.posts7')} <span aria-hidden="true">·</span>{' '}{t('collection.latestFirst')}</p>
       </div>
       <nav aria-label={t('collection.chooseHowToRead')} data-blog-reading-paths>
         <Link data-blog-path href={localizePath('/blog/tags/', locale)} variant="inherit">

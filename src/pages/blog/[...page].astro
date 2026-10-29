@@ -4,15 +4,14 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
+import BlogArchiveHero from '@/components/pages/blog/BlogArchiveHero.astro'
 import BlogHero from '@/components/pages/blog/BlogHero.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -96,17 +95,7 @@ const blogListSchema = {
     <BlogHero latestPost={latestPost} postCount={page.total} topicCount={allTagsData.length} />
   ) :
 (
-    <PageHero
-      compact
-      description={t('blog.pageDescription', { page: page.currentPage, total: page.lastPage })}
-      eyebrow={t('collection.blogArchive')}
-      gradientText={t('pagination.pageHeading', { page: page.currentPage })}
-      metaItems={[t('collection.archive'), t('collection.latestFirst')]}
-      title={t('collection.writingArchive')}
-    >
-      <ButtonLink href={localizePath('/blog/', locale)} showArrow>{t('collection.backToLatestPosts')}</ButtonLink>
-      <ButtonLink href={localizePath('/blog/tags/', locale)} showArrow variant="secondary">{t('collection.browseTopics')}</ButtonLink>
-    </PageHero>
+    <BlogArchiveHero currentPage={page.currentPage} lastPage={page.lastPage} postCount={page.data.length} />
   )}
 
   <section
@@ -114,16 +103,33 @@ const blogListSchema = {
     aria-label={isFirstPage ? t('collection.latestBlogPosts') : t('blog.pageLabel', { page: page.currentPage })}
     class="section-container-wide scroll-mt-28 page-section-space"
   >
-    <SectionHeader
-      description={isFirstPage ? t('collection.softwareReadingGamingAndEverythingIn') : t('collection.moreNotesAndDiscoveriesOrderedNewest')}
-      eyebrow={isFirstPage ? t('collection.latest') : t('pagination.position', { page: page.currentPage, total: page.lastPage })}
-      title={isFirstPage ? t('collection.recentNotesAndDiscoveries') : t('collection.fromTheArchive')}
-    />
+    {isFirstPage ?
+(
+      <SectionHeader
+        description={t('collection.softwareReadingGamingAndEverythingIn')}
+        eyebrow={t('collection.latest')}
+        title={t('collection.recentNotesAndDiscoveries')}
+      />
+    ) :
+(
+      <header id="blog-archive-introduction" data-blog-archive-caption data-section-header>
+        <p>{t(page.data.length === 1 ? 'blog.articlePosition' : 'blog.articleRange', {
+          start: page.start + 1,
+          end: page.end + 1,
+          total: page.total
+        })}</p>
+        <h2>{t('collection.fromTheArchive')}</h2>
+      </header>
+    )}
 
-    <div class="
-      mt-10 space-y-8
-      sm:mt-12
-    "
+    <div
+      class:list={['space-y-8', isFirstPage ?
+`
+  mt-10
+  sm:mt-12
+` :
+'mt-5']}
+      data-blog-archive-feed={isFirstPage ? undefined : ''}
     >
       <TagFilter tags={topTags} totalTopics={allTagsData.length} />
 
@@ -173,6 +179,53 @@ threshold={0}
 </PageLayout>
 
 <style>
+  [data-blog-archive-caption] {
+    position: relative;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid hsl(var(--line) / 0.65);
+    scroll-margin-top: 7rem;
+  }
+
+  [data-blog-archive-caption]::after {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 3rem;
+    height: 3px;
+    background: hsl(var(--brand));
+    content: '';
+  }
+
+  [data-blog-archive-caption] p {
+    margin-bottom: 1.25rem;
+    color: hsl(var(--brand));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+  }
+
+  [data-blog-archive-caption] h2 {
+    max-width: 56rem;
+    color: hsl(var(--ink));
+    font-size: clamp(1.875rem, 7cqi, 2.8rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.065em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  :global([data-theme='dark']) [data-blog-archive-caption] p { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-blog-archive-caption]::after { background: hsl(var(--accent)); }
+
+  [data-blog-archive-feed] :global([data-topic-guide-heading]) {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  @container section-header (width < 18rem) {
+    [data-blog-archive-caption] h2 { font-size: min(2rem, 16cqi); }
+  }
+
   [data-blog-series-caption] {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;

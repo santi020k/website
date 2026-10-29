@@ -1,0 +1,146 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+
+interface Props {
+  currentPage: number
+  lastPage: number
+  postCount: number
+}
+
+const { currentPage, lastPage, postCount } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
+---
+
+<section
+  id="blog-archive-opening"
+  aria-labelledby="blog-archive-title"
+  class="section-container-wide editorial-page-hero"
+  data-blog-archive-spread
+  data-editorial-compact
+>
+  <p class="editorial-eyebrow">{t('collection.blogArchive')}</p>
+  <h1 id="blog-archive-title" class="editorial-page-title">
+    {t('collection.writingArchive')}{' '}
+    <span class="editorial-page-emphasis">{t('pagination.pageHeading', { page: currentPage })}</span>
+  </h1>
+  <div data-archive-details>
+    <p class="editorial-page-description">{t('blog.pageDescription', { page: currentPage, total: lastPage })}</p>
+    <p data-archive-count>
+      <strong>{t(postCount === 1 ? 'blog.articleCountOne' : 'blog.articleCountMany', { count: postCount })}</strong>
+      <span>{t('collection.onThisPage')}</span>
+    </p>
+  </div>
+  <div class="editorial-page-actions section-actions">
+    <ButtonLink href={localizePath('/blog/', locale)} showArrow>{t('collection.backToLatestPosts')}</ButtonLink>
+    <ButtonLink href={localizePath('/blog/tags/', locale)} showArrow variant="secondary">{t('collection.browseTopics')}</ButtonLink>
+  </div>
+</section>
+
+<style>
+  [data-blog-archive-spread] {
+    position: relative;
+    isolation: isolate;
+    scroll-margin-top: 7rem;
+  }
+
+  [data-blog-archive-spread]::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 auto 25%;
+    height: 18rem;
+    background: radial-gradient(ellipse at 80% 18%, hsl(var(--brand-soft) / 0.5), transparent 70%);
+    content: '';
+    pointer-events: none;
+  }
+
+  .editorial-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 1.125rem;
+  }
+
+  .editorial-eyebrow::after {
+    height: 1px;
+    flex: 1;
+    background: hsl(var(--line) / 0.65);
+    content: '';
+  }
+
+  .editorial-page-title {
+    position: relative;
+    max-width: none;
+    padding-bottom: 1.875rem;
+    border-bottom: 1px solid hsl(var(--line) / 0.65);
+  }
+
+  .editorial-page-title::after {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 4rem;
+    height: 3px;
+    background: hsl(var(--brand));
+    content: '';
+  }
+
+  :global([data-theme='dark']) .editorial-page-title::after {
+    background: hsl(var(--accent));
+  }
+
+  .editorial-page-emphasis { margin-top: 0.625rem; }
+
+  [data-archive-details] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 1.75rem;
+    margin-top: 1.625rem;
+  }
+
+  .editorial-page-description {
+    max-width: 38ch;
+    margin-top: 0;
+    font-size: 0.875rem;
+  }
+
+  [data-archive-count] {
+    padding-left: 1.5rem;
+    border-left: 1px solid hsl(var(--line) / 0.65);
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    line-height: 1.8;
+    text-align: right;
+  }
+
+  [data-archive-count] strong {
+    display: block;
+    color: hsl(var(--ink));
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.035em;
+  }
+
+  @container editorial-hero (width < 28rem) {
+    [data-archive-details] {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.375rem;
+    }
+
+    [data-archive-count] {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.25rem 0.625rem;
+      padding: 0;
+      border: 0;
+      text-align: left;
+    }
+
+    [data-archive-count] strong { font-size: 0.9375rem; }
+  }
+</style>
