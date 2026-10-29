@@ -82,7 +82,7 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
   :global(:root[data-theme='dark']) [data-blog-topic-guide] { --topic-guide-accent: hsl(var(--accent)); }
   [data-topic-guide-heading] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 1.125rem; padding-top: 0.75rem; margin-bottom: 0.875rem; border-top: 1px solid hsl(var(--line)); }
   [data-topic-guide-heading] p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.8; letter-spacing: 0.06em; text-transform: uppercase; }
-  [data-topic-guide-catalog][data-slot='link'] { display: inline-flex; align-items: center; gap: 0.625rem; min-height: 2.75rem; max-width: 100%; color: var(--topic-guide-accent); font-size: 0.8125rem; line-height: 1.8; text-decoration: none; }
+  [data-topic-guide-catalog][data-slot='link'] { display: inline-flex; align-items: center; gap: 0.625rem; min-height: 2.75rem; max-width: 100%; color: var(--topic-guide-accent); cursor: pointer; font-size: 0.8125rem; line-height: 1.8; text-decoration: none; }
   [data-topic-guide-catalog]:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.25em; }
   [data-topic-guide-catalog]:focus-visible { outline: 2px solid var(--topic-guide-accent); outline-offset: 4px; }
   [data-blog-tag-filter] :global([data-sculpted-tag]) { cursor: pointer; transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease; }

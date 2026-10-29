@@ -218,6 +218,23 @@ typed singular/plural count labels, semantic tokens, and the existing enlarged-t
 heading rule. Preserve the first Blog page, feed, topic chooser, pagination, page
 metadata, and article order. Add no client script or new navigation behavior.
 
+### Archive caption Blog introduction
+
+After the first Blog page, introduce the article grid with **Archive caption**:
+keep the large From the archive heading and replace the repeated page number and
+generic description with Articles start–end of total. Derive the range from the
+actual pagination data, including the shorter final page, and use singular copy
+when a page contains one article. Translate the interface in English and Spanish.
+
+Place the .8125rem brand/accent caption 1.25rem above the heading. Keep the
+1.875–2.8rem heading scale, tight tracking, and enlarged-text reflow. Finish with
+1.75rem of space and a fine bottom rule with a short purple leading accent. Place
+the existing Topic guide 1.25rem below it, omitting its duplicate top rule only
+here. Topic links, including their labels and count tiles, and All topics use the
+pointer cursor with the existing hover and keyboard focus feedback. Keep the
+first-page introduction, Archive spread hero, feed, topic order, and pagination.
+The caption is static content; add no client script or new navigation behavior.
+
 ### Editorial blog cards
 
 All `PostsGallery` consumers use open cards with 16:9 artwork and 1rem image corners.

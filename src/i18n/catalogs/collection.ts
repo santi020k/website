@@ -212,6 +212,8 @@ export const collectionMessages = {
   'blog.pageDescription': { en: 'Older writing from page {page} of {total}, ordered newest first.', es: 'Artículos anteriores de la página {page} de {total}, de los más recientes a los más antiguos.' },
   'blog.articleCountOne': { en: '{count} article', es: '{count} artículo' },
   'blog.articleCountMany': { en: '{count} articles', es: '{count} artículos' },
+  'blog.articleRange': { en: 'Articles {start}–{end} of {total}', es: 'Artículos {start}–{end} de {total}' },
+  'blog.articlePosition': { en: 'Article {start} of {total}', es: 'Artículo {start} de {total}' },
   'collection.ongoingReadingTracksWithAtLeast': { en: 'Ongoing reading tracks with at least one published post.', es: 'Recorridos activos con al menos un artículo publicado.' },
   'collection.onThisPage': { en: 'On this page', es: 'En esta página' },
   'collection.onThisPage7': { en: ' on this page', es: ' en esta página' },
