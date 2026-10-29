@@ -1,0 +1,7 @@
+@import 'tailwindcss/theme.css';
+@import '@santi020k/theme/tokens.css';
+@font-face { font-family: Montserrat; src: url('/assets/montserrat.woff2') format('woff2'); font-weight: 100 900; font-display: block; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--santi020k-font-sans); }
+button, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid hsl(var(--brand)); outline-offset: 5px; }

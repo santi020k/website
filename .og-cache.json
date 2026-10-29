@@ -1203,14 +1203,14 @@
     },
     "portfolio/eslint-config-basic-logo.webp": {
       "baseDirectory": "public/og",
-      "digest": "58b228d7be648f068650e9befef6b61c7c360ce92b1eb23035fe016e584a1163",
-      "fingerprint": "d2538d73f5039ac17843e366f55d2e5bfd1ca22772c7fcb02cc9119d8a6a818b",
+      "digest": "fefcfeb206f56c19d8382bea17b8631151291139fd724f11d4f132fdd494e17e",
+      "fingerprint": "3fdcfea63978d4de3dc8fd3a920bb073c38415a61651a36ec8fef7b41bdafff8",
       "output": "portfolio/eslint-config-basic-logo.webp"
     },
     "portfolio/eslint-config-basic.webp": {
       "baseDirectory": "public/og",
-      "digest": "58b228d7be648f068650e9befef6b61c7c360ce92b1eb23035fe016e584a1163",
-      "fingerprint": "d2538d73f5039ac17843e366f55d2e5bfd1ca22772c7fcb02cc9119d8a6a818b",
+      "digest": "fefcfeb206f56c19d8382bea17b8631151291139fd724f11d4f132fdd494e17e",
+      "fingerprint": "3fdcfea63978d4de3dc8fd3a920bb073c38415a61651a36ec8fef7b41bdafff8",
       "output": "portfolio/eslint-config-basic.webp"
     },
     "portfolio/eslint-config-santi020k-logo.webp": {
@@ -1408,19 +1408,19 @@
     "pages/blog--series--building-a-production-nextjs-app.webp": {
       "baseDirectory": "public/og",
       "digest": "ae64ccec30378c2208ace2d42034b123fbc98aceb11738ee7d2a93ed8b1bc358",
-      "fingerprint": "be338948396e7684cd5d4ac5b9903c37bd7e5350de3eecaaef48bc8d0140a768",
+      "fingerprint": "67ad54cdbc9654972cae6ea5b2e113fd39a13f38f9e2f1553a1b061c0f08da2b",
       "output": "pages/blog--series--building-a-production-nextjs-app.webp"
     },
     "pages/blog--series--eslint-in-practice.webp": {
       "baseDirectory": "public/og",
       "digest": "d6ff620bd301bb690506852212302e72e4aab8854b1608a4e964e14d666cde08",
-      "fingerprint": "24c1f7e92a878ed6f75cafd6a566b68e4cd5b43f8e0fb3e6ed43d24ff0429a47",
+      "fingerprint": "204805e6529331e8a3565a65abc2ea7e2ebb6a7fe42714db0fbd283d10176760",
       "output": "pages/blog--series--eslint-in-practice.webp"
     },
     "pages/blog--series--the-santi020k-way.webp": {
       "baseDirectory": "public/og",
       "digest": "da96066edb7b13f48592badabf13f48952d69d4772a1cac93d2f10a682d3a224",
-      "fingerprint": "78db7669134ce45ff22ea7425969d80ed6de21be085a7a39a37346f8bbe8d347",
+      "fingerprint": "12415a31550185b223af48b415756a0fd9a339cd8541171d19a3bed4a31b474d",
       "output": "pages/blog--series--the-santi020k-way.webp"
     },
     "pages/technologies--Astro.webp": {
@@ -3999,8 +3999,8 @@
     },
     "pages/es--portfolio--eslint-config-basic.webp": {
       "baseDirectory": "public/og",
-      "digest": "8c4321e48e8353d01b4a5311cceb5eb73429c507abe81202b680830a6294341c",
-      "fingerprint": "d70890dda8b7b036d70c287b4ff7274dd1fa07192e0479a1f1dc44dbbb8d1b39",
+      "digest": "1237e70ee0c6811e24835a7892c708744d02e265c344606ec9a003f00e526b5e",
+      "fingerprint": "4c98801107894c242819b2c428c00b317a9ff3e841ab17f43bbe97c99741c600",
       "output": "pages/es--portfolio--eslint-config-basic.webp"
     },
     "pages/es--portfolio--eslint-config-santi020k.webp": {
@@ -4102,19 +4102,19 @@
     "pages/es--blog--series--building-a-production-nextjs-app.webp": {
       "baseDirectory": "public/og",
       "digest": "7daeaa3eb389a727abb152cce70f81336f218fc8f35b602ef73f3f27d8116a2f",
-      "fingerprint": "9a46cb6316310ea6f9fe1ffc8ff9dcb2caeddcc5bc4a7abd35a5865a66c7a703",
+      "fingerprint": "61f9838b278aa656c2b79cdb1253e5173ce6c62c93e32b152510634a83a64e19",
       "output": "pages/es--blog--series--building-a-production-nextjs-app.webp"
     },
     "pages/es--blog--series--eslint-in-practice.webp": {
       "baseDirectory": "public/og",
       "digest": "41e4f8075302071cba582ded8175b5d6a29eec3effeebdaf53e9577347139e11",
-      "fingerprint": "3beff08d46ffaa115bb59ec513a1dfe9ecd55bd4228a414cb29d907178c54285",
+      "fingerprint": "3c86d3a94ef1431e08dd303394ba77ef0934802e7110234ac7f907c1d0df3a15",
       "output": "pages/es--blog--series--eslint-in-practice.webp"
     },
     "pages/es--blog--series--the-santi020k-way.webp": {
       "baseDirectory": "public/og",
       "digest": "704896a9a0f0a0c80ae33fcfcf1db69dcc382b79254ba7e72e90a736b95568dc",
-      "fingerprint": "e207b01308620e25fc59e3c38fa6d03c5551099f498f448880a4150bc6db01f8",
+      "fingerprint": "89e4f87a95e037d83fe604b573e65653f81fef91abb2933cc2f3603773ba1ab5",
       "output": "pages/es--blog--series--the-santi020k-way.webp"
     },
     "pages/es--technologies--astro.webp": {

@@ -217,7 +217,7 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
       process.cwd(), 'src', 'content', 'post', '2026', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be', 'cover.webp'
     ))
     expect(projectProps?.logoImagePath).toBe(path.join(
-      process.cwd(), 'src', 'content', 'project', 'eslint-config-basic', 'logo-square.webp'
+      process.cwd(), 'src', 'content', 'project', 'eslint-config-basic', 'logo-square.svg'
     ))
   })
 

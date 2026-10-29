@@ -110,3 +110,48 @@ under `renders/stills/`, including both bookends in every format.
 To revise or remove this film, edit or remove the private workspace and its root
 scripts/catalog entries. It has no production data or public runtime contract.
 Do not manually edit generated `dist/`, `public/assets/`, or MP4 output.
+
+## Homepage product film
+
+`/products/` is the approved six-shot, 30-second landscape composition.
+`/products-portrait/` reflows the same scenes at 1080 × 1350 for phone players;
+it does not crop the landscape export. The player selects the matching film
+and poster when opened, keeping controls and typography visible at narrow sizes.
+It uses the shared Theme tokens, Montserrat, and the existing CC0 soundtrack.
+The home page serves the exported MP4 only after a visitor requests playback.
+
+| Time | Scene | Source |
+| --- | --- | --- |
+| 0–3s | I build products | Santiago brand mark and typography |
+| 3–9s | Lumen UI | Recorded task input and priority switch in the real Lumen workbench |
+| 9–13s | Web, native, connected | Existing web and SwiftUI playground captures |
+| 13–21s | PostLens | Recorded Filters, Vibrant, and original comparison |
+| 21–26s | Developer tools | Existing project logos, including the square ESLint Config Basic mark |
+| 26–30s | Built by Santiago | Brand ending and canonical author URL |
+
+Recordings in `captures/` were made locally on October 28, 2026. Lumen used the
+local docs workbench with illustrative data. PostLens used the development
+2.1.0 simulator build and the repository's generated alpine-lake fixture, with
+no personal photo-library or customer data. The Lumen crop follows the workbench to remove focus-induced page scrolling.
+Idle moments were trimmed and the
+PostLens interaction was accelerated for the eight-second scene. These captures
+demonstrate interfaces; they do not establish store or provider availability.
+The native Lumen scene is a still capture, identified separately from recordings.
+
+The PostLens film uses the three original, AI-generated PostLens website demo assets from `apps/website/src/assets/demo/` (September 13, 2026). The gallery strip uses separate, fully visible photo tiles with no screenshot borders, score badges, or clipped third image; each crop keeps its subject visible beside the real editor recording. The film and homepage previews have one rounded screen edge. The ESLint
+logo is copied unchanged from the library’s active `apps/docs/src/assets/logo-square.svg` (the hexagon with two sliders); the stale public checkmark SVG is not the project mark. Shared project
+assets are imported directly from the main site's content directory.
+
+```bash
+pnpm --filter @santi020k/website-motion build
+HYPERFRAMES_NO_TELEMETRY=1 pnpm --filter @santi020k/website-motion exec hyperframes check dist/products --strict
+HYPERFRAMES_NO_TELEMETRY=1 pnpm --filter @santi020k/website-motion exec hyperframes render dist --composition products/index.html --output renders/santi020k-products.mp4 --fps 30 --quality delivery --workers 2 --experimental-fast-capture=false
+```
+
+Render the phone cut with `--composition products-portrait/index.html` and
+`--output renders/santi020k-products-portrait.mp4`. Copy both finished exports into `public/media/products/` at the repository root before building the website. Render outside `public/` so temporary render files cannot enter a concurrent site build.
+Run the strict composition check against `dist/products-portrait` as well.
+
+The shipped posters and localized WebVTT tracks live beside the MP4 files. Keep their
+timing aligned when changing the composition. Review desktop and mobile playback,
+caption selection, focus restoration, video failure, and JavaScript-free access.

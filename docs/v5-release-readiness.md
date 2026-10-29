@@ -2883,3 +2883,26 @@ The source's earlier aggregate verify:fast timed out in unchanged v3
 (`Atomics.wait() failed: timed-out`); isolated zero-warning lint passed. This
 receipt does not claim a source full-gate pass. The separate merged-snapshot
 gate for `89b797e5` remains in progress. Local only.
+
+## Homepage product film integration (October 28)
+
+Integrated final source `8bab1a5c`, including `2af6497e` and `71291368`, over
+`f78c1ec3`. The approved 30-second film opens on request with a wide or portrait
+export, native playback controls, English/Spanish captions, a visual transcript,
+and media-error/no-JavaScript recovery. It pauses on dismissal and navigation.
+The homepage retains the portrait, product preview and existing destinations.
+PostLens uses one clean screen edge and three original AI-generated sample photos
+beside the real editor recording. The ESLint mark matches the parent project's
+current SVG; obsolete current-site WebP marks are removed while archives remain.
+
+Root validation passed 1,571 catalog/OG units, 42 Chromium/WebKit hero and film
+cases, nine motion cases, and both strict composition checks (44/44 contrast
+checks each). Eight homepage contracts preserve headings/metadata, with matched
+light/dark desktop/mobile captures in both languages and sixteen closed/open
+accessibility scans. Both final MP4s match source and built assets and are 30
+seconds; wide/mobile PostLens scenes and the corrected tools mark were inspected.
+The generator refreshed six series OG fingerprints after earlier integrations;
+image bytes are unchanged. All 926 OG outputs now pass freshness. The build,
+906-page SEO check, all five unchanged PDF rasters and built-page audit pass:
+2,194 documents, 8,640 local targets, zero errors. Normal hooks and post-commit
+checks are recorded in `.cache/v5-product-film/`. Local only.

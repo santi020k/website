@@ -340,6 +340,12 @@
 
 ### Patch Changes
 
+- Use the current ESLint Config Basic hexagon-and-sliders project icon across the website and product films, and remove obsolete local logo files.
+
+- Refine the PostLens film gallery with clean original sample photos, consistent crops, and clear separation from the editor recording in both video formats.
+
+- Add a 30-second product film to the homepage with explicit playback, captions, a visual transcript, and a direct video fallback. Refresh the PostLens screen framing and ESLint Config Basic icon.
+
 - Reuse the homepage’s featured testimonial treatment on Work with me in English and Spanish. Show all four complete quotations, adapt the featured spread to the collection, and improve spacing and text sizes on narrow screens.
 
 - Translate portfolio collection totals into Spanish while preserving complete singular and plural labels at enlarged text sizes.
