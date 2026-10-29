@@ -3,6 +3,64 @@ import { expect, type Locator, type Page, test } from '@playwright/test'
 
 import { requireValue } from './helpers/assertions'
 
+const languageLayouts = [320, 768, 1440].flatMap(width => ['16px', '32px'].map(fontSize => {
+  const isMenu = width === 320 || (width === 768 && fontSize === '32px')
+
+  return {
+    width,
+    fontSize,
+    variant: isMenu ? 'menu' : 'header',
+    open: isMenu ? async (page: Page) => page.locator('[data-mobile-nav-toggle]').click() : async (page: Page) => page.locator('[data-language-switch="header"]').waitFor({ state: 'visible' })
+  }
+}))
+
+for (const locale of [
+  { name: 'en', path: '/about/', destination: '/es/about/', target: 'es', code: 'ES', label: 'Site interface in Spanish' },
+  { name: 'es', path: '/es/about/', destination: '/about/', target: 'en', code: 'EN', label: 'Interfaz en inglés' }
+]) {
+  for (const theme of ['light', 'dark']) {
+    for (const layout of languageLayouts) {
+      const text = layout.variant === 'header' ? locale.code : locale.label
+      const name = layout.variant === 'header' ? `${locale.code}: ${locale.label}` : locale.label
+
+      test(`language control stays usable in ${locale.name}, ${theme}, ${layout.width}px with ${layout.fontSize} text`, async ({ page }) => {
+        await page.setViewportSize({ width: layout.width, height: 900 })
+        await page.emulateMedia({ reducedMotion: 'reduce' })
+        await page.addInitScript(value => {
+          localStorage.setItem('theme', value)
+        }, theme)
+        await page.goto(locale.path)
+        await page.evaluate(size => {
+          document.documentElement.style.fontSize = size
+        }, layout.fontSize)
+        await layout.open(page)
+        const link = page.locator(`[data-language-switch="${layout.variant}"]`)
+
+        await expect(link).toBeVisible()
+        await expect(link).toHaveAttribute('href', locale.destination)
+        await expect(link).toHaveAttribute('hreflang', locale.target)
+        await expect(link).toHaveAccessibleName(name)
+        await expect(link).toHaveText(text)
+        // Establish keyboard modality before inspecting the focus-visible outline.
+        await page.keyboard.press('Tab')
+        await link.focus()
+        await expect(link).toBeFocused()
+        await expect(link).toHaveCSS('outline-style', 'solid')
+        const bounds = requireValue(await link.boundingBox())
+
+        expect(bounds.width).toBeGreaterThanOrEqual(44)
+        expect(bounds.height).toBeGreaterThanOrEqual(44)
+        expect(bounds.x).toBeGreaterThanOrEqual(0)
+        expect(bounds.x + bounds.width).toBeLessThanOrEqual(layout.width)
+        expect(await link.evaluate(element => element.scrollWidth - element.clientWidth)).toBeLessThanOrEqual(1)
+        const audit = await new AxeBuilder({ page }).include('header').analyze()
+
+        expect(audit.violations).toEqual([])
+      })
+    }
+  }
+}
+
 for (const width of [320, 375, 390, 768, 1024, 1088, 1200, 1280, 1440]) {
   for (const fontSize of ['16px', '20px', '32px']) {
     test(`header controls fit at ${width}px with ${fontSize} text`, async ({ page }) => {
@@ -209,10 +267,13 @@ test('the open menu keeps header utilities and close reachable by keyboard', asy
     await page.keyboard.press(nextKey)
   }
 
-  await expect(page.locator('[data-mobile-nav-actions] a').first()).toBeFocused()
-  await page.keyboard.press(nextKey)
-  await expect(page.locator('[data-mobile-nav-actions] a').last()).toBeFocused()
-  await page.keyboard.press(nextKey)
+  const actions = page.locator('[data-mobile-nav-actions] a')
+
+  await expect(actions).toHaveCount(3)
+  for (const link of await actions.all()) {
+    await expect(link).toBeFocused()
+    await page.keyboard.press(nextKey)
+  }
   await expect(page.locator('.site-header-brand')).toBeFocused()
   await firstLink.focus()
   await page.keyboard.press(previousKey)
@@ -322,21 +383,15 @@ test('the menu follows the dock after scrolling and closes on desktop resize', a
   await expect(page.locator('html')).not.toHaveClass(/mobile-nav-open/)
 })
 
-test('the labeled desktop search works by pointer and its advertised shortcut', async ({ page }) => {
+test('the icon-only desktop search works by pointer and keyboard shortcut', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/about/')
 
   const search = page.getByRole('button', { name: 'Open site search' })
 
-  const hint = search.locator('kbd')
-
-  await expect(search.locator('.site-header-search-label')).toBeVisible()
+  await expect(search).toHaveText('')
   await expect(search).toHaveAccessibleName('Open site search (Ctrl/⌘ K)')
   await expect(search).toHaveAttribute('aria-keyshortcuts', 'Control+K Meta+K')
-  await expect(hint).toHaveText('Ctrl/⌘ K')
-
-  // The visible label and shortcut hint must both appear in the accessible name.
-  // axe ships this WCAG 2.5.3 rule as experimental, so enable it alongside the defaults.
   const triggerAudit = await new AxeBuilder({ page })
     .include('[data-site-search-trigger]')
     .options({ rules: { 'label-content-name-mismatch': { enabled: true } } })
@@ -344,21 +399,11 @@ test('the labeled desktop search works by pointer and its advertised shortcut', 
 
   expect(triggerAudit.violations).toEqual([])
 
-  // The hint stays on one line inside the trigger, and the header does not overflow.
-  const hintBox = requireValue(await hint.boundingBox())
+  // The icon keeps a square touch target even when the full bar has spare space.
   const searchBox = requireValue(await search.boundingBox())
-  const hintLines = await hint.evaluate(element => {
-    const range = document.createRange()
 
-    range.selectNodeContents(element)
-
-    return range.getClientRects().length
-  })
-
-  expect(hintLines).toBe(1)
-  expect(await hint.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true)
-  expect(hintBox.x).toBeGreaterThanOrEqual(searchBox.x)
-  expect(hintBox.x + hintBox.width).toBeLessThanOrEqual(searchBox.x + searchBox.width)
+  expect(searchBox.width).toBeGreaterThanOrEqual(44)
+  expect(searchBox.width).toBe(searchBox.height)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 
   await search.click()

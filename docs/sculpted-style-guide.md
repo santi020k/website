@@ -2788,8 +2788,12 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
 - Mark the current desktop route with a fine accent underline and `aria-current`,
   leaving its surface open. Hover adds a quiet neutral fill.
 - Center the desktop links in the space between identity and utilities, with
-  0.875rem labels and generous hit areas. At 64rem of header width, show the Search
-  label and its `/` shortcut; narrower headers retain the same icon button.
+  0.875rem labels and generous hit areas. Search stays icon-only at every width;
+  retain its accessible name and Ctrl/⌘ K keyboard shortcut.
+- Give the language link a quiet outlined surface, a decorative Lumen Languages
+  icon, and the destination code. The attached menu shows the full interface label.
+  Keep the current page, query, and fragment when switching. Hide the header copy
+  on phones and below 26rem of header space so enlarged text keeps controls clear.
 - Keep the landing-page navigation strip open above the opaque hero frame. Scrolling
   fills the dock and adds modest depth. Separate desktop utilities with a fine
   vertical rule only when the contact action is visible.
