@@ -19,7 +19,7 @@ test.describe('Accessibility states', () => {
     await page.goto('/')
 
     const root = page.locator('html')
-    const toggle = page.getByRole('button', { name: 'Toggle color theme' })
+    const toggle = page.getByRole('button', { name: 'Switch theme' })
 
     await toggle.click()
 
@@ -43,7 +43,7 @@ test.describe('Accessibility states', () => {
     await page.goto('/')
 
     const root = page.locator('html')
-    const toggle = page.getByRole('button', { name: 'Toggle color theme' })
+    const toggle = page.getByRole('button', { name: 'Switch theme' })
 
     await expect(root).toHaveAttribute('data-theme', 'dark')
     await expect(root).toHaveClass(/dark/)

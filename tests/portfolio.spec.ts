@@ -183,7 +183,8 @@ test.describe('Portfolio page', () => {
     expect(timelineRowCount).toBeGreaterThan(0)
     await expect(timelineRows.first()).toContainText('Current')
     await expect(timelineRows.first()).toContainText('May 2025 - Present')
-    await expect(timelineRows.locator('img')).toHaveCount(0)
+    // Company marks are decorative; the row text already names each company.
+    await expect(timelineRows.locator('img:not([alt=""])')).toHaveCount(0)
 
     const activeRowGeometry = await timelineRows.first().evaluate(row => {
       const link = row.querySelector('a')
@@ -258,7 +259,7 @@ test.describe('Portfolio page', () => {
     await page.goto('/portfolio/smith-commerce/')
 
     const root = page.locator('html')
-    const themeToggle = page.getByRole('button', { name: 'Toggle color theme' })
+    const themeToggle = page.getByRole('button', { name: 'Switch theme' })
 
     await expect(root).toHaveAttribute('data-theme', 'light')
     await expectReadableProjectTitleGradient(page)
@@ -358,7 +359,7 @@ test.describe('Portfolio page', () => {
 
     expect(mobileLayout.scrollWidth).toBeLessThanOrEqual(mobileLayout.viewportWidth)
 
-    await page.getByRole('button', { name: 'Toggle color theme' }).click()
+    await page.getByRole('button', { name: 'Switch theme' }).click()
 
     const alternateThemeLayout = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
