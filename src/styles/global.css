@@ -15,10 +15,11 @@
 @import "./partials/view-transitions.css";
 @import "./partials/utilities.css";
 @import "./partials/ui.css";
-@import "./partials/prose.css";
 @import "./partials/about.css";
 
-@plugin "@tailwindcss/typography";
+/* Article prose, including the typography plugin it builds on, lives in ./prose.css and is
+ * loaded only by the reading layouts. Registering the plugin here would also emit an unused
+ * `.prose` utility into every page whenever content mentions the word "prose". */
 
 @import "./partials/remaining-pages.css";
 

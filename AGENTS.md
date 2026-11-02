@@ -28,6 +28,8 @@ the repository root. See `docs/v5-release-readiness.md` for scope and gates.
 | --- | --- |
 | `src/site.config.ts` | Site-wide metadata (title, description, author, nav links) |
 | `src/styles/global.css` | Tailwind v4 theme tokens, custom utilities, base styles |
+| `src/styles/pages/` | Route-only stylesheets, each imported by its page instead of the shared bundle |
+| `src/styles/prose.css` | Article and case-study prose; only the `Post` and `Projects` layouts load it |
 | `src/content.config.ts` | Content collection schemas (Zod) |
 | `src/content/` | Markdown/MDX content (blog posts, projects) |
 | `src/layouts/` | Page layout components |
@@ -59,6 +61,11 @@ the repository root. See `docs/v5-release-readiness.md` for scope and gates.
 - Define all design tokens (colors, fonts, shadows) in `src/styles/global.css` under `@theme`
 - Dark mode uses `data-theme="dark"` on `<html>` (not `class="dark"`)
 - Custom repeated utilities go in `@utility` blocks in `global.css`
+- `src/styles/partials/` holds styles every page may need; `global.css` loads them on every route.
+  CSS for a single route goes in `src/styles/pages/<route>.css` (starting with
+  `@reference "../global.css";`) and is imported by that page; a component's private rules can be
+  imported by the component. Astro links these stylesheets before or after the shared bundle depending
+  on the import graph, so resolve conflicts with shared rules through specificity, not source order.
 - Class order follows Tailwind Prettier plugin conventions (ESLint enforces this)
 - Always include `motion-reduce:` variants when adding animations or transitions
 

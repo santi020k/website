@@ -1,0 +1,764 @@
+/* Astro may link this file before the Base bundle. Declaring Lumen's layer order first keeps
+ * the `utilities.prose` sublayer below from creating `utilities` ahead of the base layers. */
+@import "@santi020k/lumen/layers.css";
+
+@reference "./global.css";
+
+@plugin "@tailwindcss/typography";
+
+/* ─── Prose Styles ────────────────────────────────────────────────────────────
+ * Rich-text rendering for blog posts (prose-santi) and project pages
+ * (prose-project). Both build on @tailwindcss/typography as a base.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/* Only the reading layouts (Post and Projects) load this file, so the shared bundle does not
+ * carry ~45 KB of article styles on every page. The `utilities.prose` sublayer keeps these
+ * defaults above Lumen components, while a utility class on the same element still wins. */
+@layer utilities.prose {
+  .prose-santi {
+    @apply prose prose-invert max-w-none break-words;
+    @apply prose-headings:font-display prose-headings:tracking-tight prose-headings:text-ink;
+    @apply prose-h1:text-4xl prose-h1:md:text-5xl prose-h1:mb-8;
+    @apply prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-l-4 prose-h2:border-brand prose-h2:pl-4;
+    @apply prose-h3:text-xl prose-h3:sm:text-2xl prose-h3:mt-8 prose-h3:mb-4;
+    @apply prose-p:text-ink-soft prose-p:leading-relaxed prose-p:text-base prose-p:sm:text-lg;
+    @apply prose-strong:text-ink prose-strong:font-bold;
+    @apply prose-a:text-brand prose-a:no-underline prose-a:border-b prose-a:border-brand/30 hover:prose-a:border-brand transition-colors duration-200;
+    @apply prose-blockquote:border-l-4 prose-blockquote:border-brand/40 prose-blockquote:bg-surface-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:sm:px-6 prose-blockquote:rounded-r-xl prose-blockquote:italic prose-blockquote:text-ink-soft;
+    @apply prose-code:before:content-none prose-code:after:content-none;
+
+    /* Section cadence preserves native headings, fragments, and inline formatting. */
+    &[data-article-prose] { container: article-prose / inline-size; }
+    /* Reading measure keeps prose compact while editorial and technical blocks stay wide. */
+    &[data-article-prose] > :is(p, ul, ol, dl) { max-inline-size: 40rem; }
+    & h2[data-article-section-heading] {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-block: 2.5rem 1.5rem;
+      border: 0;
+      padding: 0;
+      font-size: 1.6875rem;
+      font-weight: 500;
+      line-height: 1.4;
+      letter-spacing: -.035em;
+      hyphens: manual;
+    }
+    & h2[data-article-section-heading]::after {
+      content: '';
+      flex: 1 0 2.5rem;
+      height: 1px;
+      background: hsl(var(--line));
+    }
+    & [data-article-heading-text] { min-width: 0; overflow-wrap: anywhere; }
+    &[data-article-prose] > h3 {
+      margin-block: 2.25rem .75rem;
+      font-size: 1.3125rem;
+      font-weight: 500;
+      line-height: 1.4;
+      letter-spacing: -.025em;
+    }
+    @container article-prose (width < 32rem) {
+      & h2[data-article-section-heading] { gap: 1rem; font-size: 1.5rem; }
+      & h2[data-article-section-heading]::after { display: none; }
+      &[data-article-prose] > h3 { font-size: 1.1875rem; }
+    }
+
+    /* Margin lead uses the original paragraph and its inline markup at build time. */
+    & [data-article-margin-lead] {
+      container: article-lead / inline-size;
+      margin-block: 0 1.75rem;
+      scroll-margin-top: 9rem;
+    }
+    & [data-article-lead-layout] {
+      display: grid;
+      grid-template-columns: 6rem minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    & [data-article-format] {
+      min-width: 0;
+      margin: 0;
+      padding-top: .375rem;
+      color: hsl(var(--brand));
+      font-size: .8125rem;
+      font-weight: 500;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+    & [data-article-lead] {
+      min-width: 0;
+      margin: 0;
+      border-inline-start: 2px solid hsl(var(--brand));
+      padding-inline-start: 1.5rem;
+      color: hsl(var(--ink));
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.85;
+      letter-spacing: -.018em;
+    }
+    @variant dark {
+      & [data-article-format] { color: hsl(var(--accent)); }
+      & [data-article-lead] { border-inline-start-color: hsl(var(--accent)); }
+    }
+    @container article-lead (width < 32rem) {
+      & [data-article-lead-layout] { grid-template-columns: minmax(0, 1fr); gap: .875rem; }
+      & [data-article-format] { padding-top: 0; }
+      & [data-article-lead] { padding-inline-start: 1.125rem; }
+    }
+    @container article-lead (width < 20rem) {
+      & [data-article-lead] { padding-inline-start: .75rem; font-size: 1.125rem; }
+    }
+    @container article-lead (width < 14rem) {
+      & [data-article-lead] { font-size: 1rem; }
+    }
+
+    /* Margin quotation keeps the native quote and its authored paragraphs intact. */
+    & blockquote[data-article-quote] {
+      container: article-quote / inline-size;
+      margin-block: 2rem;
+      padding: 0;
+      border: 0;
+      border-block: 1px solid hsl(var(--line));
+      border-radius: 0;
+      background: transparent;
+      color: hsl(var(--ink));
+      font-style: normal;
+      font-weight: 400;
+      quotes: none;
+    }
+    & [data-quote-layout] {
+      display: grid;
+      grid-template-columns: 2rem minmax(0, 1fr);
+      gap: 1.25rem;
+      padding-block: 1.5rem;
+    }
+    & [data-quote-mark] {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-top: .3125rem;
+      color: hsl(var(--brand));
+    }
+    & [data-quote-body] {
+      min-width: 0;
+      padding-inline-start: 1.5rem;
+      border-inline-start: 2px solid hsl(var(--brand));
+      font-size: 1.1875rem;
+      line-height: 1.8;
+      letter-spacing: -.015em;
+      overflow-wrap: anywhere;
+    }
+    & [data-quote-body] p {
+      color: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+    & [data-quote-body] > :first-child { margin-block-start: 0; }
+    & [data-quote-body] > :last-child { margin-block-end: 0; }
+    & [data-quote-body] p::before,
+    & [data-quote-body] p::after { content: none; }
+    @variant dark {
+      & [data-quote-mark] { color: hsl(var(--accent)); }
+      & [data-quote-body] { border-inline-start-color: hsl(var(--accent)); }
+    }
+    @container article-quote (width < 29rem) {
+      & [data-quote-layout] { grid-template-columns: minmax(0, 1fr); gap: .875rem; padding-block: 1.25rem; }
+      & [data-quote-mark] { margin-top: 0; }
+      & [data-quote-body] { padding-inline-start: 1.125rem; font-size: 1rem; }
+    }
+    @container article-quote (width < 18rem) {
+      & [data-quote-body] { padding-inline-start: .75rem; }
+    }
+
+    & :not(pre) > code {
+      @apply text-brand bg-brand/10 px-1.5 py-0.5 rounded-md font-medium;
+    }
+    &[data-article-prose] :not(pre) > code { font-family: var(--font-code); }
+    /* ─── Lumen Code / Shiki ─────────────────────────────────────────────────── */
+
+    & > [data-ui-code],
+    & > [data-package-manager-code-tabs] {
+      @apply my-10;
+    }
+
+    & [data-package-manager-code-tabs] [role="tabpanel"] {
+      @apply min-w-0 overflow-hidden;
+    }
+
+    & [data-ui-code] [data-line] {
+      @apply border-l-2 border-transparent transition-colors duration-200;
+    }
+
+    /* Code headers are UI chrome, not prose figure captions. */
+    & [data-ui-code] > figcaption {
+      margin-block: 0;
+    }
+
+    /*
+     * Ordinary headers wrap instead of using a fixed three-column grid, where the
+     * non-shrinking language badge overflowed under the copy control at narrow or
+     * enlarged sizes. Metadata stays centered between the dots and the control when
+     * everything fits. Package-manager panels keep their own grid in ui.css.
+     */
+    & [data-ui-code]:not([data-article-code-folio], [data-package-manager-code-tabs] *) > figcaption {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    & [data-ui-code]:not([data-article-code-folio], [data-package-manager-code-tabs] *) > figcaption > span:not([aria-hidden]) {
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+
+    & [data-ui-code]:not([data-package-manager-code-tabs] *) > figcaption > [data-ui-code-copy] {
+      margin-inline-start: auto;
+    }
+
+    & [data-ui-code-copy] {
+      min-inline-size: 44px;
+      min-block-size: 44px;
+    }
+
+    /* A pressed-state scale can retarget edge taps outside the button. */
+    & [data-ui-code-copy]:is(:hover, :active) {
+      transform: none;
+    }
+
+    /* Keep Tailwind Typography's pre background from obscuring Lumen's code theme. */
+    & [data-ui-code] > pre {
+      background: var(--ui-code-bg);
+    }
+
+    & [data-prose-code-language] {
+      color: var(--ui-code-fg);
+    }
+
+    & [data-ui-code] [data-line-numbers] {
+      counter-reset: line;
+    }
+
+    & [data-ui-code] [data-line-numbers] > [data-line]::before {
+      counter-increment: line;
+      content: counter(line);
+      @apply inline-block w-4 mr-6 text-right text-ink-muted/30 select-none font-mono text-xs;
+    }
+
+    /* Highlighted lines */
+    & [data-ui-code] [data-highlighted-line] {
+      @apply -mx-5 border-l-2 border-brand bg-brand/10 px-5;
+    }
+
+    & [data-ui-code] [data-highlighted-chars] {
+      @apply rounded px-1 bg-brand/20 border-b-2 border-brand;
+    }
+
+    /* Code folio keeps Lumen's copy controller and Shiki's authored tokens. */
+    & [data-article-code-folio] {
+      --folio-accent: hsl(var(--brand));
+      --ui-code-bg: hsl(var(--surface));
+      --ui-code-header-bg: hsl(var(--brand-soft));
+      --ui-code-border: hsl(var(--line));
+      container: code-folio / inline-size;
+      border-radius: 0.375rem 1.625rem 1.625rem 1.625rem;
+      box-shadow: none;
+    }
+
+    @variant dark {
+      & [data-article-code-folio] { --folio-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+      & [data-article-code-folio] pre { --ui-code-bg: var(--shiki-dark-bg, hsl(var(--surface))); }
+    }
+
+    & [data-article-code-folio] > figcaption {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.625rem;
+      border-bottom: 0;
+      padding: 0.875rem 1.5rem;
+    }
+
+    & [data-article-code-folio] [data-code-folio-icon] {
+      width: 1rem;
+      height: 1rem;
+      flex: 0 0 auto;
+      color: var(--folio-accent);
+    }
+
+    & [data-article-code-folio] > figcaption > span:not([aria-hidden]) {
+      flex: 1 1 5rem;
+      flex-wrap: wrap;
+      justify-content: start;
+      gap: 0.25rem 0.75rem;
+      color: hsl(var(--ink-soft));
+      font: 500 0.75rem/1.6 var(--font-sans);
+    }
+
+    & [data-article-code-folio] [data-prose-code-language] {
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--folio-accent);
+      font: inherit;
+      letter-spacing: 0.08em;
+      overflow-wrap: anywhere;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+
+    & [data-article-code-folio] .ui-code__label {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    & [data-article-code-folio] [data-ui-code-copy] {
+      max-inline-size: 100%;
+      white-space: normal;
+      gap: 0.5rem;
+      border-color: transparent;
+      background: transparent;
+      padding-inline: 0.375rem;
+      color: hsl(var(--ink-soft));
+      font: 500 0.75rem/1.6 var(--font-sans);
+    }
+
+    & [data-article-code-folio] [data-ui-code-copy]:hover,
+    & [data-article-code-folio] [data-ui-code-copy][data-state="copied"] {
+      color: var(--folio-accent);
+      background: hsl(var(--surface) / 0.5);
+    }
+
+    & [data-article-code-folio] [data-ui-code-copy][data-state="error"] {
+      color: color-mix(in srgb, hsl(var(--danger)) 65%, hsl(var(--ink)));
+    }
+
+    & [data-article-code-folio] pre {
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      overflow-x: auto;
+      padding: 1.5rem;
+      background: var(--ui-code-bg);
+      font-family: var(--font-code);
+      line-height: 1.85;
+    }
+
+    & [data-article-code-folio] pre > code {
+      display: block;
+      min-inline-size: max-content;
+      font-family: var(--font-code);
+      font-size: 0.875rem;
+      line-height: 1.85;
+    }
+
+    & [data-example-fold] > summary {
+      min-block-size: 44px;
+      padding: 0.9375rem 1.5rem;
+      border-top: 1px solid hsl(var(--line));
+      color: var(--folio-accent);
+      cursor: pointer;
+      font: 400 0.875rem/1.6 var(--font-sans);
+    }
+
+    & [data-fold-count] {
+      display: block;
+      margin-inline-start: 1.125rem;
+      color: hsl(var(--ink-soft));
+      font: 400 0.75rem/1.6 var(--font-sans);
+    }
+
+    & [data-example-fold]:not([open]) [data-fold-collapse],
+    & [data-example-fold][open] [data-fold-expand],
+    & [data-example-fold][open] + [data-code-preview] {
+      display: none;
+    }
+
+    & [data-example-fold][open] > [data-code-fold-region] {
+      border-top: 1px solid hsl(var(--line));
+    }
+
+    @media print {
+      & [data-example-fold] > summary,
+      & [data-code-preview] { display: none; }
+      & [data-example-fold]::details-content { content-visibility: visible; }
+      & [data-example-fold] > [data-code-fold-region] { display: block; }
+    }
+
+    & :is([data-article-code-folio], [data-package-manager-code-tabs]) [data-scroll-cue-message]:not([hidden]) {
+      display: flex;
+      align-items: center;
+      gap: 0.5625rem;
+      padding: 0.8125rem 1.5rem;
+      border-top: 1px solid hsl(var(--line));
+      color: hsl(var(--ink-soft));
+      font: 400 0.75rem/1.6 var(--font-sans);
+    }
+
+    & [data-article-code-folio] [data-line] {
+      border-left: 0;
+      padding-inline: 0;
+    }
+
+    & [data-article-code-folio] [data-line-numbers] > [data-line]::before {
+      content: counter(line) / "";
+      box-sizing: content-box;
+      width: 2ch;
+      margin-inline-end: 1.125rem;
+      padding-inline-end: 0.875rem;
+      border-inline-end: 1px solid hsl(var(--line));
+      color: hsl(var(--ink-soft));
+      font: 400 0.75rem/1.85 var(--font-code);
+      line-height: inherit;
+    }
+
+    & [data-article-code-folio] [data-highlighted-line] {
+      margin-inline: 0;
+      background: hsl(var(--brand-soft));
+    }
+
+    @container code-folio (width < 27rem) {
+      & [data-example-fold] > summary { padding-inline: 1.375rem; }
+      & [data-article-code-folio] > figcaption { padding-inline: 1.375rem; }
+      & [data-article-code-folio] pre { padding: 1.375rem; }
+      & [data-article-code-folio] [data-scroll-cue-message]:not([hidden]) { padding-inline: 1.375rem; }
+      & [data-article-code-folio] [data-line-numbers] > [data-line]::before { margin-inline-end: 0.75rem; }
+    }
+
+    @container code-folio (width < 18rem) {
+      & [data-example-fold] > summary { padding-inline: 0.75rem; }
+      & [data-article-code-folio] > figcaption { padding: 0.625rem 0.75rem; }
+      & [data-article-code-folio] pre { padding: 1rem 0.75rem; }
+      & [data-article-code-folio] [data-scroll-cue-message]:not([hidden]) { padding-inline: 0.75rem; }
+      & [data-article-code-folio] [data-line-numbers] > [data-line]::before { padding-inline-end: 0.5rem; }
+    }
+
+    /* ─── Typography Modifiers ───────────────────────────────────────────────── */
+
+    @apply prose-img:rounded-2xl prose-img:shadow-xl prose-img:mx-auto prose-img:my-12 prose-img:border prose-img:border-line prose-img:max-w-full prose-img:h-auto;
+    /* Caption spread keeps the complete image above a transparent caption cutout. */
+    & [data-article-figure] {
+      --figure-accent: hsl(var(--brand));
+      --figure-mount: hsl(var(--brand) / 0.08);
+      container: article-figure / inline-size;
+      margin-block: 3rem;
+    }
+
+    @variant dark {
+      & [data-article-figure] {
+        --figure-accent: hsl(var(--accent));
+        --figure-mount: hsl(var(--accent) / 0.12);
+      }
+    }
+
+    & [data-article-figure] > img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      margin: 0;
+      border: 0;
+      border-radius: 1.875rem 0.3125rem 0 0;
+      box-shadow: none;
+    }
+
+    & [data-article-figure] > figcaption {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 6.5rem;
+      align-items: stretch;
+      margin: 0;
+      color: hsl(var(--ink));
+    }
+
+    & [data-figure-copy] {
+      min-width: 0;
+      min-height: 6.875rem;
+      padding: 1.5625rem 1.875rem 0 0;
+    }
+
+    & [data-figure-label] {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--figure-accent);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      line-height: 1.6;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    & [data-figure-caption] {
+      margin: 0;
+      color: hsl(var(--ink));
+      font-size: clamp(1.25rem, 4cqi, 1.75rem);
+      font-weight: 500;
+      line-height: 1.3;
+      letter-spacing: -0.045em;
+      text-wrap: balance;
+      hyphens: manual;
+    }
+
+    & [data-figure-number] {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-block: 1.125rem;
+      border-end-end-radius: 2.125rem;
+      background: var(--figure-mount);
+      color: var(--figure-accent);
+      font-size: 2.875rem;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.055em;
+    }
+
+    & [data-figure-number]::before {
+      position: absolute;
+      top: 0;
+      right: 100%;
+      width: 1.875rem;
+      height: 1.875rem;
+      background: radial-gradient(circle at bottom left, transparent calc(1.875rem - 0.5px), var(--figure-mount) 1.875rem);
+      content: '';
+    }
+
+    @container article-figure (width < 25rem) {
+      & [data-article-figure] > figcaption { grid-template-columns: minmax(0, 1fr) 4.125rem; }
+      & [data-figure-copy] { min-height: 6.375rem; padding: 1.1875rem 1.125rem 0 0; }
+      & [data-figure-number] { font-size: 2rem; }
+      & [data-figure-number]::before {
+        width: 1.375rem;
+        height: 1.375rem;
+        background: radial-gradient(circle at bottom left, transparent calc(1.375rem - 0.5px), var(--figure-mount) 1.375rem);
+      }
+    }
+
+    @container article-figure (width < 18rem) {
+      & [data-article-figure] > figcaption { grid-template-columns: minmax(0, 1fr) 3rem; }
+      & [data-figure-copy] { padding-right: 0.75rem; }
+      & [data-figure-caption] { font-size: 1.125rem; }
+      & [data-figure-number] { font-size: 1.5rem; }
+    }
+
+    @container article-figure (width < 12rem) {
+      & [data-article-figure] > figcaption { grid-template-columns: minmax(0, 1fr); }
+      & [data-figure-copy] { min-height: 0; padding: 1rem 0; }
+      & [data-figure-number] { justify-self: end; width: 3rem; padding-block: 0.5rem; border-radius: 0.25rem 0 1.25rem 0; }
+      & [data-figure-number]::before { display: none; }
+    }
+
+    @apply prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-brand prose-li:my-2;
+    &[data-article-prose] > :is(ul, ol) {
+      @apply text-base leading-relaxed sm:text-lg;
+    }
+    @apply prose-th:whitespace-nowrap prose-th:text-ink prose-td:text-ink-soft;
+    & :is([data-article-table-folio], [data-prose-table]) {
+      --table-folio-accent: hsl(var(--brand));
+      container: table-folio / inline-size;
+      margin-block: 2em;
+      border: 1px solid hsl(var(--line));
+      border-radius: 0.375rem 1.75rem 0.375rem 1.75rem;
+      background: hsl(var(--surface));
+      box-shadow: none;
+      overscroll-behavior-inline: contain;
+    }
+
+    & [data-article-table-folio] > [data-prose-table] {
+      margin: 0;
+      border: 0;
+      border-radius: inherit;
+    }
+
+    & [data-article-table-folio]:has(> [data-scroll-cue-message]:not([hidden])) > [data-prose-table] {
+      border-start-start-radius: 0;
+      border-start-end-radius: 0;
+    }
+
+    & [data-article-table-folio] > [data-scroll-cue-message]:not([hidden]) {
+      gap: 0.5625rem;
+      padding: 0.8125rem 1.25rem;
+      font: 400 0.75rem/1.6 var(--font-sans);
+    }
+
+    @variant dark {
+      & [data-prose-table] { --table-folio-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+    }
+
+    & [data-prose-table] table {
+      width: 100%;
+      margin: 0;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      line-height: 1.7143;
+    }
+
+    & [data-prose-table] thead {
+      border-bottom: 0;
+      background: hsl(var(--brand-soft));
+    }
+
+    & [data-prose-table] thead th {
+      padding: 1.0625rem 1.25rem;
+      color: var(--table-folio-accent);
+      font-weight: 500;
+      vertical-align: top;
+    }
+
+    /* Cells wrap, but keep enough width that four-column tables stay readable on mobile. */
+    & [data-prose-table] :is(tbody, tfoot) :is(td, th) {
+      min-inline-size: 12ch;
+      padding: 1.25rem;
+      color: hsl(var(--ink-soft));
+      font-weight: 400;
+      vertical-align: top;
+    }
+
+    & [data-prose-table] tbody tr { border-color: hsl(var(--line)); }
+
+    & [data-prose-table] tbody :is(td, th):first-child {
+      background: color-mix(in srgb, hsl(var(--brand-soft)) 28%, hsl(var(--surface)));
+      color: hsl(var(--ink));
+      font-weight: 500;
+    }
+
+    /* Anchored comparison keeps row labels beside the values during native scrolling. */
+    & [data-article-table-folio] table { border-collapse: separate; border-spacing: 0; }
+    & [data-article-table-folio] thead th,
+    & [data-article-table-folio] tbody tr:not(:last-child) > :is(td, th) {
+      border-block-end: 1px solid hsl(var(--line));
+    }
+    & [data-article-table-folio] tr > :is(td, th):first-child {
+      position: sticky;
+      inset-inline-start: 0;
+      z-index: 1;
+      border-inline-end: 1px solid hsl(var(--line));
+    }
+    & [data-article-table-folio] thead th:first-child { background: hsl(var(--brand-soft)); }
+    & [data-article-table-folio] tfoot :is(td, th):first-child { background: hsl(var(--surface)); }
+
+    /* At enlarged text sizes, leave the full viewport available to each column. */
+    @container table-folio (width < 12rem) {
+      & [data-article-table-folio] tr > :is(td, th):first-child { position: static; }
+    }
+
+    & [data-prose-table] :is(a, code) { color: var(--table-folio-accent); }
+
+    & [data-prose-table] caption {
+      padding: 1.25rem;
+      color: hsl(var(--ink));
+      text-align: start;
+    }
+
+    @container table-folio (width < 24rem) {
+      & [data-prose-table] :is(thead, tbody, tfoot) :is(th, td) { padding-inline: 0.75rem; }
+    }
+
+    @container table-folio (width < 18rem) {
+      & [data-prose-table] :is(thead, tbody, tfoot) :is(th, td) { padding-inline: 0.375rem; }
+      & [data-prose-table] thead th { white-space: normal; }
+    }
+
+    & [data-prose-table]:focus-visible {
+      outline: 2px solid hsl(var(--accent));
+      outline-offset: 4px;
+    }
+    & :is([data-project-ledger], [data-checklist-ledger]) {
+      container: prose-ledger / inline-size;
+      margin-block: 1.5rem;
+      padding: 0;
+      border-block: 1px solid hsl(var(--line));
+    }
+    & ul:is([data-project-ledger], [data-checklist-ledger]) { list-style: none; }
+    & ol:is([data-project-ledger], [data-checklist-ledger]) { padding-inline-start: 1.5rem; list-style: decimal; }
+    & :is([data-project-ledger], [data-checklist-ledger]) > li { margin: 0; padding: 1.625rem 0; }
+    & :is([data-project-ledger], [data-checklist-ledger]) > li + li { border-top: 1px solid hsl(var(--line)); }
+    & :is([data-project-ledger-row], [data-checklist-ledger-row]) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.125rem; }
+    & :is([data-project-ledger-split], [data-checklist-ledger-split]) { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 2rem; }
+    & :is([data-project-ledger-lead], [data-checklist-ledger-lead]) {
+      min-width: 0;
+      border-inline-start: 3px solid hsl(var(--brand));
+      padding-inline-start: 1.125rem;
+      color: hsl(var(--ink));
+      font-size: 1.125rem;
+      line-height: 1.5;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    & :is([data-project-ledger-lead], [data-checklist-ledger-lead]) > strong { color: inherit; font-weight: inherit; }
+    & :is([data-project-ledger], [data-checklist-ledger]) :is(a, code) { @apply dark:text-accent; }
+    @variant dark {
+      & :is([data-project-ledger-lead], [data-checklist-ledger-lead]) { border-inline-start-color: hsl(var(--accent)); }
+      & [data-checklist-ledger] > li::marker { color: hsl(var(--accent)); }
+    }
+    & :is([data-project-ledger-detail], [data-checklist-ledger-detail]) { min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.733; }
+    & :is([data-project-ledger], [data-checklist-ledger]) :is([data-project-ledger-detail], [data-checklist-ledger-detail]) > p { margin: 0; color: inherit; font-size: inherit; line-height: inherit; }
+    & :is([data-project-ledger-detail], [data-checklist-ledger-detail]) > p + p { margin-top: 1rem; }
+    @container prose-ledger (width < 32.5rem) {
+      & :is([data-project-ledger-split], [data-checklist-ledger-split]) { grid-template-columns: minmax(0, 1fr); gap: 1.125rem; }
+      & :is([data-project-ledger-split], [data-checklist-ledger-split]) > :is([data-project-ledger-detail], [data-checklist-ledger-detail]) { padding-inline-start: calc(1.125rem + 3px); }
+    }
+    @container prose-ledger (width < 18rem) {
+      & :is([data-project-ledger-lead], [data-checklist-ledger-lead]) { padding-inline-start: 0.375rem; }
+      & :is([data-project-ledger-split], [data-checklist-ledger-split]) > :is([data-project-ledger-detail], [data-checklist-ledger-detail]) { padding-inline-start: calc(0.375rem + 3px); }
+    }
+
+    /* Checklist ledger keeps the shared composition with a smaller article label column. */
+    & [data-checklist-ledger] > li { padding: 1.4375rem 0 1.4375rem 0.5rem; }
+    & [data-checklist-ledger-split] { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.7fr); gap: 1.75rem; }
+    & [data-checklist-ledger-lead] { align-self: start; padding-inline-start: 1rem; }
+    & [data-checklist-ledger-detail] { font-size: 1rem; line-height: 1.7; }
+    @container prose-ledger (width < 32.5rem) {
+      & [data-checklist-ledger] > li { padding-block: 1.25rem; }
+      & [data-checklist-ledger-split] { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
+      & [data-checklist-ledger-split] > [data-checklist-ledger-detail] { padding-inline-start: calc(1rem + 3px); }
+    }
+    @container prose-ledger (width < 18rem) {
+      & [data-checklist-ledger-lead] { padding-inline-start: 0.375rem; }
+      & [data-checklist-ledger-split] > [data-checklist-ledger-detail] { padding-inline-start: calc(0.375rem + 3px); }
+    }
+
+    @apply prose-hr:border-line prose-hr:my-16;
+  }
+
+  /* ─── Project Page Prose Overrides ──────────────────────────────────────────── */
+
+  .prose-project {
+    & h2 {
+      @apply border-l-0 pl-0 text-[2.15rem] leading-tight;
+    }
+
+    & h2::after {
+      content: "";
+      display: block;
+      width: 5rem;
+      height: 1px;
+      margin-top: 1rem;
+      background: linear-gradient(
+        90deg,
+        hsl(var(--brand)),
+        hsl(var(--brand) / 0.16)
+      );
+    }
+
+    & h3 {
+      @apply mt-10 text-[1.45rem] leading-snug;
+    }
+
+    & p:first-of-type {
+      @apply max-w-3xl text-lg/8 text-ink;
+    }
+
+    & p + ul,
+    & p + ol {
+      @apply mt-5;
+    }
+
+    & hr {
+      @apply border-line/75;
+    }
+
+    & img:not(:where(.not-prose, .not-prose *)) {
+      @apply rounded-[1.8rem] border border-line/50 shadow-[0_18px_42px_hsl(230_30%_8%_/0.06)];
+    }
+  }
+}

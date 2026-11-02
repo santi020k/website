@@ -25,6 +25,9 @@ export const createWebsiteConfig = root => defineConfig({
         'p-summary',
         'post-meta-card',
         'principle-card',
+        // Reading-layout prose lives in src/styles/prose.css, outside the shared Tailwind entry.
+        'prose-project',
+        'prose-santi',
         'prose-shell',
         'u-url'
       ]
