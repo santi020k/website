@@ -6,7 +6,7 @@ const locales = [{ locale: 'en', prefix: '' }, { locale: 'es', prefix: '/es' }]
 for (const { locale, prefix } of locales) {
   test(`inline browse labels stay beside their arrows in ${locale}`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    for (const route of [article, '/blog/', '/portfolio/smith-commerce/']) {
+    for (const route of [article, '/developer-experience/', '/portfolio/smith-commerce/']) {
       await page.goto(`${prefix}${route}`)
       const links = page.locator('main a.btn-inline:has(.site-action-arrow)')
       expect(await links.count()).toBeGreaterThan(0)

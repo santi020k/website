@@ -162,11 +162,11 @@ test('keyboard focus exchanges the arrow and keeps native link navigation', asyn
   await primary.focus()
   await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
   await expect(secondary).toBeFocused()
-  await expect(secondary).toHaveAccessibleName('See selected work')
+  await expect(secondary).toHaveAccessibleName('Work with me')
   await expect(secondary).toHaveCSS('outline-style', 'solid')
   await expect(secondary.locator('[data-arrow-track]')).toHaveCSS('animation-duration', '0.48s')
   await page.keyboard.press('Enter')
-  await expect(page).toHaveURL('/portfolio/')
+  await expect(page).toHaveURL('/work-with-me/')
 })
 
 test('downward and shared button arrows preserve their direction and reduced-motion behavior', async ({ page }) => {
@@ -205,7 +205,7 @@ test('touch input leaves arrows still and buttons remain usable at mobile widths
     await expect(track).toHaveCSS('animation-name', 'none')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await action.tap()
-    await expect(page).toHaveURL('/portfolio/')
+    await expect(page).toHaveURL('/work-with-me/')
   } finally {
     await context.close()
   }
