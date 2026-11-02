@@ -170,8 +170,9 @@ archives. Existing source checkouts remain intact until their work is
 integrated and their owners finish. Public page URLs and content collections are
 retained; no visitor migration is required.
 
-The [v5.0.0 readiness record](v5-release-readiness.md) tracks local version
-preparation, validation, independent review, and the remaining publication gates.
+The [release checklist](release-checklist.md) lists the remaining publication gates. The
+[v5.0.0 readiness record](archive/v5-release-readiness.md) keeps the detailed integration and
+validation history.
 
 The candidate uses the published Lumen 4 registry packages pinned in the workspace catalog. Install the committed
 lockfile with the pinned pnpm version, regenerate CV downloads after dependency or design

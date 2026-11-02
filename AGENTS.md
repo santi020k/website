@@ -8,7 +8,8 @@ The current integration target is `release/v5.0.0`. Santiago selected v5 on
 October 26, 2026 and superseded the unpublished v4.1 release. Base new approved
 work on v5 and coordinate merges in its clean, idle integration worktree. Preserve
 the published v4.0.0 design in `apps/v4`; current-site design changes belong at
-the repository root. See `docs/v5-release-readiness.md` for scope and gates.
+the repository root. `docs/release-checklist.md` lists the remaining gates; the detailed
+integration log is archived in `docs/archive/v5-release-readiness.md`.
 
 ## Tech Stack
 

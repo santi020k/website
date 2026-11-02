@@ -10,7 +10,7 @@ publish the candidate or deploy it.
   coordinated Lumen 4.0.0 npm packages and TypeScript 6 compiler API compatibility.
 - Remove vulnerable tooling chains, including the final Markdown glob chain,
   and retain the full dependency audit gate. See
-  [dependency security](dependency-security.md) for exact versions, patch sources,
+  [dependency security](../dependency-security.md) for exact versions, patch sources,
   removal conditions, and recovery.
 - Preserve sitemap modification dates, validate XML and dates, deduplicate shared
   Theme sources, and safely serialize caller-provided structured data.
@@ -58,7 +58,7 @@ ESLint 3.6 removed its chain; the final migration replaces markdownlint-cli2 wit
 the same markdownlint engine and Node's native file discovery. The 115-file scope
 and existing rules are unchanged. `pnpm run audit` passes with no known findings;
 no advisory is ignored and no exception is granted. See
-[dependency security](dependency-security.md) for details and recovery.
+[dependency security](../dependency-security.md) for details and recovery.
 
 The qualification sections below record earlier revisions and their blockers.
 They remain historical evidence; final release readiness depends on the latest
@@ -317,7 +317,7 @@ The CV fingerprint now includes the imported date formatter, other local render
 dependencies, and the canonical and served variable fonts with their generator.
 Five fixture mutation cases prove these changes invalidate freshness. Both PDFs
 were regenerated from the current source. The original v4 namespace was `santi020k-static-v4.0.0`. The current bounded
-cache and mutable-resource policy are documented in [Cache Strategy](cache-strategy.md);
+cache and mutable-resource policy are documented in [Cache Strategy](../cache-strategy.md);
 activation still preserves unrelated caches.
 
 The Codex download finding referred to a local wrapper that the résumé does not
