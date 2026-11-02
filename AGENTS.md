@@ -51,6 +51,9 @@ the repository root. See `docs/v5-release-readiness.md` for scope and gates.
 - `class:list` for conditional Tailwind classes (not template literals)
 - Client behavior uses processed `<script>` modules, which Astro bundles once and caches across
   routes. Reserve `is:inline` for code that must run before rendering, such as the theme bootstrap.
+- Never use inline event handlers (`onclick="…"`) or `javascript:` URLs. The build hashes inline
+  scripts into a `Content-Security-Policy` meta tag without `'unsafe-inline'` and fails when it finds
+  either (`scripts/js/apply-script-policy.mjs`).
 - Icons: Lumen's `<Icon name="lucide-name" />` is the default. It is decorative unless given a
   `label`, so do **not** pass `aria-hidden` — Lumen already emits it and a second one lands as a
   duplicate attribute. Brand marks use `astro-icon` (`<Icon name="collection:icon-name" />`), which

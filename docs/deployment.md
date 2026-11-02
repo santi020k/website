@@ -16,6 +16,15 @@ Redirects, cache headers, and security headers are versioned in the repo:
 Cloudflare Pages picks both files up at the edge automatically. The header defaults include:
 
 - **Content-Security-Policy**: allows the configured Giscus, Webmention, Buttondown, and optional Cloudflare Web Analytics integrations. The analytics beacon is emitted only in production with `CLOUDFLARE_WEB_ANALYTICS_TOKEN` set at build time.
+  The header still lists `'unsafe-inline'` for scripts because the archived sites (`/v1/`–`/v4/`)
+  use inline event handlers. Current-site pages add a second, stricter policy: after `astro build`,
+  [`scripts/js/apply-script-policy.mjs`](../scripts/js/apply-script-policy.mjs) hashes every inline
+  script and writes one `<meta http-equiv="Content-Security-Policy">` with the header's script
+  origins plus those hashes and without `'unsafe-inline'`. Browsers enforce both policies, so only
+  hashed inline scripts run. Every page gets the same list because `<ClientRouter />` swaps pages into
+  the first document; when the next page carries a different policy (a new deployment or an
+  archive), the router loads it as a full document instead. The build fails if a current page uses
+  an inline event handler or a `javascript:` URL, which no hash can allow.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **Strict-Transport-Security**: `max-age=31536000`, so browsers keep using HTTPS for a year after

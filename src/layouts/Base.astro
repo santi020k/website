@@ -212,7 +212,7 @@ const cloudflareBeacon = import.meta.env.PROD && CLOUDFLARE_WEB_ANALYTICS_TOKEN 
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
 
     <script>
-      import { TransitionBeforeSwapEvent } from 'astro:transitions/client'
+      import { TransitionBeforePreparationEvent, TransitionBeforeSwapEvent } from 'astro:transitions/client'
 
       let anchoringFrame = 0
       let followsFragment = false
@@ -222,6 +222,27 @@ const cloudflareBeacon = import.meta.env.PROD && CLOUDFLARE_WEB_ANALYTICS_TOKEN 
       // cannot displace its restored history or fragment position.
       document.addEventListener('astro:before-preparation', () => {
         window.scrollTo({ behavior: 'instant', left: window.scrollX, top: window.scrollY })
+      })
+
+      // The build hashes every inline script into one Content-Security-Policy meta tag.
+      // A page from another deployment (or an archived site) can need scripts this
+      // document never allowed, so load it as a full document instead of swapping it in.
+      const policySelector = 'meta[http-equiv="Content-Security-Policy"]'
+      const scriptPolicy = (root: Document) => root.querySelector(policySelector)?.getAttribute('content') ?? ''
+
+      document.addEventListener('astro:before-preparation', event => {
+        if (!(event instanceof TransitionBeforePreparationEvent) || event.formData) return
+
+        const load = event.loader
+
+        event.loader = async () => {
+          await load()
+
+          // Astro falls back to a full navigation when preparation is cancelled.
+          if (event.newDocument && scriptPolicy(event.newDocument) !== scriptPolicy(document)) {
+            event.preventDefault()
+          }
+        }
       })
 
       // The route transition owns the entrance after navigation. Replaying each
