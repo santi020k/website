@@ -18,6 +18,9 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
 - **Content-Security-Policy**: allows the configured Giscus, Webmention, Buttondown, and optional Cloudflare Web Analytics integrations. The analytics beacon is emitted only in production with `CLOUDFLARE_WEB_ANALYTICS_TOKEN` set at build time.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
+- **Strict-Transport-Security**: `max-age=31536000`, so browsers keep using HTTPS for a year after
+  a visit. Add `includeSubDomains` (and later `preload`) only after every `*.santi020k.com` host is
+  confirmed HTTPS-only; preload is hard to undo.
 - **X-Content-Type-Options**: `nosniff`
 - **`/_astro/*`** → 1 year `immutable`.
 - **`/v1/_astro/*` through `/v4/_astro/*`** → 1 year `immutable`, added by archive assembly.
