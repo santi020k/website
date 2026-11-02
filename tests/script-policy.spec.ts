@@ -14,7 +14,14 @@ const recordViolations = (page: Page) => page.addInitScript(() => {
   })
 })
 
-const violations = (page: Page) => page.evaluate(() => [...Reflect.get(window, '__policyViolations') as string[]])
+// Astro's router appends an empty `data:` module after a swap to wait for inline modules. The
+// production header policy has never allowed `data:` scripts, so that sentinel is blocked either way.
+const routerSentinel = 'script-src-elem data'
+
+const violations = (page: Page) => page.evaluate(
+  sentinel => (Reflect.get(window, '__policyViolations') as string[]).filter(violation => violation !== sentinel),
+  routerSentinel
+)
 
 // Follow a same-origin link the way a reader would, so Astro's router handles it.
 const followLink = async (page: Page, href: string) => {
