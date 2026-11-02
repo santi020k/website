@@ -1,17 +1,24 @@
-name: E2E Matrix (Manual/Nightly)
+name: E2E Matrix (Weekly/Manual)
 
 'on':
+  # Scheduled runs use the default branch; dispatch a run to check another branch.
+  schedule:
+    - cron: '41 8 * * 1'
   workflow_dispatch: {}
+
+concurrency:
+  group: e2e-matrix-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   actions: read
   contents: read
 
 jobs:
-  e2e-matrix:
-    name: Cross-browser E2E matrix
+  build:
+    name: Build production site
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -24,9 +31,11 @@ jobs:
       - name: Cache Astro image transformations
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          path: node_modules/.astro
+          path: |
+            node_modules/.astro
+            apps/*/node_modules/.astro
           key: >-
-            astro-images-v1-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'astro.config.*', 'src/assets/**') }}
+            astro-images-v1-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'astro.config.*', 'src/assets/**', 'apps/*/astro.config.*', 'apps/*/src/assets/**', 'packages/website-history/**') }}
           restore-keys: |
             astro-images-v1-${{ runner.os }}-
       - name: Build
@@ -34,7 +43,67 @@ jobs:
         env:
           PUBLIC_IS_CI: true
           TZ: Asia/Tokyo
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps
-      - name: Run full E2E matrix
-        run: pnpm run test:e2e:ci
+      - name: Upload the production build
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: production-build
+          path: dist/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 1
+
+  # Each browser project runs in four file-level shards against the same build.
+  e2e-matrix:
+    name: ${{ matrix.project }} (${{ matrix.shard }}/4)
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium, firefox, webkit, Mobile Chrome, Mobile Safari]
+        shard: [1, 2, 3, 4]
+        include:
+          - project: chromium
+            browser: chromium
+          - project: firefox
+            browser: firefox
+          - project: webkit
+            browser: webkit
+          - project: Mobile Chrome
+            browser: chromium
+          - project: Mobile Safari
+            browser: webkit
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Set up pnpm workspace
+        uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
+        with:
+          node-version: "24.x"
+      - name: Download the production build
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: production-build
+          path: dist/
+      - name: Install the Playwright browser
+        run: pnpm exec playwright install --with-deps "$BROWSER"
+        env:
+          BROWSER: ${{ matrix.browser }}
+      - name: Run the browser project shard
+        run: pnpm exec playwright test --project="$PROJECT" --shard="$SHARD/4" --reporter=line
+        env:
+          PROJECT: ${{ matrix.project }}
+          SHARD: ${{ matrix.shard }}
+      - name: Upload browser diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: e2e-diagnostics-${{ matrix.browser }}-${{ strategy.job-index }}
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          include-hidden-files: true
+          retention-days: 7

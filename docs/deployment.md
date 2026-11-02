@@ -137,7 +137,18 @@ package to npm.
 
 CodeQL scans pull requests and also runs monthly or on demand against the
 protected default branch. The pull-request jobs stay read-only, and the
-dependency audit reuses the quality gate's single dependency installation.
+dependency audit reuses the static job's dependency installation.
+
+CI runs for pull requests into `main` and `release/**`. The static job runs the
+selected checks and the production build, then uploads `dist/` as a one-day
+artifact. Four stable Chromium shards and the Lighthouse job reuse that build, so
+each job stays well inside its timeout. `Quality gate` reports their combined
+result: it fails when any selected job fails or is cancelled and passes when a
+documentation-only change skips the build-dependent jobs. Keep `Quality gate` as
+the required status check.
+
+**E2E Matrix (Weekly/Manual)** runs every browser project in four shards each
+Monday against the default branch. Dispatch it manually to check another branch.
 
 ## Current release integration
 
