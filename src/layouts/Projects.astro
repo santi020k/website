@@ -31,7 +31,7 @@ import { getSocialImageURL } from '@/utils/social-image'
 import { RevealGroup, ScrollProgress } from '@santi020k/lumen-astro'
 
 import { ogManifest } from '@/data/og-manifest'
-import { getLocale, localizePath } from '@/i18n'
+import { getLocale, localizePath, stripLocale } from '@/i18n'
 import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
 
@@ -50,10 +50,11 @@ const relatedWriting = await getProjectWriting(project.data.relatedWriting)
 const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? t('shared.project')}`
 const metaDescription = project.data.seoDescription ?? project.data.description
 
+// Case studies are written in English, so every locale shares the English card.
 const socialImage = getSocialImageURL(
-  Astro.url.pathname,
+  stripLocale(Astro.url.pathname),
   Astro.site,
-  locale === 'es' ? undefined : `/og/portfolio/${project.id}-logo.webp`,
+  `/og/portfolio/${project.id}-logo.webp`,
   ogManifest
 )
 
@@ -116,6 +117,7 @@ const breadcrumbs = [
 mainClass="remaining-pages remaining-pages--reading"
   meta={{
     breadcrumbs,
+    contentLocale: 'en',
     description: metaDescription,
     ogImage: socialImage,
     ogImageAlt: `${metaTitle} — ${projectTypeLabel.toLowerCase()} by Santiago Molina`,

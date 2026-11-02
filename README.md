@@ -116,6 +116,7 @@ and existing Lumen contracts, rather than restoring retired utility layers.
 
 - **Blog:** one chronological feed for software, reading, gaming, hobbies, and everyday experiences.
   Published tags generate topic archives; reading and gaming remain discoverable in the filters.
+  Topics and technologies with fewer than three entries stay reachable but out of search indexes.
   Each topic archive links to up to four related topics, ranked by shared published articles
   across all its pages. Counts describe the destination's complete archive, not an intersection.
 - **Travel:** Lumen `WorldMap` connects country visit counts with personal notes. Follow the

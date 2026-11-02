@@ -29,11 +29,13 @@ import { rehypePrintReferences } from './src/plugins/rehype-print-references'
 import { rehypeProjectLedger } from './src/plugins/rehype-project-ledger'
 import { rehypeReadableTables } from './src/plugins/rehype-readable-tables'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
+import { isNoindexBuiltPage } from './src/utils/built-page'
 import { parseContentDate } from './src/utils/content-date'
 import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
 const siteOrigin = 'https://santi020k.com'
+const outDir = path.resolve('dist')
 
 const canonicalContentURL = (value: string): string => {
   const url = new URL(value)
@@ -211,7 +213,10 @@ export default defineConfig({
       filter: page => !page.endsWith('/offline/') &&
         !page.endsWith('/404/') &&
         !page.endsWith('/work-with-me/sent/') &&
-        !nonCanonicalPageUrls.has(canonicalContentURL(page)),
+        !nonCanonicalPageUrls.has(canonicalContentURL(page)) &&
+        // Pages render first, so their robots directive decides: Spanish shells of English
+        // articles and thin archives stay reachable without being submitted for indexing.
+        !isNoindexBuiltPage(outDir, page),
       serialize(item) {
         const contentLastmod = contentLastmodMap.get(canonicalContentURL(item.url))
 

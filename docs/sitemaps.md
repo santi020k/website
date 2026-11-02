@@ -27,6 +27,11 @@ immediately. Required sources still fail the build after retries are exhausted.
 Draft posts, scheduled posts, draft series, series without published posts, utility
 pages, and posts with an external canonical URL are excluded from the site's
 production sitemap. Draft and empty series remain available in development.
+The sitemap filter also reads each built page and drops every page marked `noindex`.
+That covers the Spanish shells of English articles and case studies (see
+[the language guide](i18n.md)) and topic and technology archives with fewer than three
+published entries, which stay reachable from navigation. Change that threshold in
+`src/utils/archive-indexing.ts`; pages, the sitemap, and social cards follow it.
 Projects sharing a hub origin and sitemap path are fetched once, including the
 Theme 2 product pages under `theme.santi020k.com`. Distinct sitemap paths are
 still included, and deduplication never makes a required source optional.

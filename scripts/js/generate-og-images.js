@@ -30,6 +30,7 @@ import { definePresetConfig } from '@santi020k/og/presets'
 
 import { localizeCollectionSource } from '../../src/i18n/collection-copy.ts'
 import { localizePageSource } from '../../src/i18n/page-copy.ts'
+import { isIndexedArchive } from '../../src/utils/archive-indexing.ts'
 import { parseContentDate } from '../../src/utils/content-date.ts'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
 
@@ -326,6 +327,9 @@ export const collectCards = async () => {
     }
   })
 
+  // Thin archives are not indexed and share their parent index card, so they get no card of their own.
+  const thinArchivePathnames = new Set()
+
   const postCards = await collectContentCards({
     archives: [
       paginateArchive({
@@ -345,6 +349,8 @@ export const collectCards = async () => {
         basePath: '/blog/tags/',
         data: context => {
           const topic = formatTopicName(context.group)
+
+          if (!isIndexedArchive(context.totalItems)) thinArchivePathnames.add(context.pathname)
 
           return {
             badge: 'Topic',
@@ -389,6 +395,7 @@ export const collectCards = async () => {
   })
 
   const technologies = new Map()
+  const technologyProjects = new Map()
 
   const projectCards = await collectContentCards({
     aggregate: entries => {
@@ -403,6 +410,8 @@ export const collectCards = async () => {
           if (typeof tech !== 'string') continue
 
           const slug = getTechnologySlug(tech)
+
+          technologyProjects.set(slug, new Set([...technologyProjects.get(slug) ?? [], entry.slug]))
 
           if (slug === 'ci-cd') technologies.set(slug, 'CI/CD')
           else if (slug === 'npm') technologies.set(slug, 'NPM')
@@ -469,6 +478,8 @@ export const collectCards = async () => {
   const technologyCards = [...technologies].map(([slug, technology]) => {
     const pathname = `/technologies/${slug}/`
 
+    if (!isIndexedArchive(technologyProjects.get(slug)?.size ?? 0)) thinArchivePathnames.add(pathname)
+
     const card = archiveCard(
       `/technologies/${encodeURIComponent(technology)}/`,
       `${technology} · Technology`,
@@ -485,6 +496,7 @@ export const collectCards = async () => {
   })
 
   const englishCards = [...staticCards, ...postCards, ...portfolioCards, ...seriesCards, ...technologyCards]
+    .filter(card => !card.route || !thinArchivePathnames.has(card.route.pathname))
     .map(card => card.route ?
       {
         ...card,
@@ -497,7 +509,11 @@ export const collectCards = async () => {
       } :
       card)
 
-  const localizedCards = englishCards.filter(card => card.route).map(card => {
+  // Articles and case studies are written in English. Their Spanish shells are kept out of
+  // search indexes and share the English card, so only translated pages get a localized card.
+  const isSingleLanguageCard = card => card.output.startsWith('blog/') || card.output.startsWith('portfolio/')
+
+  const localizedCards = englishCards.filter(card => card.route && !isSingleLanguageCard(card)).map(card => {
     const pathname = `/es${card.route.pathname}`
     const title = `${localizeCollectionSource('es', localizePageSource('es', card.data.title))} · Español`
     const description = localizeCollectionSource('es', localizePageSource('es', card.data.description))

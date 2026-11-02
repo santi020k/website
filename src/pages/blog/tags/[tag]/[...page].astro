@@ -10,13 +10,16 @@ import TagFilter from '@/components/molecules/TagFilter.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import PageLayout from '@/layouts/Base.astro'
 
+import { isIndexedArchive } from '@/utils/archive-indexing'
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
+import { getSocialImageURL } from '@/utils/social-image'
 import { getAllTags, getBlogTopicLabel, getRelatedBlogTags } from '@/utils/tags'
 
 import { Link } from '@santi020k/lumen-astro'
 
+import { ogManifest } from '@/data/og-manifest'
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
 import { getBlogTopicNote } from '@/i18n/topic-copy'
@@ -73,6 +76,11 @@ const breadcrumbs = [
 mainClass="remaining-pages"
   meta={{
     breadcrumbs,
+    noindex: !isIndexedArchive(postCount),
+    // Thin topics stay out of search indexes and share the topics index card.
+    ...(isIndexedArchive(postCount) ?
+      {} :
+      { ogImage: getSocialImageURL(localizePath('/blog/tags/', locale), Astro.site, undefined, ogManifest) }),
     description: isFirstPage ?
       archiveDescription :
       t('pagination.description', { description: archiveDescription, page: page.currentPage, total: page.lastPage }),

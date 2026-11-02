@@ -63,12 +63,27 @@ test('search controls and recovery templates render in Spanish', async ({ page }
   await expectNoUnexpectedAccessibilityViolations(page)
 })
 
-test('Spanish article and case-study shells retain English prose', async ({ page }) => {
+test('Spanish article and case-study shells retain English prose outside the search index', async ({ page }) => {
+  const sitemap = await (await page.request.get('/sitemap-0.xml')).text()
+
   for (const path of ['/blog/playwright-accessibility-checks-that-teams-keep-running/', '/portfolio/lumen-ui/']) {
+    await page.goto(path)
+    // English-only content has no translation to announce.
+    await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0)
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /\bindex, follow\b/u)
+    const englishImage = await page.locator('meta[property="og:image"]').getAttribute('content')
+
+    expect(sitemap).toContain(`<loc>https://santi020k.com${path}</loc>`)
+
     await page.goto(`/es${path}`)
     await expect(page.locator('html')).toHaveAttribute('lang', 'es-419')
     await expect(page.locator('[lang="en"]').first()).toBeAttached()
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://santi020k.com/es${path}`)
+    // The shell repeats the English main content, so only the original is indexed.
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
+    await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0)
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', englishImage ?? '')
+    expect(sitemap).not.toContain(`<loc>https://santi020k.com/es${path}</loc>`)
   }
 })
 

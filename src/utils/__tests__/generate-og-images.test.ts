@@ -50,13 +50,30 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(topicProps?.pathLabel).toBe('/blog/tags/typescript/')
   })
 
-  test('includes generated route cards for non-empty taxonomies with one entry', async () => {
-    const pathnames = new Set((await collectCards()).map(card => card.route?.pathname))
+  test('omits cards for thin taxonomy archives, which share their index card', async () => {
+    const cards = await collectCards()
+    const pathnames = new Set(cards.map(card => card.route?.pathname))
+    const outputs = new Set(cards.map(card => card.output))
 
-    expect(pathnames.has('/blog/tags/alpine/')).toBe(true)
-    expect(pathnames.has('/technologies/actionlint/')).toBe(true)
+    const thinArchives = ['/blog/tags/alpine/', '/technologies/actionlint/', '/es/blog/tags/alpine/', '/es/technologies/actionlint/']
+
+    expect(thinArchives.filter(thin => pathnames.has(thin))).toEqual([])
+
+    expect(outputs.has('pages/blog--tags--alpine.webp')).toBe(false)
     expect(pathnames.has('/blog/tags/typescript/')).toBe(true)
     expect(pathnames.has('/technologies/typescript/')).toBe(true)
+    expect(pathnames.has('/es/technologies/typescript/')).toBe(true)
+  })
+
+  test('keeps English cards for single-language articles and case studies', async () => {
+    const cards = await collectCards()
+    const pathnames = new Set(cards.map(card => card.route?.pathname))
+
+    expect(pathnames.has('/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(true)
+    expect(pathnames.has('/es/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(false)
+    expect(pathnames.has('/portfolio/lumen-ui/')).toBe(true)
+    expect(pathnames.has('/es/portfolio/lumen-ui/')).toBe(false)
+    expect(pathnames.has('/es/blog/')).toBe(true)
   })
 
   test('matches the blog topic archive pagination size', async () => {
@@ -222,10 +239,10 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
   })
 
   test('keeps existing technology image filenames while using canonical path labels', async () => {
-    const designSystemsSpec = (await collectSpecs()).find(spec => spec.outFile.endsWith('technologies--Design~20Systems.webp'))
-    const designSystemsProps = designSystemsSpec?.props as SocialImageProps | undefined
+    const tailwindSpec = (await collectSpecs()).find(spec => spec.outFile.endsWith('technologies--Tailwind~20CSS.webp'))
+    const tailwindProps = tailwindSpec?.props as SocialImageProps | undefined
 
-    expect(designSystemsProps?.pathLabel).toBe('/technologies/design-systems/')
+    expect(tailwindProps?.pathLabel).toBe('/technologies/tailwind-css/')
   })
 })
 

@@ -10,6 +10,7 @@ import TechnologyStackConnections from '@/components/molecules/TechnologyStackCo
 import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
 import PageLayout from '@/layouts/Base.astro'
 
+import { isIndexedArchive } from '@/utils/archive-indexing'
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
@@ -86,7 +87,14 @@ const technologyListSchema = createProjectCollectionSchema(
 const meta = {
   breadcrumbs,
   description: t('technology.description', { technology }),
-  ogImage: getSocialImageURL(localizePath(getTechnologyPath(technology), locale), Astro.site, undefined, ogManifest),
+  noindex: !isIndexedArchive(page.total),
+  // Thin archives stay out of search indexes and share the Technologies index card.
+  ogImage: getSocialImageURL(
+    localizePath(isIndexedArchive(page.total) ? getTechnologyPath(technology) : '/technologies/', locale),
+    Astro.site,
+    undefined,
+    ogManifest
+  ),
   structuredData: technologyListSchema,
   title: t('technology.title', { technology: technology })
 }

@@ -70,27 +70,41 @@ test.describe('SEO — meta tags', () => {
     expect(sitemap).not.toContain('https://santi020k.com/404/')
   })
 
-  test('non-empty taxonomy pages are indexable and included in the sitemap', async ({ page }) => {
-    const sparseTaxonomyPaths = [
-      '/blog/tags/alpine/',
-      '/technologies/actionlint/'
-    ]
+  test('thin taxonomy archives stay reachable but out of the index and sitemap', async ({ page }) => {
+    const manifestResponse = await page.request.get('/og/manifest.json')
+    const manifest = routeManifestSchema.parse(await manifestResponse.json())
+    // Fewer than three entries: reachable from navigation, out of search indexes, sharing the index card.
+    const thinArchives = [
+      ['/blog/tags/alpine/', '/blog/tags/'],
+      ['/technologies/actionlint/', '/technologies/'],
+      ['/es/blog/tags/alpine/', '/es/blog/tags/'],
+      ['/es/technologies/actionlint/', '/es/technologies/']
+    ] as const
 
-    for (const path of sparseTaxonomyPaths) {
+    for (const [path, indexPath] of thinArchives) {
+      const response = await page.goto(path)
+      expect(response?.status(), path).toBe(200)
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
+      await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0)
+      const indexImage = z.string().parse(getRouteManifestImage(manifest, indexPath)?.url)
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', new URL(indexImage, 'https://santi020k.com').href)
+      expect(getRouteManifestImage(manifest, path), `${path} should not have its own route card`).toBeUndefined()
+    }
+
+    for (const path of ['/blog/tags/typescript/', '/technologies/typescript/']) {
       await page.goto(path)
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-        'content', /\bindex, follow\b/u
-      )
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /\bindex, follow\b/u)
     }
 
     const sitemapResponse = await page.request.get('/sitemap-0.xml')
     const sitemap = await sitemapResponse.text()
 
-    for (const path of sparseTaxonomyPaths) {
-      expect(sitemap).toContain(`https://santi020k.com${path}`)
+    for (const [path] of thinArchives) {
+      expect(sitemap).not.toContain(`<loc>https://santi020k.com${path}</loc>`)
     }
 
-    expect(sitemap).toContain('https://santi020k.com/technologies/typescript/')
+    expect(sitemap).toContain('<loc>https://santi020k.com/technologies/typescript/</loc>')
+    expect(sitemap).toContain('<loc>https://santi020k.com/blog/tags/typescript/</loc>')
   })
 
   test('syndicated posts honor their declared canonical URL', async ({ page }) => {

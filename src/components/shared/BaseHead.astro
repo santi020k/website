@@ -34,8 +34,9 @@ const {
   articleUpdated,
   breadcrumbs,
   canonicalUrl,
+  contentLocale,
   description = siteConfig.description,
-  noindex = false,
+  noindex: pageNoindex = false,
   ogImage,
   ogImageAlt,
   preloadImage,
@@ -48,7 +49,15 @@ const locale = getLocale(Astro.url.pathname)
 const basePath = stripLocale(Astro.url.pathname)
 const siteOrigin = new URL(Astro.site ?? 'https://santi020k.com/').origin
 const hasLocalCanonical = !canonicalUrl || new URL(canonicalUrl, siteOrigin).origin === siteOrigin
-const alternates = hasTranslation(basePath) && !noindex && hasLocalCanonical ? ['en', 'es'] as const : []
+// Single-language content has no translation to announce, and its other-locale shells repeat
+// the original's main content, so only the original stays indexable.
+const isSingleLanguage = contentLocale !== undefined
+const noindex = pageNoindex || (isSingleLanguage && contentLocale !== locale)
+
+const alternates = hasTranslation(basePath) && !noindex && hasLocalCanonical && !isSingleLanguage ?
+  ['en', 'es'] as const :
+  []
+
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
 const socialTitle = title
 const siteTitle = createSeoTitle(locale === 'es' ? `${seoTitle ?? title} · Español` : seoTitle ?? title, siteConfig.title)

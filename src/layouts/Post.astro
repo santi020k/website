@@ -61,10 +61,11 @@ const { imprint: publicationImprint, references: articlePrintReferences } = getP
 const articleHtml = localizeArticleControls(await Astro.slots.render('default') ?? '', locale)
 const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
 
+// Articles are written in English, so every locale shares the English card.
 const ogImage = getSocialImageURL(
-  Astro.url.pathname,
+  stripLocale(Astro.url.pathname),
   Astro.site,
-  locale === 'es' ? undefined : `/og/blog/${getPostSlug(post.id)}.webp`,
+  `/og/blog/${getPostSlug(post.id)}.webp`,
   ogManifest
 )
 
@@ -115,6 +116,7 @@ mainClass="remaining-pages remaining-pages--reading"
     articleUpdated: updatedDate?.toISOString(),
     breadcrumbs,
     canonicalUrl: canonicalURL.href,
+    contentLocale: 'en',
     description,
     ogImage,
     ogImageAlt: post.data.coverImage?.alt ?
