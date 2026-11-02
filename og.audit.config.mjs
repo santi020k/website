@@ -9,6 +9,8 @@ export default defineAuditConfig({
   siteUrl: 'https://santi020k.com',
   ...standardAuditRules({
     alternates: false,
+    // /llms.txt is an index only; routes do not publish Markdown copies.
+    llms: { fullFile: false, markdownPath: () => undefined, severity: 'error' },
     sitemap: {
       excludeRoutes: [
         '/blog/atomic-module-component-structure-for-react/',

@@ -33,6 +33,16 @@ still included, and deduplication never makes a required source optional.
 The combined sitemap also includes the public documentation for OG and Auth and
 the English and Spanish pages from Between Contractions.
 
+## AI-readable index
+
+`/llms.txt` ([`src/pages/llms.txt.ts`](../src/pages/llms.txt.ts)) follows the
+[llms.txt proposal](https://llmstxt.org/): one Markdown index of the primary pages,
+case studies, projects, published series, and articles with their descriptions. It
+reads the same published collections as the feeds, so drafts, scheduled posts, and
+empty series never appear. The SEO audit fails when the built file is missing, and
+`tests/llms.spec.ts` checks that every listed page returns 200. Routes do not
+publish separate Markdown copies.
+
 ## Content modification dates
 
 Blog entries use `updatedDate`, falling back to `publishDate`. Project case studies
