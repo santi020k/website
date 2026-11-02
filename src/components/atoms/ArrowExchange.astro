@@ -1,20 +1,45 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
 
+import { type ArrowDirection, arrowSymbolId } from '@/utils/arrow-sprite'
+
 import Icon from '@santi020k/lumen-astro/components/Icon'
 
 interface Props extends HTMLAttributes<'span'> {
   class?: string
-  direction?: 'down' | 'down-right' | 'left' | 'right' | 'up' | 'up-right'
+  direction?: ArrowDirection
   size?: 'default' | 'lg' | 'sm' | 'xl'
 }
 
 const { class: className = '', direction = 'up-right', size = 'default', ...attributes } = Astro.props
+
+// Each glyph keeps Lumen's Icon markup but references the page's shared arrow symbol
+// (ArrowSprite in the base layout). Presentation attributes stay on the outer SVG so CSS
+// overrides such as a thinner stroke still inherit into the referenced paths.
+const glyphAttributes = {
+  'aria-hidden': 'true',
+  class: `ui-icon__svg lucide-arrow-${direction}`,
+  fill: 'none',
+  focusable: 'false',
+  height: '1em',
+  stroke: 'currentColor',
+  'stroke-linecap': 'round',
+  'stroke-linejoin': 'round',
+  'stroke-width': '2',
+  viewBox: '0 0 24 24',
+  width: '1em'
+} as const satisfies HTMLAttributes<'svg'>
+
+const symbolHref = `#${arrowSymbolId(direction)}`
 ---
 
 <Icon class={className} size={size} data-arrow-exchange={direction} {...attributes}>
   <span data-arrow-track>
-    <span data-arrow-glyph><Icon class="size-full" name={`arrow-${direction}`} /></span>
-    <span data-arrow-glyph data-arrow-incoming><Icon class="size-full" name={`arrow-${direction}`} /></span>
+    <span data-arrow-glyph>
+      <Icon class="size-full"><svg {...glyphAttributes}><use href={symbolHref} /></svg></Icon>
+    </span>
+    <span data-arrow-glyph data-arrow-incoming>
+      <Icon class="size-full"><svg {...glyphAttributes}><use href={symbolHref} /></svg></Icon>
+    </span>
   </span>
 </Icon>

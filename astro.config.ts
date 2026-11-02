@@ -24,6 +24,7 @@ import { rehypeArticleHeadings } from './src/plugins/rehype-article-headings'
 import { rehypeArticleOpening } from './src/plugins/rehype-article-opening'
 import { rehypeArticleQuotes } from './src/plugins/rehype-article-quotes'
 import { rehypeArticleReferences } from './src/plugins/rehype-article-references'
+import { rehypeCodeTokenClasses } from './src/plugins/rehype-code-token-classes'
 import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
 import { rehypePrintReferences } from './src/plugins/rehype-print-references'
 import { rehypeProjectLedger } from './src/plugins/rehype-project-ledger'
@@ -250,7 +251,9 @@ export default defineConfig({
         rehypeArticleReferences,
         rehypeArticleOpening,
         rehypeArticleHeadings,
-        [rehypePrintReferences, { site: siteOrigin }]
+        [rehypePrintReferences, { site: siteOrigin }],
+        // Last: every code transformation above has settled its token spans.
+        rehypeCodeTokenClasses
       ],
       remarkPlugins: [remarkDirective, remarkAdmonitions],
       remarkRehype: {

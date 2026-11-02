@@ -2,6 +2,7 @@
 import { CLOUDFLARE_WEB_ANALYTICS_TOKEN } from 'astro:env/client'
 import { ClientRouter } from 'astro:transitions'
 
+import ArrowSprite from '@/components/atoms/ArrowSprite.astro'
 import BackToTop from '@/components/atoms/BackToTop.astro'
 import SiteFooter from '@/components/organisms/SiteFooter.astro'
 import SiteHeader from '@/components/organisms/SiteHeader.astro'
@@ -154,6 +155,7 @@ const cloudflareBeacon = import.meta.env.PROD && CLOUDFLARE_WEB_ANALYTICS_TOKEN 
   <body class="min-h-screen" data-backdrop={backdrop}>
     <ThemeProvider />
     <SkipLink href="#main">{t('shared.skipToContent')}</SkipLink>
+    <ArrowSprite />
 
     <div class="relative flex min-h-screen w-full flex-col overflow-x-clip">
       {backdrop !== 'plain' && (

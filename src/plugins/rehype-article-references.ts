@@ -2,6 +2,8 @@ import { getLumenIcon, type LumenIconName, type LumenIconNode } from '@santi020k
 import type { Element, ElementContent, Root } from 'hast'
 import type { Plugin } from 'unified'
 
+import { arrowSymbolId } from '../utils/arrow-sprite'
+
 interface Reference {
   paragraph: Element
   link: Element
@@ -20,7 +22,7 @@ const iconNode = ([tagName, attributes, children = []]: LumenIconNode): Element 
   tagName, { ...attributes }, children.map(iconNode)
 )
 
-const icon = (name: LumenIconName): Element => element('svg', {
+const iconAttributes = {
   ariaHidden: 'true',
   focusable: 'false',
   fill: 'none',
@@ -29,14 +31,21 @@ const icon = (name: LumenIconName): Element => element('svg', {
   strokeLinecap: 'round',
   strokeLinejoin: 'round',
   viewBox: '0 0 24 24'
-}, getLumenIcon(name)?.node.map(iconNode) ?? [])
+}
+
+const icon = (name: LumenIconName): Element => element('svg', { ...iconAttributes }, getLumenIcon(name)?.node.map(iconNode) ?? [])
+
+// Reference the base layout's shared arrow symbol (ArrowSprite) instead of repeating its paths.
+const arrowGlyph = (direction: 'right' | 'up-right'): Element => element('svg', { ...iconAttributes }, [
+  element('use', { href: `#${arrowSymbolId(direction)}` }, [])
+])
 
 // Match ArrowExchange's decorative track for Markdown-generated links.
 const arrowExchange = (direction: 'right' | 'up-right'): Element => element('span', {
   ariaHidden: 'true', dataArrowExchange: direction
 }, [element('span', { dataArrowTrack: '' }, [
-  element('span', { dataArrowGlyph: '' }, [icon(`arrow-${direction}`)]),
-  element('span', { dataArrowGlyph: '', dataArrowIncoming: '' }, [icon(`arrow-${direction}`)])
+  element('span', { dataArrowGlyph: '' }, [arrowGlyph(direction)]),
+  element('span', { dataArrowGlyph: '', dataArrowIncoming: '' }, [arrowGlyph(direction)])
 ])])
 
 const readReference = (paragraph: Element): Reference | undefined => {

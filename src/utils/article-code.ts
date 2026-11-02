@@ -1,4 +1,5 @@
 import { codeHighlightingOptions } from '@/plugins/code-highlighting'
+import { rehypeCodeTokenClasses } from '@/plugins/rehype-code-token-classes'
 import { type ImportedCodeMetadata, rehypeLumenCode } from '@/plugins/rehype-lumen-code'
 
 import { createMarkdownProcessor } from '@astrojs/markdown-remark'
@@ -24,7 +25,8 @@ export const renderArticleCode = async ({ code, codeLabel, label, language }: Ar
     rehypePlugins: [
       // Notation comments in an imported file are source text, not highlight directives.
       [rehypePrettyCode, { ...codeHighlightingOptions, grid: false, transformers: [] }],
-      [rehypeLumenCode, { imported: { codeLabel, copyValue: code.trim(), label } }]
+      [rehypeLumenCode, { imported: { codeLabel, copyValue: code.trim(), label } }],
+      rehypeCodeTokenClasses
     ]
   })
 
