@@ -97,7 +97,12 @@ metadata, and output transformations live in `packages/website-history`.
 
 - `pnpm install`: install the entire workspace with Node 24 and pnpm 11.
 - `pnpm run build`: generate current assets, build all five apps with Turborepo,
-  then assemble one static `dist/` deployment.
+  then assemble one static `dist/` deployment. Each archive's `apps/vN/turbo.json`
+  caches its `dist/`, so a rebuild replays an unchanged era in under a second. The
+  cache key covers the app's tracked files, its resolved dependencies,
+  `pnpm-workspace.yaml`, `packages/website-history/`, and the variables in the root
+  `globalEnv`. The current site always rebuilds. Run `pnpm exec turbo run
+  build:site --force` to ignore cached archives.
 - `pnpm run dev`: develop the current app and timeline.
 - `pnpm --filter @santi020k/website-v2 dev`: develop an individual archive.
 - `pnpm run preview`: serve the assembled production output. Use this for checking

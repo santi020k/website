@@ -1,5 +1,6 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
+  "agentGuidance": false,
   "globalDependencies": [
     "pnpm-workspace.yaml",
     "packages/website-history/**"
@@ -15,13 +16,13 @@
   "globalEnv": [
     "BASE_URL",
     "CI",
+    "CLOUDFLARE_WEB_ANALYTICS_TOKEN",
     "DEBUG",
     "DEV",
     "ENABLE_PRODUCTION_SOURCE_MAPS",
     "HISTORY_PREVIEW_URL",
     "NODE_ENV",
     "OG_INCLUDE_DRAFTS",
-    "PATH",
     "PROD",
     "PW_CHROMIUM_CHANNEL",
     "PW_ONLY_CHROMIUM",
@@ -32,8 +33,8 @@
     "SYNCKIT_TIMEOUT",
     "TZ",
     "WEBMENTION_API_KEY",
-    "WEBMENTION_URL",
     "WEBMENTION_PINGBACK",
+    "WEBMENTION_URL",
     "npm_lifecycle_event"
   ],
   "globalPassThroughEnv": [
@@ -41,6 +42,7 @@
     "CI_HEAD_SHA",
     "GITHUB_EVENT_NAME",
     "GITHUB_HEAD_REF",
-    "GITHUB_OUTPUT"
+    "GITHUB_OUTPUT",
+    "PATH"
   ]
 }
