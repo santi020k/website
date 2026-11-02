@@ -230,8 +230,9 @@ pnpm run dev
 ```
 
 Open `http://localhost:4321`. Basic local development does not require service credentials.
-Optional build integrations and production configuration are documented in the
-[deployment runbook](docs/deployment.md).
+The development server listens on localhost only. Run `pnpm run dev:host` to open it from
+another device on a network you trust. Optional build integrations and production
+configuration are documented in the [deployment runbook](docs/deployment.md).
 
 To build and serve the static output:
 

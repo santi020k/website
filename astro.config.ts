@@ -324,9 +324,6 @@ export default defineConfig({
       })
     }
   },
-  server: {
-    host: true
-  },
   build: {
     // The global bundle (Tailwind + Lumen UI + site partials) is ~420 KiB raw.
     // Inlining it copied that payload into every one of the ~440 documents, so it
