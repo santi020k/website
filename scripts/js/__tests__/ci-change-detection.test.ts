@@ -47,8 +47,9 @@ const runGit = async (cwd: string, args: string[], inherited: NodeJS.ProcessEnv 
 const loadDetectionScript = async () => {
   const workflow = load(await readFile(workflowPath, 'utf8'))
   const jobs = isRecord(workflow) ? workflow.jobs : undefined
-  const quality = isRecord(jobs) ? jobs.quality : undefined
-  const steps: unknown[] = isRecord(quality) && Array.isArray(quality.steps) ? quality.steps : []
+  // The static job classifies changes; browser shards and the quality gate consume its outputs.
+  const staticChecks = isRecord(jobs) ? jobs.static : undefined
+  const steps: unknown[] = isRecord(staticChecks) && Array.isArray(staticChecks.steps) ? staticChecks.steps : []
   const step = steps.find((candidate): candidate is Step => isRecord(candidate) && candidate.id === 'changes')
 
   if (step?.run !== 'node scripts/js/ci-scope.mjs' || !isRecord(step.env) ||

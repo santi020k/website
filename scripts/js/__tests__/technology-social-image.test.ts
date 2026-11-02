@@ -23,7 +23,8 @@ test('technology pages resolve artwork by canonical route across label variants 
         writeFileSync(join(directory, 'index.astro'), [
           '---',
           `import TechnologyPage from ${JSON.stringify(join(projectRoot, 'src/pages/technologies/[technology]/[...page].astro'))}`,
-          `const page = { data: [], start: 0, end: 0, size: 50, total: 0, currentPage: ${pageNumber}, lastPage: 2, url: { current: '/${prefix}technologies/typescript/${pageNumber === 1 ? '' : '2/'}' } }`,
+          // Two pages imply more entries than the indexing threshold, so the archive keeps its own card.
+          `const page = { data: [], start: 0, end: 0, size: 50, total: 60, currentPage: ${pageNumber}, lastPage: 2, url: { current: '/${prefix}technologies/typescript/${pageNumber === 1 ? '' : '2/'}' } }`,
           '---',
           '<TechnologyPage page={page} technology="Typescript" />'
         ].join('\n'))
