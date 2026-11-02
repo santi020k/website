@@ -17,6 +17,7 @@ import remarkDirective from 'remark-directive'/* handle ::: directives as nodes 
 
 import { defaultLocale, locales, stripLocale } from './src/i18n'
 import { codeHighlightingOptions } from './src/plugins/code-highlighting'
+import { externalLinkRel } from './src/plugins/external-link-rel'
 import { rehypeArticleChecklists } from './src/plugins/rehype-article-checklists'
 import { rehypeArticleFigures } from './src/plugins/rehype-article-figures'
 import { rehypeArticleHeadings } from './src/plugins/rehype-article-headings'
@@ -227,7 +228,8 @@ export default defineConfig({
         [
           rehypeExternalLinks,
           {
-            rel: ['nofollow', 'noopener', 'noreferrer'],
+            // Owned sites and profiles keep search signals; third-party links stay nofollow.
+            rel: externalLinkRel,
             target: '_blank'
           }
         ],

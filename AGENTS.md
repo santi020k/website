@@ -42,7 +42,9 @@ the repository root. See `docs/v5-release-readiness.md` for scope and gates.
 - Use `@/` alias for absolute imports from `src/` (e.g., `import { siteConfig } from '@/site.config'`)
 - Use trailing slashes for all internal links (e.g., `/posts/my-post/`)
 - External HTTP(S) links open in a new tab: use Lumen's `newTab` prop or
-  `target="_blank"` with `rel="noopener noreferrer"`. Markdown uses `rehype-external-links`.
+  `target="_blank"` with `rel="noopener noreferrer"`. Markdown uses `rehype-external-links`, which
+  also adds `nofollow` to third-party destinations only; `*.santi020k.com` sites and Santiago's own
+  profiles and packages keep follow (`src/plugins/external-link-rel.ts`).
 - TypeScript interfaces for Astro component props, always destructured from `Astro.props`
 - `class:list` for conditional Tailwind classes (not template literals)
 - Icons: Lumen's `<Icon name="lucide-name" />` is the default. It is decorative unless given a
