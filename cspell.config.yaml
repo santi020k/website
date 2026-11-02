@@ -375,7 +375,7 @@ words:
   - networkidle
   - slugifies
 ignorePaths:
-  - .agent/**
+  - .agents/**
   - node_modules/**
   - dist/**
   - .git/**

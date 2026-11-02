@@ -15,15 +15,15 @@ redesign; the complete site style guide will be finalized after design approval.
 
 ## Related Skills
 
-These `.claude/skills/` documents expand on specific areas of this guide:
+These `.agents/skills/` documents expand on specific areas of this guide:
 
 | Skill | Scope |
 | :---- | :---- |
-| [`web-design`](../.claude/skills/web-design/SKILL.md) | Design tokens, component patterns, animations, dark mode |
-| [`seo`](../.claude/skills/seo/SKILL.md) | Meta tags, structured data, sitemap, Core Web Vitals |
-| [`accessibility`](../.agent/skills/accessibility/SKILL.md) | WCAG 2.2 AA, ARIA, keyboard navigation, native JavaScript patterns |
-| [`marketing`](../.claude/skills/marketing/SKILL.md) | Copy, CTAs, blog strategy, social media |
-| [`brand-guidelines`](../.claude/skills/brand-guidelines/SKILL.md) | This document — generation and maintenance |
+| [`web-design`](../.agents/skills/web-design/SKILL.md) | Design tokens, component patterns, animations, dark mode |
+| [`seo`](../.agents/skills/seo/SKILL.md) | Meta tags, structured data, sitemap, Core Web Vitals |
+| [`accessibility`](../.agents/skills/accessibility/SKILL.md) | WCAG 2.2 AA, ARIA, keyboard navigation, native JavaScript patterns |
+| [`marketing`](../.agents/skills/marketing/SKILL.md) | Copy, CTAs, blog strategy, social media |
+| [`brand-guidelines`](../.agents/skills/brand-guidelines/SKILL.md) | This document — generation and maintenance |
 
 ---
 
@@ -552,7 +552,7 @@ The footer displays `© {author} {year}` with the package version number, plus i
 
 ## 8. Motion & Animation
 
-All animations **must** include a `motion-reduce:` variant or a `prefers-reduced-motion` media query. This is a hard constraint — both an accessibility requirement and a `CLAUDE.md` rule.
+All animations **must** include a `motion-reduce:` variant or a `prefers-reduced-motion` media query. This is a hard constraint — both an accessibility requirement and an `AGENTS.md` rule.
 
 ### Timing Reference
 
@@ -1074,4 +1074,4 @@ All internal links use trailing slashes.
 
 ---
 
-*Maintained with the [Brand Guidelines Generator](.claude/skills/brand-guidelines/SKILL.md) skill. Update this document whenever design tokens, components, social channels, or brand direction change.*
+*Maintained with the [Brand Guidelines Generator](../.agents/skills/brand-guidelines/SKILL.md) skill. Update this document whenever design tokens, components, social channels, or brand direction change.*

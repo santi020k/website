@@ -47,6 +47,8 @@ the repository root. See `docs/v5-release-readiness.md` for scope and gates.
   profiles and packages keep follow (`src/plugins/external-link-rel.ts`).
 - TypeScript interfaces for Astro component props, always destructured from `Astro.props`
 - `class:list` for conditional Tailwind classes (not template literals)
+- Client behavior uses processed `<script>` modules, which Astro bundles once and caches across
+  routes. Reserve `is:inline` for code that must run before rendering, such as the theme bootstrap.
 - Icons: Lumen's `<Icon name="lucide-name" />` is the default. It is decorative unless given a
   `label`, so do **not** pass `aria-hidden` — Lumen already emits it and a second one lands as a
   duplicate attribute. Brand marks use `astro-icon` (`<Icon name="collection:icon-name" />`), which
@@ -74,39 +76,42 @@ pnpm run test:e2e     # Playwright E2E tests
 
 Always ensure `pnpm run lint` and `pnpm run check` pass with zero errors before considering work complete.
 
-## Available Skills
+## Skills
 
-Specialized guidance for this project is consolidated in `/.agent/skills/`:
+Project skills live in `.agents/skills/`, where Codex discovers them automatically. These
+instructions, [`docs/sculpted-style-guide.md`](docs/sculpted-style-guide.md), and Lumen's public
+contracts take precedence over the general design references at the end of this section.
 
-### 🛠️ Core Development
+| Skill | Use it for |
+| --- | --- |
+| [creating-components](.agents/skills/creating-components/SKILL.md) | Astro component props, structure, and Tailwind styling |
+| [site-components](.agents/skills/site-components/SKILL.md) | Existing compositions to reuse before building new UI |
+| [content-collections](.agents/skills/content-collections/SKILL.md) | Zod schemas and content queries |
+| [adding-pages](.agents/skills/adding-pages/SKILL.md) | New routes and navigation |
+| [add-content](.agents/skills/add-content/SKILL.md) | Blog posts and project entries |
+| [adding-projects](.agents/skills/adding-projects/SKILL.md) | Portfolio entries in detail |
+| [automation-scripts](.agents/skills/automation-scripts/SKILL.md) | Favicon, font, social image, and résumé generators |
+| [maintenance](.agents/skills/maintenance/SKILL.md) | Dependency updates, security audits, and lint workflows |
+| [testing](.agents/skills/testing/SKILL.md) | Vitest unit tests and Playwright browser tests |
+| [accessibility](.agents/skills/accessibility/SKILL.md) | WCAG 2.2 AA and native JavaScript interaction patterns |
+| [seo](.agents/skills/seo/SKILL.md) | Metadata, sitemaps, and search signals |
+| [marketing](.agents/skills/marketing/SKILL.md) | Brand voice, calls to action, and content strategy |
+| [web-design](.agents/skills/web-design/SKILL.md) | Design tokens, animation, and transitions |
+| [brand-guidelines](.agents/skills/brand-guidelines/SKILL.md) | Visual identity and brand assets |
+| [lumen-ui](.agents/skills/lumen-ui/SKILL.md) | Lumen packages, primitives, and tokens; installed from `santi020k/lumen` and pinned in `skills-lock.json` |
 
-- **[creating-components](/.agent/skills/creating-components/SKILL.md)** — Standards for Astro components, props, and Tailwind styling.
-- **[content-collections](/.agent/skills/content-collections/SKILL.md)** — Zod schemas and data querying for content.
-- **[adding-pages](/.agent/skills/adding-pages/SKILL.md)** — Creating new routes and updating navigation.
+General design and audit references:
 
-### ⚙️ Maintenance & Quality
-
-- **[maintenance](/.agent/skills/maintenance/SKILL.md)** — Dependency updates, security audits, and linting workflows.
-- **[testing](/.agent/skills/testing/SKILL.md)** — Unit testing with Vitest and E2E testing with Playwright.
-- **[accessibility](/.agent/skills/accessibility/SKILL.md)** — WCAG 2.2 AA compliance and native JavaScript a11y patterns.
-
-### ✍️ Content & Marketing
-
-- **[add-content](/.agent/skills/add-content/SKILL.md)** — Guidelines for blog posts and project entries.
-- **[adding-projects](/.agent/skills/adding-projects/SKILL.md)** — Detailed guide for adding new portfolio items.
-- **[marketing](/.agent/skills/marketing/SKILL.md)** — Brand voice, CTAs, and content strategy.
-- **[seo](/.agent/skills/seo/SKILL.md)** — Meta tags, sitemaps, and search engine optimization.
-
-### 🎨 Design & Visuals
-
-- **[web-design](/.agent/skills/web-design/SKILL.md)** — Design system tokens, animations, and transitions.
-- **[brand-guidelines](/.agent/skills/brand-guidelines/SKILL.md)** — Visual identity and brand asset management.
-
-### 🚀 Advanced Tools
-
-- **[ui-ux-pro-max](/.agent/skills/ui-ux-pro-max/SKILL.md)** — Comprehensive UI research, palettes, and design reasoning.
-
-See the **[Skills Index](/.agent/overview.md)** for a full overview of available agentic capabilities.
+| Skill | Use it for |
+| --- | --- |
+| [accesslint-contrast-checker](.agents/skills/accesslint-contrast-checker/SKILL.md) | WCAG 1.4.3 and 1.4.11 contrast checks |
+| [accesslint-link-purpose](.agents/skills/accesslint-link-purpose/SKILL.md) | WCAG 2.4.4 link purpose checks |
+| [accesslint-use-of-color](.agents/skills/accesslint-use-of-color/SKILL.md) | WCAG 1.4.1 color-only state checks |
+| [accesslint-refactor](.agents/skills/accesslint-refactor/SKILL.md) | Multi-file accessibility fixes |
+| [vercel-web-design-guidelines](.agents/skills/vercel-web-design-guidelines/SKILL.md) | Audits against Vercel's Web Interface Guidelines |
+| [ui-ux-pro-max](.agents/skills/ui-ux-pro-max/SKILL.md) | Palette, type pairing, and layout research |
+| [anthropic-frontend-design](.agents/skills/anthropic-frontend-design/SKILL.md) | Exploring a distinctive visual direction |
+| [bencium-ux-designer](.agents/skills/bencium-ux-designer/SKILL.md) | UX design-thinking prompts |
 
 ## General Principles
 
