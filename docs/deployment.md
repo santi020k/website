@@ -219,9 +219,9 @@ and Unicode fragments while still reporting missing destinations.
 
 The full Lighthouse audit covers Home, About, Work, Projects, Portfolio, the Smith Commerce case
 study, Travel, Blog, a long article with code, and Accessibility. It runs each route three times on
-mobile settings and asserts on the best run: performance 0.90 or higher (0.85 for the article until
-its main-thread work shrinks), largest contentful paint under 4 seconds, total blocking time under
-350 ms, layout shift under 0.1, and fewer than 4,000 DOM elements (`dom-size-insight`).
+mobile settings and asserts on the best run: performance 0.90 or higher, largest contentful paint
+under 4 seconds, total blocking time under 350 ms, layout shift under 0.1, and fewer than 4,000 DOM
+elements (`dom-size-insight`).
 `pnpm run lighthouse` is the faster homepage smoke audit with the same thresholds;
 `pnpm run lighthouse:full` runs the full configuration.
 The manual workflow uses read-only permissions and retains diagnostic artifacts.
