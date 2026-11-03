@@ -25,7 +25,7 @@ version. Public URLs stay compatible and visitors need no migration.
 ### Pull request
 
 - [ ] Open `release/v5.0.0` → `main` as a draft. The **Quality gate** check covers static checks,
-  four Chromium browser shards and Lighthouse.
+  six Chromium browser shards and Lighthouse.
 - [ ] Run **E2E Matrix (Weekly/Manual)** once for Firefox, WebKit and the mobile projects.
 - [ ] Review the complete diff against `main` before marking the pull request ready.
 

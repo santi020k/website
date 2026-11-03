@@ -72,7 +72,8 @@ jobs:
   build:
     name: Production build
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # The assembled build compiles the current site, four archives and the motion studio.
+    timeout-minutes: 45
     outputs:
       full: ${{ steps.changes.outputs.full }}
     steps:
@@ -132,7 +133,7 @@ jobs:
   # Shards split the stable Chromium suite by file so each job stays well inside
   # its timeout. Every shard previews the same build the build job produced.
   browser:
-    name: Browser tests (${{ matrix.shard }}/4)
+    name: Browser tests (${{ matrix.shard }}/6)
     needs: build
     if: needs.build.outputs.full == 'true'
     runs-on: ubuntu-latest
@@ -140,7 +141,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2, 3, 4, 5, 6]
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -174,7 +175,7 @@ jobs:
         run: pnpm exec playwright install-deps chromium
 
       - name: Run stable browser tests
-        run: pnpm run test:e2e:ci:stable --shard=${{ matrix.shard }}/4
+        run: pnpm run test:e2e:ci:stable --shard=${{ matrix.shard }}/6
 
       - name: Upload browser diagnostics on failure
         if: failure()
