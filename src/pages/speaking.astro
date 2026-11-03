@@ -424,7 +424,11 @@ class="size-6.5"
     text-transform: uppercase;
   }
 
+  /* The cover aligns items to the start, so without a cap the title grows to its
+     longest word. Keep it within the cover so long words still break when the
+     browser has no hyphenation dictionary for the page language. */
   [data-community-cover] h3 {
+    max-width: 100%;
     margin: 0;
     color: hsl(var(--ink));
     font-size: 1.875rem;

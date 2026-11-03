@@ -1255,7 +1255,9 @@ and case-study links together. Use the opaque Lumen Card, fine border, and asymm
 1.75rem corners; preserve content-driven impact data and label its semantic list.
 Stack the cover above the body below 32rem, hide its decorative symbol, and tighten
 insets below 22rem. Below 14rem, move the decorative row numbers above the evidence
-so enlarged text keeps its reading space. Retain both link destinations and visible focus.
+so enlarged text keeps its reading space. Cap the title at the cover width so long
+words still wrap in browsers without a hyphenation dictionary. Retain both link
+destinations and visible focus.
 
 ### Invitation folio speaking booking card
 
