@@ -93,6 +93,10 @@
         transparent 22rem
       ),
       hsl(var(--theme-bg));
+    /* Each layer already covers the whole body, so repeating paints the same pixels.
+       Chromium would still rasterize a repeat tile as tall as the page, which stalls
+       long articles for hundreds of milliseconds. */
+    background-repeat: no-repeat;
     color: hsl(var(--ink));
   }
 
@@ -120,6 +124,7 @@
       ),
       url("@santi020k/theme/assets/wallpapers/wallpaper-3-desktop.webp") center center / cover,
       hsl(var(--theme-bg));
+    background-repeat: no-repeat;
     /* Avoid `background-attachment: fixed` on small screens and when reduced motion is requested:
        on mobile/low-end GPUs it causes scroll-time compositing cost. Restrict to wide,
        precise-pointer environments where the parallax effect is desired. */
