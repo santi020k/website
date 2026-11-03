@@ -251,6 +251,14 @@ role="status"
         btn.setAttribute('aria-describedby', `${recovery.id}-notice`)
 
         resizeAddress()
+
+        // Size the address again if a web font is still swapping in. Waiting here, not at
+        // setup, avoids reading document.fonts.ready on every page, which forces a style pass.
+        void document.fonts.ready.then(() => {
+          if (active && !recovery.hidden) resizeAddress()
+
+          return undefined
+        })
       }
 
       clearAnnouncement()
@@ -354,12 +362,6 @@ role="status"
     }
 
     btn.addEventListener('click', onClick)
-
-    void document.fonts.ready.then(() => {
-      if (active) resizeAddress()
-
-      return undefined
-    })
 
     return () => {
       active = false

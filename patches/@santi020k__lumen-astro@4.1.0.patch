@@ -624,40 +624,95 @@ index 6f616c13e406958847d5bb1485d25208e2db5a67..95cbc3c9c542874962fff0136a2be5ba
  export const initDocumentNavigationControllers = (scope: ParentNode): void => {
 diff --git a/runtime/controllers/scroll-cue.ts b/runtime/controllers/scroll-cue.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..aecab977e5d049cf407adda341a0ca6fffe69108
+index 0000000000000000000000000000000000000000..8b798672c5bfc6fddee211269758c6b34da3bb06
 --- /dev/null
 +++ b/runtime/controllers/scroll-cue.ts
-@@ -0,0 +1,113 @@
+@@ -0,0 +1,178 @@
 +interface ScrollCueBinding {
++  apply: (visible: boolean) => void
 +  cleanup: () => void
-+  update: () => void
++  measure: () => boolean | undefined
 +}
 +
 +const bindings = new Map<HTMLElement, ScrollCueBinding>()
++const pending = new Set<ScrollCueBinding>()
++const watchedFonts = new WeakSet<FontFaceSet>()
 +let nextId = 0
++let pendingFrame = 0
 +
++// Unchanged cues write nothing, so they leave the layout other scripts read intact.
 +const updateDescription = (viewport: HTMLElement, id: string, visible: boolean): void => {
-+  const ids = new Set(viewport.getAttribute('aria-describedby')?.split(/\s+/u).filter(Boolean))
++  const current = viewport.getAttribute('aria-describedby')
++  const ids = new Set(current?.split(/\s+/u).filter(Boolean))
 +
 +  if (visible) ids.add(id)
 +  else ids.delete(id)
 +
-+  if (ids.size) viewport.setAttribute('aria-describedby', [...ids].join(' '))
++  const next = [...ids].join(' ')
++
++  if (next === (current ?? '')) return
++
++  if (next) viewport.setAttribute('aria-describedby', next)
 +  else viewport.removeAttribute('aria-describedby')
++}
++
++// Measure every cue before changing any. Interleaving reads and writes forces one
++// full-page layout per code block, which dominates long, code-heavy articles.
++const update = (targets: Iterable<ScrollCueBinding>): void => {
++  const measured = [...targets].map(binding => ({ binding, visible: binding.measure() }))
++
++  for (const { binding, visible } of measured) {
++    if (visible !== undefined) binding.apply(visible)
++  }
++}
++
++// Showing a cue resizes its scroll viewport. Write layout outside the observer
++// delivery so WebKit can finish notifying all observed elements.
++const requestUpdate = (binding: ScrollCueBinding): void => {
++  pending.add(binding)
++
++  if (pendingFrame) return
++
++  pendingFrame = requestAnimationFrame(() => {
++    pendingFrame = 0
++
++    const targets = [...pending]
++
++    pending.clear()
++
++    update(targets)
++  })
++}
++
++// A web font swap can change code width without resizing the observed boxes. Listen for
++// font loads instead of reading `fonts.ready`, which forces a style pass on every page.
++// The event fires before `fonts.ready` resolves, so cues settle before code awaiting it runs.
++const watchFonts = (fonts: FontFaceSet): void => {
++  if (watchedFonts.has(fonts)) return
++
++  watchedFonts.add(fonts)
++
++  fonts.addEventListener('loadingdone', () => {
++    update(bindings.values())
++  })
 +}
 +
 +export const clearScrollCues = (): void => {
 +  for (const binding of bindings.values()) binding.cleanup()
 +
 +  bindings.clear()
++
++  cancelAnimationFrame(pendingFrame)
++
++  pendingFrame = 0
 +}
 +
-+const bindScrollCue = (root: HTMLElement): void => {
++const bindScrollCue = (root: HTMLElement): ScrollCueBinding | undefined => {
 +  const viewport = root.querySelector<HTMLElement>('[data-scroll-cue-viewport], pre')
 +  const content = viewport?.querySelector<HTMLElement>('table, code')
 +  const message = root.querySelector<HTMLElement>('[data-scroll-cue-message]')
 +
-+  if (!viewport || !content || !message) return
++  if (!viewport || !content || !message) return undefined
 +
 +  if (!message.id) {
 +    let candidate: string
@@ -673,51 +728,42 @@ index 0000000000000000000000000000000000000000..aecab977e5d049cf407adda341a0ca6f
 +
 +  const id = message.id
 +  let active = true
-+  let resizeFrame = 0
 +
-+  const update = (): void => {
-+    if (!active || !root.isConnected) return
++  const binding: ScrollCueBinding = {
++    measure: () => {
++      if (!active || !root.isConnected) return undefined
 +
-+    const visible = viewport.clientWidth > 0 && viewport.scrollWidth > viewport.clientWidth + 1
++      return viewport.clientWidth > 0 && viewport.scrollWidth > viewport.clientWidth + 1
++    },
++    apply: visible => {
++      if (message.hidden === visible) message.hidden = !visible
 +
-+    message.hidden = !visible
++      updateDescription(viewport, id, visible)
++    },
++    cleanup: () => {
++      active = false
 +
-+    updateDescription(viewport, id, visible)
++      observer.disconnect()
++
++      pending.delete(binding)
++
++      message.hidden = true
++
++      updateDescription(viewport, id, false)
++    }
 +  }
 +
-+  const requestUpdate = (): void => {
-+    if (resizeFrame) return
-+
-+    // Showing the cue resizes its scroll viewport. Write layout outside the
-+    // observer delivery so WebKit can finish notifying all observed elements.
-+    resizeFrame = requestAnimationFrame(() => {
-+      resizeFrame = 0
-+
-+      update()
-+    })
-+  }
-+
-+  const observer = new ResizeObserver(requestUpdate)
++  const observer = new ResizeObserver(() => {
++    requestUpdate(binding)
++  })
 +
 +  observer.observe(viewport)
 +
 +  observer.observe(content)
 +
-+  bindings.set(root, { update, cleanup: () => {
-+    active = false
++  bindings.set(root, binding)
 +
-+    observer.disconnect()
-+
-+    cancelAnimationFrame(resizeFrame)
-+
-+    message.hidden = true
-+
-+    updateDescription(viewport, id, false)
-+  } })
-+
-+  void root.ownerDocument.fonts.ready.then(update)
-+
-+  update()
++  return binding
 +}
 +
 +/** Enhance the documented Code/Table markup without owning native scrolling or focus. */
@@ -730,16 +776,35 @@ index 0000000000000000000000000000000000000000..aecab977e5d049cf407adda341a0ca6f
 +    }
 +  }
 +
++  const added: ScrollCueBinding[] = []
++
 +  for (const root of scope.querySelectorAll<HTMLElement>('[data-ui-scroll-cue]')) {
-+    if (!bindings.has(root)) bindScrollCue(root)
++    const binding = bindings.has(root) ? undefined : bindScrollCue(root)
++
++    if (binding) added.push(binding)
 +  }
++
++  if (!added.length) return
++
++  // Settle every new cue in one layout before the page continues.
++  update(added)
++
++  const fonts = (scope instanceof Document ? scope : scope.ownerDocument)?.fonts
++
++  if (fonts) watchFonts(fonts)
 +}
 +
 +/** Commit panel visibility and its cue in one layout before tabs scroll into view. */
 +export const refreshScrollCues = (scope: ParentNode): void => {
++  const targets: ScrollCueBinding[] = []
++
 +  for (const root of scope.querySelectorAll<HTMLElement>('[data-ui-scroll-cue]')) {
-+    bindings.get(root)?.update()
++    const binding = bindings.get(root)
++
++    if (binding) targets.push(binding)
 +  }
++
++  update(targets)
 +}
 diff --git a/styles/scroll-cue.css b/styles/scroll-cue.css
 new file mode 100644

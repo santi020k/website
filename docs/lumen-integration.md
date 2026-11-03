@@ -684,6 +684,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   footer and accessible description only on horizontal overflow. It cleans up on Astro
   navigation and preserves other descriptions. The website's custom element is removed;
   Lumen owns overflow guidance, copy, and code tabs.
+  The patched controller measures every cue before it changes any and skips writes that
+  would not change a cue, so a code-heavy article pays for one layout when it loads
+  instead of one per example. It measures again when web fonts finish loading, using
+  the `loadingdone` event rather than `document.fonts.ready`, which forces a style pass
+  on every page. Keep this batching when the controller moves into a Lumen release.
 - Project prose lists use Ownership ledger. `rehype-project-ledger.ts` separates an authored
   leading `strong` from its explanation at build time, preserving links, code, nested lists,
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
