@@ -44,8 +44,8 @@ test('technology pages resolve artwork by canonical route across label variants 
     const result = spawnSync(process.execPath, [
       '--input-type=module',
       '-e',
-      `import { build } from 'astro'; globalThis.fetch = () => Promise.reject(new Error('Unexpected build-time fetch')); await build(${JSON.stringify(configuration)});`
-    ], { cwd: root, encoding: 'utf8', timeout: 60_000 })
+      'import { build } from "astro"; globalThis.fetch = () => Promise.reject(new Error("Unexpected build-time fetch")); await build(JSON.parse(process.env.ASTRO_FIXTURE_CONFIG));'
+    ], { cwd: root, encoding: 'utf8', env: { ...process.env, ASTRO_FIXTURE_CONFIG: JSON.stringify(configuration) }, timeout: 60_000 })
 
     expect({ status: result.status, stderr: result.stderr }).toEqual({ status: 0, stderr: '' })
 

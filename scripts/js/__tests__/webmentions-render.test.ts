@@ -119,8 +119,13 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('normalizes reader names and renders
     const result = spawnSync(process.execPath, [
       '--input-type=module',
       '-e',
-      `import { build } from 'astro'; globalThis.fetch = () => Promise.reject(new Error('Unexpected build-time fetch')); await build(${JSON.stringify(configuration)});`
-    ], { cwd: root, encoding: 'utf8', env: { ...process.env, TZ: timezone }, timeout: 30_000 })
+      'import { build } from "astro"; globalThis.fetch = () => Promise.reject(new Error("Unexpected build-time fetch")); await build(JSON.parse(process.env.ASTRO_FIXTURE_CONFIG));'
+    ], {
+      cwd: root,
+      encoding: 'utf8',
+      env: { ...process.env, ASTRO_FIXTURE_CONFIG: JSON.stringify(configuration), TZ: timezone },
+      timeout: 30_000
+    })
 
     expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0)
 
