@@ -84,7 +84,7 @@ const projectItems = projects.map(project => {
               {project.technologies.map((technology, technologyIndex) => (
                 <li data-technology-match={project.hasMatch && technologyIndex === 0 ? '' : undefined}>
                   {project.hasMatch && technologyIndex === 0 && (
-<><Icon name="check" size="sm" /><span class="sr-only">{t('collection.archiveMatch')}</span></>
+<><Icon name="check" size="sm" /><span class="sr-only">{`${t('collection.archiveMatch')} `}</span></>
 )}
                   <span>{technology}</span>
                 </li>
