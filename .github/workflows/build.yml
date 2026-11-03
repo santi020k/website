@@ -16,12 +16,10 @@ permissions:
 
 jobs:
   static:
-    name: Static checks and build
+    name: Static checks
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    outputs:
-      checks: ${{ steps.changes.outputs.checks }}
-      full: ${{ steps.changes.outputs.full }}
+    # Lint, type checks and tests cover the current site, four archives and the motion studio.
+    timeout-minutes: 45
     steps:
       # A blobless clone keeps the full commit graph for change detection without
       # downloading every historical image; Git fetches older file contents on demand.
@@ -70,6 +68,35 @@ jobs:
         if: steps.changes.outputs.full == 'true'
         run: pnpm run audit
 
+  # The build runs beside the static checks; browser tests and Lighthouse wait only for it.
+  build:
+    name: Production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      full: ${{ steps.changes.outputs.full }}
+    steps:
+      # Page dates come from Git history, so keep the full commit graph without old blobs.
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Detect build-affecting changes
+        id: changes
+        run: node scripts/js/ci-scope.mjs
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CI_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up pnpm workspace
+        if: steps.changes.outputs.full == 'true'
+        uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
+        with:
+          node-version: 24.x
+
       # OG images and .og-cache.json are tracked, so builds use the checked-out
       # copies. Restoring an Actions cache would overwrite the pull request's files.
       - name: Cache Astro image transformations
@@ -103,11 +130,11 @@ jobs:
           retention-days: 1
 
   # Shards split the stable Chromium suite by file so each job stays well inside
-  # its timeout. Every shard previews the same build the static job produced.
+  # its timeout. Every shard previews the same build the build job produced.
   browser:
     name: Browser tests (${{ matrix.shard }}/4)
-    needs: static
-    if: needs.static.outputs.full == 'true'
+    needs: build
+    if: needs.build.outputs.full == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -163,8 +190,8 @@ jobs:
 
   lighthouse:
     name: Lighthouse
-    needs: static
-    if: needs.static.outputs.full == 'true'
+    needs: build
+    if: needs.build.outputs.full == 'true'
     runs-on: ubuntu-latest
     # Three runs per route; assertions keep each route's best run.
     timeout-minutes: 30
@@ -202,7 +229,7 @@ jobs:
   # selected succeeded; documentation-only changes skip the build-dependent jobs.
   quality:
     name: Quality gate
-    needs: [static, browser, lighthouse]
+    needs: [static, build, browser, lighthouse]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -210,11 +237,12 @@ jobs:
       - name: Require every selected check
         env:
           STATIC_RESULT: ${{ needs.static.result }}
+          BUILD_RESULT: ${{ needs.build.result }}
           BROWSER_RESULT: ${{ needs.browser.result }}
           LIGHTHOUSE_RESULT: ${{ needs.lighthouse.result }}
         run: |
           status=0
-          for job in "static:$STATIC_RESULT" "browser:$BROWSER_RESULT" "lighthouse:$LIGHTHOUSE_RESULT"; do
+          for job in "static:$STATIC_RESULT" "build:$BUILD_RESULT" "browser:$BROWSER_RESULT" "lighthouse:$LIGHTHOUSE_RESULT"; do
             result=${job#*:}
             echo "${job%%:*}: $result"
             if [[ "$result" != success && "$result" != skipped ]]; then
@@ -222,8 +250,8 @@ jobs:
               status=1
             fi
           done
-          if [[ "$STATIC_RESULT" != success ]]; then
-            echo "::error::Static checks and build must succeed."
+          if [[ "$STATIC_RESULT" != success || "$BUILD_RESULT" != success ]]; then
+            echo "::error::Static checks and the build must succeed."
             status=1
           fi
           exit "$status"

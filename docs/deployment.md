@@ -152,9 +152,9 @@ protected default branch. The pull-request jobs stay read-only, and the
 dependency audit reuses the static job's dependency installation.
 
 CI runs for pull requests into `main` and `release/**`. The static job runs the
-selected checks and the production build, then uploads `dist/` as a one-day
-artifact. Four stable Chromium shards and the Lighthouse job reuse that build, so
-each job stays well inside its timeout. `Quality gate` reports their combined
+selected checks while the build job produces the site in parallel and uploads `dist/`
+as a one-day artifact. Four stable Chromium shards and the Lighthouse job reuse that
+build, so each job stays well inside its timeout. `Quality gate` reports their combined
 result: it fails when any selected job fails or is cancelled and passes when a
 documentation-only change skips the build-dependent jobs. Keep `Quality gate` as
 the required status check.
