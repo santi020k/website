@@ -10,7 +10,7 @@ const tabKeys = {
 }
 
 const invitations = [
-  { route: '/privacy/', title: 'Privacy questions should be easy to ask.', subject: '', note: 'Last reviewed October 23, 2026. I aim to acknowledge privacy and deletion requests within five business days.' },
+  { route: '/privacy/', title: 'Privacy questions should be easy to ask.', subject: '', note: 'Last reviewed October 28, 2026. I aim to acknowledge privacy and deletion requests within five business days.' },
   { route: '/accessibility/', title: 'If something blocks you, send the exact page and task.', subject: '?subject=Accessibility%20issue%20on%20santi020k.com', note: 'Last reviewed July 26, 2026. I aim to acknowledge reports within five business days and share a resolution timeline once the barrier is reproduced.' },
   { route: '/terms/', title: 'Ask before reusing substantial material.', subject: '?subject=Terms%20and%20permissions', note: 'Effective August 25, 2026. Last reviewed August 25, 2026.' }
 ]

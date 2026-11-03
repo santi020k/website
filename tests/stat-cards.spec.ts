@@ -55,10 +55,7 @@ test('statistics retain word qualifiers, text values, and accessible animated nu
 
   await expect(community.locator('[data-stat-metric]')).toHaveText(/Since\s+2017/u)
   await expect(writing.locator('[data-stat-metric]')).toHaveText(/\d+\s+posts/u)
-  await page.goto('/blog/tags/developer-experience/')
-  const pagination = cards.filter({ has: page.locator('[data-slot="stat-label"]', { hasText: 'Page' }) })
-
-  await expect(pagination.locator('[data-stat-value]')).toHaveText(/^1 \/ [1-9]\d*$/u)
+  // Topic archives close with reading paths instead of repeating archive statistics.
   await page.goto('/developer-experience/')
   const outcome = cards.filter({ has: page.locator('[data-slot="stat-label"]', { hasText: 'Delivery outcome' }) })
 
@@ -69,19 +66,20 @@ test('statistics retain word qualifiers, text values, and accessible animated nu
 test('archive summaries use the full row for their actual number of statistics', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  for (const route of ['/blog/series/', '/blog/tags/', '/blog/tags/developer-experience/', '/blog/tags/gaming/']) {
-    await page.goto(route)
-    const cards = page.locator('[data-sculpted-stat]')
-    await expect(cards.locator('[data-stat-source]')).toHaveCount(0)
-    const lastCard = cards.last()
-    const alignment = await lastCard.evaluate(element => {
-      const card = element.getBoundingClientRect()
-      const grid = element.parentElement?.getBoundingClientRect()
+  // Series and individual topic archives no longer carry statistics. The Topics
+  // ending links each of its statistics to their evidence (7cbf0605).
+  await page.goto('/blog/tags/')
+  const cards = page.locator('[data-sculpted-stat]')
 
-      if (!grid) throw new Error('Statistics need a containing grid')
-      return Math.abs(card.right - grid.right)
-    })
+  await expect(cards).toHaveCount(3)
+  await expect(cards.locator('[data-stat-source]')).toHaveCount(3)
+  const alignment = await cards.last().evaluate(element => {
+    const card = element.getBoundingClientRect()
+    const grid = element.parentElement?.getBoundingClientRect()
 
-    expect(alignment, `${route} must not reserve empty statistic columns`).toBeLessThanOrEqual(1)
-  }
+    if (!grid) throw new Error('Statistics need a containing grid')
+    return Math.abs(card.right - grid.right)
+  })
+
+  expect(alignment, 'the Topics ending must not reserve empty statistic columns').toBeLessThanOrEqual(1)
 })

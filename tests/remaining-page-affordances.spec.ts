@@ -183,26 +183,44 @@ for (const width of [390, 1440]) {
   }
 }
 
-for (const width of [640, 768, 840, 959]) {
-  test(`history fills all four tablet chapter columns at ${width}px`, async ({ page }) => {
+// History lists five eras (43dd7ecc). Its chapter row pairs the links below a
+// 42rem container and keeps all five in one row from that width.
+const historyChapterColumns = [[640, 2], [768, 2], [840, 5], [959, 5]] as const
+
+for (const [width, columns] of historyChapterColumns) {
+  test(`history arranges its five chapter links in ${columns} columns at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await openWithTextSize(page, '/history/', 100)
     const chapters = page.getByRole('navigation', { name: 'Jump to a design era' })
     const links = chapters.getByRole('link')
 
-    await expect(links).toHaveCount(4)
-    // The centered links have different heights when a date wraps. They must
-    // share a row, but their top edges need not match.
-    const rowOverlap = await links.evaluateAll(elements => {
+    await expect(links).toHaveCount(5)
+    const layout = await links.evaluateAll((elements, count) => {
       const bounds = elements.map(element => element.getBoundingClientRect())
+      const rows = Array.from({ length: Math.ceil(bounds.length / count) }, (_, index) => (
+        bounds.slice(index * count, (index + 1) * count)
+      ))
+      // The centered links have different heights when a date wraps. Each row must
+      // share a band, but its top edges need not match.
+      const bands = rows.map(row => ({
+        bottom: Math.max(...row.map(rect => rect.bottom)),
+        overlap: Math.min(...row.map(rect => rect.bottom)) - Math.max(...row.map(rect => rect.top)),
+        top: Math.min(...row.map(rect => rect.top))
+      }))
 
-      return Math.min(...bounds.map(rect => rect.bottom)) - Math.max(...bounds.map(rect => rect.top))
-    })
+      return {
+        columnStarts: new Set(bounds.map(rect => Math.round(rect.left))).size,
+        right: Math.max(...bounds.map(rect => rect.right)),
+        rowOverlap: Math.min(...bands.map(band => band.overlap)),
+        rowsStack: bands.every((band, index) => band.top >= (bands[index - 1]?.bottom ?? band.top) - 1)
+      }
+    }, columns)
     const bounds = requireValue(await chapters.boundingBox())
-    const last = requireValue(await links.last().boundingBox())
 
-    expect(rowOverlap).toBeGreaterThan(0)
-    expect(Math.abs(last.x + last.width - bounds.x - bounds.width)).toBeLessThanOrEqual(1)
+    expect(layout.columnStarts).toBe(columns)
+    expect(layout.rowOverlap).toBeGreaterThan(0)
+    expect(layout.rowsStack).toBe(true)
+    expect(Math.abs(layout.right - bounds.x - bounds.width)).toBeLessThanOrEqual(1)
   })
 }

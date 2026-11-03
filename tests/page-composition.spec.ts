@@ -15,7 +15,7 @@ const sectionRoutes = [
   '/blog/2/',
   '/blog/tags/developer-experience/',
   '/blog/tags/developer-experience/2/',
-  '/blog/series/',
+  // The series index places its chooser directly after the opening instead of in page sections.
   '/blog/series/building-a-production-nextjs-app/'
 ]
 
@@ -75,10 +75,18 @@ test('reading introductions use one responsive interval after the hero', async (
         const firstContent = page.locator('[data-reading-body] > div:first-child > :visible').first()
         const content = requireValue(await firstContent.boundingBox())
         const interval = (content.y - opening.y - opening.height) / (size / 100 * 16)
+        // Below 40rem of article width the opening connects to the story with 1.75rem;
+        // wider articles and every project keep one 3–5rem interval.
+        const [minimum, maximum] = await page.locator('[data-reading-layout]').evaluate(layout => {
+          const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
+          const connected = layout.querySelector('[data-article-opening]') !== null && layout.clientWidth < 40 * rem
 
-        // One 3–5rem interval; parent gaps or extra prose insets must not accumulate.
-        expect(interval, `${route}, ${width}px, ${size}%`).toBeGreaterThanOrEqual(3 - 0.01)
-        expect(interval, `${route}, ${width}px, ${size}%`).toBeLessThanOrEqual(5 + 0.01)
+          return connected ? [1.75, 1.75] : [3, 5]
+        })
+
+        // Parent gaps or extra prose insets must not accumulate.
+        expect(interval, `${route}, ${width}px, ${size}%`).toBeGreaterThanOrEqual(minimum - 0.01)
+        expect(interval, `${route}, ${width}px, ${size}%`).toBeLessThanOrEqual(maximum + 0.01)
       }
     }
   }

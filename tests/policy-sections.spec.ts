@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
 const policies = [
-  { route: '/privacy/', count: 5, first: 'What runs here', last: 'Webmentions' },
+  { route: '/privacy/', count: 6, first: 'What runs here', last: 'Webmentions' },
   { route: '/terms/', count: 8, first: 'Using this site', last: 'Changes and governing law' },
   { route: '/accessibility/', count: 4, first: 'Target standard', last: 'Formal complaints' }
 ]

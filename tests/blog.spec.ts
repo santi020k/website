@@ -4,6 +4,8 @@ import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibili
 import { requireValue } from './helpers/assertions'
 import { shouldRunVisualSnapshots } from './helpers/visual-regression'
 
+const SLEEVED_CARD = '.series-detail-page [data-post-gallery-grid="chapters"] [data-post-gallery-card]'
+
 interface ArchivePage {
   canonical: string | null
   description: string | null
@@ -105,7 +107,11 @@ test.describe('Blog page', () => {
     await filter.getByRole('link', { name: /reading/i }).click()
     await expect(page).toHaveURL(/\/blog\/tags\/reading\//)
     await expect(page.locator('[data-post-gallery-card]')).toContainText('International Firmware')
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', 'Articles, guides, and personal notes about Reading.')
+    // Topic archives reuse their visible note as the page description.
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      'content',
+      await page.locator('[data-topic-archive-description]').innerText()
+    )
 
     await page.locator('[data-topic-archive-blog]').click()
     await expect(page).toHaveURL(/\/blog\/$/)
@@ -185,7 +191,6 @@ test.describe('Blog page', () => {
         const link = card.getByRole('link')
 
         await expect(link).toHaveCount(1)
-        await expect(card).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
         await expect(link).toHaveAccessibleName(/Read article.*min read/u)
         await expect(card.locator('[data-post-gallery-meta] time')).toHaveAttribute('datetime', /^\d{4}-/u)
         await expect(card.locator('[data-post-gallery-footer]')).toContainText('Read article')
@@ -200,6 +205,13 @@ test.describe('Blog page', () => {
 
           expect(overflow).toBe(false)
         }
+      }
+      // Series chapters sit in sculpted sleeves; every other gallery keeps its cards open.
+      for (const card of await page.locator(`[data-post-gallery-card]:not(${SLEEVED_CARD})`).all()) {
+        await expect(card).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+      }
+      for (const card of await page.locator(SLEEVED_CARD).all()) {
+        await expect(card).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
       }
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390)
     }

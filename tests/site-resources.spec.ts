@@ -136,7 +136,7 @@ const manifestSchema = z.object({
   icons: z.array(z.object({ src: z.string(), sizes: z.string(), type: z.string(), purpose: z.string().optional() }))
 })
 
-test('crawler policies preserve discovery and exclude only the duplicate search payload', async ({ request }) => {
+test('crawler policies preserve discovery and exclude only the duplicate search payloads', async ({ request }) => {
   const response = await request.get('/robots.txt')
 
   expect(response.ok()).toBe(true)
@@ -147,7 +147,8 @@ test('crawler policies preserve discovery and exclude only the duplicate search 
   expect(policies).toHaveLength(5)
 
   for (const [index, userAgent] of ['OAI-SearchBot', 'PerplexityBot', 'Claude-SearchBot', 'Claude-User', '*'].entries()) {
-    expect(policies[index]).toBe(`User-agent: ${userAgent}\nDisallow: /search-index.json\nAllow: /`)
+    // The title index and the Pagefind full-text index both duplicate public pages.
+    expect(policies[index]).toBe(`User-agent: ${userAgent}\nDisallow: /search-index.json\nDisallow: /pagefind/\nAllow: /`)
   }
 
   expect(robots).toContain('Sitemap: https://santi020k.com/sitemap.xml')

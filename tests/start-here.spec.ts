@@ -61,14 +61,30 @@ for (const theme of ['light', 'dark']) {
           expect(bounds?.x).toBeGreaterThanOrEqual(0)
           expect((bounds?.x ?? width) + (bounds?.width ?? width)).toBeLessThanOrEqual(width)
           for (const copy of await card.locator('h4, p, [data-reading-slip-footer] > span').all()) {
-            const layout = await copy.evaluate(element => ({
-              width: element.clientWidth,
-              contentWidth: element.scrollWidth,
-              height: element.clientHeight,
-              contentHeight: element.scrollHeight
-            }))
-            expect(layout.contentWidth).toBeLessThanOrEqual(layout.width + 1)
-            expect(layout.contentHeight).toBeLessThanOrEqual(layout.height + 1)
+            // Measure the words themselves: the footer arrow keeps its next glyph outside
+            // its own box, clipped from view, which still counts toward scroll sizes.
+            const clipped = await copy.evaluate(element => {
+              const box = element.getBoundingClientRect()
+              const words = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+              const range = document.createRange()
+
+              for (let node = words.nextNode(); node; node = words.nextNode()) {
+                if (!node.textContent?.trim() || node.parentElement?.closest('[aria-hidden="true"]')) continue
+
+                range.selectNodeContents(node)
+
+                for (const rect of range.getClientRects()) {
+                  const outsideX = rect.left < box.left - 1 || rect.right > box.right + 1
+                  const outsideY = rect.top < box.top - 1 || rect.bottom > box.bottom + 1
+
+                  if (outsideX || outsideY) return true
+                }
+              }
+
+              return element.scrollWidth > element.clientWidth + 1
+            })
+
+            expect(clipped).toBe(false)
           }
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)

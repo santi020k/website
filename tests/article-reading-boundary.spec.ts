@@ -129,6 +129,11 @@ test('keyboard reading continues from the contents into the closing flow', async
   await page.keyboard.press(nextKey)
   await expect(page.locator('#series-navigation').getByRole('link').first()).toBeFocused()
   await page.getByRole('link', { name: 'Share on WhatsApp', exact: true }).focus()
+  // Sharing precedes the discussion (0e3ce077), so its disclosure and GitHub destination come next.
+  await page.keyboard.press(nextKey)
+  await expect(page.locator('#comments [data-discussion-summary]')).toBeFocused()
+  await page.keyboard.press(nextKey)
+  await expect(page.locator('#comments').getByRole('link', { name: /Browse GitHub discussions/u })).toBeFocused()
   await page.keyboard.press(nextKey)
   await expect(page.locator('#related-writing').getByRole('link').first()).toBeFocused()
   await page.locator('[data-page-section]:has(#related-writing)').getByRole('link').last().focus()
