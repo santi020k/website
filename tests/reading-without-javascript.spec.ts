@@ -2,10 +2,10 @@ import { expect, type Locator, type Page, test } from '@playwright/test'
 
 const ARTICLE_PATH = '/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/'
 const CODE_COPY_LABEL = 'Copy code to clipboard'
-// Articles without a canonicalUrl render the Lumen CopyButton in the hero.
-const HERO_COPY_ARTICLE_PATH = '/blog/avoid-magic-strings-in-typescript-and-javascript/'
-const HERO_COPY_LABEL = 'Copy link to article'
-const HERO_COPY_STORAGE_KEY = 'hero-copy-value'
+// The article's one copy action closes the article in its share section.
+const ARTICLE_COPY_PATH = '/blog/avoid-magic-strings-in-typescript-and-javascript/'
+const ARTICLE_COPY_LABEL = 'Copy link'
+const ARTICLE_COPY_STORAGE_KEY = 'article-copy-value'
 
 interface CommandGroup {
   readonly commands: readonly [string, string, string, string]
@@ -125,13 +125,13 @@ for (const viewport of viewports) {
       expect(await hasNoDocumentOverflow(page)).toBe(true)
     })
 
-    test('hides the inert article hero copy control', async ({ page }) => {
-      await page.goto(HERO_COPY_ARTICLE_PATH)
+    test('hides the inert article copy control', async ({ page }) => {
+      await page.goto(ARTICLE_COPY_PATH)
 
-      const hero = page.locator('.editorial-detail-hero')
+      const sharing = page.locator('[data-share-card]')
 
-      await expect(hero.getByRole('button', { includeHidden: true, name: HERO_COPY_LABEL, exact: true })).toHaveCount(1)
-      await expect(hero.getByRole('button', { name: HERO_COPY_LABEL, exact: true })).toHaveCount(0)
+      await expect(sharing.getByRole('button', { includeHidden: true, name: ARTICLE_COPY_LABEL, exact: true })).toHaveCount(1)
+      await expect(sharing.getByRole('button', { name: ARTICLE_COPY_LABEL, exact: true })).toHaveCount(0)
       expect(await hasNoDocumentOverflow(page)).toBe(true)
     })
   })
@@ -157,7 +157,7 @@ for (const viewport of viewports) {
       await expect(page.getByRole('button', { name: /^(?:Copy|Share) link$/u })).toBeVisible()
     })
 
-    test('keeps the article hero copy control usable', async ({ page }) => {
+    test('keeps the article copy control usable', async ({ page }) => {
       await page.addInitScript(storageKey => {
         const clipboard: Pick<Clipboard, 'writeText'> = {
           writeText: (value: string) => {
@@ -168,20 +168,20 @@ for (const viewport of viewports) {
         }
 
         Object.defineProperty(navigator, 'clipboard', { configurable: true, value: clipboard })
-      }, HERO_COPY_STORAGE_KEY)
-      await page.goto(`${HERO_COPY_ARTICLE_PATH}?source=reading-test#details`)
+      }, ARTICLE_COPY_STORAGE_KEY)
+      await page.goto(`${ARTICLE_COPY_PATH}?source=reading-test#details`)
 
-      // Located by its hook, since the accessible name switches to the copied feedback.
-      const copy = page.locator('.editorial-detail-hero [data-ui-copy-button]')
+      // Located by its ID, since the accessible name switches to the copied feedback.
+      const copy = page.locator('#copy-link-btn')
 
       await expect(copy).toBeVisible()
-      await expect(copy).toHaveAccessibleName(HERO_COPY_LABEL)
+      await expect(copy).toHaveAccessibleName(ARTICLE_COPY_LABEL)
       await copy.click()
 
-      await expect(copy).toHaveText('Copied!', { useInnerText: true })
+      await expect(copy).toHaveText('Link copied!', { useInnerText: true })
       // The permalink drops the live query and fragment.
-      await expect.poll(() => page.evaluate(key => sessionStorage.getItem(key), HERO_COPY_STORAGE_KEY))
-        .toBe(`https://santi020k.com${HERO_COPY_ARTICLE_PATH}`)
+      await expect.poll(() => page.evaluate(key => sessionStorage.getItem(key), ARTICLE_COPY_STORAGE_KEY))
+        .toBe(`https://santi020k.com${ARTICLE_COPY_PATH}`)
     })
   })
 }

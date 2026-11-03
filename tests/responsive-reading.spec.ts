@@ -12,6 +12,15 @@ const openContents = async (page: Page) => {
   return page.getByRole('navigation', { name: 'Table of contents', exact: true })
 }
 
+// Following a link closes the mobile chapter menu, so read the marker from every copy
+// of the contents, shown or not; each one marks the same destination.
+const expectContentsMark = async (page: Page, fragment: string) => {
+  await expect.poll(() => page.locator('nav[aria-label="Table of contents"]').evaluateAll((navigations, id) => (
+    navigations.length > 0 &&
+    navigations.every(navigation => navigation.querySelector(`a[href="#${id}"]`)?.getAttribute('aria-current') === 'location')
+  ), fragment)).toBe(true)
+}
+
 const revealContentsLink = async (page: Page, navigation: Locator, fragment: string) => {
   const link = navigation.locator(`a[href="#${fragment}"]`)
   const chapter = navigation.locator(`[data-chapter-group]:has(a[href="#${fragment}"])`)
@@ -202,9 +211,12 @@ for (const theme of ['light', 'dark'] as const) {
 
           await expect(link).toHaveAttribute('aria-current', 'location')
           await expect.poll(() => page.locator(`#${fragment}`).evaluate(heading => {
-            const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)
+            // Native scrolling lands a heading at the root scroll padding plus its own
+            // scroll margin, which clears the section controls and chapter companion.
+            const landing = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) +
+              parseFloat(getComputedStyle(heading).scrollMarginTop)
 
-            return Math.abs(heading.getBoundingClientRect().top - padding)
+            return Math.abs(heading.getBoundingClientRect().top - landing)
           })).toBeLessThanOrEqual(1)
           await expect(navigation.locator('[aria-current="location"]')).toHaveCount(1)
         }
@@ -308,7 +320,7 @@ for (const theme of ['light', 'dark'] as const) {
 
       await destination.focus()
       await page.keyboard.press('Enter')
-      await expect(destination).toHaveAttribute('aria-current', 'location')
+      await expectContentsMark(page, 'measurement-does-not-require-a-big-system')
       await expect(page.getByRole('heading', { name: 'Measurement does not require a big system', exact: true })).toBeInViewport()
     })
 
@@ -451,7 +463,7 @@ for (const theme of ['light', 'dark'] as const) {
             await link.focus()
             await page.keyboard.press('Enter')
             await expectHeadingClear()
-            await expect(link).toHaveAttribute('aria-current', 'location')
+            await expectContentsMark(page, fragment)
           })
         }
       }

@@ -3,6 +3,8 @@ import { expect, test } from '@playwright/test'
 
 const TABLE_ARTICLE = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
 const ROADMAP_ARTICLE = '/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library/'
+// Section reference controls wrap each article heading in a row with its link action.
+const ROADMAP_LIST = '[data-section-reference-row]:has(> #future-development) + p + ul'
 
 for (const width of [320, 390, 1440]) {
   for (const textSize of [100, 200]) {
@@ -49,7 +51,7 @@ for (const width of [320, 390, 1440]) {
         expect(tableScan.violations).toEqual([])
 
         await page.goto(ROADMAP_ARTICLE)
-        const roadmap = page.locator('#future-development + p + ul')
+        const roadmap = page.locator(ROADMAP_LIST)
 
         await expect(roadmap).toHaveRole('list')
         await expect(roadmap.getByRole('listitem')).toHaveCount(3)
@@ -57,7 +59,7 @@ for (const width of [320, 390, 1440]) {
         await expect(roadmap).toContainText('Support for additional frameworks')
         await roadmap.scrollIntoViewIfNeeded()
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-        const roadmapScan = await new AxeBuilder({ page }).include('#future-development + p + ul').analyze()
+        const roadmapScan = await new AxeBuilder({ page }).include(ROADMAP_LIST).analyze()
 
         expect(roadmapScan.violations).toEqual([])
       })

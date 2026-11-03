@@ -84,9 +84,10 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto(CODE_ARTICLE)
 
-    const copy = page.locator('.editorial-detail-hero [data-article-copy]')
+    // Article sharing has one copy action, in the closing share section.
+    const copy = page.locator('#copy-link-btn')
 
-    await expect(copy).toHaveAccessibleName('Copy link to article')
+    await expect(copy).toHaveAccessibleName('Copy link')
     await expect(copy).toContainText('Copy link')
     await page.locator('[data-ui-code]').first().scrollIntoViewIfNeeded()
 
@@ -125,12 +126,12 @@ test.describe('Article reading without JavaScript', () => {
 })
 
 const clipboardCases = [
-  { outcome: 'resolve', label: 'Copied! Article link copied', visible: 'Copied!', value: `https://santi020k.com${CODE_ARTICLE}` },
-  { outcome: 'reject', label: 'Try again', visible: 'Try again', value: null }
+  { outcome: 'resolve', label: 'Link copied!', visible: 'Link copied!', value: `https://santi020k.com${CODE_ARTICLE}`, settled: 'Copy link' },
+  { outcome: 'reject', label: 'Try again', visible: 'Try again', value: null, settled: 'Try again' }
 ]
 
-for (const { outcome, label, visible, value } of clipboardCases) {
-  test(`hero copy feedback includes its visible label when clipboard ${outcome}s`, async ({ page }) => {
+for (const { outcome, label, visible, value, settled } of clipboardCases) {
+  test(`article copy feedback includes its visible label when clipboard ${outcome}s`, async ({ page }) => {
     await page.addInitScript(result => {
       Object.defineProperty(navigator, 'clipboard', {
         configurable: true,
@@ -148,7 +149,7 @@ for (const { outcome, label, visible, value } of clipboardCases) {
     await page.goto(`${CODE_ARTICLE}?source=reading-test#details`)
     await page.clock.install()
 
-    const copy = page.locator('.editorial-detail-hero [data-article-copy]')
+    const copy = page.locator('#copy-link-btn')
 
     await copy.click()
 
@@ -157,7 +158,8 @@ for (const { outcome, label, visible, value } of clipboardCases) {
     await expect(copy.getByText(visible, { exact: true })).toBeVisible()
     expect(await page.evaluate(() => sessionStorage.getItem('article-copy-value'))).toBe(value)
 
+    // Success resets after two seconds; a failure keeps its retry label.
     await page.clock.fastForward(2000)
-    await expect(copy).toHaveAccessibleName(outcome === 'resolve' ? 'Copy link to article' : 'Try again')
+    await expect(copy).toHaveAccessibleName(settled)
   })
 }

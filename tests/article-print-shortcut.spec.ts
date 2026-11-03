@@ -117,5 +117,6 @@ test('without browser print support the shortcut stays hidden', async ({ page })
   })
   await page.goto(guide)
   await expect(page.locator('[data-article-print]')).toBeHidden()
-  await expect(page.getByRole('button', { name: 'Copy link to article', exact: true })).toBeVisible()
+  // The reading details that share its row stay in place.
+  await expect(page.locator('[data-reading-utilities] [data-publication-field="words"]')).toBeVisible()
 })
