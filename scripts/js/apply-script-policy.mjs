@@ -3,30 +3,65 @@ import { glob, readFile, writeFile } from 'node:fs/promises'
 import { join, resolve as resolvePath, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { html as markup, parse } from 'parse5'
+
+/**
+ * @typedef {import('parse5').DefaultTreeAdapterTypes.ChildNode} ChildNode
+ * @typedef {import('parse5').DefaultTreeAdapterTypes.Element} Element
+ * @typedef {import('parse5').DefaultTreeAdapterTypes.ParentNode} ParentNode
+ */
+
 const projectRoot = fileURLToPath(new URL('../..', import.meta.url))
 // Archived sites are assembled into v1/, v2/… after this step and keep the header policy,
 // which still allows their inline event handlers.
 const archivePath = /^v\d+\//u
-const scriptElement = /<script\b([^>]*)>([\s\S]*?)<\/script\s*>/giu
-const styleElement = /<style\b[\s\S]*?<\/style\s*>/giu
-const startTag = /<[a-z][\w-]*((?:\s+[^\s"'>/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=<>`]+))?)*)\s*\/?>/giu
-const attributePattern = /\s+([^\s"'>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/gu
 const urlAttributes = new Set(['action', 'formaction', 'href', 'src'])
 const policyMeta = /<meta\s+http-equiv=(["'])content-security-policy\1[^>]*>\s*/giu
 const charsetMeta = /<meta\s+charset=[^>]*>/iu
 const openingHead = /<head\b[^>]*>/iu
-const executableTypes = new Set(['', 'module', 'text/javascript', 'application/javascript'])
 
-/** @param {string} attributes */
-const readType = attributes => {
-  const match = /(?:^|\s)type\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/iu.exec(attributes)
+// Script types the HTML standard runs: classic JavaScript MIME types, modules, import maps,
+// and speculation rules all need a hash; JSON-LD and other data blocks do not.
+const executableTypes = new Set([
+  '',
+  'application/ecmascript',
+  'application/javascript',
+  'application/x-ecmascript',
+  'application/x-javascript',
+  'importmap',
+  'module',
+  'speculationrules',
+  'text/ecmascript',
+  'text/javascript',
+  'text/javascript1.0',
+  'text/javascript1.1',
+  'text/javascript1.2',
+  'text/javascript1.3',
+  'text/javascript1.4',
+  'text/javascript1.5',
+  'text/jscript',
+  'text/livescript',
+  'text/x-ecmascript',
+  'text/x-javascript'
+])
 
-  return (match?.[1] ?? match?.[2] ?? match?.[3] ?? '').trim().toLowerCase()
+/** @param {Element} element @param {string} name */
+const readAttribute = (element, name) => element.attrs.find(attribute => attribute.name === name)?.value
+
+/** @param {Element} element */
+const readType = element => {
+  const type = readAttribute(element, 'type')
+  const language = readAttribute(element, 'language')
+
+  if (type !== undefined) return type.trim().toLowerCase()
+
+  return language ? `text/${language}`.trim().toLowerCase() : ''
 }
 
-/** @param {string} attributes */
-const isInlineExecutable = attributes => !/(?:^|\s)src\s*=/iu.test(attributes) &&
-  executableTypes.has(readType(attributes))
+// SVG scripts name their external file with href instead of src.
+/** @param {Element} element */
+const isExternal = element => element.attrs.some(({ name }) => name === 'src' ||
+  (name === 'href' && element.namespaceURI === markup.NS.SVG))
 
 // Browsers hash the script text after the HTML parser normalizes newlines.
 /** @param {string} source */
@@ -36,40 +71,84 @@ export const hashScript = source => {
   return `'sha256-${digest}'`
 }
 
+// URL parsing removes tabs and newlines anywhere and leading controls and spaces, so
+// "java&#9;script:" still runs.
+/** @param {string} value */
+const normalizeUrl = value => {
+  const url = value.replace(/[\t\n\r]/gu, '')
+  let start = 0
+
+  while (start < url.length && url.charCodeAt(start) <= 0x20) start += 1
+
+  return url.slice(start)
+}
+
 /** @param {string} name @param {string} value */
 const runsScript = (name, value) => /^on[a-z]+$/u.test(name) ||
-  (urlAttributes.has(name) && /^\s*javascript:/iu.test(value))
+  (urlAttributes.has(name) && /^javascript:/iu.test(normalizeUrl(value)))
 
-/**
- * Inline handlers and javascript: URLs cannot be allowed by hash without 'unsafe-hashes'.
- * @param {string} html
- */
-export const findInlineScriptAttributes = html => {
-  const markup = html.replace(scriptElement, '<script>').replace(styleElement, '')
-  const findings = []
+// Values are JSON-quoted so characters such as the tab in "java&#9;script:" stay visible.
+/** @param {Element} element */
+const describeStartTag = element => {
+  const attributes = element.attrs.map(({ name, prefix, value }) => {
+    const qualifiedName = prefix ? `${prefix}:${name}` : name
 
-  for (const [tag, attributes = ''] of markup.matchAll(startTag)) {
-    for (const [, name = '', doubleQuoted, singleQuoted, unquoted] of attributes.matchAll(attributePattern)) {
-      if (runsScript(name.toLowerCase(), doubleQuoted ?? singleQuoted ?? unquoted ?? '')) {
-        findings.push(tag.slice(0, 120))
+    return ` ${qualifiedName}=${JSON.stringify(value)}`
+  })
 
-        break
-      }
+  return `<${element.tagName}${attributes.join('')}>`.slice(0, 120)
+}
+
+// Template contents are included: they run once a script clones them into the page.
+/** @param {ParentNode} root */
+const listElements = root => {
+  /** @type {Element[]} */
+  const elements = []
+  /** @type {ChildNode[]} */
+  const pending = [...root.childNodes].reverse()
+
+  for (let node = pending.pop(); node; node = pending.pop()) {
+    if (!('tagName' in node)) continue
+
+    elements.push(node)
+
+    const children = 'content' in node ? node.content.childNodes : node.childNodes
+
+    for (let index = children.length - 1; index >= 0; index -= 1) {
+      const child = children[index]
+
+      if (child) pending.push(child)
     }
   }
 
-  return findings
+  return elements
 }
 
-/** @param {string} html */
-export const collectInlineScriptHashes = html => {
+/**
+ * Reads the document as the browser builds it, so script text, raw text such as styles,
+ * comments, and malformed markup follow the HTML parsing rules instead of patterns.
+ * Inline handlers and javascript: URLs cannot be allowed by hash without 'unsafe-hashes'.
+ * @param {string} html
+ */
+export const inspectDocument = html => {
+  /** @type {string[]} */
+  const findings = []
+  /** @type {Set<string>} */
   const hashes = new Set()
 
-  for (const [, attributes = '', source = ''] of html.matchAll(scriptElement)) {
-    if (isInlineExecutable(attributes)) hashes.add(hashScript(source))
+  for (const element of listElements(parse(html))) {
+    if (element.attrs.some(({ name, value }) => runsScript(name.toLowerCase(), value))) {
+      findings.push(describeStartTag(element))
+    }
+
+    if (element.tagName === 'script' && !isExternal(element) && executableTypes.has(readType(element))) {
+      const source = element.childNodes.map(node => ('value' in node ? node.value : '')).join('')
+
+      hashes.add(hashScript(source))
+    }
   }
 
-  return hashes
+  return { findings, hashes }
 }
 
 /**
@@ -117,12 +196,13 @@ export const applyScriptPolicy = async (root = projectRoot) => {
 
   for (const file of files) {
     const html = await readFile(join(dist, file), 'utf8')
+    const { findings, hashes: pageHashes } = inspectDocument(html)
 
     documents.set(file, html)
 
-    for (const hash of collectInlineScriptHashes(html)) hashes.add(hash)
+    for (const hash of pageHashes) hashes.add(hash)
 
-    for (const finding of findInlineScriptAttributes(html)) unsafe.push(`${file}: ${finding}`)
+    for (const finding of findings) unsafe.push(`${file}: ${finding}`)
   }
 
   if (unsafe.length > 0) {

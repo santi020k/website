@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path'
 
 import { afterEach, describe, expect, test } from 'vitest'
 
-import { applyScriptPolicy, findInlineScriptAttributes, hashScript, readHeaderScriptSources } from '../apply-script-policy.mjs'
+import { applyScriptPolicy, hashScript, inspectDocument, readHeaderScriptSources } from '../apply-script-policy.mjs'
 
 const directories: string[] = []
 
@@ -82,9 +82,36 @@ describe('script policy', () => {
     expect(html.match(/http-equiv="Content-Security-Policy"/gu)).toHaveLength(1)
   })
 
+  test('reads script text and raw text the way the HTML parser does', () => {
+    const { findings, hashes } = inspectDocument(page([
+      '<script>first()</script >',
+      '<SCRIPT>second()</SCRIPT\t\n data-end>',
+      '<script type="importmap">{"imports":{}}</script>',
+      '<script type="application/ld+json">{"@type":"Person"}</script>',
+      '<style>.note::after { content: "<b onclick=1>" }</style>',
+      '<!-- <a onclick="draft()"> -->',
+      '<textarea><img src=x onerror=y></textarea>'
+    ].join('')))
+
+    expect(findings).toEqual([])
+    expect([...hashes].sort()).toEqual([sha256('first()'), sha256('second()'), sha256('{"imports":{}}')].sort())
+  })
+
   test('fails the build when a page relies on inline handlers or javascript: URLs', async () => {
-    expect(findInlineScriptAttributes(page('<div data-example="onclick=x" title="a > b">Text</div><script>"<b onload=1>"</script>'))).toEqual([])
-    expect(findInlineScriptAttributes(page('<a href="javascript:void(0)">Open</a><img src=x onerror=y>'))).toHaveLength(2)
+    expect(inspectDocument(page('<div data-example="onclick=x" title="a > b">Text</div><script>"<b onload=1>"</script>')).findings).toEqual([])
+    expect(inspectDocument(page([
+      '<a href="javascript:void(0)">Open</a>',
+      '<img src=x onerror=y>',
+      '<a href="java&#9;script:open()">Tab</a>',
+      '<script src="/a.js" onload="ready()"></script>',
+      '<template><button onclick="clone()">Clone</button></template>'
+    ].join(''))).findings).toEqual([
+      '<a href="javascript:void(0)">',
+      '<img src="x" onerror="y">',
+      '<a href="java\\tscript:open()">',
+      '<script src="/a.js" onload="ready()">',
+      '<button onclick="clone()">'
+    ])
 
     const root = await createBuild({ 'index.html': page('<button onclick="save()">Save</button>') })
 

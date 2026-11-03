@@ -180,6 +180,9 @@ catalogs:
     pagefind:
       specifier: 1.5.2
       version: 1.5.2
+    parse5:
+      specifier: ^8.0.1
+      version: 8.0.1
     reading-time:
       specifier: ^1.5.0
       version: 1.5.0
@@ -464,6 +467,9 @@ importers:
       pagefind:
         specifier: 'catalog:'
         version: 1.5.2
+      parse5:
+        specifier: 'catalog:'
+        version: 8.0.1
       reading-time:
         specifier: 'catalog:'
         version: 1.5.0
