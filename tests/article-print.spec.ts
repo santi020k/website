@@ -86,7 +86,10 @@ test('print exposes full examples without JavaScript', async ({ browser }) => {
   const page = await context.newPage()
   await page.goto(guide)
   await page.emulateMedia({ media: 'print' })
-  expect(await page.locator('[data-code-complete]').evaluateAll(blocks => blocks.every(block => block.checkVisibility({ contentVisibilityAuto: true }) && block.getBoundingClientRect().height > 0))).toBe(true)
+  // Screen-only content-visibility skipping is released at the next rendering update.
+  await expect.poll(() => page.locator('[data-code-complete]').evaluateAll(blocks => blocks.every(block => (
+    block.checkVisibility({ contentVisibilityAuto: true }) && block.getBoundingClientRect().height > 0
+  )))).toBe(true)
   await expect(page.locator('[data-article-print-source]')).toBeVisible()
   await context.close()
 })

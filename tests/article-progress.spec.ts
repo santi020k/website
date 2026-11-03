@@ -46,7 +46,18 @@ for (const width of [320, 1440]) {
           if (!bar) throw new Error('The reading indicator is missing')
           return Math.round(bar.getBoundingClientRect().width / element.getBoundingClientRect().width * 100)
         })).toBe(100)
+        const beforeEnd = await page.evaluate(() => scrollY)
+
         await page.keyboard.press('End')
+        // The key scrolls by a delta that can land after a fragment jump. Wait for it to
+        // settle so Back to top is not carried back down by the pending scroll.
+        await expect.poll(() => page.evaluate(start => new Promise<boolean>(resolve => {
+          const position = scrollY
+
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            resolve(position > start && scrollY === position)
+          }))
+        }), beforeEnd)).toBe(true)
         await expect(progress).toHaveAttribute('aria-valuenow', '100')
         await page.getByRole('navigation', { name: 'Page-end navigation', exact: true }).getByRole('link', { name: 'Back to top', exact: true }).click()
         await expect(progress).toHaveAttribute('aria-valuenow', '0')
