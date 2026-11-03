@@ -220,3 +220,53 @@ Remove each override once its parent dependency ranges require a patched version
 The overrides and lockfile must change together. Validate with the frozen install,
 dependency audit, production build, Lighthouse, and the unit and browser suites
 that exercise jsdom.
+
+## November 3 glob, minimatch, and qs advisories
+
+The November 3, 2026 audit reported three moderate advisories, all in development
+tooling. The deployed site is static output and includes none of these packages.
+
+- **minimatch before 11.0.1**: the
+  [glob parts advisory](https://github.com/advisories/GHSA-g3hv-75wg-m249) is a
+  denial of service from patterns that expand into very many parts. ESLint, its
+  config array, typescript-eslint, Import X, SonarJS, and JSX A11y reached
+  minimatch 3, 9, or 10, as did the glob copies below. Minimatch 11 replaces the
+  matching engine, and its maintainer states that engine will not be backported, so
+  `minimatch@<11.0.1` resolves to the 11.0.4 release.
+- **glob 9.0.0 through 14.0.1**: the
+  [cancellation advisory](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4) lets a
+  walk continue after its `AbortSignal` fires. The MDX lint engine and its plugin
+  loader reached glob 10, and the NestJS lint plugin reached glob 11.
+  `glob@>=9.0.0 <14.0.2` resolves to 14.0.3, which is built on minimatch 11 and keeps
+  the promise and sync APIs these consumers call.
+- **qs through 6.16.0**: the
+  [comma-format advisory](https://github.com/advisories/GHSA-6pq8-jhm2-2vcw) lets an
+  array value with a non-callable `toString` throw from `qs.stringify`. The only
+  chain is `@lhci/cli` → Express 4.22.3 and body-parser 1.20.9, which both require
+  `~6.16.0`; the existing override's bound is raised so `qs@>=2.2.5 <6.16.2`
+  resolves to 6.16.2.
+
+Minimatch 11 changes its API: it has no default export, drops `makeRe`, and stores
+matcher objects instead of regular expressions in a pattern's parts. No consumer has
+adopted it yet, so two exact-version patches adapt the ones that rely on the old API:
+
+- `patches/eslint-plugin-jsx-a11y@6.10.2.patch` calls the named `minimatch` export
+  where the plugin's compiled code expected a default export.
+- `patches/eslint-plugin-import-x@4.17.1.patch` matches the `no-internal-modules`
+  `allow` and `forbid` globs through `Minimatch` instead of the removed `makeRe`.
+  Without it, Import X fails to load and ESLint cannot start.
+
+Both patches keep the original call when the old API exists. glob 7 reads minimatch's
+former regular expressions and cannot walk patterns on minimatch 11. Its only chain
+was Lighthouse CI's chrome-launcher 0.13.4 through rimraf 3, and Lighthouse CI uses
+that launcher only to find installed Chrome builds; Lighthouse launches Chrome with
+its own chrome-launcher 1.2.2. `@lhci/cli>chrome-launcher` resolves to 0.15.2, which
+offers the same lookup and deletes profiles with Node's `fs`, removing rimraf 3,
+glob 7, and inflight from the graph.
+
+`scripts/js/__tests__/dependency-security.test.ts` checks that both patched plugins
+still match their option globs. Before and after the change, ESLint lints the same
+804 files with no diagnostics. Remove each override and patch once its consumers'
+ranges require minimatch 11, glob 14.0.2 or later, and qs 6.16.1 or later. Validate
+with the frozen install, dependency audit, full lint (current site, archives, and
+motion), Markdown lint, Lighthouse, and the unit suite.
