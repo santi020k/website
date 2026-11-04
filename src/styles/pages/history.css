@@ -249,8 +249,17 @@
     .history-mobile { width: min(72%, 13rem); }
   }
 
+  @container history-chapters (width < 13rem) {
+    .history-hero-chapter-links a { grid-template-columns: minmax(0, 1fr) 1rem; grid-template-rows: repeat(3, auto); }
+    .history-hero-chapter-version { grid-row: 1; }
+    .history-hero-chapter-date, .history-hero-chapter-state { grid-column: 1 / -1; }
+    .history-hero-chapter-date { grid-row: 2; }
+    .history-hero-chapter-state { grid-row: 3; }
+    .history-hero-chapter-links [data-history-chapter-icon] { grid-column: 2; grid-row: 1; }
+  }
+
   @container history-era (width < 16rem) {
-    .remaining-pages .history-era [data-history-era-summary][data-slot='card'],
+    .remaining-pages .history-era [data-history-era-summary][data-slot='card'] { padding-inline: .375rem; }
     .remaining-pages .history-era [data-history-captures][data-slot='card'] { padding-inline: .625rem; }
   }
 }
