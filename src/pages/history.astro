@@ -103,7 +103,7 @@ const meta = {
 
     <ol class="history-timeline" id="versions" aria-label={t('page.websiteDesignErasNewestFirst')}>
       {eras.map(era => (
-        <li class="history-era" id={era.id}>
+        <li class="history-era" id={era.id} data-history-era-current={era.current ? '' : undefined}>
           <article class="history-era-body" aria-labelledby={`${era.id}-title`}>
             <Card data-history-era-summary variant="unstyled">
               <div class="history-era-marker">

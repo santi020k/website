@@ -21,7 +21,8 @@ status share a paper-like card with its title and description. The Split exhibit
 below pairs the complete desktop and mobile captures in one sculpted surface,
 with a version/address header and separate device captions. On phones, the introduction and exhibit share one continuous surface. The
 complete captures sit side by side at more equal widths, and stack when enlarged
-text or a narrow exhibit needs more room. The archive action follows the exhibit. The chapter anchors and
+text or a narrow exhibit needs more room. The archive action follows the exhibit. On phones, the current chapter uses a
+shared mount for the two captures and a footer for its homepage link. The chapter anchors and
 full-document archive links remain usable without JavaScript.
 
 The Archive colophon closes the timeline with the preservation heading and a

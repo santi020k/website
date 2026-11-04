@@ -249,6 +249,47 @@
     .history-mobile { width: min(72%, 13rem); }
   }
 
+
+  [data-history-era-current] .history-status {
+    border-radius: 999px;
+    padding: .1875rem .625rem;
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--brand));
+  }
+
+  [data-theme='dark'] [data-history-era-current] .history-status { color: hsl(var(--accent)); }
+
+  .remaining-pages [data-history-era-current] [data-history-captures][data-slot='card'] { border-radius: 0; }
+
+  [data-history-era-current] .history-capture-pair {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    align-items: end;
+    gap: .75rem;
+    padding: .625rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: .875rem;
+    background: hsl(var(--surface-muted));
+  }
+
+  [data-history-era-current] .history-capture-pair img {
+    outline: 1px solid hsl(var(--line));
+  }
+
+  [data-history-era-current] .history-era-actions {
+    margin-top: 0;
+    border: 1px solid hsl(var(--line));
+    border-top: 0;
+    border-radius: 0 0 1.25rem .375rem;
+    padding: .75rem 1rem;
+    background: hsl(var(--surface));
+  }
+
+  [data-history-era-current] [data-history-era-action] { min-height: 44px; }
+
+  @container history-captures (width < 14rem) {
+    [data-history-era-current] .history-capture-pair { grid-template-columns: minmax(0, 1fr); }
+  }
+
   @container history-chapters (width < 13rem) {
     .history-hero-chapter-links a { grid-template-columns: minmax(0, 1fr) 1rem; grid-template-rows: repeat(3, auto); }
     .history-hero-chapter-version { grid-row: 1; }

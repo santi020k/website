@@ -91,6 +91,13 @@ test('phone widths use touch-sized chapter rows and a paired exhibit', async ({ 
   const desktopRight = await exhibit.locator('.history-desktop').evaluate(figure => figure.getBoundingClientRect().right)
   const mobileLeft = await exhibit.locator('.history-mobile').evaluate(figure => figure.getBoundingClientRect().left)
   expect(desktopRight).toBeLessThan(mobileLeft)
+
+  const desktopBottom = await exhibit.locator('.history-desktop img').evaluate(image => image.getBoundingClientRect().bottom)
+  const mobileBottom = await exhibit.locator('.history-mobile img').evaluate(image => image.getBoundingClientRect().bottom)
+  expect(desktopBottom).toBeCloseTo(mobileBottom, 0)
+
+  const actionHeight = await page.locator('#v5 [data-history-era-action]').evaluate(action => action.getBoundingClientRect().height)
+  expect(actionHeight).toBeGreaterThanOrEqual(44)
 })
 
 test.describe('History chapters without JavaScript', () => {
