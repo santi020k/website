@@ -61,7 +61,8 @@ jobs:
     name: ${{ matrix.project }} (${{ matrix.shard }}/6)
     needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # Slow Ubuntu mirrors can take over 20 minutes to install WebKit dependencies.
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -96,6 +97,7 @@ jobs:
         env:
           BROWSER: ${{ matrix.browser }}
       - name: Run the browser project shard
+        timeout-minutes: 40
         run: pnpm exec playwright test --project="$PROJECT" --shard="$SHARD/6" --reporter=line
         env:
           PROJECT: ${{ matrix.project }}

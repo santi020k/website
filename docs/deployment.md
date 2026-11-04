@@ -166,7 +166,8 @@ the required status check.
 **E2E Matrix (Weekly/Manual)** runs every browser project in six shards each
 Monday against the default branch. Dispatch it manually to check another branch.
 Unlike the pull request suite, which runs in Google Chrome, its Chromium projects use
-Playwright's own Chromium build.
+Playwright's own Chromium build. Each shard has a 60-minute job limit to leave room for
+browser dependency installation, with a 40-minute limit on the test step.
 
 ## Current release integration
 
