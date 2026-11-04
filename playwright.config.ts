@@ -25,8 +25,9 @@ const previewServerCommand = shouldBuildPreviewServer ?
   `pnpm run build && pnpm run preview --host ${previewHost} --port ${previewPort}` :
   `pnpm run preview --host ${previewHost} --port ${previewPort}`
 
+// Workaround for occasional CI sandbox/driver instability. These are Chromium switches:
+// WebKit refuses to start with an unknown option, so only Chromium projects pass them.
 const chromiumLaunchOptions = {
-  // Workaround for occasional CI sandbox/driver instability on Chromium.
   args: ['--disable-gpu', '--disable-software-rasterizer']
 }
 
@@ -34,8 +35,8 @@ const chromiumProject = {
   name: 'chromium',
   use: {
     ...devices['Desktop Chrome'],
-    ...(chromiumChannel ? { channel: chromiumChannel } : {}),
-    launchOptions: chromiumLaunchOptions
+    launchOptions: chromiumLaunchOptions,
+    ...(chromiumChannel ? { channel: chromiumChannel } : {})
   }
 }
 
@@ -51,10 +52,7 @@ const fullBrowserProjects = [
   },
   {
     name: 'Mobile Chrome',
-    use: {
-      ...devices['Pixel 7'],
-      launchOptions: chromiumLaunchOptions
-    }
+    use: { ...devices['Pixel 7'], launchOptions: chromiumLaunchOptions }
   },
   {
     name: 'Mobile Safari',

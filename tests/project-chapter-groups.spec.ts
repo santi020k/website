@@ -133,7 +133,7 @@ test('desktop chapters and their section destinations work without JavaScript', 
 
   try {
     await page.goto(route)
-    await page.evaluate(() => document.fonts.ready)
+    await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
     const chapter = page.locator('[data-project-desktop-toc] [data-reading-contents] details').first()
 
     await chapter.locator('summary').focus()

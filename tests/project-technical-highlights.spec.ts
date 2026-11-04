@@ -85,7 +85,7 @@ test('technology connections work without JavaScript', async ({ browser }) => {
 
   try {
     await page.goto(`${route}#technical-highlights`)
-    await page.evaluate(() => document.fonts.ready)
+    await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
     const react = page.locator('[data-technical-highlights="Marcone"] a[href="/technologies/react-js/"]')
 
     await expect(react).not.toHaveAttribute('target', '_blank')

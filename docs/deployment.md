@@ -25,6 +25,10 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
   the first document; when the next page carries a different policy (a new deployment or an
   archive), the router loads it as a full document instead. The build fails if a current page uses
   an inline event handler or a `javascript:` URL, which no hash can allow.
+  After a swap, Astro's router appends an empty `data:application/javascript,` module to wait for
+  inline module scripts. Neither policy allows `data:` scripts, so the console reports that one
+  blocked load when the last new module script on the page is inline, as on `/blog/`. The module is
+  empty and the router treats its error like a load, so pages keep working.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **Strict-Transport-Security**: `max-age=31536000`, so browsers keep using HTTPS for a year after
@@ -159,8 +163,10 @@ result: it fails when any selected job fails or is cancelled and passes when a
 documentation-only change skips the build-dependent jobs. Keep `Quality gate` as
 the required status check.
 
-**E2E Matrix (Weekly/Manual)** runs every browser project in four shards each
+**E2E Matrix (Weekly/Manual)** runs every browser project in six shards each
 Monday against the default branch. Dispatch it manually to check another branch.
+Unlike the pull request suite, which runs in Google Chrome, its Chromium projects use
+Playwright's own Chromium build.
 
 ## Current release integration
 

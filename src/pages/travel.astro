@@ -219,6 +219,8 @@ const meta = {
   @container travel-notebook (width < 14rem) {
     [data-travel-country-list] article { grid-template-columns: minmax(0, 1fr); gap: .75rem; padding-block: 1.5rem; }
     [data-travel-notebook-code] { font-size: 1.0625rem; }
+    /* At a fixed 1.4375rem, "Guatemala" filled the column to within 2px and could break. */
+    [data-travel-country-heading] h3 { font-size: min(1.4375rem, 18.5cqi); }
   }
 
   @media (max-width: 47.999rem) {

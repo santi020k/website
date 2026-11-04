@@ -133,7 +133,7 @@ test('comparison images and original-image links work without JavaScript', async
 
   try {
     await page.goto(route)
-    await page.evaluate(() => document.fonts.ready)
+    await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
     const comparison = page.getByRole('region', { name: 'Marcone before and after' })
 
     await expect(comparison.getByRole('img')).toHaveCount(2)

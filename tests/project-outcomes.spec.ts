@@ -22,7 +22,7 @@ for (const javaScriptEnabled of [true, false]) {
     try {
       for (const fragment of ['key-outcomes', 'sidebar-outcomes']) {
         await page.goto(`/portfolio/smith-commerce/#${fragment}`)
-        await page.evaluate(() => document.fonts.ready)
+        await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
         const card = page.getByRole('region', { name: 'Outcomes', exact: true })
 
         await expect(card.getByRole('heading')).toBeInViewport()

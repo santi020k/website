@@ -75,7 +75,7 @@ test('Lumen evidence destinations open without JavaScript', async ({ browser }) 
   const page = await context.newPage()
 
   await page.goto('/portfolio/lumen-ui/#compatibility-validation')
-  await page.evaluate(() => document.fonts.ready)
+  await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
   const brief = page.getByRole('region', { name: 'Compatibility & validation', exact: true })
 
   for (const reference of references) {

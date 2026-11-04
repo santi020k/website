@@ -94,7 +94,7 @@ for (const javaScriptEnabled of [true, false]) {
 
     try {
       await page.goto('/portfolio/lumen-ui/#project-return')
-      await page.evaluate(() => document.fonts.ready)
+      await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
       const nav = page.getByRole('navigation', { name: 'Page-end navigation', exact: true })
       const site = nav.getByRole('link', { name: 'Visit Lumen UI', exact: true })
       const playground = nav.getByRole('link', { name: 'Try the playgrounds', exact: true })

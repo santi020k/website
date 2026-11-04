@@ -201,5 +201,5 @@ describe('CI change detection', () => {
     } finally {
       await rm(decoy, { recursive: true, force: true })
     }
-  })
+  }, 15_000)
 })

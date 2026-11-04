@@ -82,7 +82,7 @@ for (const locale of ['en', 'es'] as const) {
       const hero = page.locator('[data-blog-archive-spread]')
 
       await expect(hero.locator('[data-archive-count]')).toBeVisible()
-      await page.evaluate(() => document.fonts.ready)
+      await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
       await hero.getByRole('link').first().click()
       await expect(page).toHaveURL(`${prefix}/blog/`)
       await expect(page.locator('[data-blog-archive-spread]')).toHaveCount(0)

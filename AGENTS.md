@@ -72,6 +72,8 @@ integration log is archived in `docs/archive/v5-release-readiness.md`.
   `@reference "../global.css";`) and is imported by that page; a component's private rules can be
   imported by the component. Astro links these stylesheets before or after the shared bundle depending
   on the import graph, so resolve conflicts with shared rules through specificity, not source order.
+  On client-side navigation, `src/layouts/Base.astro` copies each stylesheet the next page adds into a
+  `<style>` element so Safari applies it with the swap instead of a frame later.
 - Class order follows Tailwind Prettier plugin conventions (ESLint enforces this)
 - Always include `motion-reduce:` variants when adding animations or transitions
 

@@ -78,7 +78,7 @@ for (const locale of ['en', 'es'] as const) {
 
     test('opens the localized series catalog', async ({ page }) => {
       await page.goto(`${prefix}/blog/#blog-series`)
-      await page.evaluate(() => document.fonts.ready)
+      await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
       await expect(page.getByRole('heading', { name: heading, exact: true })).toBeVisible()
       await page.locator('[data-blog-series-browse]').click()
       await expect(page).toHaveURL(`${prefix}/blog/series/`)

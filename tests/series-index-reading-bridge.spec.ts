@@ -82,7 +82,7 @@ for (const locale of ['en', 'es'] as const) {
     test('opens both localized reading destinations', async ({ page }) => {
       for (const [index, destination] of destinations.entries()) {
         await page.goto(`${prefix}/blog/series/#series-index-bridge`)
-        await page.evaluate(() => document.fonts.ready)
+        await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
         await page.locator('[data-series-index-bridge]').getByRole('link').nth(index).click()
         await expect(page).toHaveURL(destination)
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

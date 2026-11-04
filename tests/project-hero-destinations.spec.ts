@@ -83,7 +83,7 @@ for (const javaScriptEnabled of [true, false]) {
 
     try {
       await page.goto('/portfolio/smith-commerce/')
-      await page.evaluate(() => document.fonts.ready)
+      await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
       const link = page.getByRole('navigation', { name: 'Project destinations' }).getByRole('link', { name: 'View F.W. Webb previews' })
 
       await expect(link).not.toHaveAttribute('target', '_blank')

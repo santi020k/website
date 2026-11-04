@@ -42,11 +42,13 @@ test.describe('article illustrations', () => {
 
       for (const figure of await figures.all()) {
         await figure.scrollIntoViewIfNeeded()
-        const layout = await figure.evaluate(async element => {
+        await expect.poll(() => figure.locator('img').evaluate(image => (
+          image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0
+        ))).toBe(true)
+        const layout = await figure.evaluate(element => {
           const image = element.querySelector('img')
           const caption = element.querySelector('figcaption')
           if (!image || !caption) throw new TypeError('Expected an illustrated figure with a caption')
-          await image.decode()
           const imageBounds = image.getBoundingClientRect()
           return {
             loaded: image.naturalWidth > 0,

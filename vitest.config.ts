@@ -37,6 +37,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     pool: 'vmThreads',
+    env: {
+      ASTRO_TELEMETRY_DISABLED: '1'
+    },
     setupFiles: ['./src/test-setup.ts'],
     // Generated review scripts can use Playwright and are not Vitest suites.
     exclude: ['**/node_modules/**', '**/tests/**', '**/dist/**', '**/.cache/**'],

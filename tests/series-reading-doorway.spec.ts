@@ -98,7 +98,7 @@ for (const locale of ['en', 'es'] as const) {
         const destination = requireValue(await first.getAttribute('href'))
 
         await expect(page.locator('[data-series-card-estimate]').first()).toContainText(/\d+ min/u)
-        await page.evaluate(() => document.fonts.ready)
+        await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
         await first.click()
         await expect(page).toHaveURL(destination)
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

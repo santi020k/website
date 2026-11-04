@@ -887,7 +887,7 @@ order and does not imply an itinerary.
 
 Below 28rem of notebook width, tighten the code margin to 2.75rem, place the visit
 label beneath the name, and use 1.4375rem titles. Below 14rem, stack the code above
-the content. Keep complete words at enlarged text sizes, readable light/dark
+the content and cap titles at 18.5cqi. Keep complete words at enlarged text sizes, readable light/dark
 colors, native keyboard disclosure behavior, and all content without JavaScript.
 The notebook adds no new client controller or animation.
 

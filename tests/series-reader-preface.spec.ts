@@ -80,7 +80,7 @@ for (const locale of ['en', 'es'] as const) {
       const link = page.locator('[data-series-focus]').getByRole('link').first()
       const destination = requireValue(await link.getAttribute('href'))
 
-      await page.evaluate(() => document.fonts.ready)
+      await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
       await link.click()
       await expect(page).toHaveURL(destination)
     })

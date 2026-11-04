@@ -100,10 +100,10 @@ for (const theme of ['light', 'dark'] as const) {
     })
     const page = await context.newPage()
     await page.goto('/travel/')
-    await page.evaluate(async () => {
+    await page.evaluate(() => {
       document.documentElement.style.fontSize = '200%'
-      await document.fonts.ready
     })
+    await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
     const totals = page.locator('[data-travel-counts]')
     await expect(totals.locator('dt')).toHaveText(['countries abroad', 'visits'])
     await expect(totals.locator('dd')).toHaveText(['14', '29'])
@@ -137,10 +137,10 @@ for (const theme of ['light', 'dark'] as const) {
     })
     const page = await context.newPage()
     await page.goto('/travel/')
-    await page.evaluate(async () => {
+    await page.evaluate(() => {
       document.documentElement.style.fontSize = '200%'
-      await document.fonts.ready
     })
+    await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
     const story = page.getByRole('region', { name: 'Colombia, Paraguay, and the places between.' })
     await expect(story).toContainText('Colombia is where I’m from.')
     await expect(story).toContainText('Asunción, Encarnación, and Ciudad del Este.')
@@ -173,10 +173,10 @@ for (const theme of ['light', 'dark'] as const) {
     })
     const page = await context.newPage()
     await page.goto('/travel/')
-    await page.evaluate(async () => {
+    await page.evaluate(() => {
       document.documentElement.style.fontSize = '200%'
-      await document.fonts.ready
     })
+    await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
     const invitation = page.getByRole('region', { name: 'More than places on a map.' })
     await expect(invitation).toContainText('Travel posts will join my blog as I finish writing them.')
     const blogLink = invitation.getByRole('link', { name: 'Read the blog' })
@@ -211,10 +211,10 @@ for (const theme of ['light', 'dark'] as const) {
     })
     const page = await context.newPage()
     await page.goto('/travel/')
-    await page.evaluate(async () => {
+    await page.evaluate(() => {
       document.documentElement.style.fontSize = '200%'
-      await document.fonts.ready
     })
+    await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
     const summary = page.locator('#travel-notebook summary')
     await expect(summary).toHaveAccessibleName(`All ${travelCountries.length} countries & the places within them`)
     await summary.focus()
