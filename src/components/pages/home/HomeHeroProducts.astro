@@ -12,32 +12,34 @@ const t = pageTranslator(getLocale(Astro.url.pathname))
 ---
 
 <figure data-home-product-scene>
-  <div data-home-product-stage>
-    <div data-hero-plate="lumen-ui">
-      <div data-hero-workspace-crop>
-        <Image
-          src={LumenWorkspace}
-          alt={t('home.hero.workspaceAlt')}
-          widths={[480, 720, 960, 1184]}
-          sizes="(min-width: 1280px) 640px, (min-width: 768px) 90vw, 120vw"
-          format="webp"
-          loading="eager"
-          fetchpriority="high"
-        />
+  <HomeProductFilm>
+    <div data-home-product-stage>
+      <div data-hero-plate="lumen-ui">
+        <div data-hero-workspace-crop>
+          <Image
+            src={LumenWorkspace}
+            alt={t('home.hero.workspaceAlt')}
+            widths={[480, 720, 960, 1184]}
+            sizes="(min-width: 1280px) 640px, (min-width: 768px) 90vw, 120vw"
+            format="webp"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
       </div>
-    </div>
-    <div data-hero-plate="postlens">
-      <Image
+      <div data-hero-plate="postlens">
+        <Image
           src={PostLensEditor}
           alt={t('home.hero.editorAlt')}
           widths={[160, 200, 240, 320, 480]}
           sizes="(min-width: 1280px) 124px, (min-width: 768px) 200px, calc(33.333vw - 34px)"
           format="webp"
           loading="eager"
-      />
+        />
+      </div>
     </div>
-  </div>
-  <figcaption><HomeProductFilm /><span>{t('home.hero.previewNote')}</span></figcaption>
+  </HomeProductFilm>
+  <figcaption>{t('home.hero.previewNote')}</figcaption>
 </figure>
 
 <style>
@@ -50,7 +52,7 @@ const t = pageTranslator(getLocale(Astro.url.pathname))
   [data-hero-workspace-crop] img { width: 165%; max-width: none; height: auto; }
   [data-hero-plate='postlens'] { position: relative; grid-column: 9 / -1; margin-top: 4rem; border-radius: 1rem; overflow: hidden; box-shadow: 0 0 0 1px hsl(var(--line)), var(--shadow-nav-scrolled); }
   img { display: block; width: 100%; height: auto; }
-  figcaption { margin-top: 1rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; }
+  figcaption { margin-top: 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; }
 
   @container home-hero (width < 62rem) {
     [data-home-product-scene] { width: 100%; max-width: 40rem; margin-inline: auto; }

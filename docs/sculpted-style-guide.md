@@ -27,7 +27,8 @@ in document order. Container queries also provide the stacked layout when text g
 Lumen's workspace appears as a flat, top-left crop with its illustrative-data
 label visible. PostLens uses an upright, complete editor capture with a single
 rounded screen edge; do not add a second bezel around its existing system chrome.
-The figure identifies sample content and offers a 30-second product film. The
+The two previews form a single play surface with an overlaid play control and
+duration. The figure caption identifies the sample content. The
 Lumen dialog loads the video only after an explicit play request, with native
 controls, English and Spanish captions, a visual transcript, and a direct-file
 fallback. Closing or navigating away pauses playback. Reduced motion keeps the

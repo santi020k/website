@@ -20,7 +20,7 @@ for (const locale of ['en', 'es'] as const) {
     await expect(opener).toBeVisible()
     await expect(video).not.toHaveAttribute('src')
     expect(mediaRequests).toEqual([])
-    await opener.click()
+    await page.locator('[data-film-stage]').click({ position: { x: 24, y: 24 } })
     await expect(dialog).toBeVisible()
     await expect(video).toHaveAttribute('src', locale === 'es' ?
       '/media/products/santi020k-products-portrait.mp4' :
@@ -34,7 +34,7 @@ for (const locale of ['en', 'es'] as const) {
     await expect(dialog).toBeHidden()
     await expect(video).toHaveJSProperty('paused', true)
     await expect(opener).toBeFocused()
-    await opener.click()
+    await page.keyboard.press('Enter')
     await expect(dialog).toBeVisible()
     await dialog.locator('[data-ui-dialog-close]').click()
     await expect(video).toHaveJSProperty('paused', true)
