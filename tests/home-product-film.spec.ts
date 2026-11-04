@@ -42,15 +42,21 @@ for (const locale of ['en', 'es'] as const) {
   })
 }
 
-test('the film provides recovery when media cannot be loaded', async ({ page }) => {
-  await page.route('**/media/products/*.mp4', route => route.abort())
-  await page.goto('/')
-  await page.locator('[data-film-open]').click()
-  await expect(page.locator('[data-film-error]')).toBeVisible()
-  await expect(page.getByRole('link', { name: 'Open the video file' })).toHaveAttribute('href', '/media/products/santi020k-products.mp4')
-  await page.getByText('Read the visual transcript', { exact: true }).click()
-  await expect(page.locator('[data-film-footer] details p')).toContainText('compare the edited landscape')
-})
+for (const [format, width, videoPath] of [
+  ['landscape', 1440, '/media/products/santi020k-products.mp4'],
+  ['portrait', 390, '/media/products/santi020k-products-portrait.mp4']
+] as const) {
+  test(`the ${format} film provides recovery when media cannot be loaded`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 })
+    await page.route('**/media/products/*.mp4', route => route.abort())
+    await page.goto('/')
+    await page.locator('[data-film-open]').click()
+    await expect(page.locator('[data-film-error]')).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Open the video file' })).toHaveAttribute('href', videoPath)
+    await page.getByText('Read the visual transcript', { exact: true }).click()
+    await expect(page.locator('[data-film-footer] details p')).toContainText('compare the edited landscape')
+  })
+}
 
 test('the movie remains accessible without JavaScript', async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, baseURL: new URL('/', baseURL).href })
