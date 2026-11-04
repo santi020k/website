@@ -1,6 +1,7 @@
 import { expect, type Page, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { waitForFonts } from './helpers/rendering'
 
 const route = '/portfolio/smith-commerce/'
 
@@ -17,7 +18,7 @@ for (const width of [320, 375, 390, 1440]) {
           await target.evaluate(size => {
             document.documentElement.style.fontSize = `${size}%`
           }, textSize)
-          await expect.poll(() => target.evaluate(() => document.fonts.status)).toBe('loaded')
+          await waitForFonts(target)
           const controls = target.locator('[data-gallery-actions]').getByRole(role, { name: /^View larger:/u })
 
           await expect(controls).toHaveCount(2)

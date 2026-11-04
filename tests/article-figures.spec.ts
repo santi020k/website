@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import { waitForImages } from './helpers/rendering'
+
 const articles = [
   {
     slug: 'migrate-eslint-8-or-less-to-eslint-9',
@@ -42,9 +44,7 @@ test.describe('article illustrations', () => {
 
       for (const figure of await figures.all()) {
         await figure.scrollIntoViewIfNeeded()
-        await expect.poll(() => figure.locator('img').evaluate(image => (
-          image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0
-        ))).toBe(true)
+        await waitForImages(figure.locator('img'))
         const layout = await figure.evaluate(element => {
           const image = element.querySelector('img')
           const caption = element.querySelector('figcaption')

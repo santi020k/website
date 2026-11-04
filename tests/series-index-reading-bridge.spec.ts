@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import { requireValue } from './helpers/assertions'
+import { waitForFonts } from './helpers/rendering'
 
 for (const locale of ['en', 'es'] as const) {
   const prefix = locale === 'es' ? '/es' : ''
@@ -82,7 +83,7 @@ for (const locale of ['en', 'es'] as const) {
     test('opens both localized reading destinations', async ({ page }) => {
       for (const [index, destination] of destinations.entries()) {
         await page.goto(`${prefix}/blog/series/#series-index-bridge`)
-        await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
+        await waitForFonts(page)
         await page.locator('[data-series-index-bridge]').getByRole('link').nth(index).click()
         await expect(page).toHaveURL(destination)
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { waitForFonts } from './helpers/rendering'
 
 for (const locale of ['en', 'es'] as const) {
   const prefix = locale === 'es' ? '/es' : ''
@@ -86,7 +87,7 @@ for (const locale of ['en', 'es'] as const) {
     test('retains the introduction and native topic destinations', async ({ page }) => {
       await page.goto(`${prefix}/blog/2/#posts`)
       await expect(page.locator('[data-blog-archive-caption] h2')).toHaveText(heading)
-      await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
+      await waitForFonts(page)
       await page.locator(`[data-blog-topic-guide] a[href="${prefix}/blog/tags/typescript/"]`).press('Enter')
       await expect(page).toHaveURL(`${prefix}/blog/tags/typescript/`)
     })

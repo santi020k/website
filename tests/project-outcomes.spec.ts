@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { waitForFonts } from './helpers/rendering'
 
 const smithOutcomes = [
   'Marcone: Lighthouse score improved from 35 to 98',
@@ -22,7 +23,7 @@ for (const javaScriptEnabled of [true, false]) {
     try {
       for (const fragment of ['key-outcomes', 'sidebar-outcomes']) {
         await page.goto(`/portfolio/smith-commerce/#${fragment}`)
-        await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
+        await waitForFonts(page)
         const card = page.getByRole('region', { name: 'Outcomes', exact: true })
 
         await expect(card.getByRole('heading')).toBeInViewport()

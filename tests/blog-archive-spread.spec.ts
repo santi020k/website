@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { waitForFonts } from './helpers/rendering'
 
 for (const locale of ['en', 'es'] as const) {
   const prefix = locale === 'es' ? '/es' : ''
@@ -82,7 +83,7 @@ for (const locale of ['en', 'es'] as const) {
       const hero = page.locator('[data-blog-archive-spread]')
 
       await expect(hero.locator('[data-archive-count]')).toBeVisible()
-      await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
+      await waitForFonts(page)
       await hero.getByRole('link').first().click()
       await expect(page).toHaveURL(`${prefix}/blog/`)
       await expect(page.locator('[data-blog-archive-spread]')).toHaveCount(0)

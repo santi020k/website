@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { waitForFonts } from './helpers/rendering'
+
 const references = [
   { name: 'Native compatibility matrix', href: 'https://github.com/santi020k/lumen/blob/main/docs/native-compatibility.md' },
   { name: 'Device validation record', href: 'https://github.com/santi020k/lumen/blob/main/docs/native-device-validation.md' }
@@ -75,7 +77,7 @@ test('Lumen evidence destinations open without JavaScript', async ({ browser }) 
   const page = await context.newPage()
 
   await page.goto('/portfolio/lumen-ui/#compatibility-validation')
-  await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
+  await waitForFonts(page)
   const brief = page.getByRole('region', { name: 'Compatibility & validation', exact: true })
 
   for (const reference of references) {

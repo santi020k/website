@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import { requireValue } from './helpers/assertions'
+import { waitForFonts } from './helpers/rendering'
 
 for (const locale of ['en', 'es'] as const) {
   const prefix = locale === 'es' ? '/es' : ''
@@ -98,7 +99,7 @@ for (const locale of ['en', 'es'] as const) {
         const destination = requireValue(await first.getAttribute('href'))
 
         await expect(page.locator('[data-series-card-estimate]').first()).toContainText(/\d+ min/u)
-        await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
+        await waitForFonts(page)
         await first.click()
         await expect(page).toHaveURL(destination)
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

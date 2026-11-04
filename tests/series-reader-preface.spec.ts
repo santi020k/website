@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import { requireValue } from './helpers/assertions'
+import { waitForFonts } from './helpers/rendering'
 
 for (const locale of ['en', 'es'] as const) {
   const prefix = locale === 'es' ? '/es' : ''
@@ -80,7 +81,7 @@ for (const locale of ['en', 'es'] as const) {
       const link = page.locator('[data-series-focus]').getByRole('link').first()
       const destination = requireValue(await link.getAttribute('href'))
 
-      await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
+      await waitForFonts(page)
       await link.click()
       await expect(page).toHaveURL(destination)
     })
