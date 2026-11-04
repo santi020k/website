@@ -136,28 +136,30 @@ test('offline file navigations fail while dotted technology aliases retain page 
     await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
 
     server.setOnline(false)
+    await page.evaluate(() => {
+      location.assign('/technologies/Nest.js')
+    })
+    await expect(page).toHaveURL(/\/technologies\/Nest\.js$/u)
+    await expect(page).toHaveTitle('Offline | santi020k')
+    await expect(page.getByRole('button', { name: 'Try again', exact: true })).toBeVisible()
+
+    // Firefox's navigation error pages can disrupt later requests to this origin.
     for (const path of ['/robots.txt', '/favicon.svg?uncached=1', '/_astro/uncached-preview.webp']) {
       const filePage = await context.newPage()
 
       try {
         await expect(filePage.goto(path)).rejects.toThrow()
       } finally {
-        // A failed navigation can commit a browser error page after goto rejects.
-        // Keep that navigation isolated from the page-recovery assertion below.
         await filePage.close()
       }
     }
-
-    await page.goto('/technologies/Nest.js')
-    await expect(page).toHaveTitle('Offline | santi020k')
-    await expect(page.getByRole('button', { name: 'Try again', exact: true })).toBeVisible()
   } finally {
     await context.close()
     await server.close()
   }
 })
 
-test('page query variants share one query-free cache entry and still work offline', async ({ browser, baseURL }) => {
+test('page query variants share a query-free cache entry per Vary value and still work offline', async ({ browser, baseURL }) => {
   const server = await createOfflinePreview(baseURL, {}, { vary: 'Accept-Encoding, Accept-Language' })
   const context = await browser.newContext({ baseURL: server.url, reducedMotion: 'reduce' })
 
@@ -182,15 +184,21 @@ test('page query variants share one query-free cache entry and still work offlin
 
       if (!name) throw new Error('Missing current worker cache')
 
-      return (await (await caches.open(name)).keys()).map(request => request.url)
+      return (await (await caches.open(name)).keys()).map(request => ({
+        url: request.url,
+        vary: [request.headers.get('accept-encoding'), request.headers.get('accept-language')]
+      }))
     })
 
-    await expect.poll(async () => (await readKeys()).map(url => new URL(url).pathname)).toContain('/about/')
+    await expect.poll(async () => (await readKeys()).map(({ url }) => new URL(url).pathname)).toContain('/about/')
 
-    const pageKeys = (await readKeys()).map(url => new URL(url)).filter(url => url.pathname.endsWith('/'))
+    const pageKeys = (await readKeys()).map(({ url, vary }) => ({ url: new URL(url), vary }))
+      .filter(({ url }) => url.pathname.endsWith('/'))
+    const homeKeys = pageKeys.filter(({ url }) => url.pathname === '/')
 
-    expect(pageKeys.filter(url => url.search !== '')).toEqual([])
-    expect(pageKeys.filter(url => url.pathname === '/')).toHaveLength(1)
+    expect(pageKeys.filter(({ url }) => url.search !== '')).toEqual([])
+    expect(homeKeys.length).toBeGreaterThan(0)
+    expect(new Set(homeKeys.map(({ vary }) => JSON.stringify(vary))).size).toBe(homeKeys.length)
 
     server.setOnline(false)
     await page.goto('/?q=aaron')

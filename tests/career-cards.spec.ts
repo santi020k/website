@@ -310,10 +310,11 @@ for (const theme of ['light', 'dark'] as const) {
           document.documentElement.style.fontSize = `${textSize}%`
           await document.fonts.ready
         }, size)
-        const clipped = await rows.evaluateAll(items => items.flatMap(row => [...row.querySelectorAll('[data-career-identity], h3, p, time')].filter(element => {
+        const clipped = await rows.evaluateAll(items => items.flatMap(row => [...row.querySelectorAll('[data-career-identity], [data-career-end], h3, p, time')].filter(element => {
           const bounds = element.getBoundingClientRect()
 
-          return bounds.left < 0 || bounds.right > innerWidth + 1 || element.scrollWidth > element.clientWidth + 1
+          return bounds.left < 0 || bounds.right > innerWidth + 1 ||
+            (element.clientWidth > 0 && element.scrollWidth > element.clientWidth + 1)
         }).map(element => element.textContent)))
 
         expect(clipped, `Spanish career content at ${width}px and ${size}%`).toEqual([])

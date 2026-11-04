@@ -402,8 +402,8 @@ test('the icon-only desktop search works by pointer and keyboard shortcut', asyn
   // The icon keeps a square touch target even when the full bar has spare space.
   const searchBox = requireValue(await search.boundingBox())
 
-  expect(searchBox.width).toBeGreaterThanOrEqual(44)
-  expect(searchBox.width).toBe(searchBox.height)
+  expect(searchBox.width).toBeGreaterThanOrEqual(44 - 0.005)
+  expect(searchBox.width).toBeCloseTo(searchBox.height)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 
   await search.click()

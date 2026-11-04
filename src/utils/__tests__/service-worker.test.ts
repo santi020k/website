@@ -9,7 +9,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 const source = readFileSync(resolvePath(process.cwd(), 'public/sw.js'), 'utf8')
 const origin = 'https://santi020k.com'
 
-const setupWorker = (assets: string[] = []) => {
+const setupWorker = (assets: string[] = [], userAgent = 'Chromium') => {
   const handlers = new Map<string, (event: unknown) => void>()
   const cache = {
     addAll: vi.fn<(requests: string[]) => Promise<void>>().mockResolvedValue(undefined),
@@ -36,6 +36,7 @@ const setupWorker = (assets: string[] = []) => {
     self: {
       addEventListener: (type: string, handler: (event: unknown) => void) => handlers.set(type, handler),
       location: { origin },
+      navigator: { userAgent },
       skipWaiting
     }
   })
@@ -603,6 +604,30 @@ describe('Service worker fetch handling', () => {
     const event = worker.dispatch(makeRequest(path, navigation))
 
     expect(await (await event.response)?.text()).toBe('destination')
+    await Promise.all(event.lifetime)
+    expect(worker.cache.put).not.toHaveBeenCalled()
+  })
+
+  test.each([
+    ['Firefox/154.0', 'follow', origin, true],
+    ['Firefox/154.0', 'manual', origin, false],
+    ['Firefox/154.0', 'follow', 'https://example.com', false],
+    ['Chromium', 'follow', origin, false]
+  ] as const)('delivers followed page redirects in %s (%s, %s)', async (userAgent, mode, destinationOrigin, synthesize) => {
+    const worker = setupWorker([], userAgent)
+    const redirected = new Response('destination')
+    const destination = `${destinationOrigin}/about/`
+
+    Object.defineProperty(redirected, 'redirected', { value: true })
+    Object.defineProperty(redirected, 'url', { value: destination })
+    worker.fetch.mockResolvedValue(redirected)
+
+    const event = worker.dispatch(new Request(`${origin}/retired-page/`, { redirect: mode }))
+    const result = await event.response
+
+    expect(result === redirected).toBe(!synthesize)
+    expect(result?.status).toBe(synthesize ? 302 : 200)
+    expect(result?.headers.get('location')).toBe(synthesize ? destination : null)
     await Promise.all(event.lifetime)
     expect(worker.cache.put).not.toHaveBeenCalled()
   })

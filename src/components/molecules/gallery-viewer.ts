@@ -45,11 +45,12 @@ class GalleryViewerElement extends HTMLElement {
   }
 
   #prepareImage = () => {
-    const template = this.querySelector<HTMLTemplateElement>('[data-gallery-template]')
+    const assetSource = this.dataset.galleryImageSrc
     const canvas = this.querySelector('[data-gallery-canvas]')
     const status = this.querySelector('[data-gallery-status]')
     const button = this.querySelector<HTMLButtonElement>('[data-gallery-zoom]')
-    const content = template?.content.cloneNode(true) ?? this.closest('figure')?.querySelector(':scope > img')?.cloneNode(true)
+    // Firefox can speculatively fetch an image's src even inside an inert template.
+    const content = assetSource ? new Image() : this.closest('figure')?.querySelector(':scope > img')?.cloneNode(true)
 
     if (!content || !canvas || !status || !button) return
 
@@ -58,8 +59,14 @@ class GalleryViewerElement extends HTMLElement {
 
       content.removeAttribute('id')
 
-      // Preserve Astro's optimized source; use the intrinsic size for detail inspection.
-      content.sizes = `${content.width}px`
+      if (assetSource) {
+        content.alt = this.dataset.galleryImageAlt ?? ''
+
+        content.decoding = 'async'
+      } else {
+        // Preserve Astro's optimized source; use the intrinsic size for detail inspection.
+        content.sizes = `${content.width}px`
+      }
     }
 
     this.#setZoom(false)
@@ -74,9 +81,11 @@ class GalleryViewerElement extends HTMLElement {
 
     this.#image = canvas.querySelector('img')
 
+    if (assetSource && this.#image) this.#image.src = assetSource
+
     const recovery = this.querySelector<HTMLAnchorElement>('[data-gallery-error-link]')
 
-    if (!template && recovery && this.#image) recovery.href = this.#image.src
+    if (!assetSource && recovery && this.#image) recovery.href = this.#image.src
 
     if (this.#image?.complete) this.#imageState(this.#image.naturalWidth === 0)
   }

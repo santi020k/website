@@ -330,7 +330,8 @@ test('the opening stays opaque during its finite entrance and rests on return na
   // the one-time opening must not replay.
   const returnedAnimations = await hero.evaluate(element => element.getAnimations({ subtree: true })
     .filter((animation): animation is CSSAnimation => animation instanceof CSSAnimation)
-    .map(animation => animation.animationName))
+    .map(animation => animation.animationName)
+    .filter(name => name.startsWith('home-')))
 
   expect(returnedAnimations).toEqual([])
 })

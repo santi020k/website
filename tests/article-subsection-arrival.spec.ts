@@ -105,7 +105,8 @@ for (const { locale, prefix, markerLabel, language } of [
       await expect(heading).toHaveCSS('padding-inline-start', '0px')
       const printedSize = await heading.evaluate(element => parseFloat(getComputedStyle(element).fontSize))
 
-      expect(printedSize).toBeCloseTo(14 * 96 / 72)
+      // Engines can round computed font sizes to different fractional pixels.
+      expect(Math.abs(printedSize - 14 * 96 / 72)).toBeLessThan(0.02)
       await page.emulateMedia({ media: 'screen' })
       await page.evaluate(() => {
         window.location.hash = '%'

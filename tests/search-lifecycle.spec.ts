@@ -209,15 +209,18 @@ test('a bare slash from the page or a focused link leaves search closed and the 
 
   const link = page.locator('a[href="#main"]').first()
 
-  await page.keyboard.press('/')
-  await link.focus()
-  await page.keyboard.press('/')
-  await expect(link).toBeFocused()
-
   // dispatchEvent returns false only when a listener called preventDefault.
   expect(await link.evaluate(element => [document.body, element].map(target => target.dispatchEvent(
     new KeyboardEvent('keydown', { key: '/', bubbles: true, cancelable: true })
   )))).toEqual([true, true])
+
+  await page.keyboard.press('/')
+  await expect(page.locator('#site-search-dialog')).not.toHaveAttribute('open')
+  // Firefox can open its native Quick Find bar for a bare slash.
+  await page.keyboard.press('Escape')
+  await link.focus()
+  await expect(link).toBeFocused()
+  await page.keyboard.press('/')
   await expect(page.locator('#site-search-dialog')).not.toHaveAttribute('open')
   await expect(page.locator('[data-site-search-trigger]')).toHaveAttribute('aria-expanded', 'false')
   expect(new URL(page.url()).searchParams.has('q')).toBe(false)

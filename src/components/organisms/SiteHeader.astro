@@ -277,6 +277,8 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.panel.addEventListener('click', this.handlePanelClick)
 
+    this.panel.addEventListener('focusin', this.handlePanelFocus)
+
     window.addEventListener('keydown', this.handleWindowKeydown)
 
     window.addEventListener('resize', this.handleWindowResize, { passive: true })
@@ -312,6 +314,8 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.panel?.removeEventListener('click', this.handlePanelClick)
 
+    this.panel?.removeEventListener('focusin', this.handlePanelFocus)
+
     window.removeEventListener('keydown', this.handleWindowKeydown)
 
     window.removeEventListener('resize', this.handleWindowResize)
@@ -337,6 +341,12 @@ class SiteHeaderMobileNav extends HTMLElement {
 
   handleBackdropClick = () => {
     this.closeMenu()
+  }
+
+  handlePanelFocus = (event: FocusEvent) => {
+    if (this.isOpen && event.target instanceof HTMLElement) {
+      event.target.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' })
+    }
   }
 
   handlePanelClick = (event: MouseEvent) => {

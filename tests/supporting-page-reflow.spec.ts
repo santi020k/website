@@ -24,11 +24,11 @@ const openPage = async (page: Page, route: string, textSize: number) => {
   await page.evaluate(() => document.fonts.ready)
 }
 
-const tabTo = async (page: Page, target: Locator, browserName: string) => {
-  const key = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+const tabTo = async (page: Page, target: Locator, browserName: string, backwards = false) => {
+  const modifiers = `${backwards ? 'Shift+' : ''}${browserName === 'webkit' ? 'Alt+' : ''}`
 
   for (let step = 0; step < 160; step++) {
-    await page.keyboard.press(key)
+    await page.keyboard.press(`${modifiers}Tab`)
     if (await target.evaluate(element => element === document.activeElement)) return
   }
   throw new Error('The control was not reachable through the page tab order')
@@ -195,7 +195,7 @@ for (const width of [320, 390, 1440]) {
 
           const firstCaseStudy = carousel.getByRole('link', { name: /^Void /u })
 
-          await tabTo(page, firstCaseStudy, browserName)
+          await tabTo(page, firstCaseStudy, browserName, true)
           await expectOutline(firstCaseStudy)
           await page.keyboard.press('Enter')
           await expect(page).toHaveURL('/portfolio/void/')

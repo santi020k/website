@@ -345,7 +345,7 @@ for (const theme of ['light', 'dark'] as const) {
 
             await Promise.all(images.map(image => image.decode()))
 
-            const captionsFit = [...element.querySelectorAll('figcaption span')].every(caption => caption.scrollWidth <= caption.clientWidth + 1)
+            const captionsFit = [...element.querySelectorAll('figcaption')].every(caption => caption.scrollWidth <= caption.clientWidth + 1)
 
             const imagesFit = images.length === 3 && images.every(image => {
               const bounds = image.getBoundingClientRect()

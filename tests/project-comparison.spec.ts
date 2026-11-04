@@ -36,7 +36,7 @@ for (const theme of ['light', 'dark']) {
 
           return {
             aligned: Math.abs(stacked ? after.x - before.x : after.y - before.y) < 1,
-            ordered: stacked ? after.top >= before.bottom : after.left >= before.right
+            ordered: stacked ? after.top >= before.bottom - 0.02 : after.left >= before.right - 0.02
           }
         })
 

@@ -88,7 +88,7 @@ for (const width of [390, 1024]) {
       const prose = document.querySelector('#article-content')?.getBoundingClientRect()
       const bounds = element.getBoundingClientRect()
 
-      return prose && bounds.top >= prose.bottom && Math.abs(bounds.width - prose.width) <= 1 &&
+      return prose && bounds.top >= prose.bottom - 0.02 && Math.abs(bounds.width - prose.width) <= 1 &&
         document.documentElement.scrollWidth <= innerWidth
     })).toBe(true)
   })

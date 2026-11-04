@@ -3,8 +3,6 @@ import { getImage } from 'astro:assets'
 
 import GalleryViewer from '@/components/molecules/GalleryViewer.astro'
 
-import { Image } from '@santi020k/lumen-astro'
-
 import type { ProjectPreviewImage } from '@/types'
 
 interface Props {
@@ -17,7 +15,5 @@ const fullImage = await getImage({ src: preview.src, fit: 'contain', format: 'we
 ---
 
 <project-preview-viewer>
-  <GalleryViewer id={id} title={preview.title} caption={preview.caption} source={{ kind: 'asset', src: fullImage.src, width: preview.src.width }}>
-    <Image alt={preview.alt} fit="contain" format="webp" loading="eager" quality={90} radius="none" src={preview.src} width={preview.src.width} />
-  </GalleryViewer>
+  <GalleryViewer id={id} title={preview.title} caption={preview.caption} source={{ kind: 'asset', src: fullImage.src, alt: preview.alt, width: preview.src.width }} />
 </project-preview-viewer>

@@ -53,7 +53,8 @@ range from a cached full file.
 Static page routes (`/`, trailing-slash paths, and `.html` document navigations) render the same
 bytes for every query string; `?q=` and campaign tags only select client-side UI. The worker
 fetches the original URL unchanged but stores and reads the response under the query-free URL, so
-`/?q=term` and `/?utm_source=…` share one cached copy and search terms never become cache keys.
+`/?q=term` and `/?utm_source=…` share one cached copy for the same `Vary` values and search terms
+never become cache keys.
 The cached network response can still retain its original URL, including the query; this is cache
 deduplication, not removal of search terms from browser storage. The cache key keeps the request headers for `Vary` matching. JSON, feeds, PDFs, the
 web manifest, and assets keep their exact query in the cache key because it can select different
@@ -78,6 +79,10 @@ keeps waiting when uncached.
 Only successful, non-redirected responses
 are stored: browsers reject a cached followed redirect for a navigation, so caching one would turn
 an offline visit to that URL into a network error instead of the offline document.
+Firefox can stall when the worker delivers an already-followed redirect for a page fetch.
+On Firefox, the worker returns the final same-origin URL as a redirect for the browser to
+follow directly. Native navigations, cross-origin destinations, and other browsers keep their
+original responses.
 
 Internal links end in `/`, but a typed or externally shared `/about` still arrives as a document
 navigation to the bare path. Only on that offline fallback (network failure or the header

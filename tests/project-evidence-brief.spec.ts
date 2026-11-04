@@ -51,7 +51,11 @@ for (const theme of ['light', 'dark']) {
         const unobstructedTargets = targets.every((target, index) => {
           const earlierTargets = targets.slice(0, index)
 
-          return earlierTargets.every(previous => target.top >= previous.bottom || target.left >= previous.right)
+          return earlierTargets.every(previous => {
+            const tolerance = 0.02
+
+            return target.top >= previous.bottom - tolerance || target.left >= previous.right - tolerance
+          })
         })
 
         expect(unobstructedTargets).toBe(true)

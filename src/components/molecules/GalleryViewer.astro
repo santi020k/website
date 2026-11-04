@@ -9,7 +9,7 @@ interface Props {
   id: string
   title: string
   caption?: string
-  source: { kind: 'asset', src: string, width: number } | { kind: 'article', index: number }
+  source: { kind: 'asset', src: string, alt: string, width: number } | { kind: 'article', index: number }
 }
 
 const { id, title, caption, source } = Astro.props
@@ -22,6 +22,8 @@ const t = sharedTranslator(locale)
   lang={locale}
   class="not-prose"
   data-article-figure-index={source.kind === 'article' ? source.index : undefined}
+  data-gallery-image-src={source.kind === 'asset' ? source.src : undefined}
+  data-gallery-image-alt={source.kind === 'asset' ? source.alt : undefined}
   style={source.kind === 'asset' ? `--viewer-image-width: ${source.width}px` : undefined}
 >
   <div data-gallery-actions>
@@ -72,7 +74,6 @@ const t = sharedTranslator(locale)
     {caption && <p data-gallery-caption>{caption}</p>}
   </Dialog>
 
-  {source.kind === 'asset' && <template data-gallery-template><slot /></template>}
 </gallery-viewer>
 
 <script>

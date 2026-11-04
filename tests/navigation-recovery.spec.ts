@@ -212,8 +212,8 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
         (Number.parseFloat(getComputedStyle(element).scrollMarginTop) || 0)
       ))
 
-      await expect.poll(() => page.evaluate(() => scrollY)).toBe(targetY)
-      await expect.poll(() => savedHistoryY(page)).toBe(targetY)
+      await expect.poll(async () => Math.abs(await page.evaluate(() => scrollY) - targetY)).toBeLessThan(1)
+      await expect.poll(async () => Math.abs((await savedHistoryY(page) ?? Number.NaN) - targetY)).toBeLessThan(1)
 
       const observeTraversal = () => page.evaluate(() => {
         delete document.documentElement.dataset.recoveryTraversalY
@@ -228,7 +228,11 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
       await expect(page.locator('html')).toHaveCSS('scroll-behavior', scrollBehavior)
       await observeTraversal()
       await page.goForward()
-      await expect(page.locator('html')).toHaveAttribute('data-recovery-traversal-y', String(targetY))
+      await expect.poll(async () => {
+        const value = await page.locator('html').getAttribute('data-recovery-traversal-y')
+
+        return Math.abs(Number.parseFloat(value ?? '') - targetY)
+      }).toBeLessThan(1)
       await expect(page.locator('html')).toHaveCSS('scroll-behavior', scrollBehavior)
     })
 

@@ -55,7 +55,7 @@ const waitForPageLoad = (page: Page, pathname: string) => page.evaluate(destinat
 for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
   for (const theme of ['light', 'dark']) {
     for (const width of [320, 1440]) {
-      test(`${slug} viewer fits and inspects screenshots at ${width}px in ${theme}`, async ({ page }) => {
+      test(`${slug} viewer fits and inspects screenshots at ${width}px in ${theme}`, async ({ page, browserName }) => {
         await page.setViewportSize({ width, height: 900 })
         await page.emulateMedia({ reducedMotion: 'reduce' })
         await page.addInitScript(value => {
@@ -109,7 +109,9 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
         }))
 
         expect(horizontal.actual).toBeCloseTo(horizontal.expected, 0)
-        await canvas.focus()
+        await dialog.getByRole('button', { name: 'Close', exact: true }).focus()
+        await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+        await expect(canvas).toBeFocused()
         await expect(canvas).not.toHaveCSS('outline-style', 'none')
         // The viewer owns its keys, so neither search shortcut opens a second modal.
         for (const shortcut of ['Control+k', 'Meta+k']) {

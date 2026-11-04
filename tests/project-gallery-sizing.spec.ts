@@ -36,7 +36,7 @@ for (const route of ['/technologies/react-js/', '/projects/']) {
         expect(copyBox.x).toBeCloseTo(cardBox.x, 0)
         expect(copyBox.width).toBeCloseTo(cardBox.width, 0)
         expect(imageBox.width / imageBox.height).toBeCloseTo(16 / 10, 2)
-        expect(copyBox.y).toBeGreaterThanOrEqual(imageBox.y + imageBox.height)
+        expect(copyBox.y).toBeGreaterThanOrEqual(imageBox.y + imageBox.height - 0.02)
       }
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
     })

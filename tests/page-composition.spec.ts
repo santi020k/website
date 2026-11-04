@@ -164,6 +164,9 @@ for (const theme of ['light', 'dark'] as const) {
           expect(illustrationFits, `${route} at ${width}px and ${size}% text`).toBe(true)
           for (const link of await page.locator('main a, main button').all()) {
             await link.focus()
+            await expect(link).toBeFocused()
+            await expect(link).toBeInViewport()
+            await link.scrollIntoViewIfNeeded()
             const bounds = requireValue(await link.boundingBox())
             const state = `${route} at ${width}px and ${size}% text`
 

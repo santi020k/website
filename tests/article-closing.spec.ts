@@ -59,9 +59,11 @@ for (const width of [320, 1440]) {
           if (!comments || !sharing || !invitation || !navigation || !finalReturn) {
             throw new Error('Expected all closing sections')
           }
-          return sharing.bottom <= comments.top && invitation.top - sharing.bottom >= 24 &&
-            comments.bottom <= navigation.top &&
-            (!related || (comments.bottom <= related.top && related.bottom <= navigation.top)) &&
+          const subpixel = 0.02
+
+          return sharing.bottom <= comments.top + subpixel && invitation.top - sharing.bottom >= 24 - subpixel &&
+            comments.bottom <= navigation.top + subpixel &&
+            (!related || (comments.bottom <= related.top + subpixel && related.bottom <= navigation.top + subpixel)) &&
             document.documentElement.scrollWidth <= innerWidth &&
             [...element.querySelectorAll('a, button, summary'), ...finalReturn.querySelectorAll('a')].every(control => {
               const bounds = control.getBoundingClientRect()

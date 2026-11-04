@@ -9,6 +9,7 @@ const MAX_CACHE_ENTRIES = 256
 // Bounds only the wait for response headers. A response that has started keeps
 // streaming its body without a deadline.
 const NETWORK_HEADER_DEADLINE_MS = 8_000
+const needsFollowedRedirectWorkaround = /\bFirefox\//.test(self.navigator.userAgent)
 
 const CORE_ROUTES = [
   '/',
@@ -238,7 +239,16 @@ const networkFirst = (request, pageFallback = false, cacheKey = request) => {
 
   return {
     response: Promise.race([
-      network.response.catch(async () => (await matchFallback()) ?? Response.error()),
+      network.response.then(result => {
+        // Firefox can stall when a worker hands a page fetch an already-followed
+        // redirect. Let the browser follow the same-origin destination itself.
+        if (needsFollowedRedirectWorkaround && pageFallback && request.redirect === 'follow' && result.redirected &&
+          result.url && new URL(result.url).origin === self.location.origin) {
+          return Response.redirect(result.url)
+        }
+
+        return result
+      }).catch(async () => (await matchFallback()) ?? Response.error()),
       cachedAfterDeadline
     ]),
     revalidate: network.revalidate

@@ -27,7 +27,13 @@ const expectNavigationPlacement = async (page: Page, browserName: string) => {
     await opener.locator('summary').focus()
     await page.keyboard.press('Enter')
     await expect(opener.locator('details')).toHaveAttribute('open', '')
-    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+    const nextKey = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+
+    await page.keyboard.press(nextKey)
+    // Firefox may include the scrollable contents pane in the native tab order.
+    if (await opener.locator('reading-contents').evaluate(element => document.activeElement === element)) {
+      await page.keyboard.press(nextKey)
+    }
     await expect(opener.getByRole('link').first()).toBeFocused()
   } else {
     await expect(opener).toBeHidden()
