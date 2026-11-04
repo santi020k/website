@@ -82,17 +82,17 @@ const t = pageTranslator(pageLocale)
     --hero-type: clamp(2rem, 8.4cqi, 6rem);
     grid-template-columns: minmax(0, 1fr) 26rem;
     grid-template-rows: auto min-content 1fr;
-    gap: 1.75rem 3rem;
+    gap: 1.5rem 3rem;
     align-items: start;
     min-height: 0;
-    padding-block: 1rem 3rem;
+    padding-block: 0.75rem 2.5rem;
   }
   [data-home-hero] .maker-hero-copy { display: contents; }
   [data-home-hero-grid] > :global([data-home-product-scene]) { grid-column: 2; grid-row: 2 / 4; margin-top: calc(var(--hero-type) * 1.15); }
   [data-home-hero-intro] { grid-column: 1; min-width: 0; }
   [data-home-hero] .maker-hero-description { max-width: 29rem; margin-top: 0; }
   [data-home-hero] .maker-hero-actions { margin-top: 1.5rem; }
-  [data-home-hero-identity] { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; margin-bottom: 0.25rem; }
+  [data-home-hero-identity] { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; margin-bottom: 0; }
   [data-home-hero] .maker-hero-portrait { flex: none; width: 4rem; height: 4rem; border-radius: 50%; object-fit: cover; }
   [data-home-hero-identity] > div { min-width: 0; }
   [data-home-hero-identity] p { font-size: 0.9375rem; font-weight: 600; line-height: 1.6; }

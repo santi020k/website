@@ -148,3 +148,22 @@ for (const theme of ['light', 'dark'] as const) {
     }
   })
 }
+
+test('the close control stays reachable while reading the transcript on a narrow screen', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 })
+  await page.goto('/es/')
+  const opener = page.locator('[data-film-open]')
+
+  await opener.click()
+  const dialog = page.locator('[data-film-dialog]')
+  const close = dialog.getByRole('button', { name: 'Cerrar video' })
+  const file = dialog.locator('[data-film-file]')
+
+  await dialog.locator('summary').click()
+  await file.scrollIntoViewIfNeeded()
+  await expect.poll(() => dialog.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
+  await expect(close).toBeInViewport({ ratio: 1 })
+  await close.click()
+  await expect(dialog).toBeHidden()
+  await expect(opener).toBeFocused()
+})
