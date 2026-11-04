@@ -78,6 +78,11 @@ const sectionCount = tocHeadings.filter(heading => heading.depth <= 2).length ||
   :global(:root[data-theme='dark']) [data-toc-summary] { color: hsl(var(--accent)); }
 
   [data-companion-ready] [data-toc-opener] { position: relative; overflow: visible; }
+  /* The overlay supplies the bottom corners while the companion is open. */
+  [data-companion-ready] [data-toc-opener][open] {
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
   [data-companion-ready] [data-toc-opener]::details-content { transition: none; }
   [data-companion-ready] [data-toc-opener][open]::details-content { overflow: visible; }
   [data-companion-ready] [data-toc-summary] {
