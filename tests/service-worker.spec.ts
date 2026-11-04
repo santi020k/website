@@ -432,7 +432,7 @@ test('retires the previous release cache while preserving unrelated caches', asy
 
   expect(names).not.toContain('santi020k-static-2026-04-21')
   expect(names.filter(name => name.startsWith('santi020k-static-'))).toEqual([
-    expect.stringMatching(/^santi020k-static-v4-cache-v3-[a-f0-9]{16}$/u)
+    expect.stringMatching(/^santi020k-static-v5-cache-v1-[a-f0-9]{16}$/u)
   ])
   expect(names).toContain('unrelated-cache')
 })

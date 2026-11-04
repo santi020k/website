@@ -104,7 +104,7 @@ describe('Service worker fetch handling', () => {
     } })
     await installation
     expect(worker.cache.addAll).toHaveBeenCalledWith(expect.arrayContaining([
-      '/', '/offline/', '/es/offline/', '/_astro/shell.js', '/_astro/style.css', '/_astro/font.woff2'
+      '/', '/es/', '/offline/', '/es/offline/', '/_astro/shell.js', '/_astro/style.css', '/_astro/font.woff2'
     ]))
     expect(worker.skipWaiting).toHaveBeenCalledOnce()
   })

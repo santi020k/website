@@ -112,20 +112,32 @@ const buildContentSitemapMetadata = () => {
     }
   }
 
+  const updateLatestLastmod = (url: string, iso: string | undefined) => {
+    if (!iso) return
+
+    const existing = lastmodMap.get(url)
+
+    if (!existing || iso > existing) {
+      lastmodMap.set(url, iso)
+    }
+  }
+
   const register = (
     url: string,
     frontmatter: Record<string, unknown>,
     prefer: FrontmatterDateKey[]
-  ) => {
+  ): string | undefined => {
     for (const key of prefer) {
       const iso = toIso(frontmatterDate(frontmatter, key))
 
       if (iso) {
         lastmodMap.set(url, iso)
 
-        return
+        return iso
       }
     }
+
+    return undefined
   }
 
   // Posts: src/content/post/**/<slug>(/index)?.md(x) -> /blog/<slug>/
@@ -153,7 +165,27 @@ const buildContentSitemapMetadata = () => {
         nonCanonicalPageUrls.add(pageUrl)
       }
 
-      register(pageUrl, data, ['updatedDate', 'publishDate'])
+      const postLastmod = register(pageUrl, data, ['updatedDate', 'publishDate'])
+
+      updateLatestLastmod(`${siteOrigin}/blog/`, postLastmod)
+
+      if (Array.isArray(data.tags)) {
+        for (const rawTag of data.tags) {
+          if (typeof rawTag === 'string' && rawTag.trim()) {
+            const normalizedTag = rawTag.trim().toLowerCase()
+
+            updateLatestLastmod(`${siteOrigin}/blog/tags/`, postLastmod)
+
+            updateLatestLastmod(`${siteOrigin}/blog/tags/${encodeURIComponent(normalizedTag)}/`, postLastmod)
+          }
+        }
+      }
+
+      if (typeof data.seriesId === 'string' && data.seriesId.trim()) {
+        updateLatestLastmod(`${siteOrigin}/blog/series/`, postLastmod)
+
+        updateLatestLastmod(`${siteOrigin}/blog/series/${data.seriesId.trim()}/`, postLastmod)
+      }
     } catch {
       /* ignore unreadable files */
     }
@@ -174,9 +206,10 @@ const buildContentSitemapMetadata = () => {
       const relative = path.relative(path.resolve('src/content/project'), file).replace(/\\/g, '/')
       const id = relative.replace(/\.mdx?$/, '').replace(/\/index$/, '')
       const slug = id.split('/').pop() ?? id
-
       // Project start/end dates describe the work, not this case study's latest edit.
-      register(`${siteOrigin}/portfolio/${slug}/`, data, ['updatedDate'])
+      const projectLastmod = register(`${siteOrigin}/portfolio/${slug}/`, data, ['updatedDate'])
+
+      updateLatestLastmod(`${siteOrigin}/projects/`, projectLastmod)
     } catch {
       /* ignore unreadable files */
     }

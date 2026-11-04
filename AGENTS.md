@@ -36,8 +36,10 @@ integration log is archived in `docs/archive/v5-release-readiness.md`.
 | `src/layouts/` | Page layout components |
 | `src/components/` | Reusable Astro components |
 | `src/pages/` | File-based routes (`.astro`, `.ts` for API) |
+| `src/i18n/` | Bilingual (`en` / `es`) message catalogs and locale helpers |
 | `src/utils/` | Shared TypeScript utilities |
-| `src/types.ts` | Shared TypeScript types |
+| `src/types/` | Shared TypeScript type modules (`src/types.ts` re-exports) |
+| `apps/v1`–`apps/v4` | Frozen historical site archives assembled under `/v1/`–`/v4/` |
 | `public/` | Static assets served as-is |
 
 ## Code Conventions

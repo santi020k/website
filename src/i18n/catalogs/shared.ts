@@ -103,6 +103,7 @@ export const sharedMessages = {
   'shared.openOriginalImage': { en: 'Open original image', es: 'Abrir imagen original' },
   'shared.openSiteSearch': { en: 'Open site search', es: 'Abrir búsqueda del sitio' },
   'shared.openSiteSearchCtrlK': { en: 'Open site search (Ctrl/⌘ K)', es: 'Buscar (Ctrl/⌘ K)' },
+  'shared.page': { en: 'Page', es: 'Página' },
   'shared.passItOn': { en: 'Pass it on.', es: 'Compártelo.' },
   'shared.pickATopicAndMessageMe': { en: 'Pick a topic and message me on WhatsApp', es: 'Elige un tema y escríbeme por WhatsApp' },
   'shared.popularTopics': { en: 'Popular topics', es: 'Temas populares' },

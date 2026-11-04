@@ -46,11 +46,12 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      include: ['src/utils/**', 'src/plugins/**', 'src/data/**', 'src/site.config.ts'],
+      include: ['src/utils/**', 'src/plugins/**', 'src/data/**', 'src/i18n/**', 'src/site.config.ts'],
       exclude: [
         'src/utils/__tests__/**',
         'src/plugins/__tests__/**',
         'src/data/__tests__/**',
+        'src/i18n/__tests__/**',
         // Astro virtual-module imports (astro:content) cannot be parsed by the
         // v8 coverage provider. Exclude them to silence RollupError warnings.
         'src/utils/content.ts',

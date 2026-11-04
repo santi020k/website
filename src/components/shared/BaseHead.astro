@@ -20,6 +20,7 @@ import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
 
 import { ogManifest } from '@/data/og-manifest'
 import { getLocale, hasTranslation, localeLanguage, localeOg, localizePath, stripLocale } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
 import {
   AUTHOR_JOB_TITLE,
   createSchemaEntityId,
@@ -46,6 +47,7 @@ const {
 } = Astro.props
 
 const locale = getLocale(Astro.url.pathname)
+const tPage = pageTranslator(locale)
 const basePath = stripLocale(Astro.url.pathname)
 const siteOrigin = new URL(Astro.site ?? 'https://santi020k.com/').origin
 const hasLocalCanonical = !canonicalUrl || new URL(canonicalUrl, siteOrigin).origin === siteOrigin
@@ -221,11 +223,11 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   set:html={serializeJsonLd(personSchema({
     id: createSchemaEntityId('person', Astro.site),
     name: siteConfig.author,
-    url: new URL('/about/', Astro.site ?? 'https://santi020k.com/').href
+    url: new URL(localizePath('/about/', locale), Astro.site ?? 'https://santi020k.com/').href
   }, {
     alternateName: 'santi020k',
-    jobTitle: AUTHOR_JOB_TITLE,
-    description: siteConfig.description,
+    jobTitle: locale === 'es' ? tPage('page.engineeringLeaderAndFullStackArchitect') : AUTHOR_JOB_TITLE,
+    description: locale === 'es' ? tPage('page.santiagoMolinaKnownOnlineAsSanti020k') : siteConfig.description,
     sameAs: sameAsProfiles,
     knowsAbout: [
       'Full-Stack Engineering',

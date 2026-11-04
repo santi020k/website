@@ -27,6 +27,28 @@ test.describe('SEO — meta tags', () => {
     expect(lastModified).toBeTruthy()
     expect(dateModified).toBe(lastModified)
 
+    const archiveLastMods = await page.evaluate(xml => {
+      const document = new DOMParser().parseFromString(xml, 'application/xml')
+      const paths = [
+        'https://santi020k.com/blog/',
+        'https://santi020k.com/projects/',
+        'https://santi020k.com/blog/tags/',
+        'https://santi020k.com/blog/tags/typescript/',
+        'https://santi020k.com/blog/series/',
+        'https://santi020k.com/blog/series/the-santi020k-way/'
+      ]
+
+      return paths.map(target => {
+        const location = [...document.querySelectorAll('loc')].find(node => node.textContent === target)
+
+        return location?.parentElement?.querySelector('lastmod')?.textContent ?? null
+      })
+    }, sitemap)
+
+    for (const value of archiveLastMods) {
+      expect(value).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/u)
+    }
+
     await page.goto('/portfolio/xgames/')
     const endedProject = await findSchema(page, 'CreativeWork')
 
@@ -501,7 +523,19 @@ test.describe('SEO — JSON-LD structured data', () => {
     expect(personSchema).toMatchObject({
       '@id': expect.stringMatching(/#person$/u),
       jobTitle: expect.stringMatching(/\S/u),
-      name: 'Santiago Molina'
+      name: 'Santiago Molina',
+      url: 'https://santi020k.com/about/'
+    })
+
+    await page.goto('/es/')
+
+    const spanishPersonSchema = await findSchema(page, 'Person')
+
+    expect(spanishPersonSchema).toMatchObject({
+      '@id': expect.stringMatching(/#person$/u),
+      jobTitle: 'Líder de ingeniería y arquitecto full-stack',
+      name: 'Santiago Molina',
+      url: 'https://santi020k.com/es/about/'
     })
   })
 

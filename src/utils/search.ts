@@ -20,7 +20,8 @@ export const isSearchEntry = (value: unknown, origin: string): value is SearchIn
   return typeof value.title === 'string' && value.title.trim().length > 0 &&
     typeof value.description === 'string' && isLocalPath(value.path, origin) &&
     Array.isArray(value.tags) && value.tags.every((tag: unknown) => typeof tag === 'string') &&
-    typeof value.type === 'string' && ['community', 'post', 'project'].includes(value.type) &&
+    (value.keywords === undefined || (Array.isArray(value.keywords) && value.keywords.every((keyword: unknown) => typeof keyword === 'string'))) &&
+    typeof value.type === 'string' && ['community', 'page', 'post', 'project'].includes(value.type) &&
     (value.coverUrl === undefined || isLocalPath(value.coverUrl, origin)) &&
     (value.coverAvifUrl === undefined || isLocalPath(value.coverAvifUrl, origin))
 }
@@ -124,6 +125,7 @@ export const rankSearchEntry = (entry: SearchIndexEntry, query: string): number 
   const normalizedTitle = normalizeSearchText(entry.title)
   const normalizedDescription = normalizeSearchText(entry.description)
   const normalizedTags = entry.tags.map(normalizeSearchText)
+  const normalizedKeywords = (entry.keywords ?? []).map(normalizeSearchText)
   const terms = normalizedQuery.split(/\s+/).filter(Boolean)
   let score = 0
 
@@ -134,6 +136,9 @@ export const rankSearchEntry = (entry: SearchIndexEntry, query: string): number 
 
   if (normalizedTags.some(tag => tag === normalizedQuery)) score += 48
   else if (normalizedTags.some(tag => tag.startsWith(normalizedQuery))) score += 36
+
+  if (normalizedKeywords.some(keyword => keyword === normalizedQuery)) score += 44
+  else if (normalizedKeywords.some(keyword => keyword.startsWith(normalizedQuery))) score += 32
 
   if (normalizedDescription.includes(normalizedQuery)) score += 16
 
@@ -160,6 +165,20 @@ export const rankSearchEntry = (entry: SearchIndexEntry, query: string): number 
       termMatched = true
     } else if (normalizedTags.some(tag => tag.includes(term))) {
       score += 7
+
+      termMatched = true
+    }
+
+    if (normalizedKeywords.some(keyword => keyword === term)) {
+      score += 14
+
+      termMatched = true
+    } else if (normalizedKeywords.some(keyword => keyword.startsWith(term))) {
+      score += 10
+
+      termMatched = true
+    } else if (normalizedKeywords.some(keyword => keyword.includes(term))) {
+      score += 6
 
       termMatched = true
     }

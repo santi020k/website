@@ -1,4 +1,4 @@
-// cspell:words cancion canción cuna diseno diseño किताब कताब كَتَبَ كتب
+// cspell:words cancion canción cuna curriculum currículum diseno diseño hoja किताब कताब كَتَبَ كتب
 import type { SearchIndexEntry } from '@/types/search'
 import { getPopularTopics, isSearchableQuery, isSearchEntry, normalizeRecentSearches, rankSearchEntry } from '@/utils/search'
 
@@ -70,6 +70,14 @@ describe('search index validation', () => {
       coverAvifUrl: '/_astro/cover.avif',
       coverUrl: '/_astro/cover.webp'
     }, origin)).toBe(true)
+    expect(isSearchEntry({
+      ...entry,
+      keywords: ['Currículum', 'CV'],
+      path: '/resume/',
+      tags: [],
+      title: 'Resume',
+      type: 'page'
+    }, origin)).toBe(true)
   })
 
   test.each([
@@ -79,6 +87,7 @@ describe('search index validation', () => {
     { ...entry, title: ' ' },
     { ...entry, description: null },
     { ...entry, tags: ['Astro', 1] },
+    { ...entry, keywords: ['CV', 1] },
     { ...entry, type: 'unknown' }
   ])('rejects malformed entry %j', value => {
     expect(isSearchEntry(value, origin)).toBe(false)
@@ -107,6 +116,22 @@ describe('search relevance', () => {
     expect(rankSearchEntry(entry, 'astro interfaces')).toBeGreaterThan(0)
     expect(rankSearchEntry(entry, 'astro missing')).toBe(0)
     expect(rankSearchEntry(entry, 'typescript')).toBeGreaterThan(0)
+  })
+
+  test('matches bilingual search keywords on page entries without polluting popular topics', () => {
+    const resumePage: SearchIndexEntry = {
+      description: 'Printable curriculum vitae and downloadable PDF resume.',
+      keywords: ['Currículum', 'CV', 'Hoja de vida'],
+      path: '/resume/',
+      tags: [],
+      title: 'Resume',
+      type: 'page'
+    }
+
+    expect(rankSearchEntry(resumePage, 'currículum')).toBeGreaterThan(0)
+    expect(rankSearchEntry(resumePage, 'curriculum')).toBeGreaterThan(0)
+    expect(rankSearchEntry(resumePage, 'hoja de vida')).toBeGreaterThan(0)
+    expect(getPopularTopics([resumePage])).toEqual([])
   })
 
   test('folds Latin accents and case across title, tags, and description', () => {

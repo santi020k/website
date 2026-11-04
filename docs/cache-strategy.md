@@ -90,12 +90,12 @@ request goes to the network as before, and a redirected response is still never 
 `fetch()` requests, paths with a file extension (including `.html`, PDFs, data, and assets),
 `Range` requests, historical apps, and APIs never use this alias.
 
-The `v4-cache-v3-<fingerprint>` namespace identifies the current recovery shell.
+The `v5-cache-v1-<fingerprint>` namespace identifies the current recovery shell.
 The [build generator](../scripts/js/generate-offline-worker.mjs) creates `dist/sw.js` from the source worker, adding the
 current site's bundled JavaScript, CSS, and WOFF2 fonts to the install list.
 This includes shared and dynamically imported code without parsing minified
-modules or relying on the browser's HTTP cache. Images, source maps, and historical
-app assets are excluded. The current list is about 1.4 MB before compression;
+modules or relying on the browser's HTTP cache. Images, source maps, unused lazy phone-input chunks, and historical
+app assets are excluded. The current list is under 950 KB before compression;
 installation runs after page load and can reuse HTTP-cached responses.
 
 The fingerprint covers those files, the home and offline documents, and the

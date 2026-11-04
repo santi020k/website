@@ -6,6 +6,8 @@ import { fileURLToPath } from 'node:url'
 const projectRoot = fileURLToPath(new URL('../..', import.meta.url))
 const assetsMarker = 'const BUILD_ASSETS = []'
 const revisionMarker = 'const BUILD_REVISION = \'development\''
+// Unused lazy chunks emitted by @santi020k/lumen-astro/runtime that no page loads.
+const unusedAssetPattern = /(?:^|\/)phone-(?:input|formatting)\.[^/]+\.js$/u
 
 /** @param {string} [root] */
 export const generateOfflineWorker = async (root = projectRoot) => {
@@ -18,7 +20,9 @@ export const generateOfflineWorker = async (root = projectRoot) => {
     }
   }
 
-  const assets = (await Array.fromAsync(glob('**/*.{js,css,woff2}', { cwd: join(dist, '_astro') }))).sort()
+  const assets = (await Array.fromAsync(glob('**/*.{js,css,woff2}', { cwd: join(dist, '_astro') })))
+    .filter(asset => !unusedAssetPattern.test(asset.split(sep).join('/')))
+    .sort()
 
   // Reserve capacity for the fixed shell and runtime responses within the
   // worker's 256-entry budget. Never silently ship an incomplete recovery shell.
@@ -28,7 +32,7 @@ export const generateOfflineWorker = async (root = projectRoot) => {
 
   const hash = createHash('sha256').update(template)
 
-  for (const file of ['index.html', 'offline/index.html', 'es/offline/index.html', ...assets.map(asset => join('_astro', asset))]) {
+  for (const file of ['index.html', 'es/index.html', 'offline/index.html', 'es/offline/index.html', ...assets.map(asset => join('_astro', asset))]) {
     hash.update(file.split(sep).join('/')).update('\0')
 
     hash.update(await readFile(join(dist, file))).update('\0')

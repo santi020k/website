@@ -9,7 +9,9 @@ import { classifyPaths, gitEnvironment, planScope, validationSteps } from './ci-
 
 // The explicit test:ci command owns this Node suite; Vitest handles *.test files.
 test('only proven isolated paths select fewer checks', () => {
-  assert.equal(classifyPaths(['src/pages/index.astro']).mode, 'current')
+  for (const path of ['src/pages/index.astro', 'tests/seo.spec.ts', '.changeset/v5-note.md']) {
+    assert.equal(classifyPaths([path]).mode, 'current')
+  }
 
   for (const paths of [[], ['pnpm-lock.yaml'], ['unknown.ts'], ...['apps/v3/src/page.astro', 'packages/website-history/map.json', 'public/logo.svg'].map(path => [path])]) assert.equal(classifyPaths(paths).mode, 'full')
 })
