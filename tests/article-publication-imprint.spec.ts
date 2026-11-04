@@ -107,28 +107,32 @@ for (const article of articles) {
   })
 }
 
-for (const theme of ['light', 'dark'] as const) {
-  test(`imprint hovers keep their geometry and respect reduced motion in ${theme}`, async ({ page }) => {
-    await page.addInitScript(value => {
-      localStorage.setItem('theme', value)
-    }, theme)
-    await page.goto(articles[0].path)
-    const credit = page.locator('[data-article-publication]')
+test.describe('Publication imprint pointer feedback', () => {
+  test.use({ isMobile: false, hasTouch: false })
 
-    await credit.scrollIntoViewIfNeeded()
-    for (const selector of ['[data-publication-publisher]', '[data-publication-original]']) {
-      const link = credit.locator(selector)
-      const bounds = await link.boundingBox()
+  for (const theme of ['light', 'dark'] as const) {
+    test(`imprint hovers keep their geometry and respect reduced motion in ${theme}`, async ({ page }) => {
+      await page.addInitScript(value => {
+        localStorage.setItem('theme', value)
+      }, theme)
+      await page.goto(articles[0].path)
+      const credit = page.locator('[data-article-publication]')
 
-      await link.hover()
-      expect(await link.boundingBox()).toEqual(bounds)
-      await expect(link).toHaveCSS('transition-property', 'none')
-      expect((await new AxeBuilder({ page }).include('[data-article-publication]').analyze()).violations).toEqual([])
-    }
-    await page.emulateMedia({ reducedMotion: 'no-preference' })
-    await expect(credit.locator('[data-arrow-track]')).toHaveCSS('animation-duration', '0.48s')
-  })
-}
+      await credit.scrollIntoViewIfNeeded()
+      for (const selector of ['[data-publication-publisher]', '[data-publication-original]']) {
+        const link = credit.locator(selector)
+        const bounds = await link.boundingBox()
+
+        await link.hover()
+        expect(await link.boundingBox()).toEqual(bounds)
+        await expect(link).toHaveCSS('transition-property', 'none')
+        expect((await new AxeBuilder({ page }).include('[data-article-publication]').analyze()).violations).toEqual([])
+      }
+      await page.emulateMedia({ reducedMotion: 'no-preference' })
+      await expect(credit.locator('[data-arrow-track]')).toHaveCSS('animation-duration', '0.48s')
+    })
+  }
+})
 
 test('articles without an explicit publisher credit keep their existing closing', async ({ page }) => {
   for (const path of [

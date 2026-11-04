@@ -82,11 +82,14 @@ test.describe('Pointer arrow exchange', () => {
   }
 
   test('Markdown reference arrows use the same exchange without moving the reference row', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
     await page.goto('/blog/migrate-eslint-8-or-less-to-eslint-9/')
     for (const direction of ['right', 'up-right']) {
       const arrow = page.locator(`[data-reference-link] [data-arrow-exchange="${direction}"]`).first()
       const action = arrow.locator('xpath=ancestor::a[1]')
       await action.scrollIntoViewIfNeeded()
+      await page.mouse.move(0, 0)
       const resting = await arrowPosition(arrow)
       await action.hover()
       const track = arrow.locator('[data-arrow-track]')

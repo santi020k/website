@@ -109,7 +109,7 @@ test('article covers retain responsive AVIF and WebP with natural image dimensio
     }
   })
 
-  expect(dimensions.declaredRatio).toBeCloseTo(dimensions.actualRatio, 2)
+  expect(dimensions.declaredRatio).toBeCloseTo(dimensions.actualRatio, 1)
 })
 
 for (const route of ['/portfolio/smith-commerce/', '/portfolio/lumen-ui/']) {

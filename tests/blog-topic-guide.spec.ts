@@ -10,6 +10,7 @@ for (const theme of ['light', 'dark']) {
     }, theme)
     await page.emulateMedia({ reducedMotion: 'no-preference' })
     await page.goto('/blog/')
+    await page.evaluate(() => document.fonts.ready)
     const guide = page.locator('[data-blog-topic-guide]')
     const filter = guide.getByRole('group', { name: 'Filter by topic' })
     const topic = filter.getByRole('link', { name: /TypeScript/u })

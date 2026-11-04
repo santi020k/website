@@ -12,8 +12,19 @@ for (const width of [375, 1440]) {
       await page.setViewportSize({ width, height: 900 })
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.goto(route)
-      await page.evaluate(() => document.fonts.ready)
-      await page.screenshot({ path: testInfo.outputPath('font-layout.png'), fullPage: true })
+      const docHeight = await page.evaluate(async () => {
+        window.scrollTo(0, document.documentElement.scrollHeight)
+        window.scrollTo(0, 0)
+        await document.fonts.ready
+
+        return document.documentElement.scrollHeight
+      })
+      await page.screenshot({
+        path: testInfo.outputPath('font-layout.png'),
+        fullPage: true,
+        scale: 'css',
+        clip: { x: 0, y: 0, width, height: Math.min(docHeight, 8192) }
+      })
 
       const fontRequests = await page.evaluate(() => performance.getEntriesByType('resource')
         .map(entry => new URL(entry.name).pathname)

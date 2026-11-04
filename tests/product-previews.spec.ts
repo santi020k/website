@@ -8,6 +8,7 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
       await page.addInitScript(value => {
         localStorage.setItem('theme', value)
       }, theme)
+      await page.setViewportSize({ width: 1440, height: 900 })
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.goto(`/portfolio/${slug}/`)
       const previews = page.getByRole('region', { name: 'Inside the product' })

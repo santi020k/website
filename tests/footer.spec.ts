@@ -26,6 +26,7 @@ for (const theme of ['light', 'dark']) {
 }
 
 test('footer preserves contact destinations, profile identity, and keyboard navigation', async ({ page, browserName }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   const footer = page.locator('[data-site-footer]')
   const contact = footer.locator('.maker-footer-action')

@@ -72,34 +72,38 @@ for (const article of articles) {
   }
 }
 
-for (const theme of ['light', 'dark'] as const) {
-  test(`publication hovers preserve geometry, contrast and reduced motion in ${theme}`, async ({ page }) => {
-    await page.addInitScript(value => {
-      localStorage.setItem('theme', value)
-    }, theme)
-    await page.goto(articles[0].path)
-    const utilities = page.locator('[data-article-utilities]')
-    const medium = utilities.getByRole('link')
+test.describe('Publication sharing pointer feedback', () => {
+  test.use({ isMobile: false, hasTouch: false })
 
-    await utilities.scrollIntoViewIfNeeded()
-    for (const control of [medium]) {
-      const before = await control.boundingBox()
-      const background = await control.evaluate(element => getComputedStyle(element).backgroundColor)
+  for (const theme of ['light', 'dark'] as const) {
+    test(`publication hovers preserve geometry, contrast and reduced motion in ${theme}`, async ({ page }) => {
+      await page.addInitScript(value => {
+        localStorage.setItem('theme', value)
+      }, theme)
+      await page.goto(articles[0].path)
+      const utilities = page.locator('[data-article-utilities]')
+      const medium = utilities.getByRole('link')
 
-      await control.hover()
-      await expect(control).not.toHaveCSS('background-color', background)
-      expect(await control.boundingBox()).toEqual(before)
-      await expect(control).toHaveCSS('transition-property', 'none')
-      expect((await new AxeBuilder({ page }).include('[data-article-utilities]').analyze()).violations).toEqual([])
-    }
-    await expect(medium.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'none')
-    await page.emulateMedia({ reducedMotion: 'no-preference' })
-    await page.mouse.move(0, 0)
-    await medium.hover()
-    await expect(medium.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'arrow-exchange')
-    await expect(medium.locator('[data-arrow-track]')).toHaveCSS('animation-duration', '0.48s')
-  })
-}
+      await utilities.scrollIntoViewIfNeeded()
+      for (const control of [medium]) {
+        const before = await control.boundingBox()
+        const background = await control.evaluate(element => getComputedStyle(element).backgroundColor)
+
+        await control.hover()
+        await expect(control).not.toHaveCSS('background-color', background)
+        expect(await control.boundingBox()).toEqual(before)
+        await expect(control).toHaveCSS('transition-property', 'none')
+        expect((await new AxeBuilder({ page }).include('[data-article-utilities]').analyze()).violations).toEqual([])
+      }
+      await expect(medium.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'none')
+      await page.emulateMedia({ reducedMotion: 'no-preference' })
+      await page.mouse.move(0, 0)
+      await medium.hover()
+      await expect(medium.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'arrow-exchange')
+      await expect(medium.locator('[data-arrow-track]')).toHaveCSS('animation-duration', '0.48s')
+    })
+  }
+})
 
 test('publication destinations stay available without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false })

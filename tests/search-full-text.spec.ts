@@ -77,6 +77,7 @@ test('an unavailable body search does not claim that an unmatched query has no r
 })
 
 test('stale responses cannot replace newer queries or enter a new page', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
   await page.route('**/pagefind/pagefind.js', route => route.fulfill({
     contentType: 'application/javascript',
     body: `export async function debouncedSearch(query) {

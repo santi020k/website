@@ -170,6 +170,7 @@
       padding: 0.5rem;
       overflow-x: hidden;
       overflow-y: auto;
+      overscroll-behavior: contain;
       scrollbar-width: thin;
     }
 

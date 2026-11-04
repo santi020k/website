@@ -50,33 +50,37 @@ test('inline links keep their zero horizontal padding in narrow action groups', 
   await expect(link).toHaveCSS('padding-right', '0px')
 })
 
-for (const theme of ['light', 'dark'] as const) {
-  test(`inline browse links preserve hover, focus and reduced motion in ${theme}`, async ({ page }) => {
-    await page.addInitScript(value => {
-      localStorage.setItem('theme', value)
-    }, theme)
-    await page.emulateMedia({ reducedMotion: 'no-preference' })
-    await page.goto(`/es${article}`)
-    const link = page.locator('#related-writing a.btn-inline')
-    const label = link.locator('[data-text-link-label]')
-    const arrow = link.locator('[data-arrow-exchange]')
-    const track = arrow.locator('[data-arrow-track]')
-    await link.scrollIntoViewIfNeeded()
-    const before = await link.boundingBox()
+test.describe('Inline browse link pointer feedback', () => {
+  test.use({ isMobile: false, hasTouch: false })
 
-    await link.hover()
-    await expect(label).toHaveCSS('background-size', '100% 1px')
-    await expect(track).toHaveCSS('animation-duration', '0.48s')
-    expect(await link.boundingBox()).toEqual(before)
-    await expect(arrow).toHaveAttribute('data-arrow-exchange', 'right')
-    await expect(arrow).toHaveAttribute('aria-hidden', 'true')
-    await link.focus()
-    await expect(link).toHaveCSS('outline-style', 'solid')
-    await page.emulateMedia({ reducedMotion: 'reduce' })
-    await expect(label).toHaveCSS('transition-property', 'none')
-    await expect(track).toHaveCSS('animation-name', 'none')
-  })
-}
+  for (const theme of ['light', 'dark'] as const) {
+    test(`inline browse links preserve hover, focus and reduced motion in ${theme}`, async ({ page }) => {
+      await page.addInitScript(value => {
+        localStorage.setItem('theme', value)
+      }, theme)
+      await page.emulateMedia({ reducedMotion: 'no-preference' })
+      await page.goto(`/es${article}`)
+      const link = page.locator('#related-writing a.btn-inline')
+      const label = link.locator('[data-text-link-label]')
+      const arrow = link.locator('[data-arrow-exchange]')
+      const track = arrow.locator('[data-arrow-track]')
+      await link.scrollIntoViewIfNeeded()
+      const before = await link.boundingBox()
+
+      await link.hover()
+      await expect(label).toHaveCSS('background-size', '100% 1px')
+      await expect(track).toHaveCSS('animation-duration', '0.48s')
+      expect(await link.boundingBox()).toEqual(before)
+      await expect(arrow).toHaveAttribute('data-arrow-exchange', 'right')
+      await expect(arrow).toHaveAttribute('aria-hidden', 'true')
+      await link.focus()
+      await expect(link).toHaveCSS('outline-style', 'solid')
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await expect(label).toHaveCSS('transition-property', 'none')
+      await expect(track).toHaveCSS('animation-name', 'none')
+    })
+  }
+})
 
 test.describe('Inline browse links without JavaScript', () => {
   test.use({ javaScriptEnabled: false })

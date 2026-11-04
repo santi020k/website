@@ -51,7 +51,7 @@ for (const width of [375, 1440]) {
       await expect.poll(() => card.locator('img').evaluate(image => image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0)).toBe(true)
       await card.screenshot({ path: testInfo.outputPath('project-card.png') })
 
-      const logo = await measureLogo(await artwork.screenshot())
+      const logo = await measureLogo(await artwork.screenshot({ scale: 'css' }))
 
       expect(logo.width).toBeGreaterThan(0)
       expect(logo.height).toBeGreaterThan(0)

@@ -224,6 +224,7 @@ for (const theme of ['light', 'dark'] as const) {
     }
 
     test('the reading marker remains visible in forced colors', async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 900 })
       await page.emulateMedia({ forcedColors: 'active' })
 
       for (const route of [LONG_ARTICLE, '/portfolio/smith-commerce/']) {
@@ -523,7 +524,7 @@ for (const theme of ['light', 'dark'] as const) {
         const rail = page.getByRole('complementary', { name: 'Project details' })
 
         await rail.hover()
-        await page.mouse.wheel(0, 2000)
+        for (let step = 0; step < 5; step += 1) await page.mouse.wheel(0, 500)
         await expect.poll(() => rail.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
         await expect(rail.getByRole('region', { name: 'Focus', exact: true }).locator('dd').last()).toBeInViewport({ ratio: 1 })
         await expectWithinScreen(rail)

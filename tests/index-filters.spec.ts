@@ -70,40 +70,44 @@ test.describe('Index filters', () => {
     expect(await entries.evaluateAll(items => items.map(item => item.getAttribute('data-label')))).toEqual(initialOrder)
   })
 
-  for (const theme of ['light', 'dark']) {
-    test(`named topic links retain their footprint and keyboard feedback in ${theme}`, async ({ page }) => {
-      await page.addInitScript(value => {
-        localStorage.setItem('theme', value)
-      }, theme)
-      await page.emulateMedia({ reducedMotion: 'no-preference' })
-      await page.goto('/blog/tags/')
-      const search = page.getByRole('searchbox', { name: 'Find a topic' })
+  test.describe('Topic filter pointer and keyboard feedback', () => {
+    test.use({ isMobile: false, hasTouch: false })
 
-      await search.fill('Developer experience')
-      const link = page.locator('#tags-list a:visible')
+    for (const theme of ['light', 'dark']) {
+      test(`named topic links retain their footprint and keyboard feedback in ${theme}`, async ({ page }) => {
+        await page.addInitScript(value => {
+          localStorage.setItem('theme', value)
+        }, theme)
+        await page.emulateMedia({ reducedMotion: 'no-preference' })
+        await page.goto('/blog/tags/')
+        const search = page.getByRole('searchbox', { name: 'Find a topic' })
 
-      await expect(link).toHaveCount(1)
-      await expect(link).toHaveAccessibleName('Developer experience 16 posts')
-      await link.scrollIntoViewIfNeeded()
-      const resting = await link.boundingBox()
-      const background = await link.evaluate(element => getComputedStyle(element).backgroundColor)
+        await search.fill('Developer experience')
+        const link = page.locator('#tags-list a:visible')
 
-      await link.hover()
-      await expect(link).not.toHaveCSS('background-color', background)
-      await expect(link.locator('[data-topic-name]')).toHaveCSS('text-decoration-line', 'underline')
-      await expect(link.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'arrow-exchange')
-      expect(await link.boundingBox()).toEqual(resting)
-      await page.mouse.move(0, 0)
-      await link.focus()
-      await expect(link).toHaveCSS('outline-style', 'solid')
-      await expect(link.locator('[data-topic-arrow]')).toHaveAttribute('aria-hidden', 'true')
-      await page.emulateMedia({ reducedMotion: 'reduce' })
-      await expect(link).toHaveCSS('transition-property', 'none')
-      await expect(link.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'none')
-      await page.keyboard.press('Enter')
-      await expect(page).toHaveURL('/blog/tags/developer-experience/')
-    })
-  }
+        await expect(link).toHaveCount(1)
+        await expect(link).toHaveAccessibleName('Developer experience 16 posts')
+        await link.scrollIntoViewIfNeeded()
+        const resting = await link.boundingBox()
+        const background = await link.evaluate(element => getComputedStyle(element).backgroundColor)
+
+        await link.hover()
+        await expect(link).not.toHaveCSS('background-color', background)
+        await expect(link.locator('[data-topic-name]')).toHaveCSS('text-decoration-line', 'underline')
+        await expect(link.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'arrow-exchange')
+        expect(await link.boundingBox()).toEqual(resting)
+        await page.mouse.move(0, 0)
+        await link.focus()
+        await expect(link).toHaveCSS('outline-style', 'solid')
+        await expect(link.locator('[data-topic-arrow]')).toHaveAttribute('aria-hidden', 'true')
+        await page.emulateMedia({ reducedMotion: 'reduce' })
+        await expect(link).toHaveCSS('transition-property', 'none')
+        await expect(link.locator('[data-arrow-track]')).toHaveCSS('animation-name', 'none')
+        await page.keyboard.press('Enter')
+        await expect(page).toHaveURL('/blog/tags/developer-experience/')
+      })
+    }
+  })
 
   test('filters technologies into an evidence ledger and exposes an empty state', async ({ page }) => {
     await page.goto('/technologies/')
