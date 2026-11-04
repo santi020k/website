@@ -2691,6 +2691,10 @@ notes without changing existing prose reference numbers. No client script is nee
 
 ### Margin lead article opening
 
+At the start of a post, reuse the Lumen skip link for the localized “Skip to
+article text” shortcut. It appears on focus and uses the existing prose anchor
+to move keyboard focus past the hero and contents, even without JavaScript.
+
 Blog articles pair their format with the original opening paragraph, replacing the
 generic Article notes preface. Use a 6rem margin, a 1.5rem column gap, a 0.8125rem
 format label, and a 2px purple rail with a 1.5rem inset. The lead uses ink-colored

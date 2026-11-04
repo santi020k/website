@@ -21,6 +21,7 @@ export const articleMessages = {
   'article.scrollHorizontallyToReadMore': { en: 'Scroll horizontally to read more', es: 'Desplázate horizontalmente para leer más' },
   'article.selectAndCopyThisSectionS': { en: 'Select and copy this section’s address', es: 'Selecciona y copia la dirección de esta sección' },
   'article.showFullExample': { en: 'Show full example', es: 'Ver el ejemplo completo' },
+  'article.skipToText': { en: 'Skip to article text', es: 'Saltar al texto del artículo' },
   'article.section.retry': { en: 'Try again to copy link to section: {heading}', es: 'Vuelve a intentar copiar el enlace a la sección: {heading}' },
   'article.viewOriginal': { en: 'View original', es: 'Ver original' },
   'mentions.heading': sharedMessages['mentions.heading'],

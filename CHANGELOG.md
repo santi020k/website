@@ -372,6 +372,8 @@
 
 - Place article sharing before the discussion so it remains easy to find when comments expand.
 
+- Add a localized keyboard shortcut to skip the article opening and jump directly to the prose.
+
 - Keep article sharing in one closing section. Remove the duplicated hero copy action and its recovery panel while preserving series navigation, topic links, original-publication destinations, and the existing closing clipboard and native-share behavior.
 
 - Refine the shared footer with open contact rows, consistent editorial typography,
