@@ -18,7 +18,8 @@ jobs:
   build:
     name: Build production site
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # The full build takes about 22 minutes without a warm image cache.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -52,9 +53,10 @@ jobs:
           include-hidden-files: true
           retention-days: 1
 
-  # Each browser project runs in four file-level shards against the same build.
+  # Each browser project runs in six file-level shards against the same build. With four,
+  # WebKit shards took 33-41 minutes and Mobile Safari ones passed the 45-minute limit.
   e2e-matrix:
-    name: ${{ matrix.project }} (${{ matrix.shard }}/4)
+    name: ${{ matrix.project }} (${{ matrix.shard }}/6)
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -62,7 +64,7 @@ jobs:
       fail-fast: false
       matrix:
         project: [chromium, firefox, webkit, Mobile Chrome, Mobile Safari]
-        shard: [1, 2, 3, 4]
+        shard: [1, 2, 3, 4, 5, 6]
         include:
           - project: chromium
             browser: chromium
@@ -92,7 +94,7 @@ jobs:
         env:
           BROWSER: ${{ matrix.browser }}
       - name: Run the browser project shard
-        run: pnpm exec playwright test --project="$PROJECT" --shard="$SHARD/4" --reporter=line
+        run: pnpm exec playwright test --project="$PROJECT" --shard="$SHARD/6" --reporter=line
         env:
           PROJECT: ${{ matrix.project }}
           SHARD: ${{ matrix.shard }}
