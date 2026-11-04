@@ -72,6 +72,27 @@ for (const theme of ['light', 'dark']) {
   })
 }
 
+test('phone widths use touch-sized chapter rows and a paired exhibit', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/history/')
+
+  const chapters = page.getByRole('navigation', { name: 'Jump to a design era' })
+  const chapterRows = await chapters.getByRole('link').evaluateAll(links => links.map(link => {
+    const { x, height } = link.getBoundingClientRect()
+
+    return { x, height }
+  }))
+
+  expect(chapterRows).toHaveLength(5)
+  expect(new Set(chapterRows.map(row => row.x)).size).toBe(1)
+  expect(chapterRows.every(row => row.height >= 44)).toBe(true)
+
+  const exhibit = page.locator('#v5 .history-captures')
+  const desktopRight = await exhibit.locator('.history-desktop').evaluate(figure => figure.getBoundingClientRect().right)
+  const mobileLeft = await exhibit.locator('.history-mobile').evaluate(figure => figure.getBoundingClientRect().left)
+  expect(desktopRight).toBeLessThan(mobileLeft)
+})
+
 test.describe('History chapters without JavaScript', () => {
   test.use({ javaScriptEnabled: false, viewport: { width: 320, height: 900 } })
 

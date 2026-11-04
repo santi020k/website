@@ -13,14 +13,15 @@ Narrow and enlarged-text layouts reflow the previews without cropping or overlap
 The Timeline index shortcuts follow the hero in chronological order. Each native
 fragment link pairs its version with a date, chapter description, and directional
 arrow. A shared rule connects the five eras; the current era uses the accent.
-The index reflows into two columns, then one, as its available width decreases.
+The index reflows into two columns at intermediate widths and compact linked rows
+on phones. Each row keeps the version beside its date and chapter description.
 
 Each chapter uses the Stacked sheets introduction: version, date, and chapter
 status share a paper-like card with its title and description. The Split exhibit
 below pairs the complete desktop and mobile captures in one sculpted surface,
-with a version/address header and separate device captions. Narrow and enlarged-text
-layouts stack the introduction and captures, keeping the mobile capture aligned
-to the right. The archive action follows the exhibit. The chapter anchors and
+with a version/address header and separate device captions. On phones, the introduction and exhibit share one continuous surface. The
+complete captures sit side by side at more equal widths, and stack when enlarged
+text or a narrow exhibit needs more room. The archive action follows the exhibit. The chapter anchors and
 full-document archive links remain usable without JavaScript.
 
 The Archive colophon closes the timeline with the preservation heading and a

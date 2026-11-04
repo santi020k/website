@@ -124,14 +124,14 @@ const meta = {
               </div>
               <div class="history-capture-pair">
                 <figure class="history-desktop">
-                  <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} ${t('page.homepageAtDesktopSize')}`} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 805px, (min-width: 648px) calc(75vw - 6rem), (min-width: 458px) calc(75vw - 5rem), calc(100vw - 5rem)" loading="lazy" />
+                  <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} ${t('page.homepageAtDesktopSize')}`} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 805px, (min-width: 648px) calc(75vw - 6rem), (min-width: 640px) calc(75vw - 5rem), (min-width: 320px) calc(54vw - 3rem), calc(100vw - 4.5rem)" loading="lazy" />
                   <figcaption>
                     <span class="history-capture-device">{t('page.desktop')}</span>
                     <span class="history-capture-dimensions">1440 × 1000</span>
                   </figcaption>
                 </figure>
                 <figure class="history-mobile">
-                  <Image src={imageFor(era.id, 'mobile')} alt={`${era.id.toUpperCase()} ${t('page.homepageAtMobileSize')}`} widths={[195, 390]} sizes="(min-width: 1200px) 276px, (min-width: 648px) calc(25vw - 1.5rem), (min-width: 458px) calc(25vw - 1.25rem), 130px" loading="lazy" />
+                  <Image src={imageFor(era.id, 'mobile')} alt={`${era.id.toUpperCase()} ${t('page.homepageAtMobileSize')}`} widths={[195, 390]} sizes="(min-width: 1200px) 276px, (min-width: 648px) calc(25vw - 1.5rem), (min-width: 640px) calc(25vw - 1.25rem), (min-width: 320px) min(208px, calc(46vw - 2rem)), 130px" loading="lazy" />
                   <figcaption>
                     <span class="history-capture-device">{t('page.mobile')}</span>
                     <span class="history-capture-dimensions">390 × 844</span>
