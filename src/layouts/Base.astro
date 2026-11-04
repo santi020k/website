@@ -230,6 +230,50 @@ const cloudflareBeacon = import.meta.env.PROD && CLOUDFLARE_WEB_ANALYTICS_TOKEN 
       const policySelector = 'meta[http-equiv="Content-Security-Policy"]'
       const scriptPolicy = (root: Document) => root.querySelector(policySelector)?.getAttribute('content') ?? ''
 
+      // Safari applies a stylesheet linked during a swap only after the new page has
+      // painted, so route-only styles (src/styles/pages/) would arrive a frame late. Carry
+      // each stylesheet the next page adds into its parsed head as a <style> element, which
+      // applies with the swap itself. Astro has already preloaded these immutable files.
+      const inlineNewStylesheets = async (next: Document, to: URL, signal: AbortSignal) => {
+        const selector = 'link[rel="stylesheet"][href]'
+        const linked = new Set([...document.head.querySelectorAll(selector)].map(link => link.getAttribute('href')))
+        const inlined = new Map<string, string>()
+
+        for (const style of document.head.querySelectorAll<HTMLStyleElement>('style[data-stylesheet]')) {
+          if (style.dataset.stylesheet) inlined.set(style.dataset.stylesheet, style.textContent ?? '')
+        }
+
+        await Promise.all([...next.head.querySelectorAll<HTMLLinkElement>(selector)].map(async link => {
+          const href = link.getAttribute('href') ?? ''
+
+          if (linked.has(href)) return
+
+          try {
+            let css = inlined.get(href)
+
+            if (css === undefined) {
+              const response = await fetch(new URL(href, to), { signal })
+
+              if (!response.ok) return
+
+              css = await response.text()
+            }
+
+            const style = next.createElement('style')
+
+            style.dataset.stylesheet = href
+
+            if (link.media) style.media = link.media
+
+            style.textContent = css
+
+            link.replaceWith(style)
+          } catch {
+            // Keep the link: it still applies after the swap, only a frame later in Safari.
+          }
+        }))
+      }
+
       document.addEventListener('astro:before-preparation', event => {
         if (!(event instanceof TransitionBeforePreparationEvent) || event.formData) return
 
@@ -238,10 +282,18 @@ const cloudflareBeacon = import.meta.env.PROD && CLOUDFLARE_WEB_ANALYTICS_TOKEN 
         event.loader = async () => {
           await load()
 
+          const next = event.newDocument
+
+          if (!next) return
+
           // Astro falls back to a full navigation when preparation is cancelled.
-          if (event.newDocument && scriptPolicy(event.newDocument) !== scriptPolicy(document)) {
+          if (scriptPolicy(next) !== scriptPolicy(document)) {
             event.preventDefault()
+
+            return
           }
+
+          await inlineNewStylesheets(next, event.to, event.signal)
         }
       })
 
