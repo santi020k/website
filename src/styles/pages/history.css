@@ -262,10 +262,9 @@
   .remaining-pages [data-history-era-current] [data-history-captures][data-slot='card'] { border-radius: 0; }
 
   [data-history-era-current] .history-capture-pair {
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-    align-items: end;
-    gap: .75rem;
-    padding: .625rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: .75rem;
     border: 1px solid hsl(var(--line));
     border-radius: .875rem;
     background: hsl(var(--surface-muted));
@@ -286,9 +285,7 @@
 
   [data-history-era-current] [data-history-era-action] { min-height: 44px; }
 
-  @container history-captures (width < 14rem) {
-    [data-history-era-current] .history-capture-pair { grid-template-columns: minmax(0, 1fr); }
-  }
+  [data-history-era-current] .history-mobile { width: min(72%, 13rem); }
 
   @container history-chapters (width < 13rem) {
     .history-hero-chapter-links a { grid-template-columns: minmax(0, 1fr) 1rem; grid-template-rows: repeat(3, auto); }
