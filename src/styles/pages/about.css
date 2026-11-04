@@ -354,7 +354,8 @@
 
 @container about-page (width < 14rem) {
   .about-hero.signature-frame { padding-inline: 0.5rem; }
-  .about-hero h1 { font-size: min(2.625rem, 19cqi); overflow-wrap: break-word; hyphens: none; }
+  /* 19cqi left "Ingeniero." under 4px of room, so some renderers moved its period to a new line. */
+  .about-hero h1 { font-size: min(2.625rem, 18cqi); overflow-wrap: break-word; hyphens: none; }
   .about-section-heading h2, .about-next h2 { font-size: min(2rem, 15cqi); }
   .about-page :is(h2, h3) { overflow-wrap: break-word; }
   .about-eyebrow, .about-link, .about-portrait figcaption { overflow-wrap: anywhere; }
