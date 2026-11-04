@@ -25,6 +25,10 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
   the first document; when the next page carries a different policy (a new deployment or an
   archive), the router loads it as a full document instead. The build fails if a current page uses
   an inline event handler or a `javascript:` URL, which no hash can allow.
+  After a swap, Astro's router appends an empty `data:application/javascript,` module to wait for
+  inline module scripts. Neither policy allows `data:` scripts, so the console reports that one
+  blocked load when the last new module script on the page is inline, as on `/blog/`. The module is
+  empty and the router treats its error like a load, so pages keep working.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **Strict-Transport-Security**: `max-age=31536000`, so browsers keep using HTTPS for a year after

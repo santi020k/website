@@ -40,7 +40,8 @@ version. Public URLs stay compatible and visitors need no migration.
 - [ ] Smoke-check `/`, `/es/`, `/blog/`, an article, `/portfolio/`, a case study, `/projects/`,
   `/travel/`, `/history/`, `/v4/`, `/offline/`, `/sitemap.xml`, `/feed.xml` and `/llms.txt`.
 - [ ] Responses carry `Strict-Transport-Security`; pages carry one script-policy meta tag and the
-  console shows no Content Security Policy violations while navigating.
+  console shows no Content Security Policy violations while navigating, apart from the router's
+  empty `data:` module (see [deployment](deployment.md#deployment-target)).
 - [ ] Spanish shells of English articles answer with `noindex` and stay out of the sitemap.
 - [ ] Close superseded pull requests (Dependabot #158), delete merged branches, and prune stale worktree checkouts.
 - [ ] If a smoke check fails, follow [rollback](deployment.md#rollback).
