@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { waitForFonts } from './helpers/rendering'
 
 for (const theme of ['light', 'dark']) {
   test(`history works on desktop and mobile in ${theme} mode`, async ({ page }) => {
@@ -82,7 +83,7 @@ test.describe('History chapters without JavaScript', () => {
       await page.evaluate(() => {
         document.documentElement.style.fontSize = '200%'
       })
-      await page.evaluate(() => document.fonts.ready)
+      await waitForFonts(page)
       const broken = await page.locator('.history-hero-chapters, .history-era-heading, .history-captures figcaption, .history-footnote').evaluateAll(elements => {
         const failures: string[] = []
         for (const element of elements) {

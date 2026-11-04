@@ -1,6 +1,7 @@
 import { expect, type Page, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { waitForFonts } from './helpers/rendering'
 
 const route = '/portfolio/smith-commerce/'
 
@@ -133,7 +134,7 @@ test('desktop chapters and their section destinations work without JavaScript', 
 
   try {
     await page.goto(route)
-    await page.evaluate(() => document.fonts.ready)
+    await waitForFonts(page)
     const chapter = page.locator('[data-project-desktop-toc] [data-reading-contents] details').first()
 
     await chapter.locator('summary').focus()

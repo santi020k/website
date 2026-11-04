@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { waitForFonts } from './helpers/rendering'
+
 const route = '/portfolio/smith-commerce/'
 const chapters = [
   { client: 'Marcone', id: 'technical-highlights', count: 20 },
@@ -85,7 +87,7 @@ test('technology connections work without JavaScript', async ({ browser }) => {
 
   try {
     await page.goto(`${route}#technical-highlights`)
-    await page.evaluate(() => document.fonts.ready)
+    await waitForFonts(page)
     const react = page.locator('[data-technical-highlights="Marcone"] a[href="/technologies/react-js/"]')
 
     await expect(react).not.toHaveAttribute('target', '_blank')

@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import { waitForImages } from './helpers/rendering'
+
 const articles = [
   {
     slug: 'migrate-eslint-8-or-less-to-eslint-9',
@@ -42,11 +44,11 @@ test.describe('article illustrations', () => {
 
       for (const figure of await figures.all()) {
         await figure.scrollIntoViewIfNeeded()
-        const layout = await figure.evaluate(async element => {
+        await waitForImages(figure.locator('img'))
+        const layout = await figure.evaluate(element => {
           const image = element.querySelector('img')
           const caption = element.querySelector('figcaption')
           if (!image || !caption) throw new TypeError('Expected an illustrated figure with a caption')
-          await image.decode()
           const imageBounds = image.getBoundingClientRect()
           return {
             loaded: image.naturalWidth > 0,

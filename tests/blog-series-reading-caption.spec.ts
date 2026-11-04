@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import { requireValue } from './helpers/assertions'
+import { waitForFonts } from './helpers/rendering'
 
 for (const locale of ['en', 'es'] as const) {
   const prefix = locale === 'es' ? '/es' : ''
@@ -78,7 +79,7 @@ for (const locale of ['en', 'es'] as const) {
 
     test('opens the localized series catalog', async ({ page }) => {
       await page.goto(`${prefix}/blog/#blog-series`)
-      await page.evaluate(() => document.fonts.ready)
+      await waitForFonts(page)
       await expect(page.getByRole('heading', { name: heading, exact: true })).toBeVisible()
       await page.locator('[data-blog-series-browse]').click()
       await expect(page).toHaveURL(`${prefix}/blog/series/`)

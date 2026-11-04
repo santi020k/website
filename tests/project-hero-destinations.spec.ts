@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { waitForFonts } from './helpers/rendering'
+
 for (const theme of ['light', 'dark']) {
   for (const width of [320, 390, 1440]) {
     test(`destination brief remains readable at ${width}px in ${theme}`, async ({ page, browserName }) => {
@@ -83,7 +85,7 @@ for (const javaScriptEnabled of [true, false]) {
 
     try {
       await page.goto('/portfolio/smith-commerce/')
-      await page.evaluate(() => document.fonts.ready)
+      await waitForFonts(page)
       const link = page.getByRole('navigation', { name: 'Project destinations' }).getByRole('link', { name: 'View F.W. Webb previews' })
 
       await expect(link).not.toHaveAttribute('target', '_blank')

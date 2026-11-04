@@ -1,6 +1,7 @@
 import { expect, type Page, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { waitForFonts } from './helpers/rendering'
 
 const route = '/portfolio/smith-commerce/'
 
@@ -14,10 +15,10 @@ for (const width of [320, 375, 390, 1440]) {
         await page.setViewportSize({ width, height: 900 })
         const measureControls = async (target: Page, role: 'link' | 'button') => {
           await target.goto('/portfolio/lumen-ui/')
-          await target.evaluate(async size => {
+          await target.evaluate(size => {
             document.documentElement.style.fontSize = `${size}%`
-            await document.fonts.ready
           }, textSize)
+          await waitForFonts(target)
           const controls = target.locator('[data-gallery-actions]').getByRole(role, { name: /^View larger:/u })
 
           await expect(controls).toHaveCount(2)

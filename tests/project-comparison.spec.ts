@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { waitForFonts } from './helpers/rendering'
 
 const route = '/portfolio/smith-commerce/#before-and-after'
 
@@ -133,7 +134,7 @@ test('comparison images and original-image links work without JavaScript', async
 
   try {
     await page.goto(route)
-    await page.evaluate(() => document.fonts.ready)
+    await waitForFonts(page)
     const comparison = page.getByRole('region', { name: 'Marcone before and after' })
 
     await expect(comparison.getByRole('img')).toHaveCount(2)

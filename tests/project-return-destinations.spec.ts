@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { waitForFonts } from './helpers/rendering'
+
 for (const theme of ['light', 'dark']) {
   test(`named return wraps and remains accessible in ${theme}`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -94,7 +96,7 @@ for (const javaScriptEnabled of [true, false]) {
 
     try {
       await page.goto('/portfolio/lumen-ui/#project-return')
-      await page.evaluate(() => document.fonts.ready)
+      await waitForFonts(page)
       const nav = page.getByRole('navigation', { name: 'Page-end navigation', exact: true })
       const site = nav.getByRole('link', { name: 'Visit Lumen UI', exact: true })
       const playground = nav.getByRole('link', { name: 'Try the playgrounds', exact: true })
