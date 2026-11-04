@@ -39,9 +39,10 @@ below name the projects and provide their case studies. At very narrow text meas
 the workspace so both remain legible. Selected work is the primary action;
 the adjacent invitation opens the existing work-with-me flow.
 
-The opening uses one finite, CSS-only sequence, completing within 800ms. The
-existing opaque `reveal-lcp` entrance settles each headline line; interface
-layers settle without fading, then the purple underline and backing sheet arrive.
+The opening uses one finite, CSS-only sequence, completing within 800ms. Each
+headline line rises in sequence at full opacity. The Lumen and PostLens previews
+settle on offset timings, and the purple underline sweeps across the emphasized
+word as the backing sheet arrives.
 The description, actions, and product links stay static and immediately usable.
 Hover or keyboard focus on a product link emphasizes its matching preview.
 Reduced motion uses the finished composition without transitions. Client
