@@ -143,6 +143,8 @@ describe('CI change detection', () => {
     ['og.audit.config.mjs', true, { mode: 'full', checks: 'true', full: 'true' }],
     ['.og-cache.json', false, { mode: 'full', checks: 'true', full: 'true' }],
     ['src/pages/index.astro', false, { mode: 'current', checks: 'true', full: 'true' }],
+    ['tests/seo.spec.ts', false, { mode: 'current', checks: 'true', full: 'true' }],
+    ['.changeset/v5-release.md', false, { mode: 'current', checks: 'true', full: 'true' }],
     ['apps/v1/src/pages/index.astro', false, { mode: 'full', checks: 'true', full: 'true' }],
     ['astro.config.ts', false, { mode: 'full', checks: 'true', full: 'true' }],
     ['.github/workflows/build.yml', false, { mode: 'full', checks: 'true', full: 'true' }],

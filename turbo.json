@@ -10,6 +10,12 @@
       "outputs": [
         "dist/**"
       ],
+      "cache": true
+    },
+    "website#build:site": {
+      "outputs": [
+        "dist/**"
+      ],
       "cache": false
     }
   },

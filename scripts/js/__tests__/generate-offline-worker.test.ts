@@ -22,10 +22,13 @@ const createBuild = async () => {
 
   for (const [file, content] of [
     ['index.html', '<h1>Home</h1>'],
+    ['es/index.html', '<h1>Inicio</h1>'],
     ['offline/index.html', '<h1>Offline</h1>'],
     ['es/offline/index.html', '<h1>Sin conexión</h1>'],
     ['_astro/main.js', 'import("./nested/controls.js")'],
     ['_astro/nested/controls.js', 'console.log("ready")'],
+    ['_astro/phone-input.abc123.js', 'unused phone input'],
+    ['_astro/phone-formatting.def456.js', 'unused phone formatting'],
     ['_astro/base.css', 'body{font-family:site}'],
     ['_astro/font.woff2', 'font'],
     ['_astro/cover.avif', 'image'],
@@ -43,7 +46,7 @@ afterEach(async () => {
 })
 
 describe('offline worker build', () => {
-  test('includes code, nested chunks, styles and fonts while excluding images and archives', async () => {
+  test('includes code, nested chunks, styles and fonts while excluding images, unused phone chunks and archives', async () => {
     const root = await createBuild()
     const result = await generateOfflineWorker(root)
 
@@ -54,7 +57,7 @@ describe('offline worker build', () => {
     expect(await generateOfflineWorker(root)).toEqual(result)
   })
 
-  test.each(['index.html', 'offline/index.html', 'es/offline/index.html', '_astro/base.css', '_astro/nested/controls.js'])(
+  test.each(['index.html', 'es/index.html', 'offline/index.html', 'es/offline/index.html', '_astro/base.css', '_astro/nested/controls.js'])(
     'changes the worker revision when %s changes without a filename change', async file => {
       const root = await createBuild()
       const original = await generateOfflineWorker(root)

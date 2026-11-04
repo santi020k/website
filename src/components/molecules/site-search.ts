@@ -294,6 +294,8 @@ const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e
     resultTypeLabel = t('shared.post')
   } else if (e.type === 'community') {
     resultTypeLabel = t('shared.community')
+  } else if (e.type === 'page') {
+    resultTypeLabel = t('shared.page')
   }
 
   typeEl.textContent = resultTypeLabel
@@ -480,7 +482,7 @@ const render = (query: string) => {
     .sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score
 
-      const typeOrder = { community: 0, project: 1, post: 2 }
+      const typeOrder = { community: 0, project: 1, post: 2, page: 3 }
       const typeDiff = typeOrder[a.entry.type] - typeOrder[b.entry.type]
 
       if (typeDiff !== 0) return typeDiff

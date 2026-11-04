@@ -3,7 +3,7 @@
 /** @type {string[]} */
 const BUILD_ASSETS = []
 const BUILD_REVISION = 'development'
-const CACHE_VERSION = `v4-cache-v3-${BUILD_REVISION}`
+const CACHE_VERSION = `v5-cache-v1-${BUILD_REVISION}`
 const STATIC_CACHE = `santi020k-static-${CACHE_VERSION}`
 const MAX_CACHE_ENTRIES = 256
 // Bounds only the wait for response headers. A response that has started keeps
@@ -12,6 +12,7 @@ const NETWORK_HEADER_DEADLINE_MS = 8_000
 
 const CORE_ROUTES = [
   '/',
+  '/es/',
   '/offline/',
   '/es/offline/',
   '/manifest.webmanifest',
