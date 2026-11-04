@@ -33,11 +33,12 @@ import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 import '@/styles/article-print.css'
 import '@/styles/prose.css'
 
-import { ScrollProgress } from '@santi020k/lumen-astro'
+import { ScrollProgress, SkipLink } from '@santi020k/lumen-astro'
 
 import { ogManifest } from '@/data/og-manifest'
 import { getSeriesContext } from '@/data/series'
 import { getLocale, localizePath, stripLocale } from '@/i18n'
+import { articleTranslator } from '@/i18n/article-copy'
 import { collectionTranslator } from '@/i18n/collection-copy'
 import {
   createAuthorSchema,
@@ -132,6 +133,16 @@ mainClass="remaining-pages remaining-pages--reading"
   <ScrollProgress targetId="article-content" />
 
   <article class="h-entry section-container-wide flex flex-col" data-reading-layout>
+    <SkipLink
+href="#article-content"
+class="
+  max-w-[calc(100%-1.5rem)]
+  motion-reduce:transition-none
+"
+data-article-skip
+    >
+      {articleTranslator(locale)('article.skipToText')}
+    </SkipLink>
     <!-- The h-entry permalink is metadata only, so it adds no focus stop or announcement. -->
     <data class="u-url" hidden value={localURL.href}></data>
     <PostHero post={post} />
@@ -149,7 +160,7 @@ mainClass="remaining-pages remaining-pages--reading"
           </div>
         )}
         <div class="e-content max-w-none">
-          <div lang="en" class="prose-santi max-w-none" data-article-prose data-pagefind-body id="article-content">
+          <div lang="en" class="prose-santi max-w-none" data-article-prose data-pagefind-body id="article-content" tabindex="-1">
             <Fragment set:html={articleHtml} />
           </div>
           {publicationImprint && <ArticlePublicationImprint imprint={publicationImprint} />}
@@ -225,6 +236,9 @@ mainClass="remaining-pages remaining-pages--reading"
 </BaseLayout>
 
 <style>
+  /* Let the focused shortcut clear the sticky header above the main stacking context. */
+  :global(main:has([data-article-skip]:focus)) { isolation: auto; }
+
   [data-article-closing] :global(#comments) { padding-block-start: 1.75rem; }
 
   [data-post-mobile-toc][data-companion-sticky] {
