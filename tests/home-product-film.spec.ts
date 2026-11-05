@@ -27,7 +27,7 @@ for (const locale of ['en', 'es'] as const) {
       '/media/products/santi020k-products.mp4')
     await expect.poll(() => video.evaluate(element => (
       element instanceof HTMLVideoElement ? element.currentTime : 0
-    ))).toBeGreaterThan(0)
+    ))).toBeGreaterThan(0.1)
     await expect(video.locator('track[srclang="es"]')).toHaveJSProperty('default', locale === 'es')
     await expectNoUnexpectedAccessibilityViolations(page)
     await page.keyboard.press('Escape')
@@ -133,7 +133,7 @@ for (const theme of ['light', 'dark'] as const) {
       const dialog = page.locator('[data-film-dialog]')
 
       await expect(dialog).toBeVisible()
-      await expect.poll(() => page.locator('[data-film-video]').evaluate(element => element instanceof HTMLVideoElement ? element.currentTime : 0)).toBeGreaterThan(0)
+      await expect.poll(() => page.locator('[data-film-video]').evaluate(element => element instanceof HTMLVideoElement ? element.currentTime : 0)).toBeGreaterThan(0.1)
       await page.locator('[data-film-video]').evaluate(element => {
         if (element instanceof HTMLVideoElement) {
           element.pause()

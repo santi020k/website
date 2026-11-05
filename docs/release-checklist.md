@@ -4,11 +4,13 @@ One page for the release in flight. The [deployment runbook](deployment.md) expl
 evidence from earlier releases lives in [`docs/archive/`](archive/README.md). Record new evidence in the
 pull request rather than growing a log here.
 
-## Current release: v5.0.0
+## Current release: v5.2.0
 
-`release/v5.0.0` carries the editorial redesign, the Spanish site, and all prepared v4.1 work.
-Changesets has already generated the 5.0.0 changelog; changesets added afterwards ship in the next
-version. Public URLs stay compatible and visitors need no migration.
+`release/v5.2.0` carries the published Lumen 4.4.0 upgrade, the remaining tab-scroll
+compatibility patch, and deterministic product-film playback validation.
+The minor Changeset requests 5.2.0 from the published 5.1.0 base. The normal GitHub
+Release workflow generates the version bump and changelog after integration into main.
+Public URLs stay compatible and visitors need no migration.
 
 ### Before the pull request
 
@@ -24,7 +26,7 @@ version. Public URLs stay compatible and visitors need no migration.
 
 ### Pull request
 
-- [ ] Open `release/v5.0.0` → `main` as a draft. The **Quality gate** check covers static checks,
+- [ ] Open `release/v5.2.0` → `main` as a draft. The **Quality gate** check covers static checks,
   six Chromium browser shards and Lighthouse.
 - [ ] Run **E2E Matrix (Weekly/Manual)** once for Firefox, WebKit and the mobile projects.
 - [ ] Review the complete diff against `main` before marking the pull request ready.
@@ -43,5 +45,5 @@ version. Public URLs stay compatible and visitors need no migration.
   console shows no Content Security Policy violations while navigating, apart from the router's
   empty `data:` module (see [deployment](deployment.md#deployment-target)).
 - [ ] Spanish shells of English articles answer with `noindex` and stay out of the sitemap.
-- [ ] Close superseded pull requests (Dependabot #158), delete merged branches, and prune stale worktree checkouts.
+- [ ] Delete the merged release branch and prune retired worktree checkouts.
 - [ ] If a smoke check fails, follow [rollback](deployment.md#rollback).

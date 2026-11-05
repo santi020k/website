@@ -4,12 +4,13 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 
 ## Active release
 
-The current integration target is `release/v5.0.0`. Santiago selected v5 on
-October 26, 2026 and superseded the unpublished v4.1 release. Base new approved
-work on v5 and coordinate merges in its clean, idle integration worktree. Preserve
-the published v4.0.0 design in `apps/v4`; current-site design changes belong at
-the repository root. `docs/release-checklist.md` lists the remaining gates; the detailed
-integration log is archived in `docs/archive/v5-release-readiness.md`.
+The current integration target is `release/v5.2.0`, selected on November 5, 2026.
+It carries the Lumen 4.4.0 upgrade and product-film playback validation fixes from
+the published v5.1.0 base. Base new approved work on this release and serialize
+integration in its clean, idle worktree. Preserve the published v4.0.0 design in
+`apps/v4`; current-site changes belong at the repository root.
+`docs/release-checklist.md` lists the remaining gates; earlier evidence is archived
+in `docs/archive/v5-release-readiness.md`.
 
 ## Tech Stack
 

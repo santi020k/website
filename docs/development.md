@@ -166,7 +166,10 @@ SKIP_BUILD=1 pnpm run test:e2e:ci:stable tests/lumen-interactions.spec.ts --retr
 ```
 
 `pnpm run test:e2e:fast` reuses an existing build; browser-test scripts install Chromium when
-needed. Run `pnpm run build` first when verifying changed routes. Use `pnpm run lighthouse`
+needed. Chromium tests use `--disable-audio-output`, matching the motion workspace, to
+keep the media clock independent of host audio devices. The film tests still verify playback,
+seeking, and pause behavior. See the [motion test setup](../apps/motion/README.md).
+Run `pnpm run build` first when verifying changed routes. Use `pnpm run lighthouse`
 for a quick homepage lab audit. The full Lighthouse configuration also covers a long article
 with code examples and the Smith Commerce case study, alongside the main landing pages.
 The local Lighthouse run starts a separate foreground preview and waits for its URL
@@ -193,7 +196,7 @@ projects index and technology archives share the editorial gallery.
 `pnpm run generate:cv` builds the site and regenerates résumé downloads after UI or dependency
 changes. Do not edit generated files by hand.
 
-The next release is consolidated on `release/v5.0.0`. Production publishing follows the reviewed
+The next release is consolidated on `release/v5.2.0`. Production publishing follows the reviewed
 GitHub workflow from `main`; local validation and integration are separate from remote merge,
 Cloudflare deployment, and production smoke checks. See the
 [deployment runbook](deployment.md) for Changesets, protected checks, and rollback.
