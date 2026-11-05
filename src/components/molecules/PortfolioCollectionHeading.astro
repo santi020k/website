@@ -1,0 +1,134 @@
+---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Link } from '@santi020k/lumen-astro'
+
+import { getLocale } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+
+interface Props {
+  count: number
+  description: string
+  emphasis: string
+  eyebrow: string
+  headingId: string
+  href: string
+  linkLabel: string
+  title: string
+}
+
+const { count, description, emphasis, eyebrow, headingId, href, linkLabel, title } = Astro.props
+const t = collectionTranslator(getLocale(Astro.url.pathname))
+---
+
+<div data-portfolio-collection-container>
+  <header data-portfolio-collection-heading>
+    <div data-collection-masthead>
+      <p data-collection-eyebrow><span>{eyebrow}</span></p>
+      <p data-collection-count>{t(count === 1 ? 'portfolio.selectedCaseStudy' : 'portfolio.selectedCaseStudies', { count })}</p>
+    </div>
+    <h2 id={headingId}>{title}{' '}<span>{emphasis}</span></h2>
+    <div data-collection-closing>
+      <p data-collection-description>{description}</p>
+      <Link data-collection-link href={href} variant="inherit">
+        <span>{linkLabel}</span>
+        <ArrowExchange direction="right" />
+      </Link>
+    </div>
+  </header>
+</div>
+
+<style>
+  [data-portfolio-collection-container] { container: portfolio-collection / inline-size; }
+  [data-portfolio-collection-heading] {
+    border-bottom: 1px solid hsl(var(--line));
+    padding-bottom: 1.625rem;
+    overflow-wrap: anywhere;
+  }
+  [data-collection-masthead] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.625rem 1.5rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.6875rem;
+    line-height: 1.8;
+  }
+  [data-collection-eyebrow] {
+    display: flex;
+    max-width: 100%;
+    align-items: center;
+    gap: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  [data-collection-eyebrow] > span { min-width: 0; }
+  [data-collection-count] { max-width: 100%; }
+  [data-collection-eyebrow]::before {
+    content: '';
+    width: 1.5rem;
+    height: 2px;
+    flex-shrink: 0;
+    background: hsl(var(--brand));
+  }
+  h2 {
+    max-width: 20ch;
+    margin-top: 1.5rem;
+    font-size: 3rem;
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.065em;
+    text-wrap: balance;
+  }
+  h2 span { display: block; color: hsl(var(--brand)); }
+  [data-collection-closing] {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.75fr);
+    align-items: end;
+    gap: 2.5rem;
+    margin-top: 1.625rem;
+  }
+  [data-collection-description] {
+    max-width: 48ch;
+    color: hsl(var(--ink-soft));
+    font-size: 0.875rem;
+    line-height: 1.85;
+  }
+  [data-collection-closing] :global([data-collection-link]) {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-left: 1px solid hsl(var(--line));
+    padding: 0.625rem 0 0.625rem 1.25rem;
+    color: hsl(var(--ink));
+    font-size: 0.75rem;
+    line-height: 1.7;
+    text-decoration: none;
+  }
+  [data-collection-closing] :global([data-collection-link]:hover) { color: hsl(var(--brand)); }
+  [data-collection-closing] :global([data-collection-link]:focus-visible) {
+    border-radius: 0.125rem;
+    outline: 2px solid hsl(var(--brand));
+    outline-offset: 4px;
+  }
+  [data-collection-closing] :global(svg) { flex-shrink: 0; }
+
+  @container portfolio-collection (max-width: 38.75rem) {
+    h2 { font-size: 2.375rem; }
+    [data-collection-closing] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    [data-collection-closing] :global([data-collection-link]) { border-left: 0; padding-left: 0; }
+  }
+  @container portfolio-collection (max-width: 23.125rem) {
+    h2 { font-size: 2.125rem; }
+    [data-collection-masthead] { flex-direction: column; align-items: flex-start; }
+    [data-collection-count] { padding-left: 2.25rem; }
+  }
+  @container portfolio-collection (width < 12rem) {
+    [data-collection-eyebrow] { letter-spacing: 0.06em; }
+    [data-collection-eyebrow]::before { display: none; }
+    [data-collection-count] { padding-left: 0; }
+  }
+</style>

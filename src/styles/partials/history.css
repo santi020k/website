@@ -1,0 +1,41 @@
+@utility history-era-body { min-width: 0; }
+@utility history-era-heading { min-width: 0; }
+@utility history-shell { width: 100%; max-width: 72rem; margin-inline: auto; }
+@utility history-intro { padding-bottom: 1.25rem; container: history-intro / inline-size; }
+@utility history-hero-stage { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 2rem; padding-block: 2rem 3.5rem; }
+@utility history-hero-copy { min-width: 0; container: history-copy / inline-size; }
+@utility history-hero-note { margin-top: 1.25rem; font-size: .6875rem; color: hsl(var(--ink-soft)); }
+@utility history-hero-exhibit { min-width: 0; margin: 0; container: history-exhibit / inline-size; }
+@utility history-hero-print { min-width: 0; margin: 0; }
+@utility history-hero-current-version { color: hsl(var(--brand)); font-size: 1.125rem; font-weight: 500; line-height: 1.5; letter-spacing: -.035em; }
+@utility history-hero-past { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+@utility history-hero-print-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .375rem .75rem; margin-top: .75rem; padding-top: .625rem; border-top: 1px solid hsl(var(--line)); color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.6; }
+@utility history-hero-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; margin-top: 1.25rem; color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.6; }
+@utility history-hero-chapters { min-width: 0; container: history-chapters / inline-size; }
+@utility history-hero-chapter-intro { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .5rem 1.5rem; margin-bottom: 1.5rem; }
+@utility history-hero-chapter-links { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
+@utility history-hero-chapter-version { margin-bottom: 1.125rem; font-size: 2.25rem; font-weight: 500; line-height: 1.1; letter-spacing: -.06em; }
+@utility history-hero-chapter-date { display: block; grid-column: 1 / -1; font-size: .75rem; line-height: 1.65; }
+@utility history-hero-chapter-state { display: block; grid-column: 1 / -1; margin-top: .25rem; color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.7; }
+@utility history-timeline { list-style: none; margin: 7rem 0 0; padding: 0; }
+@utility history-era { min-width: 0; padding-bottom: 4.5rem; container: history-era / inline-size; }
+@utility history-era-marker { display: flex; min-width: 0; flex-direction: column; align-items: start; gap: .75rem; }
+@utility history-version { font-size: 2.5rem; font-weight: 500; line-height: 1.1; letter-spacing: -.075em; color: hsl(var(--brand)); }
+@utility history-status { border-top: 1px solid hsl(var(--line)); padding-top: .75rem; font-size: .6875rem; line-height: 1.65; color: hsl(var(--ink-soft)); }
+@utility history-captures { min-width: 0; container: history-captures / inline-size; }
+@utility history-capture-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .75rem; padding-bottom: 1.375rem; }
+@utility history-capture-version { color: hsl(var(--brand)); font-size: 1.75rem; font-weight: 500; line-height: 1; letter-spacing: -.06em; }
+@utility history-capture-address { min-width: 0; color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.6; overflow-wrap: anywhere; }
+@utility history-capture-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(5.75rem, 25%); align-items: end; gap: 1.375rem; }
+@utility history-desktop { min-width: 0; margin: 0; }
+@utility history-mobile { min-width: 0; margin: 0; }
+@utility history-capture-device { display: block; color: hsl(var(--ink)); font-size: .875rem; font-weight: 500; line-height: 1.5; }
+@utility history-capture-dimensions { display: block; margin-top: .1875rem; color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.6; }
+@utility history-era-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem; }
+@utility history-footnote { min-width: 0; max-width: 48rem; padding-bottom: 1rem; container: history-note / inline-size; }
+@utility history-colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); gap: 1.75rem; padding-top: 1.75rem; border-top: 1px solid hsl(var(--line)); }
+@utility history-colophon-eyebrow { margin-bottom: 1.25rem; color: hsl(var(--brand)); font-size: .6875rem; line-height: 1.7; letter-spacing: .09em; text-transform: uppercase; }
+@utility history-colophon-seal { display: grid; place-items: center; width: 3rem; height: 3rem; margin-top: 1.75rem; border-radius: 1rem .25rem 1rem .25rem; background: hsl(var(--brand-soft)); color: hsl(var(--brand)); }
+@utility history-colophon-copy { min-width: 0; padding-left: 1.75rem; border-left: 1px solid hsl(var(--brand)); color: hsl(var(--ink-soft)); font-size: .875rem; line-height: 1.9; }
+
+@utility history-release { color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.6; }

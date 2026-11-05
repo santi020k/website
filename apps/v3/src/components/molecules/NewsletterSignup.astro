@@ -1,0 +1,167 @@
+---
+import { Button, Card, Icon, Input, Link } from '@santi020k/lumen-astro'
+
+interface Props {
+  formAction: string
+  variant?: 'compact' | 'default'
+}
+
+const { formAction, variant = 'default' } = Astro.props
+const isCompact = variant === 'compact'
+const headingId = `newsletter-heading-${variant}`
+const emailId = `newsletter-email-${variant}`
+---
+
+{isCompact ?
+  (
+    <div
+      class="
+        mini-note relative transition-all duration-200
+        motion-reduce:transition-none
+      "
+    >
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute top-0 right-0 size-24 opacity-20
+          transition-opacity duration-300
+          group-hover:opacity-30
+          motion-reduce:transition-none
+        "
+        style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.12), transparent 70%);"
+      />
+      <div class="relative z-10 space-y-3">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="section-label">Stay in the loop</p>
+            <h3 class="mt-1 text-base font-semibold text-ink">New posts and discoveries</h3>
+          </div>
+          <a
+            class="
+              inline-flex min-h-11 min-w-11 shrink-0 items-center gap-1 text-xs
+              font-medium text-ink-muted transition-colors
+              hover:text-brand
+              motion-reduce:transition-none
+            "
+            href="/feed.xml"
+          >
+            <Icon class="size-3.5" name="rss" />
+            RSS
+          </a>
+        </div>
+        <form
+          action={formAction}
+          class="flex gap-2"
+          method="post"
+          rel="noopener noreferrer"
+          target="_blank"
+          data-newsletter-form
+        >
+          <input name="embed" type="hidden" value="1" />
+          <label class="sr-only" for={emailId}>Email address</label>
+          <Input
+            autocomplete="email"
+            class="min-h-11 flex-1 rounded-xl px-3 py-2"
+            id={emailId}
+            inputmode="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+            type="email"
+          />
+          <Button
+            class="min-h-11 min-w-11 rounded-xl px-3 py-2"
+            size="sm"
+            type="submit"
+          >
+            <Icon class="size-4" name="send" />
+            <span class="
+              sr-only
+              sm:not-sr-only
+            "
+            >Get new posts
+            </span>
+          </Button>
+        </form>
+        <p class="text-xs text-ink-muted">
+          Monthly at most. Unsubscribe anytime.{' '}
+          <Link className="privacy-inline-link" href="/privacy/">Privacy</Link>.
+        </p>
+      </div>
+    </div>
+  ) :
+  (
+    <Card
+      as="section"
+      aria-labelledby={headingId}
+      class="p-0"
+    >
+      <div class="
+        flex flex-col gap-6 p-6
+        sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:p-8
+      "
+      >
+        <div class="max-w-xl space-y-2">
+          <p class="section-label">Stay in the loop</p>
+          <h2 class="text-lg font-semibold tracking-tight text-ink" id={headingId}>
+            New posts and personal discoveries
+          </h2>
+          <p class="text-sm/6 text-ink-soft">
+            Monthly at most: software, reading, gaming, and everyday discoveries.
+            Prefer a feed?{' '}
+            <a
+              class="
+                font-medium text-brand underline-offset-2
+                hover:underline
+              "
+              href="/feed.xml"
+            >Subscribe via RSS
+            </a>.
+          </p>
+          <p class="text-xs text-ink-muted">
+            We never share your email.{' '}
+            <a
+              class="
+                text-ink-muted underline-offset-2
+                hover:text-brand hover:underline
+              "
+              href="/privacy/"
+            >Privacy policy
+            </a>.
+          </p>
+        </div>
+
+        <form
+          action={formAction}
+          class="
+            flex w-full min-w-0 flex-col gap-3
+            sm:max-w-xs
+          "
+          method="post"
+          rel="noopener noreferrer"
+          target="_blank"
+          data-newsletter-form
+        >
+          <input name="embed" type="hidden" value="1" />
+          <label class="sr-only" for={emailId}>Email address</label>
+          <Input
+            autocomplete="email"
+            class="min-h-11 rounded-2xl px-4 py-2.5"
+            id={emailId}
+            inputmode="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+            type="email"
+          />
+          <Button
+            class="min-h-11 w-full rounded-2xl px-4 py-2.5"
+            type="submit"
+          >
+            <Icon class="size-4 shrink-0" name="send" />
+            Get new posts
+          </Button>
+        </form>
+      </div>
+    </Card>
+  )}

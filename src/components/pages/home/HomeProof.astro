@@ -1,0 +1,57 @@
+---
+import FaqList from '@/components/molecules/FaqList.astro'
+import TestimonialSpotlight from '@/components/molecules/TestimonialSpotlight.astro'
+import HomeSectionHeading from '@/components/pages/home/HomeSectionHeading.astro'
+
+import type { FaqItem } from '@/data/work-with-me'
+import { getLocale, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
+import { getLocalizedProfile } from '@/i18n/profile'
+import { siteConfig } from '@/site.config'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
+const { testimonials } = getLocalizedProfile(pageLocale)
+
+interface Props {
+  faq: FaqItem[]
+}
+
+const { faq } = Astro.props
+const homeTestimonials = testimonials.slice(0, 3)
+---
+
+<section aria-labelledby="home-testimonials-heading" class="studio-section" data-home-testimonials>
+  <HomeSectionHeading
+    action={t('page.readMoreRecommendations')}
+    description={t('page.fromPeopleIVeManagedWorked')}
+    eyebrow={t('page.inTheirWords')}
+    href={localizePath('/about/#about-recommendations', pageLocale)}
+    id="home-testimonials-heading"
+    number="06"
+    title={t('page.whatWorkingTogetherIsLike')}
+  />
+  <TestimonialSpotlight items={homeTestimonials} data-home-testimonial-grid />
+</section>
+
+<section aria-labelledby="home-faq-heading" class="studio-section" data-home-faq>
+  <HomeSectionHeading
+    action={t('shared.workWithMe')}
+    description={t('page.talksRolesGrowingTeamsAiAnd')}
+    eyebrow={t('page.questions')}
+    href={localizePath(siteConfig.contact.workWithMe, pageLocale)}
+    id="home-faq-heading"
+    number="07"
+    title={t('page.beforeYouWrite')}
+  />
+  <FaqList items={faq} />
+</section>
+
+<style>
+  /* The community section above already ends with the section gap. */
+  [data-home-testimonials] { padding-top: 0; }
+  [data-home-faq] { padding-bottom: 7rem; }
+  @container home-content (width < 48rem) {
+    [data-home-faq] { padding-bottom: 4.5rem; }
+  }
+</style>

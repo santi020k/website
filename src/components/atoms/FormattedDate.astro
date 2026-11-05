@@ -3,13 +3,15 @@ import { getFormattedDate } from '@/utils/date'
 
 import { FormattedDate } from '@santi020k/lumen-astro'
 
+import { getLocale, localeLanguage } from '@/i18n'
+
 interface Props {
   date: Date
   dateTimeOptions?: Intl.DateTimeFormatOptions
 }
 
 const { date, dateTimeOptions } = Astro.props
-const postDate = getFormattedDate(date, dateTimeOptions)
+const postDate = getFormattedDate(date, dateTimeOptions, localeLanguage(getLocale(Astro.url.pathname)))
 const ISO = date.toISOString();
 ---
 

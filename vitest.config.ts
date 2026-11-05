@@ -37,25 +37,29 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     pool: 'vmThreads',
+    env: {
+      ASTRO_TELEMETRY_DISABLED: '1'
+    },
     setupFiles: ['./src/test-setup.ts'],
-    exclude: ['**/node_modules/**', '**/tests/**', '**/dist/**'],
+    // Generated review scripts can use Playwright and are not Vitest suites.
+    exclude: ['**/node_modules/**', '**/tests/**', '**/dist/**', '**/.cache/**'],
     alias: {
       '@': path.resolve(import.meta.dirname, './src')
     },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      include: ['src/utils/**', 'src/plugins/**', 'src/data/**', 'src/site.config.ts'],
+      include: ['src/utils/**', 'src/plugins/**', 'src/data/**', 'src/i18n/**', 'src/site.config.ts'],
       exclude: [
         'src/utils/__tests__/**',
         'src/plugins/__tests__/**',
         'src/data/__tests__/**',
+        'src/i18n/__tests__/**',
         // Astro virtual-module imports (astro:content) cannot be parsed by the
         // v8 coverage provider. Exclude them to silence RollupError warnings.
         'src/utils/content.ts',
         'src/data/project.ts',
         'src/data/series.ts',
-        'src/data/types.ts',
         'src/types.ts',
         'src/env.d.ts'
       ],

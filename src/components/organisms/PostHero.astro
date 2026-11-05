@@ -1,20 +1,29 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import ArticlePrintAction from '@/components/atoms/ArticlePrintAction.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
-import Pill from '@/components/atoms/Pill.astro'
+import ArticleLinkAction from '@/components/molecules/ArticleLinkAction.astro'
+import CoverSpread from '@/components/molecules/CoverSpread.astro'
 
 import { getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
+import { getReadingStats } from '@/utils/reading-time'
+import { getBlogTopicLabel } from '@/utils/tags'
 
-import { Breadcrumb, CopyButton, Icon } from '@santi020k/lumen-astro'
-import readingTime from 'reading-time'
+import { Breadcrumb, Icon, Link } from '@santi020k/lumen-astro'
 
 import { getSeriesContext } from '@/data/series'
+import { getLocale, localizePath, sharedTranslator } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
 import { siteConfig } from '@/site.config'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
+const controls = sharedTranslator(locale)
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -22,31 +31,21 @@ interface Props {
 
 const { post } = Astro.props
 const { canonicalUrl, description, publishDate, title, updatedDate, tags } = post.data
-const stats = readingTime(post.body ?? '')
-const readingTimeText = stats.text
-const wordCount = Math.round(stats.words)
+const { minutes, words: wordCount } = getReadingStats(post.body)
+const readingTimeText = t('reading.duration', { minutes: minutes })
 const seriesContext = await getSeriesContext(post)
-const copyUrl = new URL(Astro.url.pathname, Astro.site).href
 
 const coverAspectRatio = post.data.coverImage ?
   post.data.coverImage.src.width / post.data.coverImage.src.height :
   16 / 10
 
 const useWideCoverFrame = coverAspectRatio > 1.08
-// Use the first tag as an editorial eyebrow label, fallback to "Article"
-const eyebrowLabel = tags[0] ?? 'Article'
-const publishDateIso = publishDate.toISOString().slice(0, 10)
-const updatedDateIso = updatedDate?.toISOString().slice(0, 10)
+// Use the first tag as an editorial eyebrow label, fallback to {t("collection.article")}
+const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.article')
 
-const metaItems = [
-  { label: 'Published', value: publishDate, datetime: publishDateIso, type: 'date' as const },
-  { label: 'Read time', value: readingTimeText, datetime: undefined, type: 'text' as const },
-  { label: 'Words', value: wordCount.toLocaleString(), datetime: undefined, type: 'text' as const },
-  ...(updatedDate ? [{ label: 'Updated', value: updatedDate, datetime: updatedDateIso, type: 'date' as const }] : [])
-]
 ---
 
-<section class="editorial-detail-hero space-y-12">
+<section class="editorial-detail-hero space-y-12" data-article-opening>
   {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
   <div
     class="
@@ -69,7 +68,7 @@ const metaItems = [
         <ol>
           <li>
             <a
-              href="/blog/"
+              href={localizePath('/blog/', locale)}
               class="
                 whitespace-nowrap transition-colors
                 hover:text-brand
@@ -78,239 +77,463 @@ const metaItems = [
             >Blog
             </a>
           </li>
-          <li><span aria-current="page" class="text-ink-soft">Article</span></li>
+          <li><span aria-current="page" class="text-ink-soft">{t('collection.article')}</span></li>
         </ol>
       </Breadcrumb>
     </div>
   </div>
 
-  {/* ── Title + description ──────────────────────────────────── */}
-  <div
-    class="
-      animate-slide-up space-y-6 [animation-delay:80ms]
-      motion-reduce:animate-none
-    "
+  {/* ── Cover spread ────────────────────────────────────────── */}
+  <div class="
+    animate-reveal-lcp
+    motion-reduce:animate-none
+  "
   >
-    <div class="relative">
-      <h1 class="
-        p-name max-w-4xl text-4xl/[0.98] font-bold tracking-tighter
-        wrap-break-word
-        sm:text-5xl/[0.96]
-        lg:text-[3.6rem]/[0.94]
-      "
-      >
-        {title}
-      </h1>
-
+    <CoverSpread kind="article" hasCover={Boolean(post.data.coverImage)} wide={useWideCoverFrame}>
+      <h1 lang="en" slot="heading" class="p-name">{title}</h1>
+      {post.data.coverImage && (
+        <HoverableCover
+          alt={post.data.coverImage.alt}
+          ariaHidden={true}
+          unstyled={useWideCoverFrame}
+          fetchpriority="high"
+          image={post.data.coverImage.src}
+          loading="eager"
+          preserveAspectRatio={useWideCoverFrame}
+          sizes={useWideCoverFrame ? '(min-width: 1280px) 1152px, calc(100vw - 3rem)' : '(min-width: 1024px) 896px, calc(100vw - 3rem)'}
+          transitionName={`post-cover-${getPostSlug(post.id)}`}
+        />
+      )}
+    </CoverSpread>
+    <div data-cover-lead>
+      <p lang="en" data-editorial-summary class="p-summary text-ink-soft">{description}</p>
+      <p data-cover-byline class="text-sm/6 text-ink-muted">
+        <span>{t('collection.writtenBy')}</span>
+        <a
+          class="
+            p-author h-card font-semibold text-ink-soft transition-colors
+            hover:text-brand
+            motion-reduce:transition-none
+          "
+          href={localizePath('/about/', locale)}
+          rel="author"
+        >{siteConfig.author}</a>
+      </p>
     </div>
-    <p
-data-editorial-summary
-class="
-  p-summary max-w-3xl text-lg/7 font-medium text-ink-soft
-  sm:text-xl/8
-"
-    >
-      {description}
-    </p>
-    <p class="text-sm/6 text-ink-muted">
-      By{' '}
-      <a
-        class="
-          p-name u-url font-semibold text-ink-soft transition-colors
-          hover:text-brand
-          motion-reduce:transition-none
-        "
-        href="/about/"
-        rel="author"
-      >
-        {siteConfig.author}
-      </a>
-    </p>
   </div>
 
-  {/* ── Meta row — styled cards ──────────────────────────────── */}
+  {/* ── Publication details — Reading imprint ────────────────── */}
   <div
     class="
       animate-slide-up [animation-delay:160ms]
       motion-reduce:animate-none
     "
+    data-editorial-meta-group
   >
-
-    <div class="
-      grid grid-cols-2 gap-4
-      sm:grid-cols-2
-      md:grid-cols-4
-    "
-    >
-      {metaItems.map((item, index) => (
-        <div
-          class="
-            post-meta-card relative rounded-2xl border border-line/30
-            bg-surface/50 p-6 editorial-detail-meta-item backdrop-blur-sm
-            transition-all duration-300
-            hover:-translate-y-1 hover:border-brand/40 hover:bg-brand-soft/10
-            hover:shadow-lg hover:shadow-brand/5
-          "
-          style={`animation-delay: ${160 + (index * 40)}ms`}
-        >
-          <dl class="space-y-2">
-            <dt class="
-              section-label text-xs font-semibold tracking-wider
-              text-ink-muted/80 uppercase
-            "
-            >
-              {item.label}
-            </dt>
-            <dd class="
-              text-lg/6 font-bold text-ink
-              sm:text-xl/6
-            "
-            >
-              {item.type === 'date' ?
-                <FormattedDate date={item.value} /> :
-                item.value}
-            </dd>
-          </dl>
+    <div data-publication-imprint>
+      <dl data-publication-dates>
+        <div data-publication-field="published">
+          <dt>{t('collection.published')}</dt>
+          <dd><FormattedDate date={publishDate} /></dd>
         </div>
-      ))}
-    </div>
-  </div>
-
-  {/* ── Tags / topics ────────────────────────────────────────── */}
-  {tags.length > 0 && (
-    <div
-      class="
-        animate-slide-up space-y-4 [animation-delay:200ms]
-        motion-reduce:animate-none
-      "
-    >
-      <div class="flex items-center gap-3">
-        <span class="section-label">Topics</span>
-        <span
-          aria-hidden="true"
-          class="
-            h-px flex-1 bg-linear-to-r from-transparent via-line/40
-            to-transparent
-          "
-        />
-      </div>
-      <div class="flex flex-wrap gap-2">
-        {tags.map(tag => (
-          <Pill href={getTagPath(tag)} label={tag} showHash tone="outline" />
-        ))}
-      </div>
-    </div>
-  )}
-
-  {/* ── CTAs ────────────────────────────────────────────────── */}
-  <div
-    class="
-      animate-slide-up [animation-delay:240ms]
-      motion-reduce:animate-none
-    "
-  >
-    <div class="section-actions">
-      {canonicalUrl && (
-        <ButtonLink href={canonicalUrl} newTab showArrow>
-          Read on Medium
-        </ButtonLink>
-      )}
-      {!canonicalUrl && (
-        <CopyButton
-          className="btn-primary"
-          copiedLabel="Article link copied"
-          errorLabel="Could not copy article link"
-          label="Copy article link"
-          value={copyUrl}
-        >
-          <Icon class="size-4" data-copy-icon name="link" />
-          <Icon class="hidden size-4" data-check-icon name="check" />
-          <span data-copy-label>Copy link</span>
-          <span class="hidden" data-copied-label>Copied!</span>
-        </CopyButton>
-      )}
-      {seriesContext && (
-        <ButtonLink
-          href={`/blog/series/${seriesContext.series.id}/`}
-          showArrow
-          variant="secondary"
-        >
-          <span class="flex items-center gap-2">
-            <Icon
-              class="size-4"
-              name="route"
-            />
-            {seriesContext.series.data.title}
-          </span>
-        </ButtonLink>
-      )}
-      <ButtonLink
-        href="/blog/"
-        showArrow
-        variant="secondary"
-        className="text-ink-soft"
-      >
-        Browse blog
-      </ButtonLink>
-    </div>
-  </div>
-
-  {/* ── Cover image: full-width below ────────────────────────── */}
-  {post.data.coverImage && (
-    <div class="space-y-4">
-      <div class:list={[
-        'relative',
-        !useWideCoverFrame && 'mx-auto w-full max-w-4xl'
-      ]}
-      >
-        <HoverableCover
-          alt={post.data.coverImage.alt}
-          ariaHidden={true}
-          className={useWideCoverFrame ? '' : 'mx-auto w-full max-w-4xl'}
-          fetchpriority="high"
-          image={post.data.coverImage.src}
-          loading="eager"
-          showBottomGradient={useWideCoverFrame}
-          sizes="(min-width: 1024px) 1200px, 100vw"
-          transitionName={`post-cover-${getPostSlug(post.id)}`}
-        />
-        {useWideCoverFrame && (
-          <div
-            aria-hidden="true"
-            class="
-              pointer-events-none absolute inset-x-0 bottom-0 z-20 flex
-              flex-wrap items-end justify-between gap-4 p-5
-              sm:p-6
-            "
-          >
-            <div>
-              <p class="section-label text-white/70">Article cover</p>
-              <p class="
-                mt-2 text-lg font-semibold tracking-[-0.03em] text-white
-                sm:text-xl
-              "
-              >
-                {title}
-              </p>
-            </div>
-            <p class="max-w-md text-sm/6 text-white/78">
-              {readingTimeText} · {eyebrowLabel}
-            </p>
+        {updatedDate && (
+          <div data-publication-field="updated">
+            <dt>{t('collection.updated')}</dt>
+            <dd><FormattedDate date={updatedDate} /></dd>
           </div>
+        )}
+      </dl>
+      <div data-publication-reading>
+        <dl>
+          <div data-publication-field="reading">
+            <dt>{t('collection.reading')}</dt>
+            <dd>{readingTimeText}</dd>
+          </div>
+        </dl>
+        <div data-reading-utilities>
+          <dl>
+            <div data-publication-field="words">
+              <dt class="sr-only">{t('collection.wordCount')}</dt>
+              <dd>{wordCount.toLocaleString(locale === 'es' ? 'es-419' : 'en-US')} {t('collection.words')}</dd>
+            </div>
+          </dl>
+          <ArticlePrintAction />
+        </div>
+        {locale === 'es' && (
+          <p data-article-language>
+            <Icon name="languages" class="size-4 shrink-0" />
+            <span>{t('reading.englishArticle')}</span>
+          </p>
         )}
       </div>
     </div>
+  </div>
+
+  {/* ── Topics — Margin topics ─────────────────────────────── */}
+  {(tags.length > 0 || (!seriesContext && canonicalUrl)) && (
+    <div
+      class="
+        animate-slide-up [animation-delay:200ms]
+        motion-reduce:animate-none
+      "
+      data-article-topics-container
+      data-has-utility={!seriesContext && Boolean(canonicalUrl)}
+    >
+      <div data-article-topics-header>
+        <div data-article-topics-heading>
+          <Icon
+            name={tags.length > 0 ? 'hash' : 'external-link'}
+            class="size-4.5 shrink-0"
+          />
+          <h2 id="article-topics-heading">{tags.length > 0 ? t('collection.topics') : controls('publication.original')}</h2>
+        </div>
+        {!seriesContext && canonicalUrl && (
+          <div data-topic-action>
+            <ArticleLinkAction {canonicalUrl} />
+          </div>
+        )}
+      </div>
+      {tags.length > 0 && (
+        <nav aria-labelledby="article-topics-heading" data-article-topics>
+          <ul>
+            {tags.map(tag => (
+              <li>
+                <Link href={localizePath(getTagPath(tag), locale)} variant="inherit" data-topic-link>
+                  <span data-topic-label>{getBlogTopicLabel(tag)}</span>
+                  <ArrowExchange direction="up-right" class="size-3.5 shrink-0" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </div>
   )}
+
+  {/* ── Hero actions — Series byline ─────────────────────────── */}
+  {seriesContext && (
+    <div
+      data-reading-actions
+      class="
+        animate-slide-up [animation-delay:240ms]
+        motion-reduce:animate-none
+      "
+    >
+      <div data-series-byline>
+        <div data-hero-series>
+          <p data-hero-series-position>
+            {t('series.from')} · {t('series.position', { position: seriesContext.position, total: seriesContext.total })}
+          </p>
+          <Link
+            href={localizePath(`/blog/series/${seriesContext.series.id}/`, locale)}
+            variant="inherit"
+            data-hero-series-link
+          >
+            <span lang="en">{seriesContext.series.data.title}</span>
+            <ArrowExchange direction="right" class="size-4 shrink-0" data-hero-series-arrow />
+          </Link>
+        </div>
+        <ArticleLinkAction {canonicalUrl} />
+      </div>
+    </div>
+  )}
+
 </section>
 
 <style>
-  [data-ui-copy-button][data-state='copied'] [data-copy-icon],
-  [data-ui-copy-button][data-state='copied'] [data-copy-label] {
-    display: none;
+  [data-article-opening] { container: article-opening / inline-size; }
+
+  [data-article-opening] > :has(+ [data-reading-actions]) { margin-block-end: 1.5rem; }
+
+  @container article-opening (width < 40rem) {
+    [data-editorial-meta-group]:has(+ [data-article-topics-container]) {
+      margin-block-end: 1.5rem;
+    }
   }
 
-  [data-ui-copy-button][data-state='copied'] [data-check-icon],
-  [data-ui-copy-button][data-state='copied'] [data-copied-label] {
+  [data-series-byline] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  [data-reading-actions] {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+
+  [data-hero-series] { min-width: 0; }
+  [data-hero-series-position] {
+    margin-bottom: 0.5rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  :global([data-hero-series-link]) {
     display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 100%;
+    min-height: 2.75rem;
+    color: hsl(var(--ink));
+    font-size: 1.3125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+  }
+
+  :global([data-hero-series-link] > span) { min-width: 0; overflow-wrap: anywhere; }
+  :global([data-hero-series-arrow]),
+  :global([data-hero-series-link]:hover) { color: hsl(var(--brand)); }
+  [data-article-opening] :global(:is(a, button):focus-visible) {
+    outline: 2px solid hsl(var(--brand));
+    outline-offset: 4px;
+  }
+
+  :global(:root[data-theme='dark'] [data-hero-series-arrow]),
+  :global(:root[data-theme='dark'] [data-hero-series-link]:hover) { color: hsl(var(--accent)); }
+  :global(:root[data-theme='dark']) [data-article-opening] :global(:is(a, button):focus-visible) { outline-color: hsl(var(--accent)); }
+
+  @container reading-actions (width < 32rem) {
+    [data-series-byline] { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    :global([data-hero-series-link]) { font-size: 1.25rem; }
+  }
+
+  [data-cover-lead] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 1.375rem 2.25rem;
+    margin-top: 1.75rem;
+  }
+
+  [data-article-opening] [data-editorial-summary] {
+    max-width: 40rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: -0.015em;
+  }
+
+  [data-cover-byline] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.0625rem;
+    padding-top: 0.3125rem;
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  [data-cover-byline] a { display: block; min-height: 2.75rem; padding-top: 0.1875rem; }
+
+  @container article-opening (width < 36.25rem) {
+    [data-cover-lead] { grid-template-columns: minmax(0, 1fr); gap: 0.875rem; margin-top: 1.375rem; }
+    [data-cover-byline] { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 0.3125rem; padding: 0; }
+    [data-cover-byline] a { padding: 0; }
+  }
+
+  @container article-opening (width < 23.75rem) {
+    [data-article-opening] [data-editorial-summary] { font-size: 0.9375rem; }
+  }
+
+  [data-article-topics-container] {
+    container: article-topics / inline-size;
+    display: grid;
+    grid-template-columns: 6.75rem minmax(0, 1fr);
+    align-items: start;
+    gap: 1.375rem;
+    padding-bottom: 1.375rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+
+  [data-article-topics-container][data-has-utility='true'] { grid-template-columns: 6.75rem minmax(0, 1fr) auto; }
+  [data-article-topics-header] { display: contents; }
+  [data-topic-action] { grid-column: 3; grid-row: 1; min-width: 0; max-width: 100%; }
+  [data-article-topics] { grid-column: 2; grid-row: 1; min-width: 0; }
+
+  [data-article-topics-heading] {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding-top: 0.625rem;
+    color: hsl(var(--brand));
+  }
+
+  [data-article-topics-heading] h2 {
+    color: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: normal;
+  }
+
+  [data-article-topics] ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.375rem 1.5rem;
+    min-width: 0;
+    margin: 0;
+    padding: 0 0 0 1.375rem;
+    border-left: 2px solid hsl(var(--brand));
+    list-style: none;
+  }
+
+  [data-article-topics] li { max-width: 100%; }
+
+  :global([data-topic-link]) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem 0.875rem;
+    min-height: 2.75rem;
+    padding-block: 0.375rem;
+    border-bottom: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.55;
+    letter-spacing: -0.025em;
+    text-decoration: none;
+  }
+
+  [data-topic-label] { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+  [data-article-topics] :global([data-topic-link] > :last-child) { color: hsl(var(--brand)); }
+  :global([data-topic-link]:is(:hover, :focus-visible)) { color: hsl(var(--brand)); }
+  :global([data-topic-link]:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 3px; }
+
+  :global(:root[data-theme='dark']) [data-article-topics-heading],
+  :global(:root[data-theme='dark'] [data-topic-link]:is(:hover, :focus-visible)),
+  :global(:root[data-theme='dark'] [data-topic-link] > :last-child) { color: hsl(var(--accent)); }
+  :global(:root[data-theme='dark']) [data-article-topics] ul { border-color: hsl(var(--accent)); }
+  :global(:root[data-theme='dark'] [data-topic-link]:focus-visible) { outline-color: hsl(var(--accent)); }
+
+  @container article-opening (width < 48rem) {
+    [data-article-topics-container][data-has-utility='true'] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    [data-has-utility='true'] [data-article-topics-header] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+    [data-has-utility='true'] [data-article-topics-heading] { padding-top: 0; }
+    [data-has-utility='true'] [data-article-topics] { grid-column: 1; grid-row: 2; }
+  }
+
+  @container article-opening (width < 32.5rem) {
+    [data-article-topics-container] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    [data-article-topics] { grid-column: 1; grid-row: 2; }
+    [data-article-topics-heading] { padding-top: 0; }
+  }
+
+  @container article-topics (width < 18.75rem) {
+    [data-article-topics] ul { padding-left: 1rem; }
+    :global([data-topic-link]) { font-size: 1rem; }
+  }
+
+  @container article-topics (width < 14rem) {
+    [data-article-topics] ul { padding-left: 0.5rem; }
+    :global([data-topic-link]) { column-gap: 0.375rem; font-size: 0.875rem; }
+  }
+
+  [data-publication-imprint] {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    margin: 0;
+    border-block: 1px solid hsl(var(--line));
+    padding-block: 1.5rem;
+    color: hsl(var(--ink));
+  }
+
+  [data-publication-imprint] dl {
+    min-width: 0;
+    margin: 0;
+  }
+
+  [data-publication-imprint] > dl,
+  [data-publication-reading] {
+    min-width: 0;
+    border-inline-start: 1px solid hsl(var(--line));
+    padding-inline-start: 1.125rem;
+  }
+
+  [data-reading-utilities] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  [data-article-language] {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0.75rem 0 0;
+    color: hsl(var(--brand));
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+  [data-article-language] :global(svg) { margin-top: 0.1em; }
+  :global(:root[data-theme='dark']) [data-article-language] { color: hsl(var(--accent)); }
+
+  [data-publication-imprint] dt {
+    margin-bottom: 0.4375rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  [data-publication-imprint] dd {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.04em;
+  }
+
+  [data-publication-imprint] [data-publication-dates] {
+    border-inline-start: 2px solid hsl(var(--brand));
+  }
+
+  :global([data-theme='dark']) [data-publication-imprint] [data-publication-dates] {
+    border-color: hsl(var(--accent));
+  }
+
+  [data-publication-imprint] :global(time) { color: inherit; }
+
+  [data-publication-field='updated'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.125rem 0.5rem;
+  }
+
+  [data-publication-field='updated'] { margin-top: 0.75rem; }
+  [data-publication-field='updated'] dt { margin: 0; }
+  [data-publication-field='updated'] dd,
+  [data-publication-field='words'] dd {
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: normal;
+  }
+
+  @container editorial-meta (width < 32rem) {
+    [data-publication-imprint] { gap: 1rem; }
+    [data-publication-imprint] > dl,
+    [data-publication-reading] { padding-inline-start: 0.875rem; }
+    [data-publication-field='published'] dd,
+    [data-publication-field='reading'] dd { font-size: 1.25rem; }
+  }
+
+  @container editorial-meta (width < 20rem) {
+    [data-publication-imprint] { gap: 0.75rem; }
+    [data-publication-field='published'] dd,
+    [data-publication-field='reading'] dd { font-size: 1.125rem; }
+  }
+
+  @container editorial-meta (width < 16rem) {
+    [data-publication-imprint] { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
   }
 </style>

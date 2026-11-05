@@ -1,6 +1,6 @@
 <!-- 
 NOTE: The HTML resume at `santi020k.com/resume` is now the primary source of truth. 
-This Markdown file is kept for historical reference and script compatibility.
+This Markdown file is kept for historical reference; it is not a generator input.
 -->
 # Santiago Molina
 

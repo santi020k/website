@@ -1,0 +1,103 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
+import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { getCachedProjects } from '@/utils/content'
+import { collectionDateSortProjects } from '@/utils/date'
+import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
+import { siteConfig } from '@/site.config'
+
+const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
+const workProjects = allProjects.filter(p => p.data.typesId === 'professional')
+const allTechnologies = getUniqueTechnologiesWithCount(workProjects)
+const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
+const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Work', url: '/work/' }
+]
+
+const workListSchema = createProjectCollectionSchema('Work Experience — Santiago Molina', '/work/', workProjects, Astro.site)
+---
+
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description: 'Explore Santiago Molina’s engineering work across commerce, SaaS, gaming, and platforms, including architecture, delivery systems, and technical leadership.',
+    seoTitle: 'Santiago Molina — Engineering Leadership Work',
+    structuredData: workListSchema,
+    title: 'Work Experience — Santiago Molina'
+  }}
+>
+  <PageHero
+    description="Client and product work across US and LATAM teams. Architecture decisions, delivery systems, and hands-on technical leadership from startup pressure to scale-up complexity."
+    eyebrow="Work Experience"
+    gradientText="Teams led. Systems that held."
+    metaItems={['Commerce', 'SaaS', 'Gaming', 'Platform engineering']}
+    title="Products shipped."
+  >
+    <ButtonLink href={siteConfig.contact.resume} showArrow>
+      Open resume
+    </ButtonLink>
+    <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+      Message on LinkedIn
+    </ButtonLink>
+  </PageHero>
+
+  <PageSection>
+    <SectionHeader
+      description="Work delivered where product constraints, architecture choices, team habits, and release quality all had to improve together."
+      eyebrow="Client and product work"
+      title="Professional Work"
+    />
+    <CareerTimeline projects={workProjects} />
+  </PageSection>
+
+  <StatsGrid>
+    <StatCard
+      description="Roles across commerce, gaming, real estate, martech, agencies, and SaaS."
+      label="Roles"
+      value={String(workProjects.length)}
+    />
+    <StatCard
+      description="Largest cross-functional team led across product, design, frontend, and backend."
+      label="Team led"
+      value="14"
+    />
+    <StatCard
+      description="Recurring tools and platforms across production systems."
+      label="Technologies"
+      value={String(allTechnologies.length)}
+    />
+    <StatCard
+      description="Reduced release lead times by optimizing CI/CD pipelines and automating quality gates."
+      label="Cycle Time"
+      value="-75%"
+    />
+  </StatsGrid>
+
+  <PageSection>
+    <SectionHeader
+      description="React and TypeScript sit at the center, but the work widens to fit the product: backend, mobile, testing, developer experience, and delivery tooling."
+      eyebrow="Technology map"
+      linkHref="/technologies/"
+      linkLabel="Browse the full stack index"
+      title="The tools behind the work."
+    />
+    <TechnologyPillGrid
+      hiddenCount={hiddenTechnologyCount}
+      intro="Recurring technologies across client and product work, ordered from the most interesting product-shaping tools to the more supporting ones."
+      technologies={technologies}
+    />
+  </PageSection>
+</PageLayout>

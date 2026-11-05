@@ -1,0 +1,247 @@
+---
+import { getImage } from 'astro:assets'
+
+import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
+import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
+import type { SiteMeta } from '@/types/site'
+import { getSocialImageURL } from '@/utils/social-image'
+
+import { siteConfig } from '@/site.config'
+
+const logoLightAvif = await getImage({ src: LogoMarkLight, format: 'avif', width: 228, height: 36 })
+const logoDarkAvif = await getImage({ src: LogoMarkDark, format: 'avif', width: 228, height: 36 })
+
+type Props = SiteMeta
+
+const {
+  articleDate,
+  articleUpdated,
+  breadcrumbs,
+  description,
+  ogImage,
+  ogImageAlt,
+  preloadImage,
+  structuredData,
+  title
+} = Astro.props
+
+const resolvedOgImageAlt = ogImageAlt ?? description ?? `${title} — ${siteConfig.title}`
+const titleSeparator = '—'
+const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
+const canonicalURL = new URL(Astro.url.pathname.endsWith('/404/') ? Astro.url.pathname.replace(/404\/$/, '404.html') : Astro.url.pathname, Astro.site ?? 'https://santi020k.com/')
+const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
+const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
+
+const websiteJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#website`,
+  inLanguage: siteConfig.lang,
+  name: siteConfig.title,
+  potentialAction: {
+    '@type': 'SearchAction',
+    'query-input': 'required name=query',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={query}`
+    }
+  },
+  url: Astro.site?.href ?? 'https://santi020k.com/'
+})
+
+const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
+  JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: new URL(crumb.url, Astro.site ?? 'https://santi020k.com/').href
+    }))
+  }) :
+  null
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{siteTitle}</title>
+
+{/* Icons */}
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.webp" sizes="32x32" type="image/webp" />
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp" type="image/webp" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" type="image/png" />
+<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="preload" href="/fonts/montserrat-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/montserrat-italic-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
+{/* Preload the header logo — it's the LCP element on every page */}
+<link rel="preload" as="image" href={logoLightAvif.src} type="image/avif" fetchpriority="high" media="(prefers-color-scheme: light)" />
+<link rel="preload" as="image" href={logoDarkAvif.src} type="image/avif" fetchpriority="high" media="(prefers-color-scheme: dark)" />
+{
+  preloadImage && (
+    <link
+      rel="preload"
+      as="image"
+      href={preloadImage.href}
+      media={preloadImage.media}
+      imagesizes={preloadImage.imagesizes}
+      imagesrcset={preloadImage.imagesrcset}
+      type={preloadImage.type}
+      fetchpriority="high"
+    />
+  )
+}
+
+{/* Canonical */}
+<link rel="canonical" href={canonicalURL} />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${siteConfig.title} RSS feed`}
+  href="/feed.xml"
+/>
+<link
+  rel="alternate"
+  type="application/feed+json"
+  title={`${siteConfig.title} JSON feed`}
+  href="/feed.json"
+/>
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+{/* Primary Meta */}
+<meta name="title" content={siteTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={siteConfig.author} />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#FAF9FB" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#1B141F" media="(prefers-color-scheme: dark)" />
+
+{/* SEO Improvements */}
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+<meta name="language" content="en-us" />
+<meta name="revisit-after" content="7 days" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+{/* Open Graph */}
+<meta property="og:type" content={articleDate ? 'article' : 'website'} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content={siteConfig.title} />
+<meta property="og:locale" content={siteConfig.ogLocale} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+{articleDate && (
+  <>
+    <meta property="article:author" content={siteConfig.author} />
+    <meta property="article:published_time" content={articleDate} />
+    {articleUpdated && <meta property="article:modified_time" content={articleUpdated} />}
+  </>
+)}
+
+{/* Twitter */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImageURL} />
+<meta name="twitter:site" content="@santi020k" />
+<meta name="twitter:creator" content="@santi020k" />
+
+{/* Additional Social */}
+<meta property="og:image:alt" content={resolvedOgImageAlt} />
+<meta name="twitter:image:alt" content={resolvedOgImageAlt} />
+
+{/* Webmentions */}
+
+{/* IndieAuth.com — hosted authorization + token (Micropub / IndieAuth clients) */}
+<link rel="authorization_endpoint" href="https://indieauth.com/auth" />
+<link rel="token_endpoint" href="https://tokens.indieauth.com/token" />
+<link rel="me" href={`mailto:${siteConfig.contact.email}`} />
+
+<meta name="generator" content={Astro.generator} />
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={websiteJsonLd}
+/>
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
+    name: siteConfig.author,
+    url: Astro.site?.href,
+    jobTitle: 'Engineering Leader & Full-Stack Architect',
+    description: siteConfig.description,
+    sameAs: [
+      siteConfig.contact.github,
+      siteConfig.contact.linkedin,
+      siteConfig.contact.medium,
+      'https://twitter.com/santi020k',
+      'https://x.com/santi020k'
+    ].filter(Boolean),
+    knowsAbout: [
+      'Full-Stack Engineering',
+      'Software Architecture',
+      'Technical Leadership',
+      'Developer Experience',
+      'Automation Systems'
+    ]
+  })}
+/>
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#organization`,
+    name: siteConfig.title,
+    url: Astro.site?.href,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${Astro.site?.href ?? 'https://santi020k.com/'}logos/logo-square.webp`,
+      width: 512,
+      height: 512
+    },
+    founder: {
+      '@type': 'Person',
+      '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
+      name: siteConfig.author
+    },
+    sameAs: [
+      siteConfig.contact.github,
+      siteConfig.contact.linkedin,
+      siteConfig.contact.medium,
+      'https://twitter.com/santi020k',
+      'https://x.com/santi020k'
+    ].filter(Boolean),
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: siteConfig.contact.email,
+      telephone: `+${siteConfig.contact.whatsappPhone}`,
+      url: siteConfig.contact.whatsapp,
+      contactType: 'professional inquiries'
+    }
+  })}
+/>
+
+{structuredDataJsonLd && (
+  <script type="application/ld+json" is:inline set:html={structuredDataJsonLd} />
+)}
+
+{breadcrumbsJsonLd && (
+  <script type="application/ld+json" is:inline set:html={breadcrumbsJsonLd} />
+)}

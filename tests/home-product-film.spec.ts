@@ -1,0 +1,169 @@
+import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+
+for (const locale of ['en', 'es'] as const) {
+  test(`the ${locale} film loads on request, plays, and pauses on close`, async ({ page }) => {
+    const mediaRequests: string[] = []
+
+    page.on('request', request => {
+      if (request.url().endsWith('.mp4')) mediaRequests.push(request.url())
+    })
+    await page.setViewportSize({ width: locale === 'en' ? 1440 : 390, height: 1000 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto(locale === 'en' ? '/' : '/es/')
+
+    const opener = page.locator('[data-film-open]')
+    const video = page.locator('[data-film-video]')
+    const dialog = page.locator('[data-film-dialog]')
+
+    await expect(opener).toBeVisible()
+    await expect(video).not.toHaveAttribute('src')
+    expect(mediaRequests).toEqual([])
+    await page.locator('[data-film-stage]').click({ position: { x: 24, y: 24 } })
+    await expect(dialog).toBeVisible()
+    await expect(video).toHaveAttribute('src', locale === 'es' ?
+      '/media/products/santi020k-products-portrait.mp4' :
+      '/media/products/santi020k-products.mp4')
+    await expect.poll(() => video.evaluate(element => (
+      element instanceof HTMLVideoElement ? element.currentTime : 0
+    ))).toBeGreaterThan(0)
+    await expect(video.locator('track[srclang="es"]')).toHaveJSProperty('default', locale === 'es')
+    await expectNoUnexpectedAccessibilityViolations(page)
+    await page.keyboard.press('Escape')
+    await expect(dialog).toBeHidden()
+    await expect(video).toHaveJSProperty('paused', true)
+    await expect(opener).toBeFocused()
+    await page.keyboard.press('Enter')
+    await expect(dialog).toBeVisible()
+    await dialog.locator('[data-ui-dialog-close]').click()
+    await expect(video).toHaveJSProperty('paused', true)
+    await expect(opener).toBeFocused()
+  })
+}
+
+for (const [format, width, videoPath] of [
+  ['landscape', 1440, '/media/products/santi020k-products.mp4'],
+  ['portrait', 390, '/media/products/santi020k-products-portrait.mp4']
+] as const) {
+  test(`the ${format} film provides recovery when media cannot be loaded`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 })
+    await page.route('**/media/products/*.mp4', route => route.abort())
+    await page.goto('/')
+    await page.locator('[data-film-open]').click()
+    await expect(page.locator('[data-film-error]')).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Open the video file' })).toHaveAttribute('href', videoPath)
+    await page.getByText('Read the visual transcript', { exact: true }).click()
+    await expect(page.locator('[data-film-footer] details p')).toContainText('compare the edited landscape')
+  })
+}
+
+test('the movie remains accessible without JavaScript', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, baseURL: new URL('/', baseURL).href })
+  const page = await context.newPage()
+
+  await page.goto('/')
+  await expect(page.locator('[data-film-fallback]')).toBeVisible()
+  await expect(page.locator('[data-film-fallback]')).toHaveAttribute('href', '/media/products/santi020k-products.mp4')
+  await expect(page.locator('[data-film-open]')).toBeHidden()
+  await context.close()
+})
+
+for (const locale of ['en', 'es'] as const) {
+  for (const javaScriptEnabled of [true, false]) {
+    const selector = javaScriptEnabled ? '[data-film-open]' : '[data-film-fallback]'
+    const route = locale === 'en' ? '/' : '/es/'
+
+    test(`the ${locale} film trigger fits doubled text with JavaScript ${javaScriptEnabled}`, async ({ browser, baseURL }) => {
+      const context = await browser.newContext({
+        baseURL: new URL('/', baseURL).href,
+        javaScriptEnabled,
+        viewport: { width: 320, height: 900 },
+        reducedMotion: 'reduce'
+      })
+      const page = await context.newPage()
+
+      try {
+        await page.goto(route)
+        await page.evaluate(() => {
+          document.documentElement.style.setProperty('font-size', '200%', 'important')
+        })
+        await expect.poll(() => page.evaluate(() => document.fonts.status)).toBe('loaded')
+        const trigger = page.locator(selector)
+
+        await expect(trigger).toBeVisible()
+        await trigger.scrollIntoViewIfNeeded()
+        await expect(trigger.locator('[data-film-duration]')).toBeVisible()
+        const geometry = await trigger.evaluate(element => {
+          const box = element.getBoundingClientRect()
+          const children = [...element.querySelectorAll('span')].map(child => child.getBoundingClientRect())
+
+          return {
+            left: box.left,
+            right: box.right,
+            fits: children.every(child => child.left >= box.left - 1 && child.right <= box.right + 1),
+            scrollWidth: element.scrollWidth,
+            clientWidth: element.clientWidth
+          }
+        })
+
+        expect(geometry.left).toBeGreaterThanOrEqual(0)
+        expect(geometry.right).toBeLessThanOrEqual(320)
+        expect(geometry.fits).toBe(true)
+        expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1)
+      } finally {
+        await context.close()
+      }
+    })
+  }
+}
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`the film and hero fit desktop and mobile in ${theme} mode`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+
+    for (const [name, width, height] of [['desktop', 1440, 1000], ['mobile', 390, 844]] as const) {
+      await page.setViewportSize({ width, height })
+      await page.goto('/')
+      await page.evaluate(() => document.fonts.ready)
+      await expect(page.locator('[data-film-open]')).toBeVisible()
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+      await page.screenshot({ fullPage: true, path: `.cache/home-product-film/evidence/after-${name}-${theme}.png`, clip: { x: 0, y: 0, width, height: name === 'mobile' ? 1320 : height } })
+      await page.locator('[data-film-open]').click()
+      const dialog = page.locator('[data-film-dialog]')
+
+      await expect(dialog).toBeVisible()
+      await expect.poll(() => page.locator('[data-film-video]').evaluate(element => element instanceof HTMLVideoElement ? element.currentTime : 0)).toBeGreaterThan(0)
+      await page.locator('[data-film-video]').evaluate(element => {
+        if (element instanceof HTMLVideoElement) {
+          element.pause()
+          element.currentTime = 16
+        }
+      })
+      await expect.poll(() => page.locator('[data-film-video]').evaluate(element => element instanceof HTMLVideoElement && !element.seeking)).toBe(true)
+      await page.screenshot({ path: `.cache/home-product-film/evidence/player-${name}-${theme}.png` })
+      expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true)
+      await expectNoUnexpectedAccessibilityViolations(page)
+      await page.keyboard.press('Escape')
+    }
+  })
+}
+
+test('the close control stays reachable while reading the transcript on a narrow screen', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 })
+  await page.goto('/es/')
+  const opener = page.locator('[data-film-open]')
+
+  await opener.click()
+  const dialog = page.locator('[data-film-dialog]')
+  const close = dialog.getByRole('button', { name: 'Cerrar video' })
+  const file = dialog.locator('[data-film-file]')
+
+  await dialog.locator('summary').click()
+  await file.scrollIntoViewIfNeeded()
+  await expect.poll(() => dialog.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
+  await expect(close).toBeInViewport({ ratio: 1 })
+  await close.click()
+  await expect(dialog).toBeHidden()
+  await expect(opener).toBeFocused()
+})

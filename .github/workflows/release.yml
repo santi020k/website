@@ -29,6 +29,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Set up pnpm workspace
         uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
@@ -119,9 +120,9 @@ jobs:
       - name: Create or update the Changesets release pull request
         uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
+          github-token: ${{ secrets.CHANGESETS_TOKEN || github.token }}
           version-script: pnpm run version-packages
           commit-message: "chore(release): version website"
           pr-title: "chore(release): version website"
         env:
-          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN || github.token }}
           HUSKY: 0

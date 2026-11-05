@@ -18,6 +18,12 @@ export const homeSocialPage: SocialPageDefinition = {
 
 export const staticSocialPages: SocialPageDefinition[] = [
   {
+    description: 'A living history of santi020k.com, with real desktop and mobile captures and usable preserved design eras.',
+    pathname: '/history/',
+    title: 'Website History',
+    type: 'History'
+  },
+  {
     description: 'Explore the places I have visited across the Americas, Europe, and Asia, from my roots in Colombia to life abroad as a resident of Paraguay.',
     pathname: '/travel/',
     title: 'Travel & Life Abroad',
@@ -83,6 +89,19 @@ export const staticSocialPages: SocialPageDefinition[] = [
     pathname: '/technologies/',
     title: 'Capabilities & Technologies',
     type: 'Technology'
+  },
+  {
+    description:
+      'Invite Santiago Molina to speak, talk about an engineering role, or get help growing your team, adopting AI in engineering, and raising code quality.',
+    pathname: '/work-with-me/',
+    title: 'Work with me',
+    type: 'Contact'
+  },
+  {
+    description: 'Write a message to Santiago Molina or choose another way to get in touch.',
+    pathname: '/work-with-me/sent/',
+    title: 'Start a conversation',
+    type: 'Status'
   },
   {
     description: 'Offline fallback page for the santi020k portfolio and blog.',

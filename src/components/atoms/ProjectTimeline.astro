@@ -1,0 +1,19 @@
+---
+import { getFormattedDate } from '@/utils/date'
+
+interface Props {
+  endingDate?: Date | undefined
+  startingDate: Date
+}
+
+const { endingDate, startingDate } = Astro.props
+const monthOptions: Intl.DateTimeFormatOptions = { day: undefined, month: 'short', year: 'numeric' }
+// HTML <time> has no range syntax, so each completed endpoint gets its own valid month value.
+const toTime = (date: Date) => ({ datetime: date.toISOString().slice(0, 7), label: getFormattedDate(date, monthOptions) })
+const start = toTime(startingDate)
+const end = endingDate ? toTime(endingDate) : undefined
+---
+
+<time datetime={start.datetime}>{start.label}</time>{' - '}{end ?
+  <time datetime={end.datetime}>{end.label}</time> :
+  'Present'}

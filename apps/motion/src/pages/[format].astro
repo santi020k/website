@@ -1,0 +1,51 @@
+---
+import '../styles/theme.css'
+import '../styles/composition.css'
+import '../styles/brand-bookend.css'
+
+import current from '@santi020k/website-history/current'
+
+import BrandBookend from '../components/BrandBookend.astro'
+import { chapters, duration, formats, outroStart } from '../composition'
+
+export const getStaticPaths = () => formats.map(format => ({ params: { format } }))
+
+const format = Astro.params.format
+const width = format === 'landscape' ? 1920 : 1080
+const height = format === 'portrait' ? 1920 : 1080
+---
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>A website, over time — santi020k</title>
+    <script defer is:inline src="/assets/gsap.min.js"></script>
+  </head>
+  <body>
+    <main aria-label="Website history film" id="website-history" data-composition-id="website-history" data-width={width} data-height={height} data-duration={duration} data-outro-start={outroStart} data-format={format}>
+      <BrandBookend kind="opening" start={0} />
+      {chapters.map((era, index) => (
+        <section class="chapter scene" data-scene-start={era.start} data-era={era.id}>
+          <header class="film-header"><span>santi020k.</span><span>Website history · 2026</span></header>
+          <div class="chapter-copy">
+            <p class="film-eyebrow">Chapter {String(index + 1).padStart(2, '0')} · {new Date(`${era.date}T12:00:00Z`).toLocaleDateString('en', { month: 'long', year: 'numeric', timeZone: 'UTC' })}</p>
+            <h2>{era.title}</h2>
+            <p class="chapter-change">{era.change}</p>
+          </div>
+          <div class="film-artwork">
+            <figure class="desktop-capture"><figcaption><span>● ● ●</span><span>santi020k.com{era.id === current.id ? '' : `/${era.id}/`}</span></figcaption><img src={`/assets/${era.id}-desktop.webp`} alt={`${era.id.toUpperCase()} desktop homepage`} width="1440" height="1000" loading="eager" /></figure>
+            <figure class="mobile-capture"><img src={`/assets/${era.id}-mobile.webp`} alt={`${era.id.toUpperCase()} mobile homepage`} width="390" height="844" loading="eager" /></figure>
+          </div>
+          <footer class="film-footer"><span>{era.id.toUpperCase()} · {era.id === current.id ? 'Current chapter' : 'Preserved design era'}</span><span>Real pages. Real evolution.</span></footer>
+          <div class="era-rail" aria-hidden="true">{chapters.map(item => <span class:list={{ active: item.id === era.id }}>{item.id.toUpperCase()}</span>)}</div>
+        </section>
+      ))}
+      <BrandBookend kind="ending" start={outroStart} />
+      <audio id="soundtrack" src="/assets/chills-history-edit.mp3" preload="auto" data-start="0" data-duration={duration} data-volume="1" aria-label="Chills by Holizna, CC0 soundtrack"></audio>
+    </main>
+    <script>import '../scripts/timeline'
+</script>
+  </body>
+</html>

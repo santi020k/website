@@ -1,6 +1,7 @@
 ---
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
+import montserratLatinUrl from '@/assets/fonts/montserrat-variable-font-wght.latin.woff2?url'
 import type { SiteMeta } from '@/types/site'
 import { createSeoDescription, createSeoTitle, serializeStructuredData } from '@/utils/seo'
 import { getSocialImageURL } from '@/utils/social-image'
@@ -15,11 +16,11 @@ import {
   webSiteSchema
 } from '@santi020k/og/schema'
 import { defineSite } from '@santi020k/og/site'
-import logoWordmarkUrl from '@santi020k/theme/assets/logos/logo-santi020k.svg?url'
-import logoWordmarkDarkUrl from '@santi020k/theme/assets/logos/logo-santi020k-dark.svg?url'
 import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
 
 import { ogManifest } from '@/data/og-manifest'
+import { getLocale, hasTranslation, localeLanguage, localeOg, localizePath, stripLocale } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
 import {
   AUTHOR_JOB_TITLE,
   createSchemaEntityId,
@@ -34,8 +35,9 @@ const {
   articleUpdated,
   breadcrumbs,
   canonicalUrl,
+  contentLocale,
   description = siteConfig.description,
-  noindex = false,
+  noindex: pageNoindex = false,
   ogImage,
   ogImageAlt,
   preloadImage,
@@ -44,9 +46,23 @@ const {
   title
 } = Astro.props
 
+const locale = getLocale(Astro.url.pathname)
+const tPage = pageTranslator(locale)
+const basePath = stripLocale(Astro.url.pathname)
+const siteOrigin = new URL(Astro.site ?? 'https://santi020k.com/').origin
+const hasLocalCanonical = !canonicalUrl || new URL(canonicalUrl, siteOrigin).origin === siteOrigin
+// Single-language content has no translation to announce, and its other-locale shells repeat
+// the original's main content, so only the original stays indexable.
+const isSingleLanguage = contentLocale !== undefined
+const noindex = pageNoindex || (isSingleLanguage && contentLocale !== locale)
+
+const alternates = hasTranslation(basePath) && !noindex && hasLocalCanonical && !isSingleLanguage ?
+  ['en', 'es'] as const :
+  []
+
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
 const socialTitle = title
-const siteTitle = createSeoTitle(seoTitle ?? title, siteConfig.title)
+const siteTitle = createSeoTitle(locale === 'es' ? `${seoTitle ?? title} · Español` : seoTitle ?? title, siteConfig.title)
 const metaDescription = createSeoDescription(description)
 
 const canonicalURL = new URL(
@@ -54,7 +70,9 @@ const canonicalURL = new URL(
 ).href
 
 const organizationLogoURL = new URL(logoSquareUrl, Astro.site ?? 'https://santi020k.com/').href
-const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage, ogManifest)
+// Non-indexable locale pages reuse the existing default card rather than a missing generated route card.
+const socialImagePath = locale === 'es' && !ogManifest.routes[Astro.url.pathname] ? basePath : Astro.url.pathname
+const socialImageURL = getSocialImageURL(socialImagePath, Astro.site ?? Astro.url, ogImage, ogManifest)
 
 const site = defineSite({
   siteName: siteConfig.siteName,
@@ -75,7 +93,7 @@ const page = site.page({
   canonical: canonicalURL,
   description: metaDescription,
   image: { alt: resolvedOgImageAlt, url: socialImageURL },
-  locale: siteConfig.ogLocale,
+  locale: localeOg(locale),
   pathname: Astro.url.pathname,
   robots: { index: !noindex },
   title: socialTitle,
@@ -99,11 +117,11 @@ const transform = (tags: readonly MetadataTag[]) => tags.map(tag => {
 })
 
 const structuredDataJsonLd = structuredData ? serializeStructuredData(structuredData) : null
-const isHomePage = Astro.url.pathname === '/'
+const isHomePage = basePath === '/'
 
 const websiteJsonLd = serializeJsonLd(webSiteSchema({
   id: createSchemaEntityId('website', Astro.site),
-  inLanguage: siteConfig.lang,
+  inLanguage: localeLanguage(locale),
   name: siteConfig.siteName,
   searchAction: { target: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={search_term_string}` },
   url: Astro.site?.href ?? 'https://santi020k.com/'
@@ -120,6 +138,10 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <MetadataHead {page} site={site.options} {transform} />
+{alternates.map(language => (
+  <link rel="alternate" hreflang={language} href={new URL(localizePath(basePath, language), Astro.site ?? 'https://santi020k.com/').href} />
+))}
+{alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL(basePath, Astro.site ?? 'https://santi020k.com/').href} />}
 
 {/* Icons */}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -130,10 +152,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp" type="image/webp" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" type="image/png" />
 <link rel="manifest" href="/manifest.webmanifest" />
-<link rel="preload" href="/fonts/montserrat-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
-{/* Preload the header logos — LCP elements */}
-<link rel="preload" as="image" href={logoWordmarkUrl} type="image/svg+xml" fetchpriority="high" />
-<link rel="preload" as="image" href={logoWordmarkDarkUrl} type="image/svg+xml" fetchpriority="high" />
+<link rel="preload" href={montserratLatinUrl} as="font" type="font/woff2" crossorigin />
 {
   preloadImage && (
     <link
@@ -204,11 +223,11 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   set:html={serializeJsonLd(personSchema({
     id: createSchemaEntityId('person', Astro.site),
     name: siteConfig.author,
-    url: new URL('/about/', Astro.site ?? 'https://santi020k.com/').href
+    url: new URL(localizePath('/about/', locale), Astro.site ?? 'https://santi020k.com/').href
   }, {
     alternateName: 'santi020k',
-    jobTitle: AUTHOR_JOB_TITLE,
-    description: siteConfig.description,
+    jobTitle: locale === 'es' ? tPage('page.engineeringLeaderAndFullStackArchitect') : AUTHOR_JOB_TITLE,
+    description: locale === 'es' ? tPage('page.santiagoMolinaKnownOnlineAsSanti020k') : siteConfig.description,
     sameAs: sameAsProfiles,
     knowsAbout: [
       'Full-Stack Engineering',

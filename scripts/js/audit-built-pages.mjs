@@ -1,5 +1,6 @@
 import { readdir, readFile, stat } from 'node:fs/promises'
 import path from 'node:path'
+import { unescape as decodeFragment } from 'node:querystring'
 import { pathToFileURL } from 'node:url'
 
 import { JSDOM, VirtualConsole } from 'jsdom'
@@ -135,29 +136,70 @@ export const auditBuiltPages = async directory => {
     dom.window.close()
   }
 
-  /** @param {string} pathname @param {Set<string>} visited @returns {Promise<string | null>} */
+  const root = path.resolve(directory)
+
+  /**
+   * Find the built file for a local URL pathname. Decoding can turn encoded
+   * separators into traversal segments, so paths outside the build root never
+   * reach stat. HTML documents resolve to their canonical page route so every
+   * alias of a page validates fragments against the same IDs; other files keep
+   * the referenced pathname.
+   * @param {string} pathname
+   * @returns {Promise<string | null>}
+   */
+  const getLocalTarget = async pathname => {
+    let decodedPath
+
+    try {
+      decodedPath = decodeURIComponent(pathname)
+    } catch {
+      return null
+    }
+
+    if (decodedPath.includes('\0')) return null
+
+    const target = path.join(root, decodedPath)
+    const relative = path.relative(root, target)
+
+    if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) return null
+
+    const info = await getInfo(target)
+    const file = info?.isDirectory() ? path.join(target, 'index.html') : target
+
+    if (!(file === target ? info : await getInfo(file))?.isFile()) return null
+
+    return file.endsWith('.html') ? getRoute(path.relative(root, file)) : pathname
+  }
+
+  /**
+   * Cloudflare Pages applies the first matching redirect even when a built
+   * asset exists at its source. A status 200 proxy serves its destination
+   * without applying further rules, so only that local target is checked.
+   * @param {string} pathname @param {Set<string>} visited @returns {Promise<string | null>}
+   */
   const resolveTarget = async (pathname, visited) => {
     if (visited.has(pathname)) return null
 
     visited.add(pathname)
 
-    const target = path.join(directory, decodeURIComponent(pathname))
-    const info = await getInfo(target)
-
-    if (info?.isFile() || (info?.isDirectory() && await getInfo(path.join(target, 'index.html')))) return pathname
-
-    if (pathname === '/404/' && files.includes(path.join(directory, '404.html'))) return pathname
-
     const redirect = redirects.find(([from]) => from === pathname ||
       (from.includes('*') && pathname.startsWith(from.split('*')[0])))
 
-    if (!redirect) return null
+    if (!redirect) {
+      const local = await getLocalTarget(pathname)
 
-    const [from, destination] = redirect
+      if (local !== null) return local
+
+      return pathname === '/404/' && files.includes(path.join(directory, '404.html')) ? pathname : null
+    }
+
+    const [from, destination, status] = redirect
     const prefix = from.split('*')[0]
     const url = new URL(destination.replace(':splat', pathname.slice(prefix.length)), origin)
 
     if (url.origin !== origin) return /^https?:$/u.test(url.protocol) ? url.href : null
+
+    if (status === '200') return getLocalTarget(url.pathname)
 
     return resolveTarget(url.pathname, visited)
   }
@@ -178,9 +220,13 @@ export const auditBuiltPages = async directory => {
     if (resolved === null) {
       issues.push({ route: reference.route, kind: 'missing-target', target: pathname })
     } else if (reference.hash && anchors.has(resolved)) {
-      const id = decodeURIComponent(reference.hash.slice(1))
+      const fragment = reference.hash.slice(1)
+      const ids = anchors.get(resolved)
+      // HTML checks the literal fragment before forgiving UTF-8 percent decoding.
+      // Unlike form parsing, querystring.unescape preserves literal plus signs.
+      const id = ids.has(fragment) ? fragment : decodeFragment(fragment)
 
-      if (id && !anchors.get(resolved).has(id)) issues.push({ route: reference.route, kind: 'missing-fragment', target: `${pathname}${reference.hash}` })
+      if (id && !ids.has(id)) issues.push({ route: reference.route, kind: 'missing-fragment', target: `${pathname}${reference.hash}` })
     }
   }
 

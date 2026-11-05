@@ -1,4 +1,6 @@
 ---
+import { z } from 'astro/zod'
+
 import type { CollectionEntry } from 'astro:content'
 import { render } from 'astro:content'
 
@@ -21,9 +23,12 @@ interface Props {
 }
 
 const { post } = Astro.props
-const { Content } = await render(post)
+const { Content, headings, remarkPluginFrontmatter } = await render(post)
+const figureCaptions = z.array(z.string()).parse(remarkPluginFrontmatter.articleFigureCaptions ?? [])
+const recommendationUrls = z.array(z.string()).parse(remarkPluginFrontmatter.articleRecommendationUrls ?? [])
+const printReferences = z.array(z.object({ href: z.url(), label: z.string().min(1) })).parse(remarkPluginFrontmatter.articlePrintReferences ?? [])
 ---
 
-<PostLayout post={post}>
+<PostLayout post={post} headings={headings} figureCaptions={figureCaptions} recommendationUrls={recommendationUrls} printReferences={printReferences}>
   <Content />
 </PostLayout>

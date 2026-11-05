@@ -1,44 +1,42 @@
 ---
-import { Icon as AstroIcon } from 'astro-icon/components'
-
 import type { CollectionEntry } from 'astro:content'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import ProjectTimeline from '@/components/atoms/ProjectTimeline.astro'
+import CoverSpread from '@/components/molecules/CoverSpread.astro'
 import ProjectHeroCover from '@/components/molecules/ProjectHeroCover.astro'
+import ProjectHeroDestinations from '@/components/molecules/ProjectHeroDestinations.astro'
 import ProjectHeroStack from '@/components/molecules/ProjectHeroStack.astro'
 
-import {
-  getProjectDurationLabel,
-  getProjectTimelineLabel,
-  getProjectTypeLabel
-} from '@/utils/project-meta'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectDurationLabel, getProjectTypeLabel } from '@/utils/project-meta'
 
-import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
+import { Breadcrumb } from '@santi020k/lumen-astro'
+
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
 
 interface Props {
+  hasProductPreviews?: boolean
   parentPage?: { name: string, url: string }
   project: CollectionEntry<'project'>
 }
 
-const { parentPage = { name: 'Portfolio', url: '/portfolio/' }, project } = Astro.props
+const { hasProductPreviews = false, parentPage = { name: t('collection.portfolio'), url: localizePath('/portfolio/', locale) }, project } = Astro.props
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
-const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
+const heroImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
+const useWideCoverFrame = Boolean(heroImage && heroImage.width / heroImage.height > 1.08)
 const titleWords = project.data.title.split(' ')
 const gradientWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : project.data.title
 const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : ''
-const startIso = project.data.startingDate.toISOString().slice(0, 7)
-const endIso = project.data.endingDate?.toISOString().slice(0, 7)
 
-const metaItems = [
-  { label: 'Role', value: project.data.role ?? 'Hands-on builder', datetime: undefined as string | undefined },
-  { label: 'Timeline', value: timelineLabel, datetime: endIso ? `${startIso}/${endIso}` : startIso },
-  { label: 'Duration', value: durationLabel, datetime: undefined as string | undefined }
-]
 ---
 
-<section class="editorial-detail-hero space-y-12">
+<section class="editorial-detail-hero space-y-12" data-project-opening>
   {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
   <div
     class="
@@ -51,7 +49,7 @@ const metaItems = [
       sm:flex-row sm:items-center sm:justify-between
     "
     >
-      <Eyebrow label={projectTypeLabel} tone="brand" />
+      <Eyebrow label={localizeCollectionSource(locale, projectTypeLabel)} tone="brand" />
       <Breadcrumb
         class="
           flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 text-sm
@@ -61,86 +59,63 @@ const metaItems = [
         <ol>
           <li>
             <a
-              href={parentPage.url}
+              href={localizePath(parentPage.url, locale)}
               class="
                 whitespace-nowrap transition-colors
                 hover:text-brand
                 motion-reduce:transition-none
               "
-            >{parentPage.name}
+            >{localizeCollectionSource(locale, parentPage.name)}
             </a>
           </li>
           <li>
-            <span aria-current="page" class="min-w-0 text-ink-soft">{projectTypeLabel}</span>
+            <span aria-current="page" class="min-w-0 text-ink-soft">{localizeCollectionSource(locale, projectTypeLabel)}</span>
           </li>
         </ol>
       </Breadcrumb>
     </div>
   </div>
 
-  {/* ── Title + description ──────────────────────────────────── */}
+  {/* ── Cover spread + description ──────────────────────────────────── */}
   <div
     class="
-      animate-slide-up space-y-6 [animation-delay:80ms]
+      animate-reveal-lcp
       motion-reduce:animate-none
     "
   >
-    <h1 class="
-      max-w-4xl text-4xl/[0.98] font-bold tracking-tighter wrap-break-word
-      sm:text-5xl/[0.96]
-      lg:text-[3.6rem]/[0.94]
-    "
-    >
-      {plainWords && <span>{plainWords} </span>}
-      <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
-    </h1>
-    <p
-data-editorial-summary
-class="
-  max-w-3xl text-lg/7 font-medium text-ink-soft
-  sm:text-xl/8
-"
-    >
-      {project.data.description}
-    </p>
+    <CoverSpread kind="project" hasCover={Boolean(heroImage)} wide={useWideCoverFrame}>
+      <h1 lang="en" slot="heading">
+        {plainWords && <span>{plainWords} </span>}
+        <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
+      </h1>
+      <ProjectHeroCover project={project} />
+    </CoverSpread>
+    <p lang="en" data-editorial-summary class="text-ink-soft">{project.data.description}</p>
   </div>
 
-  {/* ── Meta row — enhanced cards ──────────────────────────────── */}
+  {/* ── Margin imprint ──────────────────────────────────────── */}
   <div
     class="
       animate-slide-up [animation-delay:160ms]
       motion-reduce:animate-none
     "
+    data-editorial-meta-group
   >
 
-    <div class="
-      grid grid-cols-2 gap-4
-      sm:grid-cols-3
-    "
-    >
-      {metaItems.map(item => (
-        <div class="editorial-detail-meta-item" data-project-meta data-editorial-meta>
-          <dl class="space-y-2">
-            <dt class="
-              section-label text-xs font-semibold tracking-wider
-              text-ink-muted/80 uppercase
-            "
-            >
-              {item.label}
-            </dt>
-            <dd class="
-              text-lg/6 font-bold text-ink
-              sm:text-xl/6
-            "
-            >
-              {item.datetime ?
-                <time datetime={item.datetime}>{item.value}</time> :
-                item.value}
-            </dd>
-          </dl>
-        </div>
-      ))}
-    </div>
+    <dl data-project-imprint>
+      <div data-project-meta="role">
+        <dt>{t('collection.role')}</dt>
+        <dd>{project.data.role ?? t('collection.handsOnBuilder')}</dd>
+      </div>
+      <div data-project-meta="timeline">
+        <dt>{t('collection.timeline')}</dt>
+        <dd><ProjectTimeline endingDate={project.data.endingDate} startingDate={project.data.startingDate} /></dd>
+      </div>
+      <div data-project-meta="duration">
+        <dt>{t('collection.duration')}</dt>
+        <dd>{durationLabel}</dd>
+      </div>
+    </dl>
   </div>
 
   {/* ── CTAs ────────────────────────────────────────────────── */}
@@ -150,51 +125,79 @@ class="
       motion-reduce:animate-none
     "
   >
-    <div class="section-actions">
-      {project.data.liveDemoUrl && (
-        <ButtonLink href={project.data.liveDemoUrl} newTab showArrow>
-          View live project
-        </ButtonLink>
-      )}
-      {project.data.githubUrl && (
-        <ButtonLink
-          href={project.data.githubUrl}
-          newTab
-          showArrow
-          variant="secondary"
-          className="group"
-        >
-          <span class="flex items-center gap-2">
-            <Icon class="
-              size-4 transition-transform
-              group-hover:translate-x-1
-            "
-            >
-              <AstroIcon aria-hidden="true" class="size-full" focusable="false" name="tabler:brand-github" />
-            </Icon>
-            Open repository
-          </span>
-        </ButtonLink>
-      )}
-      <ButtonLink
-        href={parentPage.url}
-        showArrow
-        variant="secondary"
-        className="text-ink-soft"
-      >
-        Browse {parentPage.name.toLowerCase()}
-      </ButtonLink>
-    </div>
+    <ProjectHeroDestinations hasProductPreviews={hasProductPreviews} parentPage={parentPage} project={project} />
   </div>
-
-  {/* ── Full-width cover ─────────────────────────────────────── */}
-  <ProjectHeroCover project={project} />
 
   {/* ── Technologies strip ───────────────────────────────────── */}
   <ProjectHeroStack technologies={project.data.technologies} />
 </section>
 
 <style>
+  [data-project-opening] { container: project-opening / inline-size; }
+  [data-project-opening] [data-editorial-summary] {
+    max-width: 45rem;
+    margin-top: 1.75rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: -0.015em;
+  }
+  @container project-opening (width < 23.75rem) {
+    [data-project-opening] [data-editorial-summary] { font-size: 0.9375rem; margin-top: 1.375rem; }
+  }
+
+  [data-project-imprint] {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 0.65fr);
+    gap: 1.5rem;
+    padding-block: 1.5rem;
+    border-block: 1px solid hsl(var(--line) / 0.65);
+    color: hsl(var(--ink));
+  }
+  [data-project-meta] {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    padding-inline-start: 1.125rem;
+    border-inline-start: 1px solid hsl(var(--line) / 0.65);
+  }
+  [data-project-meta] dt {
+    margin-block-end: 0.4375rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  [data-project-meta] dd {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  [data-project-meta='role'] {
+    border-inline-start: 2px solid hsl(var(--brand));
+  }
+  [data-project-meta='role'] dd {
+    font-size: 1.4375rem;
+    line-height: 1.4;
+    letter-spacing: -0.04em;
+  }
+  :global(:root[data-theme='dark']) [data-project-meta='role'] {
+    border-inline-start-color: hsl(var(--accent));
+  }
+  @container editorial-meta (width < 37rem) {
+    [data-project-imprint] {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 1.25rem;
+    }
+    [data-project-meta='role'] { grid-column: 1 / -1; }
+  }
+  @container editorial-meta (width < 22.5rem) {
+    [data-project-imprint] { grid-template-columns: minmax(0, 1fr); }
+  }
+  @container editorial-meta (width < 12rem) {
+    [data-project-meta='role'] dd { font-size: 1.125rem; }
+  }
   [data-project-title-gradient] {
     background-image: linear-gradient(to right, var(--project-title-primary-readable), var(--project-title-secondary-readable), var(--project-title-primary-readable));
   }

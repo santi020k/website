@@ -20,9 +20,33 @@ The combined sitemap preserves source `lastmod` dates when supplied. It never
 substitutes the build time for a content modification date. Nested indexes are
 deduplicated, and URLs outside each source's HTTPS origin or invalid dates fail
 validation. Optional unavailable sources remain non-blocking.
+Remote loads retain a 15-second deadline per attempt. Network errors, request
+timeouts, rate limits, and server errors receive up to three attempts, waiting
+one second and then two seconds between attempts. Other HTTP errors fail
+immediately. Required sources still fail the build after retries are exhausted.
+Draft posts, scheduled posts, draft series, series without published posts, utility
+pages, and posts with an external canonical URL are excluded from the site's
+production sitemap. Draft and empty series remain available in development.
+The sitemap filter also reads each built page and drops every page marked `noindex`.
+That covers the Spanish shells of English articles and case studies (see
+[the language guide](i18n.md)) and topic and technology archives with fewer than three
+published entries, which stay reachable from navigation. Change that threshold in
+`src/utils/archive-indexing.ts`; pages, the sitemap, and social cards follow it.
 Projects sharing a hub origin and sitemap path are fetched once, including the
 Theme 2 product pages under `theme.santi020k.com`. Distinct sitemap paths are
 still included, and deduplication never makes a required source optional.
+The combined sitemap also includes the public documentation for OG and Auth and
+the English and Spanish pages from Between Contractions.
+
+## AI-readable index
+
+`/llms.txt` ([`src/pages/llms.txt.ts`](../src/pages/llms.txt.ts)) follows the
+[llms.txt proposal](https://llmstxt.org/): one Markdown index of the primary pages,
+case studies, projects, published series, and articles with their descriptions. It
+reads the same published collections as the feeds, so drafts, scheduled posts, and
+empty series never appear. The SEO audit fails when the built file is missing, and
+`tests/llms.spec.ts` checks that every listed page returns 200. Routes do not
+publish separate Markdown copies.
 
 ## Content modification dates
 
@@ -39,6 +63,10 @@ so they are not used as sitemap modification dates.
 2. Open the Sitemaps report for that Domain property.
 3. Submit `https://santi020k.com/sitemap.xml`.
 4. Review the Page indexing report after Google processes the submission.
+
+Keep existing child-sitemap submissions while the combined sitemap is processed.
+Only request validation of a redirect fix after the production URLs return the
+intended status and destination; a passing local build is not deployment evidence.
 
 Google accepts URLs from multiple sites in one sitemap only when ownership of
 all included sites is verified. The Domain property satisfies that requirement
@@ -62,3 +90,9 @@ Every child project must still:
 - reference its own sitemap from its `robots.txt`.
 
 Run `pnpm run build` to regenerate and validate the cross-site sitemap locally.
+
+Before adding a deployed source, check that every listed URL returns 200, allows
+indexing, and matches the page's canonical URL. RoadScore is not included yet:
+its sitemap currently lists four feedback/privacy paths without trailing slashes
+while those pages declare canonical URLs with slashes. Correct the child sitemap
+before including it here instead of rewriting its URLs in the aggregator.

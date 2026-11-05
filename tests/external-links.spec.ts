@@ -94,6 +94,6 @@ test('resume profiles retain new-tab behavior after client navigation', async ({
 
   await expect(page.locator('main').getByRole('link', { name: 'hi@santi020k.com', exact: true }))
     .not.toHaveAttribute('target', '_blank')
-  await expect(page.getByRole('link', { name: 'Download two-page resume PDF' }))
+  await expect(page.getByRole('link', { name: 'Download 2-page resume PDF' }))
     .toHaveAttribute('download', 'santiago-molina-resume.pdf')
 })

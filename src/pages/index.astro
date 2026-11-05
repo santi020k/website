@@ -1,7 +1,10 @@
 ---
 import HomeCommunity from '@/components/pages/home/HomeCommunity.astro'
 import HomeHero from '@/components/pages/home/HomeHero.astro'
+import HomeLife from '@/components/pages/home/HomeLife.astro'
+import HomeLogoStrip from '@/components/pages/home/HomeLogoStrip.astro'
 import HomeProjectShowcase from '@/components/pages/home/HomeProjectShowcase.astro'
+import HomeProof from '@/components/pages/home/HomeProof.astro'
 import HomeStats from '@/components/pages/home/HomeStats.astro'
 import HomeWriting from '@/components/pages/home/HomeWriting.astro'
 import PageLayout from '@/layouts/Base.astro'
@@ -9,7 +12,14 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { collectionRelevanceSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
+import { getStartHerePosts } from '@/utils/start-here'
 
+import '@/styles/pages/home.css'
+
+import { createFaqSchema } from '@/data/work-with-me'
+import { getLocale, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
+import { getLocalizedWorkWithMe } from '@/i18n/work-with-me'
 import {
   createSchemaEntityId,
   createWebsiteSchemaReference,
@@ -17,6 +27,9 @@ import {
   YEARS_OF_EXPERIENCE
 } from '@/site.config'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
+const { workWithMeFaq } = getLocalizedWorkWithMe(pageLocale)
 const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
 
 const workProjects = allProjects
@@ -29,16 +42,21 @@ const personalProjects = allProjects
   .sort(collectionRelevanceSortProjects)
   .slice(0, 4)
 
+const startHerePosts = getStartHerePosts(allPosts)
+const startHerePostIds = new Set(startHerePosts.map(post => post.id))
+
 const latestPosts = allPosts
+  .filter(post => !startHerePostIds.has(post.id))
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 4)
 
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 
 const homeDescription =
-  'Santiago Molina, known online as santi020k, is an engineering leader and full-stack architect building modern systems and better developer experiences.'
+  t('page.santiagoMolinaKnownOnlineAsSanti020k')
 
-const homeUrl = new URL('/', Astro.site).href
+const homeUrl = new URL(localizePath('/', pageLocale), Astro.site).href
+const homeFaq = workWithMeFaq.slice(0, 5)
 
 const homePageSchema = {
   '@context': 'https://schema.org',
@@ -58,52 +76,56 @@ const homePageSchema = {
     },
     {
       '@type': 'ItemList',
-      name: 'Work experience',
+      name: t('page.workExperience'),
       itemListElement: workProjects.map((project, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: new URL(getPortfolioPath(project.id), Astro.site).href,
+        url: new URL(localizePath(getPortfolioPath(project.id), pageLocale), Astro.site).href,
         name: project.data.title
       }))
     },
     {
       '@type': 'ItemList',
-      name: 'Side projects',
+      name: t('page.sideProjects'),
       itemListElement: personalProjects.map((project, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: new URL(getPortfolioPath(project.id), Astro.site).href,
+        url: new URL(localizePath(getPortfolioPath(project.id), pageLocale), Astro.site).href,
         name: project.data.title
       }))
     },
     {
       '@type': 'ItemList',
-      name: 'Latest writing',
+      name: t('page.latestWriting'),
       itemListElement: latestPosts.map((post, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: new URL(getPostPath(post.id), Astro.site).href,
+        url: new URL(localizePath(getPostPath(post.id), pageLocale), Astro.site).href,
         name: post.data.title
       }))
-    }
+    },
+    createFaqSchema(homeFaq, homeUrl)
   ]
 }
 
 const meta = {
   description: homeDescription,
-  seoTitle: 'Santiago Molina — Full-Stack Engineer & Tech Lead',
+  seoTitle: t('page.santiagoMolinaFullStackEngineer'),
   structuredData: homePageSchema,
-  title: 'Engineering Leader & Full-Stack Architect'
+  title: t('page.engineeringLeaderAndFullStackArchitect')
 }
 ---
 
-<PageLayout headerVariant="signature" meta={meta}>
+<PageLayout backdrop="particles" headerVariant="signature" mainClass="home-page" meta={meta}>
   <HomeHero />
   <div class="studio-home" data-home-content>
+    <HomeLogoStrip />
     <HomeStats yearsOfExperience={yearsOfExperience} />
     <HomeProjectShowcase kind="work" projects={workProjects} />
     <HomeProjectShowcase kind="projects" projects={personalProjects} />
-    <HomeWriting posts={latestPosts} />
+    <HomeWriting posts={latestPosts} startHerePosts={startHerePosts} />
+    <HomeLife />
     <HomeCommunity />
+    <HomeProof faq={homeFaq} />
   </div>
 </PageLayout>

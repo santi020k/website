@@ -1,78 +1,58 @@
 ---
-import { Card } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Card, Link } from '@santi020k/lumen-astro'
+
+import type { EngineeringPrinciple } from '@/data/profile'
+import { getLocale, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
 
 interface Props {
   appearance?: 'default' | 'editorial'
   index: number
+  source?: EngineeringPrinciple['source']
+  subtitle?: string
   title: string
   body: string
-  featured?: boolean
 }
 
-const { appearance = 'default', index, title, body, featured = false } = Astro.props
+const { appearance = 'default', index, source, subtitle, title, body } = Astro.props
 const formattedIndex = String(index + 1).padStart(2, '0')
+const locale = getLocale(Astro.url.pathname)
+const t = pageTranslator(locale)
 ---
 
 <Card
   as="article"
   class:list={[
     `
-      principle-card h-full space-y-3 rounded-[1.75rem] p-6
+      h-full p-6
       sm:p-7
     `,
-    appearance === 'editorial' && 'about-principle',
-    featured && 'sm:col-span-2'
+    appearance === 'editorial' ? 'about-principle space-y-3' : 'card-hierarchy'
   ]}
   data-principle
-  glass={appearance === 'default' ? 'strong' : false}
-  variant={appearance === 'editorial' ? 'unstyled' : 'interactive'}
+  variant={appearance === 'editorial' ? 'unstyled' : 'default'}
 >
-  <p class="section-label transition-colors duration-300" data-principle-index>{formattedIndex}</p>
-  <h3 class="text-xl font-semibold text-ink transition-colors duration-200" data-principle-title>{title}</h3>
-  <p class="text-sm/7 text-ink-soft">{body}</p>
+  <p
+    aria-hidden={appearance === 'default' ? 'true' : undefined}
+    class:list={[
+      appearance === 'editorial' && 'section-label',
+      appearance === 'default' && 'text-sm font-semibold text-brand'
+    ]}
+    data-principle-index
+  >{formattedIndex}</p>
+  <h3 class="text-xl font-semibold text-ink" data-principle-title>
+    <span data-card-title={appearance === 'default' ? '' : undefined}>{title}</span>
+    {subtitle && <> <span data-card-subtitle>{subtitle}</span></>}
+  </h3>
+  <p class="text-sm/7 text-ink-soft" data-principle-body>{body}</p>
+  {appearance === 'editorial' && source && (
+    <div data-principle-source>
+      <p>{t('page.readTheApproach')}</p>
+      <Link href={localizePath(source.href, locale)} variant="inherit">
+        <span>{source.label}</span><ArrowExchange direction="up-right" size="sm" />
+      </Link>
+    </div>
+  )}
 </Card>
-
-<style>
-  .principle-card {
-    isolation: isolate;
-  }
-
-  /* Brand glow blob top-left */
-  .principle-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-      ellipse 60% 50% at 0% 0%,
-      hsl(var(--brand) / 0.07),
-      transparent 60%
-    );
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .principle-card:hover::before {
-      opacity: 1;
-    }
-
-    [data-principle-index] {
-      transition: color 0.25s ease, letter-spacing 0.25s ease;
-    }
-
-    .principle-card:hover [data-principle-index] {
-      color: hsl(var(--brand));
-      letter-spacing: 0.28em;
-    }
-
-    [data-principle-title] {
-      transition: color 0.2s ease;
-    }
-
-    .principle-card:hover [data-principle-title] {
-      color: hsl(var(--brand));
-    }
-  }
-</style>

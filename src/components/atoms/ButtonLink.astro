@@ -1,5 +1,9 @@
 ---
-import { ButtonLink as LumenButtonLink, Icon } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { ButtonLink as LumenButtonLink } from '@santi020k/lumen-astro'
+
+import { getLocale, localizePath } from '@/i18n'
 
 interface Props {
   ariaLabel?: string
@@ -28,16 +32,20 @@ const {
     variant === 'secondary' && 'btn-secondary',
     variant === 'ghost' && 'btn-ghost',
     variant === 'inline' && 'btn-inline',
+    showArrow && 'site-action-aligned',
     className
   ]}
-  href={href}
+  data-text-link={variant === 'inline' ? '' : undefined}
+  href={localizePath(href, getLocale(Astro.url.pathname))}
   newTab={newTab}
   variant="unstyled"
 >
-  <slot />
+  {variant === 'inline' || showArrow ?
+    <span data-text-link-label={variant === 'inline' ? '' : undefined}><slot /></span> :
+    <slot />}
   {showArrow && (
     <span aria-hidden="true" class="site-action-arrow">
-      <Icon name={newTab ? 'arrow-up-right' : 'arrow-right'} size="sm" />
+      <ArrowExchange direction={newTab ? 'up-right' : 'right'} size="sm" />
     </span>
   )}
 </LumenButtonLink>

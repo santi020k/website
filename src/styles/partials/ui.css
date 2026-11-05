@@ -2,14 +2,6 @@
  * Lumen owns primitive defaults; retain only utilities used by website composition.
  */
 
-@utility ui-focus-ring {
-  @apply focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:outline-none;
-}
-
-@utility ui-button {
-  @apply ui-focus-ring inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200 motion-reduce:transition-none;
-}
-
 /* Website cards compose their own child spacing; avoid adding the v4 default gap. */
 [data-slot="card"] {
   --ui-card-gap: 0;
@@ -20,61 +12,16 @@
 }
 
 /*
- * Package-manager CodeTabs skin. The site-owned data attribute and Lumen's
- * public data-slot hook scope both Astro and Markdown output. Semantic tab
- * roles keep the skin independent of internal component classes.
+ * santi020k code theme contrast, via Lumen's public code variables. Light
+ * strings darken toward ink; the dark keyword reuses the inline-code color,
+ * which also colors the language badge. Other syntax colors are unchanged.
  */
-[data-package-manager-code-tabs][data-slot="code-tabs"] {
-  display: block;
-  gap: 0;
+:root:not([data-theme="dark"]) [data-ui-code][data-code-theme="santi020k"] {
+  --ui-code-token-string: color-mix(in srgb, hsl(var(--success)) 70%, hsl(var(--ink)) 30%);
 }
 
-[data-package-manager-code-tabs][data-slot="code-tabs"] > [role="tablist"] {
-  display: flex;
-  width: auto;
-  gap: 0.25rem;
-  border: 0;
-  border-bottom: 1px solid hsl(var(--line));
-  border-radius: 0;
-  background: hsl(var(--surface));
-  padding: 0.375rem;
-}
-
-[data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"] {
-  min-width: 4.25rem;
-  border: 0;
-  border-radius: var(--ui-radius-sm);
-  background: transparent;
-  color: hsl(var(--ink-muted));
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  padding: 0.5rem 0.875rem;
-  transition:
-    background-color 150ms ease,
-    color 150ms ease;
-}
-
-[data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"]:hover {
-  background: hsl(var(--surface-muted));
-  color: hsl(var(--ink));
-}
-
-[data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"][aria-selected="true"] {
-  background: hsl(var(--brand-soft));
-  box-shadow: none;
-  color: hsl(var(--brand));
-}
-
-[data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"]:focus-visible {
-  outline: 2px solid hsl(var(--brand));
-  outline-offset: 1px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"] {
-    transition: none;
-  }
+:root[data-theme="dark"] [data-ui-code][data-code-theme="santi020k"] {
+  --ui-code-token-keyword: var(--ui-code-inline-fg);
 }
 
 @utility ui-collapsible {
@@ -83,10 +30,6 @@
   & summary {
     @apply cursor-pointer font-semibold text-ink;
   }
-}
-
-@utility ui-toggle--pressed {
-  @apply border-brand/30 bg-brand-soft/45 text-brand;
 }
 
 @utility ui-tabs {
@@ -101,8 +44,19 @@
   }
 }
 
-@utility ui-combobox {
-  @apply grid gap-2;
+/* Site pills keep one line when there is room. In narrow containers or with
+   enlarged text, long labels wrap inside the pill instead of widening the row. */
+[data-site-pill] {
+  min-width: 0;
+  /* Keep the count intact; only the consumer-owned label may wrap. */
+  white-space: nowrap;
+}
+
+[data-site-pill-label] {
+  min-width: 0;
+  line-height: 1.25;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 /* Keep branded site pills readable over muted surfaces in the dark theme. */

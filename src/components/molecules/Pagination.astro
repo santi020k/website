@@ -1,9 +1,17 @@
 ---
 import type { Page } from 'astro'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import { getArchivePageUrl, getPaginationItems, PAGINATION_GAP } from '@/utils/pagination'
 
-import { Link, Pagination } from '@santi020k/lumen-astro'
+import { ButtonLink, Icon, Link, Pagination } from '@santi020k/lumen-astro'
+
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
 
 interface Props {
   baseUrl?: string
@@ -13,79 +21,187 @@ interface Props {
 const { baseUrl = '/blog/', page } = Astro.props
 const { currentPage, lastPage } = page
 const items = getPaginationItems(currentPage, lastPage)
-const previousUrl = currentPage > 1 ? getArchivePageUrl(baseUrl, currentPage - 1) : undefined
-
-const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage + 1) : undefined
-
-/*
- * No `aria-label` is passed to <Pagination>: Lumen writes `aria-label="Pagination"`
- * before spreading passthrough props, so a consumer label is emitted as a duplicate
- * attribute and the parser keeps the first one. One pagination landmark per page
- * makes the built-in name unambiguous. Tracked in improvements.md.
- */
+const previousUrl = currentPage > 1 ? localizePath(getArchivePageUrl(baseUrl, currentPage - 1), locale) : undefined
+const nextUrl = currentPage < lastPage ? localizePath(getArchivePageUrl(baseUrl, currentPage + 1), locale) : undefined
 ---
 
 {lastPage > 1 && (
-  <Pagination className="flex items-center justify-center gap-1.5 pt-2">
-    {previousUrl ?
-      (
-        <Link
-          aria-label="Previous page"
-          className="pagination-btn no-underline"
-          href={previousUrl}
-          rel="prev"
-        >←</Link>
-      ) :
-      (
-        <span
-          aria-disabled="true"
-          aria-label="No previous page"
-          class="pagination-btn cursor-not-allowed opacity-35"
-        >←
-        </span>
-      )}
-
-    {items.map(item => (
-      item === PAGINATION_GAP ?
-        (
-          <span
-            aria-hidden="true"
-            class="
-              flex size-11 items-center justify-center text-sm text-ink-muted
-            "
-          >…
-          </span>
+  <div data-split-pager>
+    <Pagination data-pager-row>
+      <div data-pager-pages>
+        {items.map(item => item === PAGINATION_GAP ?
+(
+          <span aria-hidden="true" data-pager-number>…</span>
         ) :
-        (
+(
           <Link
             aria-current={item === currentPage ? 'page' : undefined}
-            aria-label={`Page ${item}`}
-            class:list={['pagination-btn no-underline', item === currentPage && `
-              pagination-btn--active
-            `]}
-            href={getArchivePageUrl(baseUrl, item)}
+            aria-label={t('pagination.page', { page: item })}
+            data-pager-number
+            href={localizePath(getArchivePageUrl(baseUrl, item), locale)}
+            variant="inherit"
+          >{item}</Link>
+        ))}
+      </div>
+      <div data-pager-actions>
+        {previousUrl ?
+(
+          <Link
+            aria-label={t('collection.previousPage')}
+            data-pager-previous
+            href={previousUrl}
+            rel="prev"
+            variant="inherit"
+          ><ArrowExchange direction="left" size="sm" /></Link>
+        ) :
+(
+          <span aria-hidden="true" data-pager-previous data-pagination-placeholder="previous">
+            <Icon name="arrow-left" size="sm" />
+          </span>
+        )}
+        {nextUrl ?
+(
+          <ButtonLink
+            ariaLabel={t('collection.nextPage')}
+            data-pager-next
+            href={nextUrl}
+            rel="next"
+            variant="unstyled"
           >
-            {item}
-          </Link>
-        )
-    ))}
-
-    {nextUrl ?
-      (
-        <Link
-          aria-label="Next page"
-          className="pagination-btn no-underline"
-          href={nextUrl}
-          rel="next"
-        >→</Link>
-      ) :
-      (
-        <span
-          aria-disabled="true"
-          aria-label="No next page"
-          class="pagination-btn cursor-not-allowed opacity-35"
-        >→
-        </span>
-      )}
-  </Pagination>
+            <span>{t('collection.nextPage')}</span>
+            <span data-pager-arrow><ArrowExchange direction="right" size="sm" /></span>
+          </ButtonLink>
+        ) :
+(
+          <span aria-hidden="true" data-pager-next data-pagination-placeholder="next">
+            <span>{t('collection.nextPage')}</span>
+            <span data-pager-arrow><Icon name="arrow-right" size="sm" /></span>
+          </span>
+        )}
+      </div>
+    </Pagination>
+  </div>
 )}
+
+<style>
+  [data-split-pager] {
+    --pager-accent: hsl(var(--brand));
+    container: split-pager / inline-size;
+  }
+
+  :global([data-theme='dark']) [data-split-pager] {
+    --pager-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
+  }
+
+  [data-split-pager] :global([data-pager-row]) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    border-top: 1px solid hsl(var(--line));
+    padding-top: 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  [data-pager-pages],
+  [data-pager-actions] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  [data-pager-pages] { gap: 0.25rem; }
+  [data-pager-actions] { gap: 0.75rem; }
+
+  [data-split-pager] :global([data-pager-number]),
+  [data-split-pager] :global([data-pager-previous]),
+  [data-split-pager] :global([data-pager-next]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    font: inherit;
+    text-decoration: none;
+  }
+
+  [data-split-pager] :global([data-pager-number]) {
+    border: 1px solid transparent;
+    border-radius: 50%;
+    padding: 0;
+    background: transparent;
+    color: hsl(var(--ink-soft));
+  }
+
+  [data-split-pager] :global([data-pager-previous]) {
+    border: 1px solid hsl(var(--line));
+    border-radius: 50%;
+    padding: 0;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink-soft));
+  }
+
+  [data-split-pager] :global(a[data-pager-number]:hover),
+  [data-split-pager] :global(a[data-pager-previous]:hover) {
+    background: hsl(var(--brand-soft));
+    color: var(--pager-accent);
+  }
+
+  [data-split-pager] :global([aria-current='page']) {
+    border-color: var(--pager-accent);
+    background: hsl(var(--surface));
+    color: var(--pager-accent);
+  }
+
+  [data-split-pager] :global([data-pager-next]) {
+    gap: 1.25rem;
+    min-height: 3.25rem;
+    border: 0;
+    border-radius: 1rem 0.25rem;
+    padding: 0.375rem 0.5rem 0.375rem 1.125rem;
+    background: hsl(var(--ink));
+    color: hsl(var(--surface));
+  }
+
+  [data-split-pager] :global(a[data-pager-next]:hover) {
+    background: hsl(var(--ink-soft));
+  }
+
+  [data-pager-arrow] {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.125rem;
+    height: 2.125rem;
+    border-radius: 0.625rem 0.1875rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+  }
+
+  [data-pagination-placeholder='previous'] { opacity: 0.35; }
+  [data-split-pager] :global([data-pagination-placeholder='next']) {
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--ink-soft));
+  }
+
+  @container split-pager (width < 26.25rem) {
+    [data-pager-pages],
+    [data-pager-actions] {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  @container split-pager (width < 16rem) {
+    [data-pager-arrow] { display: none; }
+    [data-split-pager] :global([data-pager-next]) {
+      flex: 1;
+      min-width: 0;
+      padding-inline: 0.75rem;
+      text-align: center;
+    }
+  }
+</style>

@@ -1,4 +1,6 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import SculptedTag from '@/components/atoms/SculptedTag.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
 import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
@@ -8,110 +10,199 @@ import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects, collectionRelevanceSortProjects } from '@/utils/date'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
-import { ButtonLink as LumenButtonLink, Icon } from '@santi020k/lumen-astro'
+import '@/styles/pages/projects.css'
+
+import { ButtonLink as LumenButtonLink, Link } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
-import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
+import { projectPurposeIds, projectPurposes } from '@/data/project-purposes'
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
+import { siteConfig } from '@/site.config'
 
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
-const showcaseProjects = [...sideProjects].sort(collectionRelevanceSortProjects)
+const rankedProjects = [...sideProjects].sort(collectionRelevanceSortProjects)
+
+const purposeGroups = projectPurposeIds.map(purpose => ({
+  id: purpose,
+  ...projectPurposes[purpose],
+  projects: rankedProjects.filter(project => project.data.purpose === purpose)
+})).filter(group => group.projects.length > 0)
+
+const showcaseProjects = purposeGroups.flatMap(group => group.projects)
 const allTechnologies = getUniqueTechnologiesWithCount(sideProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
-const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Projects', url: '/projects/' }
+  { name: t('nav.home'), url: localizePath('/', locale) },
+  { name: t('nav.projects'), url: localizePath('/projects/', locale) }
 ]
 
-const projectsListSchema = createProjectCollectionSchema('Side Projects — Santiago Molina', '/projects/', showcaseProjects, Astro.site)
+const projectsListSchema = createProjectCollectionSchema(t('collection.sideProjectsSantiagoMolina'), '/projects/', showcaseProjects, Astro.site)
 ---
 
 <PageLayout
+  backdrop="plain"
   headerVariant="signature"
   mainClass="projects-page"
   meta={{
     breadcrumbs,
-    description: 'Open-source tools and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
+    description: t('collection.independentAppsDeveloperToolsAndExperiments'),
     structuredData: projectsListSchema,
-    title: 'Side Projects — Santiago Molina'
+    title: t('collection.sideProjectsSantiagoMolina')
   }}
 >
   <section class="signature-frame maker-hero projects-intro" aria-labelledby="projects-heading" data-projects-page>
     <p class="maker-hero-eyebrow">
       <span aria-hidden="true" class="maker-hero-signal"></span>
-      Independent making / Side projects
+      <span>{t('collection.independentMaking')} / {showcaseProjects.length} {showcaseProjects.length === 1 ? t('collection.project') : t('collection.projects')}</span>
     </p>
     <div class="projects-intro-stage">
       <h1 id="projects-heading">
-        <span>Built for the{' '}</span>
-        <span class="maker-hero-emphasis">love of it.</span>
+        <span>{t('collection.builtForThe')}{' '}</span>
+        <span class="maker-hero-emphasis">{t('collection.loveOfIt')}</span>
       </h1>
-      <div>
-        <p class="maker-hero-description">
-          Useful products. Better tools. Room to explore.
-          These are the things I build beyond client work,
-          turning curiosity into something other people can use.
-        </p>
-        <div class="maker-hero-actions">
-          <LumenButtonLink class="maker-hero-primary" href="#projects" variant="unstyled">
-            Explore projects
-            <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-down-right" /></span>
-          </LumenButtonLink>
-          <LumenButtonLink class="maker-hero-secondary" href={siteConfig.contact.github} newTab variant="unstyled">
-            View GitHub <Icon name="arrow-up-right" />
-          </LumenButtonLink>
-        </div>
-      </div>
+      <p class="maker-hero-description">{t('collection.usefulProductsBetterToolsRoomTo')}</p>
     </div>
-    <dl class="projects-intro-ledger">
-      <div><dt>Independent builds</dt><dd>{sideProjects.length}<span>Projects &amp; experiments</span></dd></div>
-      <div><dt>Tools of the trade</dt><dd>{allTechnologies.length}<span>Technologies explored</span></dd></div>
-      <div><dt>Experience behind it</dt><dd>{YEARS_OF_EXPERIENCE}<span>Years in engineering</span></dd></div>
-    </dl>
+    <nav
+      aria-label={t('collection.browseProjectsByPurpose')}
+      class="@container/sculpted-tags projects-intro-paths"
+    >
+      {purposeGroups.map(group => (
+        <SculptedTag
+          count={group.projects.length}
+          href={`#${group.id}`}
+          label={localizeCollectionSource(locale, group.title)}
+        />
+      ))}
+    </nav>
+    <div class="projects-intro-footer">
+      <p>{t('collection.fromDeveloperFoundationsToEverydayApps')}</p>
+      <LumenButtonLink class="maker-hero-secondary" href={siteConfig.contact.github} newTab variant="unstyled">{t('collection.viewGithub')}<ArrowExchange />
+      </LumenButtonLink>
+    </div>
   </section>
 
   <section
-    aria-label={`${sideProjects.length} personal projects`}
-    class="
-      section-container-wide scroll-mt-28 pt-12
-      sm:pt-16
-      lg:pt-20
-    "
+    aria-label={t('project.personalCount', { count: showcaseProjects.length })}
+    class="section-container-wide scroll-mt-28 page-section-space"
     id="projects"
   >
     <SectionHeader
-      description="Every project has a deeper story about the problem, the decisions, and the system behind the finished work."
-      eyebrow={`${showcaseProjects.length} project stories`}
-      title="The work behind the logos."
+      description={t('collection.startWithWhatYouWantTo')}
+      eyebrow={t('project.storyCount', { count: showcaseProjects.length })}
+      title={t('collection.theWorkBehindTheLogos')}
     />
-    <div class="
-      mt-10
-      sm:mt-12
-    "
-    >
-      <ProjectsGallery projects={showcaseProjects} variant="editorial" />
-    </div>
   </section>
 
-  <section class="
-    section-container-wide space-y-8 pt-20
-    sm:pt-24
-    lg:pt-28
-  "
+  {purposeGroups.map(group => (
+    <section
+      aria-label={localizeCollectionSource(locale, group.title)}
+      class="section-container-wide scroll-mt-28 space-y-8 page-section-space"
+      data-project-purpose-group={group.id}
+      id={group.id}
+      tabindex="-1"
+    >
+      <div data-project-chapter>
+        <div data-project-chapter-heading>
+          <SectionHeader
+            description={localizeCollectionSource(locale, group.description)}
+            eyebrow={`${group.projects.length} ${group.projects.length === 1 ? t('collection.projectStory') : t('collection.projectStories')}`}
+            title={localizeCollectionSource(locale, group.title)}
+          />
+          {purposeGroups.length > 1 && (
+            <nav aria-label={t('collection.exploreBeyond', { name: localizeCollectionSource(locale, group.title) })} data-project-chapter-links>
+              <p>{t('collection.keepExploring')}</p>
+              <ul>
+                {purposeGroups.filter(destination => destination.id !== group.id).map(destination => (
+                  <li>
+                    <Link
+                      data-project-chapter-link
+                      href={`#${destination.id}`}
+                      variant="inherit"
+                    >
+                      <span data-project-chapter-label>
+                        <span>{localizeCollectionSource(locale, destination.title)}</span>{' '}
+                        <span data-project-chapter-count>
+                          {destination.projects.length}<span class="sr-only"> {destination.projects.length === 1 ? t('collection.project') : t('collection.projects')}</span>
+                        </span>
+                      </span>
+                      <ArrowExchange direction="right" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </div>
+      </div>
+      <ProjectsGallery productFirst projects={group.projects} />
+    </section>
+  ))}
+
+  <section
+aria-labelledby="technology-snapshot-heading"
+class="section-container-wide page-section-space"
   >
-    <SectionHeader
-      description="Trusted foundations and tools I’m actively exploring across personal projects, open source, developer experience, and testing."
-      eyebrow="Technology map"
-      linkHref="/technologies/"
-      linkLabel="Browse the full stack index"
-      title="The stack I choose when curiosity leads."
-    />
     <TechnologyPillGrid
-      hiddenCount={hiddenTechnologyCount}
-      intro="Technologies from side projects and open-source contributions, ordered by interest."
+      projectCount={sideProjects.length}
       technologies={technologies}
+      totalTechnologyCount={allTechnologies.length}
     />
   </section>
 </PageLayout>
+
+<style>
+  [data-project-chapter] { container: project-chapter / inline-size; }
+  [data-project-chapter-heading] {
+    display: grid;
+    gap: 1.75rem;
+    border-top: 1px solid hsl(var(--line));
+    padding-top: 1.75rem;
+    overflow-wrap: anywhere;
+  }
+  [data-project-chapter-heading]:has(nav) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 15rem);
+    align-items: end;
+    column-gap: 3rem;
+  }
+  [data-project-chapter-links] {
+    min-width: 0;
+    border-left: 1px solid hsl(var(--line));
+    padding-left: 1.75rem;
+  }
+  [data-project-chapter-links] p {
+    margin-bottom: 0.5rem;
+    color: hsl(var(--ink-muted));
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+  [data-project-chapter-links] ul { display: grid; }
+  [data-project-chapter-links] :global([data-project-chapter-link]) {
+    display: grid;
+    min-height: 2.75rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid hsl(var(--line));
+    padding-block: 0.75rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.875rem;
+    line-height: 1.6;
+    text-decoration: none;
+  }
+  [data-project-chapter-links] :global([data-project-chapter-link]:hover) { color: hsl(var(--brand)); }
+  [data-project-chapter-label] { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; }
+  [data-project-chapter-count] { color: hsl(var(--ink-muted)); font-size: 0.75rem; }
+  @container project-chapter (width < 44rem) {
+    [data-project-chapter-heading]:has(nav) { grid-template-columns: minmax(0, 1fr); }
+    [data-project-chapter-links] { border-left: 0; padding-left: 0; }
+    [data-project-chapter-links] ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+  }
+  @container project-chapter (width < 28rem) {
+    [data-project-chapter-links] ul { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  }
+</style>

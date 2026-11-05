@@ -1,39 +1,18 @@
 ---
-import type { HTMLAttributes } from 'astro/types'
-
 import { Pill as LumenPill } from '@santi020k/lumen-astro'
 
 interface Props {
-  'aria-current'?: HTMLAttributes<'a'>['aria-current']
-  className?: string
-  count?: number | string
-  href?: string
   label: string
-  showHash?: boolean
   tone?: 'brand' | 'neutral' | 'outline'
 }
 
-const {
-  'aria-current': ariaCurrent,
-  className = '',
-  count,
-  href,
-  label,
-  showHash = false,
-  tone = 'neutral'
-} = Astro.props
-
+const { label, tone = 'neutral' } = Astro.props
 ---
 
 <LumenPill
-  aria-current={ariaCurrent}
-  class:list={['group gap-1.5', className]}
+  class="group gap-1.5"
   data-site-pill
-  {...(count !== undefined ? { count } : {})}
-  {...(href !== undefined ? { href } : {})}
   variant={tone}
 >
-  {showHash && <span aria-hidden="true" class="text-xs opacity-60">#</span>}
-  <span class="wrap-break-word">{label}</span>
-  <slot />
+  <span data-site-pill-label>{label}</span>
 </LumenPill>

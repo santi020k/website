@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, 'release/**']
     types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch: {}
 
@@ -15,48 +15,27 @@ permissions:
   contents: read
 
 jobs:
-  quality:
-    name: Quality gate
+  static:
+    name: Static checks
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Lint, type checks and tests cover the current site, four archives and the motion studio.
+    timeout-minutes: 45
     steps:
+      # A blobless clone keeps the full commit graph for change detection without
+      # downloading every historical image; Git fetches older file contents on demand.
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+          filter: blob:none
           persist-credentials: false
 
       - name: Detect build-affecting changes
         id: changes
-        shell: bash
+        run: node scripts/js/ci-scope.mjs
         env:
-          EVENT_NAME: ${{ github.event_name }}
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          run_checks=false
-          run_full=false
-
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            run_checks=true
-            run_full=true
-          else
-            git diff --no-renames --name-only --diff-filter=ACDMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
-            while IFS= read -r path; do
-              case "$path" in
-                src/*|public/*|scripts/*|tests/*|patches/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|cspell.config.*|eslint.config.*|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|markdownlint.config.json|.npmrc|.gitattributes|.changeset/*|.github/*.yml|.github/*.yaml|.github/workflows/*|.github/ISSUE_TEMPLATE/*)
-                  run_checks=true
-                  run_full=true
-                  ;;
-                *.md|*.mdx)
-                  run_checks=true
-                  ;;
-              esac
-            done < "$RUNNER_TEMP/changed-files"
-          fi
-
-          echo "checks=$run_checks" >> "$GITHUB_OUTPUT"
-          echo "full=$run_full" >> "$GITHUB_OUTPUT"
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CI_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
 
       - name: Run Astro Doctor on the changed code
         if: steps.changes.outputs.full == 'true' && github.event_name == 'pull_request'
@@ -74,35 +53,62 @@ jobs:
 
       - name: Check documentation
         if: steps.changes.outputs.checks == 'true' && steps.changes.outputs.full != 'true'
-        run: pnpm run spellcheck && pnpm run lint:md
+        run: pnpm run test:ci && pnpm run spellcheck && pnpm run lint:md
 
       - name: Run static checks and unit tests
         if: steps.changes.outputs.full == 'true'
-        run: pnpm run verify:quality
+        run: pnpm run ci:check
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CI_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          # Catch accidental local-time getters and parsing behind UTC.
+          TZ: America/Bogota
 
       - name: Audit dependencies
         if: steps.changes.outputs.full == 'true'
         run: pnpm run audit
 
-      - name: Cache pre-rendered OG images
-        if: steps.changes.outputs.full == 'true'
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+  # The build runs beside the static checks; browser tests and Lighthouse wait only for it.
+  build:
+    name: Production build
+    runs-on: ubuntu-latest
+    # The assembled build compiles the current site, four archives and the motion studio.
+    timeout-minutes: 45
+    outputs:
+      full: ${{ steps.changes.outputs.full }}
+    steps:
+      # Page dates come from Git history, so keep the full commit graph without old blobs.
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          path: |
-            public/og
-            .og-cache.json
-          key: >-
-            og-v2-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'src/content/**', 'src/assets/**', 'src/utils/pagination.ts', 'scripts/js/generate-og-images.js', 'scripts/js/prepare-og-image.mjs', 'scripts/js/render-og-atmosphere.mjs', 'public/fonts/montserrat-variable-font-wght.ttf') }}
-          restore-keys: |
-            og-v2-${{ runner.os }}-
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
 
+      - name: Detect build-affecting changes
+        id: changes
+        run: node scripts/js/ci-scope.mjs
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CI_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up pnpm workspace
+        if: steps.changes.outputs.full == 'true'
+        uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
+        with:
+          node-version: 24.x
+
+      # OG images and .og-cache.json are tracked, so builds use the checked-out
+      # copies. Restoring an Actions cache would overwrite the pull request's files.
       - name: Cache Astro image transformations
         if: steps.changes.outputs.full == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          path: node_modules/.astro
+          path: |
+            node_modules/.astro
+            apps/*/node_modules/.astro
           key: >-
-            astro-images-v1-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'astro.config.*', 'src/assets/**') }}
+            astro-images-v1-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'astro.config.*', 'src/assets/**', 'apps/*/astro.config.*', 'apps/*/src/assets/**', 'packages/website-history/**') }}
           restore-keys: |
             astro-images-v1-${{ runner.os }}-
 
@@ -111,9 +117,49 @@ jobs:
         run: pnpm run build
         env:
           PUBLIC_IS_CI: true
+          # Browser tests must also exercise builds ahead of UTC.
+          TZ: Asia/Tokyo
+
+      - name: Upload the production build
+        if: steps.changes.outputs.full == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: production-build
+          path: dist/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 1
+
+  # Shards split the stable Chromium suite by file so each job stays well inside
+  # its timeout. Every shard previews the same build the build job produced.
+  browser:
+    name: Browser tests (${{ matrix.shard }}/6)
+    needs: build
+    if: needs.build.outputs.full == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm workspace
+        uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
+        with:
+          node-version: 24.x
+
+      - name: Download the production build
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: production-build
+          path: dist/
 
       - name: Cache Playwright browser
-        if: steps.changes.outputs.full == 'true'
         id: playwright-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -121,30 +167,92 @@ jobs:
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install Chromium browser
-        if: steps.changes.outputs.full == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Install Chromium system dependencies
-        if: steps.changes.outputs.full == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: pnpm exec playwright install-deps chromium
 
       - name: Run stable browser tests
-        if: steps.changes.outputs.full == 'true'
-        run: pnpm run test:e2e:ci:stable
-
-      - name: Run Lighthouse assertions
-        if: steps.changes.outputs.full == 'true'
-        run: pnpm exec lhci autorun --config=.lighthouserc.json
+        run: pnpm run test:e2e:ci:stable --shard=${{ matrix.shard }}/6
 
       - name: Upload browser diagnostics on failure
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: browser-diagnostics
+          name: browser-diagnostics-${{ matrix.shard }}
           path: |
             playwright-report/
             test-results/
-            .lighthouseci/
           if-no-files-found: ignore
           include-hidden-files: true
           retention-days: 7
+
+  lighthouse:
+    name: Lighthouse
+    needs: build
+    if: needs.build.outputs.full == 'true'
+    runs-on: ubuntu-latest
+    # Three runs per route; assertions keep each route's best run.
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm workspace
+        uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
+        with:
+          node-version: 24.x
+
+      - name: Download the production build
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: production-build
+          path: dist/
+
+      - name: Run Lighthouse assertions
+        run: pnpm exec lhci autorun --config=.lighthouserc.json
+
+      - name: Upload Lighthouse diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: lighthouse-diagnostics
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          include-hidden-files: true
+          retention-days: 7
+
+  # Branch protection requires this job. It passes only when every job the change
+  # selected succeeded; documentation-only changes skip the build-dependent jobs.
+  quality:
+    name: Quality gate
+    needs: [static, build, browser, lighthouse]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every selected check
+        env:
+          STATIC_RESULT: ${{ needs.static.result }}
+          BUILD_RESULT: ${{ needs.build.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
+          LIGHTHOUSE_RESULT: ${{ needs.lighthouse.result }}
+        run: |
+          status=0
+          for job in "static:$STATIC_RESULT" "build:$BUILD_RESULT" "browser:$BROWSER_RESULT" "lighthouse:$LIGHTHOUSE_RESULT"; do
+            result=${job#*:}
+            echo "${job%%:*}: $result"
+            if [[ "$result" != success && "$result" != skipped ]]; then
+              echo "::error::The ${job%%:*} job finished with: $result"
+              status=1
+            fi
+          done
+          if [[ "$STATIC_RESULT" != success || "$BUILD_RESULT" != success ]]; then
+            echo "::error::Static checks and the build must succeed."
+            status=1
+          fi
+          exit "$status"

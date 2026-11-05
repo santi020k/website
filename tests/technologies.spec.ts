@@ -13,29 +13,62 @@ test.describe('Technologies index page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
 
-  test('should display the technologies count and most-used stat', async ({ page }) => {
-    const main = page.locator('#main')
-    await expect(main.getByText('Technologies', { exact: true })).toBeVisible()
-    await expect(main.getByText('Most used', { exact: true })).toBeVisible()
+  test('should connect the index total and most recurring technology to portfolio evidence', async ({ page }) => {
+    const summary = page.getByRole('region', { name: 'Range, with a trail.' })
+    const total = await page.locator('[data-technology-item]').count()
+
+    await expect(summary.locator('[data-technology-summary-number]')).toHaveText(String(total))
+    await expect(summary.getByRole('link')).toHaveAccessibleName('Most recurring TypeScript Listed in 20 entries Explore the evidence')
+    await summary.getByRole('link').click()
+    await expect(page).toHaveURL(/\/technologies\/typescript\/$/u)
+    await expect(page.locator('[data-project-gallery-card]')).toHaveCount(20)
   })
 
   test('should render technology group labels', async ({ page }) => {
     // At least the Core group should always be present given the real data
-    await expect(page.getByText('Core', { exact: true })).toBeVisible()
+    await expect(page.locator('[data-technology-title]').filter({ hasText: /^Core\s*$/u })).toBeVisible()
   })
 
-  test('should render technology pill links', async ({ page }) => {
-    const techLinks = page.getByRole('link').filter({ hasText: /.+/ })
-    // Expect more than just the navigation links — technology pills add many more
-    await expect(techLinks).toHaveCount(await techLinks.count())
-    expect(await techLinks.count()).toBeGreaterThan(5)
-    await expect(page.locator('.ui-pill__count').first()).toBeVisible()
+  test('should render grouped technology links with project counts', async ({ page }) => {
+    const groups = page.locator('[data-technology-group]')
+    const links = groups.getByRole('link')
+
+    await expect(groups).toHaveCount(3)
+    expect(await links.count()).toBeGreaterThan(100)
+    await expect(groups.getByRole('list')).toHaveCount(3)
+    await expect(links.first()).toHaveAccessibleName(/^React\.js \d+ entries$/u)
+    await expect(links.first()).toHaveAttribute('href', '/technologies/react-js/')
+    await expect(links.first().locator('[data-technology-project-count]')).toBeVisible()
   })
 
   test('should link back to the portfolio', async ({ page }) => {
-    const backLink = page.getByRole('link', { name: /Back to portfolio/i })
+    const backLink = page.locator('[data-technology-opening-actions]').getByRole('link', { name: 'Portfolio', exact: true })
     await expect(backLink).toBeVisible()
     await expect(backLink).toHaveAttribute('href', /^\/portfolio\/$/)
+  })
+
+  test('technology evidence paths keep all three destinations keyboard accessible', async ({ page, browserName }) => {
+    const invitation = page.getByRole('region', { name: 'Follow it into the work.' })
+    const navigation = invitation.getByRole('navigation', { name: 'Explore beyond the toolkit' })
+    const work = navigation.getByRole('link', { name: /^Work experience/u })
+    const projects = navigation.getByRole('link', { name: /^Independent projects/u })
+    const writing = navigation.getByRole('link', { name: /^Writing/u })
+
+    await expect(navigation.getByRole('link')).toHaveCount(3)
+    await expect(work).toHaveAttribute('href', '/work/')
+    await expect(projects).toHaveAttribute('href', '/projects/')
+    await expect(writing).toHaveAttribute('href', '/blog/')
+    await work.focus()
+    await expect(work).toBeInViewport()
+    await expect(work).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+    await expect(projects).toBeFocused()
+    await expect(projects).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+    await expect(writing).toBeFocused()
+    await expect(writing).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/blog\/$/u)
   })
 
   test('technology archives separate projects from work experience', async ({ page }) => {
@@ -43,19 +76,21 @@ test.describe('Technologies index page', () => {
 
     const projectsHeading = page.getByRole('heading', {
       level: 2,
-      name: 'Projects using TypeScript'
+      name: 'Projects',
+      exact: true
     })
 
     const workHeading = page.getByRole('heading', {
       level: 2,
-      name: 'Work experience using TypeScript'
+      name: 'Work experience',
+      exact: true
     })
 
     await expect(projectsHeading).toBeVisible()
     await expect(workHeading).toBeVisible()
 
-    const projectsSection = page.getByRole('region', { name: 'Projects using TypeScript' })
-    const workSection = page.getByRole('region', { name: 'Work experience using TypeScript' })
+    const projectsSection = page.getByRole('region', { name: 'Projects', exact: true })
+    const workSection = page.getByRole('region', { name: 'Work experience', exact: true })
 
     expect(await projectsSection.locator('[data-project-gallery-card]').count()).toBeGreaterThan(0)
     expect(await workSection.locator('[data-project-gallery-card]').count()).toBeGreaterThan(0)
@@ -84,6 +119,33 @@ test('technology project labels keep sufficient contrast on dark card surfaces',
   await page.goto('/technologies/3rd-party-apis/')
 
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
-  await expect(page.locator('[data-project-gallery-readable]').first()).toContainText('View project')
+  await expect(page.locator('.projects-editorial-action').first()).toContainText('View project')
   await expectNoUnexpectedAccessibilityViolations(page)
+  const project = page.locator('.projects-editorial-link').first()
+
+  await project.hover()
+  await expectNoUnexpectedAccessibilityViolations(page)
+  await project.focus()
+  await expect(project).toHaveCSS('outline-style', 'solid')
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/\/portfolio\/.+\/$/u)
+})
+
+test('technology catalog remains browseable without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+
+  try {
+    const page = await context.newPage()
+
+    await page.goto('/technologies/')
+    await expect(page.locator('[data-technology-group]')).toHaveCount(3)
+    const firstLink = page.locator('[data-technology-item] a').first()
+
+    await expect(firstLink).toBeVisible()
+    await firstLink.click()
+    await expect(page).toHaveURL(/\/technologies\/react-js\/$/u)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('React.js')
+  } finally {
+    await context.close()
+  }
 })

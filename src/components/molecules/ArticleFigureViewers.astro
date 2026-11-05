@@ -1,0 +1,34 @@
+---
+import GalleryViewer from '@/components/molecules/GalleryViewer.astro'
+
+interface Props {
+  captions: string[]
+}
+
+const { captions } = Astro.props
+---
+
+<!-- Existing SSR controls can bind before or after placement. Without scripts,
+     illustrations keep their complete image and caption without inactive controls. -->
+<div hidden data-article-figure-viewers>
+  {captions.map((caption, index) => (
+    <GalleryViewer id={`article-figure-viewer-${index + 1}`} title={caption} source={{ kind: 'article', index: index + 1 }} />
+  ))}
+</div>
+
+<script>
+  const placeFigureViewers = () => {
+    for (const viewer of document.querySelectorAll<HTMLElement>('[data-article-figure-viewers] > gallery-viewer')) {
+      const figure = document.querySelector(`[data-article-prose] > figure[data-article-figure="${viewer.dataset.articleFigureIndex}"]`)
+      const caption = figure?.querySelector('figcaption')
+
+      if (!caption || !figure?.querySelector(':scope > img')) continue
+
+      caption.append(viewer)
+    }
+  }
+
+  placeFigureViewers()
+
+  document.addEventListener('astro:page-load', placeFigureViewers)
+</script>

@@ -1,49 +1,220 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 /**
  * Giscus (GitHub Discussions) comments. Renders nothing until
  * `siteConfig.giscus` is filled in from https://giscus.app.
  *
+ * The client loads when readers open Discussion fold or follow #comments.
  * The script element is created client-side so we can pick the initial theme
  * from the live `data-theme` attribute, then keep the embedded iframe in sync
- * when the visitor toggles light/dark mode.
+ * when the visitor toggles light/dark mode. Theme changes made before the
+ * client runs update its pending attribute. Each widget document (lazy first
+ * load, or a Giscus `src` reload such as sign-out) resyncs on its first ready
+ * message. This script never reloads the discussion itself. If the client
+ * fails to load, or the client and widget are not ready within a bounded
+ * deadline, a polite status points readers to the GitHub link. The mount is
+ * hidden only when it has no frame, so a pending widget can still load and
+ * replace that status once it reports ready.
  */
+import { Collapsible, Icon } from '@santi020k/lumen-astro'
+
+import { getDiscussionTerm, getLocale, sharedTranslator } from '@/i18n'
 import { siteConfig } from '@/site.config'
 
 const { giscus } = siteConfig
+const t = sharedTranslator(getLocale(Astro.url.pathname))
+
 ---
 
 {giscus && (
   <section
-    aria-label="Comments"
-    class="space-y-4 border-t border-line/45 pt-8"
+    aria-labelledby="comments-heading"
     data-giscus-category={giscus.category}
+    data-giscus-language={getLocale(Astro.url.pathname)}
+    data-giscus-term={getDiscussionTerm(Astro.url.pathname)}
     data-giscus-category-id={giscus.categoryId}
     data-giscus-repo={giscus.repo}
     data-giscus-repo-id={giscus.repoId}
     id="comments"
   >
-    <p class="section-label">Comments</p>
-    <p class="text-sm/7 text-ink-soft">
-      Powered by GitHub Discussions — sign in with GitHub to join the conversation, or
-      <a
-        class="
-          underline underline-offset-4 transition-colors
-          hover:text-brand
-          motion-reduce:transition-none
-        "
-        href={`https://github.com/${giscus.repo}/discussions`}
-        rel="noreferrer noopener"
-        target="_blank"
-      >
-        reply on GitHub
-      </a>.
-    </p>
-    <div class="min-h-72" data-giscus-mount></div>
+    <div data-discussion-invitation>
+      <header data-discussion-header>
+        <h2 id="comments-heading">{t('shared.comments')}</h2>
+      </header>
+      <div data-discussion-body>
+        <p data-discussion-lead>{t('shared.joinTheConversation')}</p>
+        <p>{t('shared.readRepliesAskAQuestionOr')}</p>
+        <Collapsible data-discussion-fold>
+          <summary data-discussion-summary>
+            <span data-discussion-open-label>{t('shared.openDiscussion')}</span>
+            <span data-discussion-close-label>{t('shared.hideDiscussion')}</span>
+            <Icon name="chevron-down" class="size-4 shrink-0" />
+          </summary>
+          <noscript>
+            <p data-discussion-noscript>{t('shared.browseGithubDiscussionsBelowToRead')}</p>
+          </noscript>
+          <p data-giscus-loading role="status" hidden>{t('shared.loadingDiscussion')}</p>
+          <!-- Render the empty live region before a load failure fills it. -->
+          <p aria-live="polite" data-giscus-error role="status"></p>
+          <div data-giscus-mount></div>
+        </Collapsible>
+        <footer>
+          <a
+            href={`https://github.com/${giscus.repo}/discussions`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span>{t('shared.browseGithubDiscussions')}</span>
+            <ArrowExchange direction="up-right" class="size-4 shrink-0" />
+          </a>
+        </footer>
+      </div>
+    </div>
   </section>
 )}
 
+<style>
+  #comments {
+    --discussion-accent: hsl(var(--brand));
+    container: article-comments / inline-size;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+  }
+
+  :global(:root[data-theme="dark"]) #comments {
+    --discussion-accent: hsl(var(--accent));
+  }
+
+  [data-discussion-invitation] {
+    display: grid;
+    grid-template-columns: 5.375rem minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  [data-discussion-header] {
+    padding-top: 0.4375rem;
+    color: var(--discussion-accent);
+  }
+
+  [data-discussion-header] h2 {
+    min-width: 0;
+    margin: 0;
+    color: inherit;
+    font: 500 0.8125rem/1.7 var(--font-sans);
+    letter-spacing: normal;
+    overflow-wrap: anywhere;
+  }
+
+  [data-discussion-body] :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  [data-discussion-body] {
+    min-width: 0;
+    padding-inline-start: 1.5rem;
+    border-inline-start: 2px solid var(--discussion-accent);
+    font: 400 0.875rem/1.85 var(--font-sans);
+    overflow-wrap: anywhere;
+  }
+
+  [data-discussion-body] p {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font: inherit;
+  }
+
+  [data-discussion-body] [data-discussion-lead] {
+    margin-bottom: 0.625rem;
+    color: hsl(var(--ink));
+    font: 500 1.4375rem/1.45 var(--font-sans);
+    letter-spacing: -0.035em;
+  }
+
+  [data-discussion-body] footer {
+    margin-top: 0.75rem;
+  }
+
+  [data-discussion-body] a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.875rem;
+    max-width: 100%;
+    min-height: 2.75rem;
+    color: var(--discussion-accent);
+    font: 500 0.8125rem/1.7 var(--font-sans);
+    text-decoration: none;
+  }
+
+  [data-discussion-body] a:hover { text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-discussion-body] a:focus-visible {
+    outline: 2px solid var(--discussion-accent);
+    outline-offset: 4px;
+  }
+
+  [data-discussion-fold] {
+    margin-top: 1.125rem;
+    padding: 0;
+    border: 0;
+    border-block: 1px solid hsl(var(--line));
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  [data-discussion-summary] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    min-height: 3.75rem;
+    margin: 0;
+    padding: 0.75rem 0;
+    border-radius: 0;
+    color: var(--discussion-accent);
+    background: transparent;
+    font: 500 0.8125rem/1.7 var(--font-sans);
+    list-style: none;
+    cursor: pointer;
+  }
+  [data-discussion-summary]::-webkit-details-marker { display: none; }
+  [data-discussion-summary]::before, [data-discussion-summary]::after { display: none; }
+  [data-discussion-fold][open] > [data-discussion-summary] { margin: 0; }
+  [data-discussion-fold]:not([open]) [data-discussion-close-label],
+  [data-discussion-fold][open] [data-discussion-open-label] { display: none; }
+  [data-discussion-fold][open] [data-discussion-summary] :global(.ui-icon) { transform: rotate(180deg); }
+  [data-giscus-error]:not(:empty), [data-giscus-loading]:not([hidden]), [data-discussion-noscript] { padding-block: 0.75rem 1rem; }
+  [data-giscus-mount]:not(:empty):not([hidden]) { margin-block: 1rem; }
+
+  @container article-comments (width < 32rem) {
+    [data-discussion-invitation] { grid-template-columns: minmax(0, 1fr); gap: 0.875rem; }
+    [data-discussion-header] { padding-top: 0; }
+    [data-discussion-body] { padding-inline-start: 1.125rem; }
+  }
+
+  @container article-comments (width < 18rem) {
+    [data-discussion-body] { padding-inline-start: 0.75rem; }
+    [data-discussion-body] [data-discussion-lead] { font-size: 1.25rem; }
+  }
+
+  /* Collapse the empty status so it adds no gap to the section stack. */
+  [data-giscus-error]:empty {
+    margin: 0;
+  }
+
+  /* Reserve space only once the client is mounting, so readers without
+     JavaScript do not get a blank block under the GitHub link. */
+  [data-giscus-mount]:not(:empty) {
+    min-height: 18rem;
+  }
+</style>
+
 <script>
+  import { getLocale, sharedTranslator } from '@/i18n'
+
   // Custom brand themes (public/styles/giscus-*.css). giscus only accepts
   // https:// theme URLs, so plain dev servers fall back to built-in themes.
   const FALLBACK_THEMES = { dark: 'transparent_dark', light: 'light' } as const
@@ -60,23 +231,183 @@ const { giscus } = siteConfig
       FALLBACK_THEMES[theme]
   }
 
-  const postThemeToGiscus = () => {
-    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame')
+  const GISCUS_ORIGIN = 'https://giscus.app'
+  const GISCUS_CLIENT = `${GISCUS_ORIGIN}/client.js`
+  const FRAME_SELECTOR = '#comments iframe.giscus-frame'
+  // Covers both the client script and the widget's first ready message.
+  const INIT_DEADLINE_MS = 15_000
 
-    iframe?.contentWindow?.postMessage(
-      { giscus: { setConfig: { theme: getGiscusTheme() } } }, 'https://giscus.app'
-    )
+  interface FrameThemeState {
+    // Whether the current widget document has already been force-synced.
+    hasReadyMessage: boolean
+    lastTheme: string
+  }
+
+  // Keyed by the iframe's WindowProxy, which survives Giscus reassigning the
+  // frame `src` (for example on sign-out). Weak keys let frames removed by an
+  // Astro swap drop out without explicit cleanup.
+  const frameStates = new WeakMap<Window, FrameThemeState>()
+
+  const getFrameState = (frame: Window): FrameThemeState => {
+    const existing = frameStates.get(frame)
+
+    if (existing) return existing
+
+    const state: FrameThemeState = { hasReadyMessage: false, lastTheme: '' }
+
+    frameStates.set(frame, state)
+
+    return state
+  }
+
+  const getCommentsWindow = (): Window | null => document
+    .querySelector<HTMLIFrameElement>(FRAME_SELECTOR)?.contentWindow ?? null
+
+  const finishLoading = () => {
+    const loading = document.querySelector<HTMLElement>('#comments [data-giscus-loading]')
+
+    if (loading) loading.hidden = true
+  }
+
+  const isCurrentSection = (section: HTMLElement): boolean => section.isConnected && document.getElementById('comments') === section
+  let initDeadline: number | undefined
+
+  const clearInitDeadline = () => {
+    window.clearTimeout(initDeadline)
+
+    initDeadline = undefined
+  }
+
+  // Point readers to the GitHub link that is already rendered. Keep an
+  // existing frame rendered: a hidden lazy frame never loads, and a hidden
+  // widget cannot measure a ready height.
+  const showLoadFailure = (section: HTMLElement, mount: HTMLElement) => {
+    clearInitDeadline()
+
+    if (!mount.querySelector('iframe.giscus-frame')) mount.hidden = true
+
+    finishLoading()
+
+    const status = section.querySelector('[data-giscus-error]')
+
+    if (status) status.textContent = sharedTranslator(getLocale(window.location.pathname))('shared.commentsCouldNotLoadYouCan')
+  }
+
+  // A ready widget supersedes any earlier deadline fallback.
+  const showDiscussion = () => {
+    clearInitDeadline()
+
+    finishLoading()
+
+    const status = document.querySelector('#comments [data-giscus-error]')
+
+    if (status?.textContent) status.textContent = ''
+  }
+
+  const containsCommentsFrame = (node: Node): boolean => node instanceof Element &&
+    (node.matches(FRAME_SELECTOR) || node.querySelector(FRAME_SELECTOR) !== null)
+
+  // The widget posts `{ giscus: { resizeHeight } }` once it has initialized.
+  const isReadyMessage = (data: unknown): boolean => {
+    if (typeof data !== 'object' || data === null || !('giscus' in data)) return false
+
+    const { giscus } = data
+
+    if (typeof giscus !== 'object' || giscus === null || !('resizeHeight' in giscus)) return false
+
+    const { resizeHeight } = giscus
+
+    return typeof resizeHeight === 'number' && Number.isFinite(resizeHeight) && resizeHeight > 0
+  }
+
+  const postTheme = (frame: Window, state: FrameThemeState, theme: string) => {
+    state.lastTheme = theme
+
+    frame.postMessage({ giscus: { setConfig: { theme } } }, GISCUS_ORIGIN)
+  }
+
+  // A new widget document starts from the theme in its `src`, which may be
+  // stale, so its first ready message must resync even if `lastTheme` matches.
+  const markFrameNavigated = (target: EventTarget | null): Window | null => {
+    if (!(target instanceof HTMLIFrameElement) || !target.matches(FRAME_SELECTOR)) return null
+
+    if (target.contentWindow) getFrameState(target.contentWindow).hasReadyMessage = false
+
+    return target.contentWindow
+  }
+
+  const onThemeChange = () => {
+    const theme = getGiscusTheme()
+
+    // A client script that has not executed yet still reads its own data-theme.
+    document.querySelector(`#comments script[src="${GISCUS_CLIENT}"]`)
+      ?.setAttribute('data-theme', theme)
+
+    const frame = getCommentsWindow()
+
+    if (!frame) return
+
+    const state = frameStates.get(frame)
+
+    // Do not post into an initial lazy frame's blank document. Once it has
+    // loaded or reported ready, its next ready message also covers reload races.
+    if (state && state.lastTheme !== theme) postTheme(frame, state, theme)
+  }
+
+  const onMessage = (event: MessageEvent<unknown>) => {
+    if (event.origin !== GISCUS_ORIGIN || !isReadyMessage(event.data)) return
+
+    const frame = getCommentsWindow()
+
+    if (!frame || event.source !== frame) return
+
+    showDiscussion()
+
+    const state = getFrameState(frame)
+    const theme = getGiscusTheme()
+
+    // Ordinary resize messages after the first one stay deduplicated.
+    if (state.hasReadyMessage && state.lastTheme === theme) return
+
+    state.hasReadyMessage = true
+
+    postTheme(frame, state, theme)
+  }
+
+  // Reapply on load too: a queued message from the old document may have
+  // preceded the new document's ready message. If hydration follows load,
+  // its first ready message still forces another sync.
+  const onFrameLoad = (event: Event) => {
+    const frame = markFrameNavigated(event.target)
+
+    if (frame) postTheme(frame, getFrameState(frame), getGiscusTheme())
+  }
+
+  // Giscus reloads the same iframe by reassigning `src`; reset before the new
+  // document can report ready, even if that happens ahead of its load event.
+  let frameSourceObserver: MutationObserver | undefined
+  let pendingCleanup: (() => void) | undefined
+
+  const stopWaitingForComments = () => {
+    pendingCleanup?.()
+
+    pendingCleanup = undefined
   }
 
   const mountGiscus = () => {
     const section = document.querySelector<HTMLElement>('#comments')
-    const mount = section?.querySelector('[data-giscus-mount]')
+    const mount = section?.querySelector<HTMLElement>('[data-giscus-mount]')
+    const fold = section?.querySelector<HTMLDetailsElement>('[data-discussion-fold]')
 
-    if (!section || !mount || mount.childElementCount > 0) return
+    if (!section || !mount || !fold?.open || mount.childElementCount > 0) return
+
+    const loading = section.querySelector<HTMLElement>('[data-giscus-loading]')
+
+    if (loading) loading.hidden = false
 
     const script = document.createElement('script')
 
-    script.src = 'https://giscus.app/client.js'
+    script.src = GISCUS_CLIENT
 
     script.async = true
 
@@ -87,9 +418,10 @@ const { giscus } = siteConfig
       'data-category-id': section.dataset.giscusCategoryId ?? '',
       'data-emit-metadata': '0',
       'data-input-position': 'top',
-      'data-lang': 'en',
+      'data-lang': section.dataset.giscusLanguage ?? 'en',
       'data-loading': 'lazy',
-      'data-mapping': 'pathname',
+      'data-mapping': section.dataset.giscusLanguage === 'es' ? 'specific' : 'pathname',
+      'data-term': section.dataset.giscusTerm ?? '',
       'data-reactions-enabled': '1',
       'data-repo': section.dataset.giscusRepo ?? '',
       'data-repo-id': section.dataset.giscusRepoId ?? '',
@@ -101,16 +433,140 @@ const { giscus } = siteConfig
       script.setAttribute(name, value)
     }
 
+    // A stalled client or a widget that never reports ready would otherwise
+    // leave the loading status up indefinitely.
+    const startInitDeadline = () => {
+      clearInitDeadline()
+
+      initDeadline = window.setTimeout(() => {
+        initDeadline = undefined
+
+        // The deadline may expire after Astro has swapped in another article.
+        if (isCurrentSection(section)) showLoadFailure(section, mount)
+      }, INIT_DEADLINE_MS)
+    }
+
+    // A blocked or offline client leaves only the reserved space behind.
+    script.addEventListener('error', () => {
+      // The failure may land after Astro has swapped in another article.
+      if (!isCurrentSection(section)) return
+
+      if (mount.querySelector('iframe.giscus-frame')) return
+
+      showLoadFailure(section, mount)
+    }, { once: true })
+
+    frameSourceObserver?.disconnect()
+
+    frameSourceObserver = new MutationObserver(records => {
+      for (const { addedNodes, target } of records) {
+        markFrameNavigated(target)
+
+        // A client that runs after the deadline adds its lazy frame to the
+        // hidden mount, where it could never load. Give it one bounded attempt.
+        if (mount.hidden && Array.from(addedNodes).some(containsCommentsFrame)) {
+          mount.hidden = false
+
+          if (loading) loading.hidden = false
+
+          const status = section.querySelector('[data-giscus-error]')
+
+          if (status) status.textContent = ''
+
+          startInitDeadline()
+        }
+      }
+    })
+
+    frameSourceObserver.observe(mount, { attributeFilter: ['src'], childList: true, subtree: true })
+
+    startInitDeadline()
+
     mount.appendChild(script)
   }
 
+  const openDiscussion = () => {
+    const fold = document.querySelector<HTMLDetailsElement>('#comments [data-discussion-fold]')
+
+    if (!fold) return
+
+    fold.open = true
+
+    mountGiscus()
+  }
+
+  const revealLinkedDiscussion = () => {
+    if (window.location.hash === '#comments') openDiscussion()
+  }
+
+  const onCommentsLink = (event: MouseEvent) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+
+    const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null
+
+    if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return
+
+    // Astro handles same-page fragments with pushState, without hashchange or
+    // a page-load event. Reveal before its native fragment scroll takes place.
+    if (
+      link.origin === window.location.origin && link.pathname === window.location.pathname &&
+      link.search === window.location.search && link.hash === '#comments'
+    ) openDiscussion()
+  }
+
+  const prepareGiscus = () => {
+    stopWaitingForComments()
+
+    const section = document.querySelector<HTMLElement>('#comments')
+    const fold = section?.querySelector<HTMLDetailsElement>('[data-discussion-fold]')
+
+    if (!section || !fold) return
+
+    const load = () => {
+      // A toggle event may already be queued when Astro swaps the body.
+      if (!section.isConnected || document.getElementById('comments') !== section || !fold.open) return
+
+      mountGiscus()
+    }
+
+    pendingCleanup = () => {
+      fold.removeEventListener('toggle', load)
+    }
+
+    fold.addEventListener('toggle', load)
+
+    revealLinkedDiscussion()
+
+    load()
+  }
+
   // Keep the iframe theme in sync with the site's theme toggle.
-  const themeObserver = new MutationObserver(postThemeToGiscus)
+  const themeObserver = new MutationObserver(onThemeChange)
 
   themeObserver.observe(document.documentElement, { attributeFilter: ['data-theme'] })
 
-  mountGiscus()
+  window.addEventListener('message', onMessage)
 
-  // Re-mount after View Transitions swaps in a new post body.
-  document.addEventListener('astro:after-swap', mountGiscus)
+  window.addEventListener('hashchange', revealLinkedDiscussion)
+
+  document.addEventListener('click', onCommentsLink, true)
+
+  // Iframe load does not bubble, so observe it during capture.
+  document.addEventListener('load', onFrameLoad, true)
+
+  prepareGiscus()
+
+  document.addEventListener('astro:before-swap', () => {
+    stopWaitingForComments()
+
+    clearInitDeadline()
+
+    frameSourceObserver?.disconnect()
+
+    frameSourceObserver = undefined
+  })
+
+  // Wait until Astro finishes running the new page's scripts. Mounting during
+  // after-swap lets its script runner replace and execute our client again.
+  document.addEventListener('astro:page-load', prepareGiscus)
 </script>

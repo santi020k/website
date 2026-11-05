@@ -1,19 +1,32 @@
 ---
+import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import StartHereCard from '@/components/molecules/StartHereCard.astro'
 import HomeSectionHeading from '@/components/pages/home/HomeSectionHeading.astro'
 
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 import { getReadingTime } from '@/utils/reading-time'
 
-import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
+
+import { getLocale, localeLanguage, localizePath } from '@/i18n'
+import { localizeCollectionSource } from '@/i18n/collection-copy'
+import { pageTranslator } from '@/i18n/page-copy'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
+const entryType = (source: string) => localizeCollectionSource(pageLocale, source)
+const latestArticleLabel = pageLocale === 'es' ? 'Artículo más reciente' : 'Latest article'
 
 interface Props {
   posts: CollectionEntry<'post'>[]
+  startHerePosts: CollectionEntry<'post'>[]
 }
 
-const { posts } = Astro.props
+const { posts, startHerePosts } = Astro.props
 ---
 
 {posts.length > 0 && (
@@ -21,30 +34,145 @@ const { posts } = Astro.props
     <HomeSectionHeading
       id="writing-heading"
       number="03"
-      eyebrow="The notebook"
-      title="A few things on my mind."
-      description="Notes from the work, and the life around it. Software, books, games, and things worth figuring out."
-      href="/blog/"
-      action="Read all articles"
+      eyebrow={t('page.theNotebook')}
+      title={t('page.aFewThingsOnMyMind')}
+      description={t('page.notesFromTheWorkAndThe')}
+      href={localizePath('/blog/', pageLocale)}
+      action={t('page.readAllArticles')}
     />
-    <ol class="studio-writing-list">
+    <h3 data-writing-heading id="latest-writing-heading">{t('page.latestWriting')}</h3>
+    <ol aria-labelledby="latest-writing-heading" data-writing-list>
       {posts.map((post, index) => (
         <li>
-          <a class="studio-writing-row" href={getPostPath(post.id)}>
-            <span class="studio-row-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-            <div>
-              <p class="studio-writing-meta"><time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate)}</time><span>{getReadingTime(post.body)} min read</span></p>
-              <h3>{post.data.title}</h3>
-              <p class="studio-writing-description">{post.data.description}</p>
-            </div>
-            <span class="studio-arrow-box" aria-hidden="true"><Icon name="arrow-up-right" /></span>
-          </a>
+          <Card as="article" variant="unstyled" data-writing-card data-featured={index === 0 ? '' : undefined}>
+            <a data-writing-row data-writing-featured={index === 0 ? '' : undefined} href={localizePath(getPostPath(post.id), pageLocale)}>
+              {post.data.coverImage && (
+                <div data-writing-artwork>
+                  <Image
+                    alt={post.data.coverImage.alt}
+                    data-writing-cover
+                    decoding="async"
+                    height={360}
+                    loading="lazy"
+                    sizes={index === 0 ? '(min-width: 1280px) 640px, (min-width: 1088px) 52vw, 94vw' : '(min-width: 1280px) 390px, (min-width: 656px) 34vw, 90vw'}
+                    src={post.data.coverImage.src}
+                    width={640}
+                    widths={[320, 480, 640, 960, 1280]}
+                  />
+                </div>
+              )}
+              <div data-writing-body>
+                <p data-writing-kicker>
+                  <span>{index === 0 ? latestArticleLabel : entryType(post.data.postType)}</span>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                </p>
+                <p data-writing-meta>
+                  <time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate, {}, localeLanguage(pageLocale))}</time>
+                  <span>{getReadingTime(post.body)} {t('page.minRead')}</span>
+                </p>
+                <h4 lang="en">{post.data.title}</h4>
+                <p lang="en" data-writing-description>{post.data.description}</p>
+                <span data-writing-action>
+                  {t('page.readArticle')}
+                  <ArrowExchange class="size-4.5 shrink-0" direction="up-right" />
+                </span>
+              </div>
+            </a>
+          </Card>
         </li>
       ))}
     </ol>
+    {startHerePosts.length > 0 && (
+      <section aria-labelledby="start-here-heading" data-start-here>
+        <div data-start-here-intro>
+          <h3 data-writing-heading id="start-here-heading">{t('page.startHere')}</h3>
+          <p>{t('page.threeWaysIntoMyWorkThe')}</p>
+        </div>
+        <ol data-start-here-grid>
+          {startHerePosts.map((post, index) => post.data.startHere && (
+            <li>
+              <StartHereCard
+                coverImage={post.data.coverImage}
+                href={localizePath(getPostPath(post.id), pageLocale)}
+                label={post.data.startHere.label}
+                position={index + 1}
+                reason={post.data.startHere.reason}
+                title={post.data.title}
+              />
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
     <div class="studio-writing-follow">
-      <p>Prefer a quieter way to keep up?</p>
-      <ButtonLink class="studio-text-link" href="/feed.xml" variant="unstyled">Follow via RSS <Icon name="rss" /></ButtonLink>
+      <p>{t('page.preferAQuieterWayToKeep')}</p>
+      <ButtonLink class="studio-text-link" data-text-link href={localizePath('/feed.xml', pageLocale)} variant="unstyled"><span data-text-link-label>{t('page.followViaRss')}</span> <Icon name="rss" /></ButtonLink>
     </div>
   </section>
 )}
+
+<style>
+  [data-home-writing] { container: home-writing / inline-size; }
+  [data-writing-heading] { margin-bottom: 1.5rem; color: hsl(var(--ink)); font-size: 1.25rem; font-weight: 500; line-height: 1.5; }
+  [data-writing-list] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem 1.5rem; margin: 0; padding: 0; list-style: none; }
+  [data-writing-list] > li { min-width: 0; }
+  [data-writing-list] > li:first-child { grid-column: 1 / -1; }
+  [data-writing-card][data-slot='card'] { height: 100%; min-width: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+  [data-writing-card][data-featured] { border: 1px solid var(--studio-rule); border-radius: 1.5rem 1.5rem 0.5rem 1.5rem; background: hsl(var(--surface)); }
+  [data-writing-row] { display: flex; flex-direction: column; height: 100%; min-width: 0; color: hsl(var(--ink)); text-decoration: none; overflow-wrap: anywhere; }
+  [data-writing-row]:not([data-writing-featured]) { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); align-items: start; gap: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--studio-rule); }
+  [data-writing-row]:not([data-writing-featured]) [data-writing-body] { height: 100%; padding-top: 0; }
+  [data-writing-row]:not([data-writing-featured]) [data-writing-action] { border-top: 0; }
+  [data-writing-featured] { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); border-radius: inherit; }
+  [data-writing-artwork] { min-width: 0; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 1.125rem 1.125rem 0.375rem 1.125rem; background: hsl(var(--surface-muted)); }
+  [data-writing-featured] [data-writing-artwork] { height: 100%; min-height: 25rem; aspect-ratio: auto; border-radius: 1.4375rem 0 0 1.4375rem; }
+  [data-writing-cover] { display: block; width: 100%; height: 100%; object-fit: cover; }
+  [data-writing-body] { display: flex; flex: 1; flex-direction: column; min-width: 0; padding-top: 1.5rem; }
+  [data-writing-featured] [data-writing-body] { padding: 2.5rem; }
+  [data-writing-kicker] { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; color: var(--studio-emphasis); font-size: 0.625rem; font-weight: 600; line-height: 1.6; letter-spacing: 0.12em; text-transform: uppercase; }
+  [data-writing-kicker] > span:last-child { color: hsl(var(--ink-soft)); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+  [data-writing-meta] { display: flex; flex-wrap: wrap; gap: 0.375rem 1rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.6; }
+  h4 { margin-top: 0.875rem; font-size: 1.5rem; font-weight: 500; line-height: 1.35; letter-spacing: -0.045em; text-wrap: pretty; hyphens: manual; }
+  [data-writing-featured] h4 { font-size: 2.25rem; line-height: 1.15; letter-spacing: -0.055em; }
+  [data-writing-row]:is(:hover, :focus-visible) h4 { color: var(--studio-emphasis); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3rem; }
+  [data-writing-description] { margin-block: 1rem 1.5rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
+  [data-writing-action] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%; min-height: 2.75rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--studio-rule); color: var(--studio-emphasis); font-size: 0.75rem; font-weight: 500; line-height: 1.8; }
+  [data-writing-featured] [data-writing-action] { align-self: flex-start; width: auto; min-height: 3rem; gap: 2rem; padding: 0.875rem 1.125rem; border: 0; border-radius: 0.875rem 0.875rem 0.375rem 0.875rem; background: hsl(var(--ink)); color: hsl(var(--surface)); }
+  [data-start-here] { margin-top: 4.5rem; padding-top: 2.5rem; border-top: 1px solid var(--studio-rule); }
+  [data-start-here-intro] { display: grid; grid-template-columns: 1fr 2fr; align-items: baseline; gap: 1rem 2rem; margin-bottom: 1.5rem; }
+  [data-start-here-intro] [data-writing-heading] { margin: 0; font-size: 1.75rem; letter-spacing: -0.045em; }
+  [data-start-here-intro] p { max-width: 38rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
+  [data-start-here-grid] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem 1.5rem; margin: 0; padding: 0; list-style: none; }
+  [data-start-here-grid] li { display: flex; min-width: 0; }
+
+  @container home-writing (width < 56rem) {
+    [data-writing-list] { grid-template-columns: minmax(0, 1fr); }
+    [data-writing-row]:not([data-writing-featured]) { gap: 1.5rem; }
+    [data-writing-body] { height: 100%; padding: 0; }
+    [data-start-here-intro] { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
+    [data-start-here-grid] { grid-template-columns: minmax(0, 1fr); }
+  }
+  @container home-writing (width < 64rem) {
+    [data-writing-featured] { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    [data-writing-featured] [data-writing-artwork] { height: auto; min-height: 0; aspect-ratio: 16 / 9; border-radius: 1.4375rem 1.4375rem 0 0; }
+  }
+  @container home-writing (width < 38rem) {
+    [data-writing-list] { row-gap: 2.5rem; }
+    [data-writing-row], [data-writing-row]:not([data-writing-featured]) { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+    [data-writing-body], [data-writing-row]:not([data-writing-featured]) [data-writing-body] { padding-top: 1.5rem; }
+    [data-writing-featured] [data-writing-body] { padding: 1.75rem 1.5rem; }
+    [data-writing-featured] h4 { font-size: 1.875rem; }
+    h4 { font-size: 1.5rem; }
+    [data-start-here] { margin-top: 3.5rem; padding-top: 2rem; }
+  }
+  @container home-writing (width < 20rem) {
+    [data-writing-featured] [data-writing-body] { padding: 1.5rem 1.125rem; }
+    [data-writing-featured] h4 { font-size: 1.625rem; }
+  }
+  @container home-writing (width < 16rem) {
+    [data-writing-featured] [data-writing-body] { padding: 1.25rem 0.75rem; }
+    h4, [data-writing-featured] h4 { font-size: 1.25rem; }
+    [data-writing-kicker], [data-writing-action] { flex-wrap: wrap; gap: 0.5rem; }
+    [data-writing-featured] [data-writing-action] { gap: 1rem; padding-inline: 0.75rem; }
+  }
+</style>

@@ -1,0 +1,128 @@
+---
+import { Button, Icon } from '@santi020k/lumen-astro'
+
+import { getLocale, localeLanguage } from '@/i18n'
+import { articleTranslator } from '@/i18n/article-copy'
+
+const locale = getLocale(Astro.url.pathname)
+---
+
+<template data-fold-return-template>
+  <div lang={localeLanguage(locale)} data-code-fold-footer>
+    <Button data-fold-return size="sm" variant="outline">
+      <Icon name="chevrons-up" />
+      {articleTranslator(locale)('article.collapseExample')}
+    </Button>
+  </div>
+</template>
+
+<script>
+  const enhanceExampleFolds = () => {
+    const template = document.querySelector<HTMLTemplateElement>('[data-fold-return-template]')
+
+    if (!template) return
+
+    for (const disclosure of document.querySelectorAll<HTMLDetailsElement>('[data-article-prose] details[data-example-fold]')) {
+      const summary = disclosure.querySelector<HTMLElement>(':scope > summary')
+      const region = disclosure.querySelector<HTMLElement>(':scope > [data-code-fold-region]')
+
+      if (!summary || !region || region.querySelector('[data-fold-return]')) continue
+
+      const footer = template.content.firstElementChild?.cloneNode(true)
+
+      if (!(footer instanceof HTMLElement)) continue
+
+      const button = footer.querySelector<HTMLButtonElement>('[data-fold-return]')
+
+      if (!button) continue
+
+      const cue = region.querySelector<HTMLElement>(':scope > [data-scroll-cue-message]')
+
+      if (cue) footer.prepend(cue)
+
+      region.append(footer)
+
+      button.addEventListener('click', () => {
+        disclosure.open = false
+
+        summary.focus({ preventScroll: true })
+
+        // Return immediately: a long animated scroll can lose the reader's place.
+        summary.scrollIntoView({ behavior: 'instant', block: 'start' })
+      })
+    }
+  }
+
+  enhanceExampleFolds()
+
+  document.addEventListener('astro:page-load', enhanceExampleFolds)
+</script>
+
+<style>
+  :global([data-article-prose] [data-example-fold] > summary) {
+    scroll-margin-block-start: 1rem;
+  }
+
+  :global([data-article-prose] [data-code-fold-footer]) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: .5rem 1.25rem;
+    padding: .625rem 1.5rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+
+  :global([data-article-prose] [data-code-fold-footer] [data-scroll-cue-message]:not([hidden])) {
+    flex: 1 1 12rem;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
+  :global([data-article-prose] [data-fold-return]) {
+    flex: 0 1 auto;
+    min-height: 44px;
+    max-width: 100%;
+    margin-inline-start: auto;
+    padding: .5rem .75rem;
+    border-radius: .75rem .75rem .25rem .75rem;
+    color: var(--folio-accent);
+    background: hsl(var(--canvas));
+    white-space: normal;
+    font: 500 .8125rem/1.6 var(--font-sans);
+    box-shadow: none;
+    transform: none;
+  }
+
+  :global([data-article-prose] [data-fold-return] .ui-button__content) {
+    gap: .5rem;
+  }
+
+  :global([data-article-prose] [data-fold-return] svg) {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  :global([data-article-prose] [data-fold-return]:hover) {
+    border-color: currentColor;
+    background: hsl(var(--brand-soft));
+  }
+
+  @container code-folio (width < 27rem) {
+    :global([data-article-prose] [data-code-fold-footer]) { padding-inline: 1.375rem; }
+  }
+
+  @container code-folio (width < 18rem) {
+    :global([data-article-prose] [data-code-fold-footer]) { padding-inline: .75rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global([data-article-prose] [data-fold-return]) { transition: none; }
+  }
+
+  @media print {
+    :global([data-article-prose] [data-code-fold-footer]) { display: none; }
+  }
+</style>

@@ -1,12 +1,20 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import ResumeEvidenceNote from '@/components/molecules/ResumeEvidenceNote.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
-import { collectionDateSortProjects, getFormattedDate } from '@/utils/date'
+import { collectionDateSortProjects } from '@/utils/date'
 import { getGitLastModified } from '@/utils/git'
+import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
+
+import '@/styles/pages/resume.css'
 
 import { ButtonLink, Icon, Link } from '@santi020k/lumen-astro'
 
+import { getUniqueTechnologies } from '@/data/project'
+import { getLocale, localizePath } from '@/i18n'
+import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
 import {
   AUTHOR_JOB_TITLE,
   CAREER_START_YEAR,
@@ -14,6 +22,8 @@ import {
   siteConfig
 } from '@/site.config'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const projectsById = new Map(allProjects.map(project => [project.id.replace(/\/index$/u, ''), project]))
 
@@ -40,6 +50,29 @@ const earlierWork = selectResumeProjects([
 ])
 
 const communityWork = selectResumeProjects(['react-js-colombia'])
+
+const resumeSections = [
+  { id: 'resume-experience', label: t('shared.experience') },
+  { id: 'resume-earlier-experience', label: t('page.earlierExperience7') },
+  { id: 'resume-community', label: t('shared.community') },
+  { id: 'resume-skills', label: t('page.skillsAndExpertise7') }
+]
+
+const technologySlugs = new Set(getUniqueTechnologies(allProjects).map(getTechnologySlug))
+
+const resumeSkillGroups = [
+  { title: t('page.frontEnd'), skills: ['React.js', 'Next.js', 'React Native', 'Astro', 'TypeScript', 'Tailwind CSS', 'Redux', 'TanStack Query', 'Radix UI'] },
+  { title: t('page.backEnd'), skills: ['Node.js', 'Express.js', 'NestJS', 'REST', 'GraphQL', 'PostgreSQL', 'MongoDB', 'PHP', 'Ruby on Rails'] },
+  { title: t('page.devopsAndArchitecture'), skills: ['AWS', 'Docker', 'CI/CD', 'GitHub Actions', t('page.systemDesign'), 'Microservices', 'Turborepo'] }
+].map(group => ({
+  title: group.title,
+  skills: group.skills.map(label => {
+    const technology = label === 'REST' ? 'REST APIs' : label
+
+    return { label, href: technologySlugs.has(getTechnologySlug(technology)) ? getTechnologyPath(technology) : undefined }
+  })
+}))
+
 const resumeTechnologyLimit = 8
 // Keep one crawlable PDF URL across deployments. The response revalidates at
 // the edge, so cache busting does not need to create a new query URL per build.
@@ -48,8 +81,8 @@ const fullResumePdfPath = '/pdf/cv-full.pdf'
 const resumeDateCreated = '2024-01-01T00:00:00.000Z'
 
 const resumeDescription =
-  `Engineering leader and full-stack architect with ${new Date().getFullYear() - CAREER_START_YEAR}+ years building resilient products, ` +
-  'modernizing frontend systems, and helping teams deliver with confidence.'
+  (pageLocale === 'es' ? `Líder de ingeniería y arquitecto full-stack con más de ${new Date().getFullYear() - CAREER_START_YEAR} años construyendo productos sólidos, ` : `Engineering leader and full-stack architect with ${new Date().getFullYear() - CAREER_START_YEAR}+ years building resilient products, `) +
+  t('page.modernizingFrontendSystemsAndHelpingTeams')
 
 const resumeDateModified = getGitLastModified([
   'scripts/py/cv.md',
@@ -65,9 +98,9 @@ const resumePageSchema = {
   dateModified: resumeDateModified,
   mainEntity: {
     ...createAuthorSchema(Astro.site),
-    jobTitle: AUTHOR_JOB_TITLE,
+    jobTitle: localizePageSource(pageLocale, AUTHOR_JOB_TITLE),
     description: resumeDescription,
-    mainEntityOfPage: new URL('/resume/', Astro.site ?? 'https://santi020k.com').href
+    mainEntityOfPage: new URL(localizePath('/resume/', pageLocale), Astro.site ?? 'https://santi020k.com').href
   }
 }
 ---
@@ -78,7 +111,7 @@ mainClass="remaining-pages"
   meta={{
     description: resumeDescription,
     structuredData: resumePageSchema,
-    title: 'Resume & Curriculum Vitae'
+    title: t('page.resumeAndCurriculumVitae')
   }}
 >
   <div
@@ -91,19 +124,21 @@ mainClass="remaining-pages"
     "
     data-resume-shell
   >
-    <div class="
-      mb-12 flex flex-col items-start justify-between gap-6
-      sm:flex-row
-      print:mb-6
-    "
+    <div
+      class="
+        mb-12 flex flex-col items-start justify-between gap-6
+        sm:flex-row
+        print:mb-6
+      "
+      data-resume-header
     >
-      <div>
+      <div data-resume-identity>
         <p class="
           section-label text-brand
           dark:text-accent
           print:text-black
         "
-        >Resume
+        >{t('nav.resume')}
         </p>
         <h1
           class="
@@ -114,13 +149,15 @@ mainClass="remaining-pages"
         >
           {siteConfig.author}
         </h1>
-        <p class="mt-2 text-xl text-brand">{AUTHOR_JOB_TITLE}</p>
+        <p class="mt-2 text-xl text-brand">{localizePageSource(pageLocale, AUTHOR_JOB_TITLE)}</p>
         <p class="mt-4 max-w-2xl text-ink-soft">{resumeDescription}</p>
       </div>
-      <div class="
-        space-y-2 text-left text-sm text-ink-soft
-        sm:text-right
-      "
+      <div
+        class="
+          max-w-full space-y-2 text-left text-sm wrap-break-word text-ink-soft
+          sm:text-right
+        "
+        data-resume-contacts
       >
         <p>
           <Link
@@ -128,8 +165,16 @@ mainClass="remaining-pages"
               text-inherit
               hover:text-brand
             "
-            href={`mailto:${siteConfig.contact.email}`}
+            href={localizePath(`mailto:${siteConfig.contact.email}`, pageLocale)}
           >
+            <Icon
+class="
+  size-4 shrink-0
+  print:hidden
+"
+name="mail"
+data-resume-contact-icon
+            />
             {siteConfig.contact.email}
           </Link>
         </p>
@@ -139,9 +184,17 @@ mainClass="remaining-pages"
               text-inherit
               hover:text-brand
             "
-            href={siteConfig.contact.linkedin}
+            href={localizePath(siteConfig.contact.linkedin, pageLocale)}
             newTab
           >
+            <ArrowExchange
+class="
+  size-4 shrink-0
+  print:hidden
+"
+direction="up-right"
+data-resume-contact-icon
+            />
             linkedin.com/in/santi020k
           </Link>
         </p>
@@ -151,44 +204,56 @@ mainClass="remaining-pages"
               text-inherit
               hover:text-brand
             "
-            href={siteConfig.contact.github}
+            href={localizePath(siteConfig.contact.github, pageLocale)}
             newTab
           >
+            <ArrowExchange
+class="
+  size-4 shrink-0
+  print:hidden
+"
+direction="up-right"
+data-resume-contact-icon
+            />
             github.com/santi020k
           </Link>
         </p>
         <p>{siteConfig.location}</p>
         <div
           class="
-            mt-4 ui-combobox w-full grid-cols-2
-            sm:flex sm:w-auto sm:justify-end
+            mt-4 grid w-full
+            grid-cols-[repeat(auto-fit,minmax(min(100%,8.5rem),1fr))] gap-2
+            sm:flex sm:w-auto sm:flex-wrap sm:justify-end
             print:hidden
           "
           data-print-hidden
+          data-resume-downloads
         >
           <ButtonLink
-            ariaLabel="Download two-page resume PDF"
+            ariaLabel={t('page.download2PageResumePdf')}
             class="
               w-full
               sm:w-auto
             "
             download="santiago-molina-resume.pdf"
-            href={resumePdfPath}
+            data-astro-prefetch="false"
+            href={localizePath(resumePdfPath, pageLocale)}
             variant="primary"
           >
-            <Icon class="size-4" name="download" /> 2-page resume
+            <Icon class="size-4" name="download" /> {t('resume.conciseDownload')}
           </ButtonLink>
           <ButtonLink
-            ariaLabel="Download full CV PDF"
+            ariaLabel={t('page.downloadFullCvPdf')}
             class="
               w-full
               sm:w-auto
             "
             download="santiago-molina-full-cv.pdf"
-            href={fullResumePdfPath}
+            data-astro-prefetch="false"
+            href={localizePath(fullResumePdfPath, pageLocale)}
             variant="secondary"
           >
-            <Icon class="size-4" name="download" /> Full CV
+            <Icon class="size-4" name="download" /> {t('page.fullCv')}
           </ButtonLink>
         </div>
         <p class="
@@ -196,21 +261,37 @@ mainClass="remaining-pages"
           print:hidden
         "
         >
-          Two-page resume for applications · Full CV with complete work history
+          {t('page.twoPageResumeForApplicationsFull')}
         </p>
       </div>
     </div>
 
-    <section class="
-      mb-10
-      print:mb-5
-    "
+    <nav id="resume-index" class="print:hidden" aria-labelledby="resume-index-label" data-resume-index data-print-hidden>
+      <p id="resume-index-label">{t('page.onThisPage')}</p>
+      <ol role="list">
+        {resumeSections.map((section, index) => (
+          <li>
+            <Link href={localizePath(`#${section.id}`, pageLocale)} variant="inherit">
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              {section.label}
+            </Link>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <section
+id="resume-experience"
+class="
+  mb-10
+  print:mb-5
+"
     >
       <h2 class="
         mb-6 border-b border-line pb-2 text-2xl font-semibold
         print:mb-4
       "
-      >Experience</h2>
+      >{t('shared.experience')}</h2>
       <div class="
         space-y-8
         print:space-y-6
@@ -227,37 +308,41 @@ class="
                 data-resume-compact-header
               >
                 <h3 class="text-lg font-bold text-ink">
-                  {project.data.title} <span class="resume-role-text">— {project.data.role}</span>
+                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{localizePageSource(pageLocale, project.data.role ?? '')}</span>
                 </h3>
-                <span class="text-sm font-medium text-ink-soft">
-                  {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
+                <span class="text-sm font-medium text-ink-soft" data-resume-date>
+                  {new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.startingDate)} – {project.data.endingDate ? new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.endingDate) : t('page.present')}
                 </span>
               </div>
-              <p class="mb-3 text-sm text-ink-soft">{project.data.description}</p>
+              <p class="mb-3 text-sm text-ink-soft">{localizePageSource(pageLocale, project.data.description)}</p>
 
               {project.data.impactMetrics.length > 0 && (
-                <div class="mb-3">
+                <div class="mb-3" data-resume-impact>
                   <h4 class="
                     mb-2 text-xs font-semibold tracking-wider text-ink-muted
                     uppercase
                   "
-                  >Key Impact
+                  >{t('page.keyImpact')}
                   </h4>
-                  <ul class="
-                    ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft
-                  "
+                  <ul
+role="list"
+class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft"
                   >
                     {project.data.impactMetrics.map(metric => (
-                      <li>{metric}</li>
+                      <li>{localizePageSource(pageLocale, metric)}</li>
                     ))}
                   </ul>
+                  <ResumeEvidenceNote project={project} />
                 </div>
               )}
+              {project.data.impactMetrics.length === 0 && <ResumeEvidenceNote compact project={project} />}
 
-              <div class="
-                mt-3 flex flex-wrap gap-1.5
-                print:hidden
-              "
+              <div
+class="
+  mt-3 flex flex-wrap gap-1.5
+  print:hidden
+"
+                data-resume-stack
               >
                 {project.data.technologies.slice(0, resumeTechnologyLimit).map(tech => (
                   <span
@@ -279,13 +364,14 @@ class="
     </section>
 
     <section
+      id="resume-earlier-experience"
 class="
   mb-10
   print:hidden
 "
       data-resume-full-only
     >
-      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Earlier Experience</h2>
+      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">{t('page.earlierExperience')}</h2>
       <div class="divide-y divide-line">
         {
           earlierWork.map(project => (
@@ -305,29 +391,32 @@ class="
                 data-resume-compact-header
               >
                 <h3 class="text-base font-bold text-ink">
-                  {project.data.title} <span class="resume-role-text">— {project.data.role}</span>
+                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{localizePageSource(pageLocale, project.data.role ?? '')}</span>
                 </h3>
-                <span class="text-sm font-medium text-ink-soft">
-                  {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
+                <span class="text-sm font-medium text-ink-soft" data-resume-date>
+                  {new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.startingDate)} – {project.data.endingDate ? new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.endingDate) : t('page.present')}
                 </span>
               </div>
-              <p class="text-sm text-ink-soft">{project.data.description}</p>
+              <p class="text-sm text-ink-soft">{localizePageSource(pageLocale, project.data.description)}</p>
+              <ResumeEvidenceNote compact project={project} />
             </div>
           ))
         }
       </div>
     </section>
 
-    <section class="
-      mb-10
-      print:mb-5 print:break-inside-avoid
-    "
+    <section
+id="resume-community"
+class="
+  mb-10
+  print:mb-5 print:break-inside-avoid
+"
     >
       <h2 class="
         mb-6 border-b border-line pb-2 text-2xl font-semibold
         print:mb-4
       "
-      >Community</h2>
+      >{t('shared.community')}</h2>
       <div class="
         space-y-8
         print:space-y-6
@@ -335,44 +424,50 @@ class="
       >
         {
           communityWork.map(project => (
-            <div class="print:break-inside-avoid">
-              <div class="
-                mb-2 flex flex-col items-baseline justify-between gap-1
-                sm:flex-row
-              "
+            <div class="print:break-inside-avoid" data-resume-community-entry>
+              <div
+class="
+  mb-2 flex flex-col items-baseline justify-between gap-1
+  sm:flex-row
+"
+              data-resume-community-header
               >
                 <h3 class="text-lg font-bold text-ink">
-                  {project.data.title} <span class="resume-role-text">— {project.data.role}</span>
+                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{localizePageSource(pageLocale, project.data.role ?? '')}</span>
                 </h3>
-                <span class="text-sm font-medium text-ink-soft">
-                  {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
+                <span class="text-sm font-medium text-ink-soft" data-resume-date>
+                  {new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.startingDate)} – {project.data.endingDate ? new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(project.data.endingDate) : t('page.present')}
                 </span>
               </div>
-              <p class="mb-3 text-sm text-ink-soft">{project.data.description}</p>
+              <p class="mb-3 text-sm text-ink-soft">{localizePageSource(pageLocale, project.data.description)}</p>
 
               {project.data.impactMetrics.length > 0 && (
-                <div class="mb-3">
+                <div class="mb-3" data-resume-impact>
                   <h4 class="
                     mb-2 text-xs font-semibold tracking-wider text-ink-muted
                     uppercase
                   "
-                  >Key Impact
+                  >{t('page.keyImpact')}
                   </h4>
-                  <ul class="
-                    ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft
-                  "
+                  <ul
+role="list"
+class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft"
                   >
                     {project.data.impactMetrics.map(metric => (
-                      <li>{metric}</li>
+                      <li>{localizePageSource(pageLocale, metric)}</li>
                     ))}
                   </ul>
+                  <ResumeEvidenceNote project={project} />
                 </div>
               )}
+              {project.data.impactMetrics.length === 0 && <ResumeEvidenceNote compact project={project} />}
 
-              <div class="
-                mt-3 flex flex-wrap gap-1.5
-                print:hidden
-              "
+              <div
+class="
+  mt-3 flex flex-wrap gap-1.5
+  print:hidden
+"
+              data-resume-stack
               >
                 {project.data.technologies.slice(0, resumeTechnologyLimit).map(tech => (
                   <span
@@ -393,50 +488,48 @@ class="
       </div>
     </section>
 
-    <section class="print:break-inside-avoid">
+    <section id="resume-skills" class="print:break-inside-avoid">
       <h2 class="
         mb-6 border-b border-line pb-2 text-2xl font-semibold
         print:mb-4
       "
-      >Skills & Expertise</h2>
-      <div class="
-        grid grid-cols-1 gap-6
-        md:grid-cols-2
-        print:grid-cols-2 print:gap-4
-      "
+      >{t('page.skillsAndExpertise')}</h2>
+      <div
+class="
+  grid grid-cols-1 gap-6
+  md:grid-cols-2
+  print:grid-cols-2 print:gap-4
+"
+      data-resume-skills
       >
         <div>
           <h3 class="
             mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
           "
-          >Languages
+          >{t('page.languages')}
           </h3>
-          <p class="text-sm text-ink-soft">Spanish (native), English (C1).</p>
+          <p class="text-sm text-ink-soft">{t('page.spanishNativeEnglishC1')}</p>
         </div>
-        <div>
-          <h3 class="
-            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
-          "
-          >Front-End
-          </h3>
-          <p class="text-sm text-ink-soft">React.js, Next.js, React Native, Astro, TypeScript, Tailwind CSS, Redux, TanStack Query, Radix UI.</p>
-        </div>
-        <div>
-          <h3 class="
-            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
-          "
-          >Back-End
-          </h3>
-          <p class="text-sm text-ink-soft">Node.js, Express.js, NestJS, REST, GraphQL, PostgreSQL, MongoDB, PHP, Ruby on Rails.</p>
-        </div>
-        <div>
-          <h3 class="
-            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
-          "
-          >DevOps & Architecture
-          </h3>
-          <p class="text-sm text-ink-soft">AWS, Docker, CI/CD, GitHub Actions, System Design, Microservices, Turborepo.</p>
-        </div>
+        {resumeSkillGroups.map(group => (
+          <div>
+            <h3 class="
+              mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
+            "
+            >{group.title}</h3>
+            <ul class="print:hidden" role="list" aria-label={`${group.title} ${t('page.skills')}`} data-resume-skill-links data-print-hidden>
+              {group.skills.map(skill => (
+                <li>{skill.href ? <Link href={localizePath(skill.href, pageLocale)} variant="inherit">{skill.label}</Link> : <span>{skill.label}</span>}</li>
+              ))}
+            </ul>
+            <p
+class="
+  hidden text-sm text-ink-soft
+  print:block
+"
+data-resume-skills-print
+            >{group.skills.map(skill => skill.label).join(', ')}.</p>
+          </div>
+        ))}
       </div>
     </section>
   </div>

@@ -1,3 +1,5 @@
+import type { Locale } from '../i18n/locale.ts'
+
 export interface SiteNewsletter {
 
   /** Public RSS feed of past issues, e.g. `https://buttondown.com/yourhandle/rss`. Powers the `/newsletter/` archive. */
@@ -27,6 +29,9 @@ export interface SiteConfig {
   /** Concise brand name preferred for search-result site names and social metadata. */
   siteName: string
   contact: {
+
+    /** Public booking page for a short introductory call. */
+    calendar: string
     email: string
     github: string
     linkedin: string
@@ -34,6 +39,9 @@ export interface SiteConfig {
     resume: string
     whatsapp: string
     whatsappPhone: string
+
+    /** Internal page that explains the ways to work together and starts a WhatsApp conversation. */
+    workWithMe: string
   }
   date: {
     locale: string | string[] | undefined
@@ -105,6 +113,13 @@ export interface SiteMeta {
   /** Describes the actual visual content of the og:image for accessibility and social previews */
   ogImageAlt?: string
   noindex?: boolean
+
+  /**
+   * Language of the page's main content when it exists in only one language, such as an
+   * English article inside the Spanish shell. The page publishes no language alternates, and
+   * shells in another locale are marked noindex so search engines index the original.
+   */
+  contentLocale?: Locale | undefined
   preloadImage?: PreloadAsset
 
   /** Concise document title for search results when the visible page title is intentionally longer. */

@@ -1,22 +1,43 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
+import PortfolioCollectionHeading from '@/components/molecules/PortfolioCollectionHeading.astro'
 import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSpotlight.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionRelevanceSortProjects } from '@/utils/date'
 
-import { RevealGroup } from '@santi020k/lumen-astro'
+import { Link, RevealGroup } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
 const allProjects = (await getCachedProjects()).sort(collectionRelevanceSortProjects)
 const selectedWork = allProjects.filter(project => project.data.typesId === 'professional').slice(0, 3)
 const selectedProjects = allProjects.filter(project => project.data.typesId === 'personal').slice(0, 4)
+const caseStudyCount = selectedWork.length + selectedProjects.length
+
+const collectionPaths = [
+  {
+    count: selectedWork.length,
+    description: t('collection.commerceEsportsAndSportsMedia'),
+    id: 'selected-work',
+    label: t('collection.clientWork')
+  },
+  {
+    count: selectedProjects.length,
+    description: t('collection.sharedFoundationsAndPersonalProducts'),
+    id: 'independent-builds',
+    label: t('collection.independentBuilds')
+  }
+].filter(collection => collection.count > 0)
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Portfolio', url: '/portfolio/' }
+  { name: t('nav.home'), url: localizePath('/', locale) },
+  { name: t('collection.portfolio'), url: localizePath('/portfolio/', locale) }
 ]
 ---
 
@@ -24,74 +45,66 @@ const breadcrumbs = [
 mainClass="remaining-pages"
   meta={{
     breadcrumbs,
-    description: 'Selected client systems, product work, open-source tools, and technical experiments by Santiago Molina.',
-    title: 'Selected Portfolio — Santiago Molina'
+    description: t('collection.selectedClientSystemsProductWorkOpen'),
+    title: t('collection.selectedPortfolioSantiagoMolina')
   }}
 >
   <PageHero
     compact
-    description="A focused collection of products, platforms, and open-source tools. Each case study explains the problem, the decisions, and what I built."
-    eyebrow="Selected portfolio"
-    gradientText="Built to hold up."
-    metaItems={['Product engineering', 'Technical leadership', 'Developer experience']}
-    title="Work that shipped."
+    description={t('collection.theArchitectureTradeoffsAndOutcomesBehind')}
+    eyebrow={`${t('collection.selectedPortfolio')} / ${caseStudyCount} ${caseStudyCount === 1 ? t('collection.caseStudy8') : t('collection.caseStudies')}`}
+    gradientText={t('collection.builtToHoldUp')}
+    title={t('collection.workThatShipped')}
   >
-    <ButtonLink href="#selected-work" showArrow>
-      See the case studies
-    </ButtonLink>
-    <ButtonLink href="/work/" showArrow variant="secondary">
-      View work history
-    </ButtonLink>
+    <div slot="after-description" data-portfolio-paths-container>
+      <nav aria-label={t('collection.chooseACaseStudyCollection')} data-portfolio-paths>
+        {collectionPaths.map(collection => (
+          <Link data-portfolio-path href={`#${collection.id}`} variant="inherit">
+            <span>
+              <span data-portfolio-path-title>
+                <span>{localizeCollectionSource(locale, collection.label)}</span>{' '}
+                <span data-portfolio-path-count>{collection.count}<span class="
+                  sr-only
+                "
+                                                                  > {collection.count === 1 ? t('collection.caseStudy8') : t('collection.caseStudies')}</span></span>
+              </span>
+              <span data-portfolio-path-description>{localizeCollectionSource(locale, collection.description)}</span>
+            </span>
+            <ArrowExchange direction="down" />
+          </Link>
+        ))}
+      </nav>
+      <div data-portfolio-paths-footer>
+        <p>{t('collection.problemDecisionsOutcome')}</p>
+        <Link data-portfolio-history-link href={localizePath('/work/', locale)} variant="inherit">
+          View work history <ArrowExchange direction="right" />
+        </Link>
+      </div>
+    </div>
   </PageHero>
 
   <section
-    class="
-      section-container-wide scroll-mt-28 space-y-8 pt-12
-      sm:pt-16
-      lg:pt-20
-    "
+    aria-labelledby="selected-work-heading"
+    class="section-container-wide scroll-mt-28 space-y-8 page-section-space"
     data-portfolio-section
     id="selected-work"
+    tabindex="-1"
   >
-    <div
-      class="
-        grid gap-6 border-b border-line/50 pb-7
-        lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,1.1fr)] lg:items-end
-        lg:gap-12
-      "
-      data-animate
-    >
-      <div class="space-y-4">
-        <Eyebrow label="Client and product work" tone="brand" />
-        <h2 class="
-          max-w-2xl text-3xl font-semibold tracking-[-0.04em]
-          sm:text-4xl
-        "
-        >
-          Systems built under real pressure.
-        </h2>
-      </div>
-      <div class="
-        flex flex-col items-start gap-5
-        sm:flex-row sm:items-end sm:justify-between
-      "
-      >
-        <p class="
-          max-w-xl text-sm/7 text-ink-soft
-          sm:text-base/7
-        "
-        >
-          Professional work where architecture, delivery systems, and technical leadership had to move together.
-        </p>
-        <ButtonLink className="shrink-0" href="/work/" showArrow variant="inline">
-          Browse work
-        </ButtonLink>
-      </div>
-    </div>
+    <PortfolioCollectionHeading
+      count={selectedWork.length}
+      description={t('collection.professionalWorkWhereArchitectureDeliverySystems')}
+      emphasis={t('collection.realPressure')}
+      eyebrow={t('collection.clientAndProductWork')}
+      headingId="selected-work-heading"
+      href={localizePath('/work/', locale)}
+      linkLabel={t('collection.fullWorkHistory')}
+      title={t('collection.systemsBuiltUnder')}
+    />
 
     <RevealGroup
       class="space-y-6"
       stagger={60}
+      threshold={0}
     >
       {selectedWork[0] && (
         <PortfolioProjectSpotlight featured imagePriority project={selectedWork[0]} />
@@ -109,52 +122,27 @@ mainClass="remaining-pages"
   </section>
 
   <section
-    class="
-      section-container-wide space-y-8 pt-12
-      sm:pt-16
-      lg:pt-20
-    "
+    aria-labelledby="independent-builds-heading"
+    class="section-container-wide scroll-mt-28 space-y-8 page-section-space"
     data-portfolio-section
+    id="independent-builds"
+    tabindex="-1"
   >
-    <div
-      class="
-        grid gap-6 border-b border-line/50 pb-7
-        lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,1.1fr)] lg:items-end
-        lg:gap-12
-      "
-      data-animate
-    >
-      <div class="space-y-4">
-        <Eyebrow label="Independent builds" tone="brand" />
-        <h2 class="
-          max-w-2xl text-3xl font-semibold tracking-[-0.04em]
-          sm:text-4xl
-        "
-        >
-          Ideas turned into useful tools.
-        </h2>
-      </div>
-      <div class="
-        flex flex-col items-start gap-5
-        sm:flex-row sm:items-end sm:justify-between
-      "
-      >
-        <p class="
-          max-w-xl text-sm/7 text-ink-soft
-          sm:text-base/7
-        "
-        >
-          Open-source and self-directed work where curiosity becomes something other people can use.
-        </p>
-        <ButtonLink className="shrink-0" href="/projects/" showArrow variant="inline">
-          Browse projects
-        </ButtonLink>
-      </div>
-    </div>
+    <PortfolioCollectionHeading
+      count={selectedProjects.length}
+      description={t('collection.openSourceAndSelfDirectedWork')}
+      emphasis={t('collection.usefulTools')}
+      eyebrow={t('collection.independentBuilds')}
+      headingId="independent-builds-heading"
+      href={localizePath('/projects/', locale)}
+      linkLabel={t('collection.allIndependentProjects')}
+      title={t('collection.ideasTurnedInto')}
+    />
 
     <RevealGroup
       class="space-y-6"
       stagger={60}
+      threshold={0}
     >
       {selectedProjects[0] && (
         <PortfolioProjectSpotlight featured project={selectedProjects[0]} />
@@ -172,3 +160,73 @@ mainClass="remaining-pages"
     </RevealGroup>
   </section>
 </PageLayout>
+
+<style>
+  [data-portfolio-paths-container] { container: portfolio-paths / inline-size; }
+  [data-portfolio-paths] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  [data-portfolio-paths] :global([data-portfolio-path]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    min-height: 2.75rem;
+    border-block: 1px solid hsl(var(--line));
+    padding-block: 1.25rem;
+    color: hsl(var(--ink));
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  [data-portfolio-paths] :global([data-portfolio-path]:hover) { color: hsl(var(--brand)); }
+  [data-portfolio-path-title] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.625rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.04em;
+  }
+  [data-portfolio-path-count] {
+    color: hsl(var(--brand));
+    font-size: 0.8125rem;
+    font-weight: 400;
+    letter-spacing: normal;
+  }
+  :global(:root[data-theme='dark']) [data-portfolio-path-count] { color: hsl(var(--accent)); }
+  :global(:root[data-theme='dark']) [data-portfolio-paths] :global([data-portfolio-path]:hover) { color: hsl(var(--accent)); }
+  [data-portfolio-path-description] {
+    display: block;
+    margin-top: 0.625rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+  }
+  [data-portfolio-paths-footer] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    margin-top: 1.375rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+  }
+  [data-portfolio-paths-footer] :global([data-portfolio-history-link]) {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 2.75rem;
+    color: inherit;
+  }
+  @container portfolio-paths (width < 36rem) {
+    [data-portfolio-paths] { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    [data-portfolio-paths] :global([data-portfolio-path] + [data-portfolio-path]) { border-top: 0; }
+  }
+</style>

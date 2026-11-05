@@ -5,6 +5,50 @@ import { SyntaxValidator } from 'fast-xml-validator'
 
 const parser = new XMLParser()
 
+/** Fetch a sitemap with bounded delays for transient network and HTTP failures.
+ * @param {string} url
+ * @returns {Promise<string>}
+ */
+export const fetchSitemapText = async url => {
+  /** @type {unknown} */
+  let lastError
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    let retryable = true
+
+    try {
+      const response = await fetch(url, {
+        headers: { 'User-Agent': 'santi020k-cross-site-sitemap-builder/1.0' },
+        signal: AbortSignal.timeout(15_000)
+      })
+
+      if (!response.ok) {
+        retryable = response.status === 408 || response.status === 429 || response.status >= 500
+
+        const failure = new Error(`HTTP ${response.status}`)
+
+        try {
+          await response.body?.cancel()
+        } catch (cause) {
+          failure.cause = cause
+        }
+
+        throw failure
+      }
+
+      return await response.text()
+    } catch (error) {
+      lastError = error
+
+      if (!retryable || attempt === 3) break
+    }
+
+    await new Promise(resolve => setTimeout(resolve, attempt * 1000))
+  }
+
+  throw new Error(`Could not fetch ${url}: ${String(lastError)}`, { cause: lastError })
+}
+
 /**
  * Product sites can share a hub after a domain migration; fetch that sitemap once.
  * @template {{ origin: string, sitemap: string, required?: boolean }} T

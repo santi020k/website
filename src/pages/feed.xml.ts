@@ -26,7 +26,7 @@ export const GET = async (context: APIContext) => {
       pubDate: post.data.publishDate,
       link: getPostPath(post.id),
       categories: post.data.tags,
-      author: siteConfig.author,
+      // RSS 2.0 <author> must be an email address; dc:creator carries the name.
       customData: `<dc:creator><![CDATA[${escapeCdata(siteConfig.author)}]]></dc:creator>`
     }))
   })

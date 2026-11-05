@@ -1,0 +1,257 @@
+---
+title: "Dep Beacon"
+description: "Built and published dependency tools for VS Code and Zed that bring npm dependency status, update targets, pnpm workspace catalog context, and OSV security signals into package manifests."
+cardDescription: "Dependency updates and security signals inside VS Code and Zed. Review package status without leaving your manifest."
+brand:
+  primary: "#7cd3fc"
+  secondary: "#f0c060"
+  surface: "#12152a"
+role: "Creator"
+startingDate: "1 Jun 2026"
+githubUrl: "https://github.com/santi020k/dep-beacon"
+liveDemoUrl: "https://beacon.santi020k.com/"
+typesId: "personal"
+purpose: "developer-tools"
+relevanceWeight: 50
+impactMetrics: [
+  "Available for VS Code through Visual Studio Marketplace and Open VSX, and for Zed through its extension registry",
+  "Shows inline dependency status, diagnostics, CodeLens update actions, and package-manager commands",
+  "Understands package.json, pnpm workspace catalogs, overrides, package extensions, and OSV vulnerability signals"
+  ]
+technologies: [
+  "VS Code Extension", "Zed Extension", "Language Server Protocol", "Rust", "TypeScript", "Node.js", "Astro", "pnpm", "Monorepo", "CodeLens", "npm",
+  "OSV.dev", "Open VSX", "Visual Studio Marketplace", "Vitest", "esbuild", "Developer Experience (DX)",
+  "Dependency Management", "Security", "Developer Documentation", "Open Source"
+  ]
+coverImage:
+  src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
+  logoScale: 1.35
+  logoSurface: "dark"
+  alt: "Dep Beacon logo on a dark blue geometric cover"
+  ogImage: "./cover.webp"
+focusAreas:
+  - label: "Dependency context"
+    description: "Package versions, update targets, and workspace catalogs"
+  - label: "Editor feedback"
+    description: "Diagnostics and update actions in VS Code and Zed"
+  - label: "Security signals"
+    description: "OSV advisories alongside manifest analysis"
+notesLayout: "context-lead"
+relatedWriting:
+  - post: "2026/dep-beacon-vscode-extension"
+    label: "Project introduction"
+  - post: "2026/building-santi020k-developer-tool-ecosystem"
+    label: "Tool ecosystem"
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="dep-beacon" headingId="building-dependency-signals-for-vs-code-and-zed">
+
+## Building dependency signals for VS Code and Zed
+
+Dep Beacon is a dependency intelligence engine for npm projects with extensions for VS Code and Zed. It brings version status, safe update targets, pnpm workspace catalog awareness, and OSV vulnerability warnings directly into the manifests developers already edit.
+
+The project includes a shared analysis core, a VS Code extension, a language server with a Zed adapter, and an Astro documentation site at [beacon.santi020k.com](https://beacon.santi020k.com/). The VS Code extension is available from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=santi020k.vscode-dep-beacon) and [Open VSX](https://open-vsx.org/extension/santi020k/vscode-dep-beacon).
+
+The [Dep Beacon Zed extension](https://zed.dev/extensions/dep-beacon-lsp) is now available in the Zed extension registry. It brings dependency diagnostics, hovers, npm links, and individual or bulk update actions into Zed through the Language Server Protocol. See the [Zed installation guide](https://beacon.santi020k.com/docs/zed-extension) for setup and usage.
+
+![Dep Beacon showing package.json and pnpm workspace dependency signals](usage-preview.webp)
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Technical highlights", href: "#technical-highlights" },
+    { label: "Results", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="dep-beacon"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Goals
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Keep dependency decisions in context** by showing status beside the version ranges developers already review.
+
+</li>
+
+<li>
+
+**Make update targets practical** with patch, minor, major, and latest actions that preserve common range prefixes like `^` and `~`.
+
+</li>
+
+<li>
+
+**Respect workspace policy** by resolving default and named pnpm catalogs before reporting package status.
+
+</li>
+
+<li>
+
+**Surface security risk early** with OSV advisory checks that distinguish routine update work from vulnerable dependency ranges.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### What I built
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A shared analysis core"}>
+
+(`@santi020k/dep-beacon-core`) that parses package manifests, npm registry metadata, semver ranges, pnpm catalogs, and OSV advisory responses.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"A VS Code extension"}>
+
+(`vscode-dep-beacon`) with CodeLens update actions, inline status decorations, diagnostics, sorting, cache controls, prerelease toggles, and install commands.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"A Zed integration"}>
+
+powered by `@santi020k/dep-beacon-lsp` and a thin Rust/WebAssembly adapter, with dependency diagnostics, hovers, and update code actions.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Manifest support"}>
+
+for `package.json`, npm overrides, Yarn resolutions, pnpm overrides, `pnpm-workspace.yaml`, default catalogs, named catalogs, and package extensions.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"A documentation site"}>
+
+built with Astro, including installation, configuration, VS Code usage, pnpm workspace behavior, and security-signal documentation.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Release tooling"}>
+
+for package validation, extension packaging, marketplace publishing, Open VSX publishing, and docs deployment.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Technical highlights
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Zed integration</dt>
+  <dd>
+
+a language server shares dependency analysis with the VS Code extension while exposing diagnostics, hovers, and code actions through Zed.
+
+  </dd>
+</div>
+
+<div>
+  <dt>VS Code integration</dt>
+  <dd>
+
+`VS Code Extension API`, CodeLens providers, diagnostics, command contributions, output channels, and document-aware activation.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Dependency intelligence</dt>
+  <dd>
+
+npm-compatible registry lookups, semver target selection, package-range parsing, prerelease controls, and cache-aware analysis.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Workspace awareness</dt>
+  <dd>
+
+pnpm catalog snapshots, overrides, package extensions, and manifest sections that centralize dependency policy.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Security checks</dt>
+  <dd>
+
+OSV.dev vulnerability queries that map advisory severity to visible editor status.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Documentation</dt>
+  <dd>
+
+an Astro docs app with generated preview assets, Open Graph images, and focused setup pages.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Results
+
+</ProjectSectionHeading>
+
+- **Available in both VS Code and Zed**, with editor-specific integrations built around the same dependency analysis core.
+- **Dependency maintenance moved into the editor** instead of another dashboard or terminal-only workflow.
+- **Safer update decisions** with clear choices for patch, minor, major, and latest targets.
+- **Better monorepo support** for teams using pnpm catalogs to coordinate versions across packages.
+- **A privacy-aware security path** where OSV checks can be disabled when a team does not want package/version data sent to an external advisory service.
+
+<ProjectSectionHeading>
+
+### Why it matters
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Dependency reviews are usually small, repetitive decisions until they are not."}>
+
+One range is stale. Another is catalog-managed. Another is vulnerable. Another is invalid or unpublished. Dep Beacon turns those scattered checks into visible editor signals so maintainers can decide faster without losing the nuance behind each manifest line.
+
+</ProjectPrincipleClose>
+
+That is the kind of developer tool I like building: small enough to stay close to the workflow, but opinionated enough to remove friction every time the file opens.

@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets'
+
+import LumenWorkspace from '@/content/project/lumen-ui/preview-web.webp'
+import PostLensEditor from '@/content/project/postlens/preview-editor.webp'
+import { getLocale } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
+
+import HomeProductFilm from './HomeProductFilm.astro'
+
+const t = pageTranslator(getLocale(Astro.url.pathname))
+---
+
+<figure data-home-product-scene>
+  <HomeProductFilm>
+    <div data-home-product-stage>
+      <div data-hero-plate="lumen-ui">
+        <div data-hero-workspace-crop>
+          <Image
+            src={LumenWorkspace}
+            alt={t('home.hero.workspaceAlt')}
+            widths={[480, 720, 960, 1184]}
+            sizes="(min-width: 1280px) 640px, (min-width: 768px) 90vw, 120vw"
+            format="webp"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+      <div data-hero-plate="postlens">
+        <Image
+          src={PostLensEditor}
+          alt={t('home.hero.editorAlt')}
+          widths={[160, 200, 240, 320, 480]}
+          sizes="(min-width: 1280px) 124px, (min-width: 768px) 200px, calc(33.333vw - 34px)"
+          format="webp"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </HomeProductFilm>
+  <figcaption>{t('home.hero.previewNote')}</figcaption>
+</figure>
+
+<style>
+  [data-home-product-scene] { min-width: 0; margin: 0; }
+  [data-home-product-stage] { position: relative; isolation: isolate; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: start; }
+  [data-hero-plate] { min-width: 0; grid-row: 1; }
+  [data-hero-plate='lumen-ui'] { position: relative; grid-column: 1 / -1; border-radius: var(--radius-folio); }
+  [data-hero-plate='lumen-ui']::before { content: ''; position: absolute; inset: 0; z-index: -1; border: 1px solid hsl(var(--brand) / 0.3); border-radius: inherit; background: hsl(var(--brand-soft)); transform: translate(0.4375rem, -0.4375rem); }
+  [data-hero-workspace-crop] { overflow: hidden; aspect-ratio: 5 / 4; border: 1px solid hsl(var(--line)); border-radius: inherit; background: hsl(var(--surface)); }
+  [data-hero-workspace-crop] img { width: 165%; max-width: none; height: auto; }
+  [data-hero-plate='postlens'] { position: relative; grid-column: 9 / -1; margin-top: 4rem; border-radius: 1rem; overflow: hidden; box-shadow: 0 0 0 1px hsl(var(--line)), var(--shadow-nav-scrolled); }
+  img { display: block; width: 100%; height: auto; }
+  figcaption { margin-top: 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; }
+
+  @container home-hero (width < 62rem) {
+    [data-home-product-scene] { width: 100%; max-width: 40rem; margin-inline: auto; }
+    [data-hero-plate='lumen-ui'] { grid-column: 1 / 11; }
+    [data-hero-workspace-crop] { aspect-ratio: 16 / 11; }
+    [data-hero-plate='postlens'] { grid-column: 9 / -1; margin-top: 2.5rem; }
+  }
+  @container home-hero (width < 18rem) {
+    [data-hero-plate='lumen-ui'] { grid-column: 1 / -1; }
+  }
+  @container home-hero (width < 14rem) {
+    [data-hero-plate='postlens'] { grid-column: 7 / -1; grid-row: 2; margin-top: 1rem; }
+  }
+  @media (forced-colors: active) {
+    [data-hero-workspace-crop] { border-color: CanvasText; }
+    [data-hero-plate='lumen-ui']::before { display: none; }
+  }
+</style>

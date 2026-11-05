@@ -3,11 +3,8 @@ import { describe, expect, test } from 'vitest'
 import {
   getProjectDateRangeLabel,
   getProjectDurationLabel,
-  getProjectFeaturedLabel,
-  getProjectFocusLabel,
   getProjectNotesLabel,
   getProjectRelatedHeading,
-  getProjectScopeHighlights,
   getProjectStageLabel,
   getProjectStatusLabel,
   getProjectTimelineLabel,
@@ -91,26 +88,6 @@ describe('getProjectStatusLabel', () => {
   })
 })
 
-// ─── getProjectFeaturedLabel ──────────────────────────────────────────────────
-
-describe('getProjectFeaturedLabel', () => {
-  test('returns "Personal project" for personal', () => {
-    expect(getProjectFeaturedLabel('personal')).toBe('Personal project')
-  })
-
-  test('returns "Featured experiment" for experimental', () => {
-    expect(getProjectFeaturedLabel('experimental')).toBe('Featured experiment')
-  })
-
-  test('returns "Featured work" for professional', () => {
-    expect(getProjectFeaturedLabel('professional')).toBe('Featured work')
-  })
-
-  test('returns "Featured work" for undefined', () => {
-    expect(getProjectFeaturedLabel(undefined)).toBe('Featured work')
-  })
-})
-
 // ─── getProjectNotesLabel ─────────────────────────────────────────────────────
 
 describe('getProjectNotesLabel', () => {
@@ -151,47 +128,6 @@ describe('getProjectRelatedHeading', () => {
   })
 })
 
-// ─── getProjectFocusLabel ─────────────────────────────────────────────────────
-
-describe('getProjectFocusLabel', () => {
-  test('returns the personal focus label', () => {
-    expect(getProjectFocusLabel('personal')).toContain('Open source')
-  })
-
-  test('returns the experimental focus label', () => {
-    expect(getProjectFocusLabel('experimental')).toContain('Experiments')
-  })
-
-  test('returns the professional focus label for undefined', () => {
-    expect(getProjectFocusLabel(undefined)).toContain('Architecture')
-  })
-})
-
-// ─── getProjectScopeHighlights ────────────────────────────────────────────────
-
-describe('getProjectScopeHighlights', () => {
-  test('returns an array of 3 strings for personal', () => {
-    const result = getProjectScopeHighlights('personal')
-    expect(result).toHaveLength(3)
-    expect(result.every(s => typeof s === 'string')).toBe(true)
-  })
-
-  test('returns an array of 3 strings for experimental', () => {
-    const result = getProjectScopeHighlights('experimental')
-    expect(result).toHaveLength(3)
-  })
-
-  test('returns an array of 3 strings for professional (undefined)', () => {
-    const result = getProjectScopeHighlights(undefined)
-    expect(result).toHaveLength(3)
-  })
-
-  test('personal highlights mention knowledge sharing', () => {
-    const highlights = getProjectScopeHighlights('personal')
-    expect(highlights.join(' ').toLowerCase()).toContain('knowledge')
-  })
-})
-
 // ─── getProjectTimelineLabel ──────────────────────────────────────────────────
 
 describe('getProjectTimelineLabel', () => {
@@ -225,6 +161,14 @@ describe('getProjectDateRangeLabel', () => {
   test('returns a year range when start and end differ', () => {
     expect(getProjectDateRangeLabel(new Date('2020-06-15'), new Date('2023-06-15'))).toBe('2020 - 2023')
   })
+
+  test('uses UTC calendar years for content dates at UTC midnight', () => {
+    const start = new Date('2020-01-01T00:00:00.000Z')
+    const end = new Date('2021-01-01T00:00:00.000Z')
+
+    expect(getProjectDateRangeLabel(start)).toBe('2020')
+    expect(getProjectDateRangeLabel(start, end)).toBe('2020 - 2021')
+  })
 })
 
 // ─── getProjectDurationLabel ──────────────────────────────────────────────────
@@ -238,7 +182,7 @@ describe('getProjectDurationLabel', () => {
   })
 
   test('returns duration in years when exactly 12 months', () => {
-    // getMonthDifference adds +1 when endDate.getDate() >= startDate.getDate(),
+    // getMonthDifference adds +1 when endDate.getUTCDate() >= startDate.getUTCDate(),
     // so to land on exactly 12 the end day must be strictly before the start day.
     const start = new Date('2022-06-15T12:00:00Z')
     const end = new Date('2023-06-14T12:00:00Z')
@@ -266,6 +210,13 @@ describe('getProjectDurationLabel', () => {
     const start = new Date('2020-06-15T12:00:00Z')
     const end = new Date('2023-06-14T12:00:00Z')
     expect(getProjectDurationLabel(start, end)).toBe('3 yrs')
+  })
+
+  test.each([
+    { start: '2020-03-01T00:00:00.000Z', end: '2020-03-31T00:00:00.000Z', expected: '1 mo' },
+    { start: '2020-01-01T00:00:00.000Z', end: '2020-12-01T00:00:00.000Z', expected: '1 yr' }
+  ])('counts UTC calendar months from $start to $end', ({ start, end, expected }) => {
+    expect(getProjectDurationLabel(new Date(start), new Date(end))).toBe(expected)
   })
 
   test('uses the current date when no end date is provided (minimum 1 mo)', () => {

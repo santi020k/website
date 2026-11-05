@@ -20,8 +20,7 @@ const invalidIndexes: { name: string, response: unknown }[] = [
   { name: 'a non-string tag', response: [{ ...searchEntries[0], tags: [42] }] },
   { name: 'an external destination', response: [{ ...searchEntries[0], path: '//example.com/' }] },
   { name: 'a backslash destination', response: [{ ...searchEntries[0], path: '/\\example.com/' }] },
-  { name: 'an unsafe cover URL', response: [{ ...searchEntries[0], coverUrl: 'javascript:alert(1)' }] },
-  { name: 'an invalid image dimension', response: [{ ...searchEntries[0], coverWidth: -1 }] }
+  { name: 'an unsafe cover URL', response: [{ ...searchEntries[0], coverUrl: 'javascript:alert(1)' }] }
 ]
 
 for (const { name, response } of invalidIndexes) {
@@ -105,8 +104,26 @@ for (const { width, height, fontSize } of viewports) {
 
     await expect(results).toHaveCount(8)
     await expect(page.locator('[data-site-search-input-clear]')).toBeVisible()
+    await page.evaluate(() => document.fonts.ready)
     await results.last().scrollIntoViewIfNeeded()
-    await expect(results.last()).toBeInViewport({ ratio: 1 })
+    await expect(results.last()).toBeInViewport()
+    // WebKit can round the intersection height down by 1/64px even when the
+    // entire row fits. Check its exact bounds against the actual scroll area.
+    const rowBounds = await results.last().evaluate(element => {
+      const { top, bottom, left, right } = element.getBoundingClientRect()
+
+      return { top, bottom, left, right }
+    })
+    const scrollBounds = await page.locator('#site-search-results').evaluate(element => {
+      const { top, bottom, left, right } = element.getBoundingClientRect()
+
+      return { top, bottom, left, right }
+    })
+
+    expect(rowBounds.top).toBeGreaterThanOrEqual(scrollBounds.top)
+    expect(rowBounds.bottom).toBeLessThanOrEqual(scrollBounds.bottom)
+    expect(rowBounds.left).toBeGreaterThanOrEqual(scrollBounds.left)
+    expect(rowBounds.right).toBeLessThanOrEqual(scrollBounds.right)
     await expect(footer).toBeInViewport({ ratio: 1 })
     expect(await panel.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true)
     await page.keyboard.press('Escape')

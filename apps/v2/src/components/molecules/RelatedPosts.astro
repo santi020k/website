@@ -1,0 +1,48 @@
+---
+import { getRelatedPosts } from '@/utils/content'
+
+import PostCard from './PostCard.astro'
+import SectionHeading from './SectionHeading.astro'
+
+interface Props {
+  currentPostId: string
+  excludeSeriesId?: string | undefined
+  tags: string[]
+}
+
+const { currentPostId, excludeSeriesId, tags } = Astro.props
+
+const relatedPosts = await getRelatedPosts({
+  currentPostId,
+  ...(excludeSeriesId ? { excludeSeriesId } : {}),
+  tags
+})
+---
+
+{relatedPosts.length > 0 && (
+  <section
+    aria-label="Related posts"
+    class="mt-20 space-y-8 border-t border-line pt-20"
+  >
+    <div data-animate>
+      <SectionHeading
+        description="A few more posts that overlap in topic, tooling, or the engineering tradeoffs behind this article."
+        eyebrow="Keep reading"
+        title="More writing in the same thread."
+      />
+    </div>
+
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+        lg:grid-cols-3
+      "
+      data-animate
+    >
+      {relatedPosts.map(post => (
+        <PostCard post={post} />
+      ))}
+    </div>
+  </section>
+)}

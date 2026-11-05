@@ -80,7 +80,7 @@ I find atomic design to be an ideal structure because it’s the same structure 
 
 Here’s an example of a button component:
 
-![Button component folder](./fig-2.webp)
+![Folder components/atoms/button containing button.module.css, button.test.tsx, button.tsx, and button.types.ts](./fig-2.webp "A component, kept together.")
 
 Another common mistake in frontend development is separating a component’s code into multiple folders: one for tests, one for interfaces/types, one for components, etc. This greatly complicates code navigation. Personally, I prefer to have everything related to a component in one place, like the previous example.
 
@@ -128,5 +128,3 @@ export { ButtonProps, types }
 There are many topics related to code quality, such as the use of magic strings, typing, testing, that I don’t have time to cover in this post. In the next post, we’ll cover other topics as we progress through this project week by week. I’ll leave the branches with the content of each post in case the main branch changes a lot over time and you need access to a specific state of the project.
 
 I hope this is helpful. If you have any questions, feel free to contact me. I’ll be happy to answer, as long as it’s within my capabilities.
-
-[Next Post: About ESlint config](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7)

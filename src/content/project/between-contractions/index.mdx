@@ -1,0 +1,216 @@
+---
+title: "Between Contractions"
+description: "Built a calm, privacy-first contraction timer for the web, iOS, Android, watches, widgets, and optional real-time partner coordination."
+cardDescription: "A calm, private contraction timer. Track each contraction, review your rhythm, and share the moment with your partner."
+brand:
+  primary: "#e21c46"
+  secondary: "#f490a8"
+  surface: "#1f0b13"
+role: "Creator"
+startingDate: "8 Jan 2026"
+updatedDate: "20 Oct 2026"
+githubUrl: "https://github.com/santi020k/betweencontractions"
+liveDemoUrl: "https://between.santi020k.com/"
+typesId: "personal"
+purpose: "apps"
+orderInTypes: 1
+relevanceWeight: 98
+impactMetrics: ["Delivered one bilingual timer across browser, phone, watch, widget, and desktop surfaces", "Kept the core timer free, ad-free, account-free, and local-first", "Separated optional Partner Sync from private on-device contraction history"]
+technologies: ["Astro", "TypeScript", "Lumen UI", "Swift", "SwiftUI", "SwiftData", "WidgetKit", "WatchConnectivity", "Kotlin", "Jetpack Compose", "Room", "Glance", "Wear OS", "Hono", "Cloudflare Workers", "Cloudflare D1", "WebSockets", "Turborepo", "pnpm", "Accessibility", "Testing", "CI-CD", "i18n"]
+coverImage:
+  src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.png"
+  logoAspect: "square"
+  logoSurface: "dark"
+  alt: "Between Contractions pulse logo on a dark red geometric cover"
+  ogImage: "./cover.webp"
+focusAreas:
+  - label: "Calm timing"
+    description: "One clear action with private, local history"
+  - label: "Native access"
+    description: "Web, Apple, and Android interfaces with watch companions"
+  - label: "Partner Sync"
+    description: "Optional coordination alongside the offline core"
+notesLayout: "context-lead"
+relatedWriting:
+  - post: "2026/between-contractions-sync-critical-path"
+    label: "Engineering notes"
+  - post: "2026/why-i-built-between-contractions"
+    label: "Product story"
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="between-contractions" headingId="a-calm-timer-for-a-moment-that-already-asks-enough">
+
+## A calm timer for a moment that already asks enough
+
+I built Between Contractions while Alejandra and I were waiting for our son, Aarón. The product begins with one deliberately simple action: tap when a contraction starts and tap again when it ends.
+
+From there, it calculates duration, start-to-start frequency, and recent patterns without turning labor into a dashboard. The timer is available in the browser, on the [App Store](https://apps.apple.com/app/id6802499436), and on [Google Play](https://play.google.com/store/apps/details?id=com.santi020k.betweencontractions).
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Technical highlights", href: "#technical-highlights" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="between-contractions"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Goals
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Reduce cognitive load** with one large, obvious timing action and clear recent history.
+
+</li>
+
+<li>
+
+**Keep the core private** with local-first storage, no ads, no analytics SDK, and no required account.
+
+</li>
+
+<li>
+
+**Support real households** with English and Spanish, light and dark themes, accessibility, widgets, and watch companions.
+
+</li>
+
+<li>
+
+**Treat timing as guidance** by presenting the 5-1-1 pattern as a prompt to follow a care plan, never as a diagnosis.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### What I built
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A bilingual Astro website and browser timer"}>
+
+that works without installation and keeps its history on the current device.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Native Apple experiences"}>
+
+for iPhone and iPad, with SwiftUI, SwiftData, widgets, Live Activities, Apple Watch support, private iCloud continuity, and a companion macOS surface.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Native Android experiences"}>
+
+with Kotlin, Jetpack Compose, Room, Glance widgets, and Wear OS support.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Optional Partner Sync"}>
+
+for households that choose to coordinate a live timer across devices and platforms.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"A small Hono and Cloudflare backend"}>
+
+for the explicit shared features, separated from the local-first core timer.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Technical highlights
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Web</dt>
+  <dd>
+
+`Astro`, `TypeScript`, `Lumen UI`, browser storage, bilingual content, and static delivery.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Apple</dt>
+  <dd>
+
+`Swift`, `SwiftUI`, `SwiftData`, `WidgetKit`, `WatchConnectivity`, and native system integrations.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Android</dt>
+  <dd>
+
+`Kotlin`, `Jetpack Compose`, `Room`, `Glance`, and `Wear OS`.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Shared delivery</dt>
+  <dd>
+
+`Turborepo`, `pnpm`, automated checks, release preflights, accessibility coverage, and platform-specific test suites.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Privacy is an architecture decision
+
+</ProjectSectionHeading>
+
+The timer does not need a backend to perform its main job. Browser history stays on the current device. Personal Apple history can use private iCloud continuity across the person's own devices, while optional Partner Sync coordinates a shared timer through a separate service. The local timer remains useful offline.
+
+That separation kept the product promise legible: the free timer is useful on its own, while Partner Sync remains an explicit choice rather than hidden infrastructure.
+
+<ProjectSectionHeading>
+
+### One family story, two products
+
+</ProjectSectionHeading>
+
+[Aaronmgz](/portfolio/aaronmgz/) is the warm public space I built while our family waits for Aarón. Between Contractions came from the practical side of the same chapter: preparing for labor and protecting attention when the moment arrives.
+
+The two projects now point to each other because neither story is complete in isolation.
+
+[Try the browser timer](https://between.santi020k.com/app/) or read [why I built Between Contractions](/blog/why-i-built-between-contractions/).

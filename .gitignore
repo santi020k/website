@@ -16,6 +16,7 @@ coverage/
 playwright-report/
 test-results/
 design-system/
+.tmp-preview/
 
 # Python / skill artifacts
 __pycache__/
@@ -32,3 +33,9 @@ Thumbs.db
 .env.*.local
 .vercel
 .yalc
+
+# Turborepo task cache
+.turbo/
+
+# Local design scratch files
+.tmp-preview/

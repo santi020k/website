@@ -1,9 +1,27 @@
+import { getAllTags, getBlogTopicLabel } from './tags'
+
 interface SeriesPostLike {
   id: string
   data: {
     publishDate: Date
     seriesOrder?: number | undefined
   }
+}
+
+/** Preserve authored focus labels; resolve only unambiguous, published topic archives. */
+export const getSeriesFocusAreas = (
+  areas: readonly string[],
+  posts: { data: { draft?: boolean, publishDate: Date, tags: string[] } }[],
+  now = new Date()
+) => {
+  const normalize = (label: string) => label.normalize('NFKC').toLowerCase().replace(/[\s./_-]/gu, '')
+  const topics = getAllTags(posts.filter(post => !post.data.draft && post.data.publishDate <= now))
+
+  return areas.map(label => {
+    const matches = topics.filter(([tag]) => normalize(getBlogTopicLabel(tag)) === normalize(label))
+
+    return { label, tag: matches.length === 1 ? matches[0]?.[0] : undefined }
+  })
 }
 
 export const sortSeriesPosts = <T extends SeriesPostLike>(posts: T[]) => [...posts].sort((a, b) => {

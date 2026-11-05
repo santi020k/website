@@ -1,0 +1,109 @@
+---
+import HomeCommunity from '@/components/pages/home/HomeCommunity.astro'
+import HomeHero from '@/components/pages/home/HomeHero.astro'
+import HomeProjectShowcase from '@/components/pages/home/HomeProjectShowcase.astro'
+import HomeStats from '@/components/pages/home/HomeStats.astro'
+import HomeWriting from '@/components/pages/home/HomeWriting.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { getCachedPosts, getCachedProjects } from '@/utils/content'
+import { collectionRelevanceSortProjects } from '@/utils/date'
+import { getPortfolioPath, getPostPath } from '@/utils/links'
+
+import {
+  createSchemaEntityId,
+  createWebsiteSchemaReference,
+  siteConfig,
+  YEARS_OF_EXPERIENCE
+} from '@/site.config'
+
+const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
+
+const workProjects = allProjects
+  .filter(project => project.data.typesId === 'professional')
+  .sort(collectionRelevanceSortProjects)
+  .slice(0, 4)
+
+const personalProjects = allProjects
+  .filter(project => project.data.typesId === 'personal')
+  .sort(collectionRelevanceSortProjects)
+  .slice(0, 4)
+
+const latestPosts = allPosts
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 4)
+
+const yearsOfExperience = YEARS_OF_EXPERIENCE
+
+const homeDescription =
+  'Santiago Molina, known online as santi020k, is an engineering leader and full-stack architect building modern systems and better developer experiences.'
+
+const homeUrl = new URL('/', Astro.site).href
+
+const homePageSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${homeUrl}#webpage`,
+      url: homeUrl,
+      name: siteConfig.title,
+      alternateName: 'santi020k',
+      description: homeDescription,
+      isPartOf: createWebsiteSchemaReference(Astro.site),
+      about: {
+        '@type': 'Person',
+        '@id': createSchemaEntityId('person', Astro.site)
+      }
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Work experience',
+      itemListElement: workProjects.map((project, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: new URL(getPortfolioPath(project.id), Astro.site).href,
+        name: project.data.title
+      }))
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Side projects',
+      itemListElement: personalProjects.map((project, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: new URL(getPortfolioPath(project.id), Astro.site).href,
+        name: project.data.title
+      }))
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Latest writing',
+      itemListElement: latestPosts.map((post, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: new URL(getPostPath(post.id), Astro.site).href,
+        name: post.data.title
+      }))
+    }
+  ]
+}
+
+const meta = {
+  description: homeDescription,
+  seoTitle: 'Santiago Molina — Full-Stack Engineer & Tech Lead',
+  structuredData: homePageSchema,
+  title: 'Engineering Leader & Full-Stack Architect'
+}
+---
+
+<PageLayout headerVariant="signature" meta={meta}>
+  <HomeHero />
+  <div class="studio-home" data-home-content>
+    <HomeStats yearsOfExperience={yearsOfExperience} />
+    <HomeProjectShowcase kind="work" projects={workProjects} />
+    <HomeProjectShowcase kind="projects" projects={personalProjects} />
+    <HomeWriting posts={latestPosts} />
+    <HomeCommunity />
+  </div>
+</PageLayout>

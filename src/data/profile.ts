@@ -1,25 +1,43 @@
+import type { Locale } from '@/i18n'
+import { defaultLocale, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
 import { YEARS_OF_EXPERIENCE } from '@/site.config'
 
 export interface SocialProofItem {
   context: string
   label: string
+  logoSurface?: 'dark' | 'light'
   projectId: 'datagran' | 'justbit' | 'nebular' | 'optic-power' | 'pads' | 'react-js-colombia' | 'smith-commerce' | 'void' | 'xgames'
 }
 
 export interface ProfileHighlight {
   description: string
+  icon: string
   label: string
+  prefix?: string
+  source: { href: string, label: string }
+  suffix?: string
   value: string
 }
 
-export interface SpeakingTopic {
+export interface SpeakingCardContent {
   description: string
+  subtitle: string
   title: string
+}
+
+export interface SpeakingTopic extends SpeakingCardContent {
+  source: { href: string, label: string }
+}
+
+export interface SpeakingFormat extends SpeakingCardContent {
+  outcome: { fit: string, label: string }
 }
 
 export interface CollaborationLane {
   description: string
   fit: string
+  source: { href: string, label: string }
   title: string
 }
 
@@ -34,276 +52,322 @@ export interface Testimonial {
 
 export interface EngineeringPrinciple {
   body: string
+  source: { href: string, label: string }
   title: string
 }
 
-export interface UsesSectionItem {
-  label: string
-  value: string
+export const getTestimonials = (locale: Locale = defaultLocale): Testimonial[] => {
+  const t = pageTranslator(locale)
+
+  return [
+    {
+      avatarInitials: 'RD',
+      name: 'Raphael Drummond',
+      quote: 'Santiago has excellent communication skills and is able to explain complex technical concepts in a clear and concise way. He is highly reliable, dedicated, and responsible — meeting deadlines and delivering high-quality projects.',
+      relationship: t('page.managedSantiagoAtOpticPower'),
+      role: t('page.aiProductAndEngineeringLeader')
+    },
+    {
+      avatarInitials: 'CT',
+      name: 'Carolina G. Torres',
+      quote: 'Santi stands out due to his outstanding technical skills, leadership abilities, and collaborative spirit. He cultivates a positive and inclusive work environment, promoting open communication and idea exchange.',
+      relationship: t('page.colleagueSameTeam'),
+      role: t('page.leadProductDesigner')
+    },
+    {
+      avatarInitials: 'DD',
+      name: 'David Delgado',
+      quote: 'He excels in good practices while coding and has solid leadership skills. He is great at sharing knowledge with fellow devs and organizing priorities to make things happen in a quality-oriented way.',
+      relationship: t('page.reportedToSantiago'),
+      role: t('page.softwareEngineer')
+    },
+    {
+      avatarInitials: 'JM',
+      name: 'Jorge Luis Madrid',
+      quote: 'Santiago is a great engineer who is constantly learning and dedicated to his work — a good leader, responsible with his tasks. I recommend him to any company looking for a brilliant full-stack developer able to get results and inspire.',
+      relationship: t('page.client'),
+      role: t('page.seniorCloudAndDevopsEngineer')
+    }
+  ]
 }
 
-export interface UsesSection {
-  description: string
-  items: UsesSectionItem[]
-  title: string
+export const testimonials = getTestimonials()
+
+export const getSelectedOrganizations = (locale: Locale = defaultLocale): SocialProofItem[] => {
+  const t = pageTranslator(locale)
+
+  return [
+    {
+      context: t('page.technicalLeadershipAcrossEsportsWebMobile'),
+      label: 'Void',
+      projectId: 'void'
+    },
+    {
+      context: t('page.productEngineeringShippedAcrossTeamLiquid'),
+      label: 'Optic Power',
+      projectId: 'optic-power'
+    },
+    {
+      context: t('page.aiMartechDashboardsAndCampaignWorkflows'),
+      label: 'Datagran',
+      projectId: 'datagran'
+    },
+    {
+      context: t('page.highTrafficSportsMediaPlatformAnd'),
+      label: 'X Games',
+      projectId: 'xgames'
+    },
+    {
+      context: t('page.aFasterMoreAccessibleHeadlessCommerce'),
+      label: 'Smith Commerce',
+      projectId: 'smith-commerce'
+    },
+    {
+      context: t('page.luxuryRealEstateWebBackOffice'),
+      label: 'PADS',
+      projectId: 'pads'
+    },
+    {
+      context: t('page.aBoutiqueSoftwareStudioBehind10'),
+      label: 'Justbit',
+      projectId: 'justbit'
+    },
+    {
+      context: t('page.clientWebAndroidAndCommerceWork'),
+      label: 'Nebular Technologies',
+      projectId: 'nebular'
+    },
+    {
+      context: t('page.communityTalksWorkshopsAndMentorshipThrough'),
+      label: 'ReactJS Colombia',
+      logoSurface: 'light',
+      projectId: 'react-js-colombia'
+    }
+  ]
 }
 
-export const testimonials: Testimonial[] = [
-  {
-    avatarInitials: 'RD',
-    name: 'Raphael Drummond',
-    quote: 'Santiago has excellent communication skills and is able to explain complex technical concepts in a clear and concise way. He is highly reliable, dedicated, and responsible — meeting deadlines and delivering high-quality projects.',
-    relationship: 'Managed Santiago at Optic Power',
-    role: 'AI Product & Engineering Leader'
-  },
-  {
-    avatarInitials: 'CT',
-    name: 'Carolina G. Torres',
-    quote: 'Santi stands out due to his outstanding technical skills, leadership abilities, and collaborative spirit. He cultivates a positive and inclusive work environment, promoting open communication and idea exchange.',
-    relationship: 'Colleague, same team',
-    role: 'Lead Product Designer'
-  },
-  {
-    avatarInitials: 'DD',
-    name: 'David Delgado',
-    quote: 'He excels in good practices while coding and has solid leadership skills. He is great at sharing knowledge with fellow devs and organizing priorities to make things happen in a quality-oriented way.',
-    relationship: 'Reported to Santiago',
-    role: 'Software Engineer'
-  },
-  {
-    avatarInitials: 'JM',
-    name: 'Jorge Luis Madrid',
-    quote: 'Santiago is a great engineer who is constantly learning and dedicated to his work — a good leader, responsible with his tasks. I recommend him to any company looking for a brilliant full-stack developer able to get results and inspire.',
-    relationship: 'Client',
-    role: 'Senior Cloud & DevOps Engineer'
-  }
-]
+export const selectedOrganizations = getSelectedOrganizations()
 
-export const selectedOrganizations: SocialProofItem[] = [
-  {
-    context: 'Technical leadership across esports web, mobile, backend, and real-time delivery at Void.',
-    label: 'Void',
-    projectId: 'void'
-  },
-  {
-    context: 'Product engineering shipped across Team Liquid, NurtureBoss, and Stardust.gg client work.',
-    label: 'Optic Power',
-    projectId: 'optic-power'
-  },
-  {
-    context: 'AI martech dashboards and campaign workflows supporting brands including Rappi and Subway.',
-    label: 'Datagran',
-    projectId: 'datagran'
-  },
-  {
-    context: 'High-traffic sports media platform and programmatic ad infrastructure for one of the world’s most recognized extreme sports brands.',
-    label: 'X Games',
-    projectId: 'xgames'
-  },
-  {
-    context: 'A faster, more accessible headless commerce experience for Marcone and its product teams.',
-    label: 'Smith Commerce',
-    projectId: 'smith-commerce'
-  },
-  {
-    context: 'Luxury real estate web, back-office, and mobile experiences that improved broker workflows.',
-    label: 'PADS',
-    projectId: 'pads'
-  },
-  {
-    context: 'A boutique software studio behind 10+ client launches and measurable organic growth.',
-    label: 'Justbit',
-    projectId: 'justbit'
-  },
-  {
-    context: 'Client web, Android, and commerce work across Rails, AngularJS, Java, and WordPress.',
-    label: 'Nebular Technologies',
-    projectId: 'nebular'
-  },
-  {
-    context: 'Community talks, workshops, and mentorship through one of Medellin’s most active React groups.',
-    label: 'ReactJS Colombia',
-    projectId: 'react-js-colombia'
-  }
-]
+export const getCollaborationLanes = (locale: Locale = defaultLocale): CollaborationLane[] => {
+  const t = pageTranslator(locale)
 
-export const collaborationLanes: CollaborationLane[] = [
-  {
-    description: 'Best fit when a team is shipping, but needs clearer standards, calmer releases, and stronger technical decision-making across the stack.',
-    fit: 'Useful for product teams that need leadership without losing hands-on depth.',
-    title: 'Technical leadership for teams in motion'
-  },
-  {
-    description: 'Useful when a platform needs to get faster, more accessible, and easier to evolve without freezing delivery for months.',
-    fit: 'Strong match for rebuilds, migrations, architecture cleanup, and performance-heavy work.',
-    title: 'Modernization work that still respects delivery pressure'
-  },
-  {
-    description: 'I improve linting, testing, CI/CD, and documentation so teams spend less time on repeated fixes and release friction.',
-    fit: 'Best when the team already feels the friction every week and wants a calmer default.',
-    title: 'Developer experience and quality systems that compound'
-  }
-]
+  return [
+    {
+      description: t('page.bestFitWhenATeamIs'),
+      fit: t('page.usefulForProductTeamsThatNeed'),
+      source: { href: localizePath('/portfolio/void/#what-i-led', locale), label: t('page.voidGgWhatILed') },
+      title: t('page.technicalLeadershipForTeamsInMotion')
+    },
+    {
+      description: t('page.usefulWhenAPlatformNeedsTo'),
+      fit: t('page.strongMatchForRebuildsMigrationsArchitecture'),
+      source: { href: localizePath('/portfolio/smith-commerce/#marcone-rebuilding-for-a-headless-future', locale), label: t('page.smithCommerceMarconeRebuild') },
+      title: t('page.modernizationWorkThatStillRespectsDelivery')
+    },
+    {
+      description: t('page.iImproveLintingTestingCiCd'),
+      fit: t('page.bestWhenTheTeamAlreadyFeels'),
+      source: { href: localizePath('/portfolio/lumen-ui/#technical-highlights', locale), label: t('page.lumenUiTechnicalHighlights') },
+      title: t('page.developerExperienceAndQualitySystemsThat')
+    }
+  ]
+}
 
-export const speakingHighlights: ProfileHighlight[] = [
-  {
-    description: 'A decade-plus of shipping across product engineering, architecture, and leadership roles.',
-    label: 'Experience',
-    value: YEARS_OF_EXPERIENCE
-  },
-  {
-    description: 'Helping co-organize meetups, workshops, and speaker-friendly community events.',
-    label: 'Community',
-    value: 'Since 2017'
-  },
-  {
-    description: 'Public articles on DX, tooling, architecture, and workflow topics that overlap with my talks.',
-    label: 'Published writing',
-    value: '26 posts'
-  }
-]
+export const collaborationLanes = getCollaborationLanes()
 
-export const speakingTopics: SpeakingTopic[] = [
-  {
-    description: 'How standards, automation, and delivery systems reduce pressure and help teams make better decisions sooner.',
-    title: 'Engineering leadership for teams that still ship'
-  },
-  {
-    description: 'Practical ways to improve tooling, feedback loops, and everyday developer ergonomics without overengineering the process.',
-    title: 'Developer experience that compounds'
-  },
-  {
-    description: 'Patterns for growing React and TypeScript codebases without turning them into a maze of exceptions and accidental complexity.',
-    title: 'Frontend architecture for real teams'
-  },
-  {
-    description: 'Testing, linting, and CI/CD systems that teams actually keep because they improve confidence instead of slowing work down.',
-    title: 'Quality systems that fit the workflow'
-  },
-  {
-    description: 'Choosing the right level of abstraction across frontend, backend, and platform work when products need to move fast.',
-    title: 'Full-stack delivery with technical range'
-  },
-  {
-    description: 'What community work has taught me about mentoring, accessibility, and helping more people feel ready to share what they know.',
-    title: 'Community building and first-time speakers'
-  }
-]
+export const getSpeakingHighlights = (locale: Locale = defaultLocale): ProfileHighlight[] => {
+  const t = pageTranslator(locale)
 
-export const speakingFormats: SpeakingTopic[] = [
-  {
-    description: 'Practical sessions for local communities and engineering groups that want useful takeaways, not slideware.',
-    title: 'Meetups and community talks'
-  },
-  {
-    description: 'Hands-on sessions around React, TypeScript, testing, tooling, and workflow design for teams that want to level up together.',
-    title: 'Workshops and live build sessions'
-  },
-  {
-    description: 'Architecture, DX, and delivery talks tailored for product teams, onboarding programs, or internal engineering initiatives.',
-    title: 'Internal engineering enablement'
-  },
-  {
-    description: 'Good fit for panels, AMAs, and conversations about technical leadership, full-stack execution, and developer culture.',
-    title: 'Panels, Q&A, and leadership conversations'
-  }
-]
+  return [
+    {
+      description: t('page.aDecadePlusOfShippingAcross'),
+      icon: 'briefcase-business',
+      label: t('shared.experience'),
+      source: { href: localizePath('/work/#experience-heading', locale), label: t('page.careerTimeline') },
+      value: YEARS_OF_EXPERIENCE
+    },
+    {
+      description: t('page.helpingCoOrganizeMeetupsWorkshopsAnd'),
+      icon: 'users',
+      label: t('shared.community'),
+      prefix: t('page.since'),
+      source: { href: localizePath('/portfolio/react-js-colombia/', locale), label: 'ReactJS Colombia' },
+      value: '2017'
+    },
+    {
+      description: t('page.publicArticlesOnDxToolingArchitecture'),
+      icon: 'notebook-pen',
+      label: t('page.publishedWriting'),
+      source: { href: localizePath('/blog/', locale), label: t('page.readTheArticles') },
+      suffix: t('page.posts'),
+      value: '26'
+    }
+  ]
+}
 
-export const engineeringPrinciples: EngineeringPrinciple[] = [
-  {
-    title: 'Automate the friction, not the thinking',
-    body: 'The best automation removes toil — repetitive, low-judgment work that slows teams down. It should never replace the thinking that makes products worth building.'
-  },
-  {
-    title: 'DX is UX for your team',
-    body: 'The developer experience of a codebase shapes how fast and confidently the team can move. Bad DX compounds. Good DX compounds too — invest early and measure it.'
-  },
-  {
-    title: 'Leadership means fewer decisions under pressure',
-    body: 'A good tech lead reduces ambiguity before it becomes risk. Clear standards, good tooling, and systems that fail loudly are how you protect a team\'s velocity at scale.'
-  },
-  {
-    title: 'Performance is a product decision',
-    body: 'Speed isn\'t a tech concern, it\'s a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections.'
-  },
-  {
-    title: 'Boring tech is often the right call',
-    body: 'The goal is to solve the problem, not to use the newest tool. Stable, well-understood solutions let the team focus on the actual product.'
-  },
-  {
-    title: 'Consistency beats perfection',
-    body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
-  }
-]
+export const speakingHighlights = getSpeakingHighlights()
 
-export const usesHighlights: UsesSectionItem[] = [
-  {
-    label: 'Bias',
-    value: 'Boring reliability over shiny setup churn'
-  },
-  {
-    label: 'Default stack',
-    value: 'TypeScript, React, Astro, Node.js, Tailwind, Vitest, Playwright'
-  },
-  {
-    label: 'What I optimize for',
-    value: 'Fast feedback loops, clear standards, and fewer context switches'
-  }
-]
+export const getSpeakingTopics = (locale: Locale = defaultLocale): SpeakingTopic[] => {
+  const t = pageTranslator(locale)
 
-export const usesSections: UsesSection[] = [
-  {
-    description: 'I keep the physical setup intentionally simple. The goal is long stretches of focused work, good pairing sessions, and less energy spent on gear decisions.',
-    items: [
-      {
-        label: 'Workspace',
-        value: 'Laptop-first, with extra screen space whenever I am working from a fixed desk'
+  return [
+    {
+      description: t('page.howStandardsAutomationAndDeliverySystems'),
+      source: {
+        href: localizePath('/blog/code-standards-that-scale-with-a-team/', locale),
+        label: t('page.standardsThatScale')
       },
-      {
-        label: 'Calls and collaboration',
-        value: 'Reliable audio, a clean video-call setup, and tools that make remote leadership feel less fragmented'
+      subtitle: t('page.forTeamsThatStillShip'),
+      title: t('page.engineeringLeadership')
+    },
+    {
+      description: t('page.practicalWaysToImproveToolingFeedback'),
+      source: {
+        href: localizePath('/blog/why-developer-experience-work-should-be-measured-like-product-work/', locale),
+        label: t('page.measuringDeveloperExperience')
       },
-      {
-        label: 'Comfort',
-        value: 'A keyboard, pointer, and desk setup that can survive long implementation sessions without becoming the problem'
-      }
-    ],
-    title: 'Desk setup'
-  },
-  {
-    description: 'Most of my work still starts with the same core stack: TypeScript, React-adjacent frameworks, and tooling that keeps quality visible from the beginning.',
-    items: [
-      {
-        label: 'Frontend',
-        value: 'React, Next.js, Astro, Tailwind CSS, Storybook, and design-system thinking when a product needs stronger UI structure'
+      subtitle: t('page.thatCompounds'),
+      title: t('page.developerExperience7')
+    },
+    {
+      description: t('page.patternsForGrowingReactAndTypescript'),
+      source: {
+        href: localizePath('/blog/atomic-module-component-structure-for-react/', locale),
+        label: t('page.structuringReactProjects')
       },
-      {
-        label: 'Backend',
-        value: 'Node.js services, APIs, pragmatic data modeling, and whatever automation removes the most toil for the team'
+      subtitle: t('page.forRealTeams'),
+      title: t('page.frontendArchitecture')
+    },
+    {
+      description: t('page.testingLintingAndCiCdSystems'),
+      source: {
+        href: localizePath('/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/', locale),
+        label: t('page.automatingQualityChecks')
       },
-      {
-        label: 'Testing',
-        value: 'Vitest, Playwright, ESLint, and CI pipelines that catch issues early instead of making release day louder'
-      }
-    ],
-    title: 'Build stack'
-  },
-  {
-    description: 'The tools matter, but the workflow matters more. I am always looking for ways to make software delivery feel calmer, clearer, and easier to trust.',
-    items: [
-      {
-        label: 'Writing',
-        value: 'I use writing to clarify architecture, document decisions, and turn useful lessons into posts, docs, or internal standards'
+      subtitle: t('page.thatFitTheWorkflow'),
+      title: t('page.qualitySystems')
+    },
+    {
+      description: t('page.choosingTheRightLevelOfAbstraction'),
+      source: {
+        href: localizePath('/blog/building-aaronmgz-as-a-family-platform/', locale),
+        label: t('page.buildingAFamilyPlatform')
       },
-      {
-        label: 'Delivery',
-        value: 'Small feedback loops, measurable quality gates, and automation that supports judgment instead of replacing it'
+      subtitle: t('page.withTechnicalRange'),
+      title: t('page.fullStackDelivery')
+    },
+    {
+      description: t('page.whatCommunityWorkHasTaughtMe'),
+      source: {
+        href: localizePath('/portfolio/react-js-colombia/', locale),
+        label: t('speaking.communityGrowth')
       },
-      {
-        label: 'Leadership',
-        value: 'Close enough to the code to stay credible, structured enough to help the team avoid unnecessary ambiguity'
-      }
-    ],
-    title: 'Workflow principles'
-  }
-]
+      subtitle: t('page.andFirstTimeSpeakers'),
+      title: t('page.communityBuilding')
+    }
+  ]
+}
+
+export const speakingTopics = getSpeakingTopics()
+
+export const getSpeakingFormats = (locale: Locale = defaultLocale): SpeakingFormat[] => {
+  const t = pageTranslator(locale)
+
+  return [
+    {
+      description: t('page.practicalSessionsForLocalCommunitiesAnd'),
+      outcome: {
+        fit: t('page.introduceAnIdeaAndOpenA'),
+        label: t('page.planAMeetup')
+      },
+      subtitle: t('page.andCommunityTalks'),
+      title: t('page.meetups')
+    },
+    {
+      description: t('page.handsOnSessionsAroundReactTypescript'),
+      outcome: {
+        fit: t('page.practiceATechniqueWithYourTeam'),
+        label: t('page.planAWorkshop')
+      },
+      subtitle: t('page.andLiveBuildSessions'),
+      title: t('page.workshops')
+    },
+    {
+      description: t('page.architectureDxAndDeliveryTalksTailored'),
+      outcome: {
+        fit: t('page.buildASharedApproachToAn'),
+        label: t('page.planATeamSession')
+      },
+      subtitle: t('page.enablement'),
+      title: t('page.internalEngineering')
+    },
+    {
+      description: t('page.goodFitForPanelsAmasAnd'),
+      outcome: {
+        fit: t('page.explorePerspectivesAndQuestionsWithYour'),
+        label: t('page.planAPanel')
+      },
+      subtitle: t('page.andLeadershipConversations'),
+      title: t('page.panelsQAndA')
+    }
+  ]
+}
+
+export const speakingFormats = getSpeakingFormats()
+
+export const getEngineeringPrinciples = (locale: Locale = defaultLocale): EngineeringPrinciple[] => {
+  const t = pageTranslator(locale)
+
+  return [
+    {
+      title: t('page.automateTheFrictionNotTheThinking'),
+      source: {
+        href: localizePath('/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/', locale),
+        label: t('page.automatingQualityChecks')
+      },
+      body: t('page.theBestAutomationRemovesToilRepetitive')
+    },
+    {
+      title: t('page.dxIsUxForYourTeam'),
+      source: {
+        href: localizePath('/blog/why-developer-experience-work-should-be-measured-like-product-work/', locale),
+        label: t('page.measuringDeveloperExperience')
+      },
+      body: t('page.theDeveloperExperienceOfACodebase')
+    },
+    {
+      title: t('page.leadershipMeansFewerDecisionsUnderPressure'),
+      source: {
+        href: localizePath('/blog/code-standards-that-scale-with-a-team/', locale),
+        label: t('page.standardsThatScale')
+      },
+      body: t('page.aGoodTechLeadReducesAmbiguity')
+    },
+    {
+      title: t('page.performanceIsAProductDecision'),
+      source: {
+        href: localizePath('/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites/', locale),
+        label: t('page.fastContentHeavySites')
+      },
+      body: t('page.speedIsnTATechConcern')
+    },
+    {
+      title: t('page.boringTechIsOftenTheRight'),
+      source: {
+        href: localizePath('/blog/building-aaronmgz-as-a-family-platform/', locale),
+        label: t('page.choosingToolsForTheJob')
+      },
+      body: t('page.theGoalIsToSolveThe')
+    },
+    {
+      title: t('page.consistencyBeatsPerfection'),
+      source: {
+        href: localizePath('/blog/responsive-design-standards-that-scale-across-components/', locale),
+        label: t('page.sharedResponsiveStandards')
+      },
+      body: t('page.aConsistentCodebaseWithSomeImperfections')
+    }
+  ]
+}
+
+export const engineeringPrinciples = getEngineeringPrinciples()

@@ -1,10 +1,22 @@
 ---
 import { Image } from 'astro:assets'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
 import type { WebmentionsChildren } from '@/types/webmentions'
+import { parseContentDate } from '@/utils/content-date'
 import { getFormattedDate } from '@/utils/date'
 
-import { Icon } from '@santi020k/lumen-astro'
+import Avatar from '@santi020k/lumen-astro/components/Avatar'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Link from '@santi020k/lumen-astro/components/Link'
+
+import { getLocale, localeLanguage } from '@/i18n'
+import { articleTranslator } from '@/i18n/article-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = articleTranslator(locale)
 
 interface Props {
   mentions: WebmentionsChildren[]
@@ -18,146 +30,143 @@ const replies = mentions.filter(
 )
 
 const authorPhoto = (entry: WebmentionsChildren): string | undefined => entry.author?.photo ?? undefined
+// Grapheme boundaries keep initials and truncated replies from splitting
+// surrogate pairs, combining marks, emoji sequences, or flags.
+const graphemes = new Intl.Segmenter(localeLanguage(locale), { granularity: 'grapheme' })
+const initial = (name: string): string => (graphemes.segment(name).containing(0)?.segment ?? '').toUpperCase()
+// The feed does not expose source language. An empty lang on replies avoids
+// assigning Spanish to unmodified user-authored prose.
+const replyTextLimit = 2000
 
+// The limit stays in UTF-16 units; the cut moves back to the start of the
+// grapheme that would cross it.
 const replyText = (entry: WebmentionsChildren): string => {
-  const raw = entry.content?.text ?? entry.summary?.value ?? ''
+  const raw = (entry.content?.text ?? entry.summary?.value ?? '').trim()
 
-  return raw.trim().slice(0, 2000)
+  if (raw.length <= replyTextLimit) return raw
+
+  return raw.slice(0, graphemes.segment(raw).containing(replyTextLimit)?.index ?? replyTextLimit)
 }
 
-const publishedLabel = (entry: WebmentionsChildren): string | undefined => {
+// Webmention timestamps arrive in loose formats, so `datetime` gets the
+// normalized ISO form rather than the raw string. Dates the content-date
+// parser accepts resolve identically in every build timezone; anything else
+// (such as RFC 2822) falls back to the runtime parser.
+const publishedDate = (entry: WebmentionsChildren): { datetime: string, label: string } | undefined => {
   const raw = entry.published ?? entry['wm-received']
 
   if (!raw) return undefined
 
-  const d = new Date(raw)
+  const parsed = parseContentDate(raw)
+  const d = Number.isNaN(parsed.getTime()) ? new Date(raw) : parsed
 
   if (Number.isNaN(d.getTime())) return undefined
 
-  return getFormattedDate(d)
+  return { datetime: d.toISOString(), label: getFormattedDate(d, {}, localeLanguage(locale)) }
 }
 
 const showSection = likes.length > 0 || replies.length > 0
+
 ---
 
 {
   showSection && (
     <section aria-label="Webmentions" class="space-y-8 pt-8">
       {likes.length > 0 && (
-        <div class="space-y-3">
-          <p class="section-label">
-            <Icon
-              class="mr-1 inline size-4 align-text-bottom"
-              name="heart"
-            />
-            {likes.length} {likes.length === 1 ? 'like' : 'likes'} across the IndieWeb
-          </p>
-          <ul class="flex flex-wrap gap-2">
-            {likes.map(entry => {
-              const photo = authorPhoto(entry)
-              const name = entry.author?.name ?? 'Someone'
-              const href = entry.author?.url ?? entry['wm-source']
+        <div data-webmention-likes-region>
+          <div data-webmention-likes>
+            <h2 data-webmention-likes-heading>
+              <span data-webmention-likes-count>
+                <span data-webmention-likes-total>{likes.length}</span>
+                <span>{likes.length === 1 ? t('shared.like') : t('shared.likes')}</span>
+              </span>
+              <span data-webmention-likes-context>{t('mentions.heading')}</span>
+            </h2>
+            <ul data-webmention-readers role="list">
+              {likes.map(entry => {
+                const photo = authorPhoto(entry)
+                const name = entry.author?.name ?? t('shared.someone')
+                const href = entry.author?.url ?? entry['wm-source']
 
-              return (
-                <li>
-                  <a
-                    aria-label={name}
-                    class="
-                      inline-flex size-10 overflow-hidden rounded-full border
-                      border-line/60 bg-surface-muted transition
-                      hover:border-brand/40 hover:ring-2 hover:ring-brand/15
-                      motion-reduce:transition-none
-                    "
-                    href={href}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {photo ?
-                      (
-                        <Image alt="" class="size-full object-cover" height={40} loading="lazy" src={photo} width={40} />
-                      ) :
-                      (
-                        <span class="
-                          flex size-full items-center justify-center text-xs
-                          font-semibold text-ink-muted
-                        "
-                        >
-                          {name.slice(0, 1).toUpperCase()}
-                        </span>
-                      )}
-                  </a>
-                </li>
-              )
-            })}
-          </ul>
+                return (
+                  <li>
+                    <Link data-webmention-reader href={href} newTab variant="inherit">
+                      <Avatar data-webmention-avatar aria-hidden="true">
+                        {photo ?
+                          (
+                            <Image
+                              alt=""
+                              height={44}
+                              loading="lazy"
+                              referrerpolicy="no-referrer"
+                              src={photo}
+                              width={44}
+                            />
+                          ) :
+                          <span>{initial(name)}</span>}
+                      </Avatar>
+                      <span data-webmention-reader-name>{name}</span>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         </div>
       )}
 
       {replies.length > 0 && (
         <div class="space-y-4">
-          <p class="section-label">
+          <h2 class="section-label">
             <Icon
-              class="mr-1 inline size-4 align-text-bottom"
+              class="mr-1 size-4 align-text-bottom"
               name="message-circle"
             />
-            Replies &amp; mentions
-          </p>
+            {t('article.repliesAndMentions')}
+          </h2>
           <ul class="space-y-4">
             {replies.map(entry => {
-              const name = entry.author?.name ?? 'Anonymous'
+              const name = entry.author?.name ?? t('article.anonymous')
               const authorUrl = entry.author?.url
               const source = entry['wm-source']
               const text = replyText(entry)
-              const date = publishedLabel(entry)
+              const date = publishedDate(entry)
 
               return (
-                <li
-                  class="
-                    rounded-2xl border border-line/55 bg-surface-muted/45 p-4
-                    sm:p-5
-                  "
-                >
-                  <div class="
-                    flex flex-wrap items-baseline justify-between gap-2
-                  "
-                  >
-                    <p class="font-medium text-ink">
-                      {authorUrl ?
-                        (
-                          <a
-                            class="
-                              text-brand
-                              hover:underline
-                            "
-                            href={authorUrl}
-                            rel="noopener noreferrer"
-                            target="_blank"
-                          >
-                            {name}
-                          </a>
-                        ) :
-                        (
-                          <span>{name}</span>
-                        )}
-                    </p>
-                    {date && <time class="text-xs text-ink-muted">{date}</time>}
-                  </div>
-                  {text && <p class="mt-2 text-sm/6 text-ink-soft">{text}</p>}
-                  <p class="mt-3">
-                    <a
-                      class="
-                        inline-flex items-center gap-1 text-xs font-medium
-                        text-brand
-                        hover:underline
-                      "
-                      href={source}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      View original
-                      <Icon class="size-3.5" name="external-link" />
-                    </a>
-                  </p>
+                <li data-webmention-item>
+                  <Card data-webmention-reply variant="unstyled">
+                    <header data-webmention-identity>
+                      <p data-webmention-author>
+                        {authorUrl ?
+                          (
+                            <Link
+                              data-webmention-profile
+                              href={authorUrl}
+                              newTab
+                              variant="inherit"
+                            >
+                              {name}
+                            </Link>
+                          ) :
+                          (
+                            <span>{name}</span>
+                          )}
+                      </p>
+                      {date && <time datetime={date.datetime}>{date.label}</time>}
+                    </header>
+                    <div data-webmention-body>
+                      {text && <p lang="" data-webmention-copy>{text}</p>}
+                      <Link
+                        data-webmention-source
+                        href={source}
+                        newTab
+                        variant="inherit"
+                      >
+                        {t('article.viewOriginal')}
+                        <ArrowExchange class="size-3.5 shrink-0" direction="up-right" />
+                      </Link>
+                    </div>
+                  </Card>
                 </li>
               )
             })}
@@ -167,3 +176,73 @@ const showSection = likes.length > 0 || replies.length > 0
     </section>
   )
 }
+
+<style>
+  [data-webmention-likes-region] { container: reader-margin / inline-size; min-width: 0; }
+  [data-webmention-likes] {
+    --likes-accent: var(--brand);
+    display: grid;
+    grid-template-columns: 11.875rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1.75rem;
+    padding-block: 1.5rem;
+    border-block: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+  }
+  :global([data-theme='dark']) [data-webmention-likes] { --likes-accent: var(--accent); }
+  [data-webmention-likes-heading] { min-width: 0; margin: 0; font-size: .75rem; line-height: 1.7; font-weight: 400; }
+  [data-webmention-likes-count] { display: flex; flex-wrap: wrap; align-items: baseline; gap: .625rem; color: hsl(var(--likes-accent)); }
+  [data-webmention-likes-total] { font-size: 2.25rem; line-height: 1; font-weight: 500; letter-spacing: -.06em; }
+  [data-webmention-likes-context] { display: block; margin-top: .625rem; color: hsl(var(--ink-soft)); }
+  [data-webmention-readers] { display: flex; flex-wrap: wrap; gap: .75rem; min-width: 0; margin: 0; padding: 0 0 0 1.5rem; border-left: 2px solid hsl(var(--likes-accent)); list-style: none; }
+  [data-webmention-readers] li { min-width: 0; max-width: min(10rem, 100%); }
+  [data-webmention-reader] { display: grid; justify-items: center; gap: .375rem; min-width: 3.25rem; max-width: 100%; color: hsl(var(--ink)); font-size: .75rem; font-weight: 400; line-height: 1.7; text-align: center; }
+  [data-webmention-avatar] { width: 2.75rem; height: 2.75rem; border: 1px solid hsl(var(--line)); border-radius: 50%; background: hsl(var(--brand-soft)); color: hsl(var(--ink-soft)); font-size: .75rem; font-weight: 500; }
+  [data-webmention-reader-name] { max-width: 100%; overflow-wrap: anywhere; }
+  [data-webmention-reader]:hover [data-webmention-reader-name] { text-decoration: underline; text-underline-offset: .25rem; }
+  [data-webmention-reader]:focus-visible { outline: 2px solid hsl(var(--likes-accent)); outline-offset: 4px; }
+  @container reader-margin (width < 30rem) {
+    [data-webmention-likes] { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+    [data-webmention-likes-heading] { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1rem; }
+    [data-webmention-likes-context] { margin-top: 0; }
+    [data-webmention-readers] { padding-left: 1.125rem; gap: 1rem; }
+  }
+  @container reader-margin (width < 18rem) {
+    [data-webmention-likes] { padding-block: 1.25rem; }
+    [data-webmention-readers] { padding-left: .75rem; gap: .75rem; }
+  }
+
+  [data-webmention-item] { container: webmention / inline-size; min-width: 0; }
+  [data-webmention-reply] {
+    --reply-accent: var(--brand);
+    display: grid;
+    grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.65fr);
+    gap: 1.75rem;
+    min-width: 0;
+    padding: 1.625rem;
+    border-block: 1px solid hsl(var(--line));
+    border-radius: 0;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    overflow-wrap: anywhere;
+  }
+  :global(:root[data-theme='dark']) [data-webmention-reply] { --reply-accent: var(--accent); }
+  [data-webmention-identity] { min-width: 0; align-self: start; padding-left: 1rem; border-left: 3px solid hsl(var(--reply-accent)); }
+  [data-webmention-author] { min-width: 0; max-width: 100%; margin: 0; color: hsl(var(--reply-accent)); font-size: 1rem; line-height: 1.5; font-weight: 500; overflow-wrap: anywhere; }
+  [data-webmention-profile] { display: inline-block; max-width: 100%; }
+  [data-webmention-identity] time { display: block; margin-top: 0.5rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
+  [data-webmention-body] { min-width: 0; }
+  [data-webmention-copy] { margin: 0; color: hsl(var(--ink)); font-size: 1.125rem; line-height: 1.8; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+  [data-webmention-source] { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; max-width: 100%; color: hsl(var(--reply-accent)); font-size: 0.75rem; line-height: 1.6; font-weight: 500; }
+  [data-webmention-copy] + [data-webmention-source] { margin-top: 1rem; }
+  [data-webmention-profile]:hover, [data-webmention-source]:hover { text-decoration: underline; text-underline-offset: 0.25rem; }
+  @container webmention (width < 27rem) {
+    [data-webmention-reply] { grid-template-columns: minmax(0, 1fr); gap: 1.375rem; padding: 1.375rem; }
+    [data-webmention-identity] { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.25rem; }
+    [data-webmention-identity] time { margin: 0; }
+  }
+  @container webmention (width < 18rem) {
+    [data-webmention-reply] { padding: 0.75rem; }
+    [data-webmention-identity] { padding-left: 0.625rem; }
+  }
+</style>

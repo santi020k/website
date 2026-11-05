@@ -1,0 +1,88 @@
+---
+import { Icon } from 'astro-icon/components'
+
+import { siteConfig } from '@/site.config'
+
+import { version } from '../../../package.json'
+
+const year = 2026;
+---
+
+<footer
+  class="
+    mt-auto flex w-full flex-col items-center justify-center gap-y-2 pt-8 pb-4
+    text-center align-top text-base
+    sm:flex-row sm:justify-between
+  "
+  id="main-footer"
+  transition:name="footer"
+>
+  <div class="
+    me-0 font-semibold
+    sm:me-4
+  "
+  >
+    &copy; {siteConfig.author}
+    {year}.<span class="inline-block">&nbsp;🚀&nbsp;</span> v{version}
+  </div>
+  <nav
+    aria-label="More on this site"
+    class="
+      flex w-auto justify-between space-x-4 font-medium
+      md:w-56
+    "
+  >
+    <a
+      class="
+        m-0 flex items-center underline-offset-2
+        hover:underline
+      "
+      href="https://linkedin.com/in/santi020k"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Linkedin link"
+    >
+      <Icon name="tabler:brand-linkedin" class="size-6" aria-hidden="true" />
+    </a>
+    <!-- TODO: Disable instagram for now -->
+    <!-- <a class="m-0 flex items-center underline-offset-2 hover:underline" href="https://www.instagram.com/santi020k/" target="_blank" rel="noopener noreferrer" aria-label="Instagram link">
+      <Icon name="tabler:brand-instagram" class="size-6" aria-hidden="true" />
+    </a> -->
+    <a
+      class="
+        m-0 flex items-center underline-offset-2
+        hover:underline
+      "
+      href="https://github.com/santi020k"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Github link"
+    >
+      <Icon name="tabler:brand-github" class="size-6" aria-hidden="true" />
+    </a>
+    <a
+      class="
+        m-0 flex items-center underline-offset-2
+        hover:underline
+      "
+      href="https://api.whatsapp.com/send?phone=37257899454&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Whatsapp link"
+    >
+      <Icon name="tabler:brand-whatsapp" class="size-6" aria-hidden="true" />
+    </a>
+    <a
+      class="
+        m-0 flex items-center underline-offset-2
+        hover:underline
+      "
+      href="https://medium.com/@santi020k"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Medium link"
+    >
+      <Icon name="tabler:brand-medium" class="size-6" aria-hidden="true" />
+    </a>
+  </nav>
+</footer>

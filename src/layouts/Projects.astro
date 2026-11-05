@@ -1,10 +1,14 @@
 ---
-import { type CollectionEntry, render } from 'astro:content'
+import type { MarkdownHeading } from 'astro'
+
+import type { CollectionEntry } from 'astro:content'
 
 import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
-import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSpotlight.astro'
 import ProjectCaseStudy from '@/components/molecules/ProjectCaseStudy.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
+import ProjectStoryPair from '@/components/molecules/ProjectStoryPair.astro'
+import ReadingChapterOpener from '@/components/molecules/ReadingChapterOpener.astro'
+import RelatedProjectCard from '@/components/molecules/RelatedProjectCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
@@ -12,6 +16,7 @@ import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
+import { getProjectWriting } from '@/utils/content'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import {
   getProjectNotesDescription,
@@ -20,21 +25,41 @@ import {
   getProjectStageLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
+import { addProjectReadingBrief } from '@/utils/project-reading-brief'
+import { getSocialImageURL } from '@/utils/social-image'
+
+import '@/styles/prose.css'
 
 import { RevealGroup, ScrollProgress } from '@santi020k/lumen-astro'
 
+import { ogManifest } from '@/data/og-manifest'
+import { getLocale, localizePath, stripLocale } from '@/i18n'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
 
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
+
 interface Props {
+  headings: MarkdownHeading[]
   project: CollectionEntry<'project'>
   relatedProjects?: CollectionEntry<'project'>[]
 }
 
-const { project, relatedProjects = [] } = Astro.props
-const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
+const { headings, project, relatedProjects = [] } = Astro.props
+const narrative = addProjectReadingBrief(await Astro.slots.render('default') ?? '')
+const relatedWriting = await getProjectWriting(project.data.relatedWriting)
+const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? t('shared.project')}`
 const metaDescription = project.data.seoDescription ?? project.data.description
-const socialImage = new URL(`/og/portfolio/${project.id}-logo.webp`, Astro.site).href
-const { headings } = await render(project)
+
+// Case studies are written in English, so every locale shares the English card.
+const socialImage = getSocialImageURL(
+  stripLocale(Astro.url.pathname),
+  Astro.site,
+  `/og/portfolio/${project.id}-logo.webp`,
+  ogManifest
+)
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)
 const hasLiveDemo = Boolean(project.data.liveDemoUrl) && project.data.typesId !== 'community'
@@ -44,13 +69,14 @@ const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
 const projectNotesDescription = getProjectNotesDescription(project.data.typesId)
 const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
 const caseStudy = project.data.caseStudy
+const hasProductPreviews = Boolean(project.data.previews) && headings.some(heading => heading.slug === 'inside-the-product')
 
 const caseStudyRows = caseStudy ?
   [
-    { body: caseStudy.problem, label: 'Problem' },
-    { body: caseStudy.approach, label: 'Approach' },
-    { body: caseStudy.outcome, label: 'Outcome' },
-    { body: caseStudy.metrics, label: 'Metrics' }
+    { body: caseStudy.problem, label: t('collection.problem') },
+    { body: caseStudy.approach, label: t('collection.approach') },
+    { body: caseStudy.outcome, label: t('collection.outcome') },
+    { body: caseStudy.metrics, label: t('collection.metrics') }
   ].filter((row): row is { body: string, label: string } => Boolean(row.body?.trim())) :
   []
 
@@ -60,7 +86,7 @@ const projectSchema: Record<string, unknown> = {
   name: project.data.title,
   description: metaDescription,
   dateCreated: project.data.startingDate.toISOString(),
-  ...(project.data.endingDate ? { dateModified: project.data.endingDate.toISOString() } : {}),
+  ...(project.data.updatedDate ? { dateModified: project.data.updatedDate.toISOString() } : {}),
   keywords: project.data.technologies,
   url: canonicalURL.href,
   image: socialImage,
@@ -71,18 +97,18 @@ const projectSchema: Record<string, unknown> = {
 
 const parentPage = (() => {
   if (project.data.typesId === 'community') {
-    return { name: 'Speaking & Community', url: '/speaking/' }
+    return { name: t('collection.speakingAndCommunity'), url: localizePath('/speaking/', locale) }
   }
 
   if (project.data.typesId === 'personal') {
-    return { name: 'Projects', url: '/projects/' }
+    return { name: t('nav.projects'), url: localizePath('/projects/', locale) }
   }
 
-  return { name: 'Work', url: '/work/' }
+  return { name: t('nav.work'), url: localizePath('/work/', locale) }
 })()
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
+  { name: t('nav.home'), url: localizePath('/', locale) },
   parentPage,
   { name: project.data.title, url: Astro.url.pathname }
 ]
@@ -93,6 +119,7 @@ const breadcrumbs = [
 mainClass="remaining-pages remaining-pages--reading"
   meta={{
     breadcrumbs,
+    contentLocale: 'en',
     description: metaDescription,
     ogImage: socialImage,
     ogImageAlt: `${metaTitle} — ${projectTypeLabel.toLowerCase()} by Santiago Molina`,
@@ -103,69 +130,86 @@ mainClass="remaining-pages remaining-pages--reading"
   <ScrollProgress />
 
   <article
-    class="section-container-wide flex flex-col gap-10"
+    class="section-container-wide flex flex-col"
     data-project-brand
+    data-reading-layout
     style={getProjectBrandStyle(project.data.brand)}
   >
-    <ProjectHero parentPage={parentPage} project={project} />
+    <ProjectHero
+      hasProductPreviews={hasProductPreviews}
+      parentPage={parentPage}
+      project={project}
+    />
 
     <section
-      class="
-        section-divider grid grid-cols-1 gap-10
-        lg:grid-cols-[minmax(0,1fr)_18rem]
-      "
-      data-animate
+      class="grid grid-cols-1 gap-10"
+      data-project-reading
+      data-reading-body
     >
-      <div class="min-w-0 space-y-8">
-        <div class="space-y-8 border-y border-line/45 py-8">
-          <ContentNotesHeader
-            description={projectNotesDescription}
-            label={projectNotesLabel}
-            pill={projectStageLabel}
-          />
+      <div class="min-w-0 space-y-8" data-project-story>
+        {headings.some(heading => heading.depth <= 3) && (
+          <div data-project-mobile-toc>
+            <ReadingChapterOpener headings={headings} />
+          </div>
+        )}
+        <div class="space-y-8 border-b border-line/45 pb-8">
+          {project.data.notesLayout !== 'context-lead' && (
+            <ContentNotesHeader
+              description={projectNotesDescription}
+              label={projectNotesLabel}
+              pill={localizeCollectionSource(locale, projectStageLabel)}
+            />
+          )}
 
           <ProjectCaseStudy rows={caseStudyRows} />
 
-          <div class="prose-project prose-santi max-w-none">
-            <slot />
+          <div lang="en" class="prose-santi prose-project max-w-none" data-pagefind-body>
+            <Fragment set:html={narrative} />
           </div>
         </div>
-
-        <ShareButtons title={project.data.title} url={canonicalURL.href} />
-
-        <ProjectFooterNav
-          githubUrl={project.data.githubUrl}
-          liveDemoUrl={project.data.liveDemoUrl}
-          parentPage={parentPage}
-        />
       </div>
 
       <ProjectSidebar headings={headings} project={project} />
+
+      <div class="min-w-0 space-y-8" data-project-closing>
+        <ProjectStoryPair stories={relatedWriting} />
+        <ShareButtons title={project.data.title} url={canonicalURL.href} />
+
+        <ProjectFooterNav
+          hasProductPreviews={hasProductPreviews}
+          parentPage={parentPage}
+          project={project}
+        />
+      </div>
     </section>
   </article>
 
   {!!relatedProjects.length && (
-    <PageSection class="lg:grid-cols-1!">
+    <PageSection layout="stacked">
       <SectionHeader
-        description="More work from a similar lane — same type, overlapping technologies, adjacent problems."
-        eyebrow="Related work"
-        linkHref={parentPage.url}
-        linkLabel={`Browse all ${parentPage.name.toLowerCase()}`}
+        description={t('collection.selectedWorkConnectedBySharedTechnologies')}
+        eyebrow={t('collection.relatedWork')}
+        id="related-work"
+        linkHref={localizePath(parentPage.url, locale)}
+        linkLabel={t('collection.browseAll', { collection: parentPage.name.toLowerCase() })}
         title={projectRelatedHeading}
         variant="shelf"
       />
       <RevealGroup
-        class:list={[
-          'grid gap-6',
-          relatedProjects.length > 1 && 'lg:grid-cols-2'
-        ]}
+        class="grid grid-cols-1 gap-0"
+        data-related-project-list
         stagger={70}
+        threshold={0}
       >
-        {relatedProjects.map(relatedProject => (
-          <PortfolioProjectSpotlight project={relatedProject} />
+        {relatedProjects.map((relatedProject, index) => (
+          <RelatedProjectCard index={index} project={relatedProject} />
         ))}
       </RevealGroup>
     </PageSection>
   )}
 
 </BaseLayout>
+
+<style>
+  [data-related-project-list] { container: related-list / inline-size; }
+</style>

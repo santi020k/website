@@ -1,10 +1,68 @@
 import AxeBuilder from '@axe-core/playwright'
-import { expect, test } from '@playwright/test'
+import { expect, type Locator, type Page, test } from '@playwright/test'
 
 import { requireValue } from './helpers/assertions'
 
-for (const width of [320, 375, 390, 768, 1024, 1280, 1440]) {
-  for (const fontSize of ['16px', '20px']) {
+const languageLayouts = [320, 768, 1440].flatMap(width => ['16px', '32px'].map(fontSize => {
+  const isMenu = width === 320 || (width === 768 && fontSize === '32px')
+
+  return {
+    width,
+    fontSize,
+    variant: isMenu ? 'menu' : 'header',
+    open: isMenu ? async (page: Page) => page.locator('[data-mobile-nav-toggle]').click() : async (page: Page) => page.locator('[data-language-switch="header"]').waitFor({ state: 'visible' })
+  }
+}))
+
+for (const locale of [
+  { name: 'en', path: '/about/', destination: '/es/about/', target: 'es', code: 'ES', label: 'Site interface in Spanish' },
+  { name: 'es', path: '/es/about/', destination: '/about/', target: 'en', code: 'EN', label: 'Interfaz en inglés' }
+]) {
+  for (const theme of ['light', 'dark']) {
+    for (const layout of languageLayouts) {
+      const text = layout.variant === 'header' ? locale.code : locale.label
+      const name = layout.variant === 'header' ? `${locale.code}: ${locale.label}` : locale.label
+
+      test(`language control stays usable in ${locale.name}, ${theme}, ${layout.width}px with ${layout.fontSize} text`, async ({ page }) => {
+        await page.setViewportSize({ width: layout.width, height: 900 })
+        await page.emulateMedia({ reducedMotion: 'reduce' })
+        await page.addInitScript(value => {
+          localStorage.setItem('theme', value)
+        }, theme)
+        await page.goto(locale.path)
+        await page.evaluate(size => {
+          document.documentElement.style.fontSize = size
+        }, layout.fontSize)
+        await layout.open(page)
+        const link = page.locator(`[data-language-switch="${layout.variant}"]`)
+
+        await expect(link).toBeVisible()
+        await expect(link).toHaveAttribute('href', locale.destination)
+        await expect(link).toHaveAttribute('hreflang', locale.target)
+        await expect(link).toHaveAccessibleName(name)
+        await expect(link).toHaveText(text)
+        // Establish keyboard modality before inspecting the focus-visible outline.
+        await page.keyboard.press('Tab')
+        await link.focus()
+        await expect(link).toBeFocused()
+        await expect(link).toHaveCSS('outline-style', 'solid')
+        const bounds = requireValue(await link.boundingBox())
+
+        expect(bounds.width).toBeGreaterThanOrEqual(44)
+        expect(bounds.height).toBeGreaterThanOrEqual(44)
+        expect(bounds.x).toBeGreaterThanOrEqual(0)
+        expect(bounds.x + bounds.width).toBeLessThanOrEqual(layout.width)
+        expect(await link.evaluate(element => element.scrollWidth - element.clientWidth)).toBeLessThanOrEqual(1)
+        const audit = await new AxeBuilder({ page }).include('header').analyze()
+
+        expect(audit.violations).toEqual([])
+      })
+    }
+  }
+}
+
+for (const width of [320, 375, 390, 768, 1024, 1088, 1200, 1280, 1440]) {
+  for (const fontSize of ['16px', '20px', '32px']) {
     test(`header controls fit at ${width}px with ${fontSize} text`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
       await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -88,6 +146,106 @@ for (const theme of ['light', 'dark']) {
   })
 }
 
+type SectionState = 'page' | 'true' | null
+
+const blogSectionRoutes: { path: string, blog: SectionState }[] = [
+  { path: '/blog/', blog: 'page' },
+  { path: '/blog/git-best-practices-for-calm-collaboration/', blog: 'true' },
+  { path: '/blog/tags/git/', blog: 'true' },
+  { path: '/blog/series/the-santi020k-way/', blog: 'true' }
+]
+
+const expectPathname = async (page: Page, pathname: string) => {
+  await expect.poll(() => new URL(page.url()).pathname).toBe(pathname)
+}
+
+const expectCurrentLink = async (link: Locator, state: SectionState) => {
+  if (state) await expect(link).toHaveAttribute('aria-current', state)
+  else await expect(link).not.toHaveAttribute('aria-current')
+}
+
+const expectDesktopSection = async (page: Page, state: SectionState) => {
+  const navigation = page.locator('.site-desktop-nav')
+  const blog = navigation.locator('a[href="/blog/"]')
+
+  await expectCurrentLink(blog, state)
+  await expect(navigation.locator('[aria-current="page"]')).toHaveCount(state === 'true' ? 0 : 1)
+  await expect(navigation.locator('[aria-current="true"]')).toHaveCount(state === 'true' ? 1 : 0)
+  // Pages and their descendant routes share the same visible active marker.
+  expect(await blog.evaluate(element => getComputedStyle(element, '::after').content !== 'none')).toBe(state !== null)
+}
+
+const openMobileMenu = async (page: Page) => {
+  await page.locator('[data-mobile-nav-toggle]').click()
+  await expect(page.locator('#mobile-nav')).toBeVisible()
+}
+
+const expectMobileSection = async (page: Page, state: SectionState) => {
+  const navigation = page.locator('#mobile-nav')
+  const blog = navigation.locator('a[href="/blog/"]')
+
+  await expectCurrentLink(blog, state)
+  await expect(blog.locator(':scope > :nth-child(2)')).toHaveCSS('text-decoration-line', state ? 'underline' : 'none')
+  // "Current" names only the exact page, never a parent section.
+  await expect(blog.locator('.site-mobile-nav-current')).toHaveCount(state === 'page' ? 1 : 0)
+  await expect(navigation.locator('.site-mobile-nav-current')).toHaveCount(state === 'true' ? 0 : 1)
+  await expect(navigation.locator('[aria-current="page"] .site-mobile-nav-current')).toHaveCount(state === 'true' ? 0 : 1)
+}
+
+test('desktop navigation separates the current page from its current section', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+
+  for (const { path, blog } of blogSectionRoutes) {
+    await page.goto(path)
+    await expectDesktopSection(page, blog)
+  }
+
+  const results = await new AxeBuilder({ page }).include('header').analyze()
+
+  expect(results.violations).toEqual([])
+
+  const navigation = page.locator('.site-desktop-nav')
+
+  // Native header links update the semantics after each client-side swap.
+  await navigation.locator('a[href="/blog/"]').click()
+  await expectPathname(page, '/blog/')
+  await expectDesktopSection(page, 'page')
+
+  await navigation.locator('a[href="/about/"]').click()
+  await expectPathname(page, '/about/')
+  await expectDesktopSection(page, null)
+  await expect(navigation.locator('a[href="/about/"]')).toHaveAttribute('aria-current', 'page')
+})
+
+test('the phone menu labels only the exact route as Current', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+
+  for (const { path, blog } of blogSectionRoutes) {
+    await page.goto(path)
+    await openMobileMenu(page)
+    await expectMobileSection(page, blog)
+    await page.keyboard.press('Escape')
+    await expect(page.locator('#mobile-nav')).toBeHidden()
+  }
+
+  const navigation = page.locator('#mobile-nav')
+
+  await openMobileMenu(page)
+  await navigation.locator('a[href="/blog/"]').click()
+  await expectPathname(page, '/blog/')
+  await expect(navigation).toBeHidden()
+  await openMobileMenu(page)
+  await expectMobileSection(page, 'page')
+
+  await navigation.locator('a[href="/about/"]').click()
+  await expectPathname(page, '/about/')
+  await openMobileMenu(page)
+  await expectMobileSection(page, null)
+  await expect(navigation.locator('a[href="/about/"] .site-mobile-nav-current')).toBeVisible()
+})
+
 test('the open menu keeps header utilities and close reachable by keyboard', async ({ page, browserName }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -109,10 +267,13 @@ test('the open menu keeps header utilities and close reachable by keyboard', asy
     await page.keyboard.press(nextKey)
   }
 
-  await expect(page.locator('[data-mobile-nav-actions] a').first()).toBeFocused()
-  await page.keyboard.press(nextKey)
-  await expect(page.locator('[data-mobile-nav-actions] a').last()).toBeFocused()
-  await page.keyboard.press(nextKey)
+  const actions = page.locator('[data-mobile-nav-actions] a')
+
+  await expect(actions).toHaveCount(3)
+  for (const link of await actions.all()) {
+    await expect(link).toBeFocused()
+    await page.keyboard.press(nextKey)
+  }
   await expect(page.locator('.site-header-brand')).toBeFocused()
   await firstLink.focus()
   await page.keyboard.press(previousKey)
@@ -220,4 +381,128 @@ test('the menu follows the dock after scrolling and closes on desktop resize', a
   await expect(page.locator('#mobile-nav')).toBeHidden()
   await expect(page.locator('.site-desktop-nav')).toBeVisible()
   await expect(page.locator('html')).not.toHaveClass(/mobile-nav-open/)
+})
+
+test('the icon-only desktop search works by pointer and keyboard shortcut', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/about/')
+
+  const search = page.getByRole('button', { name: 'Open site search' })
+
+  await expect(search).toHaveText('')
+  await expect(search).toHaveAccessibleName('Open site search (Ctrl/⌘ K)')
+  await expect(search).toHaveAttribute('aria-keyshortcuts', 'Control+K Meta+K')
+  const triggerAudit = await new AxeBuilder({ page })
+    .include('[data-site-search-trigger]')
+    .options({ rules: { 'label-content-name-mismatch': { enabled: true } } })
+    .analyze()
+
+  expect(triggerAudit.violations).toEqual([])
+
+  // The icon keeps a square touch target even when the full bar has spare space.
+  const searchBox = requireValue(await search.boundingBox())
+
+  expect(searchBox.width).toBeGreaterThanOrEqual(44 - 0.005)
+  expect(searchBox.width).toBeCloseTo(searchBox.height)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+
+  await search.click()
+  await expect(page.locator('#site-search-input')).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(search).toBeFocused()
+
+  for (const shortcut of ['Control+k', 'Meta+k']) {
+    await page.keyboard.press(shortcut)
+    await expect(page.locator('#site-search-input')).toBeFocused()
+    await page.keyboard.press('Escape')
+    await expect(search).toBeFocused()
+  }
+})
+
+for (const theme of ['light', 'dark']) {
+  test(`the phone menu labels its toggle and current destination in ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.addInitScript(selectedTheme => {
+      localStorage.setItem('theme', selectedTheme)
+    }, theme)
+    await page.goto('/about/')
+
+    const toggle = page.getByRole('button', { name: /^(Menu|Close) navigation$/ })
+    const label = toggle.locator('[data-mobile-nav-toggle-label]')
+
+    expect(requireValue(await label.boundingBox()).width).toBeGreaterThan(20)
+    await toggle.press('Enter')
+    await expect(toggle).toHaveAccessibleName('Close navigation')
+
+    const current = page.locator('#mobile-nav [aria-current="page"]')
+
+    await expect(current).toHaveCount(1)
+    await expect(current).toHaveAccessibleName('About')
+    await expect(current.locator('.site-mobile-nav-current')).toBeVisible()
+
+    const results = await new AxeBuilder({ page }).include('header').analyze()
+
+    expect(results.violations).toEqual([])
+    await page.keyboard.press('Escape')
+    await expect(toggle).toBeFocused()
+    await expect(toggle).toHaveAccessibleName('Menu navigation')
+  })
+}
+
+test('the tablet menu preserves reading order and reflows when text is enlarged', async ({ page, browserName }) => {
+  await page.setViewportSize({ width: 768, height: 900 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/about/')
+  await page.locator('[data-mobile-nav-toggle]').click()
+
+  const links = page.locator('[data-mobile-nav-link]')
+  const first = requireValue(await links.nth(0).boundingBox())
+  const second = requireValue(await links.nth(1).boundingBox())
+  const third = requireValue(await links.nth(2).boundingBox())
+
+  expect(second.y).toBe(first.y)
+  expect(second.x).toBeGreaterThan(first.x + first.width)
+  expect(third.y).toBeGreaterThan(first.y)
+  expect(third.x).toBe(first.x)
+
+  for (const link of await links.all()) {
+    await expect(link).toBeFocused()
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+  }
+
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = '32px'
+  })
+  await expect.poll(async () => {
+    const firstEnlarged = requireValue(await links.nth(0).boundingBox())
+    const secondEnlarged = requireValue(await links.nth(1).boundingBox())
+
+    return secondEnlarged.y > firstEnlarged.y && secondEnlarged.x === firstEnlarged.x
+  }).toBe(true)
+  await links.last().focus()
+  await expect(links.last()).toBeInViewport()
+  await page.keyboard.press('Escape')
+  await expect(page.locator('#mobile-nav')).toBeHidden()
+})
+
+test('the contact action stays inside a narrow menu with doubled text', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = '32px'
+  })
+  await page.locator('[data-mobile-nav-toggle]').click()
+
+  const contact = page.locator('[data-mobile-nav-actions] .site-nav-contact')
+
+  await contact.focus()
+  await expect(contact).toBeInViewport()
+  const bounds = requireValue(await contact.boundingBox())
+  const label = requireValue(await contact.locator('.site-nav-contact-label').boundingBox())
+
+  expect(label.x).toBeGreaterThanOrEqual(bounds.x)
+  expect(label.x + label.width).toBeLessThanOrEqual(bounds.x + bounds.width)
+  expect(await contact.evaluate(element => element.scrollWidth - element.clientWidth)).toBeLessThanOrEqual(1)
 })

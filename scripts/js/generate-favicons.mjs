@@ -16,7 +16,6 @@ const resolveThemeAssetPath = assetPath => fileURLToPath(
 const getPublicAssetPath = pathname => fileURLToPath(new URL(pathname, publicDir))
 const markPath = resolveThemeAssetPath(staticAssets['logos/logo-square.webp'])
 const markSvgPath = resolveThemeAssetPath('assets/logos/logo-square.svg')
-const faviconSourcePath = getPublicAssetPath('favicon-source.webp')
 const faviconSvgPath = getPublicAssetPath('favicon.svg')
 
 const renderSourceIcon = async () => sharp(markPath)
@@ -59,10 +58,7 @@ const main = async () => {
   await mkdir(iconsDir, { recursive: true })
 
   const sourceIcon = await renderSourceIcon()
-  const sourceIconWebp = await sharp(sourceIcon).webp({ quality: 92, effort: 4 }).toBuffer()
   const sourceIconSvg = (await readFile(markSvgPath, 'utf8')).trimStart()
-
-  await writeFile(faviconSourcePath, sourceIconWebp)
 
   await writePng('favicon-16x16.png', sourceIcon, 16)
 

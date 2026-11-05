@@ -1,0 +1,42 @@
+/* Site-local token extensions.
+ * Core Santi020k color and font tokens are imported from @santi020k/theme.
+ */
+
+@media (prefers-contrast: more) {
+  :root,
+  :root[data-theme="light"] {
+    --success: 142 76% 30%;
+    --warning: 38 92% 35%;
+    --danger: 0 84% 48%;
+  }
+
+  :root[data-theme="dark"] {
+    --success: 142 71% 55%;
+    --warning: 38 92% 65%;
+    --danger: 0 84% 72%;
+  }
+}
+
+@theme {
+  --color-success: hsl(var(--success));
+  --color-warning: hsl(var(--warning));
+  --color-danger: hsl(var(--danger));
+  --shadow-inset-soft: inset 0 1px 0 hsl(0 0% 100% / 0.12);
+
+  /* Animation shorthands — keyframes live in animations.css */
+  --animate-fade-in: fade-in 0.4s ease-out both;
+  --animate-slide-up: slide-up 0.5s ease-out both;
+  --animate-slide-down: slide-down 0.3s ease-out both;
+  --animate-scale-in: scale-in 0.25s ease-out both;
+  --animate-spring-up: spring-up 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-reveal-lcp: reveal-lcp 0.4s ease-out both;
+  --animate-float-y: float-y 6s ease-in-out infinite;
+  --animate-float-y-slow: float-y-slow 8s ease-in-out infinite;
+  --animate-hero-phrase-cycle: hero-phrase-cycle 10s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  --animate-subtle-pulse: subtle-pulse 3s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
+  --animate-shimmer: shimmer 3s linear infinite;
+  --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
+  --animate-morph: morph 12s ease-in-out infinite;
+  --animate-border-spin: border-spin 5s linear infinite;
+}

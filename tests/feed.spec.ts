@@ -2,11 +2,15 @@ import { expect, test } from '@playwright/test'
 
 interface JsonFeedItem {
   date_published?: unknown
+  external_url?: unknown
   id?: unknown
+  image?: unknown
   url?: unknown
 }
 
 interface JsonFeed {
+  favicon?: unknown
+  icon?: unknown
   items: JsonFeedItem[]
   version: string
 }
@@ -77,6 +81,20 @@ test.describe('RSS feed', () => {
     expect(body).toMatch(/xmlns:dc=/)
     expect(body).toContain('<dc:creator>')
   })
+
+  test('/feed.xml attributes every item through dc:creator, never a name-only <author>', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+    const items = body.match(/<item>[\s\S]*?<\/item>/g) ?? []
+
+    expect(items.length).toBeGreaterThan(0)
+    // RSS 2.0 reserves <author> for an email address.
+    expect(body).not.toMatch(/<author>/)
+
+    for (const item of items) {
+      expect(item).toMatch(/<dc:creator>(?:Santiago Molina|<!\[CDATA\[Santiago Molina\]\]>)<\/dc:creator>/u)
+    }
+  })
 })
 
 test.describe('JSON Feed', () => {
@@ -93,10 +111,14 @@ test.describe('JSON Feed', () => {
     assertJsonFeed(json)
     const feed: JsonFeed = json
     expect(feed.version).toBe('https://jsonfeed.org/version/1.1')
+    expect(feed.icon).toBe('https://santi020k.com/icons/icon-512.webp')
+    expect(feed.favicon).toBe('https://santi020k.com/favicon.webp')
     expect(feed.items.length).toBeGreaterThan(0)
     expect(feed.items[0]).toHaveProperty('id')
     expect(feed.items[0]).toHaveProperty('url')
+    expect(feed.items[0]).toHaveProperty('image')
     expect(feed.items[0]).toHaveProperty('date_published')
+    expect(feed.items.some(item => typeof item.external_url === 'string')).toBe(true)
   })
 
   test('home page advertises the JSON feed via <link rel="alternate">', async ({ page }) => {

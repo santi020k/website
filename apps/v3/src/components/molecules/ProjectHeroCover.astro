@@ -1,0 +1,79 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import HoverableCover from '@/components/atoms/HoverableCover.astro'
+
+import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectDateRangeLabel, getProjectTypeLabel } from '@/utils/project-meta'
+
+interface Props {
+  project: CollectionEntry<'project'>
+}
+
+const { project } = Astro.props
+const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
+const heroImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
+---
+
+{project.data.coverImage && heroImage && (
+  <div
+    class="
+      animate-slide-up [animation-delay:300ms]
+      motion-reduce:animate-none
+    "
+  >
+    <div class="relative" data-project-cover>
+      <HoverableCover
+        alt={project.data.coverImage.alt}
+        ariaHidden={true}
+        fetchpriority="high"
+        image={heroImage}
+        loading="eager"
+        preserveAspectRatio={true}
+        showBottomGradient={true}
+        sizes="(min-width: 1280px) 1200px, 100vw"
+      />
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-end
+          justify-between gap-4 px-8 py-6 transition-transform duration-500
+          group-hover:translate-y-1
+          motion-reduce:transition-none
+          motion-reduce:group-hover:translate-y-0
+        "
+        data-project-cover-caption
+      >
+        <div class="space-y-1">
+          <p class="text-xs font-bold tracking-[0.18em] text-white/80 uppercase">
+            {dateRangeLabel}
+          </p>
+          <p class="text-xs font-bold tracking-[0.18em] text-white/60 uppercase">
+            Timeline
+          </p>
+        </div>
+        <div class="space-y-1 text-right">
+          <p class="text-xs font-bold tracking-[0.18em] text-white/80 uppercase">
+            {projectTypeLabel}
+          </p>
+          <p class="text-xs font-bold tracking-[0.18em] text-white/60 uppercase">
+            Project Type
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+<style>
+  /* The caption repeats the timeline and type from the hero and sidebar and is
+     decorative. Groups share the available width, and the caption is omitted
+     when enlarged text leaves too little room on the image. */
+  [data-project-cover] { container-type: inline-size; }
+  [data-project-cover-caption] { display: none; }
+  [data-project-cover-caption] > * { flex: 1 1 7rem; min-width: 0; overflow-wrap: anywhere; }
+  @container (min-width: 17rem) {
+    [data-project-cover-caption] { display: flex; }
+  }
+</style>

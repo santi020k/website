@@ -1,86 +1,107 @@
 ---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import TravelMap from '@/components/pages/travel/TravelMap.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { ButtonLink, Collapsible, Icon } from '@santi020k/lumen-astro'
+import { ButtonLink, Card, Collapsible, Icon } from '@santi020k/lumen-astro'
 
-import { getTravelVisitLabel, travelCountries, travelPageDescription } from '@/data/travel'
+import { travelPageDescription } from '@/data/travel'
+import { getLocale, localizePath } from '@/i18n'
+import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
+import { getLocalizedTravelCountries, getLocalizedVisitLabel } from '@/i18n/travel'
 import { createAuthorSchema } from '@/site.config'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
+const travelCountries = getLocalizedTravelCountries(pageLocale)
+
 const meta = {
-  breadcrumbs: [{ name: 'Home', url: '/' }, { name: 'Travel', url: '/travel/' }],
-  description: travelPageDescription,
-  title: 'Travel & Life Abroad',
+  breadcrumbs: [{ name: t('nav.home'), url: localizePath('/', pageLocale) }, { name: t('nav.travel'), url: localizePath('/travel/', pageLocale) }],
+  description: localizePageSource(pageLocale, travelPageDescription),
+  title: t('page.travelAndLifeAbroad'),
   structuredData: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Travel & Life Abroad',
-    description: travelPageDescription,
-    url: new URL('/travel/', Astro.site).href,
+    name: t('page.travelAndLifeAbroad'),
+    description: localizePageSource(pageLocale, travelPageDescription),
+    url: new URL(localizePath('/travel/', pageLocale), Astro.site).href,
     author: createAuthorSchema(Astro.site)
   }
 }
 ---
 
-<PageLayout meta={meta}>
+<PageLayout backdrop="plain" meta={meta}>
   <TravelMap />
 
-  <section data-travel-section aria-labelledby="travel-story-heading">
-    <div data-travel-section-heading>
-      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>Roots &amp; returns</p>
-      <h2 id="travel-story-heading">Colombia, Paraguay,<br />and the places between.</h2>
-    </div>
-    <div data-travel-story>
-      <p>Colombia is where I’m from. Paraguay is part of my story as both a destination and my country of residence: I have been there seven times, with visits to Asunción, Encarnación, and Ciudad del Este.</p>
-      <p>Some countries appear once on this map; others are places I have returned to. I have visited Mexico seven times, and the United States, Brazil, and Argentina twice each.</p>
-      <p>I’m starting this journal with the places. Over time, I’ll add the stories behind them: everyday life while traveling, working from different places, and the memories I want to keep.</p>
-    </div>
+  <section data-travel-section data-travel-roots aria-labelledby="travel-story-heading">
+    <Card variant="unstyled" data-travel-origin-spread>
+      <header>
+        <p data-travel-roots-eyebrow>{t('page.rootsAndReturns')}<Icon data-travel-roots-book name="book-open" /></p>
+        <h2 id="travel-story-heading">{t('page.colombiaParaguay')}<br />{t('page.andThePlacesBetween')}</h2>
+      </header>
+      <div data-travel-roots-body>
+        <p data-travel-roots-lead>{t('page.colombiaIsWhereIMFrom')}</p>
+        <div data-travel-roots-copy>
+          <p>{t('page.someCountriesAppearOnceOnThis')}</p>
+          <p>{t('page.iMStartingThisJournalWith')}</p>
+        </div>
+      </div>
+    </Card>
   </section>
 
   <section data-travel-section id="travel-countries" aria-labelledby="country-list-heading">
     <div data-travel-section-heading>
-      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>The notebook</p>
-      <h2 id="country-list-heading">Places I’ve kept<br />along the way.</h2>
-      <p>The countries, cities, and regions I have visited, with room for more memories as I write.</p>
+      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>{t('page.theNotebook')}</p>
+      <h2 id="country-list-heading">{t('page.placesIVeKept')}<br />{t('page.alongTheWay')}</h2>
+      <p>{t('page.theCountriesCitiesAndRegionsI')}</p>
     </div>
     <Collapsible id="travel-notebook">
-      <summary>All {travelCountries.length} countries &amp; the places within them</summary>
+      <summary>
+        <span data-travel-index-count>{t('page.all')} <span data-travel-index-total>{travelCountries.length}</span></span>
+        <span data-travel-index-copy>
+          <span data-travel-index-title>{t('page.countries')}</span>
+          <span data-travel-index-subtitle>{t('page.andThePlacesWithinThem')}</span>
+        </span>
+        <Icon data-travel-index-chevron name="chevron-down" />
+      </summary>
       <div data-travel-country-list>
         {travelCountries.map(country => (
           <article id={`country-${country.code.toLowerCase()}`} aria-labelledby={`country-name-${country.code.toLowerCase()}`}>
-            <div data-travel-country-heading>
-              <Icon class="size-4 shrink-0 text-ink-soft" name={country.connection === 'home' ? 'house' : 'map-pin'} />
-              <h3 id={`country-name-${country.code.toLowerCase()}`}>{country.name}</h3>
-              <span data-travel-visit-label>{getTravelVisitLabel(country)}</span>
-            </div>
-            {country.places.length > 0 ?
+            <span data-travel-notebook-code aria-hidden="true">{country.code}</span>
+            <div data-travel-country-content>
+              <header data-travel-country-heading>
+                <h3 id={`country-name-${country.code.toLowerCase()}`}>{country.name}</h3>
+                <span data-travel-visit-label>{getLocalizedVisitLabel(country, pageLocale)}</span>
+              </header>
+              {country.places.length > 0 ?
 (
-              <ul data-travel-place-list>
-                {country.places.map(place => <li>{place}</li>)}
-              </ul>
-            ) :
-<p>I’m from Colombia. This is where my story begins.</p>}
-            {country.note && <p data-travel-country-note>{country.note}</p>}
+                <ul data-travel-place-list role="list">
+                  {country.places.map(place => <li>{place}</li>)}
+                </ul>
+              ) :
+<p data-travel-home-copy>{t('page.iMFromColombiaThisIs')}</p>}
+              {country.note && <p data-travel-country-note>{country.note}</p>}
+            </div>
           </article>
         ))}
       </div>
     </Collapsible>
   </section>
 
-  <section class="maker-hero" data-travel-section aria-labelledby="travel-stories-heading">
-    <div data-travel-section-heading>
-      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>Stories to come</p>
-      <h2 id="travel-stories-heading">More than places<br />on a map.</h2>
-    </div>
-    <div data-travel-story>
-      <p>I’m collecting the stories behind these journeys. Travel posts will join my blog as I finish writing them.</p>
-      <div class="maker-hero-actions">
-        <ButtonLink class="maker-hero-primary" href="/blog/" variant="unstyled">
-          Read the blog
-          <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-up-right" /></span>
+  <section data-travel-section data-travel-stories aria-labelledby="travel-stories-heading">
+    <Card variant="unstyled" data-travel-story-sleeve>
+      <header data-travel-stories-cover>
+        <p data-travel-stories-eyebrow>{t('page.storiesToCome')}<Icon data-travel-stories-book name="book-open" /></p>
+        <h2 id="travel-stories-heading">{t('page.moreThanPlaces')}<br />{t('page.onAMap')}</h2>
+      </header>
+      <div data-travel-stories-body>
+        <p>{t('page.iMCollectingTheStoriesBehind')}</p>
+        <ButtonLink href={localizePath('/blog/', pageLocale)} variant="unstyled" data-travel-stories-link>
+          <span>{t('page.readTheBlog')}</span>
+          <span data-travel-stories-arrow><ArrowExchange data-travel-stories-arrow-icon direction="up-right" /></span>
         </ButtonLink>
       </div>
-    </div>
+    </Card>
   </section>
 </PageLayout>
 
@@ -94,7 +115,6 @@ const meta = {
     margin-inline: auto;
     padding-top: 3rem;
     border-top: 1px solid hsl(var(--line) / 0.65);
-    scroll-margin-top: 7rem;
   }
 
   [data-travel-section-heading] .maker-hero-eyebrow { margin-bottom: 1.5rem; }
@@ -109,39 +129,163 @@ const meta = {
     max-width: 22rem;
     margin-top: 1.25rem;
   }
-  [data-travel-story], [data-travel-section-heading] > p:last-child:not(.maker-hero-eyebrow) {
+  [data-travel-section-heading] > p:last-child:not(.maker-hero-eyebrow) {
     color: hsl(var(--ink-soft));
     font-size: 0.9375rem;
     line-height: 1.9;
     letter-spacing: -0.012em;
   }
-  [data-travel-story] > p + p { margin-top: 1.25rem; }
 
-  /* Keep the native Lumen disclosure; the notebook shares the hero's ruled canvas. */
-  :global(#travel-notebook.ui-collapsible) { --ui-disclosure-inset: 0rem; overflow: visible; border: 0; border-radius: 0; background: transparent; }
-  :global(#travel-notebook > summary) {
-    min-height: 3.5rem;
-    padding: 0.75rem 2.5rem 0.75rem 0;
-    border-bottom: 1px solid hsl(var(--line) / 0.65);
+  /* Index fold opens the native Lumen disclosure into the Journey ledger. */
+  :global(#travel-notebook.ui-collapsible) {
+    --ui-disclosure-inset: 0rem;
+    align-self: start;
+    overflow: visible;
+    padding-block-end: 0;
+    border: 0;
+    border-radius: 0;
     background: transparent;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    line-height: 1.7;
+    container: travel-index / inline-size;
   }
+  :global(#travel-notebook > summary) {
+    display: grid;
+    grid-template-columns: 3.625rem minmax(0, 1fr) 1.875rem;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: 3.5rem;
+    margin-block-end: 0;
+    padding: 1.5rem 0;
+    border-block: 1px solid hsl(var(--line) / 0.65);
+    border-radius: 0;
+    background: transparent;
+    font-weight: 500;
+  }
+  :global(#travel-notebook > summary::before),
+  :global(#travel-notebook > summary::after) { display: none; }
   :global(#travel-notebook > summary:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; }
-  [data-travel-country-list] { padding: 0; }
-  [data-travel-country-list] article { padding-block: 1.5rem; border-bottom: 1px solid hsl(var(--line) / 0.65); scroll-margin-top: 7rem; }
-  [data-travel-country-heading] { display: flex; flex-wrap: wrap; align-items: center; gap: 0.625rem; }
-  [data-travel-country-heading] h3 { font-size: 1rem; font-weight: 600; letter-spacing: -0.025em; }
-  [data-travel-visit-label] { margin-left: auto; color: hsl(var(--ink-soft)); font-size: 0.75rem; }
-  [data-travel-place-list] { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin-top: 0.75rem; padding: 0; list-style: none; }
-  [data-travel-place-list] li, [data-travel-country-list] article > p { color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
-  [data-travel-country-list] article > p { margin-top: 0.75rem; }
-  [data-travel-country-list] article > [data-travel-country-note] { font-size: 0.75rem; }
+  [data-travel-index-count] { display: grid; gap: .3125rem; color: hsl(var(--brand)); font-size: .75rem; line-height: 1.4; }
+  [data-travel-index-total] { font-size: 2.6875rem; line-height: 1; letter-spacing: -.06em; }
+  [data-travel-index-copy] { min-width: 0; padding-inline-start: 1.375rem; border-inline-start: 2px solid hsl(var(--brand)); }
+  [data-travel-index-title] { display: block; font-size: 1.4375rem; line-height: 1.4; letter-spacing: -.03em; }
+  [data-travel-index-subtitle] { display: block; margin-top: .25rem; color: hsl(var(--ink-soft)); font-size: .8125rem; line-height: 1.7; }
+  :global([data-travel-index-chevron]) { justify-self: center; color: hsl(var(--brand)); font-size: 1.125rem; }
+  :global(#travel-notebook[open] [data-travel-index-chevron]) { transform: rotate(180deg); }
+  :global(#travel-notebook > summary:hover) [data-travel-index-title] { text-decoration: underline; text-underline-offset: .2em; }
+  :global([data-theme='dark']) [data-travel-index-count],
+  :global([data-theme='dark'] [data-travel-index-chevron]) { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-travel-index-copy] { border-color: hsl(var(--accent)); }
+  :global([data-theme='dark'] #travel-notebook > summary:focus-visible) { outline-color: hsl(var(--accent)); }
+
+  @container travel-index (width < 29rem) {
+    :global(#travel-notebook > summary) { grid-template-columns: 2.875rem minmax(0, 1fr) 1.875rem; gap: 1rem; }
+    [data-travel-index-total] { font-size: 2.1875rem; }
+    [data-travel-index-copy] { padding-inline-start: 1rem; }
+    [data-travel-index-title] { font-size: 1.25rem; }
+  }
+  @container travel-index (width < 18rem) {
+    :global(#travel-notebook > summary) { grid-template-columns: 2.875rem minmax(0, 1fr) 1.25rem; gap: .625rem; }
+    [data-travel-index-copy] { padding-inline-start: .625rem; }
+  }
+  @container travel-index (width < 14rem) {
+    :global(#travel-notebook > summary) { grid-template-columns: minmax(0, 1fr) 1.25rem; gap: 1rem; }
+    [data-travel-index-copy] { grid-column: 1 / -1; grid-row: 2; }
+    :global([data-travel-index-chevron]) { grid-column: 2; grid-row: 1; }
+  }
+  [data-travel-country-list] { min-width: 0; padding: 0; container: travel-notebook / inline-size; }
+  [data-travel-country-list] article { display: grid; grid-template-columns: 3.75rem minmax(0, 1fr); gap: 1.5rem; padding-block: 1.625rem; border-top: 1px solid hsl(var(--line)); }
+  [data-travel-country-list] article:first-child { border-top: 0; }
+  [data-travel-country-list] article:last-child { border-bottom: 1px solid hsl(var(--line)); }
+  [data-travel-notebook-code] { min-width: 0; padding-top: .1875rem; color: hsl(var(--brand)); font-size: 1.875rem; font-weight: 500; line-height: 1.15; letter-spacing: -.06em; }
+  [data-travel-country-content] { min-width: 0; }
+  [data-travel-country-heading] { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; margin-bottom: 1rem; }
+  [data-travel-country-heading] h3 { min-width: 0; font-size: 1.625rem; font-weight: 500; line-height: 1.25; letter-spacing: -.045em; }
+  [data-travel-visit-label] { max-width: 13em; color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.65; }
+  [data-travel-place-list] { display: flex; flex-wrap: wrap; gap: .25rem 1.125rem; padding: 0; list-style: none; color: hsl(var(--ink-soft)); font-size: .8125rem; line-height: 1.8; }
+  [data-travel-place-list] li { display: flex; align-items: baseline; gap: .4375rem; min-width: 0; }
+  [data-travel-place-list] li::before { content: ''; width: .1875rem; height: .1875rem; flex-shrink: 0; align-self: center; border-radius: 50%; background: hsl(var(--brand)); }
+  [data-travel-home-copy], [data-travel-country-note] { color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.85; }
+  [data-travel-country-note] { margin-top: .75rem; }
+  :global([data-theme='dark']) [data-travel-notebook-code] { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-travel-place-list] li::before { background: hsl(var(--accent)); }
+
+  @container travel-notebook (width < 28rem) {
+    [data-travel-country-list] article { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 1rem; }
+    [data-travel-notebook-code] { font-size: 1.5rem; }
+    [data-travel-country-heading] { display: block; }
+    [data-travel-country-heading] h3 { font-size: 1.4375rem; }
+    [data-travel-visit-label] { display: block; max-width: none; margin-top: .5rem; }
+  }
+
+  @container travel-notebook (width < 14rem) {
+    [data-travel-country-list] article { grid-template-columns: minmax(0, 1fr); gap: .75rem; padding-block: 1.5rem; }
+    [data-travel-notebook-code] { font-size: 1.0625rem; }
+    /* At a fixed 1.4375rem, "Guatemala" filled the column to within 2px and could break. */
+    [data-travel-country-heading] h3 { font-size: min(1.4375rem, 18.5cqi); }
+  }
 
   @media (max-width: 47.999rem) {
     [data-travel-section] { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; padding-top: 2rem; }
     [data-travel-section-heading] .maker-hero-eyebrow { margin-bottom: 1rem; }
-    [data-travel-visit-label] { flex-basis: 100%; margin-left: 1.625rem; }
+  }
+
+  [data-travel-roots] { display: block; padding-top: 0; border-top: 0; container: travel-roots / inline-size; }
+  :global([data-travel-origin-spread]) { padding: 1.75rem 2rem 2rem; border: 1px solid hsl(var(--line)); border-radius: .375rem 2rem .375rem 2rem; background: hsl(var(--surface)); }
+  [data-travel-roots-eyebrow] { display: flex; align-items: center; justify-content: space-between; gap: .625rem; margin-bottom: 1.5rem; color: hsl(var(--brand)); font-size: .6875rem; font-weight: 500; line-height: 1.7; letter-spacing: .025em; }
+  :global([data-travel-roots-book]) { flex-shrink: 0; font-size: 1.375rem; }
+  #travel-story-heading { max-width: 24ch; font-size: 2.625rem; font-weight: 500; line-height: 1.16; letter-spacing: -.055em; text-wrap: balance; }
+  [data-travel-roots-body] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; margin-top: 1.75rem; padding-top: 1.75rem; border-top: 1px solid hsl(var(--line)); }
+  [data-travel-roots-lead] { min-width: 0; color: hsl(var(--ink)); font-size: 1.1875rem; line-height: 1.65; letter-spacing: -.025em; }
+  [data-travel-roots-copy] { min-width: 0; padding-left: 1.5rem; border-left: 1px solid hsl(var(--brand)); color: hsl(var(--ink-soft)); font-size: .875rem; line-height: 1.9; }
+  [data-travel-roots-copy] p + p { margin-top: 1.25rem; }
+  :global([data-theme='dark']) [data-travel-roots-eyebrow] { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-travel-roots-copy] { border-color: hsl(var(--accent)); }
+
+  @container travel-roots (width < 36rem) {
+    :global([data-travel-origin-spread]) { padding: 1.5rem; }
+    #travel-story-heading { font-size: 2.125rem; }
+    [data-travel-roots-body] { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-top: 1.5rem; padding-top: 1.5rem; }
+    [data-travel-roots-copy] { padding: 1.25rem 0 0; border-top: 1px solid hsl(var(--brand)); border-left: 0; }
+  }
+
+  @container travel-roots (width < 18rem) {
+    :global([data-travel-origin-spread]) { padding: 1.25rem 1rem; }
+    #travel-story-heading { font-size: 1.75rem; }
+    [data-travel-roots-lead] { font-size: 1.0625rem; }
+  }
+
+  @container travel-roots (width < 11rem) {
+    :global([data-travel-origin-spread]) { padding-inline: .5rem; }
+    #travel-story-heading { font-size: 1.25rem; }
+    [data-travel-roots-lead] { font-size: 1rem; }
+  }
+
+  [data-travel-stories] { display: block; padding-top: 0; border-top: 0; container: travel-stories / inline-size; }
+  :global([data-travel-story-sleeve]) { overflow: hidden; border: 1px solid hsl(var(--line)); border-radius: 2rem .375rem 2rem .375rem; background: hsl(var(--surface)); }
+  [data-travel-stories-cover] { padding: 1.75rem 2rem 2rem; background: hsl(var(--brand-soft)); }
+  [data-travel-stories-eyebrow] { display: flex; align-items: center; justify-content: space-between; gap: .625rem; margin-bottom: 1.5rem; color: hsl(var(--brand)); font-size: .6875rem; font-weight: 500; line-height: 1.7; letter-spacing: .025em; }
+  :global([data-travel-stories-book]) { flex-shrink: 0; font-size: 1.5rem; }
+  [data-travel-stories-cover] h2 { font-size: 2.625rem; font-weight: 500; line-height: 1.12; letter-spacing: -.06em; }
+  [data-travel-stories-body] { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2rem; padding: 1.75rem 2rem; }
+  [data-travel-stories-body] > p { min-width: 0; color: hsl(var(--ink-soft)); font-size: .875rem; line-height: 1.9; }
+  :global([data-travel-stories-link]) { display: flex; min-width: 0; min-height: 3rem; align-items: center; gap: 1rem; padding-left: 1.5rem; border-left: 1px solid hsl(var(--line)); color: hsl(var(--ink)); font-size: .75rem; font-weight: 500; line-height: 1.5; text-decoration: none; }
+  :global([data-travel-stories-link]:hover) { color: hsl(var(--brand)); }
+  :global([data-travel-stories-link]:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; }
+  [data-travel-stories-arrow] { display: grid; width: 2.5rem; height: 2.5rem; flex-shrink: 0; place-items: center; border-radius: .75rem .1875rem .75rem .1875rem; background: hsl(var(--brand-soft)); color: hsl(var(--brand)); }
+  :global([data-travel-stories-arrow-icon]) { font-size: 1.25rem; }
+  :global([data-theme='dark']) [data-travel-stories-eyebrow] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme='dark']) [data-travel-stories-arrow],
+  :global([data-theme='dark'] [data-travel-stories-link]:hover) { color: hsl(var(--accent)); }
+  :global([data-theme='dark'] [data-travel-stories-link]:focus-visible) { outline-color: hsl(var(--accent)); }
+
+  @container travel-stories (width < 34rem) {
+    [data-travel-stories-cover] { padding: 1.5rem; }
+    [data-travel-stories-cover] h2 { font-size: 2.125rem; }
+    [data-travel-stories-body] { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; padding: 1.5rem; }
+    :global([data-travel-stories-link]) { justify-content: space-between; padding-top: 1rem; padding-left: 0; border-top: 1px solid hsl(var(--line)); border-left: 0; }
+  }
+
+  @container travel-stories (width < 18rem) {
+    [data-travel-stories-cover], [data-travel-stories-body] { padding: 1.25rem 1rem; }
+    [data-travel-stories-cover] h2 { font-size: 1.75rem; }
   }
 </style>

@@ -1,0 +1,167 @@
+---
+import type { ImageMetadata } from 'astro'
+
+import { Image } from 'astro:assets'
+
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import '@/styles/pages/history.css'
+
+import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
+import current from '@santi020k/website-history/current'
+import versions from '@santi020k/website-history/versions'
+
+import { getLocale, localizePath } from '@/i18n'
+import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
+const captures = import.meta.glob<{ default: ImageMetadata }>('../assets/website-history/*.webp', { eager: true })
+
+const eras = [
+  { ...current, current: true },
+  ...[...versions].reverse().map(version => ({ ...version, current: false }))
+]
+
+const imageFor = (id: string, device: 'desktop' | 'mobile') => {
+  const capture = captures[`../assets/website-history/${id}-${device}.webp`]?.default
+
+  if (!capture) throw new Error(`Missing website history capture: ${id}-${device}`)
+
+  return capture
+}
+
+const formatDate = (date: string) => new Intl.DateTimeFormat(pageLocale === 'es' ? 'es-419' : 'en', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))
+const archiveNavigation = { 'data-astro-reload': '' }
+
+const meta = {
+  title: t('shared.websiteHistory'),
+  description: t('page.aLivingHistoryOfSanti020kCom'),
+  breadcrumbs: [{ name: t('nav.home'), url: localizePath('/', pageLocale) }, { name: t('shared.websiteHistory'), url: localizePath('/history/', pageLocale) }]
+}
+---
+
+<PageLayout meta={meta} mainClass="remaining-pages" headerVariant="signature">
+  <div class="history-shell">
+    <header class="signature-frame history-intro">
+      <div class="history-hero-stage">
+        <div class="history-hero-copy">
+          <p class="editorial-eyebrow">{t('page.aDigitalTimeCapsuleEst2026')}</p>
+          <h1 class="editorial-page-title">{t('page.aWebsite')}<span class="
+            editorial-page-emphasis
+          "
+                                                               >{t('page.overTime')}</span></h1>
+          <p class="editorial-page-description">{t('page.sameMakerDifferentChaptersACollection')}</p>
+          <div class="maker-hero-actions">
+            <ButtonLink class="maker-hero-primary" href="#versions" variant="unstyled">
+              {t('page.exploreTheVersions')}
+              <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange direction="down" /></span>
+            </ButtonLink>
+          </div>
+          <p class="history-hero-note">{t('page.nothingLostEveryOldDoorStill')}</p>
+        </div>
+        <div class="history-hero-exhibit" role="group" aria-label={t('page.websiteDesignPreviews')}>
+          <figure class="history-hero-print" data-history-hero-current>
+            <Image src={imageFor(current.id, 'desktop')} alt={`${current.id.toUpperCase()} ${t('page.homepageCapture')}`} widths={[320, 640, 960]} sizes="(min-width: 1200px) 528px, (min-width: 960px) calc(50vw - 4.5rem), (min-width: 640px) 512px, calc(100vw - 4rem)" loading="eager" />
+            <figcaption>
+              <span class="history-hero-current-version">{current.id.toUpperCase()}</span>
+              <Pill label={t('page.today')} tone="brand" />
+            </figcaption>
+          </figure>
+          <div class="history-hero-past">
+            {['v1', 'v2'].map(id => (
+              <figure class="history-hero-print">
+                <Image src={imageFor(id, 'desktop')} alt={`${id.toUpperCase()} ${t('page.homepageCapture')}`} widths={[160, 320, 480]} sizes="(min-width: 1200px) 254px, (min-width: 960px) calc(25vw - 2.875rem), (min-width: 640px) 246px, calc(50vw - 2.5rem)" loading="eager" />
+                <figcaption class="history-hero-print-label">
+                  <span>{id.toUpperCase()}</span>
+                  <span>{t('page.fromTheArchive')}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <p class="history-hero-caption"><span>{t('page.actualPagesRealEvolution')}</span><span>{t('history.currentPeriod')} <Icon name="arrow-up-right" /></span></p>
+        </div>
+      </div>
+      <nav class="history-hero-chapters" aria-label={t('page.jumpToADesignEra')}>
+        <p class="history-hero-chapter-intro"><span>{t('page.fiveChapters')}</span><span>{t('page.stillBeingWritten')}</span></p>
+        <ol class="history-hero-chapter-links">
+          {[...eras].reverse().map(era => (
+            <li>
+              <a href={localizePath(`#${era.id}`, pageLocale)} data-history-current-era={era.current ? '' : undefined}>
+                <span class="history-hero-chapter-version">{era.id.toUpperCase()}</span>
+                <ArrowExchange data-history-chapter-icon direction="down-right" />
+                <time class="history-hero-chapter-date" datetime={era.date}>{formatDate(era.date)}</time>
+                <span class="history-hero-chapter-state">{era.current ? t('page.theCurrentCanvas') : t('page.anEarlierIdea')}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </header>
+
+    <ol class="history-timeline" id="versions" aria-label={t('page.websiteDesignErasNewestFirst')}>
+      {eras.map(era => (
+        <li class="history-era" id={era.id} data-history-era-current={era.current ? '' : undefined}>
+          <article class="history-era-body" aria-labelledby={`${era.id}-title`}>
+            <Card data-history-era-summary variant="unstyled">
+              <div class="history-era-marker">
+                <span class="history-version">{era.id.toUpperCase()}</span>
+                <time datetime={era.date}>{formatDate(era.date)}</time>
+                {era.release && <span class="history-release">{t('page.release')} {era.release}</span>}
+                <span class="history-status">{era.current ? t('page.currentChapter') : t('page.preservedChapter')}</span>
+              </div>
+              <div class="history-era-heading">
+                <h2 id={`${era.id}-title`}>{localizePageSource(pageLocale, era.title)}</h2>
+                <p>{localizePageSource(pageLocale, era.description)}</p>
+              </div>
+            </Card>
+            <Card class="history-captures" data-history-captures variant="unstyled">
+              <div class="history-capture-heading">
+                <span class="history-capture-version">{era.id.toUpperCase()}</span>
+                <span class="history-capture-address">santi020k.com{era.current ? '' : `/${era.id}/`}</span>
+              </div>
+              <div class="history-capture-pair">
+                <figure class="history-desktop">
+                  <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} ${t('page.homepageAtDesktopSize')}`} widths={[480, 800, 1200]} sizes={`${era.current ? '(max-width: 639px) calc(100vw - 6rem), ' : ''}(min-width: 1200px) 805px, (min-width: 648px) calc(75vw - 6rem), (min-width: 640px) calc(75vw - 5rem), (min-width: 320px) calc(54vw - 3rem), calc(100vw - 4.5rem)`} loading="lazy" />
+                  <figcaption>
+                    <span class="history-capture-device">{t('page.desktop')}</span>
+                    <span class="history-capture-dimensions">1440 × 1000</span>
+                  </figcaption>
+                </figure>
+                <figure class="history-mobile">
+                  <Image src={imageFor(era.id, 'mobile')} alt={`${era.id.toUpperCase()} ${t('page.homepageAtMobileSize')}`} widths={[195, 390]} sizes={`${era.current ? '(max-width: 639px) min(208px, calc(72vw - 4.25rem)), ' : ''}(min-width: 1200px) 276px, (min-width: 648px) calc(25vw - 1.5rem), (min-width: 640px) calc(25vw - 1.25rem), (min-width: 320px) min(208px, calc(46vw - 2rem)), 130px`} loading="lazy" />
+                  <figcaption>
+                    <span class="history-capture-device">{t('page.mobile')}</span>
+                    <span class="history-capture-dimensions">390 × 844</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </Card>
+            <div class="history-era-actions">
+              <ButtonLink data-history-era-action href={localizePath(era.current ? '/' : `/${era.id}/`, pageLocale)} {...archiveNavigation} variant="secondary">
+                {era.current ? t('page.exploreTheCurrentWebsite') : `${t('shared.open')} ${era.id.toUpperCase()}`}<ArrowExchange direction="up-right" />
+              </ButtonLink>
+              <span>{era.current ? t('page.stillEvolving') : t('page.browseableWithTheContentOfIts')}</span>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ol>
+
+    <aside class="history-footnote" aria-labelledby="history-note-title">
+      <div class="history-colophon">
+        <header>
+          <p class="history-colophon-eyebrow">{t('page.aNoteOnPreservation')}</p>
+          <h2 id="history-note-title">{t('page.oldIdeasOpenDoors')}</h2>
+          <span class="history-colophon-seal"><Icon name="book-open" /></span>
+        </header>
+        <div class="history-colophon-copy">
+          <p>{t('page.v1AndV2AreCuratedDesign')}</p>
+          <p>{t('page.theArchivedDesignsAndContentStay')}</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</PageLayout>

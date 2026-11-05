@@ -1,0 +1,81 @@
+---
+import { Card, RevealGroup } from '@santi020k/lumen-astro'
+
+interface Props {
+  sections: readonly {
+    label: string
+    body: string
+  }[]
+}
+
+const { sections } = Astro.props
+---
+
+<div class="section-container-wide" data-policy-sections>
+  <Card data-policy-card variant="unstyled">
+    <RevealGroup stagger={60} threshold={0}>
+      {sections.map(({ label, body }, index) => (
+        <section data-policy-row>
+          <header data-policy-heading>
+            <span data-policy-number aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <h2>{label}</h2>
+          </header>
+          <p data-policy-copy>{body}</p>
+        </section>
+      ))}
+    </RevealGroup>
+  </Card>
+</div>
+
+<style>
+  [data-policy-sections] { container: policy-sections / inline-size; }
+  [data-policy-card][data-slot='card'] {
+    --policy-emphasis: hsl(var(--brand));
+    padding: 0 1.75rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: var(--radius-folio);
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+  }
+  :global([data-theme='dark']) [data-policy-card] { --policy-emphasis: hsl(var(--accent)); }
+  [data-policy-row] {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 2rem;
+    min-width: 0;
+    padding-block: 1.75rem;
+    overflow-wrap: break-word;
+  }
+  [data-policy-row] + [data-policy-row] { border-top: 1px solid hsl(var(--line)); }
+  [data-policy-heading] {
+    align-self: start;
+    min-width: 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--policy-emphasis);
+  }
+  [data-policy-number] {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--policy-emphasis);
+    font-size: 0.75rem;
+    line-height: 1.125rem;
+    font-weight: 500;
+  }
+  :global(.remaining-pages) [data-policy-heading] h2 {
+    font-size: 1.375rem;
+    line-height: 1.875rem;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+  }
+  [data-policy-copy] { margin: 0; min-width: 0; max-width: 65ch; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.75rem; }
+  @container policy-sections (width < 34rem) {
+    [data-policy-card][data-slot='card'] { padding-inline: 1.375rem; }
+    [data-policy-row] { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  }
+  @container policy-sections (width < 16rem) {
+    /* Reclaim the enlarged page gutters before reducing readable content space. */
+    [data-policy-card][data-slot='card'] { width: calc(100% + 1rem); margin-inline: -0.5rem; padding-inline: 0.5rem; }
+    [data-policy-heading] { padding-left: 0.25rem; }
+    :global(.remaining-pages) [data-policy-heading] h2 { font-size: 1rem; line-height: 1.5rem; }
+  }
+</style>

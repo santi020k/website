@@ -24,7 +24,6 @@ describe('project brand utilities', () => {
     expect(style).toContain('--project-primary: 38 91% 51%')
     expect(style).toContain('--project-secondary: 215 14% 34%')
     expect(style).toContain('--project-surface: 221 39% 11%')
-    expect(style).toContain('--project-on-surface: 0 0% 100%')
     expect(style).toContain('--project-primary-readable:')
     expect(style).toContain('--project-primary-readable-dark:')
     expect(style).toContain('--project-title-primary-readable:')

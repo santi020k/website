@@ -294,4 +294,4 @@ My rule is simple:
 - Row Level Security is one of the most important parts of real authorization.
 - Frontend permission checks are useful, but they should not be the final security boundary.
 
-[Next Post: Migrate ESLint 8 or Less to ESLint 9](/blog/migrate-eslint-8-or-less-to-eslint-9/)
+[Related series: Migrate from ESLint 8 or Earlier to ESLint 9](/blog/migrate-eslint-8-or-less-to-eslint-9/ "ESLint in Practice")

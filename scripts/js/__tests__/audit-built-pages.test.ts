@@ -19,6 +19,43 @@ const withSite = async (run: (directory: string) => Promise<void>) => {
   }
 }
 
+test('continues reporting missing targets and fragments after malformed percent sequences', async () => {
+  await withSite(async directory => {
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/bad%zz/">Bad path</a><a href="#missing%">Bad fragment</a><a href="/also-missing/">Other missing page</a>'))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/bad%zz/' },
+      { route: '/', kind: 'missing-fragment', target: '/#missing%' },
+      { route: '/', kind: 'missing-target', target: '/also-missing/' }
+    ])
+  })
+})
+
+test('matches literal and partially encoded fragment IDs using browser decoding', async () => {
+  await withSite(async directory => {
+    await writeFile(path.join(directory, 'index.html'), document([
+      '<a href="#50%">Literal percent</a><p id="50%">Half</p>',
+      '<a href="#caf%C3%A9%">Encoded text and literal percent</a><p id="café%">Coffee</p>',
+      '<a href="#bad%FF">Invalid UTF-8</a><p id="bad�">Replacement</p>',
+      '<a href="#literal%20id">Literal encoded-looking ID</a><p id="literal%20id">Literal</p>',
+      '<a href="#a+b">Literal plus</a><p id="a+b">Plus</p>'
+    ].join('')))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([])
+  })
+})
+
+test('malformed encoded paths cannot bypass the build-root boundary', async () => {
+  await withSite(async directory => {
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/%2e%2e%2f/missing%zz/">Traversal</a><a href="/bad%00/">Null byte</a>'))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/%2e%2e%2f/missing%zz/' },
+      { route: '/', kind: 'missing-target', target: '/bad%00/' }
+    ])
+  })
+})
+
 test('checks existing pages, assets, encoded fragments, recovery pages, and configured redirects', async () => {
   await withSite(async directory => {
     await mkdir(path.join(directory, 'article'))
@@ -92,6 +129,105 @@ test('resolves wildcard redirects and validates fragments on the destination pag
   })
 })
 
+// Cloudflare Pages follows a matching redirect even when a built asset exists at its source.
+test('follows a redirect instead of the built file it shadows and rejects its missing destination', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'article'))
+    await writeFile(path.join(directory, 'article/index.html'), document('Article'))
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/article/">Article</a>'))
+    await writeFile(path.join(directory, '_redirects'), '/article/ /missing/ 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/article/' }
+    ])
+  })
+})
+
+test('rejects a redirect cycle even when its sources are built pages', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'cycle'))
+    await mkdir(path.join(directory, 'loop'))
+    await writeFile(path.join(directory, 'cycle/index.html'), document('Cycle'))
+    await writeFile(path.join(directory, 'loop/index.html'), document('Loop'))
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/cycle/">Cycle</a>'))
+    await writeFile(path.join(directory, '_redirects'), '/cycle/ /loop/ 301\n/loop/ /cycle/ 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/cycle/' }
+    ])
+  })
+})
+
+test('validates fragments on the final destination of a redirect that shadows a built page', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'old'))
+    await mkdir(path.join(directory, 'article'))
+    await writeFile(path.join(directory, 'old/index.html'), document('<p id="stale">Old</p>'))
+    await writeFile(path.join(directory, 'article/index.html'), document('<p id="present">Article</p>'))
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/old/#present">Present</a><a href="/old/#stale">Stale</a>'))
+    await writeFile(path.join(directory, '_redirects'), '/old/ /article/ 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-fragment', target: '/old/#stale' }
+    ])
+  })
+})
+
+test('applies wildcard redirects before built assets under their prefix', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'old'))
+    await writeFile(path.join(directory, 'old/image.webp'), 'fixture')
+    await writeFile(path.join(directory, 'index.html'), document('<img src="/old/image.webp" alt="Fixture">'))
+    await writeFile(path.join(directory, '_redirects'), '/old/* /:splat 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/old/image.webp' }
+    ])
+  })
+})
+
+test('uses the first matching redirect rule', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'docs/intro'), { recursive: true })
+    await mkdir(path.join(directory, 'article'))
+    await writeFile(path.join(directory, 'docs/intro/index.html'), document('Intro'))
+    await writeFile(path.join(directory, 'article/index.html'), document('Article'))
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/docs/intro/">Intro</a>'))
+    await writeFile(path.join(directory, '_redirects'), '/docs/* /missing/ 301\n/docs/intro/ /article/ 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/docs/intro/' }
+    ])
+  })
+})
+
+test('serves only the immediate local target of a status 200 proxy over a built page', async () => {
+  await withSite(async directory => {
+    for (const page of ['proxied', 'middle', 'unchained', 'article']) await mkdir(path.join(directory, page))
+
+    await writeFile(path.join(directory, 'proxied/index.html'), document('<p id="source">Source</p>'))
+    await writeFile(path.join(directory, 'middle/index.html'), document('<p id="present">Middle</p>'))
+    await writeFile(path.join(directory, 'unchained/index.html'), document('Unchained'))
+    await writeFile(path.join(directory, 'article/index.html'), document('Article'))
+    await writeFile(path.join(directory, 'index.html'), document(`
+      <a href="/proxied/#present">Proxied</a>
+      <a href="/proxied/#source">Shadowed source</a>
+      <a href="/unchained/">Unchained</a>
+    `))
+    await writeFile(path.join(directory, '_redirects'), [
+      '/proxied/ /middle/ 200',
+      '/middle/ /missing/ 301',
+      '/unchained/ /gone/ 200',
+      '/gone/ /article/ 301'
+    ].join('\n'))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-fragment', target: '/proxied/#source' },
+      { route: '/', kind: 'missing-target', target: '/unchained/' }
+    ])
+  })
+})
+
 test('checks picture sources and every width or density candidate in responsive images', async () => {
   await withSite(async directory => {
     await writeFile(path.join(directory, 'index.html'), document(`
@@ -124,5 +260,148 @@ test('preserves commas in srcset URLs and ignores external and embedded image ca
     await writeFile(path.join(directory, 'image,large.webp'), 'fixture')
 
     expect(await auditBuiltPages(directory)).toEqual({ pages: 1, targets: 2, issues: [] })
+  })
+})
+
+test('rejects percent-encoded traversal outside the build root while accepting encoded in-root assets', async () => {
+  await withSite(async directory => {
+    const build = path.join(directory, 'dist')
+    const outsideFile = 'outside.txt'
+    const outsidePage = 'outside/'
+    const siblingFile = 'dist-sibling/file.txt'
+    const encodedAsset = 'caf%C3%A9.txt'
+    const lowerTraversal = `/%2e%2e%2f${outsideFile}`
+    const upperTraversal = `/%2E%2E%2F${outsideFile}`
+    const mixedTraversal = `/..%2f${outsideFile}`
+    const pageTraversal = `/%2e%2e%2f${outsidePage}`
+    const siblingTraversal = `/%2e%2e%2f${siblingFile}`
+    const insideTraversal = `/files/%2e%2e%2f${encodedAsset}`
+
+    await mkdir(path.join(build, 'files'), { recursive: true })
+    await mkdir(path.join(directory, 'outside'))
+    await mkdir(path.join(directory, 'dist-sibling'))
+    await writeFile(path.join(directory, siblingFile), 'outside')
+    await writeFile(path.join(directory, 'outside.txt'), 'outside')
+    await writeFile(path.join(directory, 'outside/index.html'), document('Outside'))
+    await writeFile(path.join(build, 'café.txt'), 'fixture')
+    await writeFile(path.join(build, 'files/space name.txt'), 'fixture')
+    await writeFile(path.join(build, 'index.html'), document(`
+      <a href="/caf%C3%A9.txt">Encoded asset</a>
+      <a href="/files/space%20name.txt">Encoded space</a>
+      <a href="${insideTraversal}">Normalized local asset</a>
+      <a href="${lowerTraversal}">Lowercase traversal</a>
+      <a href="${upperTraversal}">Uppercase traversal</a>
+      <a href="${mixedTraversal}">Mixed traversal</a>
+      <a href="${pageTraversal}">Outside page</a>
+      <a href="${siblingTraversal}">Sibling with the same prefix</a>
+    `))
+
+    expect((await auditBuiltPages(build)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: lowerTraversal },
+      { route: '/', kind: 'missing-target', target: upperTraversal },
+      { route: '/', kind: 'missing-target', target: mixedTraversal },
+      { route: '/', kind: 'missing-target', target: pageTraversal },
+      { route: '/', kind: 'missing-target', target: siblingTraversal }
+    ])
+  })
+})
+
+test('validates fragments through paths without trailing slashes, index.html, and percent-encoded page aliases', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'article'))
+    await mkdir(path.join(directory, 'café'))
+    await writeFile(path.join(directory, 'article/index.html'), document('<p id="present">Article</p>'))
+    await writeFile(path.join(directory, 'café/index.html'), document('<p id="intro">Café</p>'))
+    await writeFile(path.join(directory, 'index.html'), document(`
+      <a href="/article#present">Without slash</a>
+      <a href="/article/index.html#present">Index document</a>
+      <a href="/%61%72%74%69%63%6c%65/#present">Encoded ASCII</a>
+      <a href="/caf%C3%A9/#intro">Encoded</a>
+      <a href="/caf%C3%A9#intro">Encoded without-slash</a>
+      <a href="/caf%C3%A9/index.html#intro">Encoded index document</a>
+      <a href="/article#missing">Without slash missing</a>
+      <a href="/article/index.html#missing">Index document missing</a>
+      <a href="/%61%72%74%69%63%6c%65/#missing">Encoded ASCII missing</a>
+      <a href="/caf%C3%A9/#missing">Encoded missing</a>
+      <a href="/caf%C3%A9#missing">Encoded without-slash missing</a>
+      <a href="/caf%C3%A9/index.html#missing">Encoded index document missing</a>
+    `))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-fragment', target: '/article#missing' },
+      { route: '/', kind: 'missing-fragment', target: '/article/index.html#missing' },
+      { route: '/', kind: 'missing-fragment', target: '/%61%72%74%69%63%6c%65/#missing' },
+      { route: '/', kind: 'missing-fragment', target: '/caf%C3%A9/#missing' },
+      { route: '/', kind: 'missing-fragment', target: '/caf%C3%A9#missing' },
+      { route: '/', kind: 'missing-fragment', target: '/caf%C3%A9/index.html#missing' }
+    ])
+  })
+})
+
+test('validates fragments on redirect destinations written as page aliases', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'article'))
+    await mkdir(path.join(directory, 'café'))
+    await writeFile(path.join(directory, 'article/index.html'), document('<p id="present">Article</p>'))
+    await writeFile(path.join(directory, 'café/index.html'), document('<p id="intro">Café</p>'))
+    await writeFile(path.join(directory, '_redirects'), [
+      '/legacy-without-slash/ /article 301',
+      '/legacy-index/ /article/index.html 301',
+      '/legacy-encoded/ /caf%C3%A9/ 301'
+    ].join('\n'))
+    await writeFile(path.join(directory, 'index.html'), document(`
+      <a href="/legacy-without-slash/#present">Without slash</a>
+      <a href="/legacy-index/#present">Index document</a>
+      <a href="/legacy-encoded/#intro">Encoded</a>
+      <a href="/legacy-without-slash/#missing">Without slash missing</a>
+      <a href="/legacy-index/#missing">Index document missing</a>
+      <a href="/legacy-encoded/#missing">Encoded missing</a>
+    `))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-fragment', target: '/legacy-without-slash/#missing' },
+      { route: '/', kind: 'missing-fragment', target: '/legacy-index/#missing' },
+      { route: '/', kind: 'missing-fragment', target: '/legacy-encoded/#missing' }
+    ])
+  })
+})
+
+test('validates 404.html fragments without treating non-HTML asset fragments as page IDs', async () => {
+  await withSite(async directory => {
+    await writeFile(path.join(directory, '404.html'), document('<p id="recovery">Recovery</p>'))
+    await writeFile(path.join(directory, 'guide.pdf'), 'fixture')
+    await writeFile(path.join(directory, 'sprite.svg'), '<svg xmlns="http://www.w3.org/2000/svg"><symbol id="icon"></symbol></svg>')
+    await writeFile(path.join(directory, 'index.html'), document(`
+      <a href="/404/#recovery">Recovery</a>
+      <a href="/404.html#recovery">Recovery document</a>
+      <a href="/404.html#missing">Recovery document missing</a>
+      <a href="/guide.pdf#page=2">Guide</a>
+      <a href="/sprite.svg#icon">Icon</a>
+      <a href="/sprite.svg#absent">Absent icon</a>
+    `))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-fragment', target: '/404.html#missing' }
+    ])
+  })
+})
+
+test('rejects a directory named index.html as a directory index target', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'article'))
+    await mkdir(path.join(directory, 'broken/index.html'), { recursive: true })
+    await writeFile(path.join(directory, 'article/index.html'), document('Article'))
+    await writeFile(path.join(directory, 'index.html'), document(`
+      <a href="/article/">Article</a>
+      <a href="/broken/">Broken</a>
+      <a href="/broken">Broken without-slash</a>
+      <a href="/broken/index.html">Broken index document</a>
+    `))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/broken/' },
+      { route: '/', kind: 'missing-target', target: '/broken' },
+      { route: '/', kind: 'missing-target', target: '/broken/index.html' }
+    ])
   })
 })

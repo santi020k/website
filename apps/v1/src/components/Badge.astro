@@ -1,0 +1,47 @@
+---
+interface Props {
+  variant?: keyof typeof badgeClasses.variants
+  showHash?: boolean
+  className?: string
+  title: string
+  /** Let long labels wrap inside the available width instead of truncating. */
+  wrap?: boolean
+}
+
+const { variant = 'default', showHash = true, className = '', title, wrap = false } = Astro.props
+
+const badgeClasses = {
+  base:
+    'inline-flex items-center gap-1 px-2 h-6 rounded-2xl text-sm font-medium transition-colors truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px] sm:max-w-full',
+  wrap:
+    'inline-flex items-center gap-1 px-2 py-0.5 min-h-6 max-w-full rounded-2xl text-sm font-medium transition-colors whitespace-normal wrap-break-word',
+  variants: {
+    default: 'bg-textColor text-bgColor hover:brightness-90',
+    accent: 'bg-accent text-bgColor hover:brightness-90',
+    'accent-base': 'bg-accent-base text-bgColor hover:brightness-90',
+    'accent-one': 'bg-accent-one text-bgColor hover:brightness-90',
+    'accent-two': 'bg-accent-two text-bgColor hover:brightness-90',
+    muted:
+      'bg-color-100 hover:bg-color-200 dark:bg-gray-900 dark:hover:bg-gray-600 text-textColor hover:shadow-sm dark:shadow-gray-900 transition-all duration-300',
+    outline:
+      'border border-zinc-400 text-textColor bg-transparent hover:border-accent-one',
+    inactive: 'bg-color-100 text-lighter cursor-default',
+    subtle: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300',
+    ghost: 'bg-transparent text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/70 dark:hover:bg-zinc-700/40',
+    warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+    danger: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+  }
+}
+
+const variantClasses = badgeClasses.variants[variant]
+---
+<div class={`
+  ${wrap ? badgeClasses.wrap : badgeClasses.base}
+  ${variantClasses}
+  ${className}
+`}
+>
+  {showHash && <span class="text-xs font-normal opacity-60">#</span>}
+  <span class={wrap ? 'min-w-0' : 'truncate'}>{title}</span>
+  <slot />
+</div>

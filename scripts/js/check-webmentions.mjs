@@ -73,12 +73,53 @@ const loadWebmentionConfig = () => {
 const defaultTarget =
   'https://santi020k.com/blog/migrate-eslint-8-or-less-to-eslint-9/'
 
-const targetArg = process.argv[2]
+/**
+ * Accepts no target (the default post) or one absolute HTTP(S) URL, after an optional `--`.
+ * Rejected values are never echoed, since a pasted URL may carry credentials.
+ * @param {string[]} args
+ * @returns {{ ok: true, target: string } | { ok: false, error: string }}
+ */
+const resolveTarget = args => {
+  const targets = args[0] === '--' ? args.slice(1) : args
 
-const targetUrl = (targetArg && targetArg.startsWith('http')) ?
-  targetArg :
-  defaultTarget
+  if (targets.length > 1) {
+    return { ok: false, error: `expected at most one target URL, received ${targets.length}.` }
+  }
 
+  const [target] = targets
+
+  if (target === undefined) {
+    return { ok: true, target: defaultTarget }
+  }
+
+  let url
+
+  try {
+    url = new URL(target)
+  } catch {
+    return { ok: false, error: 'the target must be an absolute URL.' }
+  }
+
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    return { ok: false, error: 'the target must use http: or https:.' }
+  }
+
+  if (url.username || url.password) {
+    return { ok: false, error: 'the target must not include credentials.' }
+  }
+
+  return { ok: true, target: url.href }
+}
+
+const targetResult = resolveTarget(process.argv.slice(2))
+
+if (!targetResult.ok) {
+  console.error(`check:webmentions: ${targetResult.error}\nUsage: pnpm run check:webmentions [-- <absolute http(s) post URL>]`)
+
+  process.exit(1)
+}
+
+const targetUrl = targetResult.target
 const { apiKey, endpoint } = loadWebmentionConfig()
 
 const checkDiscovery = async () => {
@@ -172,7 +213,7 @@ const checkJf2 = async () => {
 
   console.log(`\nAPI: target ${targetUrl}`)
 
-  console.log(`  Total rows: ${children.length}, public (before build validation): ${publicRows.length}`)
+  console.log(`  First-page rows: ${children.length}, public (before build validation): ${publicRows.length}`)
 
   for (const row of publicRows.slice(0, 8)) {
     const prop = row['wm-property']

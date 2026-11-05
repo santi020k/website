@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
@@ -8,144 +9,297 @@ import SpeakerPortrait from '@/assets/photos/originals/me-1-square.webp'
 
 import { Card, Icon } from '@santi020k/lumen-astro'
 
-interface Props {
-  linkedinHref: string
-  whatsappHref: string
-}
+import { getLocale } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
 
-const { linkedinHref, whatsappHref } = Astro.props
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
 
 const sessionTraits = [
-  'Grounded in shipped work',
-  'Tailored to the audience',
-  'Community-led since 2017'
+  t('page.groundedInShippedWork'),
+  t('page.tailoredToTheAudience'),
+  t('page.communityLedSince2017')
 ]
 ---
 
 <section
   class="
-    relative isolate section-container-wide grid items-center gap-12 py-4
+    relative isolate section-container-wide py-4
     sm:pt-6
-    lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16 lg:pt-8
-    xl:grid-cols-[minmax(0,1fr)_24rem]
+    lg:pt-8
   "
+  data-speaking-hero
 >
-  <div class="relative z-10">
-    <Eyebrow
-      className="
-        animate-slide-up whitespace-normal
-        motion-reduce:animate-none
-      "
-      label="Speaking & community"
-      tone="brand"
-    />
+  <div class="grid grid-cols-1 items-center gap-12" data-speaking-hero-grid>
+    <div class="relative z-10">
+      <Eyebrow
+        className="
+          animate-slide-up whitespace-normal
+          motion-reduce:animate-none
+        "
+        label={t('page.speakingAndCommunity7')}
+        tone="brand"
+      />
 
-    <div
-      class="
-        mt-7 animate-slide-up space-y-5 [animation-delay:90ms]
-        motion-reduce:animate-none
-      "
-    >
-      <h1 class="editorial-page-title">
-        Technical talks.
-        <span class="editorial-page-emphasis">Practical takeaways.</span>
-      </h1>
-      <p class="
-        max-w-2xl text-base/7 text-ink-soft
-        sm:text-lg/8
-      "
+      <div
+        class="
+          mt-7 animate-reveal-lcp space-y-5
+          motion-reduce:animate-none
+        "
       >
-        Technical sessions grounded in real delivery constraints, plus community
-        work that helps engineers learn, connect, and share what they know.
-      </p>
-    </div>
-
-    <div
-      class="
-        mt-7 animate-slide-up space-y-6 [animation-delay:180ms]
-        motion-reduce:animate-none
-      "
-    >
-      <div class="section-actions">
-        <ButtonLink href={whatsappHref} newTab showArrow>
-          Invite me to speak
-        </ButtonLink>
-        <ButtonLink href={linkedinHref} newTab showArrow variant="secondary">
-          Connect on LinkedIn
-        </ButtonLink>
+        <h1 class="editorial-page-title">
+          {t('page.technicalTalks')}
+          <span class="editorial-page-emphasis">{t('page.practicalTakeaways')}</span>
+        </h1>
+        <p class="
+          max-w-2xl text-base/7 text-ink-soft
+          sm:text-lg/8
+        "
+        >
+          {t('page.technicalSessionsGroundedInRealDelivery')}
+        </p>
       </div>
 
-      <ul
+      <div
         class="
-          flex max-w-3xl flex-wrap gap-x-5 gap-y-2 border-t border-line/45 pt-5
-          text-xs/6 font-semibold tracking-[0.12em] text-ink-muted uppercase
+          mt-7 animate-slide-up space-y-6 [animation-delay:180ms]
+          motion-reduce:animate-none
         "
       >
-        {sessionTraits.map(trait => (
-          <li class="flex items-center gap-2">
-            <Icon class="text-brand" name="check" size="sm" />
-            <span>{trait}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </div>
-
-  <aside
-    aria-label="Speaker profile"
-    class="
-      mx-auto w-full max-w-84
-      sm:max-w-92
-      lg:max-w-none
-    "
-  >
-    <Card
-      class="
-        relative overflow-hidden rounded-4xl p-3
-        sm:p-4
-      "
-      variant="unstyled"
-    >
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-x-8 top-4 h-44 rounded-full
-          bg-brand/18 blur-3xl
-        "
-      />
-      <Image
-        alt="Santiago Molina, engineering leader and speaker"
-        class="
-          relative aspect-4/5 w-full rounded-[1.45rem] object-cover
-          object-center contrast-[1.03] saturate-[0.92]
-        "
-        decoding="sync"
-        fetchpriority="high"
-        format="avif"
-        loading="eager"
-        sizes="(min-width: 1280px) 384px, (min-width: 1024px) 352px, (min-width: 640px) 368px, 336px"
-        src={SpeakerPortrait}
-        widths={[336, 384, 672, 768]}
-      />
-      <div class="space-y-4 px-2 pt-5 pb-2">
-        <div>
-          <p class="section-label text-brand">Speaker profile</p>
-          <p class="mt-2 text-lg font-semibold text-ink">Santiago Molina</p>
-          <p class="mt-1 text-sm/6 text-ink-soft">
-            Engineering leader, full-stack architect, and ReactJS Colombia co-organizer.
+        <div class="space-y-3">
+          <div class="section-actions">
+            <ButtonLink className="site-action-aligned" href="#speaking-booking-heading">
+              <span>{t('page.planASession')}</span>
+              <span aria-hidden="true" class="site-action-arrow">
+                <ArrowExchange direction="down-right" size="sm" />
+              </span>
+            </ButtonLink>
+          </div>
+          <p class="text-xs/6 text-ink-soft">
+            {t('page.startWithTheBriefThenMessage')}
           </p>
         </div>
-        <dl class="grid grid-cols-2 gap-4 divider-soft pt-4">
-          <div>
-            <dt class="text-xs text-ink-muted">Community</dt>
-            <dd class="mt-1 site-label">Since 2017</dd>
-          </div>
-          <div>
-            <dt class="text-xs text-ink-muted">Based in</dt>
-            <dd class="mt-1 site-label">Medellín</dd>
-          </div>
-        </dl>
+
+        <ul
+          class="
+            flex max-w-3xl flex-wrap gap-x-5 gap-y-2 border-t border-line/45
+            pt-5 text-xs/6 font-semibold tracking-[0.12em] text-ink-muted
+            uppercase
+          "
+        >
+          {sessionTraits.map(trait => (
+            <li class="flex min-w-0 items-center gap-2">
+              <Icon class="text-brand" name="check" size="sm" />
+              <span class="min-w-0">{trait}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-    </Card>
-  </aside>
+    </div>
+
+    <aside
+      aria-label={t('page.speakerProfile')}
+      class="
+        mx-auto w-full max-w-84
+        sm:max-w-92
+      "
+      data-speaking-hero-profile
+    >
+      <Card data-speaker-cover variant="unstyled">
+        <div data-speaker-cover-portrait>
+          <Image
+            alt={t('page.santiagoMolinaEngineeringLeaderAndSpeaker')}
+            decoding="sync"
+            fetchpriority="high"
+            format="avif"
+            loading="eager"
+            sizes="(min-width: 1280px) 384px, (min-width: 1024px) 352px, (min-width: 640px) 368px, 336px"
+            src={SpeakerPortrait}
+            widths={[336, 384, 672, 768]}
+          />
+          <header data-speaker-cover-identity>
+            <p>{t('page.speakerProfile')}</p>
+            <h2>Santiago Molina</h2>
+          </header>
+        </div>
+        <div data-speaker-cover-copy>
+          <p>
+            {t('page.engineeringLeaderFullStackArchitectAnd')}
+          </p>
+          <dl>
+            <div class="min-w-0">
+              <dt>{t('shared.community')}</dt>
+              <dd>{t('page.since2017')}</dd>
+            </div>
+            <div class="min-w-0">
+              <dt>{t('page.basedIn')}</dt>
+              <dd>Medellín</dd>
+            </div>
+          </dl>
+        </div>
+      </Card>
+    </aside>
+  </div>
 </section>
+
+<style>
+  /* The profile column sits beside the headline only while the hero keeps
+     54rem in root-relative units, so enlarged text stacks it below the copy. */
+  [data-speaking-hero] {
+    container: speaking-hero / inline-size;
+  }
+
+  [data-speaking-hero-profile] {
+    container: speaker-profile / inline-size;
+  }
+
+  [data-speaker-cover][data-slot='card'] {
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
+    background: hsl(var(--surface));
+  }
+
+  [data-speaker-cover-portrait] {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    background: var(--color-portrait-scrim);
+  }
+
+  [data-speaker-cover-portrait] img {
+    grid-area: 1 / 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 2.5rem;
+    object-fit: cover;
+    object-position: center;
+    filter: contrast(1.03) saturate(0.92);
+  }
+
+  [data-speaker-cover-portrait]::after {
+    position: absolute;
+    inset: 36% 0 0;
+    content: '';
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, var(--color-portrait-scrim));
+  }
+
+  [data-speaker-cover-identity] {
+    z-index: 1;
+    grid-area: 1 / 1;
+    align-self: end;
+    padding: 1.75rem;
+    color: var(--color-portrait-ink);
+  }
+
+  [data-speaker-cover-identity] p {
+    color: inherit;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  [data-speaker-cover-identity] h2 {
+    max-width: 13.75rem;
+    margin-top: 0.75rem;
+    color: inherit;
+    font-size: 2.5rem;
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+  }
+
+  [data-speaker-cover-copy] {
+    padding: 1.5625rem 1.75rem 1.6875rem;
+  }
+
+  [data-speaker-cover-copy] > p {
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.5rem;
+    letter-spacing: normal;
+  }
+
+  [data-speaker-cover-copy] dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
+    gap: 1.25rem;
+    margin-top: 1.375rem;
+    padding-top: 1.1875rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+
+  [data-speaker-cover-copy] dt {
+    color: hsl(var(--ink-soft));
+    font-size: 0.6875rem;
+    line-height: 1.125rem;
+    letter-spacing: 0.01em;
+  }
+
+  [data-speaker-cover-copy] dd {
+    margin-top: 0.25rem;
+    color: hsl(var(--ink));
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.375rem;
+    letter-spacing: -0.02em;
+  }
+
+  @container speaker-profile (width < 19.375rem) {
+    [data-speaker-cover-identity],
+    [data-speaker-cover-copy] {
+      padding-inline: 1.375rem;
+    }
+
+    [data-speaker-cover-identity] h2 { font-size: 2.125rem; }
+  }
+
+  /* Keep enlarged captions in flow below the face instead of covering it. */
+  @container speaker-profile (width < 14rem) {
+    [data-speaker-cover-portrait] img { margin-bottom: 0; }
+
+    [data-speaker-cover-identity] {
+      grid-area: auto;
+      padding: 0.875rem 0.75rem 1.125rem;
+    }
+
+    [data-speaker-cover-identity] h2 { font-size: 1.375rem; }
+    [data-speaker-cover-copy] { padding: 1.125rem 0.75rem; }
+  }
+
+  @media (forced-colors: active) {
+    [data-speaker-cover-portrait]::after { display: none; }
+    [data-speaker-cover-identity] { background: Canvas; color: CanvasText; }
+  }
+
+  @container speaking-hero (width < 14rem) {
+    .editorial-page-title { font-size: min(var(--text-editorial-title), 16cqi); }
+  }
+
+  @media (width >= 64rem) {
+    @container speaking-hero (width >= 54rem) {
+      [data-speaking-hero-grid] {
+        grid-template-columns: minmax(0, 1fr) 22rem;
+        gap: 4rem;
+      }
+
+      [data-speaking-hero-profile] {
+        max-width: none;
+      }
+    }
+  }
+
+  @media (width >= 80rem) {
+    @container speaking-hero (width >= 54rem) {
+      [data-speaking-hero-grid] {
+        grid-template-columns: minmax(0, 1fr) 24rem;
+      }
+    }
+  }
+</style>

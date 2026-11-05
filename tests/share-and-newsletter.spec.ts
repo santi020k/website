@@ -1,16 +1,27 @@
-import { expect, type Page, test } from '@playwright/test'
+import { expect, type Locator, type Page, test } from '@playwright/test'
 
-const getFirstPostPath = async (page: Page): Promise<string> => {
-  const response = await page.request.get('/feed.xml')
-  const body = await response.text()
-  const slugMatch = /<link>(https:\/\/[^<]+\/blog\/[^<]+\/)<\/link>/.exec(body)
+test.beforeEach(async ({ page }) => {
+  // Comments loading, failure, and recovery have separate coverage. Here an
+  // empty client keeps the reserved mount stable, so neither the provider nor
+  // its error lifecycle shifts layout during share clicks. Nothing reaches the
+  // network: the client is fulfilled locally and every other request aborts.
+  await page.route('https://giscus.app/**', async route => {
+    if (new URL(route.request().url()).pathname === '/client.js') {
+      // The client is requested with crossorigin="anonymous", so it needs CORS
+      // approval to load instead of firing the error lifecycle.
+      await route.fulfill({
+        body: '',
+        contentType: 'text/javascript',
+        headers: { 'access-control-allow-origin': '*' },
+        status: 200
+      })
 
-  expect(slugMatch).not.toBeNull()
+      return
+    }
 
-  const postUrl = slugMatch?.[1] ?? ''
-
-  return new URL(postUrl).pathname
-}
+    await route.abort()
+  })
+})
 
 test.describe('Newsletter signup', () => {
   test('blog newsletter form points at the configured action and links to privacy', async ({ page }) => {
@@ -23,19 +34,29 @@ test.describe('Newsletter signup', () => {
     await expect(form.locator('input[name="email"]')).toBeVisible()
     await expect(form.locator('input[name="email"]')).toHaveAttribute('autocomplete', /^email$/)
     await expect(form.locator('input[name="email"]')).toHaveAttribute('required', /^$/)
-    await expect(form.getByRole('button', { name: /Get new posts/i })).toBeVisible()
+    await expect(form.getByRole('button', { name: /Subscribe/i })).toBeVisible()
 
     const privacyLink = newsletter.getByRole('link', { name: 'Privacy' })
 
     await expect(privacyLink).toHaveAttribute('href', /^\/privacy\/$/)
   })
 
-  test('newsletter heading welcomes the wider writing topics', async ({ page }) => {
+  test('newsletter ending presents one invitation with the wider writing topics', async ({ page }) => {
     await page.goto('/blog/')
 
-    const heading = page.getByRole('heading', { name: 'New posts and discoveries' })
+    const newsletter = page.locator('[data-newsletter]')
+    const heading = page.getByRole('heading', { name: 'Keep up with new writing.', level: 2 })
 
+    await expect(heading).toHaveCount(1)
     await expect(heading).toBeVisible()
+    await expect(newsletter.getByRole('heading')).toHaveCount(1)
+    await expect(newsletter.getByRole('heading')).toHaveText('Keep up with new writing.')
+    await expect(newsletter).toContainText('software, reading, gaming, and everyday discoveries.')
+    await expect(page.getByRole('heading', { name: 'New posts and discoveries' })).toHaveCount(0)
+    await expect(newsletter.getByRole('form', { name: 'Keep up with new writing.' })).toBeVisible()
+    await expect(newsletter.getByRole('link', { name: 'RSS' })).toHaveAttribute('href', '/feed.xml')
+    await page.goto('/blog/2/')
+    await expect(page.locator('[data-newsletter]')).toHaveCount(0)
   })
 
   test('newsletter form submits a native POST carrying the email, without leaking it into the request URL', async ({ context, page }) => {
@@ -63,7 +84,7 @@ test.describe('Newsletter signup', () => {
 
     const [popup] = await Promise.all([
       context.waitForEvent('page'),
-      form.getByRole('button', { name: /Get new posts/i }).click()
+      form.getByRole('button', { name: /Subscribe/i }).click()
     ])
 
     await popup.waitForLoadState('domcontentloaded')
@@ -96,7 +117,7 @@ test.describe('Newsletter signup', () => {
 
     const pagesBefore = context.pages().length
 
-    await form.getByRole('button', { name: /Get new posts/i }).click()
+    await form.getByRole('button', { name: /Subscribe/i }).click()
 
     // Native constraint validation blocks the submit event before any navigation starts.
     expect(context.pages()).toHaveLength(pagesBefore)
@@ -105,8 +126,38 @@ test.describe('Newsletter signup', () => {
   })
 })
 
-const stubShareRejection = async (page: Page, errorName: string): Promise<void> => {
-  await page.addInitScript(name => {
+// The public permalink the server renders for the first feed article. Share
+// controls must emit exactly this URL even when the address bar carries
+// tracking parameters, a fragment, or a local preview origin.
+const getFirstPostPermalink = async (page: Page): Promise<{ path: string, permalink: string }> => {
+  const response = await page.request.get('/feed.xml')
+  const body = await response.text()
+  const slugMatch = /<link>(https:\/\/[^<]+\/blog\/[^<]+\/)<\/link>/.exec(body)
+
+  expect(slugMatch).not.toBeNull()
+
+  const postUrl = new URL(slugMatch?.[1] ?? '')
+
+  return { path: postUrl.pathname, permalink: new URL(postUrl.pathname, postUrl.origin).href }
+}
+
+const withNoise = (path: string): string => `${path}?utm_source=share-test#share-test-fragment`
+
+const getReadyShareButton = async (page: Page): Promise<Locator> => {
+  const button = page.locator('#copy-link-btn')
+
+  // The closed discussion leaves sharing stable and does not load its client.
+  await button.scrollIntoViewIfNeeded()
+  await expect(page.locator('#comments [data-giscus-mount] script')).toHaveCount(0)
+  await expect(page.locator('#comments [data-giscus-error]')).toBeEmpty()
+
+  return button
+}
+
+type NativeShareOutcome = 'AbortError' | 'NotAllowedError' | 'resolve'
+
+const stubNativeShare = async (page: Page, outcome: NativeShareOutcome): Promise<void> => {
+  await page.addInitScript(result => {
     const originalMatchMedia = window.matchMedia.bind(window)
 
     window.matchMedia = (query: string): MediaQueryList => {
@@ -130,10 +181,14 @@ const stubShareRejection = async (page: Page, errorName: string): Promise<void> 
     // because some engines expose it as a getter-only accessor on the prototype.
     Object.defineProperty(navigator, 'share', {
       configurable: true,
-      value: () => {
+      value: (data: ShareData) => {
         window.localStorage.setItem('share-test-native-called', 'true')
 
-        return Promise.reject(new DOMException('stubbed for test', name))
+        window.localStorage.setItem('share-test-native-url', data.url ?? '')
+
+        if (result === 'resolve') return Promise.resolve()
+
+        return Promise.reject(new DOMException('stubbed for test', result))
       }
     })
 
@@ -147,43 +202,75 @@ const stubShareRejection = async (page: Page, errorName: string): Promise<void> 
         }
       }
     })
-  }, errorName)
+  }, outcome)
 }
 
 test.describe('Share buttons — native Web Share API path', () => {
-  test('dismissing the native share sheet does not fall back to copying the link', async ({ page }) => {
-    const path = await getFirstPostPath(page)
+  test('a successful native share sends the clean article permalink without copying', async ({ page }) => {
+    const { path, permalink } = await getFirstPostPermalink(page)
 
-    await stubShareRejection(page, 'AbortError')
-    await page.goto(path)
+    await stubNativeShare(page, 'resolve')
+    await page.goto(withNoise(path))
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
     await expect(copyButton).toBeVisible()
+    await expect(copyButton).toHaveAccessibleName('Share link')
+    await expect(copyButton).toHaveAttribute('data-share-url', permalink)
+    // The idle label swap to "Share link" must not reach the result live region.
+    await expect(page.locator('#copy-status')).toBeEmpty()
     await copyButton.click()
 
-    await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-called'))).toBe('true')
+    await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
 
-    await expect(page.locator('#copy-label')).toHaveText('Copy link')
+    await expect(page.locator('#copy-label')).toHaveText('Share link')
     await expect(copyButton).not.toHaveClass(/copied/)
 
     const clipboardProbe = await page.evaluate(() => window.localStorage.getItem('share-test-clipboard-write'))
     expect(clipboardProbe).toBeNull()
   })
 
-  test('a non-cancellation share failure still falls back to copying the link', async ({ page }) => {
-    const path = await getFirstPostPath(page)
+  test('dismissing the native share sheet does not fall back to copying the link', async ({ page }) => {
+    const { path, permalink } = await getFirstPostPermalink(page)
 
-    await stubShareRejection(page, 'NotAllowedError')
-    await page.goto(path)
+    await stubNativeShare(page, 'AbortError')
+    await page.goto(withNoise(path))
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
     await expect(copyButton).toBeVisible()
+    await expect(copyButton).toHaveAccessibleName('Share link')
+    await copyButton.click()
+
+    await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-called'))).toBe('true')
+    expect(await page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
+
+    // Once the operation settles, a cancelled share has announced nothing.
+    await expect(copyButton).not.toHaveAttribute('aria-busy')
+    await expect(page.locator('#copy-status')).toBeEmpty()
+    await expect(page.locator('#copy-label')).toHaveText('Share link')
+    await expect(copyButton).not.toHaveClass(/copied/)
+
+    const clipboardProbe = await page.evaluate(() => window.localStorage.getItem('share-test-clipboard-write'))
+    expect(clipboardProbe).toBeNull()
+  })
+
+  test('a non-cancellation share failure falls back to copying the clean permalink', async ({ page }) => {
+    const { path, permalink } = await getFirstPostPermalink(page)
+
+    await stubNativeShare(page, 'NotAllowedError')
+    await page.goto(withNoise(path))
+
+    const copyButton = await getReadyShareButton(page)
+    await expect(copyButton).toBeVisible()
+    await expect(copyButton).toHaveAccessibleName('Share link')
     await copyButton.click()
 
     await expect(page.locator('#copy-label')).toHaveText(/Link copied!/i, { timeout: 4000 })
 
+    expect(await page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
+
     const clipboardProbe = await page.evaluate(() => window.localStorage.getItem('share-test-clipboard-write'))
-    expect(clipboardProbe).toBe(page.url())
+    expect(clipboardProbe).toBe(permalink)
+    await expect(page.locator('#copy-label')).toHaveText('Share link', { timeout: 6000 })
   })
 })
 
@@ -204,25 +291,80 @@ test.describe('Share buttons', () => {
     })
   })
 
-  test('clicking the copy button writes the canonical URL to the clipboard', async ({ page }) => {
-    const path = await getFirstPostPath(page)
+  test('copied feedback has no animation when reduced motion is requested', async ({ page }) => {
+    const { path } = await getFirstPostPermalink(page)
 
+    await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto(path)
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
+
+    await copyButton.click()
+    await expect(page.locator('#copy-label')).toHaveText('Link copied!')
+    await expect(page.locator('#copy-link-btn [data-check-icon]')).toHaveCSS('animation-name', 'none')
+  })
+
+  test('clicking the copy button writes the exact article permalink, ignoring query and fragment', async ({ page }) => {
+    const { path, permalink } = await getFirstPostPermalink(page)
+
+    await page.goto(withNoise(path))
+
+    const copyButton = await getReadyShareButton(page)
     await expect(copyButton).toBeVisible()
     await copyButton.click()
 
     await expect(page.locator('#copy-label')).toHaveText(/Link copied!/i, { timeout: 4000 })
 
     const copied = await page.evaluate(() => window.localStorage.getItem('copy-test-value'))
-    expect(copied).toContain(path)
+    expect(copied).toBe(permalink)
+
+    // Matches the server-rendered social destinations exactly.
+    await expect(page.getByRole('link', { name: 'Share on LinkedIn' }))
+      .toHaveAttribute('href', `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(permalink)}`)
+  })
+
+  test('a separate status region announces only the copy result and clears on reset', async ({ page }) => {
+    const { path } = await getFirstPostPermalink(page)
+
+    await page.clock.install()
+    await page.goto(path)
+
+    const copyButton = await getReadyShareButton(page)
+    const status = page.locator('#copy-status')
+
+    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
+
+    // DOM live-region semantics only; this does not exercise real screen reader speech.
+    await expect(status).toHaveAttribute('role', 'status')
+    await expect(status).toHaveAttribute('aria-live', 'polite')
+    await expect(status).toHaveAttribute('aria-atomic', 'true')
+    await expect(page.locator('#copy-label')).not.toHaveAttribute('aria-live')
+    await expect(status).toBeEmpty()
+
+    await copyButton.focus()
+    await page.keyboard.press('Enter')
+
+    // The visible label updates at once; the announcement lands in a later task.
+    await expect(page.locator('#copy-label')).toHaveText('Link copied!')
+    await expect(copyButton).toHaveAccessibleName('Link copied!')
+    await expect(status).toBeEmpty()
+
+    await page.clock.runFor(100)
+    await expect(status).toHaveText('Link copied!')
+
+    await page.clock.runFor(1899)
+    await expect(status).toHaveText('Link copied!')
+
+    await page.clock.runFor(1)
+    await expect(status).toBeEmpty()
+    await expect(copyButton).toHaveAccessibleName('Copy link')
+    await expect(copyButton).toBeFocused()
   })
 })
 
 test.describe('Share buttons — clipboard failure', () => {
   test('a rejected clipboard write announces the failure instead of doing nothing', async ({ page }) => {
-    const path = await getFirstPostPath(page)
+    const { path } = await getFirstPostPermalink(page)
 
     await page.addInitScript(() => {
       Object.defineProperty(navigator, 'share', { configurable: true, value: undefined })
@@ -234,23 +376,35 @@ test.describe('Share buttons — clipboard failure', () => {
       })
     })
 
+    await page.clock.install()
     await page.goto(path)
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
     const label = page.locator('#copy-label')
+    const status = page.locator('#copy-status')
+
+    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
 
     await expect(copyButton).toBeVisible()
-    await copyButton.click()
+    await expect(status).toBeEmpty()
+    await copyButton.focus()
+    await page.keyboard.press('Enter')
 
-    // The label is the button's accessible name and an aria-live region, so the
-    // failure reaches both sighted and screen-reader visitors.
-    await expect(label).toHaveText(/Copy failed/i, { timeout: 4000 })
-    await expect(label).toHaveAttribute('aria-live', 'polite')
-    await expect(copyButton).toHaveClass(/copy-failed/)
+    // The visible label stays short; the status region adds the recovery step.
+    await expect(label).toHaveText('Try again')
+    await expect(copyButton).toHaveAccessibleName('Try again')
+    await expect(status).toBeEmpty()
+    await expect(copyButton).toHaveAttribute('data-link-recovery-active')
     await expect(copyButton).not.toHaveClass(/(^|\s)copied(\s|$)/)
 
-    // State is transient: the control returns to its idle label.
-    await expect(label).toHaveText('Copy link', { timeout: 6000 })
-    await expect(copyButton).not.toHaveClass(/copy-failed/)
+    await page.clock.runFor(100)
+    await expect(status).toHaveText('Copy failed. Select and copy the address below, or try again.')
+
+    // Recovery remains available after the old transient feedback period.
+    await page.clock.runFor(1900)
+    await expect(label).toHaveText('Try again')
+    await expect(page.locator('#copy-link-btn-recovery textarea')).toBeVisible()
+    await expect(copyButton).toHaveAttribute('data-link-recovery-active')
+    await expect(copyButton).toBeFocused()
   })
 })

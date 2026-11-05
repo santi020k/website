@@ -1,5 +1,7 @@
 ---
-import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { ButtonLink } from '@santi020k/lumen-astro'
 
 interface Props {
   id: string
@@ -21,8 +23,8 @@ const { id, number, eyebrow, title, description, href, action } = Astro.props
   </div>
   <div class="studio-section-intro">
     <p>{description}</p>
-    <ButtonLink class="studio-text-link" href={href} variant="unstyled">
-      {action} <Icon name="arrow-up-right" />
+    <ButtonLink class="studio-text-link" data-text-link href={href} variant="unstyled">
+      <span data-text-link-label>{action}</span> <ArrowExchange />
     </ButtonLink>
   </div>
 </header>

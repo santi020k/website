@@ -1,0 +1,95 @@
+---
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+
+import { menuLinks, siteConfig } from '@/site.config'
+
+import { version } from '../../../package.json'
+
+interface Props {
+  variant?: 'compact' | 'default'
+}
+
+const { variant = 'default' } = Astro.props
+const year = 2026
+const currentPath = Astro.url.pathname
+
+const navLinks = menuLinks.map(link => ({
+  ...link,
+  title: link.path === '/speaking/' ? 'Speaking' : link.title
+}))
+
+const resourceLinks = [
+  { path: '/accessibility/', title: 'Accessibility' },
+  { path: '/privacy/', title: 'Privacy' },
+  { path: '/terms/', title: 'Terms' }
+]
+
+const activePath = [...navLinks, ...resourceLinks]
+  .filter(link => link.path === '/' ? currentPath === '/' : currentPath.startsWith(link.path))
+  .sort((a, b) => b.path.length - a.path.length)[0]?.path
+---
+
+<footer class="maker-footer" data-site-footer data-variant={variant} id="site-footer">
+  <div class="maker-footer-shell">
+    {variant !== 'compact' && (
+      <section class="maker-footer-invitation" aria-labelledby="footer-heading">
+        <div>
+          <p class="maker-footer-label"><span class="maker-hero-signal" aria-hidden="true"></span>Good things start with a conversation</p>
+          <h2 id="footer-heading">Let’s build<br /><span>something useful.</span></h2>
+        </div>
+        <div class="maker-footer-contact">
+          <p>A new product, a better system,<br />or an idea worth exploring.</p>
+          <ButtonLink class="maker-footer-action" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+            Let’s talk
+            <span aria-hidden="true"><Icon name="arrow-up-right" /></span>
+          </ButtonLink>
+          <a class="maker-footer-email" href={`mailto:${siteConfig.contact.email}`}>
+            {siteConfig.contact.email}<Icon name="arrow-up-right" />
+          </a>
+        </div>
+      </section>
+    )}
+
+    <div class="maker-footer-directory">
+      <div class="maker-footer-identity">
+        <a class="maker-footer-wordmark" href="https://santi020k.com" aria-label="Santiago Molina — santi020k">santi020k<span>.</span></a>
+        <p>Engineer. Maker. Always curious.</p>
+        <p class="maker-footer-location">{siteConfig.location}</p>
+        <a class="maker-footer-resume" href={siteConfig.contact.resume}>View resume<Icon name="arrow-up-right" /></a>
+      </div>
+
+      <nav class="maker-footer-navigation" aria-label="Footer navigation">
+        <p class="maker-footer-label">Explore</p>
+        <ul>
+          {navLinks.map(link => (
+            <li><a href={link.path} aria-current={activePath === link.path ? 'page' : undefined}>{link.title}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="maker-footer-social" aria-label="Connect with Santiago">
+        <p class="maker-footer-label">Elsewhere</p>
+        <ul>
+          {siteConfig.socialLinks.map(({ href, indieAuthRelMe, label }) => (
+            <li>
+              <a href={href} target="_blank" rel={`noopener noreferrer${indieAuthRelMe === false ? '' : ' me'}`}>
+                {label}<Icon name="arrow-up-right" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="maker-footer-colophon">
+      <p>&copy; {year} {siteConfig.author}<span aria-hidden="true"> / </span><a href="https://lumen.santi020k.com" rel="noopener noreferrer" target="_blank">Built with Lumen</a></p>
+      <nav aria-label="Site information">
+        {resourceLinks.map(({ path, title }) => (
+          <a href={path} aria-current={activePath === path ? 'page' : undefined}>{title}</a>
+        ))}
+        <a href="https://github.com/santi020k/website/issues/new/choose" rel="noopener noreferrer" target="_blank">Report an issue</a>
+      </nav>
+      <a class="maker-footer-version" href="https://github.com/santi020k/website" rel="noopener noreferrer" target="_blank" aria-label={`Website source, version ${version}`}>v{version}<Icon name="arrow-up-right" /></a>
+    </div>
+  </div>
+</footer>

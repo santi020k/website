@@ -3,21 +3,29 @@ import type { GetStaticPaths, Page } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Pill from '@/components/atoms/Pill.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
+import { isIndexedArchive } from '@/utils/archive-indexing'
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
-import { getAllTags, getBlogBrowseTags } from '@/utils/tags'
+import { getSocialImageURL } from '@/utils/social-image'
+import { getAllTags, getBlogTopicLabel, getRelatedBlogTags } from '@/utils/tags'
+
+import { Link } from '@santi020k/lumen-astro'
+
+import { ogManifest } from '@/data/og-manifest'
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+import { getBlogTopicNote } from '@/i18n/topic-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -42,18 +50,25 @@ interface Props {
 
 const { page, tag, totalTopics } = Astro.props
 const allPosts = await getCachedPosts()
-const allTags = getAllTags(allPosts)
-const topTags = getBlogBrowseTags(allTags)
-const relatedTags = topTags.filter(([t]) => t !== tag).slice(0, 6)
+const relatedTags = getRelatedBlogTags(allPosts, tag)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
+const topicLabel = getBlogTopicLabel(tag)
+const archiveDescription = getBlogTopicNote(tag, locale) ?? t('topic.description', { topic: topicLabel })
+let postRange = `0 ${t('collection.posts7')}`
+
+if (page.data.length > 0) {
+  postRange = postCount === 1 ?
+`1 ${t('collection.post')}` :
+    t('topic.postRange', { start: page.start + 1, end: page.end + 1, total: postCount })
+}
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
-  { name: 'Topics', url: '/blog/tags/' },
-  { name: `#${tag}`, url: getTagPath(tag) },
-  ...(page.currentPage > 1 ? [{ name: `Page ${page.currentPage}`, url: Astro.url.pathname }] : [])
+  { name: t('nav.home'), url: localizePath('/', locale) },
+  { name: 'Blog', url: localizePath('/blog/', locale) },
+  { name: t('collection.topics'), url: localizePath('/blog/tags/', locale) },
+  { name: topicLabel, url: getTagPath(tag) },
+  ...(page.currentPage > 1 ? [{ name: t('pagination.page', { page: page.currentPage }), url: Astro.url.pathname }] : [])
 ]
 ---
 
@@ -61,94 +76,292 @@ const breadcrumbs = [
 mainClass="remaining-pages"
   meta={{
     breadcrumbs,
-    description: `Articles, guides, and personal notes tagged ${tag}.`,
+    noindex: !isIndexedArchive(postCount),
+    // Thin topics stay out of search indexes and share the topics index card.
+    ...(isIndexedArchive(postCount) ?
+      {} :
+      { ogImage: getSocialImageURL(localizePath('/blog/tags/', locale), Astro.site, undefined, ogManifest) }),
+    description: isFirstPage ?
+      archiveDescription :
+      t('pagination.description', { description: archiveDescription, page: page.currentPage, total: page.lastPage }),
     title: isFirstPage ?
-      `${tag} Posts` :
-      `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`
+      t('topic.postsTitle', { topic: topicLabel }) :
+      t('topic.pageTitle', { topic: topicLabel, page: page.currentPage, total: page.lastPage })
   }}
 >
-  <PageHero
-    compact={!isFirstPage}
-    description={`Filtered to ${postCount} ${postCount === 1 ? 'post' : 'posts'} connected by the #${tag} topic.`}
-    eyebrow="Topic archive"
-    gradientText="All posts."
-    metaItems={['Filtered archive', 'Related topics', 'Latest first']}
-    title={`#${tag}`}
+  <section
+aria-labelledby="topic-archive-heading"
+class="section-container-wide"
+data-topic-archive-opening
   >
-    <ButtonLink href="/blog/tags/" showArrow variant="secondary">
-      Browse all topics
-    </ButtonLink>
-    <ButtonLink href="/blog/" showArrow variant="secondary">
-      Back to blog
-    </ButtonLink>
-  </PageHero>
-
-  {relatedTags.length > 0 && (
-    <section class="
-      section-container-wide flex flex-wrap items-center gap-3 pt-2
-    "
-    >
-      <p class="shrink-0 section-label">Related topics</p>
-      <div class="flex flex-wrap gap-2">
-        {relatedTags.map(([t, count]) => (
-          <Pill
-            count={count}
-            href={getTagPath(t)}
-            label={t}
-            showHash
-            tone="outline"
-          />
-        ))}
-      </div>
-    </section>
-  )}
+    <div data-topic-archive-topline>
+      <Link data-text-link data-topic-archive-return href={localizePath('/blog/tags/', locale)} variant="inherit">
+        <ArrowExchange class="size-4 shrink-0" direction="left" />
+        <span data-text-link-label>{t('collection.allTopics')}</span>
+      </Link>
+      <p data-topic-archive-count>
+        {postCount} {t(postCount === 1 ? 'collection.post' : 'collection.posts7')}
+      </p>
+    </div>
+    <h1 id="topic-archive-heading">{topicLabel}</h1>
+    <p data-topic-archive-description>{archiveDescription}</p>
+    <div data-topic-archive-footer>
+      <p data-topic-archive-position>
+        {t('collection.latestFirst')}{page.lastPage > 1 && <> · {t('pagination.position', { page: page.currentPage, total: page.lastPage })}</>}
+      </p>
+      <Link data-text-link data-topic-archive-blog href={localizePath('/blog/', locale)} variant="inherit">
+        <span data-text-link-label>{t('collection.backToBlog')}</span>
+        <ArrowExchange class="size-4 shrink-0" direction="right" />
+      </Link>
+    </div>
+  </section>
 
   <section
-    class="
-      section-container-wide pt-20
-      sm:pt-24
-      lg:pt-28
-    "
+    aria-labelledby="topic-posts-heading"
+    class="section-container-wide page-section-space"
+    data-topic-reading
   >
-    <SectionHeader
-      description={isFirstPage ?
-        `Start with the latest post tagged #${tag}, then browse the rest.` :
-        `Browse posts tagged #${tag} across the archive.`}
-      eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
-      title={`Posts tagged #${tag}`}
-    />
+    <header data-topic-reading-caption>
+      <h2 id="topic-posts-heading">{t(isFirstPage ? 'topic.latestWriting' : 'topic.earlierWriting')}</h2>
+      <p data-topic-reading-range>{postRange}</p>
+    </header>
 
-    <div class="
-      mt-10 space-y-8
-      sm:mt-12
-    "
-    >
-      <TagFilter activeTag={tag} scrollOnMobile tags={topTags} />
-
+    <div class="space-y-8">
       {page.data.length > 0 ?
         (
-          <PostsGallery posts={page.data} />
+          <PostsGallery columns={postCount === 2 ? 2 : 3} layout={postCount === 1 ? 'focused' : 'grid'} posts={page.data} />
         ) :
         (
           <div class="flex flex-col items-center gap-4 py-16 text-center">
             <p class="text-lg text-ink-soft">
-              No posts found for <strong class="text-ink">#{tag}</strong>.
+              {t('collection.noPostsFoundFor')} <strong class="text-ink">{topicLabel}</strong>.
             </p>
-            <ButtonLink href="/blog/" showArrow variant="secondary">
-              Back to all posts
-            </ButtonLink>
+            <ButtonLink href={localizePath('/blog/', locale)} showArrow variant="secondary">{t('collection.backToAllPosts')}</ButtonLink>
           </div>
         )}
 
-      <Pagination baseUrl={getTagPath(tag)} page={page} />
+      <Pagination baseUrl={localizePath(getTagPath(tag), locale)} page={page} />
+
+      {relatedTags.length > 0 && <TagFilter tags={relatedTags} totalTopics={totalTopics} variant="related" />}
     </div>
   </section>
 
-  {isFirstPage && (
-    <StatsGrid>
-      <StatCard description="Posts connected by this topic in the archive." label="Posts" value={postCount} />
-      <StatCard description="Distinct topics across the full writing archive." label="Total topics" value={totalTopics} />
-      {page.lastPage > 1 && <StatCard description="Pagination for this topic archive." label="Page" value={`${page.currentPage} / ${page.lastPage}`} />}
-    </StatsGrid>
-  )}
+  <section
+id="topic-archive-close"
+aria-labelledby="topic-close-heading"
+class="section-container-wide"
+data-topic-close
+  >
+    <div data-topic-close-sheet>
+      <div data-topic-close-copy>
+        <p data-topic-close-eyebrow>{t('topic.closeEyebrow')}</p>
+        <h2 id="topic-close-heading">{t('collection.keepExploring')}.</h2>
+        <p data-topic-close-description>{t('topic.closeDescription')}</p>
+      </div>
+      <nav aria-label={t('collection.keepExploring')} data-topic-close-routes>
+        <Link data-topic-close-link href={localizePath('/blog/tags/', locale)} variant="inherit">
+          <span>
+            <span data-topic-close-count>{totalTopics} {t(totalTopics === 1 ? 'collection.topic' : 'collection.topics7')}</span>
+            <span data-topic-close-label>{t('collection.browseByTopic')}</span>
+          </span>
+          <ArrowExchange class="shrink-0" direction="up-right" />
+        </Link>
+        <Link data-topic-close-link href={localizePath('/blog/', locale)} variant="inherit">
+          <span>
+            <span data-topic-close-count>{allPosts.length} {t(allPosts.length === 1 ? 'collection.post' : 'collection.posts7')}</span>
+            <span data-topic-close-label>{t('topic.readAllWriting')}</span>
+          </span>
+          <ArrowExchange class="shrink-0" direction="up-right" />
+        </Link>
+      </nav>
+    </div>
+  </section>
 </PageLayout>
+
+<style>
+  [data-topic-close] {
+    --topic-close-accent: hsl(var(--brand));
+    container: topic-close / inline-size;
+  }
+  :global([data-theme='dark']) [data-topic-close] { --topic-close-accent: hsl(var(--accent)); }
+  [data-topic-close-sheet] {
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: 1.875rem;
+    padding: 1.875rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.625rem 1.625rem .5rem 1.625rem;
+    background: hsl(var(--surface));
+    box-shadow: var(--shadow-nav);
+  }
+  [data-topic-close-copy] { min-width: 0; }
+  [data-topic-close-eyebrow] {
+    margin: 0 0 1.125rem;
+    color: var(--topic-close-accent);
+    font-size: .6875rem;
+    font-weight: 500;
+    line-height: 1.8;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  [data-topic-close-sheet] #topic-close-heading {
+    max-width: 11ch;
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 2.25rem;
+    font-weight: 500;
+    line-height: 1.13;
+    letter-spacing: -.055em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+  [data-topic-close-description] {
+    max-width: 27ch;
+    margin: 1.125rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .875rem;
+    line-height: 1.8;
+  }
+  [data-topic-close-routes] { min-width: 0; padding-left: 1.625rem; border-left: 1px solid hsl(var(--line)); }
+  :global([data-topic-close-link]) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 6.25rem;
+    padding: .9375rem 0;
+    border-bottom: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+    text-decoration: none;
+    cursor: pointer;
+  }
+  :global([data-topic-close-link]:last-child) { border-bottom: 0; }
+  [data-topic-close-link] > span { min-width: 0; }
+  [data-topic-close-count] {
+    display: block;
+    margin-bottom: .375rem;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.7;
+  }
+  [data-topic-close-label] {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -.035em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+    transition: color 180ms ease;
+  }
+  [data-topic-close-link] :global([data-arrow-exchange]) { color: var(--topic-close-accent); }
+  :global([data-topic-close-link]:is(:hover, :focus-visible)) [data-topic-close-label] {
+    color: var(--topic-close-accent);
+    text-decoration: underline;
+    text-underline-offset: .25em;
+  }
+  :global([data-topic-close-link]:focus-visible) { outline: 2px solid var(--topic-close-accent); outline-offset: 4px; }
+  @container topic-close (width < 38rem) {
+    [data-topic-close-sheet] { grid-template-columns: minmax(0, 1fr); gap: 1.625rem; padding: min(1.5rem, 6cqi); }
+    [data-topic-close-sheet] #topic-close-heading { max-width: none; font-size: 2rem; }
+    [data-topic-close-description] { max-width: none; }
+    [data-topic-close-routes] { padding-left: 0; border-top: 1px solid hsl(var(--line)); border-left: 0; }
+    :global([data-topic-close-link]) { gap: min(1rem, 3cqi); }
+    [data-topic-close-label] { font-size: 1.3125rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-topic-close-label] { transition: none; }
+  }
+  [data-topic-reading] { container: topic-reading / inline-size; }
+  [data-topic-reading-caption] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .75rem 1.75rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  [data-topic-reading-caption] h2 {
+    min-width: 0;
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -.045em;
+  }
+  [data-topic-reading-range] {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.8;
+  }
+  @container topic-reading (width < 26rem) {
+    [data-topic-reading-caption] h2 { font-size: 1.625rem; }
+  }
+  [data-topic-archive-opening] {
+    --topic-archive-accent: hsl(var(--brand));
+    container: topic-archive / inline-size;
+    padding-block: 1rem 0;
+  }
+  :global([data-theme='dark']) [data-topic-archive-opening] { --topic-archive-accent: hsl(var(--accent)); }
+  [data-topic-archive-topline] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem 1.5rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  :global([data-topic-archive-return]), :global([data-topic-archive-blog]) {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: 2.75rem;
+    max-width: 100%;
+    color: hsl(var(--ink-soft));
+    font-size: .8125rem;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  [data-topic-archive-count], [data-topic-archive-position] {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.8;
+  }
+  [data-topic-archive-opening] h1 {
+    max-width: 20ch;
+    margin: 2rem 0 0;
+    color: hsl(var(--ink));
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -.055em;
+    overflow-wrap: anywhere;
+  }
+  [data-topic-archive-description] {
+    max-width: 57ch;
+    margin: 1rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .9375rem;
+    line-height: 1.85;
+  }
+  [data-topic-archive-footer] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .875rem 1.25rem;
+    margin-top: 1.875rem;
+    padding-top: 1rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+  :global([data-topic-archive-blog]) { color: var(--topic-archive-accent); }
+  @container topic-archive (width < 26rem) {
+    [data-topic-archive-opening] h1 { font-size: min(2.125rem, 12cqi); }
+  }
+</style>

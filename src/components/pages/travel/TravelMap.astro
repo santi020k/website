@@ -2,67 +2,104 @@
 import { Button, Card, Icon, WorldMap } from '@santi020k/lumen-astro'
 import { lumenWorldMapCountries } from '@santi020k/lumen-core/world-map-data'
 
-import { travelCountries, travelSummary } from '@/data/travel'
+import { travelSummary } from '@/data/travel'
+import { getLocale } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
+import { getLocalizedCountryName, getLocalizedTravelCountries } from '@/i18n/travel'
 
-const labels = Object.fromEntries(travelCountries.map(country => [country.code, country.name]))
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
+const travelCountries = getLocalizedTravelCountries(pageLocale)
+
+const labels = pageLocale === 'es' ?
+  Object.fromEntries(lumenWorldMapCountries.map(country => [country.id, getLocalizedCountryName(country.id, country.name, pageLocale)])) :
+  Object.fromEntries(travelCountries.map(country => [country.code, country.name]))
 ---
 
 <section data-travel-explorer aria-labelledby="travel-heading">
   <div data-travel-atlas>
-    <p data-travel-hint><Icon name="mouse-pointer-2" class="size-4" /><span>Pick a highlighted country.<br />Swipe or zoom to explore.</span></p>
+    <p data-travel-hint><Icon name="mouse-pointer-2" class="size-4" /><span>{t('page.pickAHighlightedCountry')}<br />{t('page.swipeOrZoomToExplore')}</span></p>
     <WorldMap
       animated={false}
       countries={lumenWorldMapCountries}
       highlightedCountries={travelCountries.map(country => country.code)}
-      label="Explore my home country and the countries I have visited"
+      label={t('page.exploreMyHomeCountryAndThe')}
       labels={labels}
-      listLabel="Explore a country with the keyboard"
+      listLabel={t('page.exploreACountry')}
       variant="dotted"
-      zoomLabels={{ reset: 'Reset' }}
+      zoomLabels={pageLocale === 'es' ? { fit: 'Ajustar países destacados', level: 'Nivel de zoom', reset: 'Restablecer', viewport: 'Vista del mapa', zoomIn: 'Acercar', zoomOut: 'Alejar' } : { reset: 'Reset' }}
     />
-    <Card as="section" data-travel-selection aria-labelledby="travel-selected-country" hidden>
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <p
-class="mb-2 text-xs font-semibold tracking-widest text-ink-muted uppercase"
-data-travel-category
-          >A place in my story</p>
-          <h2 class="text-2xl font-semibold" id="travel-selected-country" data-travel-country></h2>
+    <template data-travel-controls-template>
+      <Card variant="unstyled" data-travel-controls>
+        <Icon name="globe-2" data-travel-controls-globe />
+        <Icon name="rotate-ccw" data-travel-controls-reset />
+      </Card>
+    </template>
+    <Card as="section" variant="unstyled" data-travel-selection aria-labelledby="travel-selected-country" hidden>
+      <div data-travel-cover>
+        <div data-travel-selection-header>
+          <p data-travel-category>{t('page.aPlaceInMyStory')}</p>
+          <Button aria-label={t('page.closeCountryDetails')} data-travel-close size="icon" variant="ghost">
+            <Icon name="x" class="size-4" />
+          </Button>
         </div>
-        <Button aria-label="Close country details" data-travel-close size="icon" variant="ghost"><Icon
-name="x"
-class="size-4"
-                                                                                                 /></Button>
+        <div data-travel-destination>
+          <div>
+            <p data-travel-code aria-hidden="true"></p>
+            <h2 id="travel-selected-country" data-travel-country></h2>
+          </div>
+          <svg data-travel-silhouette aria-hidden="true" focusable="false"><path /></svg>
+        </div>
       </div>
-      <p class="mt-2 text-sm font-medium text-ink" data-travel-visits></p>
-      <p class="mt-4 text-sm/7 text-ink-soft" data-travel-places></p>
-      <p class="mt-3 text-xs/6 text-ink-soft" data-travel-note hidden></p>
-      <Button class="mt-5" data-travel-next size="sm" variant="outline">Explore another country <Icon
-name="arrow-right"
-class="size-4"
-                                                                                                /></Button>
+      <div data-travel-selection-body>
+        <div data-travel-ledger>
+          <p data-travel-visits>
+            <span data-travel-visit-total></span>
+            <span data-travel-visit-label></span>
+            <span class="sr-only" data-travel-visit-context></span>
+          </p>
+        </div>
+        <div data-travel-places-section>
+          <h3 data-travel-places-heading>{t('page.placesInMyNotebook')}</h3>
+          <ul data-travel-places role="list"></ul>
+          <p data-travel-empty hidden></p>
+          <p data-travel-note hidden></p>
+        </div>
+        <div data-travel-selection-footer>
+          <Button aria-label={t('page.previousCountry')} data-travel-previous size="icon" variant="ghost">
+            <Icon name="arrow-left" class="size-4" /><span data-travel-previous-label>{t('page.previous')}</span>
+          </Button>
+          <Button data-travel-next variant="ghost">
+            <span data-travel-next-copy><span>{t('page.nextCountry')}</span>{' '}<span data-travel-next-country></span></span>
+            <span data-travel-next-arrow><Icon name="arrow-right" class="size-4" /></span>
+          </Button>
+        </div>
+      </div>
     </Card>
   </div>
   <header data-travel-intro>
     <div>
-      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>Travel &amp; life abroad</p>
-      <h1 id="travel-heading">A life in<br /><span class="maker-hero-emphasis">more than one place.</span></h1>
+      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>{t('page.travelAndLifeAbroad7')}</p>
+      <h1 id="travel-heading">{t('page.aLifeIn')}<br /><span class="
+        maker-hero-emphasis
+      "
+                                                       >{t('page.moreThanOnePlace')}</span></h1>
     </div>
     <div data-travel-context>
-      <p>Colombian roots. A resident of Paraguay.<br />A growing collection of places and stories.</p>
-      <p data-travel-counts aria-label={`${travelSummary.countriesAbroad} countries visited abroad and ${travelSummary.countryVisits} country visits`}>
-        <strong>{travelSummary.countriesAbroad}</strong> countries abroad
-        <span aria-hidden="true">/</span>
-        <strong>{travelSummary.countryVisits}</strong> visits
-      </p>
+      <p>{t('page.colombianRootsAResidentOfParaguay')}<br />{t('page.aGrowingCollectionOfPlacesAnd')}</p>
+      <dl data-travel-counts aria-label={pageLocale === 'es' ? `${travelSummary.countriesAbroad} países visitados en el extranjero y ${travelSummary.countryVisits} visitas` : `${travelSummary.countriesAbroad} countries visited abroad and ${travelSummary.countryVisits} country visits`}>
+        <div><dt>{t('page.countriesAbroad')}</dt><dd>{travelSummary.countriesAbroad}</dd></div>
+        <div><dt>{t('page.visits')}</dt><dd>{travelSummary.countryVisits}</dd></div>
+      </dl>
     </div>
   </header>
   <p aria-live="polite" aria-atomic="true" class="sr-only" data-travel-announcement></p>
-  <noscript><p class="px-6 pb-6 text-sm text-ink-soft">Explore all countries and places in the travel notebook below. The interactive map needs JavaScript.</p></noscript>
+  <noscript><p class="px-6 pb-6 text-sm text-ink-soft">{t('page.exploreAllCountriesAndPlacesIn')}</p></noscript>
 </section>
 
 <style>
   [data-travel-explorer] {
+    --travel-navigation-accent: var(--brand);
     position: relative;
     left: 50%;
     width: 100vw;
@@ -103,16 +140,23 @@ class="size-4"
     letter-spacing: -0.012em;
   }
 
-  [data-travel-counts] { display: flex; align-items: baseline; gap: 0.375rem; margin-top: 1.25rem; color: hsl(var(--ink)); }
-  [data-travel-counts] strong { font-size: 1.25rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-  [data-travel-counts] > span { margin-inline: 0.25rem; color: hsl(var(--ink-soft)); }
-  [data-travel-atlas] { position: relative; }
+  [data-travel-counts] { margin-top: 1.25rem; padding-left: 1.25rem; border-left: 2px solid hsl(var(--brand)); container: travel-totals / inline-size; }
+  [data-travel-counts] > div { display: flex; align-items: baseline; justify-content: space-between; gap: 1.25rem; padding-block: .75rem; }
+  [data-travel-counts] > div:first-child { padding-top: 0; border-bottom: 1px solid hsl(var(--line)); }
+  [data-travel-counts] > div:last-child { padding-bottom: 0; }
+  [data-travel-counts] dt { min-width: 0; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.7; }
+  [data-travel-counts] dd { flex-shrink: 0; margin: 0; color: hsl(var(--ink)); font-size: 2.125rem; font-weight: 500; line-height: 1.15; letter-spacing: -.06em; }
+  :global([data-theme='dark']) [data-travel-counts] { border-color: hsl(var(--accent)); }
+  @container travel-totals (width < 12rem) {
+    [data-travel-counts] > div { gap: .375rem; }
+  }
+  [data-travel-atlas] { --travel-map-height: max(42rem, 40vw); position: relative; container: travel-atlas / inline-size; }
 
   [data-travel-hint] {
     position: absolute;
     z-index: 2;
     left: max(1.5rem, calc((100vw - 72rem) / 2));
-    bottom: 1.5rem;
+    top: calc(var(--travel-map-height) - 4.5rem);
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -126,7 +170,8 @@ class="size-4"
 
   [data-travel-explorer] :global(.ui-world-map) {
     position: relative;
-    display: block;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     width: 100%;
     --ui-world-map-surface: transparent;
     --ui-world-map-land: hsl(var(--ink-soft) / 0.28);
@@ -137,71 +182,177 @@ class="size-4"
     --ui-world-map-highlight: hsl(var(--accent));
   }
 
-  [data-travel-explorer] :global(.ui-world-map__frame) { border-radius: 0; }
-  [data-travel-explorer] :global(.ui-world-map__viewport) { width: 100%; min-width: 0; min-height: 24rem; }
+  [data-travel-explorer] :global(.ui-world-map__frame) { grid-area: 1 / 1; min-width: 0; border-radius: 0; }
+  [data-travel-explorer] :global(.ui-world-map__viewport) { width: 100%; min-width: 0; min-height: 24rem; height: var(--travel-map-height); }
   [data-travel-explorer] :global(.ui-world-map__plot) { width: calc(max(100%, 48rem) * var(--ui-world-map-zoom, 1)); }
   [data-travel-explorer] :global(.ui-world-map__country) { stroke: transparent; }
   [data-travel-explorer] :global(.ui-world-map__selection) { stroke: var(--ui-world-map-highlight); }
   [data-travel-explorer] :global(.ui-world-map__highlights),
   [data-travel-explorer] :global([data-ui-world-map-zoom="fit"]) { display: none; }
 
-  [data-travel-explorer] :global(.ui-world-map__zoom-controls) {
-    position: absolute;
-    z-index: 2;
-    right: max(1.5rem, calc((100vw - 72rem) / 2));
-    bottom: 1.5rem;
-    flex-wrap: nowrap;
-    gap: 0.25rem;
-    padding: 0.375rem;
-    border: 1px solid hsl(var(--line) / 0.65);
-    border-radius: 1rem;
-    background: hsl(var(--surface));
-    box-shadow: var(--shadow-sm);
-  }
-
-  [data-travel-explorer] :global(.ui-world-map__zoom-controls button) { border-color: transparent; border-radius: 0.625rem; background: transparent; }
   [data-travel-explorer] :global(.ui-world-map__inspection) { inset: 0.5rem 1.5rem auto auto; }
 
-  /* Preserve Lumen's keyboard selector without a second visible navigation surface. */
-  [data-travel-explorer] :global(.ui-world-map__select-label) {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
+  /* Group the existing Lumen controls in one sheet, in their keyboard order. */
+  [data-travel-controls] {
+    container: travel-controls / inline-size;
+    justify-self: end;
+    width: min(calc(100% - 3rem), 42rem);
+    min-width: 0;
+    margin: 1.5rem max(1.5rem, calc((100vw - 72rem) / 2)) 0;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: .375rem 2rem .375rem 2rem;
+    background: hsl(var(--surface));
+    box-shadow: none;
   }
 
-  [data-travel-explorer] :global(.ui-world-map__select-label:focus-within) {
-    z-index: 4;
-    top: 0.5rem;
-    left: max(1.5rem, calc((100vw - 72rem) / 2));
-    width: min(20rem, calc(100% - 3rem));
-    height: auto;
-    padding: 0.75rem;
-    overflow: visible;
-    clip-path: none;
-    border: 1px solid hsl(var(--line));
-    border-radius: 1rem;
+  [data-travel-explorer] :global(.ui-world-map__select-label) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .625rem;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 1.5rem 1.625rem 1.375rem;
+    color: hsl(var(--travel-navigation-accent));
+    font-size: .75rem;
+    font-weight: 500;
+  }
+
+  [data-travel-explorer] :global(.ui-world-map__select-label > span) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+  }
+
+  [data-travel-controls-globe] { flex-shrink: 0; width: 1.25rem; height: 1.25rem; }
+  [data-travel-controls-reset] { flex-shrink: 0; width: 1.125rem; height: 1.125rem; }
+
+  [data-travel-explorer] :global(.ui-world-map__select) {
+    width: 100%;
+    min-width: 0;
+    min-height: 3rem;
+    padding: .375rem 1.625rem .75rem 0;
+    border: 0;
+    border-bottom: 1px solid hsl(var(--line));
+    border-radius: 0;
+    background-color: hsl(var(--surface));
+    color: hsl(var(--ink));
+    font-size: 1.5625rem;
+    font-weight: 500;
+    letter-spacing: -.04em;
+    scroll-margin-block: 7rem 1rem;
+  }
+
+  [data-travel-explorer] :global(.ui-world-map__zoom-controls) {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: 0;
+    padding: .625rem 1.25rem;
+    border: 0;
+    border-top: 1px solid hsl(var(--line));
+    border-radius: 0 0 .3125rem 1.9375rem;
+    background: hsl(var(--brand-soft));
+  }
+
+  [data-travel-explorer] :global(.ui-world-map__zoom-controls button) {
+    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    border-color: hsl(var(--line));
+    border-radius: .4375rem .875rem .4375rem .875rem;
     background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    font-size: .8125rem;
+    font-weight: 500;
+    transform: none;
+  }
+  [data-travel-explorer] :global([data-ui-world-map-zoom-status]) { color: hsl(var(--ink)); font-size: .75rem; font-weight: 500; }
+  [data-travel-explorer] :global([data-ui-world-map-zoom="in"]),
+  [data-travel-explorer] :global([data-ui-world-map-zoom="out"]) { width: 44px; height: 44px; }
+  [data-travel-explorer] :global(.ui-world-map__zoom-controls [data-ui-world-map-zoom="reset"]) { gap: .5rem; margin-left: auto; border-color: transparent; background: transparent; white-space: normal; }
+  [data-travel-explorer] :global(.ui-world-map__zoom-controls [data-ui-world-map-zoom="reset"]:hover:not(:disabled)) { background: hsl(var(--surface)); }
+
+  @container travel-atlas (width >= 64rem) {
+    [data-travel-hint] { top: calc(var(--travel-map-height) + 3rem); }
+  }
+
+  @container travel-controls (width < 18rem) {
+    [data-travel-explorer] :global(.ui-world-map__select-label) { padding: 1.125rem 1rem; }
+    [data-travel-explorer] :global(.ui-world-map__select) { font-size: 1.375rem; }
+    [data-travel-explorer] :global(.ui-world-map__zoom-controls) { gap: .25rem; padding: .625rem .75rem; }
+    [data-travel-explorer] :global(.ui-world-map__zoom-controls [data-ui-world-map-zoom="reset"]) { width: 100%; margin: .25rem 0 0; padding-top: .75rem; border-top-color: hsl(var(--line)); border-radius: 0; }
   }
 
   [data-travel-selection] {
     position: absolute;
     z-index: 3;
     right: max(1.5rem, calc((100vw - 72rem) / 2));
-    bottom: 5.75rem;
-    width: min(21rem, calc(100% - 3rem));
-    padding: 1.5rem;
+    top: 1.5rem;
+    width: min(24rem, calc(100% - 3rem));
+    max-height: calc(var(--travel-map-height) - 7.25rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0;
     border: 1px solid hsl(var(--line) / 0.65);
-    border-radius: 1rem;
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
     background: hsl(var(--surface));
     box-shadow: var(--shadow-nav);
+    scroll-margin-block: 7rem 5rem;
+  }
+
+  [data-travel-selection]:where([data-placement="left"]) { left: max(1.5rem, calc((100vw - 72rem) / 2)); right: auto; }
+
+  [data-travel-cover] { padding: 1.5rem 1.5rem 1.75rem; border-radius: 1.6875rem 1.6875rem 0 0; background: hsl(var(--brand-soft)); }
+  [data-travel-selection-body] { padding: 0 1.5rem 0.5rem; }
+  [data-travel-selection-header] { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+  [data-travel-category] { color: hsl(var(--ink-soft)); font-size: 0.625rem; font-weight: 500; line-height: 1.6; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-travel-destination] { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding-top: 0.75rem; }
+  [data-travel-destination] > div { min-width: 0; }
+  [data-travel-code] { display: inline-block; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid hsl(var(--line)); color: hsl(var(--travel-navigation-accent)); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; }
+  [data-travel-country] { margin: 0; font-size: 2rem; font-weight: 500; line-height: 1.1; letter-spacing: -0.055em; overflow-wrap: break-word; }
+  [data-travel-silhouette] { flex-shrink: 0; width: 5.5rem; height: 5.5rem; fill: hsl(var(--surface)); stroke: hsl(var(--travel-navigation-accent)); stroke-width: 1; }
+  [data-travel-silhouette] path { vector-effect: non-scaling-stroke; }
+  [data-travel-ledger] { padding-block: 1.375rem; border-bottom: 1px solid hsl(var(--line)); }
+  [data-travel-visits] { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 1rem; color: hsl(var(--ink)); font-size: 0.8125rem; line-height: 1.7; }
+  [data-travel-visit-total] { color: hsl(var(--travel-navigation-accent)); font-size: 3rem; line-height: 1; font-weight: 500; letter-spacing: -0.04em; }
+  [data-travel-places-section] { padding-block: 1.25rem; }
+  [data-travel-places-heading] { margin-bottom: 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.625rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-travel-places] { padding: 0; list-style: none; }
+  [data-travel-places] :global(li) { display: flex; align-items: baseline; gap: 1rem; padding-block: 0.625rem; border-bottom: 1px solid hsl(var(--line)); color: hsl(var(--ink)); font-size: 0.875rem; line-height: 1.6; overflow-wrap: break-word; }
+  [data-travel-places] :global(li:last-child) { padding-bottom: 0; border-bottom: 0; }
+  [data-travel-places] :global([data-travel-place-number]) { flex-shrink: 0; color: hsl(var(--travel-navigation-accent)); font-size: 0.625rem; line-height: 1.25rem; }
+  [data-travel-places] :global([data-travel-place-name]) { min-width: 0; }
+  [data-travel-empty], [data-travel-note] { color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
+  [data-travel-note] { margin-top: 0.875rem; }
+  [data-travel-selection-footer] { display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid hsl(var(--line) / 0.65); }
+  [data-travel-explorer] :global([data-travel-close]) { flex-shrink: 0; width: 2.75rem; min-width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; background: hsl(var(--surface)); }
+  [data-travel-explorer] :global([data-travel-next]) { position: relative; display: flex; justify-content: start; gap: 1rem; min-width: 0; width: 100%; max-width: 100%; min-height: 4.5rem; padding: 0.75rem 3.25rem 0.75rem 0.5rem; border-radius: 0.875rem; background: transparent; transform: none; scroll-margin-block: 1rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; text-align: left; white-space: normal; }
+  [data-travel-explorer] :global([data-travel-previous]) { flex-shrink: 0; width: 2.75rem; height: 2.75rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: 0.875rem; color: hsl(var(--ink)); scroll-margin-block: 1rem; }
+  [data-travel-previous-label] { display: none; }
+  [data-travel-next-copy] { display: grid; gap: 0.25rem; }
+  [data-travel-next-copy] > :first-child { color: hsl(var(--ink-soft)); font-size: 0.625rem; font-weight: 400; }
+  [data-travel-next-country] { font-size: 0.875rem; }
+  [data-travel-next-arrow] { position: absolute; top: 50%; right: 0.5rem; transform: translateY(-50%); display: grid; flex-shrink: 0; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 0.75rem; color: hsl(var(--travel-navigation-accent)); background: hsl(var(--brand-soft)); transition: background-color 160ms ease, color 160ms ease; }
+  [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) { color: hsl(var(--travel-navigation-accent)); }
+  [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-country] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+  [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-arrow] { color: hsl(var(--on-brand)); background: hsl(var(--brand-solid)); }
+  :global([data-theme="dark"]) [data-travel-explorer] { --travel-navigation-accent: var(--accent); }
+  :global([data-theme="dark"]) [data-travel-code] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-travel-explorer] :global([data-travel-next]), [data-travel-next-arrow] { transition: none; }
   }
 
   @media (max-width: 63.999rem) {
     [data-travel-intro] { align-items: start; flex-direction: column; gap: 1.5rem; }
-    [data-travel-context] { display: flex; justify-content: space-between; align-items: end; gap: 1.5rem; width: 100%; max-width: none; }
-    [data-travel-counts] { flex-shrink: 0; margin-top: 0; }
+    [data-travel-context] { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1rem 1.5rem; width: 100%; max-width: none; }
+    [data-travel-counts] { flex-shrink: 0; width: min(100%, 19rem); margin-top: 0; }
   }
 
   @media (max-width: 47.999rem) {
@@ -210,17 +361,51 @@ class="size-4"
     #travel-heading { font-size: clamp(2.375rem, 9.6vw, 4.5rem); line-height: 1.06; letter-spacing: -0.065em; }
     [data-travel-context] { display: block; font-size: 0.8125rem; }
     [data-travel-counts] { margin-top: 1rem; }
-    [data-travel-explorer] :global(.ui-world-map__viewport) { aspect-ratio: auto; height: 26rem; }
-    [data-travel-hint] { bottom: 5.5rem; left: 0.75rem; }
-    [data-travel-explorer] :global(.ui-world-map__zoom-controls) { right: 1.25rem; bottom: 1.25rem; }
-    [data-travel-selection] { right: 1.25rem; left: 1.25rem; bottom: 5.5rem; width: auto; max-height: 20rem; overflow-y: auto; padding: 1.25rem; }
+    [data-travel-atlas] { --travel-map-height: clamp(32rem, 68svh, 42rem); }
+    [data-travel-explorer] :global(.ui-world-map__viewport) { aspect-ratio: auto; height: var(--travel-map-height); }
+    [data-travel-explorer] :global(.ui-world-map__plot) { width: calc(max(100%, var(--travel-map-height) * 2.5) * var(--ui-world-map-zoom, 1)); }
+    [data-travel-hint] { top: 0.75rem; bottom: auto; left: 0.75rem; }
+    [data-travel-controls] { width: calc(100% - 2.5rem); margin: 1rem 1.25rem 0; }
+    [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 1.25rem 0; overflow: visible; box-shadow: var(--shadow-sm); }
+  }
+
+  /* Keep the map visible beside its details, including when text is enlarged. */
+  @container travel-atlas (width < 30rem) {
+    [data-travel-hint] { top: 0.75rem; bottom: auto; left: 0.75rem; }
+    [data-travel-controls] { width: calc(100% - 2.5rem); margin: 1rem 1.25rem 0; }
+    [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 1.25rem 0; overflow: visible; box-shadow: var(--shadow-sm); }
+  }
+
+  /* At enlarged text sizes the hint precedes the map, while the controls and
+     details stay in flow beneath it. Preserve room for names and place lists. */
+  @container travel-atlas (width < 20rem) {
+    [data-travel-hint] { position: static; margin: 0 1.25rem 0.75rem; padding: 0; background: none; }
+    [data-travel-controls] { width: calc(100% - 1rem); margin-inline: .5rem; }
+    [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 0.5rem 0; overflow: visible; box-shadow: none; }
+    [data-travel-explorer] :global(.ui-world-map__frame) { grid-area: auto; }
+    [data-travel-cover] { padding: 1rem 0.75rem 1.25rem; }
+    [data-travel-selection-body] { padding-inline: 0.75rem; }
+    [data-travel-destination] { align-items: start; }
+    [data-travel-country] { font-size: min(1.625rem, 13cqi); }
+    [data-travel-places] :global(li) { gap: 0.5rem; }
+    [data-travel-silhouette] { display: none; }
+
+    [data-travel-selection-footer] { flex-wrap: wrap; gap: 0; padding-top: 0.75rem; }
+    [data-travel-explorer] :global([data-travel-previous]) { width: auto; height: auto; padding: 0.5rem; font-size: 0.75rem; white-space: normal; }
+    [data-travel-previous-label] { display: inline; }
+    [data-travel-explorer] :global([data-travel-next]) { flex-basis: 100%; padding-inline: 0.5rem; }
+    [data-travel-next-arrow] { display: none; }
   }
 </style>
 
 <script>
-  import { getTravelVisitLabel, travelCountries } from '@/data/travel'
+  import { getLocale } from '@/i18n'
+  import { getLocalizedTravelCountries, getLocalizedVisitLabel, getTravelControlCopy } from '@/i18n/travel'
 
   const initializeTravelMap = () => {
+    const locale = getLocale(window.location.pathname)
+    const travelCountries = getLocalizedTravelCountries(locale)
+    const copy = getTravelControlCopy(locale)
     const explorer = document.querySelector<HTMLElement>('[data-travel-explorer]')
 
     if (!explorer || explorer.dataset.bound === 'true') return
@@ -229,17 +414,129 @@ class="size-4"
     const heading = explorer.querySelector<HTMLElement>('[data-travel-country]')
     const category = explorer.querySelector<HTMLElement>('[data-travel-category]')
     const visits = explorer.querySelector<HTMLElement>('[data-travel-visits]')
+    const visitTotal = explorer.querySelector<HTMLElement>('[data-travel-visit-total]')
+    const visitLabel = explorer.querySelector<HTMLElement>('[data-travel-visit-label]')
+    const visitContext = explorer.querySelector<HTMLElement>('[data-travel-visit-context]')
     const places = explorer.querySelector<HTMLElement>('[data-travel-places]')
     const note = explorer.querySelector<HTMLElement>('[data-travel-note]')
+    const empty = explorer.querySelector<HTMLElement>('[data-travel-empty]')
+    const placesHeading = explorer.querySelector<HTMLElement>('[data-travel-places-heading]')
+    const code = explorer.querySelector<HTMLElement>('[data-travel-code]')
+    const silhouette = explorer.querySelector<SVGSVGElement>('[data-travel-silhouette]')
     const announcement = explorer.querySelector<HTMLElement>('[data-travel-announcement]')
     const chooser = explorer.querySelector<HTMLSelectElement>('select')
     const viewport = explorer.querySelector<HTMLElement>('[data-ui-world-map-viewport]')
+    const previousButton = explorer.querySelector<HTMLButtonElement>('[data-travel-previous]')
+    const nextButton = explorer.querySelector<HTMLButtonElement>('[data-travel-next]')
+    const nextCountry = explorer.querySelector<HTMLElement>('[data-travel-next-country]')
 
-    if (!panel || !heading || !category || !visits || !places || !note || !announcement || !chooser || !viewport) return
+    if (!panel || !heading || !category || !visits || !places || !note || !empty || !placesHeading) return
+
+    if (!visitTotal || !visitLabel || !visitContext) return
+
+    if (!code || !silhouette || !announcement || !chooser || !viewport) return
+
+    if (!previousButton || !nextButton || !nextCountry) return
+
+    // Move the original controls together inside their Lumen root. Their native
+    // state, listeners and announcements survive; no second controller is added.
+    const map = explorer.querySelector<HTMLElement>('[data-ui-world-map]')
+    const controlsTemplate = explorer.querySelector<HTMLTemplateElement>('[data-travel-controls-template]')
+    const picker = chooser.closest('label')
+    const zoomControls = explorer.querySelector<HTMLElement>('.ui-world-map__zoom-controls')
+    const controls = controlsTemplate?.content.firstElementChild?.cloneNode(true)
+
+    if (map && picker && zoomControls && controls instanceof HTMLElement) {
+      const globe = controls.querySelector('[data-travel-controls-globe]')
+      const resetIcon = controls.querySelector('[data-travel-controls-reset]')
+
+      if (globe) picker.querySelector('span')?.append(globe)
+
+      if (resetIcon) zoomControls.querySelector('[data-ui-world-map-zoom="reset"]')?.prepend(resetIcon)
+
+      controls.append(picker, zoomControls)
+
+      map.append(controls)
+
+      const placeholder = chooser.querySelector('option[value=""]')
+
+      if (placeholder) placeholder.textContent = copy.placeholder
+    }
+
+    // Keep Lumen's native selector and events, prioritizing the actual notebook.
+    const notebook = document.createElement('optgroup')
+    const remaining = document.createElement('optgroup')
+    const options = [...chooser.options]
+
+    notebook.label = copy.notebook
+
+    remaining.label = copy.remaining
+
+    for (const country of travelCountries) {
+      const option = options.find(entry => entry.value === country.code)
+
+      if (option) notebook.append(option)
+    }
+
+    for (const option of options) {
+      if (option.value && option.parentElement !== notebook) remaining.append(option)
+    }
+
+    chooser.append(notebook, remaining)
 
     explorer.dataset.bound = 'true'
 
     let selectedCode = ''
+    let pickerPointerSelection = false
+
+    chooser.addEventListener('pointerdown', () => {
+      pickerPointerSelection = true
+    })
+
+    chooser.addEventListener('keydown', () => {
+      pickerPointerSelection = false
+    })
+
+    const revealCountry = (countryId: string, behavior: ScrollBehavior) => {
+      const path = [...explorer.querySelectorAll<SVGPathElement>('[data-ui-world-map-country]')]
+        .find(element => element.dataset.uiWorldMapCountry === countryId)
+
+      if (!path) return
+
+      const bounds = path.getBoundingClientRect()
+      const frame = viewport.getBoundingClientRect()
+
+      if (bounds.width < frame.width && (bounds.left < frame.left || bounds.right > frame.right)) {
+        viewport.scrollTo({
+          left: viewport.scrollLeft + bounds.left - frame.left + bounds.width / 2 - frame.width / 2,
+          behavior
+        })
+      }
+
+      return path
+    }
+
+    // Lumen initializes asynchronously and resets the viewport when it enables
+    // the chooser. Center home after that reset, without selecting a country.
+    const centerHome = () => {
+      if (!selectedCode && window.matchMedia('(max-width: 47.999rem)').matches) revealCountry('CO', 'instant')
+    }
+
+    if (chooser.disabled) {
+      const readiness = new MutationObserver((_changes, observer) => {
+        if (chooser.disabled) return
+
+        centerHome()
+
+        observer.disconnect()
+      })
+
+      readiness.observe(chooser, { attributes: true, attributeFilter: ['disabled'] })
+
+      document.addEventListener('astro:before-swap', () => readiness.disconnect(), { once: true })
+    } else {
+      centerHome()
+    }
 
     const closeDetails = (restoreFocus = panel.contains(document.activeElement)) => {
       panel.hidden = true
@@ -250,9 +547,15 @@ class="size-4"
 
       chooser.dispatchEvent(new Event('change', { bubbles: true }))
 
-      announcement.textContent = 'Country details closed.'
+      announcement.textContent = copy.closed
 
-      if (restoreFocus) viewport.focus({ preventScroll: true })
+      if (restoreFocus) {
+        viewport.focus({ preventScroll: true })
+
+        // The in-flow phone card can be below the screen; return to the map
+        // without resetting its zoom or losing the country that was in view.
+        if (getComputedStyle(panel).position === 'relative') viewport.scrollIntoView({ block: 'center', behavior: 'instant' })
+      }
     }
 
     chooser.addEventListener('change', () => {
@@ -265,16 +568,27 @@ class="size-4"
       if (event.key === 'Escape' && !panel.hidden) closeDetails()
     })
 
-    explorer.querySelector('[data-travel-next]')?.addEventListener('click', () => {
+    const adjacentCountry = (offset: number) => {
       const index = travelCountries.findIndex(country => country.code === selectedCode)
-      const next = travelCountries[(index + 1) % travelCountries.length]
 
-      if (!next) return
+      if (index < 0) return offset < 0 ? travelCountries.at(-1) : travelCountries[0]
 
-      chooser.value = next.code
+      return travelCountries[(index + offset + travelCountries.length) % travelCountries.length]
+    }
+
+    const browseCountry = (offset: number) => {
+      const country = adjacentCountry(offset)
+
+      if (!country) return
+
+      chooser.value = country.code
 
       chooser.dispatchEvent(new Event('change', { bubbles: true }))
-    })
+    }
+
+    previousButton.addEventListener('click', () => browseCountry(-1))
+
+    nextButton.addEventListener('click', () => browseCountry(1))
 
     explorer.addEventListener('ui:world-map-select', event => {
       if (!(event instanceof CustomEvent)) return
@@ -287,17 +601,60 @@ class="size-4"
 
       selectedCode = detail.countryId
 
-      heading.textContent = country?.name ?? ('label' in detail && typeof detail.label === 'string' ? detail.label : 'More places to discover')
+      const previous = adjacentCountry(-1)
+      const next = adjacentCountry(1)
 
-      category.textContent = 'A place in my story'
+      previousButton.setAttribute('aria-label', previous ? `${copy.previous}: ${previous.name}` : copy.previous)
 
-      if (country?.connection === 'home') category.textContent = 'Where my story begins'
+      nextCountry.textContent = next?.name ?? ''
 
-      if (country?.connection === 'resident') category.textContent = 'Country of residence'
+      heading.textContent = country?.name ?? ('label' in detail && typeof detail.label === 'string' ? detail.label : copy.discover)
 
-      visits.textContent = country ? getTravelVisitLabel(country) : 'No entry in my travel journal'
+      category.textContent = country ? copy.story : copy.beyond
 
-      places.textContent = country?.connection === 'home' ? 'I’m from Colombia. This is where my story begins.' : country?.places.join(' · ') ?? 'Choose a highlighted country to explore the places I have visited.'
+      code.textContent = selectedCode
+
+      if (country?.connection === 'home') category.textContent = copy.home
+
+      if (country?.connection === 'resident') category.textContent = copy.residence
+
+      const visitDescription = country ? getLocalizedVisitLabel(country, locale) : copy.noEntry
+
+      visitTotal.hidden = typeof country?.visits !== 'number'
+
+      visitTotal.textContent = country?.visits?.toString() ?? ''
+
+      visitLabel.textContent = country && country.visits !== null ? ` ${country.visits === 1 ? copy.visit : copy.visits}` : visitDescription
+
+      visitContext.textContent = country?.connection === 'resident' ? ` · ${copy.residence}` : ''
+
+      places.replaceChildren(...(country?.places ?? []).map((place, index) => {
+        const item = document.createElement('li')
+        const number = document.createElement('span')
+        const name = document.createElement('span')
+
+        number.dataset.travelPlaceNumber = ''
+
+        number.setAttribute('aria-hidden', 'true')
+
+        number.textContent = String(index + 1).padStart(2, '0')
+
+        name.dataset.travelPlaceName = ''
+
+        name.textContent = place
+
+        item.append(number, name)
+
+        return item
+      }))
+
+      places.hidden = !country?.places.length
+
+      placesHeading.hidden = places.hidden
+
+      empty.textContent = country?.connection === 'home' ? copy.from : copy.choose
+
+      empty.hidden = !places.hidden
 
       note.textContent = country?.note ?? ''
 
@@ -305,22 +662,35 @@ class="size-4"
 
       panel.hidden = false
 
-      announcement.textContent = `${heading.textContent}. ${visits.textContent}. ${places.textContent}`
+      announcement.textContent = `${heading.textContent}. ${visitDescription}. ${country?.places.length ? country.places.join(', ') : empty.textContent}`
 
-      const path = [...explorer.querySelectorAll<SVGPathElement>('[data-ui-world-map-country]')]
-        .find(element => element.dataset.uiWorldMapCountry === selectedCode)
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+      const path = revealCountry(selectedCode, behavior)
 
-      if (!path) return
+      silhouette.style.display = path ? '' : 'none'
 
-      const bounds = path.getBoundingClientRect()
-      const frame = viewport.getBoundingClientRect()
+      if (path) {
+        const countryBounds = path.getBoundingClientRect()
+        const mapBounds = viewport.getBoundingClientRect()
 
-      if (bounds.width < frame.width && (bounds.left < frame.left || bounds.right > frame.right)) {
-        viewport.scrollTo({
-          left: viewport.scrollLeft + bounds.left - frame.left + bounds.width / 2 - frame.width / 2,
-          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
-        })
+        panel.dataset.placement = countryBounds.left + countryBounds.width / 2 > mapBounds.left + mapBounds.width / 2 ? 'left' : 'right'
+
+        const bounds = path.getBBox()
+        const padding = Math.max(bounds.width, bounds.height) * 0.08
+
+        silhouette.setAttribute('viewBox', `${bounds.x - padding} ${bounds.y - padding} ${bounds.width + padding * 2} ${bounds.height + padding * 2}`)
+
+        silhouette.querySelector('path')?.setAttribute('d', path.getAttribute('d') ?? '')
       }
+
+      // Touch choices reveal the in-flow note. Keyboard choices retain their
+      // position in the selector; the zoom controls and note follow in order.
+      if (getComputedStyle(panel).position === 'relative' &&
+        (document.activeElement !== chooser || pickerPointerSelection) && !panel.contains(document.activeElement)) {
+        panel.scrollIntoView({ block: 'nearest', behavior })
+      }
+
+      pickerPointerSelection = false
     })
   }
 

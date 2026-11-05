@@ -1,0 +1,71 @@
+---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Link } from '@santi020k/lumen-astro'
+
+interface ReleaseState {
+  label: string
+  title: string
+  description: string
+  link?: { label: string, href: string }
+}
+
+interface Props {
+  labelledBy: string
+  states: [ReleaseState, ReleaseState]
+}
+
+const { labelledBy, states } = Astro.props
+---
+
+<section aria-labelledby={labelledBy} class="not-prose" data-project-release-note>
+  <p data-release-lead><strong>{states[0].title}</strong> — {states[0].label.toLowerCase()}.</p>
+  <p data-release-description>{states[0].description}</p>
+  {states[0].link && (
+    <Link href={states[0].link.href} newTab={/^https?:\/\//u.test(states[0].link.href)} variant="inherit" data-release-link>
+      <span>{states[0].link.label}</span>
+      <ArrowExchange direction={/^https?:\/\//u.test(states[0].link.href) ? 'up-right' : 'right'} size="sm" />
+    </Link>
+  )}
+  <div data-release-pending>
+    <p data-release-label>{states[1].label}</p>
+    <h4>{states[1].title}</h4>
+    <p data-release-description>{states[1].description}</p>
+    {states[1].link && (
+      <Link href={states[1].link.href} newTab={/^https?:\/\//u.test(states[1].link.href)} variant="inherit" data-release-link>
+        <span>{states[1].link.label}</span>
+        <ArrowExchange direction={/^https?:\/\//u.test(states[1].link.href) ? 'up-right' : 'right'} size="sm" />
+      </Link>
+    )}
+  </div>
+  {Astro.slots.has('default') && <div data-release-footnote><slot /></div>}
+</section>
+
+<style>
+  [data-project-release-note] {
+    --release-accent: hsl(var(--brand));
+    container: release-note / inline-size;
+    margin-block: 1.75rem 2.5rem;
+    color: hsl(var(--ink));
+  }
+
+  :global([data-theme='dark']) [data-project-release-note] { --release-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  [data-release-lead] { margin: 0 0 1rem; font-size: 1.75rem; line-height: 1.5; letter-spacing: -0.025em; overflow-wrap: anywhere; }
+  [data-release-lead] strong { font-weight: 500; color: var(--release-accent); }
+  [data-release-pending] { margin-top: 1.625rem; padding: 1.5rem; border-radius: 1.75rem 0.3125rem 1.75rem 0.3125rem; background: hsl(var(--brand-soft)); }
+  [data-release-label] { margin: 0 0 0.875rem; color: var(--release-accent); font-size: 0.75rem; font-weight: 500; line-height: 1.6; }
+  h4 { margin: 0 0 1rem; font-size: 1.375rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.035em; overflow-wrap: anywhere; }
+  [data-release-description] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.8; }
+  [data-release-link][data-slot='link'] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; margin-top: 1rem; padding-block: 0.5rem; color: var(--release-accent); font-size: 0.8125rem; font-weight: 500; line-height: 1.7; text-decoration: none; }
+  [data-release-link] span { min-width: 0; overflow-wrap: anywhere; text-decoration: underline; text-decoration-color: hsl(var(--line)); text-underline-offset: 0.3rem; }
+  [data-release-link] :global(svg) { flex-shrink: 0; }
+  [data-release-link]:is(:hover, :focus-visible) span { text-decoration-color: currentColor; }
+  [data-release-link]:focus-visible { outline: 2px solid var(--release-accent); outline-offset: 4px; }
+  [data-release-footnote] { margin-top: 1.5rem; border-top: 1px solid hsl(var(--line)); padding-top: 1.25rem; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
+  [data-release-footnote] :global(p) { margin: 0; color: inherit; font-size: 0.8125rem; line-height: 1.8; }
+  [data-release-footnote] :global(a) { color: var(--release-accent); text-underline-offset: 0.25rem; }
+
+  @container release-note (width < 35rem) {
+    [data-release-lead] { font-size: 1.4375rem; }
+  }
+</style>

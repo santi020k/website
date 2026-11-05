@@ -1,0 +1,31 @@
+---
+import { arrowDirections, arrowSymbolId } from '@/utils/arrow-sprite'
+
+import { getLumenIcon } from '@santi020k/lumen-core'
+
+// Lumen's own arrow geometry, defined once per page. ArrowExchange draws two glyphs per arrow,
+// so archive pages with hundreds of links would otherwise repeat the same paths each time.
+const symbols = arrowDirections.map(direction => {
+  const icon = getLumenIcon(`arrow-${direction}`)
+
+  const paths = icon?.node.map(([tagName, attributes]) => {
+    if (tagName !== 'path' || typeof attributes.d !== 'string') {
+      throw new Error(`arrow-${direction} must contain only paths to be shared as a symbol.`)
+    }
+
+    return attributes.d
+  }) ?? []
+
+  if (paths.length === 0) throw new Error(`Lumen has no arrow-${direction} icon.`)
+
+  return { id: arrowSymbolId(direction), paths }
+})
+---
+
+<svg aria-hidden="true" data-arrow-sprite focusable="false" style="display: none">
+  {symbols.map(symbol => (
+    <symbol id={symbol.id} viewBox="0 0 24 24">
+      {symbol.paths.map(path => <path d={path} />)}
+    </symbol>
+  ))}
+</svg>

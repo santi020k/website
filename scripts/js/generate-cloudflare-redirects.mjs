@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url'
 
 import { load as loadYaml } from 'js-yaml'
 
+import { prepareCloudflareRedirects, validateRedirectDestinations } from './cloudflare-redirects.mjs'
+
 const rootDirectory = fileURLToPath(new URL('../..', import.meta.url))
 const projectDirectory = path.join(rootDirectory, 'src/content/project')
 const baseRedirectsPath = path.join(rootDirectory, 'public/_redirects')
@@ -76,14 +78,16 @@ const getLegacyTechnologyRedirects = async () => {
 const baseRedirects = (await readFile(baseRedirectsPath, 'utf8')).trimEnd()
 const technologyRedirects = await getLegacyTechnologyRedirects()
 
-const output = [
+const { output, rules, staticCount, dynamicCount } = prepareCloudflareRedirects([
   baseRedirects,
   '',
   '# Generated legacy technology redirects',
   ...technologyRedirects,
   ''
-].join('\n')
+].join('\n'))
+
+await validateRedirectDestinations(rules, path.join(rootDirectory, 'dist'))
 
 await writeFile(outputPath, output)
 
-console.log(`Generated ${technologyRedirects.length} legacy technology redirects in dist/_redirects`)
+console.log(`Generated dist/_redirects: ${staticCount} static and ${dynamicCount} dynamic rules (${technologyRedirects.length} from technology labels)`)

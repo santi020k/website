@@ -3,19 +3,28 @@ import type { GetStaticPaths, Page } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
+import TechnologyArchiveChapter from '@/components/molecules/TechnologyArchiveChapter.astro'
+import TechnologyStackConnections from '@/components/molecules/TechnologyStackConnections.astro'
 import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
+import { isIndexedArchive } from '@/utils/archive-indexing'
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
-import { getSocialImagePath } from '@/utils/social-image'
+import { getSocialImageURL } from '@/utils/social-image'
 
+import { Link } from '@santi020k/lumen-astro'
+
+import { ogManifest } from '@/data/og-manifest'
 import { createProjectCollectionSchema, getUniqueTechnologies } from '@/data/project'
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const allProjects = await getCachedProjects()
@@ -51,136 +60,182 @@ const projectMatches = page.data.filter(
 const communityMatches = page.data.filter(project => project.data.typesId === 'community')
 const workExperienceMatches = page.data.filter(project => project.data.typesId === 'professional')
 
+const evidenceGroups = [
+  { count: workExperienceMatches.length, label: t('collection.workExperience'), context: t('technology.professionalContext'), href: '#technology-work-heading' },
+  { count: projectMatches.length, label: t('nav.projects'), context: t('technology.independentContext'), href: '#technology-projects-heading' },
+  { count: communityMatches.length, label: t('shared.community'), context: t('technology.communityContext'), href: '#technology-community-heading' }
+].filter(group => group.count > 0)
+
+const evidenceContext = new Intl.ListFormat(locale, { type: 'conjunction' }).format(evidenceGroups.map(group => group.context))
+const pageContext = page.lastPage > 1 ? t('collection.onThisPage7') : ''
+const preposition = t(evidenceGroups.length > 1 ? 'technology.across' : 'technology.in')
+
+const openingDescription = `${page.data.length} ${page.data.length === 1 ? t('collection.entry') : t('collection.entries')}` +
+  `${pageContext} ${preposition} ${evidenceContext}. ` +
+  t('technology.evidence', { technology: technology })
+
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Technologies', url: '/technologies/' },
-  { name: technology, url: getTechnologyPath(technology) }
+  { name: t('nav.home'), url: localizePath('/', locale) },
+  { name: t('collection.technologies'), url: localizePath('/technologies/', locale) },
+  { name: technology, url: localizePath(getTechnologyPath(technology), locale) }
 ]
 
 const technologyListSchema = createProjectCollectionSchema(
-  `${technology} · Technology`, Astro.url.pathname, page.data, Astro.site
+  t('technology.title', { technology: technology }), Astro.url.pathname, page.data, Astro.site
 )
 
 const meta = {
   breadcrumbs,
-  description: `Projects and case studies where ${technology} shaped the architecture, ` +
-    'delivery workflow, or product experience.',
-  ogImage: getSocialImagePath(`/technologies/${encodeURIComponent(technology)}/`),
+  description: t('technology.description', { technology }),
+  noindex: !isIndexedArchive(page.total),
+  // Thin archives stay out of search indexes and share the Technologies index card.
+  ogImage: getSocialImageURL(
+    localizePath(isIndexedArchive(page.total) ? getTechnologyPath(technology) : '/technologies/', locale),
+    Astro.site,
+    undefined,
+    ogManifest
+  ),
   structuredData: technologyListSchema,
-  title: `${technology} · Technology`
+  title: t('technology.title', { technology: technology })
 }
 
 ---
 
 <PageLayout mainClass="remaining-pages" meta={meta}>
   <PageHero
-    description={`Projects where ${technology} played a meaningful role in the architecture, delivery workflow,
-      or product experience.`}
-    eyebrow="Technology filter"
-    gradientText="Projects."
-    metaItems={['Portfolio evidence', 'Architecture context', 'Delivery impact']}
+    description={openingDescription}
+    eyebrow={t('collection.technologyEvidence')}
+    gradientText={t('collection.inPractice')}
     title={technology}
   >
-    <ButtonLink href="/technologies/" showArrow variant="secondary">
-      All technologies
-    </ButtonLink>
-    <ButtonLink href="/portfolio/" showArrow variant="secondary">
-      Portfolio
-    </ButtonLink>
+    <nav aria-label={t('collection.technologyEvidence')} data-technology-evidence-index slot="after-description">
+      {evidenceGroups.map(group => (
+        <Link data-technology-evidence-link href={localizePath(group.href, locale)} variant="inherit">
+          <span data-technology-evidence-count>{group.count}</span>{' '}
+          <span data-technology-evidence-label>{group.label}</span>
+          <ArrowExchange data-technology-evidence-arrow direction="down" />
+        </Link>
+      ))}
+    </nav>
+    <div data-technology-archive-escape>
+      <Link href={localizePath('/technologies/', locale)} variant="inherit">{t('collection.allTechnologies')}<ArrowExchange direction="right" /></Link>
+      <Link href={localizePath('/portfolio/', locale)} variant="inherit">{t('collection.portfolio')}<ArrowExchange direction="right" /></Link>
+    </div>
   </PageHero>
 
   {projectMatches.length > 0 && (
     <section
       aria-labelledby="technology-projects-heading"
-      class="section-container-wide space-y-8 pt-10"
+      class="section-container-wide space-y-8 page-section-space"
     >
-      <div class="space-y-3 border-b border-line/50 pb-6">
-        <p class="section-label text-brand">Projects</p>
-        <h2
-          class="
-            text-2xl font-semibold tracking-tight text-ink
-            sm:text-3xl
-          "
-          id="technology-projects-heading"
-        >
-          Projects using {technology}
-        </h2>
-        <p class="max-w-2xl text-sm/7 text-ink-soft">
-          Independent builds, open-source tools, and experiments where {technology} shapes the product or engineering system.
-        </p>
-      </div>
+      <TechnologyArchiveChapter
+        countLabel={`${projectMatches.length} independent ${projectMatches.length === 1 ? t('collection.project') : t('collection.projects')}`}
+        description={t('collection.independentBuildsOpenSourceToolsAnd')}
+        headingId="technology-projects-heading"
+        technology={technology}
+        title={t('nav.projects')}
+      />
 
-      <ProjectsGallery projects={projectMatches} />
+      <ProjectsGallery matchedTechnology={technology} projects={projectMatches} />
     </section>
   )}
 
   {communityMatches.length > 0 && (
     <section
       aria-labelledby="technology-community-heading"
-      class="section-container-wide space-y-8 pt-16"
+      class="section-container-wide space-y-8 page-section-space"
     >
-      <div class="space-y-3 border-b border-line/50 pb-6">
-        <p class="section-label text-brand">Community</p>
-        <h2
-          class="
-            text-2xl font-semibold tracking-tight text-ink
-            sm:text-3xl
-          "
-          id="technology-community-heading"
-        >
-          Community work using {technology}
-        </h2>
-        <p class="max-w-2xl text-sm/7 text-ink-soft">
-          Meetups, workshops, and mentorship where {technology} helps engineers learn and connect.
-        </p>
-      </div>
+      <TechnologyArchiveChapter
+        countLabel={`${communityMatches.length} community ${communityMatches.length === 1 ? t('collection.initiative') : t('collection.initiatives')}`}
+        description={t('collection.meetupsWorkshopsAndMentorshipThatHelp')}
+        headingId="technology-community-heading"
+        technology={technology}
+        title={t('shared.community')}
+      />
 
-      <ProjectsGallery projects={communityMatches} />
+      <ProjectsGallery matchedTechnology={technology} projects={communityMatches} />
     </section>
   )}
 
   {workExperienceMatches.length > 0 && (
     <section
       aria-labelledby="technology-work-heading"
-      class="section-container-wide space-y-8 pt-16"
+      class="section-container-wide space-y-8 page-section-space"
     >
-      <div class="space-y-3 border-b border-line/50 pb-6">
-        <p class="section-label text-brand">Work experience</p>
-        <h2
-          class="
-            text-2xl font-semibold tracking-tight text-ink
-            sm:text-3xl
-          "
-          id="technology-work-heading"
-        >
-          Work experience using {technology}
-        </h2>
-        <p class="max-w-2xl text-sm/7 text-ink-soft">
-          Client and product work where {technology} supported architecture, delivery, and measurable outcomes.
-        </p>
-      </div>
+      <TechnologyArchiveChapter
+        countLabel={`${workExperienceMatches.length} professional ${workExperienceMatches.length === 1 ? t('collection.role7') : 'roles'}`}
+        description={t('collection.clientAndProductWorkAcrossArchitecture')}
+        headingId="technology-work-heading"
+        technology={technology}
+        title={t('collection.workExperience')}
+      />
 
-      <ProjectsGallery projects={workExperienceMatches} />
+      <ProjectsGallery matchedTechnology={technology} projects={workExperienceMatches} />
     </section>
   )}
 
-  <StatsGrid>
-    <StatCard
-      description={`Independent and open-source projects where ${technology} shaped the product or engineering system.`}
-      label="Projects"
-      value={projectMatches.length}
-    />
-    {communityMatches.length > 0 && (
-      <StatCard
-        description={`Community work where ${technology} supported practical learning and knowledge sharing.`}
-        label="Community"
-        value={communityMatches.length}
-      />
-    )}
-    <StatCard
-      description={`Professional roles where ${technology} contributed to architecture, delivery, or product outcomes.`}
-      label="Work experience"
-      value={workExperienceMatches.length}
-    />
-  </StatsGrid>
+  <TechnologyStackConnections paginated={page.lastPage > 1} projects={page.data} technology={technology} />
 </PageLayout>
+
+<style>
+  [data-technology-evidence-index] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 1.75rem;
+    margin-top: 2.5rem;
+    border-block: 1px solid hsl(var(--line));
+  }
+  [data-technology-evidence-index] :global([data-technology-evidence-link]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem 0.75rem;
+    min-width: 0;
+    padding-block: 1.75rem;
+    color: hsl(var(--ink));
+    text-decoration: none;
+  }
+  [data-technology-evidence-count] {
+    grid-column: 1 / -1;
+    font-size: 2.75rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  [data-technology-evidence-label] { font-size: 0.9375rem; line-height: 1.8; }
+  [data-technology-evidence-index] :global([data-technology-evidence-arrow]) { color: hsl(var(--accent)); }
+  [data-technology-evidence-index] :global(a:is(:hover, :focus-visible)) { color: hsl(var(--accent)); }
+  [data-technology-evidence-index] :global(a:is(:hover, :focus-visible)) [data-technology-evidence-label] {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+  [data-technology-archive-escape] { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; }
+  [data-technology-archive-escape] :global(a) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    text-decoration: none;
+  }
+  [data-technology-archive-escape] :global(a:is(:hover, :focus-visible)) {
+    color: hsl(var(--accent));
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+  :is([data-technology-evidence-index], [data-technology-archive-escape]) :global(a:focus-visible) {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 4px;
+  }
+  @container editorial-hero (width < 32rem) {
+    [data-technology-evidence-index] { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    [data-technology-evidence-index] :global([data-technology-evidence-link]) {
+      grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+      padding-block: 1.25rem;
+    }
+    [data-technology-evidence-index] :global(a + a) { border-top: 1px solid hsl(var(--line)); }
+    [data-technology-evidence-count] { grid-column: auto; font-size: 2rem; }
+  }
+</style>

@@ -1,38 +1,104 @@
 ---
-import { AnimatedNumber, Stat } from '@santi020k/lumen-astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-type StatVariant = 'accent' | 'default' | 'glass'
+import { AnimatedNumber, Icon, Link, Stat } from '@santi020k/lumen-astro'
 
 interface Props {
   description?: string
+  icon: string
   label: string
   prefix?: string
+  source?: { href: string, label: string }
   suffix?: string
   value: number | string
-  variant?: StatVariant
 }
 
-const { description, label, prefix = '', suffix = '', value, variant = 'accent' } = Astro.props
+const { description, icon, label, prefix = '', source, suffix = '', value } = Astro.props
+const hasWordSuffix = /[a-z]/iu.test(suffix)
 ---
 
 <Stat
   as="article"
   class="h-full"
+  data-sculpted-stat
   label={label}
-  {...(typeof value === 'string' ? { value } : {})}
-  variant={variant}
+  variant="bare"
 >
-  {typeof value === 'number' && (
-    <AnimatedNumber
-      class:list={[
-        'block text-[2rem]/[1.1] font-bold tracking-tight',
-        variant === 'accent' ? 'text-brand' : 'text-ink'
-      ]}
-      locale="en-US"
-      prefix={prefix}
-      suffix={suffix}
-      value={value}
-    />
+  <div aria-hidden="true" data-stat-masthead>
+    <span data-stat-icon><Icon name={icon} /></span>
+    <span data-stat-rule></span>
+  </div>
+  <div data-stat-metric>
+    <span data-stat-prefix>{prefix}{prefix && ' '}</span>
+    <span data-stat-value data-stat-text={typeof value === 'string' && /[a-z]/iu.test(value) ? '' : undefined}>
+      {typeof value === 'number' ?
+(
+        <AnimatedNumber locale="en-US" suffix={hasWordSuffix ? '' : suffix} value={value} />
+      ) :
+<>{value}{!hasWordSuffix && suffix}</>}
+    </span>
+    {hasWordSuffix && <span data-stat-suffix>{' '}{suffix}</span>}
+  </div>
+  {description && <p data-stat-description>{description}</p>}
+  {source && (
+    <footer data-stat-source>
+      <Link href={source.href} variant="inherit">
+        <span>{source.label}</span><ArrowExchange data-stat-source-icon direction="up-right" size="sm" />
+      </Link>
+    </footer>
   )}
-  {description && <p class="mt-2 text-sm/6 text-ink-soft">{description}</p>}
 </Stat>
+
+<style>
+  [data-sculpted-stat][data-slot='stat'] {
+    --stat-accent: hsl(var(--brand));
+    container: sculpted-stat / inline-size;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    padding: 1.375rem 1.25rem 1.5rem;
+    border: 1px solid hsl(var(--line) / 0.65);
+    border-radius: 1.375rem 1.375rem 0.5rem 1.375rem;
+    background: hsl(var(--surface));
+    box-shadow: var(--shadow-nav);
+  }
+  :global([data-theme='dark']) [data-sculpted-stat] { --stat-accent: hsl(var(--accent)); }
+  [data-stat-masthead] { order: 0; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; }
+  [data-stat-icon] { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; flex-shrink: 0; border-radius: 0.75rem; background: color-mix(in srgb, var(--stat-accent) 9%, hsl(var(--surface))); color: var(--stat-accent); }
+  [data-stat-rule] { width: 1.875rem; height: 2px; background: var(--stat-accent); }
+  [data-stat-metric] { order: 1; min-width: 0; margin: 1.5rem 0 1.375rem; color: var(--stat-accent); overflow-wrap: anywhere; }
+  [data-stat-prefix] { display: block; min-height: 1.25rem; margin-bottom: 0.1875rem; font-size: 0.8125rem; line-height: 1.25rem; letter-spacing: -0.015em; }
+  [data-stat-value] { font-size: 3.125rem; line-height: 1.08; font-weight: 500; letter-spacing: -0.065em; }
+  [data-stat-value][data-stat-text] { font-size: 2.25rem; }
+  [data-stat-suffix] { margin-left: 0.375rem; font-size: 0.8125rem; line-height: 1.25rem; letter-spacing: -0.015em; }
+  [data-sculpted-stat] :global([data-slot='stat-label']) { order: 2; color: hsl(var(--ink)); font-size: 1rem; line-height: 1.5rem; font-weight: 500; letter-spacing: -0.035em; overflow-wrap: anywhere; }
+  [data-stat-description] { order: 3; margin: 0.75rem 0 0; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.4375rem; font-weight: 400; letter-spacing: -0.015em; overflow-wrap: anywhere; text-wrap: pretty; }
+  [data-stat-source] { order: 4; margin-top: auto; padding-top: 1.375rem; }
+  [data-stat-source] :global(a) { display: flex; align-items: center; justify-content: space-between; gap: 0.625rem; min-height: 2.75rem; padding-top: 0.625rem; border-top: 1px solid hsl(var(--line) / 0.65); color: hsl(var(--ink)); font-size: 0.75rem; line-height: 1.8; text-decoration: none; }
+  [data-stat-source] span { min-width: 0; overflow-wrap: anywhere; }
+  [data-stat-source] :global([data-stat-source-icon]) { flex-shrink: 0; color: var(--stat-accent); }
+  [data-stat-source] :global(a:hover) span { color: var(--stat-accent); text-decoration: underline; text-underline-offset: 0.25rem; }
+  [data-stat-source] :global(a:focus-visible) { outline: 2px solid var(--stat-accent); outline-offset: 0.25rem; }
+  @container sculpted-stat (width < 14rem) {
+    [data-stat-value] { font-size: min(3.125rem, 24cqi); }
+    [data-stat-value][data-stat-text] { font-size: min(2.25rem, 17cqi); }
+    [data-stat-rule] { display: none; }
+  }
+  @media (max-width: 639px) {
+    [data-sculpted-stat][data-slot='stat'] { padding: 1.375rem 1.5rem; }
+    [data-stat-masthead] { position: absolute; top: 1.375rem; right: 1.5rem; }
+    [data-stat-rule] { display: none; }
+    [data-stat-metric] { margin: 0 3.25rem 1.25rem 0; }
+    [data-stat-prefix]:empty { display: none; }
+    [data-stat-value] { font-size: 2.875rem; }
+  }
+  @container sculpted-stat (width < 12rem) {
+    [data-stat-masthead] { position: static; margin-bottom: 1rem; }
+    [data-stat-metric] { margin-right: 0; }
+    [data-stat-prefix]:empty { display: none; }
+    [data-stat-value] { font-size: min(2.875rem, 25cqi); }
+    [data-stat-value][data-stat-text] { font-size: min(2.25rem, 18cqi); }
+  }
+</style>

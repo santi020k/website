@@ -6,6 +6,21 @@ const asNonEmptyString = (value: unknown): string | null => (
   typeof value === 'string' ? value.trim() || null : null
 )
 
+/** Any character other than whitespace, a control (Cc), or a default-ignorable code point. */
+const USABLE_NAME_CHARACTER = /[^\s\p{Cc}\p{Default_Ignorable_Code_Point}]/u
+
+/**
+ * Like `asNonEmptyString`, but also rejects names made only of controls and
+ * default-ignorable code points (zero-width spaces, soft hyphens, bidi marks,
+ * variation selectors, tags), which would render as a blank, unnamed link.
+ * A name with any usable character is kept exactly as trimmed.
+ */
+const asDisplayName = (value: unknown): string | null => {
+  const name = asNonEmptyString(value)
+
+  return name && USABLE_NAME_CHARACTER.test(name) ? name : null
+}
+
 /** Accepts only absolute `http(s)` URLs — rejects `javascript:`, `data:`, and other unsafe schemes. */
 const asSafeUrl = (value: unknown): string | null => {
   if (typeof value !== 'string') return null
@@ -25,7 +40,7 @@ const normalizeAuthor = (value: unknown): WebmentionAuthor | null => {
   const photo: unknown = Array.isArray(value.photo) ? value.photo[0] : value.photo
 
   return {
-    name: asNonEmptyString(value.name),
+    name: asDisplayName(value.name),
     photo: asSafeUrl(photo),
     url: asSafeUrl(value.url)
   }
@@ -75,48 +90,173 @@ const normalizeMention = (entry: unknown): WebmentionsChildren | null => {
   }
 }
 
+/** webmention.io's documented `per-page` maximum. */
+const PER_PAGE = 1000
+/** Refuse (rather than truncate) feeds larger than `PER_PAGE * MAX_PAGES` mentions. */
+const MAX_PAGES = 10
+/** Deadline for the whole load: every page request and every body read. */
+const LOAD_TIMEOUT_MS = 12_000
+
+interface MentionsPage {
+  children: unknown[]
+  /** `null` when the response carries no `paging` block (legacy, unpaginated). */
+  totalPages: number | null
+}
+
+const asNonNegativeInteger = (value: unknown): number | null => {
+  const number = typeof value === 'string' && /^\d+$/.test(value) ? Number(value) : value
+
+  return typeof number === 'number' && Number.isSafeInteger(number) && number >= 0 ? number : null
+}
+
+const mentionId = (entry: unknown): string | null => {
+  const id = isRecord(entry) ? entry['wm-id'] : undefined
+
+  return typeof id === 'number' || typeof id === 'string' ? String(id) : null
+}
+
+/** Settles with `promise`, or rejects once `signal` aborts — even if `promise` ignores the signal. */
+const untilAborted = <T>(promise: Promise<T>, signal: AbortSignal): Promise<T> => new Promise((resolve, reject) => {
+  const onAbort = () => {
+    reject(new Error('Webmention load aborted'))
+  }
+
+  if (signal.aborted) {
+    onAbort()
+
+    return
+  }
+
+  signal.addEventListener('abort', onAbort, { once: true })
+
+  void promise.then(resolve, reject).finally(() => {
+    signal.removeEventListener('abort', onAbort)
+  })
+})
+
+const parsePage = (data: unknown, page: number): MentionsPage | null => {
+  if (!isRecord(data) || !Array.isArray(data.children)) return null
+
+  const { children, paging } = data
+
+  if (paging === undefined) return { children, totalPages: null }
+
+  if (!isRecord(paging) || asNonNegativeInteger(paging.page) !== page) return null
+
+  const totalPages = asNonNegativeInteger(paging['total-pages'])
+
+  return totalPages === null ? null : { children, totalPages }
+}
+
+/** Fetches one page, or returns `null` on any network, status, body, or shape failure. */
+const fetchPage = async (
+  targetUrl: string,
+  token: string,
+  page: number,
+  signal: AbortSignal
+): Promise<MentionsPage | null> => {
+  const endpoint = new URL('https://webmention.io/api/mentions.jf2')
+
+  endpoint.searchParams.set('target', targetUrl)
+
+  endpoint.searchParams.set('per-page', String(PER_PAGE))
+
+  endpoint.searchParams.set('page', String(page))
+
+  endpoint.searchParams.set('sort-by', 'created')
+
+  endpoint.searchParams.set('sort-dir', 'down')
+
+  try {
+    const response = await untilAborted(fetch(endpoint.href, {
+      headers: { Accept: 'application/jf2+json, application/json', Authorization: `Bearer ${token}` },
+      signal
+    }), signal)
+
+    if (!response.ok) return null
+
+    const data = await untilAborted<unknown>(response.json(), signal)
+
+    return parsePage(data, page)
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Walks pages `0..total-pages-1` newest first and returns every raw row, or
+ * `null` when the feed cannot be read completely. All-or-nothing on purpose:
+ * a partial list would render as a misleading like/reply count.
+ *
+ * `total-pages` is re-read on every page so a mention arriving mid-walk (which
+ * shifts older rows one slot later) still gets its tail page fetched; rows it
+ * pushes onto the next page are dropped by `wm-id`.
+ */
+const fetchAllRows = async (targetUrl: string, token: string, signal: AbortSignal): Promise<unknown[] | null> => {
+  const rows: unknown[] = []
+  const seenIds = new Set<string>()
+
+  for (let page = 0; page < MAX_PAGES; page++) {
+    const result = await fetchPage(targetUrl, token, page, signal)
+
+    if (!result) return null
+
+    if (result.totalPages === null) {
+      // Without paging metadata, only a first page shorter than `per-page` is provably complete.
+      return page === 0 && result.children.length < PER_PAGE ? result.children : null
+    }
+
+    if (result.totalPages > MAX_PAGES || (page > 0 && page >= result.totalPages)) return null
+
+    let added = 0
+
+    for (const row of result.children) {
+      const id = mentionId(row)
+
+      if (id !== null) {
+        if (seenIds.has(id)) continue
+
+        seenIds.add(id)
+      }
+
+      rows.push(row)
+
+      added++
+    }
+
+    // An empty first page is valid, but a later repeated or empty page cannot
+    // establish a complete result, even when it claims to be the last page.
+    if (added === 0 && (page > 0 || result.totalPages > 1)) return null
+
+    if (page + 1 >= result.totalPages) return rows
+  }
+
+  return null
+}
+
 /**
  * Loads public webmentions for a canonical page URL from webmention.io (build time).
  * Requires `WEBMENTION_API_KEY` (API token from the webmention.io dashboard).
+ * Returns every public mention newest first, or `[]` when the feed cannot be
+ * loaded completely within `LOAD_TIMEOUT_MS`.
  */
 export const fetchWebmentionsForTarget = async (
   targetUrl: string,
   token: string
 ): Promise<WebmentionsChildren[]> => {
-  const endpoint = new URL('https://webmention.io/api/mentions.jf2')
+  const controller = new AbortController()
 
-  endpoint.searchParams.set('target', targetUrl)
-
-  let response: Response
-
-  try {
-    response = await fetch(endpoint.href, {
-      headers: { Accept: 'application/jf2+json, application/json', Authorization: `Bearer ${token}` },
-      signal: AbortSignal.timeout(12_000)
-    })
-  } catch {
-    return []
-  }
-
-  if (!response.ok) {
-    return []
-  }
-
-  let data: unknown
+  const timer = setTimeout(() => {
+    controller.abort()
+  }, LOAD_TIMEOUT_MS)
 
   try {
-    data = await response.json()
-  } catch {
-    return []
+    const rows = await fetchAllRows(targetUrl, token, controller.signal)
+
+    return (rows ?? [])
+      .map(normalizeMention)
+      .filter((entry): entry is WebmentionsChildren => entry !== null)
+  } finally {
+    clearTimeout(timer)
   }
-
-  const raw = isRecord(data) ? data.children : undefined
-
-  if (!Array.isArray(raw)) {
-    return []
-  }
-
-  return raw
-    .map(normalizeMention)
-    .filter((entry): entry is WebmentionsChildren => entry !== null)
 }

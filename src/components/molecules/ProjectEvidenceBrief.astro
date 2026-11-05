@@ -1,0 +1,85 @@
+---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Link } from '@santi020k/lumen-astro'
+
+interface Props {
+  id: string
+  label: string
+  references: { label: string, description: string, href: string }[]
+}
+
+const { id, label, references } = Astro.props
+---
+
+<section id={id} aria-labelledby={`${id}-label`} class="not-prose" data-project-evidence-brief>
+  <p id={`${id}-label`} data-evidence-label>{label}</p>
+  <div data-evidence-copy><slot /></div>
+  <nav aria-label={`${label} sources`} data-evidence-links>
+    {references.map(reference => (
+      <Link
+        href={reference.href}
+        newTab
+        variant="inherit"
+        data-evidence-link
+      >
+        <strong>{reference.label}</strong>
+        <span data-evidence-description>{reference.description}</span>
+        <span data-evidence-arrow><ArrowExchange direction="up-right" size="sm" /></span>
+      </Link>
+    ))}
+  </nav>
+</section>
+
+<style>
+  [data-project-evidence-brief] {
+    --evidence-accent: var(--brand);
+    container: evidence-brief / inline-size;
+    margin-block: 2rem;
+    border-top: 1px solid hsl(var(--line));
+    padding-top: 1.5rem;
+    color: hsl(var(--ink));
+  }
+
+  :global([data-theme='dark']) [data-project-evidence-brief] { --evidence-accent: var(--accent); }
+  :global([data-project-ledger] + [data-project-evidence-brief]) { margin-top: 0; border-top: 0; padding-top: 0; }
+
+  [data-evidence-label] {
+    margin: 0 0 1.25rem;
+    color: hsl(var(--evidence-accent));
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.7;
+  }
+
+  [data-evidence-copy] :global(p) { margin: 0; font-size: 1.125rem; line-height: 1.8; overflow-wrap: anywhere; }
+  [data-evidence-copy] :global(p + p) { margin-top: 1.25rem; color: hsl(var(--ink-soft)); font-size: 0.9375rem; }
+  [data-evidence-links] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.5rem; margin-top: 1.5rem; }
+  [data-evidence-link][data-slot='link'] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.4375rem 1rem;
+    align-content: start;
+    min-width: 0;
+    min-height: 2.75rem;
+    border-top: 1px solid hsl(var(--line));
+    padding-block: 1.5rem 1rem;
+    color: hsl(var(--evidence-accent));
+    text-decoration: none;
+  }
+  [data-evidence-link] strong { min-width: 0; color: inherit; overflow-wrap: anywhere; font-size: 0.9375rem; font-weight: 500; line-height: 1.6; text-decoration: underline; text-decoration-color: hsl(var(--line)); text-underline-offset: 0.3125rem; }
+  [data-evidence-description] { grid-column: 1; min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.7; overflow-wrap: anywhere; }
+  [data-evidence-arrow] { grid-column: 2; grid-row: 1; align-self: center; }
+  [data-evidence-link]:is(:hover, :focus-visible) strong { text-decoration-color: currentColor; }
+  [data-evidence-link]:focus-visible { outline: 2px solid hsl(var(--evidence-accent)); outline-offset: 4px; }
+
+  @container evidence-brief (width < 35rem) {
+    [data-evidence-links] { grid-template-columns: minmax(0, 1fr); }
+    [data-evidence-copy] :global(p:first-child) { font-size: 1.0625rem; }
+  }
+
+  @container evidence-brief (width < 16rem) {
+    [data-evidence-link][data-slot='link'] { grid-template-columns: minmax(0, 1fr); }
+    [data-evidence-arrow] { display: none; }
+  }
+</style>

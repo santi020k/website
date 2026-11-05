@@ -1,10 +1,17 @@
 ---
 import { BackToTop, Icon } from '@santi020k/lumen-astro'
+
+import { getLocale, sharedTranslator } from '@/i18n'
+
+const locale = getLocale(Astro.url.pathname)
+const t = sharedTranslator(locale)
+
 ---
 
 <BackToTop
   id="back-to-top"
-  aria-label="Scroll back to top"
+  inert
+  aria-label={t('shared.scrollBackToTop')}
   className="
     back-to-top-button
     max-sm:pr-2.5
@@ -17,7 +24,7 @@ import { BackToTop, Icon } from '@santi020k/lumen-astro'
     back-to-top-label
     max-sm:sr-only
   "
-  >Top
+  >{t('shared.top')}
   </span>
 </BackToTop>
 
@@ -25,16 +32,77 @@ import { BackToTop, Icon } from '@santi020k/lumen-astro'
   const setup = function () {
     const btn = document.getElementById('back-to-top')
 
-    if (!btn) return () => undefined
+    if (!(btn instanceof HTMLButtonElement)) return () => undefined
 
-    const onScroll = () => btn.classList.toggle('is-visible', window.scrollY > 400)
+    const closingReturn = document.querySelector<HTMLElement>('[data-return-top]')
+
+    const isClosingReturnInView = () => {
+      const bounds = closingReturn?.getBoundingClientRect()
+
+      return bounds !== undefined && bounds.width > 0 && bounds.height > 0 &&
+        bounds.top <= window.innerHeight && bounds.bottom >= 0 &&
+        bounds.left <= window.innerWidth && bounds.right >= 0
+    }
+
+    let closingReturnInView = isClosingReturnInView()
+    let disposed = false
+    let observer: IntersectionObserver | undefined
+    const focusMain = () => document.getElementById('main')?.focus({ preventScroll: true })
+
+    const onScroll = () => {
+      if (disposed) return
+
+      if (!observer) closingReturnInView = isClosingReturnInView()
+
+      // Let an already-focused control finish its keyboard interaction before yielding.
+      const hasFocus = document.activeElement === btn
+      const isVisible = window.scrollY > 400 && (!closingReturnInView || hasFocus)
+
+      // Never leave keyboard focus on a control that is about to disappear.
+      if (!isVisible && hasFocus) focusMain()
+
+      if (btn.inert === isVisible) btn.inert = !isVisible
+
+      btn.classList.toggle('is-visible', isVisible)
+    }
+
+    observer = closingReturn && typeof IntersectionObserver === 'function' ?
+      new IntersectionObserver(entries => {
+        closingReturnInView = entries.some(entry => entry.isIntersecting &&
+          entry.boundingClientRect.width > 0 && entry.boundingClientRect.height > 0)
+
+        onScroll()
+      }) :
+undefined
+
+    if (closingReturn) observer?.observe(closingReturn)
+
+    const onBlur = () => {
+      queueMicrotask(onScroll)
+    }
+
+    btn.addEventListener('click', focusMain)
+
+    btn.addEventListener('blur', onBlur)
 
     window.addEventListener('scroll', onScroll, { passive: true })
+
+    window.addEventListener('resize', onScroll)
 
     onScroll()
 
     return () => {
+      disposed = true
+
+      observer?.disconnect()
+
       window.removeEventListener('scroll', onScroll)
+
+      window.removeEventListener('resize', onScroll)
+
+      btn.removeEventListener('click', focusMain)
+
+      btn.removeEventListener('blur', onBlur)
     }
   }
 

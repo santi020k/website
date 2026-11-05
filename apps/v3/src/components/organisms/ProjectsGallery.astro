@@ -1,0 +1,248 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import Pill from '@/components/atoms/Pill.astro'
+
+import { getPortfolioPath } from '@/utils/links'
+import { getProjectBrandStyle } from '@/utils/project-brand'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectDateRangeLabel, getProjectStatusLabel } from '@/utils/project-meta'
+import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+import { Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
+
+interface Props {
+  projects: CollectionEntry<'project'>[]
+}
+
+const { projects } = Astro.props
+
+const projectStatusTone = {
+  Active: 'brand',
+  Completed: 'neutral',
+  Draft: 'outline'
+} as const
+
+const projectItems = projects.map(project => ({
+  brand: project.data.brand,
+  coverImage: project.data.coverImage,
+  thumbnailImage: getProjectCoverForUsage(project.data.coverImage, 'thumbnail'),
+  dateRange: getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate),
+  description: project.data.description,
+  href: getPortfolioPath(project.id),
+  status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
+  technologies: sortTechnologiesByInterest(project.data.technologies).slice(0, 3),
+  title: project.data.title
+}))
+---
+
+<div class="space-y-6">
+  {/* Featured project - large */}
+  {projectItems[0] && (
+    <div style={getProjectBrandStyle(projectItems[0].brand)}>
+    <Card
+      as="article"
+      class="group relative rounded-3xl border-line/50 bg-surface p-0"
+      data-project-gallery-card
+    >
+      <Link className="block font-normal text-inherit no-underline" href={projectItems[0].href}>
+        <div class="
+          grid
+          lg:grid-cols-2
+        "
+        >
+          {/* Image side */}
+          <div class="
+            relative aspect-16/10 overflow-hidden
+            lg:aspect-auto
+          "
+          >
+            {projectItems[0].coverImage && projectItems[0].thumbnailImage ?
+              (
+                <CoverImage
+                  alt={projectItems[0].coverImage.alt || projectItems[0].title}
+                  ariaHidden={true}
+                  className="
+                    size-full rounded-none border-0 object-cover
+                    transition-transform duration-500
+                    group-hover:scale-105
+                    motion-reduce:transition-none
+                  "
+                  image={projectItems[0].thumbnailImage}
+                  loading="eager"
+                  mode="card"
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                />
+              ) :
+              (
+                <div class="
+                  flex size-full items-center justify-center bg-surface-muted
+                  grid-fade
+                "
+                >
+                  <Icon class="size-16 text-line" name="code-2" />
+                </div>
+              )}
+            {/* Status badge */}
+            <div class="absolute top-4 left-4">
+              <Pill
+                label={projectItems[0].status}
+                tone={projectStatusTone[projectItems[0].status]}
+              />
+            </div>
+          </div>
+
+          {/* Content side */}
+          <div class="
+            flex flex-col justify-center p-6
+            sm:p-8
+            lg:p-10
+          "
+          >
+            <span class="text-sm font-medium text-ink-muted">{projectItems[0].dateRange}</span>
+            <h3 class="
+              mt-2 text-2xl font-semibold text-ink transition-colors
+              group-hover:text-[hsl(var(--project-primary-readable))]
+              motion-reduce:transition-none
+              sm:text-3xl
+            "
+            >
+              {projectItems[0].title}
+            </h3>
+            <p class="mt-4 line-clamp-3 text-base/7 text-ink-soft">
+              {projectItems[0].description}
+            </p>
+            {projectItems[0].technologies.length > 0 && (
+              <div class="mt-6 flex flex-wrap gap-2">
+                {projectItems[0].technologies.map(tech => (
+                  <Pill label={tech} tone="outline" />
+                ))}
+              </div>
+            )}
+            <div class="mt-8 flex items-center gap-2 font-medium" data-project-gallery-readable>
+              <span>View project</span>
+              <Icon
+                class="
+                  size-5 transition-transform
+                  group-hover:translate-x-1
+                  motion-reduce:transition-none
+                "
+                name="arrow-right"
+              />
+            </div>
+          </div>
+        </div>
+      </Link>
+    </Card>
+    </div>
+  )}
+
+  {/* Grid for remaining projects */}
+  {projectItems.length > 1 && (
+    <div
+      class:list={[
+        `
+          grid gap-6
+          sm:grid-cols-2
+        `,
+        projectItems.length > 3 && 'lg:grid-cols-3'
+      ]}
+    >
+      {projectItems.slice(1).map(project => (
+        <div class="h-full" style={getProjectBrandStyle(project.brand)}>
+        <Card
+          as="article"
+          class="
+            group flex h-full flex-col rounded-2xl border-line/50 bg-surface p-0
+          "
+          data-project-gallery-card
+          variant="interactive"
+        >
+          <Link className="block font-normal text-inherit no-underline" href={project.href}>
+            {/* Thumbnail */}
+            <div class="relative aspect-16/10 overflow-hidden">
+              {project.coverImage && project.thumbnailImage ?
+                (
+                  <CoverImage
+                    alt={project.coverImage.alt || project.title}
+                    ariaHidden={true}
+                    className="
+                      size-full rounded-none border-0 object-cover
+                      transition-transform duration-500
+                      group-hover:scale-105
+                      motion-reduce:transition-none
+                    "
+                    image={project.thumbnailImage}
+                    loading="lazy"
+                    mode="card"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  />
+                ) :
+                (
+                  <div class="
+                    flex size-full items-center justify-center bg-surface-muted
+                    grid-fade
+                  "
+                  >
+                    <Icon class="size-12 text-line" name="code-2" />
+                  </div>
+                )}
+              {/* Status badge */}
+              <div class="absolute top-3 left-3">
+                <Pill
+                  label={project.status}
+                  tone={projectStatusTone[project.status]}
+                />
+              </div>
+            </div>
+
+            {/* Content */}
+            <div class="flex flex-1 flex-col p-5">
+              <span class="text-xs font-medium text-ink-muted">{project.dateRange}</span>
+              <h3 class="
+                mt-2 text-lg font-semibold text-ink transition-colors
+                group-hover:text-[hsl(var(--project-primary-readable))]
+                motion-reduce:transition-none
+              "
+              >
+                {project.title}
+              </h3>
+              <p class="mt-2 line-clamp-2 text-sm/6 text-ink-soft">
+                {project.description}
+              </p>
+              {project.technologies.length > 0 && (
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                  {project.technologies.map(tech => (
+                    <span class="
+                      rounded-md bg-surface-muted px-2 py-1 text-xs
+                      text-ink-soft
+                    "
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </Link>
+        </Card>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+<style>
+  [data-project-gallery-card]:hover {
+    border-color: hsl(var(--project-primary) / 0.34);
+    box-shadow: 0 16px 36px hsl(var(--project-primary) / 0.1);
+  }
+
+  [data-project-gallery-readable] {
+    color: hsl(var(--project-primary-readable));
+  }
+
+  :global(:root[data-theme='dark']) [data-project-gallery-card] {
+    --project-primary-readable: var(--project-primary-readable-dark);
+  }
+</style>

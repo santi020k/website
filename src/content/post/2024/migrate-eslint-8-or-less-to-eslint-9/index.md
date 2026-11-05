@@ -37,7 +37,7 @@ I actually think this is a good direction. In frontend projects, too many defaul
 
 With flat config, the setup becomes more explicit. That is exactly what I want in a serious project.
 
-![Diagram comparing a layered eslintrc setup with a more explicit flat config setup](./fig-1.webp)
+![Diagram comparing a layered eslintrc setup with a more explicit flat config setup](./fig-1.webp "From layers to flat config.")
 
 ## 1. Confirm the runtime before touching the config
 
@@ -256,7 +256,7 @@ This approach fits the way I like to work:
 
 For frontend teams, that matters a lot. I do not want quality to depend on whether one developer installed the right extension or remembered the right lint preset six months ago.
 
-![Diagram showing a migration path from legacy eslint config to a reusable explicit flat config setup](./fig-2.webp)
+![Diagram showing a migration path from legacy eslint config to a reusable explicit flat config setup](./fig-2.webp "A clearer path to flat config.")
 
 ## 7. Final migration checklist
 
@@ -281,5 +281,3 @@ You stop inheriting configuration by accident and start composing it on purpose.
 That is also the same reason I keep investing in `@santi020k/eslint-config-basic`: I want fewer magic defaults and more standards declared clearly in code.
 
 If you are still on ESLint 8 or lower, this is a very good moment to clean up the foundation instead of just upgrading the version number.
-
-[Next Post: Boosting Code Quality and Efficiency with My ESLint Configuration Library](https://towardsdev.com/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-3a4cbc1993a7)

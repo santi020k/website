@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="ESLint Config Mark">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #945df4; stroke: #945df4; }
+      .slider-track { fill: #110c1d; }
+      .slider-thumb { fill: #945df4; }
+      .slider-track-muted { fill: #110c1d; }
+      .slider-thumb-muted { fill: #110c1d; }
+    }
+  </style>
+  <polygon class="bg" points="64,18 104,41 104,87 64,110 24,87 24,41" fill="#6319be" stroke="#6319be" stroke-width="14" stroke-linejoin="round" />
+  <rect class="slider-track" x="36" y="40" width="56" height="20" rx="10" fill="#FFFFFF" fill-opacity="0.95" />
+  <circle class="slider-thumb" cx="82" cy="50" r="6" fill="#6319be" />
+  <rect class="slider-track-muted" x="36" y="68" width="56" height="20" rx="10" fill="#FFFFFF" fill-opacity="0.4" />
+  <circle class="slider-thumb-muted" cx="46" cy="78" r="6" fill="#FFFFFF" fill-opacity="0.9" />
+</svg>

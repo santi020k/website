@@ -1,0 +1,158 @@
+---
+import { Picture } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+
+import { getFormattedDate } from '@/utils/date'
+import { getPostPath } from '@/utils/links'
+import { getReadingTime } from '@/utils/reading-time'
+
+import { Card, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  latestPost: CollectionEntry<'post'> | null
+  postCount: number
+  topicCount: number
+}
+
+const { latestPost, postCount, topicCount } = Astro.props
+const cover = latestPost?.data.coverImage?.src
+const coverWidth = cover ? Math.min(960, cover.width) : 960
+const coverHeight = cover ? Math.round(coverWidth * cover.height / cover.width) : 540
+
+const coverWidths = cover ?
+  [...new Set([320, 480, 640, 800, coverWidth])]
+    .filter(width => width <= cover.width)
+    .sort((a, b) => a - b) :
+  []
+---
+
+<section
+  class="relative signature-frame"
+  data-blog-hero
+>
+  <div
+    class:list={[
+      `
+        grid gap-10
+        lg:items-center lg:gap-14
+      `,
+      latestPost && 'lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]'
+    ]}
+  >
+    <div class="space-y-6">
+      <Eyebrow label="The personal blog" tone="brand" />
+      <h1
+        class="editorial-page-title"
+      >
+        Things I build,{' '}
+        <span
+          class="editorial-page-emphasis"
+        >
+          enjoy, and learn.
+        </span>
+      </h1>
+      <p class="editorial-page-description max-w-xl">
+        Notes on software, reading, gaming, and everyday discoveries. What I’m building,
+        what holds my attention, and what I learn along the way.
+      </p>
+      <div class="section-actions">
+        <ButtonLink href="#posts" showArrow>Explore the writing</ButtonLink>
+        <ButtonLink href="/blog/tags/" showArrow variant="secondary">Browse topics</ButtonLink>
+      </div>
+      <div class="
+        flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line/45 pt-5
+        text-xs text-ink-soft
+      "
+      >
+        <span><strong class="font-medium text-ink">{postCount}</strong> posts</span>
+        <span><strong class="font-medium text-ink">{topicCount}</strong> topics</span>
+        <a
+          class="inline-flex min-h-11 items-center gap-2 font-medium text-brand"
+          href="/blog/series/"
+        >
+          Follow a series <Icon class="size-4" name="arrow-up-right" />
+        </a>
+      </div>
+    </div>
+    {latestPost && (
+      <Card
+        as="article"
+        class="group min-w-0 p-0!"
+        data-blog-latest
+        variant="unstyled"
+      >
+        <a
+          aria-label={`Read the latest post: ${latestPost.data.title}`}
+          class="block h-full text-inherit no-underline"
+          href={getPostPath(latestPost.id)}
+        >
+          <div class="
+            relative aspect-video overflow-hidden rounded-2xl bg-surface-muted
+          "
+          >
+            {cover ?
+              (
+                <Picture
+                  alt=""
+                  class="
+                    size-full object-cover transition-transform duration-300
+                    motion-safe:group-hover:scale-105
+                    motion-reduce:transition-none
+                  "
+                  fetchpriority="high"
+                  formats={['avif', 'webp']}
+                  height={coverHeight}
+                  loading="eager"
+                  sizes="(min-width: 1280px) 480px, (min-width: 1024px) 40vw, (min-width: 640px) 90vw, 100vw"
+                  src={cover}
+                  width={coverWidth}
+                  widths={coverWidths}
+                />
+              ) :
+              (
+                <div aria-hidden="true" class="absolute inset-0 grid-fade" />
+              )}
+          </div>
+          <div class="space-y-4 pt-5">
+            <p class="section-label text-brand">Latest post</p>
+            <h2 class="
+              text-2xl/8 font-medium tracking-[-0.04em] text-ink
+              transition-colors
+              group-hover:text-brand
+              motion-reduce:transition-none
+            "
+            >
+              {latestPost.data.title}
+            </h2>
+            <p class="line-clamp-3 text-sm/7 text-ink-soft">{latestPost.data.description}</p>
+            <div class="
+              flex flex-wrap items-center justify-between gap-3 border-t
+              border-line/40 pt-4
+            "
+            >
+              <p class="
+                flex flex-wrap items-center gap-2 text-xs/6 text-ink-muted
+              "
+              >
+                <time datetime={latestPost.data.publishDate.toISOString()}>
+                  {getFormattedDate(latestPost.data.publishDate)}
+                </time>
+                <span aria-hidden="true">·</span>
+                <span>{getReadingTime(latestPost.body)} min read</span>
+              </p>
+              <span class="
+                inline-flex items-center gap-2 text-xs font-medium text-brand
+              "
+              >
+                Read post <Icon class="size-4" name="arrow-right" />
+              </span>
+            </div>
+          </div>
+        </a>
+      </Card>
+    )}
+  </div>
+</section>

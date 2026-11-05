@@ -2,47 +2,52 @@
 import { Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
-import Pill from '@/components/atoms/Pill.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingTime } from '@/utils/reading-time'
+import { getResponsiveImageDimensions } from '@/utils/responsive-image'
+import { getBlogTopicLabel } from '@/utils/tags'
 
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import { Card, Link } from '@santi020k/lumen-astro'
+
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
 
 interface Props {
   columns?: 2 | 3
+  layout?: 'grid' | 'chapters' | 'focused'
   posts: CollectionEntry<'post'>[]
   showSequence?: boolean
 }
 
-const { columns = 3, posts, showSequence = false } = Astro.props
+const { columns = 3, layout = 'grid', posts, showSequence = false } = Astro.props
 
-const imageSizes = columns === 2 ?
-  '(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw' :
-  '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+const gridImageSizes = columns === 2 ?
+  'auto, (min-width: 1280px) 35.25rem, (min-width: 640px) 50vw, 100vw' :
+  'auto, (min-width: 1280px) 23rem, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+
+const imageSizes = {
+  chapters: 'auto, (min-width: 640px) 14rem, 100vw',
+  focused: 'auto, (min-width: 1280px) 33.5rem, (min-width: 768px) 48vw, 100vw',
+  grid: gridImageSizes
+}[layout]
 
 const createGalleryItem = (post: CollectionEntry<'post'>) => {
   const { data } = post
-  const coverSourceWidth = data.coverImage?.src.width ?? 1600
-  const coverWidth = Math.min(1600, coverSourceWidth)
-
-  const coverHeight = data.coverImage ?
-    Math.round(coverWidth * data.coverImage.src.height / data.coverImage.src.width) :
-    900
-
-  const coverWidths = [...new Set([320, 480, 640, 800, 960, 1280, 1600, coverWidth])]
-    .filter(width => width <= coverSourceWidth)
-    .sort((firstWidth, secondWidth) => firstWidth - secondWidth)
 
   return {
-    coverHeight,
-    coverWidth,
-    coverWidths,
+    coverDimensions: data.coverImage ?
+      getResponsiveImageDimensions(data.coverImage.src, 1600, [320, 480, 640, 800, 960, 1280, 1600]) :
+      undefined,
     data,
-    formattedDate: getFormattedDate(data.publishDate),
-    href: getPostPath(post.id),
+    formattedDate: getFormattedDate(data.publishDate, {}, locale === 'es' ? 'es-419' : 'en-US'),
+    href: localizePath(getPostPath(post.id), locale),
     readingTime: getReadingTime(post.body),
     slug: getPostSlug(post.id)
   }
@@ -56,145 +61,75 @@ const galleryItems = posts.map(createGalleryItem)
     <div
       class:list={[
         `
-          grid gap-6
-          sm:grid-cols-2
+          grid grid-cols-1 gap-x-6 gap-y-12
+          sm:card-grid-2
         `,
-        columns === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'
+        columns === 3 && 'lg:card-grid-3'
       ]}
-      data-post-gallery-grid
+      data-post-gallery-grid={layout}
     >
       {galleryItems.map((item, index) => (
-        <Card
-          as="article"
-          class="
-            group flex h-full flex-col overflow-hidden rounded-3xl!
-            border-line/55 bg-surface p-0!
-          "
-          data-post-gallery-card
-          variant="unstyled"
-        >
-          <Link
-            aria-label={`Read ${item.data.draft ? 'draft post: ' : ''}${item.data.title}`}
-            className="
-              flex h-full flex-col font-normal text-inherit no-underline
-            "
-            href={item.href}
-            variant="inherit"
-          >
+        <Card as="article" data-post-gallery-card variant="unstyled">
+          <Link href={localizePath(item.href, locale)} variant="inherit">
             <div
-              class="relative aspect-video overflow-hidden bg-surface-muted"
+              class="
+                relative aspect-video overflow-hidden rounded-2xl
+                bg-surface-muted
+              "
+              data-post-gallery-cover
               transition:name={`post-cover-${item.slug}`}
             >
               {item.data.coverImage ?
                 (
                   <Picture
+                    {...item.coverDimensions}
                     alt=""
                     aria-hidden="true"
-                    class="
-                      absolute inset-0 size-full object-cover
-                      transition-transform duration-500
-                      motion-safe:group-hover:scale-105
-                      motion-reduce:transition-none
-                    "
-                    formats={['avif', 'webp']}
-                    height={item.coverHeight}
+                    class="absolute inset-0 size-full object-cover"
+                    fallbackFormat="webp"
+                    formats={['avif']}
                     loading="lazy"
                     sizes={imageSizes}
                     src={item.data.coverImage.src}
-                    width={item.coverWidth}
-                    widths={item.coverWidths}
                   />
                 ) :
                 (
                   <div aria-hidden="true" class="absolute inset-0 grid-fade" />
                 )}
-
-              <div
-                aria-hidden="true"
-                class="
-                  absolute inset-0 bg-linear-to-t from-canvas/28 via-transparent
-                  to-transparent opacity-70 transition-opacity duration-300
-                  group-hover:opacity-100
-                  motion-reduce:transition-none
-                "
-              />
-              <div class="
-                absolute inset-x-3 top-3 flex items-start justify-between gap-2
-              "
-              >
-                <Pill
-                  className="border-line/80! bg-surface! font-medium! text-ink!"
-                  label={item.data.postType}
-                  tone="neutral"
-                />
-                {item.data.draft && (
-                  <Pill
-                    className="
-                      border-warning/70! bg-surface! font-medium! text-warning!
-                    "
-                    label="Draft"
-                    tone="neutral"
-                  />
-                )}
-              </div>
             </div>
 
-            <div class="
-              flex grow flex-col p-5
-              sm:p-6
-            "
-            >
-              <div class="
-                flex flex-wrap items-center gap-2 text-xs text-ink-muted
-              "
-              >
-                {showSequence && (
-                  <>
-                    <span class="font-semibold text-brand">
-                      Part {item.data.seriesOrder ?? index + 1}
-                    </span>
-                    <span aria-hidden="true">·</span>
-                  </>
-                )}
+            <div data-post-gallery-copy>
+              <div data-post-gallery-meta>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span>{localizeCollectionSource(locale, item.data.postType)}</span>
+                  {showSequence && <span data-post-gallery-part>{t('collection.part')} {item.data.seriesOrder ?? index + 1}</span>}
+                  {item.data.draft && <span class="font-semibold">{t('collection.draft')}</span>}
+                </div>
                 <time datetime={item.data.publishDate.toISOString()}>
                   {item.formattedDate}
                 </time>
-                <span aria-hidden="true">·</span>
-                <span class="inline-flex items-center gap-1">
-                  <Icon class="size-3.5" name="clock-3" />
-                  {item.readingTime} min read
-                </span>
               </div>
 
-              <h3 class="
-                mt-3 text-xl/7 font-medium tracking-tight text-ink
-                transition-colors duration-200
-                group-hover:text-brand
-                motion-reduce:transition-none
-              "
-              >
-                {item.data.title}
-              </h3>
+              <h3 lang="en">{item.data.title}</h3>
+              <p lang="en">{item.data.cardDescription ?? item.data.description}</p>
 
-              <p class="mt-3 line-clamp-3 text-sm/6 text-ink-soft">
-                {item.data.description}
-              </p>
-
-              <div class="mt-auto flex items-end justify-between gap-4 pt-6">
-                <div class="flex min-w-0 flex-wrap gap-1.5">
-                  {item.data.tags.slice(0, 2).map(tag => (
-                    <Pill label={tag} showHash tone="outline" />
+              {!!item.data.tags.length && (
+                <ul aria-label={t('collection.topics')} data-post-gallery-topics>
+                  {item.data.tags.slice(0, 2).map((tag, topicIndex) => (
+                    <li>
+                      {topicIndex > 0 && <span aria-hidden="true" data-post-topic-separator>·</span>}
+                      <span lang="en">{getBlogTopicLabel(tag)}</span>
+                    </li>
                   ))}
-                </div>
-                <Icon
-                  class="
-                    size-5 shrink-0 text-ink-muted transition-[color,transform]
-                    duration-200
-                    group-hover:translate-x-1 group-hover:text-brand
-                    motion-reduce:transform-none motion-reduce:transition-none
-                  "
-                  name="arrow-right"
-                />
+                </ul>
+              )}
+
+              <div data-post-gallery-footer>
+                <span class="inline-flex items-center gap-2">
+                  {t('collection.readArticle')}
+                  <ArrowExchange class="size-4 shrink-0" direction="right" />
+                </span>
+                <span class="text-xs font-normal text-ink-soft">{t('reading.duration', { minutes: item.readingTime })}</span>
               </div>
             </div>
           </Link>

@@ -1,77 +1,119 @@
 ---
 import { Image } from 'astro:assets'
 
-import HeroPortrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import HomeHeroProducts from '@/components/pages/home/HomeHeroProducts.astro'
+
+import HeroPortrait from '@/assets/photos/home/santiago-smiling.webp'
 
 import { ButtonLink, Icon } from '@santi020k/lumen-astro'
 
 import LumenLogo from '@/content/project/lumen-ui/logo.webp'
 import PostLensLogo from '@/content/project/postlens/logo.webp'
+import { getLocale, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
+import { siteConfig } from '@/site.config'
+
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
 ---
 
 <section class="signature-frame maker-hero" aria-labelledby="home-heading" data-home-hero>
   <div class="maker-hero-stage" data-home-hero-grid>
     <div class="maker-hero-copy">
-      <p class="maker-hero-eyebrow">
-        <span aria-hidden="true" class="maker-hero-signal"></span>
-        Hey, I’m Santiago
-      </p>
-      <h1 id="home-heading" data-home-hero-heading>
-        <span>I build products.</span>
-        <span>And the tools</span>
-        <span class="maker-hero-emphasis">behind them.</span>
-      </h1>
-      <p class="maker-hero-description">
-        Engineer, maker, and technical lead.
-        I turn complex problems into useful software,
-        with care for every detail.
-      </p>
-      <div class="maker-hero-actions">
-        <ButtonLink class="maker-hero-primary" href="/portfolio/" variant="unstyled">
-          Explore my work
-          <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-up-right" /></span>
-        </ButtonLink>
-        <ButtonLink class="maker-hero-secondary" href="/about/" variant="unstyled">
-          A little about me <Icon name="arrow-right" />
-        </ButtonLink>
-      </div>
-    </div>
-
-    <figure class="maker-hero-visual">
-      <div class="maker-hero-portrait-frame">
+      <div data-home-hero-identity data-home-photo>
         <Image
-          alt="Portrait of Santiago Molina, smiling"
+          alt={t('page.portraitOfSantiagoMolinaSmiling')}
           class="maker-hero-portrait"
           src={HeroPortrait}
-          widths={[320, 480, 640, 800]}
-          sizes="(min-width: 1024px) 384px, (min-width: 768px) 36vw, (min-width: 420px) 352px, calc(100vw - 48px)"
-          width={800}
-          height={1200}
+          widths={[64, 128, 192]}
+          sizes="4rem"
+          width={192}
+          height={192}
           format="webp"
           quality={85}
           loading="eager"
-          fetchpriority="high"
         />
+        <div>
+          <p>{t('home.hero.greeting')}</p>
+          <span>Medellín, Colombia</span>
+        </div>
       </div>
-      <figcaption class="maker-hero-caption">
-        <span>Santiago Molina <span class="maker-hero-handle">@santi020k</span></span>
-        <span class="maker-hero-location">Medellín, Colombia</span>
-      </figcaption>
-    </figure>
+      <h1 id="home-heading" data-home-hero-heading>
+        <span>{t('home.hero.title')}</span>
+        <span>{t('home.hero.connective')} <span class="maker-hero-emphasis">{t('home.hero.emphasis')}</span></span>
+        <span>{t('home.hero.ending')}</span>
+      </h1>
+      <div data-home-hero-intro>
+        <p class="maker-hero-description">{t('home.hero.description')}</p>
+        <div class="maker-hero-actions">
+          <ButtonLink class="maker-hero-primary" href={localizePath('/portfolio/', pageLocale)} variant="unstyled">
+            <span data-home-action-label>{t('page.seeSelectedWork')}</span>
+            <span class="maker-hero-arrow" aria-hidden="true"><ArrowExchange /></span>
+          </ButtonLink>
+          <ButtonLink class="maker-hero-secondary" data-text-link href={localizePath(siteConfig.contact.workWithMe, pageLocale)} variant="unstyled">
+            <span data-text-link-label>{t('shared.workWithMe')}</span> <ArrowExchange direction="right" />
+          </ButtonLink>
+        </div>
+      </div>
+    </div>
+
+    <HomeHeroProducts />
   </div>
 
-  <div class="maker-hero-shelf">
-    <p class="maker-hero-shelf-label">A few things<br />I’m building <Icon name="arrow-down-right" /></p>
-    <a class="maker-hero-project" href="/portfolio/lumen-ui/">
-      <Image alt="" class="maker-hero-project-logo" src={LumenLogo} width={40} height={40} />
-      <span><strong>Lumen UI</strong><span>One system. Many platforms.</span></span>
-      <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
+  <nav class="maker-hero-shelf" aria-label={t('page.featuredProducts')} id="hero-products">
+    <p class="maker-hero-shelf-label">{t('page.selectedProducts')}</p>
+    <a class="maker-hero-project" data-hero-link="lumen-ui" href={localizePath('/portfolio/lumen-ui/', pageLocale)}>
+      <Image alt="" class="maker-hero-project-logo" src={LumenLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
+      <span data-home-product-copy><strong>Lumen UI</strong><span>{t('page.webAndNativeComponents')}</span></span>
+      <ArrowExchange class="maker-hero-project-arrow" direction="up-right" />
     </a>
-    <a class="maker-hero-project" href="/portfolio/postlens/">
-      <Image alt="" class="maker-hero-project-logo" src={PostLensLogo} width={40} height={40} />
-      <span><strong>PostLens</strong><span>A little more from every photo.</span></span>
-      <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
+    <a class="maker-hero-project" data-hero-link="postlens" href={localizePath('/portfolio/postlens/', pageLocale)}>
+      <Image alt="" class="maker-hero-project-logo" src={PostLensLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
+      <span data-home-product-copy><strong>PostLens</strong><span>{t('page.privatePhotoEditingForIphone')}</span></span>
+      <ArrowExchange class="maker-hero-project-arrow" direction="up-right" />
     </a>
-    <a class="maker-hero-index" href="/projects/" aria-label="Explore all projects"><Icon name="plus" /></a>
-  </div>
+    <ButtonLink class="maker-hero-index" data-text-link href={localizePath('/projects/', pageLocale)} aria-label={t('page.exploreAllProjects')} variant="unstyled"><span data-text-link-label>{t('page.allProjects')}</span> <Icon name="plus" /></ButtonLink>
+  </nav>
 </section>
+
+<style>
+  [data-home-hero] .maker-hero-stage {
+    --hero-type: clamp(2rem, 8.4cqi, 6rem);
+    grid-template-columns: minmax(0, 1fr) 26rem;
+    grid-template-rows: auto min-content 1fr;
+    gap: 1.75rem 3rem;
+    align-items: start;
+    min-height: 0;
+    padding-block: 1rem 3rem;
+  }
+  [data-home-hero] .maker-hero-copy { display: contents; }
+  [data-home-hero-grid] > :global([data-home-product-scene]) { grid-column: 2; grid-row: 2 / 4; margin-top: calc(var(--hero-type) * 1.15); }
+  [data-home-hero-intro] { grid-column: 1; min-width: 0; }
+  [data-home-hero] .maker-hero-description { max-width: 29rem; margin-top: 0; }
+  [data-home-hero] .maker-hero-actions { margin-top: 1.5rem; }
+  [data-home-hero-identity] { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; margin-bottom: 0.25rem; }
+  [data-home-hero] .maker-hero-portrait { flex: none; width: 4rem; height: 4rem; border-radius: 50%; object-fit: cover; }
+  [data-home-hero-identity] > div { min-width: 0; }
+  [data-home-hero-identity] p { font-size: 0.9375rem; font-weight: 600; line-height: 1.6; }
+  [data-home-hero-identity] span { display: block; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.7; }
+  [data-home-hero] h1 { grid-column: 1 / -1; grid-row: 2; width: 100%; max-width: 100%; font-size: var(--hero-type); line-height: 1.04; letter-spacing: -0.065em; }
+  [data-home-hero] h1 > span { display: block; }
+  [data-home-hero] h1 > span:not(:first-child) { max-width: calc(100% - 29rem); }
+  [data-home-hero]:lang(es) .maker-hero-stage { --hero-type: clamp(1.75rem, 6.6cqi, 4.25rem); }
+  [data-home-hero]:lang(es) h1 { font-size: var(--hero-type); letter-spacing: -0.055em; }
+
+  @container home-hero (width < 62rem) {
+    [data-home-hero] .maker-hero-stage { --hero-type: clamp(2rem, 10.4cqi, 5rem); grid-template-columns: minmax(0, 1fr); grid-template-rows: none; gap: 1.5rem; padding-block: 0 2rem; }
+    [data-home-hero-grid] > :global([data-home-product-scene]) { grid-column: 1; grid-row: auto; margin-top: 0; }
+    [data-home-hero] h1 > span:not(:first-child) { max-width: 100%; }
+    [data-home-hero]:lang(es) .maker-hero-stage { --hero-type: clamp(1.75rem, 8.6cqi, 4rem); }
+    [data-home-hero-intro] { max-width: 34rem; }
+    [data-home-hero] .maker-hero-description { max-width: 34rem; }
+  }
+  @container home-hero (width < 18rem) {
+    [data-home-hero-identity] { align-items: start; flex-wrap: wrap; gap: 0.75rem; }
+    [data-home-hero] .maker-hero-stage { --hero-type: min(2rem, 22cqi); }
+    [data-home-hero]:lang(es) .maker-hero-stage { --hero-type: min(1.75rem, 16cqi); }
+  }
+</style>

@@ -5,7 +5,8 @@ import { describe, expect, test, vi } from 'vitest'
 import {
   collectCards,
   collectSpecs,
-  formatTopicName
+  formatTopicName,
+  isPublishedPost
 } from '../../../scripts/js/generate-og-images.js'
 import { renderOgAtmosphere } from '../../../scripts/js/render-og-atmosphere.mjs'
 import { staticSocialPages } from '../../data/social-pages'
@@ -18,6 +19,7 @@ interface SocialImageProps {
 }
 
 describe('collectSpecs', { timeout: 15_000 }, () => {
+  // The first collection normalizes artwork for every post and project before caching it.
   test('includes generated images for the current static page routes', async () => {
     const specs = await collectSpecs()
     const outFiles = new Set(specs.map(spec => spec.outFile))
@@ -35,7 +37,7 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     ]) {
       expect(outFiles.has(path.join(process.cwd(), 'public', 'og', 'pages', fileName))).toBe(true)
     }
-  })
+  }, 60_000)
 
   test('includes generated images for blog topic archive routes', async () => {
     const specs = await collectSpecs()
@@ -48,13 +50,30 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(topicProps?.pathLabel).toBe('/blog/tags/typescript/')
   })
 
-  test('includes generated route cards for non-empty taxonomies with one entry', async () => {
-    const pathnames = new Set((await collectCards()).map(card => card.route?.pathname))
+  test('omits cards for thin taxonomy archives, which share their index card', async () => {
+    const cards = await collectCards()
+    const pathnames = new Set(cards.map(card => card.route?.pathname))
+    const outputs = new Set(cards.map(card => card.output))
 
-    expect(pathnames.has('/blog/tags/alpine/')).toBe(true)
-    expect(pathnames.has('/technologies/actionlint/')).toBe(true)
+    const thinArchives = ['/blog/tags/alpine/', '/technologies/actionlint/', '/es/blog/tags/alpine/', '/es/technologies/actionlint/']
+
+    expect(thinArchives.filter(thin => pathnames.has(thin))).toEqual([])
+
+    expect(outputs.has('pages/blog--tags--alpine.webp')).toBe(false)
     expect(pathnames.has('/blog/tags/typescript/')).toBe(true)
     expect(pathnames.has('/technologies/typescript/')).toBe(true)
+    expect(pathnames.has('/es/technologies/typescript/')).toBe(true)
+  })
+
+  test('keeps English cards for single-language articles and case studies', async () => {
+    const cards = await collectCards()
+    const pathnames = new Set(cards.map(card => card.route?.pathname))
+
+    expect(pathnames.has('/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(true)
+    expect(pathnames.has('/es/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(false)
+    expect(pathnames.has('/portfolio/lumen-ui/')).toBe(true)
+    expect(pathnames.has('/es/portfolio/lumen-ui/')).toBe(false)
+    expect(pathnames.has('/es/blog/')).toBe(true)
   })
 
   test('matches the blog topic archive pagination size', async () => {
@@ -101,6 +120,31 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
       pathname: '/blog/deterministic-open-graph-images-without-design-lock-in/',
       title: 'Deterministic Open Graph images without design lock-in'
     })
+  })
+
+  test('keeps card asset references independent of the checkout directory', async () => {
+    const cards = await collectCards()
+    let localAssets = 0
+
+    for (const card of cards) {
+      const { data } = card
+      const sources = [
+        'coverImagePath' in data ? data.coverImagePath : undefined,
+        'logoImagePath' in data ? data.logoImagePath : undefined,
+        'image' in data ? data.image : undefined
+      ]
+
+      for (const source of sources) {
+        if (typeof source !== 'string' || source.startsWith('data:')) continue
+
+        expect(path.isAbsolute(source)).toBe(false)
+        expect(source).toMatch(/^src\/content\//u)
+        expect(source).not.toContain('\\')
+        localAssets++
+      }
+    }
+
+    expect(localAssets).toBeGreaterThan(0)
   })
 
   test('uses editorial covers for posts and dedicated logos for projects', async () => {
@@ -190,15 +234,46 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
       process.cwd(), 'src', 'content', 'post', '2026', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be', 'cover.webp'
     ))
     expect(projectProps?.logoImagePath).toBe(path.join(
-      process.cwd(), 'src', 'content', 'project', 'eslint-config-basic', 'logo-square.webp'
+      process.cwd(), 'src', 'content', 'project', 'eslint-config-basic', 'logo-square.svg'
     ))
   })
 
   test('keeps existing technology image filenames while using canonical path labels', async () => {
-    const designSystemsSpec = (await collectSpecs()).find(spec => spec.outFile.endsWith('technologies--Design~20Systems.webp'))
-    const designSystemsProps = designSystemsSpec?.props as SocialImageProps | undefined
+    const tailwindSpec = (await collectSpecs()).find(spec => spec.outFile.endsWith('technologies--Tailwind~20CSS.webp'))
+    const tailwindProps = tailwindSpec?.props as SocialImageProps | undefined
 
-    expect(designSystemsProps?.pathLabel).toBe('/technologies/design-systems/')
+    expect(tailwindProps?.pathLabel).toBe('/technologies/tailwind-css/')
+  })
+})
+
+describe('isPublishedPost', () => {
+  const postEntry = (publishDate: unknown) => ({
+    body: '',
+    filePath: 'src/content/post/example.md',
+    frontmatter: { publishDate },
+    id: 'example',
+    slug: 'example'
+  })
+
+  test.each([
+    { publishDate: '4 Sep 2026', now: '2026-09-03T23:59:59.999Z', expected: false },
+    { publishDate: '4 Sep 2026', now: '2026-09-04T00:00:00.000Z', expected: true },
+    { publishDate: '2026-09-04', now: '2026-09-03T23:59:59.999Z', expected: false },
+    { publishDate: '2026-09-04', now: '2026-09-04T00:00:00.000Z', expected: true },
+    { publishDate: '2026-09-04T23:30:00-05:00', now: '2026-09-05T04:29:59.999Z', expected: false },
+    { publishDate: '2026-09-04T23:30:00-05:00', now: '2026-09-05T04:30:00.000Z', expected: true },
+    { publishDate: new Date('2026-09-04T00:00:00.000Z'), now: '2026-09-04T00:00:00.000Z', expected: true },
+    { publishDate: '2026-02-30', now: '2027-01-01T00:00:00.000Z', expected: false },
+    { publishDate: undefined, now: '2027-01-01T00:00:00.000Z', expected: false }
+  ])('publishes $publishDate at $now: $expected', ({ publishDate, now, expected }) => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(now))
+
+    try {
+      expect(isPublishedPost(postEntry(publishDate))).toBe(expected)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })
 

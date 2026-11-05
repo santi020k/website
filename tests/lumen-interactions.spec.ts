@@ -10,19 +10,17 @@ test('resume print styles hide the Lumen skip link', async ({ page }) => {
   await expect(skipLink).toBeHidden()
 })
 
-test.describe('Organization carousel Lumen Button controls', () => {
-  test('previous and next controls are real buttons with accessible names and 44px targets', async ({ page }) => {
+test.describe('Organization index Lumen Button controls', () => {
+  test('organization selectors are real buttons with accessible names and 44px targets', async ({ page }) => {
     await page.setViewportSize({ width: 800, height: 900 })
     await page.goto('/about/')
 
-    const carousel = page.locator('[data-organization-carousel]')
-    const previousButton = carousel.getByRole('button', { name: 'Show previous organizations' })
-    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
+    const buttons = page.getByRole('navigation', { name: 'Choose an organization' }).getByRole('button')
 
-    await expect(previousButton).toHaveAttribute('aria-controls', 'organization-carousel-items')
-    await expect(nextButton).toHaveAttribute('aria-controls', 'organization-carousel-items')
-
-    for (const button of [previousButton, nextButton]) {
+    await expect(buttons).toHaveCount(9)
+    for (const button of await buttons.all()) {
+      await expect(button).toHaveAttribute('aria-controls', 'organization-carousel-items')
+      await expect(button).toHaveAccessibleName(/\S/u)
       const box = await button.boundingBox()
 
       expect(box?.width).toBeGreaterThanOrEqual(44)
@@ -30,26 +28,26 @@ test.describe('Organization carousel Lumen Button controls', () => {
     }
   })
 
-  test('previous control disables at the first page and keyboard paging keeps it in sync', async ({ page }) => {
+  test('keyboard selection keeps the active organization and focus in sync', async ({ page }) => {
     await page.setViewportSize({ width: 800, height: 900 })
     await page.goto('/about/')
 
-    const carousel = page.locator('[data-organization-carousel]')
-    const previousButton = carousel.getByRole('button', { name: 'Show previous organizations' })
-    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
+    const index = page.getByRole('navigation', { name: 'Choose an organization' })
+    const first = index.getByRole('button', { name: '01 Void', exact: true })
+    const last = index.getByRole('button', { name: '09 ReactJS Colombia', exact: true })
 
-    await expect(previousButton).toBeDisabled()
-    await expect(nextButton).toBeEnabled()
-
-    await nextButton.focus()
-    await page.keyboard.press('ArrowRight')
-
-    await expect(previousButton).toBeEnabled()
-
-    await previousButton.focus()
-    await page.keyboard.press('ArrowLeft')
-
-    await expect(previousButton).toBeDisabled()
+    await expect(first).toHaveAttribute('aria-pressed', 'true')
+    await expect(last).toHaveAttribute('aria-pressed', 'false')
+    await last.focus()
+    await page.keyboard.press('Space')
+    await expect(last).toHaveAttribute('aria-pressed', 'true')
+    await expect(last).toBeFocused()
+    await expect(first).toHaveAttribute('aria-pressed', 'false')
+    await first.focus()
+    await page.keyboard.press('Enter')
+    await expect(first).toHaveAttribute('aria-pressed', 'true')
+    await expect(first).toBeFocused()
+    await expect(index.locator('[aria-pressed="true"]')).toHaveCount(1)
   })
 })
 
@@ -62,7 +60,6 @@ test.describe('Blog topic filter aria-current semantics', () => {
 
     await expect(allPosts).toHaveAttribute('aria-current', 'page')
     await expect(allPosts).toHaveAttribute('href', '/blog/')
-    await expect(allPosts).toHaveAttribute('data-variant', 'brand')
 
     const tagLinks = filter.getByRole('link').filter({ hasNotText: 'All posts' })
     const tagCount = await tagLinks.count()
@@ -72,20 +69,15 @@ test.describe('Blog topic filter aria-current semantics', () => {
     for (const link of await tagLinks.all()) await expect(link).not.toHaveAttribute('aria-current')
   })
 
-  test('marks the active tag as current on a filtered archive without changing its link target', async ({ page }) => {
+  test('uses related destinations without repeating the current archive as a selected link', async ({ page }) => {
     await page.goto('/blog/tags/react/')
 
-    const filter = page.locator('[data-blog-tag-filter]')
-    const activeTag = filter.getByRole('link', { name: /react/i })
-    const allPosts = filter.getByRole('link', { name: 'All posts' })
+    const related = page.getByRole('navigation', { name: 'Related topics' })
 
-    await expect(activeTag).toHaveAttribute('aria-current', 'page')
-    await expect(activeTag).toHaveAttribute('href', '/blog/tags/react/')
-    await expect(activeTag).toHaveAttribute('data-variant', 'brand')
-
-    await expect(allPosts).not.toHaveAttribute('aria-current')
-    await expect(allPosts).toHaveAttribute('href', '/blog/')
-    await expect(allPosts).toHaveAttribute('data-variant', 'outline')
+    await expect(related.getByRole('link')).toHaveCount(4)
+    await expect(related.locator('[aria-current]')).toHaveCount(0)
+    await expect(related.locator('a[href="/blog/tags/react/"]')).toHaveCount(0)
+    await expect(page.locator('[data-topic-archive-blog]')).toHaveAttribute('href', '/blog/')
   })
 })
 

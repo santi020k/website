@@ -15,15 +15,15 @@ redesign; the complete site style guide will be finalized after design approval.
 
 ## Related Skills
 
-These `.claude/skills/` documents expand on specific areas of this guide:
+These `.agents/skills/` documents expand on specific areas of this guide:
 
 | Skill | Scope |
 | :---- | :---- |
-| [`web-design`](../.claude/skills/web-design/SKILL.md) | Design tokens, component patterns, animations, dark mode |
-| [`seo`](../.claude/skills/seo/SKILL.md) | Meta tags, structured data, sitemap, Core Web Vitals |
-| [`accessibility`](../.agent/skills/accessibility/SKILL.md) | WCAG 2.2 AA, ARIA, keyboard navigation, native JavaScript patterns |
-| [`marketing`](../.claude/skills/marketing/SKILL.md) | Copy, CTAs, blog strategy, social media |
-| [`brand-guidelines`](../.claude/skills/brand-guidelines/SKILL.md) | This document — generation and maintenance |
+| [`web-design`](../.agents/skills/web-design/SKILL.md) | Design tokens, component patterns, animations, dark mode |
+| [`seo`](../.agents/skills/seo/SKILL.md) | Meta tags, structured data, sitemap, Core Web Vitals |
+| [`accessibility`](../.agents/skills/accessibility/SKILL.md) | WCAG 2.2 AA, ARIA, keyboard navigation, native JavaScript patterns |
+| [`marketing`](../.agents/skills/marketing/SKILL.md) | Copy, CTAs, blog strategy, social media |
+| [`brand-guidelines`](../.agents/skills/brand-guidelines/SKILL.md) | This document — generation and maintenance |
 
 ---
 
@@ -193,6 +193,38 @@ verified.
 The image generator treats the declared palette as authoritative and only extracts a logo color
 as a fallback for legacy fixtures.
 
+Generate project artwork with `pnpm run generate:project-images` (optionally followed by project
+slugs). It reads Markdown and MDX entries and preserves each source logo. Horizontal and portrait
+covers center the visible logo horizontally and vertically on a solid brand surface, with restrained
+folds at the edges. Keep that alignment in the central square crop used by compact project cards.
+Light-surface logos retain a light canvas. Scale the visible artwork, excluding transparent canvas
+padding, and rasterize SVG sources at cover resolution. Square marks occupy 58% of the short edge,
+wide word marks up to 92%, and tall marks up to 66%. For marks with visually small symbols inside
+their icon surfaces, `coverImage.logoScale` can optically adjust horizontal and portrait covers
+from 0.75 to 1.5; the generator caps the final bounds to preserve the central square crop.
+Review the complete set together rather than forcing every shape to the same width. Avoid decorative
+interface panels, padded logo tiles, blur, and baked-in bottom overlays. Thumbnails retain project
+metadata for their standalone and social-image uses, with the same geometric background.
+The editorial Projects gallery uses the text-free horizontal artwork for every card; project
+titles, descriptions, and technologies remain in the accessible HTML below each image.
+On project detail pages, omit the duplicate cover caption and its supporting gradient below
+44rem of available width so larger logos stay unobstructed and retain their original colors.
+The timeline and project type remain in the page metadata.
+
+Source logos should have transparent outer canvases so they blend into the declared brand
+surface. Preserve backgrounds that belong to the app icon itself, but avoid opaque or partially
+transparent rectangular backdrops around the mark. RoadScore uses its original transparent
+Android foreground asset from `apps/mobile/assets/images/android-icon-foreground.png` in the
+RoadScore repository. Nebular retains its original white raster mark and lettering, with the
+gray backdrop removed from the alpha channel. After replacing a source logo, regenerate its
+project covers and OG cards.
+
+ReactJS Colombia keeps its original circular badge, with stray pixels outside the badge removed
+from the alpha channel. Keep its internal colors and artwork intact when cleaning the source.
+
+Auth retains its original vector lock. Quality uses the original vector from
+`apps/site/public/logo.svg` in the Quality repository so both stay sharp at larger sizes.
+
 Project colors must stay scoped to a project surface. Do not recolor global navigation, shared
 buttons, or the Santi020k logo to match the current project.
 
@@ -210,11 +242,23 @@ A single variable font is used across the entire brand for consistency and perfo
 | **Source** | Self-hosted — `public/fonts/` |
 | **Weight range** | 100–900 (continuous variable axis) |
 | **Styles** | Normal + Italic (separate variable font files) |
-| **Format** | TrueType Variable Font (`.ttf`) |
+| **Format** | WOFF2 for web delivery; TrueType variable sources (`.ttf`) |
 | **Loading strategy** | `font-display: swap` |
 | **Tailwind roles** | `--font-sans`, `--font-serif`, `--font-mono`, `--font-display` |
 
 Montserrat is mapped to all four Tailwind font roles to ensure visual consistency regardless of which utility is used.
+
+The current site preloads a Latin WOFF2 subset and requests italic text separately.
+Both subsets retain weights 100–900, shaping features, and combining accents.
+The complete normal and italic fonts remain available for characters outside the
+subset; historical site versions and generated social cards retain their original
+fonts. `pnpm run generate:fonts` builds all WOFF2 files from the checked-in TTF
+sources using the build-only `subset-font` dependency and the existing WOFF2 compressor. The generator
+reads coverage from the `unicode-range` declarations in
+`src/styles/partials/base.css`. Browser tests verify download selection,
+fallback to other scripts, and glyph metrics against the complete fonts.
+Subsets are generated in `src/assets/fonts/`, where Astro gives them content-hashed
+URLs for immutable caching. The stylesheet and preload import the same asset.
 
 ### Type Scale
 
@@ -422,25 +466,10 @@ Always add `aria-hidden="true"` on decorative icons. For standalone icon buttons
 
 ### Badges
 
-`Badge.astro` (or `Pill.astro`) is the standard tag/label component. Use the named variant — never recreate badge styles inline.
-
-| Variant | Use case |
-| :------------ | :------- |
-| `default` | General tags, neutral state |
-| `accent` | Highlighted tag using the current accent |
-| `accent-base` | Uses the lower-contrast base accent tone |
-| `accent-one` | Primary brand accent |
-| `accent-two` | Secondary brand accent (theme-adaptive) |
-| `muted` | Low-emphasis, subtle background |
-| `outline` | Bordered, no fill — secondary or filter contexts |
-| `subtle` | Neutral zinc surface, universal background compatibility |
-| `ghost` | No background, minimal — toggles and filters |
-| `warning` | Caution state (yellow palette) |
-| `danger` | Error or destructive state (red palette) |
-
-Props: `title` (required), `variant` (default: `"default"`), `showHash` (default: `true`), `className`.
-
-Badges truncate at `200px` on mobile, full width on `sm` and above.
+`Pill.astro` wraps Lumen `Pill` for project status labels. Its props are
+`label` (required) and `tone` (`brand`, `neutral`, or `outline`, defaulting to `neutral`).
+It does not truncate text or render links. Use `SculptedTag` for linked topics and
+technology counts; it preserves the current-page state through Lumen `Link`.
 
 ### Cards
 
@@ -523,7 +552,7 @@ The footer displays `© {author} {year}` with the package version number, plus i
 
 ## 8. Motion & Animation
 
-All animations **must** include a `motion-reduce:` variant or a `prefers-reduced-motion` media query. This is a hard constraint — both an accessibility requirement and a `CLAUDE.md` rule.
+All animations **must** include a `motion-reduce:` variant or a `prefers-reduced-motion` media query. This is a hard constraint — both an accessibility requirement and an `AGENTS.md` rule.
 
 ### Timing Reference
 
@@ -883,7 +912,7 @@ Publishing cadence: one quality post per month is better than four rushed ones. 
 - Custom utilities go in `@utility` blocks — never ad hoc inline styles
 - Never hardcode hex, HSL, or OKLCH values in components — use semantic tokens
 - Class order follows the Tailwind Prettier plugin (ESLint enforces this)
-- Dark mode variant: `@custom-variant dark (&:where(.dark,[data-theme='dark'] *))`
+- Dark mode variant: `@custom-variant dark ([data-theme="dark"] &)`
 
 ### Quality Gates
 
@@ -1012,7 +1041,7 @@ All internal links use trailing slashes.
 | `src/content.config.ts` | Content collection schemas (Zod) |
 | `src/utils/project-brand.ts` | Scoped project palette variables and contrast-safe derived colors |
 | `src/types.ts` | Shared TypeScript types including `Badge` variants |
-| `src/components/atoms/Pill.astro` | Pill / tag component |
+| `src/components/atoms/Pill.astro` | Project status label |
 | `src/components/atoms/ThemeToggle.astro` | Dark mode toggle |
 | `src/components/organisms/SiteHeader.astro` | Responsive header with mobile navigation |
 | `src/components/organisms/SiteFooter.astro` | Footer with social links and version |
@@ -1045,4 +1074,4 @@ All internal links use trailing slashes.
 
 ---
 
-*Maintained with the [Brand Guidelines Generator](.claude/skills/brand-guidelines/SKILL.md) skill. Update this document whenever design tokens, components, social channels, or brand direction change.*
+*Maintained with the [Brand Guidelines Generator](../.agents/skills/brand-guidelines/SKILL.md) skill. Update this document whenever design tokens, components, social channels, or brand direction change.*

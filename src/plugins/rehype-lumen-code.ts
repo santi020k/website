@@ -1,7 +1,10 @@
+import { getLumenIcon, type LumenIconNode } from '@santi020k/lumen-core'
 import type { Element, ElementContent, Root, RootContent, Text } from 'hast'
 import type { Plugin } from 'unified'
 import type { Node } from 'unist'
 import { visit } from 'unist-util-visit'
+
+import { createLumenScrollCue } from './lumen-scroll-cue'
 
 const element = (
   tagName: string,
@@ -111,11 +114,33 @@ const getCodeElement = (figure: Element): Element | undefined => {
   return code?.type === 'element' ? code : undefined
 }
 
-const createHeader = (language: string, label: string): Element => {
+// Mirrors the installed Lumen `Code` copy defaults; the runtime restores these
+// from data attributes after each copy, falling back to generic text otherwise.
+const COPY_LABEL = 'Copy code to clipboard'
+const COPIED_LABEL = 'Code copied to clipboard'
+const COPY_ERROR_LABEL = 'Could not copy code. Select and copy it manually.'
+
+const iconNode = ([tagName, attributes, children = []]: LumenIconNode): Element => element(
+  tagName, { ...attributes }, children.map(iconNode)
+)
+
+const codeIcon = (name = 'code-xml'): Element => element('svg', {
+  ariaHidden: 'true',
+  dataCodeFolioIcon: '',
+  fill: 'none',
+  focusable: 'false',
+  stroke: 'currentColor',
+  strokeLinecap: 'round',
+  strokeLinejoin: 'round',
+  strokeWidth: '2',
+  viewBox: '0 0 24 24'
+}, getLumenIcon(name)?.node.map(iconNode) ?? [])
+
+const createHeader = (language: string, label: string, folio: boolean, copyValue?: string): Element => {
   const metadata: ElementContent[] = []
 
-  if (language) {
-    metadata.push(element('span', { className: ['ui-code__language'] }, [text(language)]))
+  if (language || folio) {
+    metadata.push(element('span', { className: ['ui-code__language'], dataProseCodeLanguage: '' }, [text(language || 'Code')]))
   }
 
   if (label) {
@@ -123,23 +148,111 @@ const createHeader = (language: string, label: string): Element => {
   }
 
   return element('figcaption', { className: ['ui-code__header'] }, [
-    element('span', { ariaHidden: 'true', className: ['ui-code__dots'] }, [
-      element('span', { className: ['ui-code__dot', 'ui-code__dot--red'] }),
-      element('span', { className: ['ui-code__dot', 'ui-code__dot--yellow'] }),
-      element('span', { className: ['ui-code__dot', 'ui-code__dot--green'] })
-    ]),
+    folio ?
+      codeIcon() :
+      element('span', { ariaHidden: 'true', className: ['ui-code__dots'] }, [
+        element('span', { className: ['ui-code__dot', 'ui-code__dot--red'] }),
+        element('span', { className: ['ui-code__dot', 'ui-code__dot--yellow'] }),
+        element('span', { className: ['ui-code__dot', 'ui-code__dot--green'] })
+      ]),
     element('span', { className: ['ui-code__meta'] }, metadata),
     element('button', {
-      ariaLabel: 'Copy code to clipboard',
+      ariaLabel: COPY_LABEL,
       className: ['ui-code__copy'],
+      dataCopyCopiedLabel: COPIED_LABEL,
+      dataCopyErrorLabel: COPY_ERROR_LABEL,
+      dataCopyLabel: COPY_LABEL,
+      dataCopyValue: copyValue,
+      dataState: 'idle',
       dataUiCodeCopy: '',
+      title: COPY_LABEL,
       type: 'button'
-    }, [copyIcon(), checkIcon()])
+    }, [copyIcon(), checkIcon(), ...(folio ?
+      [
+        element('span', { dataSlot: 'copy-idle' }, [text('Copy')]),
+        element('span', { dataSlot: 'copy-copied', hidden: true }, [text('Copied')]),
+        element('span', { dataSlot: 'copy-error', hidden: true }, [text('Copy failed')])
+      ] :
+      [])])
   ])
 }
 
-const convertFigure = (figure: Element, exampleNumber: number): void => {
-  const { label, language, pre } = getCodeMetadata(figure)
+export interface ImportedCodeMetadata {
+  codeLabel: string
+  copyValue?: string
+  label: string
+}
+
+interface Options {
+  imported?: ImportedCodeMetadata
+}
+
+const FOLD_AFTER_LINES = 24
+const PREVIEW_LINES = 12
+
+const codeSource = (code: Element): string => code.children
+  .filter(child => isElement(child) && dataProperty(child, 'line') !== undefined)
+  .map(nodeText)
+  .join('\n')
+
+const createExampleFold = (pre: Element, lineCount: number): Element[] => {
+  const preview = structuredClone(pre)
+  const previewCode = preview.children.find(child => child.type === 'element' && child.tagName === 'code')
+
+  if (previewCode?.type !== 'element') return [pre]
+
+  let lines = 0
+  const previewChildren: ElementContent[] = []
+
+  for (const child of previewCode.children) {
+    previewChildren.push(child)
+
+    if (isElement(child) && dataProperty(child, 'line') !== undefined) lines += 1
+
+    if (lines === PREVIEW_LINES) break
+  }
+
+  previewCode.children = previewChildren
+
+  // A preview must not duplicate authored fragment targets or descriptions.
+  visit(preview, 'element', node => {
+    delete node.properties.id
+
+    delete node.properties.ariaDescribedBy
+  })
+
+  preview.properties.ariaLabel = `Preview, first ${PREVIEW_LINES} lines: ${String(pre.properties.ariaLabel)}`
+
+  pre.properties.dataCodeComplete = ''
+
+  const region = (content: Element, properties: Element['properties'] = {}) => element('div', {
+    dataCodeFoldRegion: '', dataUiScrollCue: '', ...properties
+  }, [content, createLumenScrollCue(undefined, 'Scroll horizontally to read more')])
+
+  return [
+    element('details', { dataExampleFold: '', dataUiCollapsible: '' }, [
+      element('summary', {}, [
+        element('span', { dataFoldExpand: '' }, [text('Show full example')]),
+        element('span', { dataFoldCollapse: '' }, [text('Collapse example')]),
+        element('span', { dataFoldCount: '' }, [text(`${lineCount} lines · Copy includes the complete example`)])
+      ]),
+      region(pre)
+    ]),
+    region(preview, { dataCodePreview: '' })
+  ]
+}
+
+const convertFigure = (
+  figure: Element, exampleNumber: number, folio: boolean, imported?: ImportedCodeMetadata, scrollCue = folio
+): void => {
+  const metadata = getCodeMetadata(figure)
+  const { language, pre } = metadata
+  const label = imported?.label ?? metadata.label
+  const code = getCodeElement(figure)
+  // Pretty Code's grid output has line elements without literal newline nodes.
+  const source = code ? codeSource(code) : ''
+  const lineCount = source.trimEnd().split('\n').length
+  const fold = folio && pre && code && lineCount > FOLD_AFTER_LINES
 
   figure.properties.className = [...classNames(figure), 'ui-code', 'ui-code--block']
 
@@ -149,20 +262,35 @@ const convertFigure = (figure: Element, exampleNumber: number): void => {
 
   figure.properties.dataUiCode = ''
 
+  if (folio) {
+    figure.properties.dataArticleCodeFolio = ''
+
+    if (code && dataProperty(code, 'line-numbers') === undefined) {
+      code.properties.dataLineNumbers = ''
+    }
+  }
+
+  if (scrollCue && pre && !fold) figure.properties.dataUiScrollCue = ''
+
   if (pre) {
     pre.properties.tabIndex = 0
 
     pre.properties.role = 'region'
 
-    pre.properties.ariaLabel = `Code example ${exampleNumber}: ${label || language || 'plain text'}`
+    pre.properties.ariaLabel = imported?.codeLabel ?? `Code example ${exampleNumber}: ${label || language || 'plain text'}`
   }
 
   figure.children = [
-    createHeader(language, label),
-    ...figure.children.filter(child => (
+    createHeader(language, label, folio, imported?.copyValue ?? (fold ? source : undefined)),
+    ...figure.children.flatMap(child => (
+      fold && child === pre ? createExampleFold(pre, lineCount) : [child]
+    )).filter(child => (
       child.type !== 'element' ||
       dataProperty(child, 'rehype-pretty-code-title') === undefined
-    ))
+    )),
+    ...(scrollCue && pre && !fold ?
+      [createLumenScrollCue(imported ? undefined : `article-code-scroll-cue-${exampleNumber}`, 'Scroll horizontally to read more')] :
+      [])
   ]
 }
 
@@ -314,16 +442,21 @@ const groupPackageManagerAlternatives = (tree: Root): void => {
  * Adapts Rehype Pretty Code output to Lumen's Code and CodeTabs public DOM
  * contracts while retaining Shiki's syntax-highlighted children.
  */
-export const rehypeLumenCode: Plugin<[], Root> = () => tree => {
-  groupPackageManagerAlternatives(tree)
+export const rehypeLumenCode: Plugin<[Options?], Root> = (options = {}) => (tree, file) => {
+  // Imported files are literal examples, not authored package-manager alternatives.
+  if (!options.imported) groupPackageManagerAlternatives(tree)
 
+  const sourcePath = file.history.at(-1)?.replace(/\\/gu, '/') ?? ''
+  const isArticle = Boolean(options.imported) || /(?:^|\/)src\/content\/post\//u.test(sourcePath)
   let exampleNumber = 0
 
-  visit(tree, 'element', node => {
+  visit(tree, 'element', (node, _index, parent) => {
     if (!isPrettyCodeFigure(node)) return
 
     exampleNumber += 1
 
-    convertFigure(node, exampleNumber)
+    const isTabPanel = parent?.type === 'element' && parent.properties.role === 'tabpanel'
+
+    convertFigure(node, exampleNumber, isArticle && !isTabPanel, options.imported, isArticle)
   })
 }

@@ -1,4 +1,6 @@
 ---
+import '@/styles/components/package-manager-code-tabs.css'
+
 import { CodeTabs } from '@santi020k/lumen-astro'
 
 interface PackageManagerCommands {
@@ -14,6 +16,8 @@ interface Props {
 }
 
 const { ariaLabel, commands } = Astro.props
+// Name each scrollable code region after this tab set, not Lumen's generic default.
+const codeLabel = `${ariaLabel} code`
 
 const items = [
   { code: commands.npm, label: 'npm', language: 'bash', value: 'npm' },
@@ -26,8 +30,10 @@ const items = [
 <CodeTabs
   {ariaLabel}
   class="not-prose"
+  {codeLabel}
   data-package-manager-code-tabs
   {items}
+  scrollCue
   storageKey="preferred-package-manager"
   theme="santi020k"
   wrap={false}

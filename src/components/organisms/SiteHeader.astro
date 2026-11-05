@@ -1,14 +1,18 @@
 ---
 import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
+import LanguageSwitcher from '@/components/molecules/LanguageSwitcher.astro'
 import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
 import type { SiteLink } from '@/types/site'
+import { getNavigationCurrent } from '@/utils/links'
 
 import { Button, ButtonLink as NavigationLink, Icon } from '@santi020k/lumen-astro'
 
-import { menuLinks, siteConfig } from '@/site.config'
+import { getLocale, localizePath, sharedTranslator, stripLocale } from '@/i18n'
+import { getMenuLinks, siteConfig } from '@/site.config'
 
 interface Props {
   variant?: 'dock' | 'signature'
@@ -20,11 +24,10 @@ const isAvailableForBanner =
   siteConfig.availability.trim().toLowerCase().startsWith('open') &&
   siteConfig.showAvailabilityBanner !== false
 
-const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
-
-const isCurrentPage = (path: string) => path === '/' ?
-  Astro.url.pathname === '/' :
-  Astro.url.pathname.startsWith(path)
+const locale = getLocale(Astro.url.pathname)
+const t = sharedTranslator(locale)
+const navigationLinks = getMenuLinks(locale).filter(({ path }) => path !== '/speaking/').map(link => ({ ...link, path: localizePath(link.path, locale) }))
+const getAriaCurrent = (path: string) => getNavigationCurrent(stripLocale(Astro.url.pathname), stripLocale(path))
 
 ---
 
@@ -83,19 +86,28 @@ const isCurrentPage = (path: string) => path === '/' ?
           showArrow
           variant="secondary"
         >
-          Discuss a role
+          {t('shared.discussARole')}
         </ButtonLink>
-        <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
-          <span class="site-nav-contact-label">Let&apos;s talk</span>
-          <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+        <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={localizePath(siteConfig.contact.workWithMe, locale)}
+variant="unstyled"
+        >
+          <span class="site-nav-contact-label">{t('shared.letSTalk7')}</span>
+          <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
         </NavigationLink>
       </div>
     </div>
   )}
-  <site-header-mobile-nav class="contents">
+  <site-header-mobile-nav class="contents" data-close-label={t('shared.close')} data-menu-label={t('shared.menu')}>
     <div class="contents" data-mobile-nav>
-      <div class="site-header-shell" data-header-frame={variant === 'signature' ? '' : undefined} data-header-shell>
-        <a aria-label="Santiago Molina" class="site-header-brand" href="/">
+      <div class="site-header-shell" data-header-frame={variant === 'signature' ? '' : undefined} data-header-shell data-scrolled="false">
+        <a
+aria-label="santi020k — Santiago Molina home"
+class="site-header-brand"
+href={localizePath('/', locale)}
+        >
           <span class="
             site-header-mark
             dark:hidden
@@ -116,10 +128,10 @@ const isCurrentPage = (path: string) => path === '/' ?
                                                                                       >.</span></span>
         </a>
 
-        <nav aria-label="Main menu" class="site-desktop-nav">
+        <nav aria-label={t('shared.mainMenu')} class="site-desktop-nav">
           {navigationLinks.map((link: SiteLink) => (
             <a
-              aria-current={isCurrentPage(link.path) ? 'page' : undefined}
+              aria-current={getAriaCurrent(link.path)}
               class="site-desktop-nav-link"
               href={link.path}
             >
@@ -131,10 +143,16 @@ const isCurrentPage = (path: string) => path === '/' ?
         <div class="site-header-actions">
           <SiteSearch />
           <ThemeToggle />
+          <LanguageSwitcher />
           <div class="site-header-contact">
-            <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
-              <span class="site-nav-contact-label">Let&apos;s talk</span>
-              <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+            <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={localizePath(siteConfig.contact.workWithMe, locale)}
+variant="unstyled"
+            >
+              <span class="site-nav-contact-label">{t('shared.letSTalk7')}</span>
+              <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
           </div>
           <Button
@@ -146,13 +164,11 @@ const isCurrentPage = (path: string) => path === '/' ?
             variant="ghost"
           >
             <span class="site-menu-symbol" aria-hidden="true">
-              <span class="site-menu-grid" data-mobile-nav-menu-icon>
-                <span /><span /><span /><span />
-              </span>
+              <span data-mobile-nav-menu-icon><Icon class="size-5" name="menu" /></span>
               <span data-mobile-nav-close-icon hidden><Icon class="size-5" name="x" /></span>
             </span>
-            <span class="site-menu-label" data-mobile-nav-toggle-label>Menu</span>
-            <span class="sr-only">navigation</span>
+            <span class="site-menu-label" data-mobile-nav-toggle-label>{t('shared.menu')}</span>
+            <span class="sr-only">{t('shared.navigation')}</span>
           </Button>
         </div>
       </div>
@@ -162,35 +178,47 @@ const isCurrentPage = (path: string) => path === '/' ?
       <nav
         id="mobile-nav"
         aria-hidden="true"
-        aria-label="Main menu"
+        aria-label={t('shared.mainMenu')}
         class="site-mobile-nav"
         data-mobile-nav-panel
         hidden
       >
         <div class="site-mobile-nav-surface" data-mobile-nav-surface>
           <div class="grid" data-mobile-nav-links>
-            {navigationLinks.map((link: SiteLink, index: number) => (
-              <a
-                aria-current={isCurrentPage(link.path) ? 'page' : undefined}
-                class="site-mobile-nav-link"
-                data-mobile-nav-link
-                href={link.path}
-                style={`--nav-item-index: ${index}`}
-              >
-                <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                <span>{link.title}</span>
-                <Icon class="site-mobile-nav-arrow" name="arrow-up-right" />
-              </a>
-            ))}
+            {navigationLinks.map((link: SiteLink, index: number) => {
+              const current = getAriaCurrent(link.path)
+
+              return (
+                <a
+                  aria-current={current}
+                  class="site-mobile-nav-link"
+                  data-mobile-nav-link
+                  href={link.path}
+                  style={`--nav-item-index: ${index}`}
+                >
+                  <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <span>{link.title}</span>
+                  {current === 'page' ?
+                    <span class="site-mobile-nav-current" aria-hidden="true">{t('shared.current')}</span> :
+                    <ArrowExchange class="site-mobile-nav-arrow" direction="right" />}
+                </a>
+              )
+            })}
           </div>
           <div data-mobile-nav-actions>
-            <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
-              <span class="site-nav-contact-label">Let&apos;s talk</span>
-              <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+            <LanguageSwitcher variant="menu" />
+            <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={localizePath(siteConfig.contact.workWithMe, locale)}
+variant="unstyled"
+            >
+              <span class="site-nav-contact-label">{t('shared.letSTalk7')}</span>
+              <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
             </NavigationLink>
-            <NavigationLink class="site-nav-resume" href={siteConfig.contact.resume} variant="unstyled">
-              <span>View resume</span>
-              <Icon class="size-4" name="arrow-right" />
+            <NavigationLink class="site-nav-resume" href={localizePath(siteConfig.contact.resume, locale)} variant="unstyled">
+              <span>{t('shared.viewResume')}</span>
+              <ArrowExchange class="size-4" direction="right" />
             </NavigationLink>
           </div>
         </div>
@@ -213,6 +241,8 @@ class SiteHeaderMobileNav extends HTMLElement {
   panel: HTMLElement | null = null
   closeTimer: number | null = null
   closeAnimationHandler: ((event: AnimationEvent) => void) | null = null
+  actionCloseTimer: number | null = null
+  headerObserver: ResizeObserver | null = null
 
   connectedCallback() {
     this.root = this.querySelector('[data-mobile-nav]')
@@ -247,9 +277,18 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.panel.addEventListener('click', this.handlePanelClick)
 
+    this.panel.addEventListener('focusin', this.handlePanelFocus)
+
     window.addEventListener('keydown', this.handleWindowKeydown)
 
     window.addEventListener('resize', this.handleWindowResize, { passive: true })
+
+    // Root text-size changes move the header without resizing the window.
+    this.headerObserver = new ResizeObserver(this.handleWindowResize)
+
+    for (const element of [this.querySelector('[data-header-shell]'), this.closest('header')]) {
+      if (element instanceof HTMLElement) this.headerObserver.observe(element)
+    }
 
     window.addEventListener('pageshow', this.handlePageShow)
 
@@ -263,11 +302,19 @@ class SiteHeaderMobileNav extends HTMLElement {
   disconnectedCallback() {
     this.cancelPendingClose()
 
+    this.cancelActionClose()
+
+    this.headerObserver?.disconnect()
+
+    this.headerObserver = null
+
     this.toggle?.removeEventListener('click', this.handleToggleClick)
 
     this.backdrop?.removeEventListener('click', this.handleBackdropClick)
 
     this.panel?.removeEventListener('click', this.handlePanelClick)
+
+    this.panel?.removeEventListener('focusin', this.handlePanelFocus)
 
     window.removeEventListener('keydown', this.handleWindowKeydown)
 
@@ -296,6 +343,12 @@ class SiteHeaderMobileNav extends HTMLElement {
     this.closeMenu()
   }
 
+  handlePanelFocus = (event: FocusEvent) => {
+    if (this.isOpen && event.target instanceof HTMLElement) {
+      event.target.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' })
+    }
+  }
+
   handlePanelClick = (event: MouseEvent) => {
     const target = event.target
 
@@ -309,22 +362,52 @@ class SiteHeaderMobileNav extends HTMLElement {
       return
     }
 
-    const isInternalNavigation =
-      link.origin === window.location.origin &&
-      link.target !== '_blank' &&
-      !link.hasAttribute('download')
+    const staysOnPage =
+      link.target === '_blank' ||
+      link.hasAttribute('download') ||
+      (link.protocol !== 'http:' && link.protocol !== 'https:') ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey
 
-    if (isInternalNavigation) {
+    if (!staysOnPage && link.origin === window.location.origin) {
       // Let Astro/navigation lifecycle events close the panel after navigation starts.
       // Closing during the same click can suppress navigation in WebKit under CI.
       return
     }
 
-    // External/new-tab actions keep the current page in place, so close the menu
-    // after the click has been handed off to the browser.
-    window.setTimeout(() => {
-      this.closeMenu({ restoreFocus: false })
+    // Close after the click has been handed off to the browser, so listeners that
+    // run later in the dispatch can still cancel the action.
+    this.cancelActionClose()
+
+    this.actionCloseTimer = window.setTimeout(() => {
+      this.actionCloseTimer = null
+
+      if (event.defaultPrevented || !this.isOpen) return
+
+      // New-tab and download actions leave this page in place, so keep keyboard
+      // users on the toggle; a same-tab external link is leaving the page.
+      this.closeMenu({ restoreFocus: staysOnPage })
     }, 0)
+  }
+
+  cancelActionClose() {
+    if (this.actionCloseTimer !== null) {
+      window.clearTimeout(this.actionCloseTimer)
+
+      this.actionCloseTimer = null
+    }
+  }
+
+  // Never pull focus out of a modal (such as search) or away from an unrelated target.
+  canRestoreFocus(): boolean {
+    if (document.querySelector('dialog[open]') !== null) return false
+
+    const activeElement = document.activeElement
+
+    return activeElement === null ||
+      activeElement === document.body ||
+      (this.root?.contains(activeElement) ?? false)
   }
 
   handleWindowKeydown = (event: KeyboardEvent) => {
@@ -347,8 +430,26 @@ class SiteHeaderMobileNav extends HTMLElement {
   handleWindowResize = () => {
     this.updatePanelPosition()
 
-    if (window.innerWidth >= 1024) {
+    // CSS decides when the full nav fits, including with enlarged text, so close
+    // only once the menu toggle has actually been hidden by the layout.
+    if (this.isOpen && this.toggle?.getClientRects().length === 0) {
+      const activeElement = document.activeElement
+
+      const shouldRestoreFocus = document.querySelector('dialog[open]') === null &&
+        (activeElement === this.toggle || (this.panel?.contains(activeElement) ?? false))
+
+      const destination = activeElement instanceof HTMLAnchorElement ? activeElement.href : null
+
       this.closeMenu({ restoreFocus: false })
+
+      if (shouldRestoreFocus) {
+        const matchingLink = [...this.querySelectorAll<HTMLAnchorElement>('.site-desktop-nav a[href]')]
+          .find(link => link.href === destination)
+
+        const fallback = this.querySelector<HTMLElement>('.site-header-brand')
+
+        ;(matchingLink ?? fallback)?.focus({ preventScroll: true })
+      }
     }
   }
 
@@ -390,15 +491,13 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.sync()
 
-    window.requestAnimationFrame(() => {
-      if (!this.isOpen || !this.isConnected) return
+    // sync() has made the panel visible. Focus now so a deferred frame cannot
+    // steal focus back after the user moves to another control.
+    const firstLink = this.panel?.querySelector('a[href]')
 
-      const firstLink = this.panel?.querySelector('a[href]')
-
-      if (firstLink instanceof HTMLElement) {
-        firstLink.focus({ preventScroll: true })
-      }
-    })
+    if (firstLink instanceof HTMLElement) {
+      firstLink.focus()
+    }
   }
 
   cancelPendingClose() {
@@ -454,7 +553,7 @@ class SiteHeaderMobileNav extends HTMLElement {
       this.sync()
     }
 
-    if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement) {
+    if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement && this.canRestoreFocus()) {
       this.toggle.focus({ preventScroll: true })
     }
   }
@@ -472,7 +571,7 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.toggle.setAttribute('aria-expanded', String(isOpen))
 
-    this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
+    this.toggleLabel.textContent = isOpen ? (this.dataset.closeLabel ?? 'Close') : (this.dataset.menuLabel ?? 'Menu')
 
     this.menuIcon.hidden = isOpen
 
@@ -532,7 +631,7 @@ class SiteHeaderMobileNav extends HTMLElement {
     if (!(activeElement instanceof HTMLElement) || !this.root.contains(activeElement)) {
       event.preventDefault()
 
-      firstElement.focus({ preventScroll: true })
+      firstElement.focus()
 
       return
     }
@@ -540,7 +639,7 @@ class SiteHeaderMobileNav extends HTMLElement {
     if (event.shiftKey && activeElement === firstElement) {
       event.preventDefault()
 
-      lastElement.focus({ preventScroll: true })
+      lastElement.focus()
 
       return
     }
@@ -548,7 +647,7 @@ class SiteHeaderMobileNav extends HTMLElement {
     if (!event.shiftKey && activeElement === lastElement) {
       event.preventDefault()
 
-      firstElement.focus({ preventScroll: true })
+      firstElement.focus()
     }
   }
 
@@ -565,9 +664,10 @@ if (!customElements.get('site-header-mobile-nav')) {
 
 const updateHeaderScrollState = () => {
   const shell = document.querySelector<HTMLElement>('[data-header-shell]')
+  const scrolled = String(window.scrollY > 10)
 
-  if (shell) {
-    shell.dataset.scrolled = String(window.scrollY > 10)
+  if (shell && shell.dataset.scrolled !== scrolled) {
+    shell.dataset.scrolled = scrolled
   }
 }
 

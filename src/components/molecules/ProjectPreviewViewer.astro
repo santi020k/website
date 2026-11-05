@@ -1,0 +1,19 @@
+---
+import { getImage } from 'astro:assets'
+
+import GalleryViewer from '@/components/molecules/GalleryViewer.astro'
+
+import type { ProjectPreviewImage } from '@/types'
+
+interface Props {
+  id: string
+  preview: ProjectPreviewImage
+}
+
+const { id, preview } = Astro.props
+const fullImage = await getImage({ src: preview.src, fit: 'contain', format: 'webp', quality: 90, width: preview.src.width })
+---
+
+<project-preview-viewer>
+  <GalleryViewer id={id} title={preview.title} caption={preview.caption} source={{ kind: 'asset', src: fullImage.src, alt: preview.alt, width: preview.src.width }} />
+</project-preview-viewer>

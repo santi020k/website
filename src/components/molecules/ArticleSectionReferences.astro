@@ -1,0 +1,278 @@
+---
+import type { MarkdownHeading } from 'astro'
+
+import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
+
+import { Button, Icon } from '@santi020k/lumen-astro'
+
+import { getLocale, localeLanguage } from '@/i18n'
+import { articleTranslator } from '@/i18n/article-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = articleTranslator(locale)
+
+interface Props {
+  headings: MarkdownHeading[]
+  url: string
+}
+
+const { headings, url } = Astro.props
+const sections = headings.filter(heading => heading.depth === 2 || heading.depth === 3)
+---
+
+<!-- Move these existing Lumen controls beside their headings after enhancement.
+     Keeping them outside templates lets the shared runtime bind in either order. -->
+<div hidden data-section-reference-controls>
+  {sections.map(({ depth, slug, text }) => {
+    const destination = new URL(url)
+    const buttonId = `article-section-link-${slug}`
+
+    destination.hash = slug
+
+    return (
+      <div lang={localeLanguage(locale)} data-section-reference-for={slug}>
+        <span lang={localeLanguage(locale)} aria-hidden="true" data-section-arrival>
+          <Icon name="corner-down-right" />
+          <span>{t('article.linkedSection')}</span>
+        </span>
+        {depth === 2 && (
+<>
+        <Button
+          id={buttonId}
+          data-section-copy
+          data-share-url={destination.href}
+          size="icon"
+          variant="outline"
+          aria-label={t('article.section.copy', { heading: text })}
+          title={t('article.copySectionLink')}
+        >
+          <Icon data-copy-icon name="link" />
+          <Icon class="hidden" data-check-icon name="check" />
+          <span data-copy-label data-section-copy-feedback></span>
+        </Button>
+        <div lang={localeLanguage(locale)} class="not-prose" data-section-recovery-container>
+          <LinkRecovery
+            buttonId={buttonId}
+            url={destination.href}
+            idleLabel=""
+            copiedLabel={t('article.copied')}
+            copiedAnnouncement={t('article.section.copied', { heading: text })}
+            retryAnnouncement={t('article.section.retry', { heading: text })}
+            addressLabel={t('article.selectAndCopyThisSectionS')}
+          />
+        </div>
+        </>
+)}
+      </div>
+    )
+  })}
+</div>
+
+<script>
+  const selectSectionArrival = (hash = window.location.hash) => {
+    let fragment = hash.slice(1)
+
+    try {
+      fragment = decodeURIComponent(fragment)
+    } catch {
+      // Keep literal percent signs usable as fragment identifiers.
+    }
+
+    for (const row of document.querySelectorAll('[data-section-reference-row], [data-subsection-arrival]')) {
+      const heading = row.matches('h3') ? row : row.querySelector('h2')
+
+      row.toggleAttribute('data-section-arrived', Boolean(fragment) && heading?.id === fragment)
+    }
+  }
+
+  const followSectionArrival = () => selectSectionArrival()
+
+  const onSectionLink = (event: MouseEvent) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+
+    const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null
+
+    if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return
+
+    // Prepare the destination before Astro's same-page fragment scroll.
+    if (
+      link.origin === window.location.origin && link.pathname === window.location.pathname &&
+      link.search === window.location.search
+    ) selectSectionArrival(link.hash)
+  }
+
+  const placeSectionReferences = () => {
+    for (const control of document.querySelectorAll<HTMLElement>('[data-section-reference-controls] > [data-section-reference-for]')) {
+      const heading = document.getElementById(control.dataset.sectionReferenceFor ?? '')
+
+      if (!heading?.matches('[data-article-prose] > h2[data-article-section-heading], [data-article-prose] > h3')) continue
+
+      const arrival = control.querySelector('[data-section-arrival]')
+
+      if (heading.matches('h3')) {
+        if (arrival) heading.prepend(arrival)
+
+        heading.dataset.subsectionArrival = ''
+
+        control.remove()
+
+        continue
+      }
+
+      const row = document.createElement('div')
+
+      row.dataset.sectionReferenceRow = ''
+
+      heading.before(row)
+
+      if (arrival) row.append(arrival)
+
+      row.append(heading, control)
+
+      const recovery = control.querySelector('[data-section-recovery-container]')
+
+      if (recovery) row.append(recovery)
+    }
+
+    followSectionArrival()
+  }
+
+  placeSectionReferences()
+
+  document.addEventListener('astro:page-load', placeSectionReferences)
+
+  document.addEventListener('click', onSectionLink, true)
+
+  window.addEventListener('hashchange', followSectionArrival)
+
+  window.addEventListener('popstate', followSectionArrival)
+</script>
+
+<style>
+  :global([data-article-prose] > [data-section-reference-row]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 1.5rem;
+    margin-block: 2.5rem 1.5rem;
+  }
+
+  :global([data-section-reference-row] > h2[data-article-section-heading]) {
+    min-width: 0;
+    margin: 0;
+  }
+
+  [data-section-reference-for] { justify-self: end; }
+  [data-section-recovery-container] { grid-column: 1 / -1; min-width: 0; }
+
+  [data-section-reference-for] :global([data-section-copy]) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: .75rem .75rem .25rem .75rem;
+    background: hsl(var(--canvas));
+    color: hsl(var(--brand));
+    box-shadow: none;
+    transform: none;
+  }
+
+  [data-section-reference-for] :global([data-section-copy]:hover) {
+    border-color: currentColor;
+    background: hsl(var(--brand-soft));
+  }
+
+  [data-section-reference-for] :global([data-section-copy]:focus-visible) {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  :global([data-theme='dark']) [data-section-reference-for] :global([data-section-copy]) { color: hsl(var(--accent)); }
+  [data-section-reference-for] :global(svg) { width: 1rem; height: 1rem; }
+
+  [data-section-copy-feedback] {
+    position: absolute;
+    inset-inline-end: 0;
+    top: calc(100% + .1875rem);
+    font-size: .75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  [data-section-copy-feedback]:empty { display: none; }
+  [data-section-arrival] { display: none; }
+
+  @media screen {
+    :global([data-section-reference-row] > h2[data-article-section-heading], [data-subsection-arrival]) { scroll-margin-block-start: 4rem; }
+
+    :global(:is([data-section-reference-row], [data-subsection-arrival])[data-section-arrived]) {
+      --section-arrival-accent: hsl(var(--brand));
+    }
+
+    :global(:root[data-theme='dark'] :is([data-section-reference-row], [data-subsection-arrival])[data-section-arrived]) {
+      --section-arrival-accent: hsl(var(--accent));
+    }
+
+    :global(:is([data-section-reference-row], [data-subsection-arrival])[data-section-arrived]) > [data-section-arrival] {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      grid-column: 1;
+      grid-row: 1;
+      min-width: 0;
+      padding-block-end: .625rem;
+      letter-spacing: normal;
+      color: var(--section-arrival-accent);
+      font: 500 .75rem/1.6 var(--font-sans);
+    }
+
+    :global([data-section-reference-row][data-section-arrived]) > [data-section-arrival],
+    :global([data-subsection-arrival][data-section-arrived]) {
+      padding-inline-start: 1rem;
+      border-inline-start: 2px solid var(--section-arrival-accent);
+    }
+
+    [data-section-arrival] :global(svg) { flex-shrink: 0; width: .875rem; height: .875rem; }
+
+    :global([data-section-reference-row][data-section-arrived] > h2[data-article-section-heading]) {
+      grid-column: 1;
+      grid-row: 2;
+      padding-inline-start: 1rem;
+      border-inline-start: 2px solid var(--section-arrival-accent);
+    }
+
+    :global([data-section-reference-row][data-section-arrived] > h2[data-article-section-heading])::after { display: none; }
+
+    :global([data-section-reference-row][data-section-arrived]) > [data-section-reference-for] {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
+
+    :global([data-section-reference-row][data-section-arrived]) > [data-section-recovery-container] { grid-row: 3; }
+
+    @container article-prose (width < 16rem) {
+      :global([data-section-reference-row][data-section-arrived]) > [data-section-reference-for] { grid-column: 1; grid-row: 3; }
+      :global([data-section-reference-row][data-section-arrived]) > [data-section-recovery-container] { grid-row: 4; }
+    }
+  }
+
+  @container article-prose (width < 32rem) {
+    :global([data-article-prose] > [data-section-reference-row]) { column-gap: .75rem; }
+  }
+
+  @container article-prose (width < 16rem) {
+    :global([data-article-prose] > [data-section-reference-row]) { grid-template-columns: minmax(0, 1fr); }
+    [data-section-reference-for] { margin-block-start: .5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-section-reference-for] :global([data-section-copy]) { transition: none; }
+  }
+</style>

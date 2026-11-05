@@ -15,137 +15,6 @@
   @apply text-base font-normal text-ink-muted;
 }
 
-@utility panel-surface {
-  background: linear-gradient(
-    180deg,
-    hsl(var(--surface) / 0.72),
-    hsl(var(--surface-muted) / 0.48)
-  );
-  border: 1px solid hsl(var(--line) / 0.38);
-  box-shadow:
-    0 18px 50px hsl(230 30% 8% / 0.06),
-    inset 0 1px 0 hsl(0 0% 100% / 0.16);
-  backdrop-filter: blur(18px) saturate(145%);
-  -webkit-backdrop-filter: blur(18px) saturate(145%);
-}
-
-@utility section-shell {
-  @apply relative rounded-[2.25rem] px-4 py-8 sm:px-8 sm:py-10;
-  & > * {
-    min-width: 0;
-  }
-  background: linear-gradient(
-    180deg,
-    hsl(var(--surface) / 0.66),
-    hsl(var(--surface-muted) / 0.42)
-  );
-  border: 1px solid hsl(var(--line) / 0.34);
-  box-shadow:
-    0 18px 54px hsl(230 30% 8% / 0.06),
-    inset 0 1px 0 hsl(0 0% 100% / 0.14);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-}
-
-@utility section-shell-subtle {
-  @apply relative rounded-[2rem] px-4 py-8 sm:px-8 sm:py-10;
-  background: linear-gradient(
-    180deg,
-    hsl(var(--surface) / 0.44),
-    hsl(var(--surface-muted) / 0.28)
-  );
-  border: 1px solid hsl(var(--line) / 0.28);
-  backdrop-filter: blur(14px) saturate(130%);
-  -webkit-backdrop-filter: blur(14px) saturate(130%);
-}
-
-@utility panel-card {
-  @apply relative overflow-hidden rounded-[1.75rem] border border-line/35;
-  isolation: isolate;
-  background:
-    linear-gradient(
-      145deg,
-      hsl(var(--surface) / 0.66) 0%,
-      hsl(var(--surface) / 0.42) 42%,
-      hsl(var(--surface-muted) / 0.34) 100%
-    ),
-    radial-gradient(
-      ellipse 80% 55% at 12% 0%,
-      hsl(var(--brand) / 0.13),
-      transparent 62%
-    ),
-    radial-gradient(
-      ellipse 70% 48% at 92% 100%,
-      hsl(var(--accent) / 0.10),
-      transparent 64%
-    );
-  backdrop-filter: blur(24px) saturate(165%);
-  -webkit-backdrop-filter: blur(24px) saturate(165%);
-  box-shadow:
-    0 22px 58px hsl(230 30% 8% / 0.07),
-    0 8px 24px hsl(var(--brand) / 0.035),
-    inset 0 1px 0 hsl(0 0% 100% / 0.22),
-    inset 1px 0 0 hsl(0 0% 100% / 0.10),
-    inset 0 -1px 0 hsl(var(--line) / 0.12);
-  transition:
-    box-shadow 0.3s ease,
-    transform 0.3s ease,
-    border-color 0.3s ease;
-  @apply motion-reduce:transition-none;
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  &::before {
-    inset: 0;
-    background:
-      linear-gradient(
-        90deg,
-        transparent 8%,
-        hsl(0 0% 100% / 0.30) 35%,
-        hsl(0 0% 100% / 0.46) 50%,
-        hsl(0 0% 100% / 0.30) 65%,
-        transparent 92%
-      )
-      top / 100% 1px no-repeat;
-    opacity: 0.9;
-  }
-
-  &::after {
-    inset: auto -18% -34% 34%;
-    height: 48%;
-    background: radial-gradient(
-      ellipse at center,
-      hsl(var(--brand) / 0.11),
-      transparent 68%
-    );
-    filter: blur(18px);
-    opacity: 0.8;
-  }
-}
-
-@utility card-interactive {
-  @apply panel-card flex flex-col;
-  @apply hover:-translate-y-1 hover:border-brand/30;
-  @apply motion-reduce:hover:translate-y-0;
-  transition:
-    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
-
-  &:hover {
-    box-shadow:
-      0 24px 60px hsl(230 30% 8% / 0.08),
-      0 10px 20px hsl(230 30% 8% / 0.04),
-      inset 0 1px 0 hsl(0 0% 100% / 0.05);
-  }
-}
-
 @utility glass-pro {
   isolation: isolate;
   background:
@@ -180,11 +49,36 @@
   }
 }
 
-@utility subtle-outline {
-  box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.5);
+/* ─── Layout ────────────────────────────────────────────────────────────────── */
+
+/* Page flow exposes its gap so a direct section can complete one spacing interval. */
+@utility page-flow {
+  --page-flow-gap: 3rem;
+  gap: var(--page-flow-gap);
+  &[data-page-spacing='generous'] { --page-flow-gap: 4rem; }
+  @media (width >= 40rem) { --page-flow-gap: 3.5rem; }
+  @media (width >= 64rem) {
+    --page-flow-gap: 4rem;
+    &[data-page-spacing='generous'] { --page-flow-gap: 5rem; }
+  }
+  @media (width >= 96rem) {
+    --page-flow-gap: 4.5rem;
+    &[data-page-spacing='generous'] { --page-flow-gap: 6rem; }
+  }
 }
 
-/* ─── Layout ────────────────────────────────────────────────────────────────── */
+/* Standard section rhythm, including catalogs that do not need PageSection's grid. */
+@utility page-section-space {
+  --section-space: 4.5rem;
+  padding-top: var(--section-space);
+
+  .page-flow > & {
+    padding-top: max(0px, calc(var(--section-space) - var(--page-flow-gap)));
+  }
+
+  @media (width >= 40rem) { --section-space: 6rem; }
+  @media (width >= 64rem) { --section-space: 7rem; }
+}
 
 @utility section-copy {
   @apply text-base/7 text-ink-soft sm:text-lg/8;
@@ -192,270 +86,98 @@
 
 @utility section-actions {
   @apply flex flex-col gap-3 sm:flex-row sm:flex-wrap;
+  container: site-actions / inline-size;
 }
 
 @utility section-label {
   @apply text-xs font-semibold tracking-[0.22em] text-ink-muted uppercase;
 }
 
-@utility editorial-section {
-  @apply grid gap-8 border-t border-line/70 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10;
-  & > * {
-    min-width: 0;
-  }
-}
-
 @utility editorial-rail {
   @apply space-y-5 lg:sticky lg:top-28 lg:h-fit;
 }
 
-@utility post-grid {
-  @apply grid items-start gap-5;
+/* Article and project reading layouts. Prose and the sidebar share a row only on
+   desktop viewports whose reading container also has room in root-relative units,
+   so enlarged text stacks the sidebar below the prose instead of squeezing it.
+   The sticky rail stays below the header and scrolls natively when taller; its
+   inline padding (offset by a matching negative margin) keeps focus outlines and
+   the TOC's active marker inside the scroll box. */
+/* WebKit can retain inherited font metrics after a client swap and root text
+   resizing. Size the reading page explicitly so native fragments use fresh layout. */
+.remaining-pages--reading {
+  font-size: 1rem;
 }
 
-@utility page-card-grid {
-  @apply section-container-wide grid gap-4 sm:grid-cols-2 lg:gap-5;
+[data-reading-layout] {
+  container: reading-layout / inline-size;
 }
 
-@utility cta-panel {
-  @apply glass-pro rounded-[2rem] p-6 sm:p-8 lg:p-10;
+/* One interval separates the opening from the reading content. Avoid adding a
+   flex gap, body padding, and prose padding to the same transition. */
+[data-reading-body] {
+  padding-block-start: 3rem;
 }
 
-@utility topic-meter-fill {
-  @apply h-full rounded-full bg-linear-to-r from-brand/55 to-accent/75 transition-all duration-500 motion-reduce:transition-none;
+/* Keep the source order useful when the project reading rail stacks. */
+[data-project-reading] { row-gap: 2rem; }
+
+@container reading-layout (width >= 40rem) {
+  [data-reading-body] { padding-block-start: 4rem; }
 }
 
-@property --border-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
+@container reading-layout (width >= 56rem) {
+  [data-reading-body] { padding-block-start: 5rem; }
 }
 
-@utility stat-card {
-  @apply rounded-2xl relative;
-  background: linear-gradient(
-    135deg,
-    hsl(var(--surface) / 0.62),
-    hsl(var(--surface-muted) / 0.40)
-  );
-  border: 1px solid hsl(var(--line) / 0.34);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  box-shadow:
-    0 12px 34px hsl(230 30% 8% / 0.045),
-    inset 0 1px 0 hsl(0 0% 100% / 0.18),
-    inset 0 -1px 0 hsl(var(--line) / 0.12);
-  transition:
-    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
-  @apply motion-reduce:transition-none;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    padding: 2px;
-    background: conic-gradient(
-      from var(--border-angle),
-      hsl(var(--line) / 0.2) 0%,
-      hsl(var(--line) / 0.2) 65%,
-      hsl(var(--brand) / 0.55) 78%,
-      hsl(var(--accent) / 0.65) 85%,
-      hsl(var(--brand) / 0.55) 92%,
-      hsl(var(--line) / 0.2) 100%
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    @apply motion-reduce:transition-none motion-reduce:hidden;
-  }
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow:
-      0 12px 32px hsl(230 30% 8% / 0.08),
-      0 4px 16px hsl(var(--brand) / 0.12),
-      inset 0 1px 0 hsl(0 0% 100% / 0.05);
-    border-color: transparent;
-    @apply motion-reduce:transform-none;
-
-    &::before {
-      opacity: 1;
-      animation: var(--animate-border-spin);
-    }
-  }
+[data-project-desktop-toc],
+[data-post-desktop-toc],
+[data-post-rail-boundary] {
+  display: none;
 }
 
-@utility talk-card {
-  @apply relative rounded-[1.75rem];
-  background: linear-gradient(
-    145deg,
-    hsl(var(--surface) / 0.74) 0%,
-    hsl(var(--surface-muted) / 0.52) 100%
-  );
-  border: 1px solid hsl(var(--line) / 0.38);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  box-shadow:
-    0 1px 0 hsl(0 0% 100% / 0.09) inset,
-    0 10px 28px hsl(230 30% 8% / 0.04),
-    0 4px 10px hsl(230 30% 8% / 0.025);
-  transition:
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.3s ease;
-  @apply motion-reduce:transition-none;
-
-  /* Specular top-edge highlight */
-  &::before {
-    content: '';
-    position: absolute;
-    border-radius: inherit;
-    inset-inline: 12%;
-    top: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(0 0% 100% / 0.38) 30%,
-      hsl(0 0% 100% / 0.52) 50%,
-      hsl(0 0% 100% / 0.38) 70%,
-      transparent
-    );
-    pointer-events: none;
-  }
-
-  /* Brand accent glow blob — bottom-right */
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-      ellipse 65% 50% at 88% 92%,
-      hsl(var(--brand) / 0.07),
-      transparent 60%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-    @apply motion-reduce:hidden;
-  }
-
-  &:hover {
-    transform: translateY(-4px);
-    border-color: hsl(var(--brand) / 0.28);
-    box-shadow:
-      0 1px 0 hsl(0 0% 100% / 0.13) inset,
-      0 22px 52px hsl(230 30% 8% / 0.09),
-      0 8px 20px hsl(var(--brand) / 0.1);
-    @apply motion-reduce:transform-none;
-
-    &::after {
-      opacity: 1;
-    }
-  }
-}
-
-@utility mini-note {
-  @apply rounded-2xl border border-line/38 p-5 h-max relative;
-  background: linear-gradient(
-    135deg,
-    hsl(var(--surface) / 0.62),
-    hsl(var(--surface-muted) / 0.40)
-  );
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  min-width: 0;
-  box-shadow:
-    0 12px 34px hsl(230 30% 8% / 0.045),
-    inset 0 1px 0 hsl(0 0% 100% / 0.18),
-    inset 0 -1px 0 hsl(var(--line) / 0.12);
-  & > * {
-    min-width: 0;
-  }
-  transition:
-    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s ease,
-    border-color 0.3s ease,
-    background-color 0.3s ease;
-  @apply motion-reduce:transition-none;
-
-  /* Left accent bar */
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      hsl(var(--brand) / 0.7) 30%,
-      hsl(var(--accent) / 0.8) 60%,
-      transparent 100%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease, width 0.3s ease;
-    @apply motion-reduce:transition-none;
-  }
-
-  /* Brand wash overlay */
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-      ellipse at top left,
-      hsl(var(--brand) / 0.06) 0%,
-      transparent 65%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    @apply motion-reduce:transition-none;
-  }
-
-  &:hover {
-    transform: translateY(-3px);
-    border-color: hsl(var(--brand) / 0.25);
-    box-shadow:
-      0 12px 32px hsl(230 30% 8% / 0.07),
-      0 4px 16px hsl(var(--brand) / 0.08),
-      inset 0 1px 0 hsl(0 0% 100% / 0.05);
-    @apply motion-reduce:transform-none;
-
-    &::before {
-      opacity: 1;
-      width: 4px;
+@media (width >= 64rem) {
+  @container reading-layout (width >= 56rem) {
+    [data-reading-body] {
+      grid-template-columns: minmax(0, 1fr) 18rem;
     }
 
-    &::after {
-      opacity: 1;
+    [data-project-story] { grid-column: 1; grid-row: 1; }
+    [data-project-reading] > [data-project-sidebar] { grid-column: 2; grid-row: 1 / span 2; }
+    [data-project-closing] { grid-column: 1; grid-row: 2; }
+
+    [data-post-story] { grid-column: 1; grid-row: 1; }
+    [data-post-continuation] { grid-column: 1; grid-row: 2; }
+    [data-post-rail-boundary] { display: block; grid-column: 2; grid-row: 1; }
+
+    [data-project-mobile-toc],
+    [data-post-mobile-toc] {
+      display: none;
+    }
+
+    [data-project-desktop-toc],
+    [data-post-desktop-toc] {
+      display: block;
+    }
+
+    aside[data-reading-rail] {
+      position: sticky;
+      top: 7rem;
+      align-self: start;
+      height: fit-content;
+      max-height: calc(100dvh - 8.5rem);
+      margin-inline: -0.5rem;
+      padding: 0.5rem;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+
+    [data-reading-rail-divider] {
+      display: none;
     }
   }
-}
-
-/**
- * Shared max-width cap for primary content columns.
- * Use this instead of sprinkling max-w-3xl everywhere.
- */
-@utility max-w-content {
-  max-width: 48rem; /* 768px — equivalent to max-w-3xl */
-}
-
-/**
- * Shared max-width for wide content areas (blog article, project hero, etc.)
- */
-@utility max-w-content-wide {
-  max-width: 72rem; /* 1152px — between max-w-5xl and max-w-6xl */
 }
 
 /**
@@ -470,13 +192,92 @@
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */
 
 @utility site-action {
-  @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-3 rounded-xl border px-4 py-2 text-xs font-medium tracking-normal no-underline;
+  @apply inline-flex min-h-11 min-w-0 max-w-full cursor-pointer flex-wrap items-center justify-center gap-3 rounded-xl border px-4 py-2 text-xs font-medium tracking-normal whitespace-normal no-underline;
+  overflow-wrap: anywhere;
   box-shadow: none;
   backdrop-filter: none;
   transform: none;
   transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
   &:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 4px; }
   @apply motion-reduce:transition-none;
+}
+
+/* One visual contract for Lumen copy controls and native article sharing. */
+@utility article-copy-action {
+  @apply site-action;
+  --copy-action-accent: hsl(var(--brand));
+  width: 10.5rem;
+  flex-shrink: 0;
+  padding: 0.375rem 0.5rem 0.375rem 0.875rem;
+  border-color: hsl(var(--line));
+  border-radius: 0.875rem;
+  background: hsl(var(--surface));
+  color: hsl(var(--ink));
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  text-align: start;
+
+  :root[data-theme='dark'] & { --copy-action-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+
+  &:is(:hover, :focus-visible), &.copied {
+    border-color: var(--copy-action-accent);
+    background: hsl(var(--brand-soft));
+    color: var(--copy-action-accent);
+    text-decoration: none;
+  }
+
+  &:is(:hover, :focus-visible, .copied) [data-copy-action-icon] {
+    background: var(--copy-action-accent);
+    color: hsl(var(--surface));
+  }
+
+  &[data-link-recovery-active] {
+    border-color: hsl(var(--danger));
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+  }
+
+  &[data-link-recovery-active] [data-copy-action-icon] {
+    background: color-mix(in srgb, hsl(var(--danger)) 12%, hsl(var(--surface)));
+    color: hsl(var(--danger));
+  }
+
+  & > span { width: 100%; min-width: 0; }
+
+  & [data-copy-action-content] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.625rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  & [data-copy-action-icon] {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    background: hsl(var(--brand-soft));
+    color: var(--copy-action-accent);
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  & :is([data-copy-icon], [data-share-icon], [data-check-icon]) {
+    width: 1.125rem;
+    height: 1.125rem;
+    grid-area: 1 / 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    & [data-copy-action-icon] { transition: none; }
+  }
+
+  @media (forced-colors: active) {
+    &:is(:hover, :focus-visible, .copied, [data-link-recovery-active]) { border-color: Highlight; }
+    & [data-copy-action-icon] { background: ButtonFace; color: ButtonText; }
+  }
 }
 
 @utility btn-primary {
@@ -502,6 +303,19 @@
 @utility site-action-arrow {
   @apply inline-grid size-8 shrink-0 place-items-center rounded-lg;
 }
+
+@utility site-action-aligned {
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  text-align: start;
+  & > :first-child { min-width: 0; flex: 1; }
+
+  @container site-actions (width < 18rem) {
+    column-gap: 0.5rem;
+    &:not(.btn-inline) { padding-inline: 0.75rem; }
+  }
+}
+
 .btn-primary .site-action-arrow {
   color: hsl(var(--ink));
   background: hsl(var(--surface));
@@ -512,45 +326,44 @@
 [data-site-action='ghost'] { @apply btn-ghost; }
 [data-site-action='inline'] { @apply btn-inline; }
 
-/* ─── Forms & Interactive ───────────────────────────────────────────────────── */
-
-@utility focus-pill {
-  @apply inline-flex min-h-14 flex-wrap items-center gap-3 rounded-full border border-line/70 bg-surface/78 px-4 py-3 shadow-[0_10px_26px_hsl(var(--ink)/0.04)];
+/* Standalone text actions keep their icons and animate only the label rule. */
+a[data-text-link] {
+  --text-link-emphasis: hsl(var(--brand));
+  text-decoration: none;
+  transition: color 480ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-
-@utility field-surface {
-  @apply w-full rounded-[1.1rem] border border-line/55 bg-surface/72 px-4 py-3.5 text-ink outline-none transition duration-200;
-  @apply placeholder:text-ink-muted/55 focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/10;
-  @apply motion-reduce:transition-none;
+:root[data-theme='dark'] a[data-text-link] { --text-link-emphasis: hsl(var(--accent)); }
+a[data-text-link] > [data-text-link-label] {
+  min-width: 0;
+  box-decoration-break: clone;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 1px;
+  transition: background-size 480ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-
-@utility pagination-btn {
-  @apply inline-flex min-h-11 min-w-11 items-center justify-center rounded-2xl border border-line/60 bg-surface/80 px-3 text-sm font-medium text-ink-soft transition-colors duration-200 hover:border-brand/40 hover:bg-brand-soft/35 hover:text-brand motion-reduce:transition-none;
+a[data-text-link]:focus-visible {
+  color: var(--text-link-emphasis);
 }
-
-@utility pagination-btn--active {
-  @apply border-brand/35 bg-brand-soft/50 text-brand;
+a[data-text-link]:focus-visible > [data-text-link-label] {
+  background-size: 100% 1px;
+}
+@media (hover: hover) and (pointer: fine) {
+  a[data-text-link]:hover { color: var(--text-link-emphasis); }
+  a[data-text-link]:hover > [data-text-link-label] { background-size: 100% 1px; }
+}
+a[data-text-link]:is([aria-current='page'], [aria-current='true']) > [data-text-link-label] { background-image: none; }
+@media (prefers-reduced-motion: reduce) {
+  a[data-text-link], a[data-text-link] > [data-text-link-label] { transition: none; }
+}
+@media (forced-colors: active) {
+  a[data-text-link]:not([aria-current]):is(:hover, :focus-visible) > [data-text-link-label] {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
 }
 
 /* ─── Decorative ────────────────────────────────────────────────────────────── */
-
-@utility brand-radial-glow {
-  @apply pointer-events-none absolute inset-x-8 top-0 h-40 rounded-full blur-3xl;
-  background: radial-gradient(
-    circle at center,
-    hsl(var(--brand) / 0.16),
-    transparent 72%
-  );
-}
-
-@utility bg-mesh-brand {
-  background-color: hsl(var(--brand));
-  background-image:
-    radial-gradient(at 0% 0%, hsl(var(--glow) / 0.4) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, hsl(var(--accent) / 0.4) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, hsl(var(--brand) / 0.6) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, hsl(var(--glow) / 0.4) 0px, transparent 50%);
-}
 
 @utility grid-fade {
   background-image:
@@ -567,64 +380,42 @@
   );
 }
 
-/* ─── Dividers ─────────────────────────────────────────────────────────────── */
+@utility card-hierarchy {
+  container: card-hierarchy / inline-size;
 
-@utility divider-subtle {
-  @apply border-t border-line/30;
-}
+  & > p:first-child { margin-bottom: 1rem; }
+  & > h3 { margin-bottom: 1.25rem; hyphens: manual; }
 
-@utility divider-soft {
-  @apply border-t border-line/50;
-}
+  & [data-card-title] {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 2rem;
+    letter-spacing: -0.045em;
+  }
 
-@utility divider-medium {
-  @apply border-t border-line/70;
-}
+  & [data-card-subtitle] {
+    display: block;
+    margin-top: 0.25rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    letter-spacing: -0.01em;
+  }
 
-@utility divider-strong {
-  @apply border-t border-line;
-}
+  & [data-card-subtitle]::first-letter { text-transform: uppercase; }
 
-@utility divider-gradient {
-  @apply border-0 bg-linear-to-r from-transparent via-brand/40 to-transparent h-px;
-}
+  @media (width >= 40rem) {
+    & [data-card-title] { font-size: 1.625rem; line-height: 2.125rem; }
+    & [data-card-subtitle] { font-size: 1rem; line-height: 1.625rem; }
+  }
 
-@utility divider-gradient-soft {
-  @apply border-0 bg-linear-to-r from-transparent via-line/40 to-transparent h-px;
-}
+  @container card-hierarchy (width < 14rem) {
+    & [data-card-title] { font-size: min(1.625rem, 16cqi); line-height: 1.3; }
+  }
 
-@utility divider-gradient-strong {
-  @apply border-0 bg-linear-to-r from-transparent via-brand/60 to-transparent h-px;
-}
-
-@utility section-divider {
-  @apply divider-medium pt-10 mt-10;
-}
-
-@utility section-divider-compact {
-  @apply divider-soft pt-8 mt-8;
-}
-
-@utility section-divider-spacious {
-  @apply divider-strong pt-12 mt-12;
-}
-
-@utility card-divider {
-  @apply border-b border-line/40 pb-4 mb-4;
-}
-
-@utility card-divider-subtle {
-  @apply border-b border-line/25 pb-3 mb-3;
-}
-
-@utility list-divider {
-  @apply border-b border-line/20 last:border-b-0;
-}
-
-@utility list-divider-medium {
-  @apply border-b border-line/35 last:border-b-0;
-}
-
-@utility list-divider-strong {
-  @apply border-b border-line/50 last:border-b-0;
+  @container card-hierarchy (width < 8rem) {
+    & [data-card-subtitle] { font-size: min(0.875rem, 13cqi); line-height: 1.5; }
+  }
 }

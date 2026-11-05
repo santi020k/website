@@ -1,0 +1,112 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { getCachedProjects } from '@/utils/content'
+import { collectionDateSortProjects, collectionRelevanceSortProjects } from '@/utils/date'
+import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
+import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
+
+const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
+const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
+const showcaseProjects = [...sideProjects].sort(collectionRelevanceSortProjects)
+const allTechnologies = getUniqueTechnologiesWithCount(sideProjects)
+const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
+const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Projects', url: '/projects/' }
+]
+
+const projectsListSchema = createProjectCollectionSchema('Side Projects — Santiago Molina', '/projects/', sideProjects, Astro.site)
+---
+
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description: 'Open-source tools and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
+    structuredData: projectsListSchema,
+    title: 'Side Projects — Santiago Molina'
+  }}
+>
+  <PageHero
+    description="Open-source tools and self-directed experiments. These are the builds where curiosity becomes reusable practice."
+    eyebrow="Side Projects"
+    gradientText="love of it."
+    metaItems={['Open source', 'Developer tooling', 'Learning in public']}
+    title="Built for the"
+  >
+    <ButtonLink href="#projects" showArrow>
+      Explore projects
+    </ButtonLink>
+    <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
+      View GitHub
+    </ButtonLink>
+  </PageHero>
+
+  <section
+    aria-label={`${sideProjects.length} personal projects`}
+    class="
+      section-container-wide scroll-mt-28 pt-20
+      sm:pt-24
+      lg:pt-28
+    "
+    id="projects"
+  >
+    <SectionHeader
+      description="Every project has a deeper story about the problem, the decisions, and the system behind the finished work."
+      eyebrow={`${showcaseProjects.length} project stories`}
+      title="The work behind the logos."
+    />
+    <div class="
+      mt-10
+      sm:mt-12
+    "
+    >
+      <ProjectsGallery projects={showcaseProjects} />
+    </div>
+  </section>
+
+  <StatsGrid>
+    <StatCard
+      description="Open-source tools and experiments that sharpen how I build and lead."
+      label="Projects"
+      value={String(sideProjects.length)}
+    />
+    <StatCard
+      description="Tools and platforms explored through personal and open-source work."
+      label="Technologies"
+      value={String(allTechnologies.length)}
+    />
+    <StatCard
+      description="Years of professional engineering experience."
+      label="Experience"
+      value={YEARS_OF_EXPERIENCE}
+    />
+  </StatsGrid>
+
+  <PageSection>
+    <SectionHeader
+      description="Trusted foundations and tools I’m actively exploring across personal projects, open source, developer experience, and testing."
+      eyebrow="Technology map"
+      linkHref="/technologies/"
+      linkLabel="Browse the full stack index"
+      title="The stack I choose when curiosity leads."
+    />
+    <TechnologyPillGrid
+      hiddenCount={hiddenTechnologyCount}
+      intro="Technologies from side projects and open-source contributions, ordered by interest."
+      technologies={technologies}
+    />
+  </PageSection>
+</PageLayout>

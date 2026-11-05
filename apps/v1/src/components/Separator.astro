@@ -1,0 +1,46 @@
+---
+
+interface Props {
+  type?: 'horizontal' | 'vertical' | 'dot'
+  className?: string
+}
+
+const {
+  type = 'horizontal',
+  className = ''
+} = Astro.props
+
+const separatorClasses = {
+  base: 'shrink-0 bg-lighter mx-2',
+  types: {
+    ['horizontal']: 'h-px w-full',
+    ['vertical']: 'h-full w-px',
+    ['dot']: 'w-1.5 h-1.5 rounded-full'
+  }
+} as const
+
+const isDot = type === 'dot'
+const ariaOrientation = type === 'horizontal' ? 'horizontal' : 'vertical'
+const typeClass = separatorClasses.types[type]
+---
+
+{isDot ?
+  (
+    <span class={`
+      ${separatorClasses.base}
+      ${typeClass}
+      ${className}
+    `}
+    />
+  ) :
+  (
+    <span
+      role="separator"
+      aria-orientation={ariaOrientation}
+      class={`
+        ${separatorClasses.base}
+        ${typeClass}
+        ${className}
+      `}
+    />
+  )}

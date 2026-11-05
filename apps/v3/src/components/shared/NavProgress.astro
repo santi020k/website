@@ -1,0 +1,108 @@
+---
+
+/**
+ * NavProgress — thin top bar that shows during page transitions.
+ *
+ * Lifecycle:
+ *   astro:before-preparation  → bar animates to ~70% (fake progress)
+ *   astro:page-load           → bar snaps to 100% then fades out
+ *
+ * Hidden entirely when prefers-reduced-motion is active.
+ */
+---
+
+<div
+  id="nav-progress"
+  aria-hidden="true"
+  role="presentation"
+  transition:persist
+>
+</div>
+
+<style>
+  #nav-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(
+      to right,
+      hsl(var(--brand)),
+      hsl(var(--brand-soft))
+    );
+    box-shadow: 0 0 8px hsl(var(--brand) / 0.45);
+    opacity: 0;
+    pointer-events: none;
+    /* default: instant reset (used after completion) */
+    transition:
+      width 0.1s ease,
+      opacity 0.25s ease;
+  }
+
+  /* Loading: slowly crawl to 70% to simulate in-progress */
+  #nav-progress.is-loading {
+    opacity: 1;
+    width: 70%;
+    transition:
+      width 8s cubic-bezier(0.05, 0.3, 0.5, 0.9),
+      opacity 0.15s ease;
+  }
+
+  /* Complete: snap to 100%, then fade out */
+  #nav-progress.is-complete {
+    opacity: 0;
+    width: 100%;
+    transition:
+      width 0.15s ease,
+      opacity 0.35s ease 0.15s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #nav-progress {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  let resetFrame = 0
+
+  document.addEventListener('astro:before-preparation', () => {
+    const bar = document.getElementById('nav-progress')
+
+    if (!bar) return
+
+    if (resetFrame) {
+      cancelAnimationFrame(resetFrame)
+
+      resetFrame = 0
+    }
+
+    // Reset to 0, then start the crawl on the next frame without forcing layout.
+    bar.classList.remove('is-loading', 'is-complete')
+
+    resetFrame = requestAnimationFrame(() => {
+      bar.classList.add('is-loading')
+
+      resetFrame = 0
+    })
+  })
+
+  document.addEventListener('astro:page-load', () => {
+    const bar = document.getElementById('nav-progress')
+
+    if (!bar) return
+
+    if (resetFrame) {
+      cancelAnimationFrame(resetFrame)
+
+      resetFrame = 0
+    }
+
+    bar.classList.remove('is-loading')
+
+    bar.classList.add('is-complete')
+  })
+</script>

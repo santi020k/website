@@ -1,0 +1,29 @@
+---
+interface Props {
+  compact?: boolean
+  description: string
+  eyebrow: string
+  gradientText: string
+  metaItems?: string[] | undefined
+  title: string
+}
+
+const { compact = false, description, eyebrow, gradientText, metaItems = [], title } = Astro.props
+const hasActions = Astro.slots.has('default')
+const hasMetaItems = metaItems.length > 0
+---
+
+<section class="section-container-wide editorial-page-hero" data-editorial-compact={compact ? 'true' : undefined}>
+  <p class="editorial-eyebrow">{eyebrow}</p>
+  <h1 class="editorial-page-title">
+    {title}{' '}
+    <span class="editorial-page-emphasis">{gradientText}</span>
+  </h1>
+  <p class="editorial-page-description">{description}</p>
+  {hasActions && <div class="editorial-page-actions section-actions"><slot /></div>}
+  {hasMetaItems && (
+    <ul class="editorial-page-meta">
+      {metaItems.map(item => <li>{item}</li>)}
+    </ul>
+  )}
+</section>

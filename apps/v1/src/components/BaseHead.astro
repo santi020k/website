@@ -1,0 +1,84 @@
+---
+
+import { siteConfig } from '@/site.config'
+import type { SiteMeta } from '@/types'
+
+type Props = SiteMeta
+
+const { articleDate, description, ogImage, title } = Astro.props
+const titleSeparator = '•'
+const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
+const canonicalURL = new URL(Astro.url.pathname.endsWith('/404/') ? Astro.url.pathname.replace(/404\/$/, '404.html') : Astro.url.pathname, Astro.site)
+const socialImageURL = new URL(ogImage || '/default.webp', Astro.url).href;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{siteTitle}</title>
+
+{/* Icons */}
+<link rel="icon" href="/logo.svg" type="image/svg+xml" />
+{
+  import.meta.env.PROD && (
+    <>
+      <link rel="manifest" href="/manifest.webmanifest" />
+    </>
+  )
+}
+
+{/* Canonical */}
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+{/* Primary Meta */}
+<meta name="title" content={siteTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={siteConfig.author} />
+<meta name="theme-color" content="#000000" />
+
+{/* SEO Improvements */}
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+<meta name="language" content="en-us" />
+<meta name="revisit-after" content="7 days" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+{/* Open Graph */}
+<meta property="og:type" content={articleDate ? 'article' : 'website'} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content={siteConfig.title} />
+<meta property="og:locale" content={siteConfig.ogLocale} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+{articleDate && (
+  <>
+    <meta property="article:author" content={siteConfig.author} />
+    <meta property="article:published_time" content={articleDate} />
+  </>
+)}
+
+{/* Twitter */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImageURL} />
+<meta name="twitter:site" content="@santi020k" />
+<meta name="twitter:creator" content="@santi020k" />
+
+{/* Additional Social */}
+<meta property="og:image:alt" content={`Preview image for ${title}`} />
+<meta name="twitter:image:alt" content={`Preview image for ${title}`} />
+
+{/* Webmentions */}
+
+<meta name="generator" content={Astro.generator} />
+
+{import.meta.env.PROD && (
+  <>
+  </>
+)}

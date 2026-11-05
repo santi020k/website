@@ -229,6 +229,8 @@ npm run test
 
 Once this works, you can connect it later to pre-commit hooks, CI, or deployment gates. That is where tests start becoming part of the workflow instead of something developers remember only before release day.
 
+Add a browser layer for interactions that depend on real focus and navigation. The [Playwright accessibility guide](/blog/playwright-accessibility-checks-that-teams-keep-running/) provides runnable axe scans, dialog and skip-link tests, and a manual keyboard checklist to complement these component tests.
+
 ## Conclusions
 
 - Vitest and React Testing Library are a practical combination for modern React projects.
@@ -236,5 +238,3 @@ Once this works, you can connect it later to pre-commit hooks, CI, or deployment
 - Accessible queries usually lead to better test quality and better component markup.
 - A lightweight test setup early in the project is much better than a large test migration later.
 - Good component tests reduce fear when refactoring UI code.
-
-[Next Post: Continuous Integration and Deployment (CI/CD) for Next.js Projects](/blog/continuous-integration-and-deployment-for-next-js-projects/)

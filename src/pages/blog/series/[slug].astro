@@ -1,21 +1,25 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import GradientDivider from '@/components/atoms/GradientDivider.astro'
-import Pill from '@/components/atoms/Pill.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import SeriesFocusCard from '@/components/molecules/SeriesFocusCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getPostPath } from '@/utils/links'
+import { getReadingTime } from '@/utils/reading-time'
 
-import { Card } from '@santi020k/lumen-astro'
+import '@/styles/pages/series.css'
+
+import { Card, Link } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
 
 export const getStaticPaths = async () => {
   const seriesSummaries = await getSeriesSummaries()
@@ -40,10 +44,12 @@ const { postCount, posts, series } = Astro.props
 const { Content } = await render(series)
 const metaTitle = series.data.seoTitle ?? series.data.title
 const metaDescription = series.data.seoDescription ?? series.data.description
+const heroTitle = series.data.title.trimEnd()
+const firstPost = posts[0]
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
+  { name: t('nav.home'), url: localizePath('/', locale) },
+  { name: 'Blog', url: localizePath('/blog/', locale) },
   { name: series.data.title, url: Astro.url.pathname }
 ]
 
@@ -63,7 +69,7 @@ const structuredData: Record<string, unknown> = {
 ---
 
 <PageLayout
-mainClass="remaining-pages"
+mainClass="remaining-pages series-detail-page"
   meta={{
     breadcrumbs,
     description: metaDescription,
@@ -71,98 +77,349 @@ mainClass="remaining-pages"
     title: metaTitle
   }}
 >
-  <PageHero
-    description={series.data.description}
-    eyebrow="Blog series"
-    gradientText="A reading track."
-    metaItems={['Start to finish', series.data.cadence, `${postCount} ${postCount === 1 ? 'post' : 'posts'}`]}
-    title={series.data.title.includes('.') ? series.data.title : series.data.title + '.'}
-  >
-    <ButtonLink href="/blog/series/" showArrow>
-      Browse all series
-    </ButtonLink>
-    <ButtonLink href="/blog/" showArrow variant="secondary">
-      Back to blog
-    </ButtonLink>
-  </PageHero>
+  <section aria-labelledby="series-entry-heading" class="section-container-wide" data-series-entry>
+    <div data-series-entry-topline>
+      <Link data-series-entry-return data-text-link href={localizePath('/blog/series/', locale)} variant="inherit">
+        <ArrowExchange class="size-4 shrink-0" direction="left" />
+        <span data-text-link-label>{t('series.allSeries')}</span>
+      </Link>
+      <p data-series-entry-count>{t(postCount === 1 ? 'series.connectedArticle' : 'series.connectedArticles', { count: postCount })}</p>
+    </div>
+    <div data-series-entry-spread>
+      <div data-series-entry-copy>
+        <h1 id="series-entry-heading" lang="en">{/[.!?…]$/u.test(heroTitle) ? heroTitle : `${heroTitle}.`}</h1>
+        <p lang="en">{series.data.description}</p>
+      </div>
+      {firstPost && (
+        <Card as="article" data-series-entry-card variant="unstyled">
+          <Link data-series-entry-first href={localizePath(getPostPath(firstPost.id), locale)} variant="inherit">
+            <span data-series-entry-label>{t('series.beginFirstArticle')}</span>
+            <h2 lang="en">{firstPost.data.title}</h2>
+            <p data-series-entry-meta>
+              <span>{localizeCollectionSource(locale, firstPost.data.postType)}</span>
+              <span aria-hidden="true">·</span>
+              <span>{t('reading.duration', { minutes: getReadingTime(firstPost.body) })}</span>
+            </p>
+            <span data-series-entry-start>
+              <span>{t('series.startReading')}</span>
+              <ArrowExchange class="size-4 shrink-0" direction="right" />
+            </span>
+          </Link>
+        </Card>
+      )}
+    </div>
+    <div data-series-entry-route>
+      <p lang="en">{series.data.cadence}</p>
+      {firstPost && (
+        <Link data-series-entry-chapters data-text-link href="#series-chapters" variant="inherit">
+          <span data-text-link-label>{postCount === 1 ? t('series.singleChapter') : t('series.allChapters', { total: postCount })}</span>
+          <ArrowExchange class="size-4 shrink-0" direction="down" />
+        </Link>
+      )}
+    </div>
+  </section>
 
-  <StatsGrid columns={3}>
-    <StatCard description="Articles collected into this reading track." label="Posts" value={postCount} />
+  <section class="section-container-wide" data-series-overview id="series-preface">
+    <div data-series-overview-grid>
+      <div data-series-introduction lang="en">
+        <div data-series-preface-body><Content /></div>
+        {series.data.readingNote && (
+          <p data-series-reader-note>
+            <span data-series-reader-note-label lang={locale}>
+              {t(series.data.readingNote.kind === 'audience' ? 'series.readerAudience' : 'series.readerPerspective')}
+            </span>
+            {series.data.readingNote.text}
+          </p>
+        )}
+      </div>
+      {!!series.data.focusAreas.length && (
+        <SeriesFocusCard areas={series.data.focusAreas} />
+      )}
+    </div>
+  </section>
+
+  <PageSection layout="stacked">
+    <header id="series-chapters" data-series-chapter-caption>
+      <div data-series-chapter-introduction>
+        <h2 id="series-chapters-heading">{t('series.readingOrderHeading')}</h2>
+        <p>{t('series.readingOrderDescription')}</p>
+      </div>
+      <p data-series-chapter-count>{t(postCount === 1 ? 'series.chapterCountOne' : 'series.chapterCountMany', { count: postCount })}</p>
+    </header>
+
+    <PostsGallery layout="chapters" posts={posts} showSequence />
+
     <Card
-      as="article"
-      class="
-        h-full p-5
-        sm:p-6
-      "
-      variant="muted"
+      aria-labelledby="series-reading-bridge-heading"
+      as="section"
+      data-series-reading-bridge
+      id="series-reading-bridge"
+      variant="unstyled"
     >
-      <p class="section-label">Cadence</p>
-      <p class="
-        mt-4 max-w-[26ch] text-lg/7 font-semibold text-ink
-        sm:text-xl/8
-      "
-      >
-        {series.data.cadence}
-      </p>
-      <p class="mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
-        Publishing rhythm for this series.
-      </p>
+      <header data-series-reading-bridge-intro>
+        <h2 id="series-reading-bridge-heading">{t('series.bridgeHeading')}</h2>
+        <p>{t('series.bridgeDescription')}</p>
+      </header>
+      <nav aria-label={t('series.moreWriting')} data-series-reading-bridge-links>
+        <Link data-series-reading-bridge-link href={localizePath('/blog/series/', locale)} variant="inherit">
+          <span data-series-reading-bridge-title>{t('series.bridgeSeries')}</span>
+          <span data-series-reading-bridge-caption>{t('series.bridgeSeriesDescription')}</span>
+          <ArrowExchange class="size-4 shrink-0" direction="right" />
+        </Link>
+        <Link data-series-reading-bridge-link href={localizePath('/blog/', locale)} variant="inherit">
+          <span data-series-reading-bridge-title>{t('series.bridgeBlog')}</span>
+          <span data-series-reading-bridge-caption>{t('series.bridgeBlogDescription')}</span>
+          <ArrowExchange class="size-4 shrink-0" direction="right" />
+        </Link>
+      </nav>
     </Card>
-    {!!series.data.focusAreas.length && (
-      <StatCard description="Recurring themes shaping the articles in this track." label="Focus areas" value={series.data.focusAreas.length} />
-    )}
-  </StatsGrid>
-
-  <GradientDivider class="pt-10" />
-
-  <section
-    class="
-      section-container-wide grid gap-8 pt-10
-      lg:grid-cols-[1.1fr_0.9fr]
-    "
-    data-animate
-  >
-    <div class="prose-santi max-w-none">
-      <Content />
-    </div>
-
-    {!!series.data.focusAreas.length && (
-      <Card
-        class="
-          h-fit space-y-4 p-5
-          sm:p-6
-        "
-        variant="muted"
-      >
-        <p class="section-label">Focus areas</p>
-        <div class="flex flex-wrap gap-2">
-          {series.data.focusAreas.map(area => (
-            <Pill label={area} tone="outline" />
-          ))}
-        </div>
-      </Card>
-    )}
-  </section>
-
-  <section
-    class="
-      section-container-wide pt-20
-      sm:pt-24
-      lg:pt-28
-    "
-  >
-    <SectionHeader
-      description="Read these in order if you want the clearest progression from foundations to deeper implementation decisions."
-      eyebrow="Posts"
-      title="Articles in this series."
-    />
-
-    <div class="
-      mt-10
-      sm:mt-12
-    "
-    >
-      <PostsGallery posts={posts} showSequence />
-    </div>
-  </section>
+  </PageSection>
 </PageLayout>
+
+<style>
+  [data-series-entry] {
+    --series-entry-accent: hsl(var(--brand));
+    container: series-entry / inline-size;
+    padding-top: 1rem;
+  }
+  :global([data-theme='dark']) [data-series-entry] { --series-entry-accent: hsl(var(--accent)); }
+  [data-series-entry-topline] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  :global([data-series-entry-return]), :global([data-series-entry-chapters]) {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: 2.75rem;
+    max-width: 100%;
+    color: hsl(var(--ink-soft));
+    font-size: .8125rem;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  [data-series-entry-count], [data-series-entry-label] {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .6875rem;
+    font-weight: 500;
+    line-height: 1.8;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  [data-series-entry-spread] {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 1.75rem;
+    margin-top: 1.875rem;
+  }
+  [data-series-entry-spread]:not(:has([data-series-entry-card])) { grid-template-columns: minmax(0, 1fr); }
+  [data-series-entry-copy] { min-width: 0; }
+  [data-series-entry-copy] h1 {
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 2.25rem;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -.055em;
+    overflow-wrap: anywhere;
+  }
+  [data-series-entry-copy] p {
+    max-width: 55ch;
+    margin: 1.5rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .875rem;
+    line-height: 1.85;
+  }
+  :global(.series-detail-page [data-series-entry-card][data-slot='card']),
+  :global(.series-detail-page [data-series-entry-card][data-slot='card']:hover) {
+    min-width: 0;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.5rem 1.5rem .375rem 1.5rem;
+    background: hsl(var(--surface));
+    box-shadow: .4375rem -.4375rem 0 hsl(var(--brand-soft));
+  }
+  :global([data-series-entry-first]) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-width: 0;
+    padding: 1.5rem;
+    border-radius: inherit;
+    color: hsl(var(--ink));
+    font-weight: 400;
+    text-decoration: none;
+  }
+  [data-series-entry-label] { color: var(--series-entry-accent); }
+  [data-series-entry] [data-series-entry-card] h2 {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -.035em;
+    overflow-wrap: anywhere;
+  }
+  [data-series-entry-meta] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .375rem;
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.8;
+  }
+  [data-series-entry-start] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid hsl(var(--line));
+    font-size: .8125rem;
+    line-height: 1.8;
+  }
+  :global([data-series-entry-first]:is(:hover, :focus-visible)) h2 { color: var(--series-entry-accent); }
+  [data-series-entry-route] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .875rem 1.5rem;
+    margin-top: 1.875rem;
+    padding-top: 1.375rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+  [data-series-entry-route] > p {
+    flex: 1 1 20rem;
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.85;
+  }
+  :global([data-series-entry-chapters]) { color: var(--series-entry-accent); }
+  [data-series-overview] { margin-top: 2.5rem; }
+  :global(#series-chapters) { scroll-margin-top: 1rem; }
+  :global(.series-detail-page [data-page-section-grid]:has(> [data-series-chapter-caption])) { gap: 1.5rem; }
+  [data-series-chapter-caption] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: .75rem 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  [data-series-chapter-introduction] { flex: 1 1 26rem; min-width: 0; }
+  [data-series-chapter-caption] h2 {
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -.045em;
+    overflow-wrap: anywhere;
+  }
+  [data-series-chapter-introduction] p {
+    max-width: 46ch;
+    margin: .75rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .8125rem;
+    line-height: 1.85;
+  }
+  [data-series-chapter-count] {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.8;
+  }
+  :global(.series-detail-page [data-series-reading-bridge][data-slot='card']),
+  :global(.series-detail-page [data-series-reading-bridge][data-slot='card']:hover) {
+    --series-bridge-accent: hsl(var(--brand));
+    container: series-reading-bridge / inline-size;
+    display: block;
+    min-width: 0;
+    margin-top: 1.5rem;
+    padding: 1.75rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: .375rem 1.75rem .375rem 1.75rem;
+    background: hsl(var(--surface));
+    box-shadow: -.375rem .375rem 0 hsl(var(--brand-soft));
+  }
+  :global([data-theme='dark'] .series-detail-page [data-series-reading-bridge][data-slot='card']) {
+    --series-bridge-accent: hsl(var(--accent));
+  }
+  [data-series-reading-bridge-intro] h2 {
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.875rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -.045em;
+    overflow-wrap: anywhere;
+  }
+  [data-series-reading-bridge-intro] p {
+    margin: .75rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: .8125rem;
+    line-height: 1.85;
+  }
+  [data-series-reading-bridge-links] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+  :global([data-series-reading-bridge-link]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1rem;
+    align-content: start;
+    gap: .375rem 1.125rem;
+    min-width: 0;
+    min-height: 2.75rem;
+    padding-block: 1.125rem 1rem;
+    border-radius: .125rem;
+    color: hsl(var(--ink));
+    font-weight: 400;
+    text-decoration: none;
+  }
+  [data-series-reading-bridge-title] { font-size: 1.0625rem; font-weight: 500; line-height: 1.5; letter-spacing: -.03em; overflow-wrap: anywhere; }
+  [data-series-reading-bridge-caption] { grid-row: 2; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.8; overflow-wrap: anywhere; }
+  :global([data-series-reading-bridge-link] > [data-arrow-exchange]) { grid-column: 2; grid-row: 1; align-self: center; }
+  :global([data-series-reading-bridge-link]:is(:hover, :focus-visible)) [data-series-reading-bridge-title] { color: var(--series-bridge-accent); }
+  :global([data-series-reading-bridge-link]:focus-visible) { outline: 2px solid var(--series-bridge-accent); outline-offset: 6px; }
+  @container series-reading-bridge (width < 31.25rem) {
+    [data-series-reading-bridge-links] { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    :global([data-series-reading-bridge-link] + [data-series-reading-bridge-link]) { border-top: 1px solid hsl(var(--line)); }
+  }
+  @container page-section (width < 24rem) {
+    :global(.series-detail-page [data-series-reading-bridge][data-slot='card']),
+    :global(.series-detail-page [data-series-reading-bridge][data-slot='card']:hover) { padding: 1.25rem; }
+  }
+  @container page-section (width < 20rem) {
+    :global(.series-detail-page [data-series-reading-bridge][data-slot='card']),
+    :global(.series-detail-page [data-series-reading-bridge][data-slot='card']:hover) { padding: .75rem; }
+    [data-series-reading-bridge-intro] h2 { font-size: 1.375rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-series-reading-bridge-title] { transition: color 180ms ease; }
+  }
+  @container series-entry (width < 38rem) {
+    [data-series-entry-spread] { grid-template-columns: minmax(0, 1fr); }
+  }
+  @container series-entry (width < 20rem) {
+    :global([data-series-entry-first]) { padding: 1.125rem; }
+    [data-series-entry-copy] h1 { font-size: min(2.25rem, 12cqi); }
+    [data-series-entry] [data-series-entry-card] h2 { font-size: min(1.375rem, 9cqi); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-series-entry-card] h2 { transition: color 180ms ease; }
+  }
+</style>

@@ -1,0 +1,143 @@
+---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { getTechnologyPath } from '@/utils/links'
+
+import { Card, Link } from '@santi020k/lumen-astro'
+
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
+
+interface Props {
+  total: number
+  mostRecurring?: [string, number] | undefined
+}
+
+const { total, mostRecurring } = Astro.props
+---
+
+<section
+aria-labelledby="technology-summary-heading"
+class="section-container-wide"
+data-technology-summary
+>
+  <header data-technology-summary-header>
+    <p data-technology-summary-eyebrow>{t('collection.behindTheIndex')}</p>
+    <h2 id="technology-summary-heading">{t('collection.rangeWithATrail')}</h2>
+    <p data-technology-summary-description>{t('collection.followTheToolsBackToThe')}</p>
+  </header>
+  <Card data-technology-summary-ledger data-technology-summary-single={!mostRecurring ? '' : undefined} variant="unstyled">
+    <div data-technology-summary-total>
+      <span data-technology-summary-number>{total}</span>
+      <p data-technology-summary-label>{total === 1 ? t('collection.technologyOrCapability') : t('collection.technologiesAndCapabilities')}</p>
+      <p data-technology-summary-detail>{t('collection.acrossThePublishedPortfolio')}</p>
+    </div>
+    {mostRecurring && (
+      <Link data-technology-summary-link href={localizePath(getTechnologyPath(mostRecurring[0]), locale)} variant="inherit">
+        <div>
+          <p data-technology-summary-kicker>{t('collection.mostRecurring')}</p>
+          <h3>{mostRecurring[0]}</h3>
+          <p data-technology-summary-count>{t(mostRecurring[1] === 1 ? 'technology.listedOnce' : 'technology.listedMany', { count: mostRecurring[1] })}</p>
+        </div>
+        <span data-technology-summary-action>{t('collection.exploreTheEvidence')}<ArrowExchange direction="right" /></span>
+      </Link>
+    )}
+  </Card>
+  <p data-technology-summary-scope>{t('collection.includesProfessionalWorkIndependentProjectsAnd')}</p>
+</section>
+
+<style>
+  [data-technology-summary] { container: technology-summary / inline-size; }
+  [data-technology-summary-header] { margin-bottom: 2rem; }
+  [data-technology-summary-eyebrow] {
+    margin-bottom: 1.5rem;
+    color: hsl(var(--accent));
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.8;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+  h2 {
+    scroll-margin-top: 7rem;
+    color: hsl(var(--ink));
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.055em;
+  }
+  [data-technology-summary-description] {
+    margin-top: 1.25rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.9375rem;
+    line-height: 1.85;
+  }
+  :global(.remaining-pages [data-technology-summary-ledger][data-slot='card']) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    padding: 0;
+    border: 1px solid hsl(var(--line) / 0.65);
+    border-radius: 1.375rem 1.375rem 0.5rem 1.375rem;
+    background: hsl(var(--surface));
+    box-shadow: var(--shadow-nav);
+  }
+  [data-technology-summary-total] {
+    padding: 2rem;
+    border-radius: 1.375rem 0 0 1.375rem;
+    background: hsl(var(--brand-soft));
+  }
+  [data-technology-summary-number] {
+    display: block;
+    color: hsl(var(--brand));
+    font-size: clamp(3.5rem, 7vw, 5rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.065em;
+    overflow-wrap: anywhere;
+  }
+  :global([data-theme='dark']) [data-technology-summary-number] { color: hsl(var(--accent)); }
+  [data-technology-summary-label] { margin-top: 1.5rem; color: hsl(var(--ink)); font-size: 1.125rem; line-height: 1.6; }
+  [data-technology-summary-detail] { margin-top: 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
+  :global([data-technology-summary-link]) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    min-width: 0;
+    padding: 2rem;
+    border-left: 1px solid hsl(var(--line));
+    border-radius: 0 1.375rem 0.5rem 0;
+    color: hsl(var(--ink));
+    text-decoration: none;
+  }
+  [data-technology-summary-kicker] { color: hsl(var(--ink-soft)); font-size: 0.6875rem; letter-spacing: 0.09em; line-height: 1.8; text-transform: uppercase; }
+  h3 { margin-top: 0.75rem; font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 500; line-height: 1.3; letter-spacing: -0.04em; overflow-wrap: anywhere; }
+  [data-technology-summary-count] { margin-top: 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.8; }
+  [data-technology-summary-action] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 2.75rem;
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
+  [data-technology-summary-action] :global(svg) { flex-shrink: 0; color: hsl(var(--accent)); }
+  :global([data-technology-summary-link]:is(:hover, :focus-visible)) { color: hsl(var(--accent)); }
+  :global([data-technology-summary-link]:is(:hover, :focus-visible)) h3 { text-decoration: underline; text-underline-offset: 0.2em; }
+  :global([data-technology-summary-link]:focus-visible) { outline: 2px solid hsl(var(--accent)); outline-offset: -6px; }
+  :global([data-technology-summary-ledger][data-technology-summary-single][data-slot='card']) { grid-template-columns: minmax(0, 1fr); }
+  :global([data-technology-summary-single]) [data-technology-summary-total] { border-radius: inherit; }
+  [data-technology-summary-scope] { margin-top: 1.25rem; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
+  @container technology-summary (width < 38rem) {
+    :global(.remaining-pages [data-technology-summary-ledger][data-slot='card']) { grid-template-columns: minmax(0, 1fr); }
+    [data-technology-summary-total] { border-radius: 1.375rem 1.375rem 0 0; }
+    :global([data-technology-summary-link]) { border-top: 1px solid hsl(var(--line)); border-left: 0; border-radius: 0 0 0.5rem 1.375rem; }
+  }
+  @container technology-summary (width < 22rem) {
+    [data-technology-summary-total], :global([data-technology-summary-link]) { padding: 1.5rem; }
+  }
+</style>

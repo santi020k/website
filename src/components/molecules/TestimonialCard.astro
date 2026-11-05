@@ -17,48 +17,23 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
 
 <Card
   as="article"
-  class="
-    group flex h-full flex-col rounded-[1.75rem] p-6
-    sm:p-7
-  "
   data-testimonial
   glass={false}
   variant="unstyled"
 >
-  {/* Decorative quote mark */}
-  <div
-    aria-hidden="true"
-    class="
-      mb-4 text-brand/15 transition-colors duration-300
-      group-hover:text-brand/30
-    "
-    data-testimonial-quote
-  >
-    <Icon class="size-8" name="quote" size="xl" />
+  <div data-testimonial-body>
+    <div aria-hidden="true" data-testimonial-quote>
+      <Icon class="size-10" name="quote" />
+    </div>
+    <blockquote lang="en"><p>“{quote}”</p></blockquote>
   </div>
 
-  <blockquote class="flex-1">
-    <p class="
-      text-base/7 font-medium text-ink
-      sm:text-[0.95rem]/[1.75]
-    "
-    >
-      "{quote}"
-    </p>
-  </blockquote>
-
-  <div class="mt-6 flex items-center gap-4 border-t border-line/22 pt-5">
+  <footer data-testimonial-identity>
     {avatarUrl ?
       (
-        <Avatar
-          class="
-            size-12 shrink-0 rounded-full object-cover ring-2 ring-brand/15
-            transition-all duration-300
-            motion-safe:group-hover:ring-brand/35
-          "
-        >
+        <Avatar data-testimonial-avatar aria-hidden="true">
           <Image
-            alt={authorName}
+            alt=""
             decoding="async"
             height={48}
             loading="lazy"
@@ -70,32 +45,86 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
       ) :
       (
         <Avatar
-          class="
-            size-12 shrink-0 bg-linear-to-br from-brand/15 to-accent/10 text-sm
-            font-semibold text-brand ring-2 ring-brand/15 transition-all
-            duration-300
-            motion-safe:group-hover:ring-brand/35
-          "
+          data-testimonial-avatar
+          aria-hidden="true"
           fallback={avatarInitials}
         />
       )}
-    <div class="min-w-0">
-      <p data-testimonial-author class="site-label">{authorName}</p>
-      <p class="text-xs text-ink-muted">{role} · {relationship}</p>
+    <div data-testimonial-author-copy>
+      <p data-testimonial-author>{authorName}</p>
+      <p data-testimonial-role>{role}</p>
     </div>
-  </div>
+    <p data-testimonial-relationship>{relationship}</p>
+  </footer>
 </Card>
 
 <style>
-  @media (prefers-reduced-motion: no-preference) {
-    [data-testimonial-quote] {
-      transition:
-        color 0.3s ease,
-        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
+  [data-testimonial][data-slot='card'] {
+    --testimonial-accent: var(--about-accent, hsl(var(--brand)));
+    container: testimonial / inline-size;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--testimonial-accent) 22%, hsl(var(--line) / 0.65));
+    border-radius: var(--radius-quote-sleeve);
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    box-shadow: var(--shadow-quote-sleeve);
+  }
+  /* Outside the About page, follow the site's dark accent so initials keep AA contrast. */
+  :global(:root[data-theme='dark']) [data-testimonial][data-slot='card'] { --testimonial-accent: var(--about-accent, hsl(var(--accent))); }
+  [data-testimonial-body] { display: grid; grid-template-columns: 2.875rem minmax(0, 1fr); gap: 1.375rem; min-width: 0; padding: 2.125rem; }
+  [data-testimonial-quote] { color: var(--testimonial-accent); }
+  [data-testimonial-quote] :global(svg) { width: 2.5rem; height: 2.5rem; }
+  [data-testimonial] blockquote { margin: 0; }
+  [data-testimonial] blockquote p { color: hsl(var(--ink)); font-size: 1.375rem; line-height: 1.65; font-weight: 400; letter-spacing: -0.035em; }
+  [data-testimonial-identity] {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr) minmax(6.25rem, 0.8fr);
+    align-items: center;
+    gap: 1rem;
+    margin-inline: 2.125rem;
+    padding-block: 1.375rem 1.625rem;
+    border-top: 1px solid hsl(var(--line) / 0.65);
+  }
+  [data-testimonial-author-copy] { min-width: 0; }
+  [data-testimonial-avatar] {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 0;
+    background: color-mix(in srgb, var(--testimonial-accent) 12%, hsl(var(--surface)));
+    color: color-mix(in srgb, var(--testimonial-accent) 80%, hsl(var(--ink)));
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+  [data-testimonial] p { margin: 0; overflow-wrap: anywhere; text-wrap: pretty; }
+  [data-testimonial-author] { color: hsl(var(--ink)); font-size: 1rem; line-height: 1.4375rem; font-weight: 600; letter-spacing: -0.03em; }
+  [data-testimonial-identity] [data-testimonial-role] { margin-top: 0.1875rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.25rem; }
+  [data-testimonial-identity] [data-testimonial-relationship] {
+    justify-self: end;
+    max-width: 10.625rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.6875rem;
+    line-height: 1.125rem;
+    text-align: right;
+  }
 
-    [data-testimonial]:hover [data-testimonial-quote] {
-      transform: scale(1.12) rotate(-4deg);
-    }
+  @container testimonial (width < 32.5rem) {
+    [data-testimonial-body] { grid-template-columns: minmax(0, 1fr); gap: 1.125rem; padding: 1.5rem; }
+    [data-testimonial-quote] :global(svg) { width: 2rem; height: 2rem; }
+    [data-testimonial] blockquote p { font-size: 1.1875rem; line-height: 1.7; }
+    [data-testimonial-identity] { grid-template-columns: 2.625rem minmax(0, 1fr); gap: 0.875rem; margin-inline: 1.5rem; }
+    [data-testimonial-avatar] { width: 2.625rem; height: 2.625rem; }
+    [data-testimonial-identity] [data-testimonial-relationship] { grid-column: 1 / -1; justify-self: start; max-width: none; text-align: left; }
+  }
+  @container testimonial (width < 17.5rem) {
+    [data-testimonial-body] { padding: 1.375rem 1.125rem; }
+    [data-testimonial-identity] { margin-inline: 1.125rem; }
+    [data-testimonial] blockquote p { font-size: 1.125rem; }
+  }
+  @container testimonial (width < 14rem) {
+    [data-testimonial-identity] { grid-template-columns: minmax(0, 1fr); }
   }
 </style>

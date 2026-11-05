@@ -1,0 +1,98 @@
+---
+import { getEntry } from 'astro:content'
+
+import ProjectPreviewViewer from '@/components/molecules/ProjectPreviewViewer.astro'
+
+import { Card, Image } from '@santi020k/lumen-astro'
+
+interface Props {
+  projectId: string
+}
+
+const { projectId } = Astro.props
+const project = await getEntry('project', projectId)
+const previews = project?.data.previews
+
+if (!previews) throw new Error(`Project ${projectId} must declare previews before rendering its gallery.`)
+---
+
+<section aria-labelledby="inside-the-product" class="not-prose space-y-8" data-product-previews id="product-previews">
+  <div class="space-y-3" data-preview-heading>
+    <slot />
+    <p class="text-sm/7 text-ink-soft">{previews.description}</p>
+  </div>
+  {previews.images.map((preview, index) => (
+    <Card class="overflow-hidden border border-line bg-surface" data-product-preview variant="unstyled">
+      <figure class="m-0">
+        <div class="bg-brand-soft/35 p-5" data-preview-image>
+          <Image
+            alt={preview.alt}
+            class="block h-auto max-h-128 w-full object-contain"
+            fit="contain"
+            format="webp"
+            loading="lazy"
+            radius="none"
+            sizes="(min-width: 1280px) 760px, (min-width: 1024px) 65vw, calc(100vw - 80px)"
+            src={preview.src}
+            widths={[320, 480, 640, 960, 1280, 1600]}
+          />
+          <ProjectPreviewViewer preview={preview} id={`project-preview-${projectId}-${index + 1}`} />
+        </div>
+        <figcaption class="grid grid-cols-[2.75rem_minmax(0,1fr)] gap-4.5 p-7">
+          <span
+            aria-hidden="true"
+            class="
+              text-[2rem]/9 font-medium tracking-tight text-brand
+              dark:text-accent
+            "
+            data-preview-number
+          >
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <div class="min-w-0 space-y-3" data-preview-caption>
+            <h4 class="text-xl/7 font-medium tracking-tight text-ink">{preview.title}</h4>
+            <p class="text-sm/7 text-ink-soft">{preview.caption}</p>
+          </div>
+        </figcaption>
+      </figure>
+    </Card>
+  ))}
+</section>
+
+<style>
+  [data-product-previews] { margin-block: 2.5rem; }
+
+  /* Authored Markdown supplies the h3 so Astro collects its position in the story. */
+  [data-product-previews] :global(h3) {
+    margin: 0;
+    color: hsl(var(--ink));
+    font: 500 1.5rem/1.35 var(--font-sans);
+    letter-spacing: -0.035em;
+  }
+
+  [data-preview-heading], [data-preview-caption] { display: grid; gap: 0.75rem; }
+
+  [data-product-previews] :is(p, h4, figure, figcaption) { margin: 0; }
+  [data-product-previews] p { color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.75rem; }
+  [data-product-previews] h4 { color: hsl(var(--ink)); font: 500 1.25rem/1.75rem var(--font-sans); letter-spacing: -0.025em; }
+
+  [data-product-preview][data-slot='card'] {
+    container: product-preview / inline-size;
+    border: 1px solid hsl(var(--line));
+    border-radius: var(--radius-sheet);
+  }
+
+  @container product-preview (width < 31.25rem) {
+    [data-preview-image] { padding: 0.75rem; }
+    figcaption {
+      grid-template-columns: 2rem minmax(0, 1fr);
+      gap: 0.75rem;
+      padding: 1.375rem 1.125rem;
+    }
+    [data-preview-number] { font-size: 1.625rem; line-height: 2rem; }
+  }
+
+  @container product-preview (width < 18rem) {
+    figcaption { grid-template-columns: minmax(0, 1fr); padding: 1rem; }
+  }
+</style>

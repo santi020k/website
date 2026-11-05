@@ -1,0 +1,86 @@
+{/* Inlined to avoid FOUC. This is a parser blocking script. */}
+<script is:inline>
+const lightModePref = window.matchMedia('(prefers-color-scheme: light)')
+// Keep an explicit choice for this document even when browser storage is blocked.
+let selectedTheme = null
+
+const getStoredTheme = () => {
+  try {
+    const storedTheme = typeof localStorage !== 'undefined' && localStorage.getItem('website-v4-theme')
+
+    return storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : null
+  } catch {
+    return null
+  }
+}
+
+const getUserPref = () => {
+  const storedTheme = getStoredTheme()
+
+  return selectedTheme || storedTheme || (lightModePref.matches ? 'light' : 'dark')
+}
+
+const setTheme = newTheme => {
+  if (newTheme !== 'light' && newTheme !== 'dark') {
+    return
+  }
+
+  const root = document.documentElement
+  const themeChanged = newTheme !== root.getAttribute('data-theme')
+
+  if (themeChanged) {
+    root.setAttribute('data-theme', newTheme)
+  }
+
+  root.classList.toggle('dark', newTheme === 'dark')
+
+  document.querySelectorAll('[data-ui-theme-toggle]').forEach(control => {
+    control.setAttribute('aria-pressed', String(newTheme === 'dark'))
+
+    control.setAttribute('data-ui-theme', newTheme)
+  })
+
+  // Defer both the querySelector and getComputedStyle reads to avoid a forced
+  // synchronous style recalculation immediately after the DOM write above.
+  requestAnimationFrame(() => {
+    const colorThemeMetaTags = document.querySelectorAll('meta[name="theme-color"]')
+    const bgColor = getComputedStyle(document.body).getPropertyValue('--theme-bg').trim()
+
+    if (bgColor) {
+      colorThemeMetaTags.forEach(metaTag => {
+        metaTag.setAttribute('content', `hsl(${bgColor})`)
+
+        metaTag.removeAttribute('media')
+      })
+    }
+  })
+}
+
+// initial setup
+setTheme(getUserPref())
+
+// View Transitions hook to restore theme
+document.addEventListener('astro:after-swap', () => setTheme(getUserPref()))
+
+// Newly mounted controls can read an older stored value if saving was denied.
+document.addEventListener('astro:page-load', () => setTheme(getUserPref()))
+
+// Keep browser chrome metadata in sync after Lumen applies a user-selected theme.
+document.addEventListener('ui:theme-change', e => {
+  if (!(e instanceof CustomEvent) || !e.detail ||
+    (e.detail.theme !== 'light' && e.detail.theme !== 'dark')) return
+
+  selectedTheme = e.detail.theme
+
+  setTheme(selectedTheme)
+})
+
+// listen for prefers-color-scheme change.
+// Only auto-switch when the user has not made an explicit choice (no stored
+// theme); a saved preference takes precedence over the OS toggling.
+lightModePref.addEventListener('change', e => {
+  if (selectedTheme || getStoredTheme()) return
+
+  setTheme(e.matches ? 'light' : 'dark')
+})
+</script>

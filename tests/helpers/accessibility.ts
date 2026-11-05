@@ -24,10 +24,7 @@ const matchesAllowedNode = (
   return matchesHtml && matchesTarget
 }
 
-export const expectNoUnexpectedAccessibilityViolations = async (
-  page: Page,
-  allowedViolations: AllowedViolation[] = []
-) => {
+export const waitForVisibleAnimations = async (page: Page) => {
   // Wait for finite CSS animations to finish so axe-core measures final rendered
   // colors, not composited mid-animation values (e.g. opacity fade-ins blending
   // brand purple with the page background would report false contrast failures).
@@ -50,8 +47,19 @@ export const expectNoUnexpectedAccessibilityViolations = async (
     )
     await Promise.all(finiteAnimations.map(a => a.finished.catch(() => undefined)))
   })
+}
 
-  const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
+export const expectNoUnexpectedAccessibilityViolations = async (
+  page: Page,
+  allowedViolations: AllowedViolation[] = []
+) => {
+  await waitForVisibleAnimations(page)
+
+  // This WCAG 2.5.3 rule is experimental in axe and otherwise misses card
+  // links whose ARIA labels replace their visible text.
+  const accessibilityScanResults = await new AxeBuilder({ page }).options({
+    rules: { 'label-content-name-mismatch': { enabled: true } }
+  }).analyze()
 
   const unexpectedViolations = accessibilityScanResults.violations.flatMap(violation => {
     const unexpectedNodes = violation.nodes.filter(

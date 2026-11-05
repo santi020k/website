@@ -1,0 +1,130 @@
+---
+import { getEntry } from 'astro:content'
+
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { getProjectOutcomeDisplay, getProjectOutcomeLabel } from '@/utils/portfolio-metric'
+
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
+
+interface Props {
+  attribution?: { client: string, context: string }
+  contextLinks?: { label: string, href: `#${string}` }[]
+  headingId?: string
+  id?: string
+  legacyId?: string
+  projectId: string
+}
+
+const { attribution, contextLinks = [], headingId = 'sidebar-outcomes', id, legacyId, projectId } = Astro.props
+const project = await getEntry('project', projectId)
+
+if (!project) throw new Error(`Project ${projectId} must exist before rendering its outcomes.`)
+
+const outcomes = project.data.impactMetrics
+const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), summary }))
+---
+
+{rows.length > 0 && (
+  <div class="not-prose" data-project-evidence id={id}>
+  {legacyId && <span aria-hidden="true" id={legacyId} />}
+  <Card as="section" aria-labelledby={headingId} data-project-outcomes variant="unstyled">
+    <header>
+      <div data-outcome-heading>
+        <slot><h3 id={headingId}>Outcomes</h3></slot>
+        <Icon class="size-4 shrink-0" name="trophy" />
+      </div>
+      {attribution && (
+        <p data-outcome-attribution><strong>{attribution.client}</strong><span>{attribution.context}</span></p>
+      )}
+    </header>
+    <ul role="list">
+      {rows.map(row => (
+        <li data-outcome-kind={row.value ? 'measured' : 'written'}>
+          {row.value ?
+(
+            <>
+              <span class="sr-only">{row.summary}</span>
+              <span data-outcome-value aria-hidden="true">
+                {row.previous && <span data-outcome-previous>{row.previous} →</span>}
+                {row.value}
+              </span>
+              <p aria-hidden="true">{getProjectOutcomeLabel(row.label, attribution?.client)}</p>
+            </>
+          ) :
+(
+            <>
+              <Icon class="mt-1 size-4 shrink-0" name="check" />
+              <p>{row.summary}</p>
+            </>
+          )}
+        </li>
+      ))}
+    </ul>
+    {contextLinks.length > 0 && (
+      <nav data-outcome-trail aria-label={`Explore ${attribution?.client ?? project.data.title}`}>
+        <span>Explore {attribution?.client ?? project.data.title}</span>
+        {contextLinks.map(link => (
+          <Link data-outcome-link href={link.href} variant="inherit">
+            <span>{link.label}</span><ArrowExchange data-outcome-arrow direction="down-right" size="sm" />
+          </Link>
+        ))}
+      </nav>
+    )}
+  </Card>
+  </div>
+)}
+
+<style>
+  [data-project-evidence] { container: project-evidence / inline-size; margin-block: 2.5rem; }
+  [data-project-outcomes][data-slot='card'] {
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid hsl(var(--line));
+    border-radius: var(--radius-sheet);
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    overflow-wrap: break-word;
+  }
+  [data-project-outcomes] header { padding: 1.5rem 1.5rem 0; }
+  [data-outcome-heading] { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+  [data-outcome-heading] :global(h3) { min-width: 0; margin: 0; color: hsl(var(--brand)); font-size: 0.75rem; line-height: 1.667; font-weight: 500; letter-spacing: normal; scroll-margin-top: 1.5rem; }
+  [data-project-outcomes] :global(svg), [data-outcome-value] { color: hsl(var(--brand)); }
+  [data-project-outcomes] ul { margin: 0; padding: 0 1.5rem; list-style: none; }
+  [data-project-outcomes] li { display: grid; grid-template-columns: minmax(5.25rem, max-content) minmax(0, 1fr); align-items: center; gap: 1rem; margin: 0; padding: 1.375rem 0; }
+  [data-project-outcomes] li + li { border-top: 1px solid hsl(var(--line)); }
+  [data-project-outcomes] p { min-width: 0; margin: 0; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.692; font-weight: 400; letter-spacing: normal; }
+  [data-project-outcomes] [data-outcome-attribution] { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.375rem 0.75rem; margin: 0.75rem 0 0.125rem; line-height: 1.7; }
+  [data-outcome-attribution] strong { color: hsl(var(--ink)); font-weight: 500; }
+  [data-outcome-value] { display: block; font-size: 1.875rem; line-height: 1.2; font-weight: 500; letter-spacing: -0.033em; }
+  [data-outcome-previous] { display: block; margin-bottom: 0.125rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.667; font-weight: 400; letter-spacing: normal; }
+  [data-project-outcomes] [data-outcome-kind='written'] { grid-template-columns: 1.25rem minmax(0, 1fr); align-items: start; gap: 0.75rem; }
+  [data-project-outcomes] [data-outcome-kind='written'] p { color: hsl(var(--ink)); font-size: 0.875rem; line-height: 1.714; }
+  [data-outcome-trail] { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; margin-inline: 1.5rem; padding-block: 1rem; border-top: 1px solid hsl(var(--line)); letter-spacing: normal; }
+  [data-outcome-trail] > span { color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.7; }
+  [data-outcome-link][data-slot='link'] { display: inline-flex; align-items: center; gap: 0.625rem; min-height: 2.75rem; min-width: 0; color: hsl(var(--brand)); font-size: 0.8125rem; line-height: 1.7; font-weight: 500; text-decoration: none; }
+  [data-outcome-link] span { min-width: 0; }
+  [data-outcome-link] :global([data-outcome-arrow]) { flex-shrink: 0; }
+  [data-outcome-link]:hover { text-decoration: underline; text-underline-offset: 0.25rem; }
+  [data-outcome-link]:focus-visible { outline: 2px solid currentColor; outline-offset: 0.25rem; border-radius: 0.25rem; }
+  :global(:root[data-theme='dark']) [data-project-outcomes] [data-outcome-value],
+  :global(:root[data-theme='dark']) [data-project-outcomes] [data-outcome-link],
+  :global(:root[data-theme='dark']) [data-outcome-heading] :global(h3),
+  :global(:root[data-theme='dark']) [data-project-outcomes] :global(svg) { color: hsl(var(--accent)); }
+  @container project-evidence (width < 35rem) {
+    [data-outcome-trail] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+    [data-outcome-link][data-slot='link'] { justify-content: space-between; }
+  }
+  @container project-evidence (width < 17rem) {
+    [data-project-outcomes] :is(header, ul) { padding-inline: 1.25rem; }
+    [data-outcome-trail] { margin-inline: 1.25rem; }
+    [data-project-outcomes] li { gap: 0.75rem; }
+  }
+  @container project-evidence (width < 16rem) {
+    [data-project-outcomes] :is(header, ul) { padding-inline: 0.75rem; }
+    [data-outcome-trail] { margin-inline: 0.75rem; }
+    [data-outcome-link] :global([data-outcome-arrow]) { display: none; }
+    [data-project-outcomes] li, [data-project-outcomes] [data-outcome-kind='written'] { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
+    [data-project-outcomes] [data-outcome-kind='written'] :global(svg) { display: none; }
+  }
+</style>

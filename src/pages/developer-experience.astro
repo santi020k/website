@@ -1,10 +1,12 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import ShippedSystemCard from '@/components/molecules/ShippedSystemCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
@@ -15,16 +17,21 @@ import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 
-import { Card, RevealGroup } from '@santi020k/lumen-astro'
+import { Card, Link, RevealGroup } from '@santi020k/lumen-astro'
 
+import { getLocale, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
 import {
   createAuthorSchema,
   createWebsiteSchemaReference,
   YEARS_OF_EXPERIENCE
 } from '@/site.config'
 
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
+
 const description =
-  'A practical guide to developer experience: measure delivery friction, encode useful standards, automate verification, and help teams ship confidently.'
+  t('page.aPracticalGuideToDeveloperExperience')
 
 const allPosts = await getCachedPosts()
 
@@ -62,56 +69,87 @@ const getFeaturedPost = (slug: typeof featuredSlugs[number]): CollectionEntry<'p
 
 const featuredPosts = featuredSlugs.map(getFeaturedPost)
 
+const shippedSystems = [
+  {
+    title: 'Astro Doctor',
+    category: t('page.diagnostics'),
+    icon: 'scan-line',
+    body: t('page.oneRuleSystemExpressedThroughA'),
+    href: localizePath('/portfolio/astro-doctor/', pageLocale),
+    linkLabel: t('page.exploreAstroDoctor')
+  },
+  {
+    title: 'ESLint Config Basic',
+    category: t('page.standards'),
+    icon: 'list-checks',
+    body: t('page.composableStandardsDesignedToReduceConfiguration'),
+    href: localizePath('/portfolio/eslint-config-basic/', pageLocale),
+    linkLabel: t('page.exploreTheEslintToolkit')
+  },
+  {
+    title: 'Lumen UI',
+    category: t('page.interfaces'),
+    icon: 'layers',
+    body: t('page.sharedAccessibilityInteractionAndTokenContracts'),
+    href: localizePath('/portfolio/lumen-ui/', pageLocale),
+    linkLabel: t('page.exploreLumenUi')
+  }
+] as const
+
 const principles = [
   {
-    title: 'Measure friction before choosing tools',
-    body: 'Start with cycle time, failed checks, review delays, repeated questions, and recovery work. A tool is useful only when one of those outcomes improves.'
+    title: t('page.measureFriction'),
+    subtitle: t('page.beforeChoosingTools'),
+    body: t('page.startWithCycleTimeFailedChecks')
   },
   {
-    title: 'Turn repeated judgment into clear defaults',
-    body: 'Document the decision once, encode the deterministic part in linting or tests, and leave the genuinely contextual part visible for human review.'
+    title: t('page.turnRepeatedJudgment'),
+    subtitle: t('page.intoClearDefaults'),
+    body: t('page.documentTheDecisionOnceEncodeThe')
   },
   {
-    title: 'Keep feedback close to the change',
-    body: 'Fast local checks, focused editor guidance, and one dependable quality command shorten the distance between a mistake and a useful explanation.'
+    title: t('page.keepFeedbackClose'),
+    subtitle: t('page.toTheChange'),
+    body: t('page.fastLocalChecksFocusedEditorGuidance')
   },
   {
-    title: 'Protect the flow, not just the code',
-    body: 'A healthy system covers accessibility, release confidence, documentation, ownership, and recovery—not merely formatting or a passing build.'
+    title: t('page.protectTheFlow'),
+    subtitle: t('page.notJustTheCode'),
+    body: t('page.aHealthySystemCoversAccessibilityRelease')
   }
 ]
 
-const canonicalUrl = new URL('/developer-experience/', Astro.site).href
+const canonicalUrl = new URL(localizePath('/developer-experience/', pageLocale), Astro.site).href
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   '@id': `${canonicalUrl}#page`,
-  name: 'Developer Experience & Engineering Quality',
+  name: t('page.developerExperienceAndEngineeringQuality'),
   description,
   url: canonicalUrl,
   author: createAuthorSchema(Astro.site),
   isPartOf: createWebsiteSchemaReference(Astro.site),
   about: [
-    { '@type': 'Thing', name: 'Developer experience' },
-    { '@type': 'Thing', name: 'Engineering quality' },
-    { '@type': 'Thing', name: 'Software delivery automation' }
+    { '@type': 'Thing', name: t('page.developerExperience7') },
+    { '@type': 'Thing', name: t('page.engineeringQuality') },
+    { '@type': 'Thing', name: t('page.softwareDeliveryAutomation') }
   ],
   mainEntity: {
     '@type': 'ItemList',
-    name: 'Developer experience field guides',
+    name: t('page.developerExperienceFieldGuides'),
     itemListElement: featuredPosts.map((post, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       name: post.data.title,
-      url: new URL(getPostPath(post.id), Astro.site).href
+      url: new URL(localizePath(getPostPath(post.id), pageLocale), Astro.site).href
     }))
   }
 }
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Developer Experience', url: '/developer-experience/' }
+  { name: t('nav.home'), url: localizePath('/', pageLocale) },
+  { name: t('page.developerExperience'), url: localizePath('/developer-experience/', pageLocale) }
 ]
 ---
 
@@ -120,170 +158,170 @@ mainClass="remaining-pages"
   meta={{
     breadcrumbs,
     description,
-    seoTitle: 'Developer Experience & Engineering Quality',
+    seoTitle: t('page.developerExperienceAndEngineeringQuality'),
     structuredData,
-    title: 'Developer Experience & Engineering Quality'
+    title: t('page.developerExperienceAndEngineeringQuality')
   }}
 >
   <PageHero
-    description="Developer experience is the quality of the system around software delivery: how clearly people can understand, change, verify, release, and recover the product. The goal is not more tooling. It is less avoidable friction and more trustworthy feedback."
-    eyebrow="Developer Experience"
-    gradientText="improves delivery."
-    metaItems={['Engineering quality', 'Delivery automation', 'Team systems']}
-    title="Build a system that"
+    description={t('page.developerExperienceIsTheQualityOf')}
+    eyebrow={t('page.developerExperience')}
+    gradientText={t('page.improvesDelivery')}
+    metaItems={[t('page.engineeringQuality'), 'Delivery automation', 'Team systems']}
+    title={t('page.buildASystemThat')}
   >
     <ButtonLink href="#field-guides" showArrow>
-      Read the field guides
+      {t('page.readTheFieldGuides')}
     </ButtonLink>
-    <ButtonLink href="/portfolio/astro-doctor/" showArrow variant="secondary">
-      See the system in practice
+    <ButtonLink href={localizePath('/portfolio/astro-doctor/', pageLocale)} showArrow variant="secondary">
+      {t('page.seeTheSystemInPractice')}
     </ButtonLink>
   </PageHero>
 
   <StatsGrid columns={3}>
     <StatCard
-      description="Published articles connected to developer experience, engineering quality, testing, and automation."
-      label="Field notes"
+      description={t('page.publishedArticlesConnectedToDeveloperExperience')}
+      icon="notebook-pen"
+label={t('page.fieldNotes')}
       value={topicPosts.length}
     />
     <StatCard
-      description="Release lead-time reduction achieved by improving CI/CD pipelines and automating quality gates."
-      label="Delivery outcome"
+      description={t('page.releaseLeadTimeReductionAchievedBy')}
+      icon="timer"
+label={t('page.deliveryOutcome')}
       suffix="%"
       value={-75}
     />
     <StatCard
-      description="Building software products, delivery systems, and engineering practices across teams and platforms."
-      label="Experience"
+      description={t('page.buildingSoftwareProductsDeliverySystemsAnd')}
+      icon="briefcase-business"
+label={t('shared.experience')}
       value={YEARS_OF_EXPERIENCE}
     />
   </StatsGrid>
 
-  <PageSection>
+  <PageSection layout="stacked">
     <SectionHeader
-      description="The useful version of DX connects a recurring team problem to a measurable delivery outcome."
-      eyebrow="Working definition"
-      title="Developer experience is an operating system for delivery."
+      description={t('page.theUsefulVersionOfDxConnects')}
+      eyebrow={t('page.workingDefinition')}
+      title={t('page.developerExperienceIsAnOperatingSystem')}
     />
 
     <Card
       as="section"
-      class="
-        space-y-5 rounded-[1.75rem] p-6
-        sm:p-7
-      "
-      glass="subtle"
+      aria-label={t('page.workingDefinition')}
+      data-working-definition
+      variant="unstyled"
     >
-      <p class="text-base/8 text-ink-soft">
-        Good developer experience makes the correct path easier to discover, the risky path easier to
-        detect, and failures easier to recover from. It combines architecture, documentation, tooling,
-        tests, release processes, and team agreements into one coherent feedback system.
-      </p>
-      <p class="text-base/8 text-ink-soft">
-        That means measuring outcomes instead of counting tools. Faster feedback matters when it reduces
-        waiting. Automation matters when it removes repeated work. Standards matter when they help people
-        make decisions without guessing what “good” means.
-      </p>
-      <div class="section-actions">
-        <ButtonLink href="/blog/why-developer-experience-work-should-be-measured-like-product-work/" showArrow>
-          Read the measurement framework
-        </ButtonLink>
+      <div data-definition-spread>
+        <div data-definition-panel>
+          <p data-definition-label>{t('page.theSystem')}</p>
+          <h3>{t('page.makeThePathClear')}</h3>
+          <p data-definition-copy>
+            {t('page.goodDeveloperExperienceMakesTheCorrect')}
+          </p>
+        </div>
+        <div data-definition-panel>
+          <p data-definition-label>{t('page.theEvidence')}</p>
+          <h3>{t('page.measureWhatChanges')}</h3>
+          <p data-definition-copy>
+            {t('page.thatMeansMeasuringOutcomesInsteadOf')}
+          </p>
+        </div>
       </div>
+      <footer data-definition-footer>
+        <Link data-definition-action href={localizePath('/blog/why-developer-experience-work-should-be-measured-like-product-work/', pageLocale)} variant="inherit">
+          <span>{t('page.readTheMeasurementFramework')}</span>
+          <ArrowExchange class="shrink-0" direction="up-right" size="sm" />
+        </Link>
+      </footer>
     </Card>
   </PageSection>
 
   <PageSection>
     <SectionHeader
-      description="Four practices keep developer-experience work tied to product delivery instead of turning it into a collection of disconnected tools."
-      eyebrow="Operating model"
-      title="Make the feedback system explicit."
+      description={t('page.fourPracticesKeepDeveloperExperienceWork')}
+      eyebrow={t('page.operatingModel')}
+      title={t('page.makeTheFeedbackSystemExplicit')}
     />
 
     <RevealGroup
-class="
-  grid gap-5
-  sm:grid-cols-2
-"
-stagger={60}
+      class="
+        grid grid-cols-1 gap-5
+        sm:card-grid-2
+      "
+      stagger={60}
+      threshold={0}
     >
       {principles.map((principle, index) => (
-        <PrincipleCard body={principle.body} index={index} title={principle.title} />
+        <PrincipleCard body={principle.body} index={index} subtitle={principle.subtitle} title={principle.title} />
       ))}
     </RevealGroup>
   </PageSection>
 
-  <section
-    aria-label="Developer experience field guides"
-    class="
-      section-container-wide scroll-mt-28 pt-20
-      sm:pt-24
-      lg:pt-28
-    "
-    id="field-guides"
-  >
+  <PageSection layout="stacked">
     <SectionHeader
-      description="Start with measurement and standards, then follow the implementation paths through linting, testing, automation, and AI-assisted delivery."
-      eyebrow="Field guides"
+      id="field-guides"
+      description={t('page.startWithMeasurementAndStandardsThen')}
+      eyebrow={t('page.fieldGuides')}
       linkHref="/blog/tags/developer-experience/"
       linkLabel="Browse every developer experience post"
-      title="Evidence, decisions, and implementation details."
+      title={t('page.evidenceDecisionsAndImplementationDetails')}
     />
-    <div class="
-      mt-10
-      sm:mt-12
-    "
-    >
-      <PostsGallery columns={3} posts={featuredPosts} />
-    </div>
-  </section>
+    <PostsGallery columns={3} posts={featuredPosts} />
+  </PageSection>
 
-  <PageSection>
+  <PageSection layout="stacked">
     <SectionHeader
-      description="The portfolio shows how these ideas become products, rules, editor feedback, documentation, and reusable component systems."
-      eyebrow="Shipped systems"
-      title="The practice behind the writing."
+      description={t('page.thePortfolioShowsHowTheseIdeas')}
+      eyebrow={t('page.shippedSystems')}
+      title={t('page.thePracticeBehindTheWriting')}
     />
 
     <RevealGroup
-class="
-  grid gap-5
-  lg:grid-cols-3
-"
-stagger={60}
+      class="
+        grid grid-cols-1 gap-6
+        sm:card-grid-2
+        lg:card-grid-3
+      "
+      id="shipped-systems"
+      stagger={60}
+      threshold={0}
     >
-      <Card
-as="article"
-class="flex h-full flex-col gap-4 rounded-[1.75rem] p-6"
-variant="muted"
-      >
-        <h3 class="text-xl font-semibold">Astro Doctor</h3>
-        <p class="grow text-sm/7 text-ink-soft">
-          One rule system expressed through a CLI, ESLint, editor diagnostics, CI feedback, and agent guidance.
-        </p>
-        <ButtonLink href="/portfolio/astro-doctor/" showArrow variant="inline">Explore Astro Doctor</ButtonLink>
-      </Card>
-      <Card
-as="article"
-class="flex h-full flex-col gap-4 rounded-[1.75rem] p-6"
-variant="muted"
-      >
-        <h3 class="text-xl font-semibold">ESLint Config Basic</h3>
-        <p class="grow text-sm/7 text-ink-soft">
-          Composable standards designed to reduce configuration work while keeping framework and monorepo decisions explicit.
-        </p>
-        <ButtonLink href="/portfolio/eslint-config-basic/" showArrow variant="inline">Explore the ESLint toolkit</ButtonLink>
-      </Card>
-      <Card
-as="article"
-class="flex h-full flex-col gap-4 rounded-[1.75rem] p-6"
-variant="muted"
-      >
-        <h3 class="text-xl font-semibold">Lumen UI</h3>
-        <p class="grow text-sm/7 text-ink-soft">
-          Shared accessibility, interaction, and token contracts across Astro, React, and Web Components without runtime lock-in.
-        </p>
-        <ButtonLink href="/portfolio/lumen-ui/" showArrow variant="inline">Explore Lumen UI</ButtonLink>
-      </Card>
+      {shippedSystems.map(system => <ShippedSystemCard {...system} />)}
     </RevealGroup>
   </PageSection>
 </PageLayout>
+
+<style>
+  [data-working-definition][data-slot='card'] {
+    --definition-accent: hsl(var(--brand));
+    container: working-definition / inline-size;
+    min-width: 0;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    overflow-wrap: anywhere;
+  }
+  :global([data-theme='dark']) [data-working-definition] { --definition-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  [data-definition-spread] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  [data-definition-panel] { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 1.375rem; min-width: 0; padding: 1.75rem; }
+  [data-definition-panel]:first-child { border-right: 1px solid hsl(var(--line)); border-radius: 1.4375rem 0 0 0; background: hsl(var(--brand-soft)); }
+  [data-definition-label] { margin: 0; color: var(--definition-accent); font-size: 0.6875rem; line-height: 1.8; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-definition-panel] h3 { margin: 0; color: hsl(var(--ink)); font-size: 1.4375rem; line-height: 1.35; font-weight: 500; letter-spacing: -0.04em; hyphens: none; }
+  [data-definition-copy] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.95; }
+  [data-definition-footer] { padding: 1.375rem 1.75rem; border-top: 1px solid hsl(var(--line)); }
+  [data-definition-action][data-slot='link'] { display: flex; align-items: center; justify-content: space-between; gap: 1.125rem; min-height: 2.75rem; color: var(--definition-accent); font-size: 0.875rem; line-height: 1.7; font-weight: 500; text-decoration: none; }
+  [data-definition-action]:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-definition-action]:focus-visible { outline: 2px solid var(--definition-accent); outline-offset: 4px; }
+  @container working-definition (width < 35rem) {
+    [data-definition-spread] { grid-template-columns: minmax(0, 1fr); }
+    [data-definition-panel]:first-child { border-right: 0; border-bottom: 1px solid hsl(var(--line)); border-radius: 1.4375rem 1.4375rem 0 0; }
+  }
+  @container working-definition (width < 22.5rem) {
+    [data-definition-panel] { padding: 1.375rem min(1.125rem, 18px); }
+    [data-definition-footer] { padding: 1.125rem min(1.125rem, 18px); }
+  }
+</style>

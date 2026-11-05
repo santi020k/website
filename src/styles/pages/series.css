@@ -1,0 +1,84 @@
+@reference "../global.css";
+
+/* Styles used only by blog series detail pages. src/pages/blog/series/[slug].astro imports
+ * this file, so these rules stay out of the render-blocking Base bundle that every page loads
+ * (and /es/ routes reuse the same page component). Rules shared across routes belong in
+ * ../partials. */
+
+/* ─── Moved from partials/remaining-pages.css ─── */
+/* The series owns its section spacing instead of adding the page frame gap twice. */
+.series-detail-page { --page-flow-gap: 0rem; gap: 0; }
+
+/* Reader preface shares an open spread with the focus links. */
+[data-series-overview] { container: series-overview / inline-size; margin-top: 4rem; }
+
+[data-series-overview-grid] { display: grid; gap: 2rem; padding-top: 2rem; border-top: 1px solid hsl(var(--line)); }
+
+[data-series-introduction] { --preface-accent: hsl(var(--brand)); min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
+
+[data-theme='dark'] [data-series-introduction] { --preface-accent: hsl(var(--accent)); }
+
+[data-series-introduction] h2 { max-width: 24ch; margin: 0 0 1.25rem; color: hsl(var(--ink)); font-size: 1.75rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.045em; text-wrap: balance; }
+
+[data-series-preface-body] > p:first-of-type { padding-inline-start: 1.125rem; border-inline-start: 2px solid var(--preface-accent); }
+
+[data-series-preface-body] p + p { margin-top: 1rem; }
+
+[data-series-reader-note] { margin-top: 1.375rem; padding-top: 1.125rem; border-top: 1px solid hsl(var(--line)); font-size: 0.8125rem; line-height: 1.85; }
+
+[data-series-reader-note-label] { display: block; margin-bottom: 0.5rem; color: var(--preface-accent); font-size: 0.6875rem; font-weight: 500; line-height: 1.8; letter-spacing: 0.06em; text-transform: uppercase; }
+
+@container series-overview (width >= 52rem) {
+  [data-series-overview-grid]:has([data-series-focus]) { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 3rem; }
+}
+
+@container series-overview (width < 30rem) {
+  [data-series-introduction] h2 { font-size: 1.625rem; }
+}
+
+@container series-overview (width < 16rem) {
+  [data-series-introduction] h2 { font-size: 1.375rem; }
+}
+
+[data-post-gallery-grid='chapters'] [data-post-gallery-part] { order: -1; color: hsl(var(--brand)); font-weight: 500; }
+
+[data-theme='dark'] [data-post-gallery-grid='chapters'] [data-post-gallery-part] { color: hsl(var(--accent)); }
+
+/* Series chapters sit in individual sleeves; article recommendations stay open. */
+.series-detail-page [data-post-gallery-grid='chapters'] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+
+.series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-card][data-slot='card'] {
+  padding: 0;
+  overflow: visible;
+  border: 1px solid hsl(var(--line));
+  border-radius: 1.5rem 1.5rem .375rem 1.5rem;
+  background: hsl(var(--surface));
+  box-shadow: .375rem -.375rem 0 hsl(var(--brand-soft));
+}
+
+.series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-card] > a {
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1.375rem;
+  padding: 1.5rem;
+  border-radius: inherit;
+}
+
+.series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-cover] { aspect-ratio: 4 / 3; }
+
+.series-detail-page [data-post-gallery-grid='chapters'] h3 { font-size: 1.375rem; }
+
+.series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-footer] {
+  margin-top: 1.125rem;
+  padding-top: 1rem;
+  border-top: 1px solid hsl(var(--line));
+}
+
+@container chapter-gallery (width < 31.25rem) {
+  .series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-card] > a { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; padding: 1.25rem; }
+  .series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-cover] { aspect-ratio: 16 / 9; }
+}
+
+@container chapter-gallery (width < 20rem) {
+  .series-detail-page [data-post-gallery-grid='chapters'] [data-post-gallery-card] > a { padding: .75rem; }
+  .series-detail-page [data-post-gallery-grid='chapters'] h3 { font-size: 1.125rem; line-height: 1.4; }
+}

@@ -1,0 +1,174 @@
+---
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+
+import { Callout, Link } from '@santi020k/lumen-astro'
+
+interface Props {
+  currentPackage: string
+  href: string
+  replacementPackage: string
+}
+
+const { currentPackage, href, replacementPackage } = Astro.props
+const separator = replacementPackage.lastIndexOf('/') + 1
+const scope = replacementPackage.slice(0, separator)
+const name = replacementPackage.slice(separator)
+---
+
+<Callout aria-label="This library has been superseded." class="not-prose" data-project-replacement>
+  <div data-replacement-spread>
+    <div data-replacement-context>
+      <p data-replacement-title>This library has been superseded.</p>
+      <p><code>{currentPackage}</code></p>
+    </div>
+    <Link
+      href={href}
+      variant="inherit"
+      data-replacement-destination
+    >
+      <span data-replacement-label>Use for new projects</span>
+      <code data-replacement-name>{scope && <span data-replacement-scope>{scope}</span>}{name}</code>
+      <span data-replacement-action>
+        <span>Explore the replacement</span>
+        <span data-replacement-arrow><ArrowExchange
+direction="up-right"
+class="size-5"
+                                     /></span>
+      </span>
+    </Link>
+  </div>
+  <div data-replacement-description><slot /></div>
+</Callout>
+
+<style>
+  :global([data-project-replacement]) {
+    --replacement-accent: hsl(var(--brand));
+    container: replacement / inline-size;
+    display: block;
+    margin-block: 2.5rem;
+    padding: 1.5rem 0;
+    border: 0;
+    border-block: 1px solid hsl(var(--line));
+    border-radius: 0;
+    background: transparent;
+    color: hsl(var(--ink));
+    box-shadow: none;
+  }
+
+  :global(:root[data-theme='dark'] [data-project-replacement]) {
+    --replacement-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
+  }
+
+  [data-replacement-spread] {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  [data-replacement-context] { min-width: 0; }
+  [data-replacement-context] p { margin: 0; }
+
+  [data-replacement-context] [data-replacement-title] {
+    margin-bottom: 1.125rem;
+    color: hsl(var(--ink));
+    font: 500 1.375rem/1.35 var(--font-sans);
+    letter-spacing: -0.035em;
+    hyphens: none;
+    overflow-wrap: anywhere;
+  }
+
+  [data-replacement-context] code {
+    padding: 0;
+    background: none;
+    color: hsl(var(--ink-soft));
+    font: 400 0.8125rem/1.75 var(--font-code);
+    overflow-wrap: anywhere;
+  }
+
+  :global([data-replacement-destination]) {
+    display: block;
+    min-width: 0;
+    padding: 1.5rem;
+    border-radius: 0.25rem 1.75rem 1.75rem 1.75rem;
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--ink));
+    text-decoration: none;
+  }
+
+  [data-replacement-label], [data-replacement-action] {
+    color: var(--replacement-accent);
+    font: 500 0.8125rem/1.6 var(--font-sans);
+  }
+
+  [data-replacement-name] {
+    display: block;
+    margin-block: 1.125rem 1.375rem;
+    padding: 0;
+    background: none;
+    color: hsl(var(--ink));
+    font: 500 1.75rem/1.25 var(--font-sans);
+    letter-spacing: -0.045em;
+    overflow-wrap: anywhere;
+  }
+
+  [data-replacement-scope] {
+    display: block;
+    color: hsl(var(--ink-soft));
+    font: 400 0.8125rem/1.8 var(--font-code);
+    letter-spacing: 0;
+  }
+
+  [data-replacement-action] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  [data-replacement-arrow] {
+    display: grid;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    place-items: center;
+    border-radius: 50%;
+    background: hsl(var(--surface));
+  }
+
+  :global([data-replacement-destination]:is(:hover, :focus-visible)) [data-replacement-name] {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3125rem;
+  }
+
+  :global([data-replacement-destination]:focus-visible) {
+    outline: 2px solid var(--replacement-accent);
+    outline-offset: 4px;
+  }
+
+  [data-replacement-description] {
+    margin-top: 1.5rem;
+    color: hsl(var(--ink-soft));
+    font: 400 0.9375rem/1.8 var(--font-sans);
+    overflow-wrap: anywhere;
+  }
+
+  [data-replacement-description] :global(p) { margin: 0; color: inherit; font: inherit; }
+
+  @container replacement (width < 35rem) {
+    [data-replacement-spread] { grid-template-columns: minmax(0, 1fr); gap: 1.375rem; }
+    [data-replacement-context] [data-replacement-title] { margin-bottom: 0.75rem; }
+    [data-replacement-name] { margin-block: 1rem 1.25rem; }
+  }
+
+  @container replacement (width < 26rem) {
+    :global([data-replacement-destination]) { padding: 1.375rem; }
+    [data-replacement-name] { font-size: 1.5625rem; }
+  }
+
+  @container replacement (width < 18rem) {
+    :global([data-replacement-destination]) { padding: 1.25rem; }
+    [data-replacement-action] { flex-wrap: wrap; }
+  }
+</style>

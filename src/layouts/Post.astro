@@ -1,48 +1,82 @@
 ---
-import { type CollectionEntry, render } from 'astro:content'
+import type { MarkdownHeading } from 'astro'
+
+import type { CollectionEntry } from 'astro:content'
 import { WEBMENTION_API_KEY } from 'astro:env/server'
 
+import ArticleCodeRecovery from '@/components/molecules/ArticleCodeRecovery.astro'
+import ArticleExampleFolds from '@/components/molecules/ArticleExampleFolds.astro'
+import ArticleFigureViewers from '@/components/molecules/ArticleFigureViewers.astro'
+import ArticlePublicationImprint from '@/components/molecules/ArticlePublicationImprint.astro'
+import ArticleSectionReferences from '@/components/molecules/ArticleSectionReferences.astro'
 import CommentsSection from '@/components/molecules/CommentsSection.astro'
-import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
+import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
+import ReadingChapterOpener from '@/components/molecules/ReadingChapterOpener.astro'
+import ReadingContents from '@/components/molecules/ReadingContents.astro'
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
 import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
-import TocCard from '@/components/molecules/TocCard.astro'
 import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
+import type { PrintReference } from '@/plugins/rehype-print-references'
+import { localizeArticleControls } from '@/utils/article-control-language'
+import { getArticlePageImprint } from '@/utils/article-page-imprint'
+import { getPublicationImprint } from '@/utils/article-publication'
 import { getPostSlug } from '@/utils/posts'
+import { getReadingStats } from '@/utils/reading-time'
+import { getSocialImageURL } from '@/utils/social-image'
 import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 
-import { ScrollProgress } from '@santi020k/lumen-astro'
-import readingTime from 'reading-time'
+import '@/styles/article-print.css'
+import '@/styles/prose.css'
 
+import { ScrollProgress, SkipLink } from '@santi020k/lumen-astro'
+
+import { ogManifest } from '@/data/og-manifest'
 import { getSeriesContext } from '@/data/series'
+import { getLocale, localizePath, stripLocale } from '@/i18n'
+import { articleTranslator } from '@/i18n/article-copy'
+import { collectionTranslator } from '@/i18n/collection-copy'
 import {
   createAuthorSchema,
   createPublisherSchema,
-  createWebsiteSchemaReference
+  createWebsiteSchemaReference,
+  siteConfig
 } from '@/site.config'
 
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
+
 interface Props {
+  figureCaptions: string[]
+  headings: MarkdownHeading[]
   post: CollectionEntry<'post'>
+  printReferences: PrintReference[]
+  recommendationUrls: string[]
 }
 
-const { post } = Astro.props
+const { figureCaptions, headings, post, printReferences, recommendationUrls } = Astro.props
+const { imprint: publicationImprint, references: articlePrintReferences } = getPublicationImprint(post.data, printReferences)
+const articleHtml = localizeArticleControls(await Astro.slots.render('default') ?? '', locale)
 const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
-// Use Dynamic OG Image generator (/og/blog/[id].webp)
-const ogImage = new URL(`/og/blog/${getPostSlug(post.id)}.webp`, Astro.site).href
-const stats = readingTime(post.body ?? '')
-const wordCount = Math.round(stats.words)
+
+// Articles are written in English, so every locale shares the English card.
+const ogImage = getSocialImageURL(
+  stripLocale(Astro.url.pathname),
+  Astro.site,
+  `/og/blog/${getPostSlug(post.id)}.webp`,
+  ogManifest
+)
+
+const { words: wordCount } = getReadingStats(post.body)
 const localURL = new URL(Astro.url.pathname, Astro.site)
 const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : localURL
 const seriesContext = await getSeriesContext(post)
-// Extract headings for the sticky TOC sidebar (same pattern as Projects.astro)
-const { headings } = await render(post)
-const pageTargetUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com').href
+const hasContents = headings.some(heading => heading.depth <= 3)
+const pageTargetUrl = new URL(stripLocale(Astro.url.pathname), Astro.site ?? 'https://santi020k.com').href
 
 const webmentions = WEBMENTION_API_KEY ?
   await fetchWebmentionsForTarget(pageTargetUrl, WEBMENTION_API_KEY) :
@@ -70,8 +104,8 @@ const blogPostingSchema: Record<string, unknown> = {
 }
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
+  { name: t('nav.home'), url: localizePath('/', locale) },
+  { name: 'Blog', url: localizePath('/blog/', locale) },
   { name: title, url: Astro.url.pathname }
 ]
 
@@ -84,6 +118,7 @@ mainClass="remaining-pages remaining-pages--reading"
     articleUpdated: updatedDate?.toISOString(),
     breadcrumbs,
     canonicalUrl: canonicalURL.href,
+    contentLocale: 'en',
     description,
     ogImage,
     ogImageAlt: post.data.coverImage?.alt ?
@@ -94,34 +129,58 @@ mainClass="remaining-pages remaining-pages--reading"
     title
   }}
 >
-  <ScrollProgress />
+  <style is:inline data-article-page-imprint set:html={getArticlePageImprint(title)} />
+  <ScrollProgress targetId="article-content" />
 
-  <article class="h-entry section-container-wide flex flex-col gap-10">
-    <a class="u-url sr-only" href={localURL.href}>Permalink to this article</a>
+  <article class="h-entry section-container-wide flex flex-col" data-reading-layout>
+    <SkipLink
+href="#article-content"
+class="
+  max-w-[calc(100%-1.5rem)]
+  motion-reduce:transition-none
+"
+data-article-skip
+    >
+      {articleTranslator(locale)('article.skipToText')}
+    </SkipLink>
+    <!-- The h-entry permalink is metadata only, so it adds no focus stop or announcement. -->
+    <data class="u-url" hidden value={localURL.href}></data>
     <PostHero post={post} />
 
-    <!-- ── Two-column body: prose + sticky TOC sidebar ─────────── -->
+    <!-- ── Body: prose + sticky TOC sidebar when the reading container has room ── -->
     <section
-      class="
-        grid grid-cols-1 gap-10 pt-10
-        lg:grid-cols-[minmax(0,1fr)_18rem]
-      "
-      data-animate
+      class="grid grid-cols-1 gap-10"
+      data-reading-body
     >
-      <!-- Left: article prose, series navigator, share -->
-      <div class="min-w-0 space-y-10">
-        <div class="e-content max-w-none space-y-8 pt-4">
-          <ContentNotesHeader
-            description="Notes, guides, and personal discoveries from things I build, enjoy, and learn."
-            label="Article notes"
-            pill={post.data.postType}
-          />
-
-          <div class="prose-santi max-w-none">
-            <slot />
+      <!-- The reading rail shares a boundary with prose, before the closing flow. -->
+      <div class="min-w-0 space-y-10" data-post-story>
+        {hasContents && (
+          <div data-post-mobile-toc>
+            <ReadingChapterOpener companion headings={headings} />
           </div>
+        )}
+        <div class="e-content max-w-none">
+          <div lang="en" class="prose-santi max-w-none" data-article-prose data-pagefind-body id="article-content" tabindex="-1">
+            <Fragment set:html={articleHtml} />
+          </div>
+          {publicationImprint && <ArticlePublicationImprint imprint={publicationImprint} />}
+          {figureCaptions.length > 0 && <ArticleFigureViewers captions={figureCaptions} />}
+          <ArticleSectionReferences headings={headings} url={localURL.href} />
+          <ArticleExampleFolds />
+          <ArticleCodeRecovery />
         </div>
+      </div>
 
+      <!-- A stretched grid cell bounds the sticky contents to the prose row. -->
+      {hasContents && (
+        <div class="min-w-0" data-post-rail-boundary>
+          <aside aria-label="Article navigation" class="min-w-0 space-y-5" data-post-desktop-toc data-reading-rail>
+            <ReadingContents headings={headings} />
+          </aside>
+        </div>
+      )}
+
+      <div class="min-w-0 space-y-10" data-post-continuation>
         {seriesContext && (
           <SeriesNavigator
             currentPostId={post.id}
@@ -134,26 +193,131 @@ mainClass="remaining-pages remaining-pages--reading"
           />
         )}
 
-        <ShareButtons title={title} url={localURL.href} />
+        <div data-article-closing id="article-close">
+          <ShareButtons title={title} url={localURL.href} variant="colophon" />
 
-        <WebmentionsSection mentions={webmentions} />
+          <CommentsSection />
 
-        <CommentsSection />
-
-        <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} />
+          <WebmentionsSection mentions={webmentions} />
+        </div>
       </div>
-
-      <!-- Right: sticky TOC — only rendered when the post has headings -->
-      {!!headings.length && (
-        <aside aria-label="Article navigation" class="min-w-0 editorial-rail">
-          <TocCard headings={headings} />
-        </aside>
-      )}
     </section>
+    {articlePrintReferences.length > 0 && (
+      <section data-article-print-references aria-labelledby="article-print-references-heading">
+        <h2 id="article-print-references-heading">References</h2>
+        <ol>
+          {articlePrintReferences.map(({ href, label }, index) => (
+            <li id={`article-print-reference-${index + 1}`}>
+              <span>{label}</span>
+              <a href={href} target="_blank" rel="noopener noreferrer">{href.replace(/^https:\/\//u, '')}</a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+    <p data-article-print-source>
+      <span>{title}</span>
+      <a href={localURL.href}>{localURL.href}</a>
+    </p>
   </article>
 
-  <PageSection>
-    <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
-  </PageSection>
+  <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} excludeUrls={recommendationUrls} tags={post.data.tags} />
+
+  {siteConfig.newsletter && (
+    <aside aria-label="Newsletter" class="section-container-wide" data-article-newsletter>
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} idSuffix="article" />
+    </aside>
+  )}
+
+  <div class="section-container-wide" data-post-final-return>
+    <ProjectFooterNav parentPage={{ name: 'Blog', url: localizePath('/blog/', locale) }} variant="colophon" />
+  </div>
 
 </BaseLayout>
+
+<style>
+  /* Let the focused shortcut clear the sticky header above the main stacking context. */
+  :global(main:has([data-article-skip]:focus)) { isolation: auto; }
+
+  [data-article-closing] :global(#comments) { padding-block-start: 1.75rem; }
+
+  [data-post-mobile-toc][data-companion-sticky] {
+    position: sticky;
+    top: var(--chapter-companion-top);
+    z-index: 20;
+  }
+  [data-post-mobile-toc][data-companion-ended] { visibility: hidden; }
+  [data-post-story] :global(h2[id], h3[id]) {
+    scroll-margin-block-start: max(4rem, var(--chapter-companion-clearance, 0px));
+  }
+  [data-article-newsletter] { max-width: 56rem; margin-block: 3rem 0; }
+
+  @container reading-layout (width < 40rem) {
+    [data-reading-body] { padding-block-start: 1.75rem; }
+    [data-post-mobile-toc] { margin-block-end: 1.75rem; }
+  }
+
+  /* The build-time Reference ledger belongs only to current article prose. */
+  [data-article-prose] :global([data-article-references]) {
+    --reference-accent: hsl(var(--brand));
+    container: article-references / inline-size;
+    margin-block: 2.125rem 2.5rem;
+    color: hsl(var(--ink));
+    font: 400 1rem/1.65 var(--font-sans);
+  }
+  :global([data-theme='dark']) [data-article-prose] :global([data-article-references]) {
+    --reference-accent: hsl(var(--accent));
+  }
+  [data-article-prose] :global([data-series-connection]) { margin-block-end: 0; }
+  [data-reading-body] :global(.e-content:has([data-series-connection])) { margin-block-end: 0; }
+  [data-reading-body]:has(:global([data-series-content])) {
+    row-gap: 0;
+  }
+  [data-reading-body]:has(:global([data-series-connection])) [data-post-continuation] :global([data-series-content]) {
+    margin-block-start: 1.25rem;
+  }
+  [data-article-prose] :global([data-reference-header]) {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: .5rem;
+    color: var(--reference-accent);
+    font-size: .8125rem;
+    font-weight: 500;
+  }
+  [data-article-prose] :global([data-reference-header] p) { margin: 0; }
+  [data-article-prose] :global([data-reference-rule]) { flex: 1; height: 1px; background: hsl(var(--line)); }
+  [data-article-prose] :global([data-article-references] svg) { width: 1.125rem; height: 1.125rem; flex-shrink: 0; }
+  [data-article-prose] :global([data-article-references] ul) { margin: 0; padding: 0; list-style: none; }
+  [data-article-prose] :global([data-article-references] li) { margin: 0; padding: 0; }
+  [data-article-prose] :global([data-reference-link]) {
+    display: grid;
+    grid-template-columns: 6.25rem minmax(0, 1fr) 1.5rem;
+    align-items: start;
+    column-gap: 1.125rem;
+    min-height: 4.25rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  [data-article-prose] :global([data-reference-kind]) { padding-top: .1875rem; color: hsl(var(--ink-soft)); font-size: .75rem; }
+  [data-article-prose] :global([data-reference-title]) { min-width: 0; font-weight: 500; }
+  [data-article-prose] :global([data-reference-link] > [data-arrow-exchange]) { width: 1.125rem; height: 1.125rem; margin-top: .3125rem; color: var(--reference-accent); }
+  [data-article-prose] :global([data-reference-source]) {
+    display: block;
+    margin-top: .1875rem;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    font-weight: 400;
+  }
+  [data-article-prose] :global([data-reference-link]:hover [data-reference-title]) { color: var(--reference-accent); }
+  [data-article-prose] :global([data-reference-link]:focus-visible) { outline: 2px solid var(--reference-accent); outline-offset: 4px; }
+  @container article-references (width < 32rem) {
+    [data-article-prose] :global([data-reference-link]) { grid-template-columns: minmax(0, 1fr) 1.5rem; row-gap: .375rem; }
+    [data-article-prose] :global([data-reference-kind]) { grid-column: 1; padding: 0; }
+    [data-article-prose] :global([data-reference-title]) { grid-column: 1; grid-row: 2; }
+    [data-article-prose] :global([data-reference-link] > [data-arrow-exchange]) { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; }
+  }
+</style>

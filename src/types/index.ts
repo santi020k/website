@@ -4,10 +4,8 @@
  * Import from '@/types' (resolves to this file via the index convention).
  * Domain-specific files can also be imported directly for smaller bundles:
  *   import type { SiteMeta } from '@/types/site'
- *   import type { MediumPost } from '@/types/medium'
  */
-export type { AdmonitionType } from './content'
-export type { MediumPost } from './medium'
+export type { AdmonitionType, ProjectPreviewImage } from './content'
 export type {
   PaginationLink,
   PreloadAsset,

@@ -1,0 +1,162 @@
+---
+title: "eslint-config-basic"
+description: "Built a DX-first ESLint toolkit for JavaScript and TypeScript teams that want stronger defaults, less setup friction, and cleaner reviews."
+cardDescription: "Shared ESLint defaults for JavaScript and TypeScript teams. Spend less time configuring rules and more time reviewing useful changes."
+brand:
+  primary: "#621bbb"
+  secondary: "#a878d8"
+  surface: "#160b2b"
+role: "Creator"
+startingDate: "1 Mar 2024"
+githubUrl: "https://github.com/santi020k/eslint-config-basic"
+liveDemoUrl: "https://eslint.santi020k.com/"
+typesId: "personal"
+purpose: "developer-tools"
+relevanceWeight: 90
+impactMetrics: [
+  "229+ weekly npm downloads across personal, client, and shared codebases",
+  "Reduced repeated setup work for new projects and experiments",
+  "Encoded strong defaults across React, Next.js, Astro, and monorepos"
+  ]
+technologies: [
+  "React.js", "Next.js", "TypeScript", "Node.js", "Astro", "Expo", "ESLint", "JavaScript", "Code Quality", "Monorepo", "CI-CD", "DevOps Automation", "NPM", "Open Source", "Vitest", "Tailwind CSS", "i18next", "Testing", "Developer Documentation", "Developer Experience (DX)"
+  ]
+coverImage:
+  src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo-square.svg"
+  logoAspect: "square"
+  logoSurface: "dark"
+  alt: "@santi020k/eslint-config-basic badge on an indigo and lilac geometric cover"
+  ogImage: "./cover-eslint-config.webp"
+focusAreas:
+  - label: "Shared standards"
+    description: "Composable JavaScript and TypeScript defaults"
+  - label: "Framework support"
+    description: "Optional packages for the tools already in a project"
+  - label: "Team workflows"
+    description: "Strict CI checks, examples, and practical documentation"
+notesLayout: "context-lead"
+relatedWriting:
+  - post: "2026/eslint-config-basic-version-2"
+    label: "Release guide"
+  - post: "2026/why-i-moved-my-eslint-library-to-eslint-config-basic"
+    label: "Migration story"
+---
+
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="eslint-config-basic" headingId="building-a-dx-first-eslint-toolkit">
+
+## Building a DX-first ESLint toolkit
+
+I built `@santi020k/eslint-config-basic` to remove lint setup friction from the kind of projects I work on most: React, Next.js, Astro, TypeScript, and monorepos with real teams behind them. It is the successor to my original [`@santi020k/eslint-config-santi020k`](/portfolio/eslint-config-santi020k/) package, rebuilt from scratch around ESLint's flat config format with a much wider framework footprint and better DX throughout.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Results", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="eslint-config-basic"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Goals
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Reduce setup friction** for new projects so teams can get to useful standards faster.
+
+</li>
+
+<li>
+
+**Encode strong defaults** based on real project work across front-end apps, tooling, Astro sites, and monorepos.
+
+</li>
+
+<li>
+
+**Stay composable** so different stacks can opt into the pieces they actually need instead of inheriting a giant monolith.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### What I built
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A composable ESLint core"}>
+
+for JavaScript and TypeScript projects, with auto-detection for the frameworks and tools already in your repo.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Optional packages"}>
+
+for `React`, `Next.js`, `Astro`, `Vue`, `Svelte`, `Solid`, `Angular`, `NestJS`, `Expo`, `Qwik`, and `Remix`.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"A strict mode"}>
+
+that promotes warnings to errors for CI/CD pipelines and stricter team workflows.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"First-class support for Tailwind CSS, Vitest, and Testing Library,"}>
+
+plus documentation and examples that make adoption easier for teams, not just for me.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Results
+
+</ProjectSectionHeading>
+
+- **229+ weekly npm downloads** across personal, client, and shared codebases.
+- **Less repeated setup work** whenever a new project or experiment starts.
+- **A reusable expression of my engineering standards** in a form other teams can actually adopt and extend.
+
+<ProjectSectionHeading>
+
+### Why it matters
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Linting is rarely the star of the show, but it changes how teams work."}>
+
+This project reflects how I think about developer tooling in general: remove friction, encode good defaults, and make quality easier to maintain at scale.
+
+</ProjectPrincipleClose>
+
+![NPM Package](npm.webp)

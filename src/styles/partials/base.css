@@ -4,6 +4,8 @@
  * ─────────────────────────────────────────────────────────────────────────── */
 
 @layer base {
+  /* Limit fallback faces to the shipped font's script and symbol ranges. Emoji
+     and unsupported scripts should go directly to a system fallback. */
   @font-face {
     font-family: "Montserrat";
     src: url("/fonts/montserrat-variable-font-wght.woff2") format("woff2"),
@@ -11,6 +13,7 @@
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
+    unicode-range: U+0000-052F, U+1D00-1EFF, U+2000-22FF, U+24B6-24D0, U+25A0-25FF, U+27E8-27E9, U+2C60-2C7F, U+A700-A7FF, U+AB30-AB6F, U+FB00-FB06, U+FFFF;
   }
 
   @font-face {
@@ -20,6 +23,27 @@
     font-style: italic;
     font-weight: 100 900;
     font-display: swap;
+    unicode-range: U+0000-052F, U+1D00-1EFF, U+2000-22FF, U+24B6-24D0, U+25A0-25FF, U+27E8-27E9, U+2C60-2C7F, U+A700-A7FF, U+AB30-AB6F, U+FB00-FB06, U+FFFF;
+  }
+
+  /* The later matching faces serve common Latin text without downloading the
+     full character set. Other scripts retain the original faces above. */
+  @font-face {
+    font-family: "Montserrat";
+    src: url("../../assets/fonts/montserrat-variable-font-wght.latin.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0300-036F, U+2000-206F, U+20AC, U+2122, U+2190-21FF, U+2212, U+2215, U+2265, U+FEFF, U+FFFD;
+  }
+
+  @font-face {
+    font-family: "Montserrat";
+    src: url("../../assets/fonts/montserrat-italic-variable-font-wght.latin.woff2") format("woff2");
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0300-036F, U+2000-206F, U+20AC, U+2122, U+2190-21FF, U+2212, U+2215, U+2265, U+FEFF, U+FFFD;
   }
 
   /* Note: overflow-x: clip on html/body makes the root a non-scroll-container,
@@ -39,7 +63,10 @@
     font-family: var(--font-sans);
     letter-spacing: 0.025em;
     text-rendering: optimizeLegibility;
-    scroll-padding-top: 5rem;
+    /* The sticky header bar ends at 6rem; keep fragment targets clear of it with a small gap.
+       On <html>, 7em equals 7rem, but WebKit can resolve rem here against the default font
+       size and ignore an enlarged root font size, so use em. */
+    scroll-padding-top: 7em;
   }
 
   body {
@@ -66,6 +93,10 @@
         transparent 22rem
       ),
       hsl(var(--theme-bg));
+    /* Each layer already covers the whole body, so repeating paints the same pixels.
+       Chromium would still rasterize a repeat tile as tall as the page, which stalls
+       long articles for hundreds of milliseconds. */
+    background-repeat: no-repeat;
     color: hsl(var(--ink));
   }
 
@@ -93,6 +124,7 @@
       ),
       url("@santi020k/theme/assets/wallpapers/wallpaper-3-desktop.webp") center center / cover,
       hsl(var(--theme-bg));
+    background-repeat: no-repeat;
     /* Avoid `background-attachment: fixed` on small screens and when reduced motion is requested:
        on mobile/low-end GPUs it causes scroll-time compositing cost. Restrict to wide,
        precise-pointer environments where the parallax effect is desired. */
@@ -183,3 +215,20 @@
     }
   }
 }
+
+/* Match Lumen's local reduced-motion preference for OS preferences too. Its
+   universal 1ms duration otherwise gives elements with the default `all` property
+   implicit font-size, padding and gap transitions. Browsers can defer those until
+   focus or scrolling, leaving reading targets and joined frames out of sync. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after,
+  *::backdrop {
+    transition-property: none !important;
+  }
+}
+
+/* Page layouts omit decorations when using a quiet editorial canvas. */
+body[data-backdrop="plain"],
+body[data-backdrop="particles"] { background: hsl(var(--theme-bg)); }

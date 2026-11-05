@@ -8,10 +8,54 @@ const findSchema = async (page: Page, type: string) => {
   const contents = await page.locator('script[type="application/ld+json"]').allTextContents()
   const schemas = contents.map((content): unknown => JSON.parse(content)).flat()
 
-  return schemas.find((value): value is Record<string, unknown> => typeof value === 'object' && value !== null && '@type' in value && value['@type'] === type)
+  return schemas.find((value): value is Record<string, unknown> => typeof value === 'object' && value !== null && '@type' in value && (value['@type'] === type || (Array.isArray(value['@type']) && value['@type'].includes(type))))
 }
 
 test.describe('SEO — meta tags', () => {
+  test('project modification dates describe page edits rather than employment dates', async ({ page }) => {
+    await page.goto('/portfolio/lumen-ui/')
+    const schema = await findSchema(page, 'CreativeWork')
+    const { dateModified } = z.object({ dateModified: z.string() }).parse(schema)
+    const sitemap = await (await page.request.get('/sitemap-0.xml')).text()
+    const lastModified = await page.evaluate(xml => {
+      const document = new DOMParser().parseFromString(xml, 'application/xml')
+      const location = [...document.querySelectorAll('loc')].find(node => node.textContent === 'https://santi020k.com/portfolio/lumen-ui/')
+
+      return location?.parentElement?.querySelector('lastmod')?.textContent
+    }, sitemap)
+
+    expect(lastModified).toBeTruthy()
+    expect(dateModified).toBe(lastModified)
+
+    const archiveLastMods = await page.evaluate(xml => {
+      const document = new DOMParser().parseFromString(xml, 'application/xml')
+      const paths = [
+        'https://santi020k.com/blog/',
+        'https://santi020k.com/projects/',
+        'https://santi020k.com/blog/tags/',
+        'https://santi020k.com/blog/tags/typescript/',
+        'https://santi020k.com/blog/series/',
+        'https://santi020k.com/blog/series/the-santi020k-way/'
+      ]
+
+      return paths.map(target => {
+        const location = [...document.querySelectorAll('loc')].find(node => node.textContent === target)
+
+        return location?.parentElement?.querySelector('lastmod')?.textContent ?? null
+      })
+    }, sitemap)
+
+    for (const value of archiveLastMods) {
+      expect(value).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/u)
+    }
+
+    await page.goto('/portfolio/xgames/')
+    const endedProject = await findSchema(page, 'CreativeWork')
+
+    expect(endedProject).toBeDefined()
+    expect(endedProject).not.toHaveProperty('dateModified')
+  })
+
   test('AI search crawlers have explicit access without indexing the search payload', async ({ page }) => {
     const robotsResponse = await page.request.get('/robots.txt')
     const robots = await robotsResponse.text()
@@ -48,27 +92,41 @@ test.describe('SEO — meta tags', () => {
     expect(sitemap).not.toContain('https://santi020k.com/404/')
   })
 
-  test('non-empty taxonomy pages are indexable and included in the sitemap', async ({ page }) => {
-    const sparseTaxonomyPaths = [
-      '/blog/tags/alpine/',
-      '/technologies/actionlint/'
-    ]
+  test('thin taxonomy archives stay reachable but out of the index and sitemap', async ({ page }) => {
+    const manifestResponse = await page.request.get('/og/manifest.json')
+    const manifest = routeManifestSchema.parse(await manifestResponse.json())
+    // Fewer than three entries: reachable from navigation, out of search indexes, sharing the index card.
+    const thinArchives = [
+      ['/blog/tags/alpine/', '/blog/tags/'],
+      ['/technologies/actionlint/', '/technologies/'],
+      ['/es/blog/tags/alpine/', '/es/blog/tags/'],
+      ['/es/technologies/actionlint/', '/es/technologies/']
+    ] as const
 
-    for (const path of sparseTaxonomyPaths) {
+    for (const [path, indexPath] of thinArchives) {
+      const response = await page.goto(path)
+      expect(response?.status(), path).toBe(200)
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
+      await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0)
+      const indexImage = z.string().parse(getRouteManifestImage(manifest, indexPath)?.url)
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', new URL(indexImage, 'https://santi020k.com').href)
+      expect(getRouteManifestImage(manifest, path), `${path} should not have its own route card`).toBeUndefined()
+    }
+
+    for (const path of ['/blog/tags/typescript/', '/technologies/typescript/']) {
       await page.goto(path)
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-        'content', /\bindex, follow\b/u
-      )
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /\bindex, follow\b/u)
     }
 
     const sitemapResponse = await page.request.get('/sitemap-0.xml')
     const sitemap = await sitemapResponse.text()
 
-    for (const path of sparseTaxonomyPaths) {
-      expect(sitemap).toContain(`https://santi020k.com${path}`)
+    for (const [path] of thinArchives) {
+      expect(sitemap).not.toContain(`<loc>https://santi020k.com${path}</loc>`)
     }
 
-    expect(sitemap).toContain('https://santi020k.com/technologies/typescript/')
+    expect(sitemap).toContain('<loc>https://santi020k.com/technologies/typescript/</loc>')
+    expect(sitemap).toContain('<loc>https://santi020k.com/blog/tags/typescript/</loc>')
   })
 
   test('syndicated posts honor their declared canonical URL', async ({ page }) => {
@@ -80,6 +138,13 @@ test.describe('SEO — meta tags', () => {
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
       'content', 'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c'
     )
+
+    for (const path of ['/sitemap-0.xml', '/sitemap.xml']) {
+      const response = await page.request.get(path)
+
+      expect(response.ok()).toBe(true)
+      expect(await response.text()).not.toContain('https://santi020k.com/blog/atomic-module-component-structure-for-react/')
+    }
   })
 
   test('renders complete authored descriptions without padding short pages', async ({ page }) => {
@@ -114,6 +179,21 @@ test.describe('SEO — meta tags', () => {
     await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', headline)
   })
 
+  test('homepage title meets the production OG score limit and preserves social copy', async ({ page }) => {
+    await page.goto('/')
+
+    const title = await page.title()
+
+    expect(title.length).toBeLessThanOrEqual(60)
+    await expect(page).toHaveTitle('Santiago Molina — Full-Stack Engineer | santi020k')
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content', 'Engineering Leader & Full-Stack Architect'
+    )
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute(
+      'content', 'Engineering Leader & Full-Stack Architect'
+    )
+  })
+
   test('uses seoTitle only for the document title', async ({ page }) => {
     const headline = 'Authentication and Authorization in Next.js Applications with Supabase'
 
@@ -128,7 +208,7 @@ test.describe('SEO — meta tags', () => {
     const priorityPages = [
       {
         path: '/',
-        title: 'Santiago Molina — Full-Stack Engineer & Tech Lead | santi020k'
+        title: 'Santiago Molina — Full-Stack Engineer | santi020k'
       },
       {
         path: '/blog/flash-xteink-x4-international-firmware/',
@@ -144,7 +224,7 @@ test.describe('SEO — meta tags', () => {
       },
       {
         path: '/portfolio/postlens/',
-        title: 'PostLens: Private Photo Editing for iPhone | santi020k'
+        title: 'PostLens: Private Photo Editing for iPhone and iPad | santi020k'
       },
       {
         path: '/portfolio/roadscore/',
@@ -391,6 +471,17 @@ test.describe('SEO — meta tags', () => {
 })
 
 test.describe('SEO — JSON-LD structured data', () => {
+  test('article structured data shares the fingerprinted social image URL', async ({ page }) => {
+    await page.goto('/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/')
+
+    const socialImage = await page.locator('meta[property="og:image"]').getAttribute('content')
+    const article = await findSchema(page, 'BlogPosting')
+
+    expect(socialImage).toMatch(/\?v=[a-f0-9]{12}$/u)
+    expect(article).toMatchObject({ image: socialImage })
+    await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', socialImage ?? '')
+  })
+
   test('speaking topics describe expertise without claiming to be FAQs', async ({ page }) => {
     await page.goto('/speaking/')
 
@@ -432,7 +523,19 @@ test.describe('SEO — JSON-LD structured data', () => {
     expect(personSchema).toMatchObject({
       '@id': expect.stringMatching(/#person$/u),
       jobTitle: expect.stringMatching(/\S/u),
-      name: 'Santiago Molina'
+      name: 'Santiago Molina',
+      url: 'https://santi020k.com/about/'
+    })
+
+    await page.goto('/es/')
+
+    const spanishPersonSchema = await findSchema(page, 'Person')
+
+    expect(spanishPersonSchema).toMatchObject({
+      '@id': expect.stringMatching(/#person$/u),
+      jobTitle: 'Líder de ingeniería y arquitecto full-stack',
+      name: 'Santiago Molina',
+      url: 'https://santi020k.com/es/about/'
     })
   })
 
@@ -498,10 +601,11 @@ test.describe('SEO — JSON-LD structured data', () => {
     expect(breadcrumbItems.length).toBeGreaterThanOrEqual(3)
   })
 
-  test('project structured data points to the published social image', async ({ page }) => {
+  test('project structured data shares the fingerprinted social image URL', async ({ page }) => {
     for (const projectId of ['og', 'quality']) {
       await page.goto(`/portfolio/${projectId}/`)
 
+      const socialImage = z.string().parse(await page.locator('meta[property="og:image"]').getAttribute('content'))
       const schemaContents = await page.locator('script[type="application/ld+json"]').allTextContents()
       const projectSchema = schemaContents
         .map(content => JSON.parse(content) as unknown)
@@ -510,9 +614,11 @@ test.describe('SEO — JSON-LD structured data', () => {
           (Array.isArray(value['@type']) && value['@type'].includes('CreativeWork'))
         ))
 
-      expect(projectSchema).toMatchObject({
-        image: `https://santi020k.com/og/portfolio/${projectId}-logo.webp`
-      })
+      expect(socialImage).toMatch(
+        new RegExp(`^https://santi020k\\.com/og/portfolio/${projectId}-logo\\.webp\\?v=[a-f0-9]{12}$`, 'u')
+      )
+      expect(projectSchema).toMatchObject({ image: socialImage })
+      await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', socialImage)
     }
   })
 })

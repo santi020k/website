@@ -28,6 +28,10 @@ import {
 import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
 
+import { localizeCollectionSource } from '../../src/i18n/collection-copy.ts'
+import { localizePageSource } from '../../src/i18n/page-copy.ts'
+import { isIndexedArchive } from '../../src/utils/archive-indexing.ts'
+import { parseContentDate } from '../../src/utils/content-date.ts'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
 
 import { prepareOgImage } from './prepare-og-image.mjs'
@@ -52,6 +56,7 @@ const PROJECT_LOGO_SURFACES = {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+const projectAssetPath = filePath => path.relative(ROOT, filePath).split(path.sep).join('/')
 const getSocialImageFileName = pathname => pathnameOutput(pathname)
 
 const getTechnologySlug = technology => technology
@@ -108,6 +113,12 @@ const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 
 /** Static page definitions (mirrors `src/data/social-pages.ts`). */
 const staticSocialPages = [
+  {
+    description: 'A living history of santi020k.com, with real desktop and mobile captures and usable preserved design eras.',
+    pathname: '/history/',
+    title: 'Website History',
+    badge: 'History'
+  },
   {
     description: 'Explore the places I have visited across the Americas, Europe, and Asia, from my roots in Colombia to life abroad as a resident of Paraguay.',
     pathname: '/travel/',
@@ -229,6 +240,19 @@ const staticSocialPages = [
     badge: 'Legal'
   },
   {
+    description:
+      'Invite Santiago Molina to speak, talk about an engineering role, or get help growing your team, adopting AI in engineering, and raising code quality.',
+    pathname: '/work-with-me/',
+    title: 'Work with me',
+    badge: 'Contact'
+  },
+  {
+    description: 'Write a message to Santiago Molina or choose another way to get in touch.',
+    pathname: '/work-with-me/sent/',
+    title: 'Start a conversation',
+    badge: 'Status'
+  },
+  {
     description: 'Offline fallback page for the santi020k portfolio and blog.',
     pathname: '/offline/',
     title: 'Offline',
@@ -247,17 +271,19 @@ const includeDrafts = process.env.OG_INCLUDE_DRAFTS === '1'
 const nonIndexableStaticPathnames = new Set([
   '/404/',
   '/blog/content-calendar/',
-  '/offline/'
+  '/offline/',
+  '/work-with-me/sent/'
 ])
 
 export const isPublishedPost = entry => {
   if (includeDrafts) return true
 
   const value = getFrontmatterValue(entry, 'publishDate')
-  let publishTime = Number.NaN
 
-  if (value instanceof Date) publishTime = value.getTime()
-  else if (typeof value === 'string') publishTime = Date.parse(value)
+  if (!(value instanceof Date) && typeof value !== 'string') return false
+
+  // Shares the schema's parser so calendar dates publish at UTC midnight in every timezone.
+  const publishTime = parseContentDate(value).getTime()
 
   return Number.isFinite(publishTime) && publishTime <= Date.now()
 }
@@ -301,6 +327,9 @@ export const collectCards = async () => {
     }
   })
 
+  // Thin archives are not indexed and share their parent index card, so they get no card of their own.
+  const thinArchivePathnames = new Set()
+
   const postCards = await collectContentCards({
     archives: [
       paginateArchive({
@@ -320,6 +349,8 @@ export const collectCards = async () => {
         basePath: '/blog/tags/',
         data: context => {
           const topic = formatTopicName(context.group)
+
+          if (!isIndexedArchive(context.totalItems)) thinArchivePathnames.add(context.pathname)
 
           return {
             badge: 'Topic',
@@ -347,7 +378,7 @@ export const collectCards = async () => {
         badge: 'Blog Post',
         ...(coverImagePath ?
           {
-            coverImagePath,
+            coverImagePath: projectAssetPath(coverImagePath),
             image: await prepareOgImage(coverImagePath)
           } :
           {}),
@@ -364,6 +395,7 @@ export const collectCards = async () => {
   })
 
   const technologies = new Map()
+  const technologyProjects = new Map()
 
   const projectCards = await collectContentCards({
     aggregate: entries => {
@@ -378,6 +410,8 @@ export const collectCards = async () => {
           if (typeof tech !== 'string') continue
 
           const slug = getTechnologySlug(tech)
+
+          technologyProjects.set(slug, new Set([...technologyProjects.get(slug) ?? [], entry.slug]))
 
           if (slug === 'ci-cd') technologies.set(slug, 'CI/CD')
           else if (slug === 'npm') technologies.set(slug, 'NPM')
@@ -400,7 +434,7 @@ export const collectCards = async () => {
         badge: entry.frontmatter.typesId === 'community' ? 'Community work' : 'Project',
         ...(logoImagePath ?
           {
-            image: logoImagePath,
+            image: projectAssetPath(logoImagePath),
             imagePresentation: {
               background: PROJECT_LOGO_SURFACES[
                 getFrontmatterValue(entry, 'coverImage.logoSurface')
@@ -408,7 +442,7 @@ export const collectCards = async () => {
               fit: 'contain',
               padding: 50
             },
-            logoImagePath
+            logoImagePath: projectAssetPath(logoImagePath)
           } :
           {}),
         description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
@@ -444,6 +478,8 @@ export const collectCards = async () => {
   const technologyCards = [...technologies].map(([slug, technology]) => {
     const pathname = `/technologies/${slug}/`
 
+    if (!isIndexedArchive(technologyProjects.get(slug)?.size ?? 0)) thinArchivePathnames.add(pathname)
+
     const card = archiveCard(
       `/technologies/${encodeURIComponent(technology)}/`,
       `${technology} · Technology`,
@@ -459,7 +495,8 @@ export const collectCards = async () => {
     }
   })
 
-  return [...staticCards, ...postCards, ...portfolioCards, ...seriesCards, ...technologyCards]
+  const englishCards = [...staticCards, ...postCards, ...portfolioCards, ...seriesCards, ...technologyCards]
+    .filter(card => !card.route || !thinArchivePathnames.has(card.route.pathname))
     .map(card => card.route ?
       {
         ...card,
@@ -471,13 +508,33 @@ export const collectCards = async () => {
         }
       } :
       card)
+
+  // Articles and case studies are written in English. Their Spanish shells are kept out of
+  // search indexes and share the English card, so only translated pages get a localized card.
+  const isSingleLanguageCard = card => card.output.startsWith('blog/') || card.output.startsWith('portfolio/')
+
+  const localizedCards = englishCards.filter(card => card.route && !isSingleLanguageCard(card)).map(card => {
+    const pathname = `/es${card.route.pathname}`
+    const title = `${localizeCollectionSource('es', localizePageSource('es', card.data.title))} · Español`
+    const description = localizeCollectionSource('es', localizePageSource('es', card.data.description))
+
+    return {
+      ...card,
+      aliases: [],
+      data: { ...card.data, title, description, domain: pathname },
+      output: `pages/${getSocialImageFileName(pathname)}`,
+      route: { ...card.route, pathname, title, description, alt: `${title} — Santiago Molina` }
+    }
+  })
+
+  return [...englishCards, ...localizedCards]
 }
 
 export const collectSpecs = async () => (await collectCards()).map(card => ({
   outFile: path.join(OUT_DIR, card.output),
   props: {
-    ...(card.data.coverImagePath ? { coverImagePath: card.data.coverImagePath } : {}),
-    ...(card.data.logoImagePath ? { logoImagePath: card.data.logoImagePath } : {}),
+    ...(card.data.coverImagePath ? { coverImagePath: path.resolve(ROOT, card.data.coverImagePath) } : {}),
+    ...(card.data.logoImagePath ? { logoImagePath: path.resolve(ROOT, card.data.logoImagePath) } : {}),
     description: card.data.description,
     pathLabel: card.data.domain,
     title: card.data.title,

@@ -3,15 +3,15 @@ import type { GetStaticPaths, Page } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
+import BlogArchiveHero from '@/components/pages/blog/BlogArchiveHero.astro'
 import BlogHero from '@/components/pages/blog/BlogHero.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -20,10 +20,15 @@ import { getPostPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
 import { getAllTags, getBlogBrowseTags } from '@/utils/tags'
 
-import { RevealGroup } from '@santi020k/lumen-astro'
+import { Link, RevealGroup } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
 import { createAuthorSchema, siteConfig } from '@/site.config'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -45,17 +50,18 @@ const isFirstPage = page.currentPage === 1
 const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const topTags = getBlogBrowseTags(allTagsData)
 const latestPost = page.data[0] ?? null
+const archiveDescription = t('collection.notesOnSoftwareReadingGamingAnd')
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
-  ...(page.currentPage > 1 ? [{ name: `Page ${page.currentPage}`, url: Astro.url.pathname }] : [])
+  { name: t('nav.home'), url: localizePath('/', locale) },
+  { name: 'Blog', url: localizePath('/blog/', locale) },
+  ...(page.currentPage > 1 ? [{ name: t('pagination.page', { page: page.currentPage }), url: Astro.url.pathname }] : [])
 ]
 
 const blogListSchema = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
-  name: 'Personal Blog — Santiago Molina',
+  name: t('collection.personalBlogSantiagoMolina'),
   url: new URL('/blog/', Astro.site).href,
   blogPost: page.data.map((post, index) => ({
     '@type': 'BlogPosting',
@@ -75,11 +81,13 @@ const blogListSchema = {
   mainClass="remaining-pages"
   meta={{
     breadcrumbs,
-    description: 'Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.',
+    description: isFirstPage ?
+      archiveDescription :
+      t('pagination.description', { description: archiveDescription, page: page.currentPage, total: page.lastPage }),
     structuredData: blogListSchema,
     title: isFirstPage ?
-      'Personal Blog — Santiago Molina' :
-      `Blog · Page ${page.currentPage} of ${page.lastPage} — Santiago Molina`
+      t('collection.personalBlogSantiagoMolina') :
+      t('blog.pageTitle', { page: page.currentPage, total: page.lastPage })
   }}
 >
   {isFirstPage ?
@@ -87,40 +95,43 @@ const blogListSchema = {
     <BlogHero latestPost={latestPost} postCount={page.total} topicCount={allTagsData.length} />
   ) :
 (
-    <PageHero
-      compact
-      description={`Older writing from page ${page.currentPage} of ${page.lastPage}, ordered newest first.`}
-      eyebrow="Blog archive"
-      gradientText={`Page ${page.currentPage}.`}
-      metaItems={['Archive', 'Latest first']}
-      title="Writing archive."
-    >
-      <ButtonLink href="/blog/" showArrow>Back to latest posts</ButtonLink>
-      <ButtonLink href="/blog/tags/" showArrow variant="secondary">Browse topics</ButtonLink>
-    </PageHero>
+    <BlogArchiveHero currentPage={page.currentPage} lastPage={page.lastPage} postCount={page.data.length} />
   )}
 
   <section
     id="posts"
-    aria-label={isFirstPage ? 'Latest blog posts' : `Blog posts, page ${page.currentPage}`}
-    class="
-      section-container-wide scroll-mt-28 pt-10
-      sm:pt-12
-      lg:pt-16
-    "
+    aria-label={isFirstPage ? t('collection.latestBlogPosts') : t('blog.pageLabel', { page: page.currentPage })}
+    class="section-container-wide scroll-mt-28 page-section-space"
   >
-    <SectionHeader
-      description={isFirstPage ? 'Software, reading, gaming, and everything in between. Browse the feed or follow a topic.' : 'More notes and discoveries, ordered newest first.'}
-      eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
-      title={isFirstPage ? 'Recent notes and discoveries.' : 'From the archive.'}
-    />
+    {isFirstPage ?
+(
+      <SectionHeader
+        description={t('collection.softwareReadingGamingAndEverythingIn')}
+        eyebrow={t('collection.latest')}
+        title={t('collection.recentNotesAndDiscoveries')}
+      />
+    ) :
+(
+      <header id="blog-archive-introduction" data-blog-archive-caption data-section-header>
+        <p>{t(page.data.length === 1 ? 'blog.articlePosition' : 'blog.articleRange', {
+          start: page.start + 1,
+          end: page.end + 1,
+          total: page.total
+        })}</p>
+        <h2>{t('collection.fromTheArchive')}</h2>
+      </header>
+    )}
 
-    <div class="
-      mt-10 space-y-8
-      sm:mt-12
-    "
+    <div
+      class:list={['space-y-8', isFirstPage ?
+`
+  mt-10
+  sm:mt-12
+` :
+'mt-5']}
+      data-blog-archive-feed={isFirstPage ? undefined : ''}
     >
-      <TagFilter scrollOnMobile tags={topTags} />
+      <TagFilter tags={topTags} totalTopics={allTagsData.length} />
 
       <PostsGallery posts={page.data} />
 
@@ -131,32 +142,141 @@ const blogListSchema = {
   </section>
 
   {isFirstPage && !!activeSeries.length && (
-    <PageSection>
-      <SectionHeader
-        description="Go deeper with connected posts on engineering principles, delivery systems, and developer tools."
-        eyebrow="Series"
-        linkHref="/blog/series/"
-        linkLabel="Browse all series"
-        title="Follow related posts in order."
-      />
+    <PageSection layout="stacked">
+      <header id="blog-series" class="scroll-mt-28" data-blog-series-caption>
+        <div>
+          <h2>{t('series.shelfHeading')}</h2>
+          <p>{t('series.shelfDescription')}</p>
+        </div>
+        <Link data-blog-series-browse data-text-link href={localizePath('/blog/series/', locale)} variant="inherit">
+          <span data-text-link-label>{t('collection.browseAllSeries')}</span>
+          <ArrowExchange direction="right" />
+        </Link>
+      </header>
 
-      <RevealGroup class="post-grid" stagger={60}>
+      <RevealGroup
+class="
+  grid grid-cols-1 gap-6
+  sm:card-grid-2
+  lg:card-grid-3
+"
+stagger={60}
+threshold={0}
+      >
         {activeSeries.map(item => (
-          <SeriesCard postCount={item.postCount} series={item.series} />
+          <SeriesCard firstPost={item.posts[0]} postCount={item.postCount} readingMinutes={item.readingMinutes} series={item.series} />
         ))}
       </RevealGroup>
     </PageSection>
   )}
 
   {isFirstPage && siteConfig.newsletter?.formAction && (
-    <PageSection>
-      <SectionHeader
-        description="A low-volume email with new posts on software, reading, gaming, and everyday discoveries."
-        eyebrow="Newsletter"
-        title="Keep up with new writing."
-      />
-      <NewsletterSignup formAction={siteConfig.newsletter.formAction} variant="compact" />
+    <PageSection layout="stacked">
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} />
     </PageSection>
   )}
 
 </PageLayout>
+
+<style>
+  [data-blog-archive-caption] {
+    position: relative;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid hsl(var(--line) / 0.65);
+    scroll-margin-top: 7rem;
+  }
+
+  [data-blog-archive-caption]::after {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 3rem;
+    height: 3px;
+    background: hsl(var(--brand));
+    content: '';
+  }
+
+  [data-blog-archive-caption] p {
+    margin-bottom: 1.25rem;
+    color: hsl(var(--brand));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+  }
+
+  [data-blog-archive-caption] h2 {
+    max-width: 56rem;
+    color: hsl(var(--ink));
+    font-size: clamp(1.875rem, 7cqi, 2.8rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.065em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  :global([data-theme='dark']) [data-blog-archive-caption] p { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-blog-archive-caption]::after { background: hsl(var(--accent)); }
+
+  [data-blog-archive-feed] :global([data-topic-guide-heading]) {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  @container section-header (width < 18rem) {
+    [data-blog-archive-caption] h2 { font-size: min(2rem, 16cqi); }
+  }
+
+  [data-blog-series-caption] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 1.75rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+
+  [data-blog-series-caption] h2 {
+    color: hsl(var(--ink));
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.045em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  [data-blog-series-caption] p {
+    margin-top: 0.75rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+  }
+
+  [data-blog-series-caption] :global([data-blog-series-browse]) {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    color: hsl(var(--brand));
+    cursor: pointer;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.7;
+  }
+
+  :global([data-theme='dark']) [data-blog-series-caption] :global([data-blog-series-browse]) {
+    color: hsl(var(--accent));
+  }
+
+  @container page-section (width < 34rem) {
+    [data-blog-series-caption] {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    [data-blog-series-caption] :global([data-blog-series-browse]) {
+      justify-self: start;
+    }
+  }
+</style>

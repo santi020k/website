@@ -1,16 +1,18 @@
-# Canonicalize all variants → https://santi020k.com (301 permanent)
-# Cloudflare Pages evaluates these top-to-bottom; first match wins.
-
-# HTTP apex → HTTPS apex
-http://santi020k.com/*  https://santi020k.com/:splat  301
-
-# HTTP www → HTTPS apex
-http://www.santi020k.com/*  https://santi020k.com/:splat  301
-
-# HTTPS www → HTTPS apex
-https://www.santi020k.com/*  https://santi020k.com/:splat  301
+# Source rules for scripts/js/generate-cloudflare-redirects.mjs.
+# The build adds technology aliases and places exact paths before patterns.
+# Configure HTTP/www canonicalization in Cloudflare zone rules, not this file.
 
 # Retired pages → nearest active destination
+/portfolio/difftale   /projects/  301
+/portfolio/difftale/  /projects/  301
+/v3/portfolio/difftale   /projects/  301
+/v3/portfolio/difftale/  /projects/  301
+
+/blog/difftale-explicit-ai-git-workflows   /blog/  301
+/blog/difftale-explicit-ai-git-workflows/  /blog/  301
+/v3/blog/difftale-explicit-ai-git-workflows   /blog/  301
+/v3/blog/difftale-explicit-ai-git-workflows/  /blog/  301
+
 /blog/content-calendar   /blog/  301
 /blog/content-calendar/  /blog/  301
 
@@ -37,3 +39,19 @@ https://www.santi020k.com/*  https://santi020k.com/:splat  301
 /portfolio/santi020k-terminal-theme   /portfolio/santi020k-theme/  301
 /portfolio/santi020k-terminal-theme/  /portfolio/santi020k-theme/  301
 /portfolio/santi020k-terminal-theme/* /portfolio/santi020k-theme/  301
+
+# Historical technology names reported by Search Console.
+/technologies/React   /technologies/react-js/  301
+/technologies/React/  /technologies/react-js/  301
+/technologies/Node   /technologies/node-js/  301
+/technologies/Node/  /technologies/node-js/  301
+/technologies/Nest.js   /technologies/nestjs/  301
+/technologies/Nest.js/  /technologies/nestjs/  301
+/technologies/Gitlab   /technologies/gitlab/  301
+/technologies/Gitlab/  /technologies/gitlab/  301
+/technologies/Youtube%20API   /technologies/youtube-api/  301
+/technologies/Youtube%20API/  /technologies/youtube-api/  301
+/technologies/CI/CD   /technologies/ci-cd/  301
+/technologies/CI/CD/  /technologies/ci-cd/  301
+/technologies/Semantic%20HTML%20&%20CSS   /technologies/semantic-html-and-css/  301
+/technologies/Semantic%20HTML%20&%20CSS/  /technologies/semantic-html-and-css/  301

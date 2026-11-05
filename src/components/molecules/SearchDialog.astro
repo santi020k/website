@@ -1,5 +1,11 @@
 ---
 import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
+
+import { getLocale, sharedTranslator } from '@/i18n'
+
+const locale = getLocale(Astro.url.pathname)
+const t = sharedTranslator(locale)
+
 ---
 
 <Dialog
@@ -17,31 +23,31 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
     <div data-site-search-panel role="document">
       <div data-site-search-heading>
         <div data-site-search-identity>
-          <span aria-hidden="true" data-site-search-label>Site index</span>
-          <h2 id="site-search-title">Search</h2>
+          <span aria-hidden="true" data-site-search-label>{t('shared.siteIndex')}</span>
+          <h2 id="site-search-title">{t('search.title')}</h2>
+          <p data-site-search-description>{t('shared.postsProjectsAndCommunity')}</p>
         </div>
         <Button data-site-search-close size="icon" type="button" variant="ghost">
           <Icon class="size-5" name="x" />
-          <span class="sr-only">Close search</span>
+          <span class="sr-only">{t('shared.closeSearch')}</span>
         </Button>
       </div>
 
       <div data-site-search-body>
-        <p data-site-search-description>Posts, projects, and community.</p>
         <div data-site-search-field>
           <Icon class="size-5 shrink-0" name="search" />
-          <label class="sr-only" for="site-search-input">Search posts, projects, and community work</label>
+          <label class="sr-only" for="site-search-input">{t('shared.searchPostsProjectsAndCommunityWork')}</label>
           <SearchField
             aria-describedby="site-search-help"
             autocomplete="off"
             class="peer"
             id="site-search-input"
-            placeholder="Search the site…"
+            placeholder={t('shared.searchTheSite')}
             spellcheck="false"
             type="search"
           />
           <Button
-            aria-label="Clear search"
+            aria-label={t('shared.clearSearch')}
             class="peer-placeholder-shown:invisible"
             data-site-search-input-clear
             size="icon"
@@ -56,9 +62,12 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
         <ul id="site-search-results"></ul>
 
         <div data-site-search-footer id="site-search-help">
-          <span><Kbd><span aria-hidden="true">↑ ↓</span><span class="sr-only">Arrow keys</span></Kbd> Move</span>
-          <span><Kbd><span aria-hidden="true">↵</span><span class="sr-only">Enter</span></Kbd> Open</span>
-          <span><Kbd>Esc</Kbd> Close</span>
+          <span><Kbd><span aria-hidden="true">↑ ↓</span><span class="sr-only">{t('shared.arrowKeys')}</span></Kbd> {t('shared.move')}</span>
+          <span><Kbd><Icon name="corner-down-left" class="size-3" /><span class="
+            sr-only
+          "
+                                                                    >{t('shared.enter')}</span></Kbd> {t('shared.open')}</span>
+          <span><Kbd>Esc</Kbd> {t('shared.close')}</span>
         </div>
       </div>
     </div>
@@ -66,6 +75,10 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
 </Dialog>
 
 <style is:global>
+  /* The fullscreen dialog is the viewport-sized query container, so the rem-based
+     queries below follow both the available space and the user's root text size. */
+  #site-search-dialog { container: site-search / size; }
+
   #site-search-dialog [data-site-search-shell] {
     position: absolute;
     inset: 0;
@@ -83,43 +96,37 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
   }
 
   #site-search-dialog [data-site-search-panel] {
-    --search-inset: 1.75rem;
+    --search-inset: 1.5rem;
+    --search-accent: hsl(var(--brand));
     position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: 0;
     max-width: 42rem;
     max-height: 100%;
+    border: 1px solid hsl(var(--line));
+    border-radius: 0.5rem 2rem 0.5rem 2rem;
+    background: hsl(var(--surface));
+    box-shadow: var(--shadow-nav-scrolled);
     color: hsl(var(--ink));
     pointer-events: auto;
   }
 
   #site-search-dialog [data-site-search-identity] {
-    position: relative;
-    padding: 1.125rem var(--search-inset) 0.875rem;
-    border-radius: 1.5rem 1.5rem 0 0;
-    background: hsl(var(--surface));
-    isolation: isolate;
+    min-width: 0;
   }
 
-  #site-search-dialog [data-site-search-identity]::after {
-    position: absolute;
-    z-index: -1;
-    right: -1.75rem;
-    bottom: 0;
-    width: 2.25rem;
-    height: 3.5rem;
-    background: hsl(var(--surface));
-    content: '';
-    clip-path: polygon(0 0, 30% 0, 100% 100%, 0 100%);
+  :root[data-theme="dark"] #site-search-dialog [data-site-search-panel] {
+    --search-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
   }
 
   #site-search-dialog [data-site-search-label] {
     display: block;
-    margin-bottom: 0.25rem;
-    color: hsl(var(--ink-soft));
-    font-size: 0.5625rem;
-    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--search-accent);
+    font-size: 0.625rem;
+    font-weight: 500;
     letter-spacing: 0.14em;
     line-height: 1rem;
     text-transform: uppercase;
@@ -128,10 +135,12 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
   #site-search-dialog [data-site-search-heading] {
     display: flex;
     flex-shrink: 0;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 1rem;
-    padding-right: 0.375rem;
+    gap: 1.5rem;
+    padding: 1.5rem var(--search-inset) 2.375rem;
+    border-radius: calc(0.5rem - 1px) calc(2rem - 1px) 0 0;
+    background: hsl(var(--brand-soft));
   }
 
   #site-search-title {
@@ -139,21 +148,21 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
     font-weight: 500;
     letter-spacing: -0.055em;
     line-height: 1.25;
+    overflow-wrap: anywhere;
   }
 
   #site-search-dialog [data-site-search-body] {
     display: flex;
+    flex: 0 1 auto;
     flex-direction: column;
     min-height: 0;
-    border-radius: 0 1.5rem 1.5rem 1.5rem;
-    background: hsl(var(--surface));
-    box-shadow: var(--shadow-nav-scrolled);
   }
 
   #site-search-dialog [data-site-search-description] {
-    padding: 1.125rem var(--search-inset) 0;
+    margin-top: 0.5rem;
     color: hsl(var(--ink-soft));
     font-size: 0.8125rem;
+    line-height: 1.75;
   }
 
   #site-search-dialog :is([data-site-search-close], [data-site-search-input-clear]) {
@@ -169,11 +178,9 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
   }
 
   #site-search-dialog [data-site-search-close] {
-    background: hsl(var(--brand-soft));
-    color: hsl(var(--brand));
+    background: hsl(var(--surface));
+    color: var(--search-accent);
   }
-
-  :root[data-theme="dark"] #site-search-dialog [data-site-search-close] { color: hsl(var(--accent)); }
 
   #site-search-dialog :is([data-site-search-close], [data-site-search-input-clear]):hover {
     background: hsl(var(--surface-muted));
@@ -181,32 +188,41 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
   }
 
   #site-search-dialog [data-site-search-field] {
+    position: relative;
     display: flex;
     flex-shrink: 0;
+    min-width: 0;
     align-items: center;
     gap: 0.75rem;
-    margin: 0.75rem var(--search-inset) 0;
-    padding: 0.25rem 0;
-    border-bottom: 1px solid hsl(var(--line));
-    background: transparent;
-    color: hsl(var(--ink-soft));
+    margin: -1.125rem var(--search-inset) 0;
+    padding: 0.625rem 1rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 0.375rem 1.375rem 0.375rem 1.375rem;
+    background: hsl(var(--surface));
+    color: var(--search-accent);
   }
 
   #site-search-dialog [data-site-search-field]:focus-within {
-    border-color: hsl(var(--accent));
-    box-shadow: 0 1px 0 hsl(var(--accent));
+    outline: 2px solid var(--search-accent);
+    outline-offset: 2px;
   }
+
+  #site-search-dialog [data-site-search-field] > svg { width: 1.125rem; height: 1.125rem; }
 
   #site-search-input {
     width: 100%;
     min-width: 0;
-    height: 3rem;
-    padding: 0;
+    height: auto;
+    min-height: 3rem;
+    padding: 0.5rem 0;
     border: 0;
     border-radius: 0;
     background: transparent;
     color: hsl(var(--ink));
     font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
     box-shadow: none;
     outline: none;
   }
@@ -215,9 +231,10 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
   #site-search-input::-webkit-search-cancel-button { appearance: none; }
   #site-search-dialog [data-site-search-input-clear] { border-color: transparent; }
 
+  /* The only scrollport; it keeps at least one touch-target row as other parts compact. */
   #site-search-results {
     flex: 0 1 auto;
-    min-height: 0;
+    min-height: 44px;
     margin: 1.25rem var(--search-inset);
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -262,18 +279,92 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
     outline-offset: 2px;
   }
 
-  @media (max-width: 639px) {
+  @media (forced-colors: active) {
+    #site-search-dialog [data-site-search-field]:focus-within { outline: 2px solid Highlight; }
+  }
+
+  /* Equivalent to 639px at default text size, and earlier as root text grows. */
+  @container site-search (width < 40rem) {
     #site-search-dialog [data-site-search-panel] { --search-inset: 1rem; }
+    #site-search-dialog [data-site-search-heading] { gap: 0.875rem; padding-top: 1.25rem; }
+    #site-search-dialog [data-site-search-field] { gap: 0.5rem; padding: 0.5rem 0.75rem; }
+    #site-search-dialog [data-site-search-field] > svg { display: none; }
+    #site-search-input { font-size: 1rem; }
     #site-search-dialog [data-site-search-footer] { gap: 0.75rem; flex-wrap: wrap; }
   }
 
-  @media (max-height: 500px) {
+  /* Enlarged text in a narrow viewport: tighten chrome so the input keeps its width. */
+  @container site-search (width < 20rem) {
+    #site-search-dialog [data-site-search-shell] { padding-inline: 0.5rem; }
+    #site-search-dialog [data-site-search-panel] { --search-inset: 0.75rem; }
+    #site-search-dialog [data-site-search-heading] { gap: 0.5rem; }
+    #site-search-title { font-size: 1.375rem; }
+    #site-search-dialog [data-site-search-field] { gap: 0.5rem; }
+  }
+
+  @container site-search (width < 12rem) {
+    #site-search-dialog [data-site-search-field] { padding-inline: 0.25rem; }
+  }
+
+  @container site-search (height <= 31.25rem) {
     #site-search-dialog [data-site-search-shell] { padding-block: 0.75rem 0.5rem; }
-    #site-search-dialog [data-site-search-identity] { padding-block: 0.5rem; }
+    #site-search-dialog [data-site-search-heading] { align-items: center; padding-block: 0.625rem 1.5rem; }
     #site-search-dialog [data-site-search-label],
     #site-search-dialog [data-site-search-description] { display: none; }
-    #site-search-dialog [data-site-search-identity]::after { height: 2rem; }
-    #site-search-dialog [data-site-search-field] { margin-top: 0.75rem; }
+    #site-search-dialog [data-site-search-field] { margin-top: -0.75rem; padding-block: 0.25rem; }
     #site-search-results { margin-block: 0.75rem; }
+  }
+
+  /* Icon controls hold the 44px target instead of scaling with text. */
+  @container site-search (width < 20rem) or (height < 22rem) {
+    #site-search-dialog :is([data-site-search-close], [data-site-search-input-clear]) {
+      width: 44px;
+      min-width: 44px;
+      height: 44px;
+      min-height: 44px;
+    }
+  }
+
+  /* Short space keeps the shortcut legend for assistive technology only. */
+  @container site-search (height < 22rem) {
+    #site-search-dialog [data-site-search-shell] { padding-block: 0.25rem; }
+    #site-search-dialog [data-site-search-heading] { padding-block: 0.375rem 0.875rem; }
+    #site-search-dialog [data-site-search-field] { margin-top: -0.375rem; padding-block: 0; }
+    #site-search-results { margin-block: 0.5rem; }
+
+    #site-search-input {
+      height: auto;
+      min-height: 44px;
+      line-height: 1.25;
+    }
+
+    #site-search-dialog [data-site-search-footer] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      padding: 0;
+      border: 0;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  /* Very short space keeps the title for the dialog name and leaves the close action in view. */
+  @container site-search (height < 10rem) {
+    #site-search-dialog [data-site-search-heading] { justify-content: flex-end; padding-block: 0.25rem 0.625rem; }
+
+    #site-search-dialog [data-site-search-identity] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      padding: 0;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    #site-search-dialog [data-site-search-field] { margin-top: -0.25rem; padding-block: 0; }
+    #site-search-results { margin-block: 0.25rem; }
   }
 </style>

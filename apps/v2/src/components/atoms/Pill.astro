@@ -1,0 +1,53 @@
+---
+interface Props {
+  className?: string
+  href?: string
+  label: string
+  showHash?: boolean
+  tone?: 'brand' | 'neutral' | 'outline'
+}
+
+const {
+  className = '',
+  href,
+  label,
+  showHash = false,
+  tone = 'neutral'
+} = Astro.props
+
+const Tag = href ? 'a' : 'span'
+---
+
+<Tag
+  class:list={[
+    `
+      inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm
+      font-medium transition duration-200
+      motion-reduce:transition-none
+    `,
+    href && `
+      min-h-11 cursor-pointer
+      hover:-translate-y-0.5
+      motion-reduce:hover:translate-y-0
+    `,
+    !href && 'min-h-9',
+    tone === 'neutral' && `
+      border-transparent bg-surface-muted/80 text-ink-soft
+      hover:bg-surface-strong/80 hover:text-ink
+    `,
+    tone === 'brand' && `
+      border-brand/20 bg-brand-soft/80 text-brand
+      hover:border-brand-solid/35 hover:bg-brand-solid hover:text-white
+    `,
+    tone === 'outline' && `
+      border-line/70 bg-surface/72 text-ink-soft
+      hover:border-brand/40 hover:bg-brand-soft/35 hover:text-brand
+    `,
+    className
+  ]}
+  href={href}
+>
+  {showHash && <span class="text-xs opacity-60">#</span>}
+  <span class="wrap-break-word">{label}</span>
+  <slot />
+</Tag>

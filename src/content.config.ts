@@ -1,17 +1,29 @@
-import { defineCollection } from 'astro:content'
+import { defineCollection, reference } from 'astro:content'
 
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
+import { projectPurposeIds } from './data/project-purposes'
+import { parseContentDate } from './utils/content-date'
+
 const removeDuplicates = (array: string[]) => [...new Set(array)]
-const dateField = () => z.string().or(z.date()).transform(val => new Date(val))
+// Unsupported or nonexistent dates parse to Invalid Date, which the refinement rejects.
+const invalidDateMessage = 'Use a valid date, such as 2026-01-15'
+const isValidDate = (date: Date | undefined) => date === undefined || !Number.isNaN(date.getTime())
+
+const dateField = () => z
+  .string()
+  .or(z.date())
+  .transform(value => parseContentDate(value))
+  .refine(isValidDate, invalidDateMessage)
 
 // Astro's frontmatter parser can provide Date objects for unquoted YAML dates.
 const optionalDateField = () => z
   .string()
   .or(z.date())
   .optional()
-  .transform(value => (value ? new Date(value) : undefined))
+  .transform(value => (value ? parseContentDate(value) : undefined))
+  .refine(isValidDate, invalidDateMessage)
 
 const projectBrandColor = z.string().regex(/^#[\da-f]{6}$/iu, 'Use a six-digit hexadecimal brand color')
 
@@ -27,6 +39,10 @@ const series = defineCollection({
     draft: z.boolean().default(false),
     focusAreas: z.array(z.string()).default([]).transform(removeDuplicates),
     order: z.number().default(0),
+    readingNote: z.object({
+      kind: z.enum(['audience', 'perspective']),
+      text: z.string().trim().min(1)
+    }).optional(),
     seoDescription: z.string().optional(),
     seoTitle: z.string().optional(),
     status: z.enum(['active', 'planned', 'archived']).default('active')
@@ -37,6 +53,7 @@ const project = defineCollection({
   loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
+    cardDescription: z.string().trim().min(1).max(160).optional(),
     brand: z.object({
       primary: projectBrandColor,
       secondary: projectBrandColor,
@@ -67,6 +84,7 @@ const project = defineCollection({
         ogImage: z.string().optional(),
         logo: image().optional(),
         logoAspect: z.enum(['square', 'wide', 'tall']).optional(),
+        logoScale: z.number().min(0.75).max(1.5).optional(),
         logoSurface: z.enum(['dark', 'light', 'neutral']).optional()
       })
       .optional(),
@@ -79,7 +97,31 @@ const project = defineCollection({
     seoDescription: z.string().optional(),
     githubUrl: z.url().optional(),
     liveDemoUrl: z.url().optional(),
+    liveDemoName: z.string().trim().min(1).max(100).optional(),
+    closingLinks: z.array(z.object({
+      label: z.string().trim().min(1).max(80),
+      href: z.url()
+    })).min(1).max(4).optional(),
+    notesLayout: z.enum(['preface', 'context-lead']).optional(),
+    relatedWriting: z.array(z.object({
+      post: reference('post'),
+      label: z.string().trim().min(1).max(40)
+    })).min(1).max(2).optional(),
     impactMetrics: z.array(z.string()).default([]),
+    focusAreas: z.array(z.object({
+      label: z.string().trim().min(1).max(40),
+      description: z.string().trim().min(1).max(100)
+    })).min(2).max(3),
+    previews: z.object({
+      linkLabel: z.string().trim().min(1).max(80).optional(),
+      description: z.string().trim().min(1),
+      images: z.array(z.object({
+        src: image(),
+        alt: z.string().trim().min(1),
+        title: z.string().trim().min(1),
+        caption: z.string().trim().min(1)
+      })).min(1).max(4)
+    }).optional(),
     caseStudy: z
       .object({
         approach: z.string().optional(),
@@ -91,18 +133,17 @@ const project = defineCollection({
     relevanceWeight: z.number().int().min(0).max(100).default(0),
     // type
     typesId: z.enum(['professional', 'personal', 'experimental', 'community']).optional(),
+    purpose: z.enum(projectPurposeIds).optional(),
     orderInTypes: z.number().optional()
     // End
-  })
-})
-
-const types = defineCollection({
-  loader: glob({ base: './src/content/types', pattern: '**/*.{md,mdx}' }),
-  schema: z.object({
-    id: z.string(),
-    title: z.string(),
-    description: z.string(),
-    featured: z.boolean().default(false)
+  }).superRefine((project, context) => {
+    if (project.typesId === 'personal' && !project.purpose) {
+      context.addIssue({
+        code: 'custom',
+        message: 'Personal projects must declare a browsing purpose.',
+        path: ['purpose']
+      })
+    }
   })
 })
 
@@ -134,6 +175,7 @@ const post = defineCollection({
   loader: glob({ base: './src/content/post', pattern: ['**/*.{md,mdx}', '!AGENTS.md'] }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
+    cardDescription: z.string().trim().min(1).max(160).optional(),
     publishDate: dateField(),
     updatedDate: optionalDateField(),
     coverImage: z
@@ -145,11 +187,29 @@ const post = defineCollection({
     tags: z.array(z.string()).default([]).transform(removeDuplicates),
     draft: z.boolean().default(false),
     canonicalUrl: z.url().optional(),
+    originalPublication: z.object({
+      name: z.string().trim().min(1).max(80),
+      url: z.url({ protocol: /^https?$/u }),
+      platform: z.string().trim().min(1).max(40)
+    }).optional(),
     seoTitle: z.string().optional(),
     postType: z.enum(['Article', 'Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).default('Article'),
+    startHere: z.object({
+      order: z.number().int().positive(),
+      label: z.string().trim().min(1),
+      reason: z.string().trim().min(1)
+    }).optional(),
     seriesId: z.string().optional(),
     seriesOrder: z.number().int().positive().optional()
+  }).superRefine((post, context) => {
+    if (post.originalPublication && (!post.canonicalUrl || !/^https?:\/\//u.test(post.canonicalUrl))) {
+      context.addIssue({
+        code: 'custom',
+        message: 'An original publication requires an HTTP(S) canonicalUrl for the original article.',
+        path: ['canonicalUrl']
+      })
+    }
   })
 })
 
-export const collections = { post, project, series, talk, types }
+export const collections = { post, project, series, talk }

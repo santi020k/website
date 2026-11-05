@@ -1,0 +1,84 @@
+---
+import { Button, Icon } from '@santi020k/lumen-astro'
+
+import { getLocale, sharedTranslator } from '@/i18n'
+
+const locale = getLocale(Astro.url.pathname)
+const t = sharedTranslator(locale)
+
+---
+
+<Button data-article-print hidden type="button" variant="link">
+  <Icon class="size-4 shrink-0" name="printer" />
+  <span data-print-label>{t('shared.printArticle')}</span>
+</Button>
+
+<script>
+  const initialized = new WeakSet<HTMLButtonElement>()
+
+  const initializePrintShortcuts = () => {
+    if (typeof window.print !== 'function') return
+
+    for (const button of document.querySelectorAll<HTMLButtonElement>('button[data-article-print]')) {
+      if (initialized.has(button)) continue
+
+      button.addEventListener('click', () => window.print())
+
+      initialized.add(button)
+
+      button.hidden = false
+    }
+  }
+
+  initializePrintShortcuts()
+
+  document.addEventListener('astro:page-load', initializePrintShortcuts)
+</script>
+
+<style>
+  :global([data-article-print]) {
+    --print-accent: hsl(var(--brand));
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 2.75rem;
+    height: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: hsl(var(--ink-soft));
+    font: 500 .75rem/1.7 var(--font-sans);
+    text-align: start;
+    white-space: normal;
+    text-decoration: none;
+    box-shadow: none;
+    transform: none;
+    transition: color 180ms ease;
+  }
+
+  :global(:root[data-theme='dark'] [data-article-print]) { --print-accent: hsl(var(--accent)); }
+  :global([data-article-print][hidden]) { display: none; }
+  :global([data-article-print] .ui-button__content) { gap: .5rem; }
+  [data-print-label] { min-width: 0; overflow-wrap: anywhere; }
+
+  :global([data-article-print]:is(:hover, :focus-visible)) {
+    background: transparent;
+    color: var(--print-accent);
+    text-decoration: none;
+    box-shadow: none;
+    transform: none;
+  }
+  :global([data-article-print]:is(:hover, :focus-visible) [data-print-label]) {
+    text-decoration: underline;
+    text-underline-offset: .3em;
+  }
+  :global([data-article-print]:focus-visible) { outline: 2px solid var(--print-accent); outline-offset: 4px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global([data-article-print]) { transition: none; }
+  }
+  @media print {
+    :global([data-article-print]) { display: none; }
+  }
+</style>

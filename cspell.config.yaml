@@ -1,11 +1,57 @@
+import:
+  - '@cspell/dict-es-es/cspell-ext.json'
+
 version: "0.2"
-language: en,es
+language: en,es,es_ES
+# The imported dictionary enables strict casing; preserve this mixed-language
+# codebase's existing case-insensitive policy for identifiers and proper names.
+languageSettings:
+  - languageId: '*'
+    locale: en,es,es_ES
+    caseSensitive: false
 words:
+  - formaction
+  - importmap
+  - jscript
+  - livescript
+  - loadingdone
+  - speculationrules
+  - lucide
+  - Somalilandia
+  - Revísalo
+  - conversarlo
+  - preprocesadores
+  - renderizadas
+  - cloudflare
+  - Coorganizador
+  - coorganizador
+  - coorganizar
+  - Coorganizo
+  - Cofundé
+  - mentoría
+  - rediseño
+  - Reintenta
+  - mídela
+  - sénior
+  - Iguazú
+  - spanish
+  - postlens
+  - iphone
+  - datagran
+  - justbit
+  - colombia
+  - molina
+  - montserrat
+  - Súmate
+  - cópialo
+  - apng
   - lhci
+  - keyshortcuts
   - KaTeX
   - microformats
   - PostLens
   - Xteink
+  - DXMT
   - Cancún
   - Ciudad
   - Encarnación
@@ -68,6 +114,7 @@ words:
   - Consectetur
   - contentful
   - Contentful
+  - Contentstack
   - coolors
   - Cosmovisión
   - Cowork
@@ -75,10 +122,14 @@ words:
   - Customising
   - daher
   - Datagran
+  # Existing heading fragments omit possessive apostrophes.
+  - datagrans
+  - colombias
   - Dateien
   - Datenschutz
   - dbaeumer
   - deepseek
+  - describedby
   - Deepseek
   - defaultdict
   - Dialogo
@@ -142,6 +193,7 @@ words:
   - lighthouserc
   - linkedin
   - Mapbox
+  - Mantine
   - Marcone
   - Marcone's
   - martech
@@ -162,14 +214,18 @@ words:
   - navigations
   - nghiệp
   - nisl
+  - noprofile
+  - norc
   - noscroll
   - nosniff
+  - NOSYSTEM
   - Nulla
   - OKLCH
   - omnibox
   - Pantone
   - Passwort
   - pingback
+  - pipefail
   - preflights
   - Pressable
   - PINGBACK
@@ -179,6 +235,7 @@ words:
   - Qwik
   - Rappi
   - Rasterise
+  - referrerpolicy
   - rehype
   - rels
   - remarkjs
@@ -228,11 +285,13 @@ words:
   - tristique
   - tweakable
   - Überprüfen
+  - unifont
   - unioned
   - unobserve
   - unrs
   - Universidad
   - Uribe
+  - valuenow
   - velit
   - verbinden
   - vercel
@@ -288,6 +347,7 @@ words:
   - volutpat
   - Vorschau
   - Warten
+  - wayfinding
   - wcag
   - WCAG
   - webmention
@@ -299,6 +359,7 @@ words:
   - wordmark
   - writeups
   - Zeepod
+  - Zustand
   - Zurück
   - Оbserve
   - sitemapindex
@@ -321,7 +382,7 @@ words:
   - networkidle
   - slugifies
 ignorePaths:
-  - .agent/**
+  - .agents/**
   - node_modules/**
   - dist/**
   - .git/**

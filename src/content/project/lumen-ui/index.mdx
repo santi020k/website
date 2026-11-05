@@ -1,0 +1,266 @@
+---
+title: "Lumen UI"
+seoTitle: "Lumen UI: Web and Native Component Library"
+description: "Built Lumen UI: shared design foundations for Astro, React, Web Components, and native interfaces, with accessible primitives, product layouts, Figma, and AI tooling."
+cardDescription: "Shared design foundations for web and native apps. Accessible components, product layouts, and tools for consistent interfaces."
+brand:
+  primary: "#f49e0e"
+  secondary: "#4b5563"
+  surface: "#111827"
+role: "Creator"
+startingDate: "3 Jul 2026"
+updatedDate: "20 Oct 2026"
+githubUrl: "https://github.com/santi020k/lumen"
+liveDemoUrl: "https://lumen.santi020k.com/"
+closingLinks:
+  - label: "Try the playgrounds"
+    href: "https://lumen.santi020k.com/#playgrounds"
+typesId: "personal"
+notesLayout: "context-lead"
+purpose: "developer-tools"
+relevanceWeight: 100
+previews:
+  description: "Real interfaces built with Lumen: a web workspace and the SwiftUI playground. The screens use illustrative data."
+  images:
+    - src: "./preview-web.webp"
+      alt: "Lumen web workspace with sidebar navigation, a revenue chart, recent activity, and a task form using illustrative data."
+      title: "A workspace from shared parts"
+      caption: "Navigation, charts, metrics, and form controls work together in one composition. Applications supply their own data and decisions."
+    - src: "./preview-apple.webp"
+      alt: "Lumen SwiftUI playground showing a release checklist with a date picker, accessibility checkbox, progress, and review actions."
+      title: "The same foundations on iPhone"
+      caption: "The native playground expresses a release checklist through SwiftUI controls. Shared tokens connect the visual language while the platform owns the interaction."
+impactMetrics: ["Connects web and native interfaces through shared tokens and explicit component contracts", "Combines accessible controls, charts, maps, and operational layouts with platform-native authoring", "Supports design and AI workflows through Figma resources, an agent skill, MCP, and a machine-readable registry"]
+technologies: ["Astro", "React.js", "Web Components", "TypeScript", "CSS", "Tailwind CSS", "Accessibility", "Design Systems", "Figma", "Model Context Protocol", "AI-assisted Development", "Vitest", "Playwright", "Turborepo", "pnpm", "NPM", "Developer Documentation", "Open Source"]
+coverImage:
+  src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
+  logoScale: 1.12
+  logoSurface: "dark"
+  alt: "Lumen UI logo on a dark geometric cover with amber accents"
+  ogImage: "./cover.webp"
+focusAreas:
+  - label: "Shared foundations"
+    description: "Semantic tokens and explicit component contracts"
+  - label: "Platform adapters"
+    description: "Accessible interfaces across web and native stacks"
+  - label: "Design workflow"
+    description: "Product layouts, Figma, and AI tooling"
+relatedWriting:
+  - post: "2026/lumen-ui-one-system-three-frameworks"
+    label: "System design"
+  - post: "2026/building-santi020k-developer-tool-ecosystem"
+    label: "Tool ecosystem"
+---
+
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
+import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
+
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+import ProjectEvidenceBrief from '@/components/molecules/ProjectEvidenceBrief.astro'
+
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+
+import ProjectConsumerTrail from '@/components/molecules/ProjectConsumerTrail.astro'
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+
+<ProjectContextLead projectId="lumen-ui" headingId="a-shared-language-for-web-and-native-interfaces">
+
+## A shared language for web and native interfaces
+
+I built Lumen UI to carry a consistent visual language across products while preserving each
+platform's way of building. Astro, React, and standards-based Web Components share web contracts;
+React Native, SwiftUI, and Jetpack Compose extend the foundations into native interfaces.
+
+Shared tokens and explicit component contracts connect the system. Framework adapters own their
+rendering and interaction: progressive enhancement for Astro, components and hooks for React,
+custom elements for the browser, and platform-native composition for mobile and desktop apps.
+Applications keep their business rules, data, routing, and recovery policy.
+
+</ProjectContextLead>
+
+<ProjectPreviews projectId="lumen-ui">
+
+### Inside the product
+
+</ProjectPreviews>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: 'Capabilities', href: '#what-lumen-4-brings-together' },
+    { label: 'Technical highlights', href: '#technical-highlights' },
+    { label: 'Used in this website', href: '#used-in-this-website' }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="lumen-ui"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Goals
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief
+  labelledBy="goals"
+  goals={[
+    { lead: 'Share product language', detail: 'across web and native interfaces without forcing a common runtime.' },
+    { lead: 'Make accessible interaction repeatable', detail: 'through semantics, keyboard paths, focus management, readable status feedback, and reduced-motion support.' },
+    { lead: 'Support real product work', detail: 'with forms, data presentation, operational layouts, and recovery states.' },
+    { lead: 'Make design decisions discoverable', detail: 'for developers, designers, and coding agents.' }
+  ]}
+/>
+
+<ProjectSectionHeading>
+
+### What Lumen 4 brings together
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-lumen-4-brings-together">
+
+<ProjectCapabilityEntry number={1} title="Accessible controls and feedback">
+
+buttons, disclosures, dialogs, fields, clipboard actions, progress, and error states with explicit interaction contracts.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title="Operational interfaces">
+
+data tables, calendars, Kanban layouts, navigation, and complete dashboard templates that applications compose around their own state and workflows.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title="Data and presentation">
+
+charts, `WorldMap`, `DeviceFrame`, and image comparison for readable product stories, analytics, and media experiences.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title="Motion with restraint">
+
+reveal groups, animated numbers, and layout motion with stable content and reduced-motion paths.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title="Native foundations">
+
+React Native, SwiftUI, and Compose adapters, alongside focused WidgetKit and Wear OS surfaces that respect their host platforms.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title="Design and AI resources">
+
+a Figma library, portable agent skill, MCP catalog, CLI recipes, `llms.txt`, and machine-readable component and styling contracts.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Technical highlights
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief
+  label="Web adapters"
+  introduction="Choose the adapter for the existing application."
+  adapters={[
+    { label: 'Astro', packageName: '@santi020k/lumen-astro' },
+    { label: 'React', packageName: '@santi020k/lumen-react' },
+    { label: 'Web Components', packageName: '@santi020k/lumen-elements' }
+  ]}
+>
+
+<div>
+  <dt>Shared foundations</dt>
+  <dd>Canonical design tokens, metadata, and behavior expectations; the umbrella <code>@santi020k/lumen</code> exposes the CLI and registry.</dd>
+</div>
+<div>
+  <dt>Public styling contracts</dt>
+  <dd>Semantic tokens, component props, documented variables, and stable part hooks instead of depending on private implementation classes.</dd>
+</div>
+<div>
+  <dt>CSS architecture</dt>
+  <dd>Standalone styles and explicit cascade layers for optional Tailwind use.</dd>
+</div>
+<div>
+  <dt>Verification</dt>
+  <dd>Interaction, accessibility, visual, package, and contract checks, with native compatibility and device evidence tracked separately.</dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectEvidenceBrief
+  id="compatibility-validation"
+  label="Compatibility & validation"
+  references={[
+    { label: 'Native compatibility matrix', description: 'Adapter coverage and supported toolchains', href: 'https://github.com/santi020k/lumen/blob/main/docs/native-compatibility.md' },
+    { label: 'Device validation record', description: 'Device checks and their status', href: 'https://github.com/santi020k/lumen/blob/main/docs/native-device-validation.md' }
+  ]}
+>
+
+The platform families share foundations, but their component coverage and supported toolchains
+are qualified per adapter.
+
+A local build, a published package, a store build, and physical-device accessibility are separate evidence.
+
+</ProjectEvidenceBrief>
+
+<ProjectSectionHeading>
+
+### Used in this website
+
+</ProjectSectionHeading>
+
+<ProjectConsumerTrail
+  introduction="This site consumes the published Lumen 4 Astro, core, and umbrella packages."
+  responsibility="Reading layouts compose shared progress, copy actions, and navigation primitives. The website keeps its editorial styling, search, content ordering, and travel data."
+  examples={[
+    { label: 'Travel notebook', href: '/travel/', description: 'The travel notebook uses', component: 'WorldMap' },
+    { label: 'Homepage product preview', href: '/#projects-heading', description: 'A product screenshot presented through', component: 'DeviceFrame' }
+  ]}
+>
+
+This consumer work helps identify library improvements from real interfaces: clear defaults,
+public styling hooks, accessible clipboard feedback, and predictable motion. The
+[v3 to v4 migration guide](https://github.com/santi020k/lumen/blob/main/docs/migrating-v3-to-v4.md)
+records the upgrade contract for other consumers.
+
+</ProjectConsumerTrail>
+
+<ProjectSectionHeading>
+
+### Why it matters
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose
+  lead="Lumen makes interface decisions reusable."
+  emphasis="Applications keep their policy."
+  perspectives={[
+    { label: 'Developers', description: 'Discover a real component contract.' },
+    { label: 'Designers', description: 'Work from the same foundations.' },
+    { label: 'Coding agents', description: 'Retrieve source-backed guidance instead of inventing an API.' }
+  ]}
+/>

@@ -1,0 +1,279 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import Pill from '@/components/atoms/Pill.astro'
+
+import { getPortfolioPath } from '@/utils/links'
+import { getProjectBrandStyle } from '@/utils/project-brand'
+import { getProjectTimelineLabel } from '@/utils/project-meta'
+import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+import { Card, Icon, Timeline, TimelineItem } from '@santi020k/lumen-astro'
+
+interface Props {
+  projects: CollectionEntry<'project'>[]
+}
+
+const { projects } = Astro.props
+
+const careerItems = projects.map((project: CollectionEntry<'project'>) => ({
+  brand: project.data.brand,
+  company: project.data.title,
+  description: project.data.description,
+  href: getPortfolioPath(project.id),
+  isActive: !project.data.endingDate,
+  role: project.data.role ?? 'Engineer',
+  technologies: sortTechnologiesByInterest(project.data.technologies).slice(0, 3),
+  timeline: getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
+}))
+
+type CareerItem = (typeof careerItems)[number]
+---
+
+<Card
+  class="overflow-hidden rounded-[1.75rem] p-0"
+  variant="default"
+>
+  <Timeline data-career-timeline class="relative">
+    {careerItems.map((item: CareerItem) => (
+      <TimelineItem
+        data-timeline-row={item.isActive ? 'active' : 'completed'}
+        style={getProjectBrandStyle(item.brand)}
+      >
+        <span
+          slot="dot"
+          aria-hidden="true"
+          class:list={[
+            `
+              flex items-center justify-center rounded-full border
+              transition-[background-color,border-color,box-shadow,color]
+              duration-200
+              motion-reduce:transition-none
+            `,
+            item.isActive ?
+              `
+                size-8 border-brand/40 bg-brand text-white
+                shadow-[0_0_0_5px_hsl(var(--brand)/0.1)]
+              ` :
+              'size-6 border-line/70 bg-surface text-ink-muted'
+          ]}
+        >
+          <Icon
+            class:list={[item.isActive ? 'size-4' : 'size-3.5']}
+            name={item.isActive ? 'briefcase-business' : 'check'}
+          />
+        </span>
+
+        <a
+          aria-label={`View ${item.company} case study`}
+          data-career-link
+          class:list={[
+            `
+              group block py-6 pr-5 pl-18 transition-colors duration-200
+              focus-visible:ring-2 focus-visible:ring-brand/50
+              focus-visible:outline-none focus-visible:ring-inset
+              motion-reduce:transition-none
+              sm:py-7 sm:pr-7 sm:pl-20
+            `,
+            item.isActive ?
+              `
+                bg-brand-soft/35
+                hover:bg-brand-soft/55
+              ` :
+              'hover:bg-surface-muted/55'
+          ]}
+          href={item.href}
+        >
+          <article>
+            <div
+              class="
+                flex flex-col gap-4
+                sm:flex-row sm:items-start sm:justify-between
+              "
+            >
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <p
+                    class:list={[
+                      'text-xs font-semibold tracking-widest uppercase',
+                      item.isActive ? 'text-brand' : 'text-ink-muted'
+                    ]}
+                  >
+                    {item.role}
+                  </p>
+                  {item.isActive && <Pill label="Current" tone="brand" />}
+                </div>
+
+                <h3
+                  data-career-title
+                  class="
+                    mt-2 text-2xl/tight font-bold text-ink transition-colors
+                    duration-150
+                    motion-reduce:transition-none
+                    sm:text-[1.7rem]
+                  "
+                >
+                  {item.company}
+                </h3>
+              </div>
+
+              <div
+                class="
+                  flex shrink-0 items-center gap-2 text-xs font-medium
+                  text-ink-muted tabular-nums
+                  sm:pt-1
+                "
+              >
+                <Icon
+                  class="size-3.5"
+                  name="calendar-days"
+                />
+                <span>{item.timeline}</span>
+              </div>
+            </div>
+
+            <p
+              class="
+                mt-4 line-clamp-4 max-w-3xl text-sm/6 text-ink-soft
+                sm:line-clamp-2 sm:text-base/7
+              "
+            >
+              {item.description}
+            </p>
+
+            <div
+              class="
+                mt-5 flex flex-col gap-4 border-t border-line/35 pt-4
+                sm:flex-row sm:items-center sm:justify-between
+              "
+            >
+              {item.technologies.length > 0 && (
+                <ul
+                  aria-label={`${item.company} technologies`}
+                  class="
+                    flex flex-wrap items-center gap-x-3 gap-y-1 text-xs
+                    font-medium text-ink-muted
+                  "
+                >
+                  {item.technologies.map((technology: string) => (
+                    <li
+                      class="
+                        relative pr-3
+                        after:absolute after:top-1/2 after:right-0 after:size-1
+                        after:-translate-y-1/2 after:rounded-full after:bg-line
+                        last:pr-0
+                        last:after:hidden
+                      "
+                    >
+                      {technology}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <span
+                data-career-action
+                class="
+                  flex shrink-0 items-center gap-2 text-xs font-semibold
+                  text-brand
+                "
+              >
+                Read case study
+                <Icon
+                  class="
+                    size-4 transition-transform duration-150
+                    group-hover:translate-x-1
+                    motion-reduce:transition-none
+                  "
+                  name="arrow-right"
+                />
+              </span>
+            </div>
+          </article>
+        </a>
+      </TimelineItem>
+    ))}
+  </Timeline>
+</Card>
+
+<style>
+  [data-career-timeline] :global(.ui-timeline-item) {
+    padding-bottom: 0;
+  }
+
+  [data-career-timeline] :global(.ui-timeline-item:not(:last-child)) {
+    border-bottom: 1px solid hsl(var(--line) / 0.35);
+  }
+
+  [data-career-timeline] :global(.ui-timeline-item__content) {
+    margin-left: 0;
+  }
+
+  [data-career-link] {
+    transition-property: background-color, box-shadow;
+  }
+
+  [data-career-timeline] [data-career-link]:is(:hover, :focus-visible) {
+    background-color: hsl(var(--project-primary) / 0.09);
+    box-shadow: inset 3px 0 0 hsl(var(--project-primary) / 0.72);
+  }
+
+  [data-career-link]:focus-visible {
+    --tw-ring-color: hsl(var(--project-primary) / 0.48);
+  }
+
+  [data-career-link]:is(:hover, :focus-visible) :is([data-career-title], [data-career-action]) {
+    color: hsl(var(--project-primary-readable));
+  }
+
+  [data-career-timeline]
+    :global(.ui-timeline-item:has([data-career-link]:is(:hover, :focus-visible)) .ui-timeline-item__dot > span) {
+    border-color: hsl(var(--project-primary) / 0.7);
+    background-color: hsl(var(--project-primary) / 0.13);
+    box-shadow: 0 0 0 5px hsl(var(--project-primary) / 0.1);
+    color: hsl(var(--project-primary-readable));
+  }
+
+  :global(:root[data-theme='dark']) [data-career-timeline] :global(.ui-timeline-item) {
+    --project-primary-readable: var(--project-primary-readable-dark);
+  }
+
+  :global(:root[data-theme='dark'])
+    [data-career-timeline]
+    [data-career-link]:is(:hover, :focus-visible) {
+    background-color: hsl(var(--project-primary) / 0.14);
+  }
+
+  [data-career-timeline] :global(.ui-timeline-item__dot) {
+    top: 1.5rem;
+    left: 1.25rem;
+    width: 2rem;
+    background: transparent;
+    transform: none;
+  }
+
+  [data-career-timeline] :global(.ui-timeline-item__tail) {
+    z-index: 1;
+    top: 3.25rem;
+    left: 2.25rem;
+    width: 1px;
+    height: calc(100% - 1.5rem);
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--brand) / 0.3),
+      hsl(var(--line) / 0.55)
+    );
+  }
+
+  @media (min-width: 40rem) {
+    [data-career-timeline] :global(.ui-timeline-item__dot) {
+      top: 1.75rem;
+      left: 1.5rem;
+    }
+
+    [data-career-timeline] :global(.ui-timeline-item__tail) {
+      top: 3.5rem;
+      left: 2.5rem;
+    }
+  }
+</style>

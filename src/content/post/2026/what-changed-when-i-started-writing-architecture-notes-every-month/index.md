@@ -7,6 +7,10 @@ coverImage:
   src: "./cover.webp"
 tags: ["architecture", "documentation", "software-design", "engineering-culture"]
 postType: "Case Study"
+startHere:
+  order: 2
+  label: "How I think"
+  reason: "A small writing habit that helps me notice drift, explain decisions, and leave useful context for a team."
 seriesId: "the-santi020k-way"
 seriesOrder: 13
 ---

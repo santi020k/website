@@ -1,0 +1,132 @@
+---
+interface HeadingLink {
+  depth: number
+  slug: string
+  text: string
+}
+
+interface Props {
+  headings: HeadingLink[]
+}
+
+const { headings } = Astro.props
+// Filter to only h2 and h3 — deeper headings clutter the TOC
+const tocHeadings = headings.filter(h => h.depth <= 3)
+---
+
+<nav
+  aria-label="Table of contents"
+  class="mini-note"
+  data-toc-nav
+>
+  <p class="section-label">On this page</p>
+
+  <ul class="mt-4 space-y-1">
+    {tocHeadings.map(heading => (
+      <li class:list={[heading.depth === 3 && 'pl-4']}>
+        <a
+          href={`#${heading.slug}`}
+          data-slug={heading.slug}
+          data-toc-link
+          class="
+            group flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm/5
+            text-ink-soft transition-colors duration-200
+            hover:bg-brand-soft/50 hover:text-brand
+            motion-reduce:transition-none
+          "
+        >
+          <span
+            aria-hidden="true"
+            data-toc-dot
+            class="
+              size-1 shrink-0 rounded-full bg-ink-muted/40 transition
+              duration-200
+              group-hover:bg-brand/60
+              motion-reduce:transition-none
+            "
+          >
+          </span>
+          <span class="truncate">{heading.text}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  [data-toc-link].is-active {
+    color: hsl(var(--brand));
+    background-color: hsl(var(--brand-soft) / 0.4);
+    font-weight: 600;
+  }
+
+  [data-toc-link].is-active [data-toc-dot] {
+    background-color: hsl(var(--brand));
+    transform: scale(1.25);
+  }
+</style>
+
+<script>
+  const setup = () => {
+    const nav = document.querySelector<HTMLElement>('[data-toc-nav]')
+
+    if (!nav) return () => undefined
+
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'))
+
+    if (!links.length) return () => undefined
+
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>('.prose-santi :is(h2, h3)')
+    )
+
+    if (!targets.length) return () => undefined
+
+    const setActive = (slug: string) => {
+      for (const link of links) {
+        link.classList.toggle('is-active', link.dataset.slug === slug)
+      }
+    }
+
+    // Set first heading active on load
+    setActive(targets[0]?.id ?? '')
+
+    let suppressUntil = 0
+
+    for (const link of links) {
+      link.addEventListener('click', () => {
+        setActive(link.dataset.slug ?? '')
+
+        // Suppress scroll-based updates for 900ms to let smooth-scroll finish
+        suppressUntil = Date.now() + 900
+      })
+    }
+
+    const onScroll = () => {
+      if (Date.now() < suppressUntil) return
+
+      // 64px matches scroll-padding-top on html (4rem)
+      let current = targets[0]?.id ?? ''
+
+      for (const el of targets) {
+        if (el.getBoundingClientRect().top <= 64) current = el.id
+      }
+
+      setActive(current)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    requestAnimationFrame(onScroll)
+
+    return () => window.removeEventListener('scroll', onScroll)
+  }
+
+  let cleanup = setup()
+
+  document.addEventListener('astro:after-swap', () => {
+    cleanup()
+
+    cleanup = setup()
+  })
+</script>

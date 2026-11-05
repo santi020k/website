@@ -1,0 +1,27 @@
+---
+import { Eyebrow } from '@santi020k/lumen-astro'
+
+interface Props {
+  className?: string
+  label: string
+  tone?: 'brand' | 'neutral'
+}
+
+const { className = '', label, tone = 'neutral' } = Astro.props
+---
+
+<Eyebrow
+  data-site-eyebrow
+  class:list={['inline-flex w-fit items-center gap-2', className]}
+>
+  {tone === 'brand' && (
+    <span
+aria-hidden="true"
+class="
+  size-1.5 shrink-0 rounded-full bg-brand
+  dark:bg-accent
+"
+    />
+  )}
+  {label}
+</Eyebrow>

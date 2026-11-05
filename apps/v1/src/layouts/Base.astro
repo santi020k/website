@@ -1,0 +1,72 @@
+---
+import { ClientRouter } from 'astro:transitions'
+
+import BaseHead from '@/components/BaseHead.astro'
+import Footer from '@/components/layout/Footer.astro'
+import Header from '@/components/layout/Header.astro'
+import SkipLink from '@/components/SkipLink.astro'
+import ThemeProvider from '@/components/ThemeProvider.astro'
+
+import '@/styles/global.css'
+
+import { siteConfig } from '@/site.config'
+import type { SiteMeta } from '@/types'
+
+interface Props {
+  meta: SiteMeta
+}
+
+const {
+  meta: { articleDate, description = siteConfig.description, ogImage, title }
+} = Astro.props;
+---
+
+<html
+  class="
+    grid scroll-pt-20 overflow-x-hidden scroll-smooth font-sans text-xl
+    antialiased
+    md:text-base
+  "
+  lang={siteConfig.lang}
+>
+  <head>
+    <BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+
+    <!-- Astro Transitions -->
+    <ClientRouter />
+  </head>
+  <body class="
+    relative m-auto min-h-screen w-full max-w-6xl min-w-0 grow
+    dark:bg-black
+  "
+  >
+    <ThemeProvider />
+    <SkipLink />
+
+    <div class="relative flex min-h-screen w-full">
+      <!-- Sidebar -->
+      <slot name="sidebar" />
+      <!-- Main container for the page content -->
+      <div id="container" class="relative m-auto max-w-4xl min-w-0 grow">
+        <div class="
+          m-auto grid min-h-screen grid-cols-1 px-4
+          md:grid-rows-[auto_auto_auto] md:px-8 md:pt-4
+        "
+        >
+          <Header />
+          <main
+            transition:animate="fade"
+            id="main"
+            class="
+              relative my-16 mt-32 flex grow flex-col justify-center
+              md:mt-16
+            "
+          >
+            <slot />
+          </main>
+          <Footer />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

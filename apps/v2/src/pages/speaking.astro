@@ -1,0 +1,320 @@
+---
+import ButtonLink from '../components/atoms/ButtonLink.astro'
+import SectionHeading from '../components/molecules/SectionHeading.astro'
+import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
+import PageLayout from '../layouts/Base.astro'
+import { createWhatsAppHref, siteConfig, whatsappMessages } from '../site.config'
+import { getCachedPosts } from '../utils/content'
+
+const postCount = (await getCachedPosts()).length
+const highlights = speakingHighlights.map(h => h.label === 'Published writing' ? { ...h, value: `${postCount} posts` } : h)
+
+const description =
+  'Talks, workshops, and engineering conversations about developer experience, technical leadership, frontend architecture, and calmer delivery systems.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Speaking', url: '/speaking/' }
+]
+
+const speakingWhatsAppHref = createWhatsAppHref(whatsappMessages.speaking)
+
+const bookingNotes = [
+  {
+    label: 'Best fit',
+    value: 'Meetups, internal engineering talks, workshops, and leadership roundtables.'
+  },
+  {
+    label: 'Helpful details',
+    value: 'Audience size, format, date range, and the outcome you want the session to create.'
+  },
+  {
+    label: 'Response time',
+    value: 'WhatsApp is usually fastest for short intros; LinkedIn is great for async context.'
+  }
+]
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    description,
+    mainEntity: {
+      '@type': 'Person',
+      jobTitle: 'Engineering Leader & Full-Stack Architect',
+      knowsAbout: speakingTopics.map(topic => topic.title),
+      name: siteConfig.author,
+      sameAs: [siteConfig.contact.github, siteConfig.contact.linkedin, siteConfig.contact.medium]
+    },
+    name: 'Speaking'
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: speakingTopics.map(topic => ({
+      '@type': 'Question',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: topic.description
+      },
+      name: topic.title
+    }))
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    description: 'Formats available for speaking engagements',
+    itemListElement: speakingFormats.map((format, index) => ({
+      '@type': 'ListItem',
+      description: format.description,
+      name: format.title,
+      position: index + 1
+    })),
+    name: 'Speaking formats'
+  }
+]
+---
+
+<PageLayout meta={{
+  breadcrumbs,
+  description,
+  structuredData,
+  title: 'Speaking & Workshops'
+}}
+>
+  <section
+    class="
+      grid animate-slide-up gap-10
+      motion-reduce:animate-none
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description="I enjoy sessions that are practical, opinionated, and grounded in shipped work. The best talks usually sit at the intersection of leadership, architecture, workflow design, and the small technical choices that make teams faster or slower."
+        eyebrow="Speaking"
+        level="h1"
+        title="Talks, workshops, and engineering conversations."
+      />
+      <p class="
+        max-w-3xl text-base/7 text-ink-soft
+        sm:text-lg/8
+      "
+      >
+        Through ReactJS Colombia, published writing, and day-to-day leadership work, I keep coming back to the
+        same themes: better developer experience, clearer technical standards, and systems that help teams ship
+        with more confidence.
+      </p>
+      <div class="section-actions">
+        <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
+          Invite me on WhatsApp
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Connect on LinkedIn
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div
+      class="
+        grid h-max gap-3
+        sm:grid-cols-3
+        lg:grid-cols-1
+      "
+    >
+      {highlights.map(highlight => (
+        <div class="mini-note">
+          <p class="section-label">{highlight.label}</p>
+          <p class="mt-2 text-lg font-semibold text-ink">{highlight.value}</p>
+          <p class="mt-2 text-sm/7 text-ink-soft">{highlight.description}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="A sample of past sessions with slides and recordings. Dates and audience figures are approximate — ping me if you want more context on any of these."
+      eyebrow="Selected sessions"
+      title="Talks with evidence."
+    />
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+    >
+      {selectedSessions.map(talk => (
+        <article class="
+          panel-card flex h-full flex-col space-y-4 p-6
+          sm:p-7
+        "
+        >
+          <div>
+            <p class="section-label">{talk.event} · {talk.year}</p>
+            {talk.audience && (
+              <p class="mt-1 text-xs text-ink-muted">{talk.audience}</p>
+            )}
+          </div>
+          <h2 class="text-xl font-semibold text-ink">{talk.title}</h2>
+          <p class="grow text-sm/7 text-ink-soft">{talk.description}</p>
+          <div class="flex flex-wrap gap-2">
+            {talk.tags.map(tag => (
+              <span class="
+                rounded-full border border-line/50 px-3 py-0.5 text-xs
+                font-medium text-ink-muted
+              "
+              >{tag}
+              </span>
+            ))}
+          </div>
+          {(talk.links.slides ?? talk.links.video) && (
+            <div class="section-actions">
+              {talk.links.slides && (
+                <ButtonLink href={talk.links.slides} newTab showArrow variant="secondary">
+                  Slides
+                </ButtonLink>
+              )}
+              {talk.links.video && (
+                <ButtonLink href={talk.links.video} newTab showArrow variant="secondary">
+                  Watch talk
+                </ButtonLink>
+              )}
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="If you are planning an event, the fastest path is a WhatsApp message with a little context. I can tailor sessions for community rooms, team offsites, internal enablement, or leadership conversations."
+      eyebrow="Booking"
+      title="Make the invite easy."
+    />
+
+    <div class="space-y-6">
+      <article class="
+        panel-card space-y-6 p-6
+        sm:p-7
+      "
+      >
+        <div class="
+          grid gap-4
+          sm:grid-cols-3
+        "
+        >
+          {bookingNotes.map(note => (
+            <div class="mini-note h-full">
+              <p class="section-label">{note.label}</p>
+              <p class="mt-3 text-sm/7 text-ink-soft">{note.value}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="section-actions">
+          <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
+            Invite me on WhatsApp
+          </ButtonLink>
+          <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+            Message on LinkedIn
+          </ButtonLink>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="The strongest sessions for me are the ones that translate hard-won engineering lessons into something teams can use the next day."
+      eyebrow="Topics"
+      title="What I like to speak about."
+    />
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+    >
+      {speakingTopics.map(topic => (
+        <article class="
+          panel-card h-full space-y-4 p-6
+          sm:p-7
+        "
+        >
+          <h2 class="text-2xl font-semibold text-ink">{topic.title}</h2>
+          <p class="text-sm/7 text-ink-soft">{topic.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Good speaking opportunities do not all look the same. I am comfortable in community rooms, workshops, and internal engineering sessions where the goal is alignment as much as inspiration."
+      eyebrow="Formats"
+      title="Formats that fit teams, communities, and leadership conversations."
+    />
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+    >
+      {speakingFormats.map(format => (
+        <article class="
+          panel-card h-full space-y-4 p-6
+          sm:p-7
+        "
+        >
+          <p class="section-label">{format.title}</p>
+          <p class="text-base/7 text-ink-soft">{format.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Speaking is one of the clearest ways I know to turn private engineering lessons into something useful for more people."
+      eyebrow="Why it matters"
+      title="Community work keeps the engineering practice honest."
+    />
+    <div class="space-y-6">
+      <article class="
+        panel-card space-y-4 p-6
+        sm:p-7
+      "
+      >
+        <p class="section-label">What that looks like in practice</p>
+        <p class="text-base/7 text-ink-soft">
+          Co-organizing ReactJS Colombia has shaped how I think about mentoring, accessibility, and explaining
+          technical tradeoffs without turning them into ego contests. It also keeps me close to the kinds of
+          questions engineers are actually asking in the wild.
+        </p>
+      </article>
+      <div
+        class="
+          grid gap-4
+          sm:grid-cols-2
+        "
+      >
+        <div class="mini-note">
+          <p class="section-label">Community sessions</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">
+            Best for React, TypeScript, DX, testing, architecture, and practical workflows teams can adopt
+            quickly.
+          </p>
+        </div>
+        <div class="mini-note">
+          <p class="section-label">Team sessions</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">
+            Strong fit for internal enablement, onboarding, technical standards, release process improvements,
+            and leadership roundtables.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

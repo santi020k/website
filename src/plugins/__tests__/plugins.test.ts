@@ -5,23 +5,10 @@ import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
-import type { VFile } from 'vfile'
 import { describe, expect, test } from 'vitest'
 
 import { rehypeLumenCode } from '../rehype-lumen-code'
 import { remarkAdmonitions } from '../remark-admonitions'
-import { remarkReadingTime } from '../remark-reading-time'
-
-interface AstroVFile extends VFile {
-  data: {
-    astro?: {
-      frontmatter: {
-        readingTime?: string
-        [key: string]: unknown
-      }
-    }
-  }
-}
 
 interface AdmonitionData extends NonNullable<Paragraph['data']> {
   hName: string
@@ -31,20 +18,6 @@ interface AdmonitionData extends NonNullable<Paragraph['data']> {
 interface AdmonitionNode extends Paragraph {
   data: AdmonitionData
 }
-
-describe('remarkReadingTime', () => {
-  test('should calculate reading time and add it to frontmatter', () => {
-    const processor = unified().use(remarkParse).use(remarkReadingTime).use(remarkStringify)
-    const file = { data: { astro: { frontmatter: {} } } } as unknown as AstroVFile
-    const content = 'Hello world, this is a test page to check reading time calculation. It should have some min read.'
-
-    const tree = processor.parse(content)
-    remarkReadingTime()(tree, file)
-
-    expect(file.data.astro?.frontmatter.readingTime).toBeDefined()
-    expect(file.data.astro?.frontmatter.readingTime).toMatch(/min read/)
-  })
-})
 
 describe('remarkAdmonitions', () => {
   test('should transform note container directives into aside elements', () => {
@@ -184,6 +157,30 @@ describe('rehypeLumenCode', () => {
     expect(figure.properties.dataLanguage).toBe('bash')
     expect(figure.properties.dataUiCode).toBe('')
     expect(header.properties.className).toEqual(['ui-code__header'])
+  })
+
+  test('renders the Lumen Code copy button contract with persistent code-specific labels', () => {
+    const tree: HastRoot = { children: [codeFigure('npm')], type: 'root' }
+    const buttons: Element[] = []
+
+    unified().use(rehypeLumenCode).runSync(tree)
+
+    visit(tree, 'element', node => {
+      if (node.tagName === 'button') buttons.push(node)
+    })
+
+    expect(buttons).toHaveLength(1)
+
+    expect(buttons[0]?.properties).toMatchObject({
+      ariaLabel: 'Copy code to clipboard',
+      dataCopyCopiedLabel: 'Code copied to clipboard',
+      dataCopyErrorLabel: 'Could not copy code. Select and copy it manually.',
+      dataCopyLabel: 'Copy code to clipboard',
+      dataState: 'idle',
+      dataUiCodeCopy: '',
+      title: 'Copy code to clipboard',
+      type: 'button'
+    })
   })
 
   test('gives repeated code examples unique landmarks and restarts numbering for each article', () => {

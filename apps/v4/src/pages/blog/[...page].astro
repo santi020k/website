@@ -1,0 +1,162 @@
+---
+import type { GetStaticPaths, Page } from 'astro'
+
+import type { CollectionEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import Pagination from '@/components/molecules/Pagination.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import SeriesCard from '@/components/molecules/SeriesCard.astro'
+import TagFilter from '@/components/molecules/TagFilter.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import PostsGallery from '@/components/organisms/PostsGallery.astro'
+import BlogHero from '@/components/pages/blog/BlogHero.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { getCachedPosts } from '@/utils/content'
+import { getPostPath } from '@/utils/links'
+import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
+import { getAllTags, getBlogBrowseTags } from '@/utils/tags'
+
+import { RevealGroup } from '@santi020k/lumen-astro'
+
+import { getSeriesSummaries } from '@/data/series'
+import { createAuthorSchema, siteConfig } from '@/site.config'
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const posts = await getCachedPosts()
+  const allTagsData = getAllTags(posts)
+
+  return paginate(posts, {
+    pageSize: BLOG_ARCHIVE_PAGE_SIZE,
+    props: { allTagsData }
+  })
+}
+
+interface Props {
+  allTagsData: [string, number][]
+  page: Page<CollectionEntry<'post'>>
+}
+
+const { allTagsData, page } = Astro.props
+const isFirstPage = page.currentPage === 1
+const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
+const topTags = getBlogBrowseTags(allTagsData)
+const latestPost = page.data[0] ?? null
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  ...(page.currentPage > 1 ? [{ name: `Page ${page.currentPage}`, url: Astro.url.pathname }] : [])
+]
+
+const blogListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Personal Blog — Santiago Molina',
+  url: new URL('/blog/', Astro.site).href,
+  blogPost: page.data.map((post, index) => ({
+    '@type': 'BlogPosting',
+    position: index + 1,
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.publishDate.toISOString(),
+    ...(post.data.updatedDate ? { dateModified: post.data.updatedDate.toISOString() } : {}),
+    url: new URL(getPostPath(post.id), Astro.site).href,
+    author: createAuthorSchema(Astro.site)
+  }))
+}
+---
+
+<PageLayout
+  headerVariant={isFirstPage ? 'signature' : 'dock'}
+  mainClass="remaining-pages"
+  meta={{
+    breadcrumbs,
+    description: 'Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.',
+    structuredData: blogListSchema,
+    title: isFirstPage ?
+      'Personal Blog — Santiago Molina' :
+      `Blog · Page ${page.currentPage} of ${page.lastPage} — Santiago Molina`
+  }}
+>
+  {isFirstPage ?
+(
+    <BlogHero latestPost={latestPost} postCount={page.total} topicCount={allTagsData.length} />
+  ) :
+(
+    <PageHero
+      compact
+      description={`Older writing from page ${page.currentPage} of ${page.lastPage}, ordered newest first.`}
+      eyebrow="Blog archive"
+      gradientText={`Page ${page.currentPage}.`}
+      metaItems={['Archive', 'Latest first']}
+      title="Writing archive."
+    >
+      <ButtonLink href="/blog/" showArrow>Back to latest posts</ButtonLink>
+      <ButtonLink href="/blog/tags/" showArrow variant="secondary">Browse topics</ButtonLink>
+    </PageHero>
+  )}
+
+  <section
+    id="posts"
+    aria-label={isFirstPage ? 'Latest blog posts' : `Blog posts, page ${page.currentPage}`}
+    class="
+      section-container-wide scroll-mt-28 pt-10
+      sm:pt-12
+      lg:pt-16
+    "
+  >
+    <SectionHeader
+      description={isFirstPage ? 'Software, reading, gaming, and everything in between. Browse the feed or follow a topic.' : 'More notes and discoveries, ordered newest first.'}
+      eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
+      title={isFirstPage ? 'Recent notes and discoveries.' : 'From the archive.'}
+    />
+
+    <div class="
+      mt-10 space-y-8
+      sm:mt-12
+    "
+    >
+      <TagFilter scrollOnMobile tags={topTags} />
+
+      <PostsGallery posts={page.data} />
+
+      <div class="pt-2">
+        <Pagination page={page} />
+      </div>
+    </div>
+  </section>
+
+  {isFirstPage && !!activeSeries.length && (
+    <PageSection>
+      <SectionHeader
+        description="Go deeper with connected posts on engineering principles, delivery systems, and developer tools."
+        eyebrow="Series"
+        linkHref="/blog/series/"
+        linkLabel="Browse all series"
+        title="Follow related posts in order."
+      />
+
+      <RevealGroup class="post-grid" stagger={60}>
+        {activeSeries.map(item => (
+          <SeriesCard postCount={item.postCount} series={item.series} />
+        ))}
+      </RevealGroup>
+    </PageSection>
+  )}
+
+  {isFirstPage && siteConfig.newsletter?.formAction && (
+    <PageSection>
+      <SectionHeader
+        description="A low-volume email with new posts on software, reading, gaming, and everyday discoveries."
+        eyebrow="Newsletter"
+        title="Keep up with new writing."
+      />
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} variant="compact" />
+    </PageSection>
+  )}
+
+</PageLayout>

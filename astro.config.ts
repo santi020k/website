@@ -4,20 +4,9 @@ import path from 'node:path'
 import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
-import {
-  santi020kDarkShikiTheme,
-  santi020kLightShikiTheme
-} from '@santi020k/theme/shiki'
-import {
-  transformerMetaHighlight,
-  transformerNotationDiff,
-  transformerNotationFocus
-} from '@shikijs/transformers'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
 import icon from 'astro-icon'
-import robotsTxt from 'astro-robots-txt'
-import webmanifest from 'astro-webmanifest'
 import { load as loadYaml } from 'js-yaml'
 // Rehype plugins
 import rehypeExternalLinks from 'rehype-external-links'
@@ -26,13 +15,36 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 // Remark plugins
 import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
+import { defaultLocale, locales, stripLocale } from './src/i18n'
+import { codeHighlightingOptions } from './src/plugins/code-highlighting'
+import { externalLinkRel } from './src/plugins/external-link-rel'
+import { rehypeArticleChecklists } from './src/plugins/rehype-article-checklists'
+import { rehypeArticleFigures } from './src/plugins/rehype-article-figures'
+import { rehypeArticleHeadings } from './src/plugins/rehype-article-headings'
+import { rehypeArticleOpening } from './src/plugins/rehype-article-opening'
+import { rehypeArticleQuotes } from './src/plugins/rehype-article-quotes'
+import { rehypeArticleReferences } from './src/plugins/rehype-article-references'
+import { rehypeCodeTokenClasses } from './src/plugins/rehype-code-token-classes'
 import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
+import { rehypePrintReferences } from './src/plugins/rehype-print-references'
+import { rehypeProjectLedger } from './src/plugins/rehype-project-ledger'
+import { rehypeReadableTables } from './src/plugins/rehype-readable-tables'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
-import { remarkReadingTime } from './src/plugins/remark-reading-time'
-import { siteConfig } from './src/site.config'
+import { isNoindexBuiltPage } from './src/utils/built-page'
+import { parseContentDate } from './src/utils/content-date'
 import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
+const siteOrigin = 'https://santi020k.com'
+const outDir = path.resolve('dist')
+
+const canonicalContentURL = (value: string): string => {
+  const url = new URL(value)
+
+  url.pathname = stripLocale(url.pathname)
+
+  return url.href
+}
 
 /**
  * Builds sitemap metadata for content-collection routes from frontmatter.
@@ -40,7 +52,6 @@ const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS ===
  * that declare another canonical URL are omitted to avoid conflicting signals.
  */
 const buildContentSitemapMetadata = () => {
-  const siteOrigin = 'https://santi020k.com'
   const lastmodMap = new Map<string, string>()
   const nonCanonicalPageUrls = new Set<string>()
   const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---/
@@ -68,16 +79,13 @@ const buildContentSitemapMetadata = () => {
     return out
   }
 
+  // Matches the content schema so sitemap dates and scheduling agree in every build timezone.
   const toIso = (value: unknown): string | undefined => {
-    if (value instanceof Date) return value.toISOString()
+    if (!(value instanceof Date) && typeof value !== 'string') return undefined
 
-    if (typeof value === 'string') {
-      const date = new Date(value)
+    const date = parseContentDate(value)
 
-      return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
-    }
-
-    return undefined
+    return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
   }
 
   type FrontmatterDateKey = 'date' | 'endingDate' | 'pubDate' | 'publishDate' | 'startingDate' | 'updatedDate'
@@ -104,20 +112,32 @@ const buildContentSitemapMetadata = () => {
     }
   }
 
+  const updateLatestLastmod = (url: string, iso: string | undefined) => {
+    if (!iso) return
+
+    const existing = lastmodMap.get(url)
+
+    if (!existing || iso > existing) {
+      lastmodMap.set(url, iso)
+    }
+  }
+
   const register = (
     url: string,
     frontmatter: Record<string, unknown>,
     prefer: FrontmatterDateKey[]
-  ) => {
+  ): string | undefined => {
     for (const key of prefer) {
       const iso = toIso(frontmatterDate(frontmatter, key))
 
       if (iso) {
         lastmodMap.set(url, iso)
 
-        return
+        return iso
       }
     }
+
+    return undefined
   }
 
   // Posts: src/content/post/**/<slug>(/index)?.md(x) -> /blog/<slug>/
@@ -145,7 +165,27 @@ const buildContentSitemapMetadata = () => {
         nonCanonicalPageUrls.add(pageUrl)
       }
 
-      register(pageUrl, data, ['updatedDate', 'publishDate'])
+      const postLastmod = register(pageUrl, data, ['updatedDate', 'publishDate'])
+
+      updateLatestLastmod(`${siteOrigin}/blog/`, postLastmod)
+
+      if (Array.isArray(data.tags)) {
+        for (const rawTag of data.tags) {
+          if (typeof rawTag === 'string' && rawTag.trim()) {
+            const normalizedTag = rawTag.trim().toLowerCase()
+
+            updateLatestLastmod(`${siteOrigin}/blog/tags/`, postLastmod)
+
+            updateLatestLastmod(`${siteOrigin}/blog/tags/${encodeURIComponent(normalizedTag)}/`, postLastmod)
+          }
+        }
+      }
+
+      if (typeof data.seriesId === 'string' && data.seriesId.trim()) {
+        updateLatestLastmod(`${siteOrigin}/blog/series/`, postLastmod)
+
+        updateLatestLastmod(`${siteOrigin}/blog/series/${data.seriesId.trim()}/`, postLastmod)
+      }
     } catch {
       /* ignore unreadable files */
     }
@@ -166,9 +206,10 @@ const buildContentSitemapMetadata = () => {
       const relative = path.relative(path.resolve('src/content/project'), file).replace(/\\/g, '/')
       const id = relative.replace(/\.mdx?$/, '').replace(/\/index$/, '')
       const slug = id.split('/').pop() ?? id
-
       // Project start/end dates describe the work, not this case study's latest edit.
-      register(`${siteOrigin}/portfolio/${slug}/`, data, ['updatedDate'])
+      const projectLastmod = register(`${siteOrigin}/portfolio/${slug}/`, data, ['updatedDate'])
+
+      updateLatestLastmod(`${siteOrigin}/projects/`, projectLastmod)
     } catch {
       /* ignore unreadable files */
     }
@@ -193,83 +234,30 @@ const legacyRedirects: Record<string, string> = {
 
 // https://astro.build/config
 export default defineConfig({
+  i18n: { defaultLocale, locales: [...locales], routing: { prefixDefaultLocale: false } },
   redirects: legacyRedirects,
-  image: {
-    remotePatterns: [
-      { protocol: 'https', hostname: 'webmention.io' },
-      { protocol: 'https', hostname: 'cdn-images-1.medium.com' },
-      { protocol: 'https', hostname: 'cdn-images-2.medium.com' },
-      { protocol: 'https', hostname: 'miro.medium.com' }
-    ]
-  },
+  // Editorial images are local. Leave third-party mention avatars as browser
+  // requests so an unavailable author image cannot fail the static build.
   integrations: [
     icon(),
     sitemap({
+      i18n: { defaultLocale, locales: { en: 'en', es: 'es' } },
       // Draft filtering happens at route level (getStaticPaths / getCachedPosts / getAllProjects)
       // so draft pages never generate URLs and are never included in the sitemap.
       filter: page => !page.endsWith('/offline/') &&
         !page.endsWith('/404/') &&
-        !nonCanonicalPageUrls.has(page),
+        !page.endsWith('/work-with-me/sent/') &&
+        !nonCanonicalPageUrls.has(canonicalContentURL(page)) &&
+        // Pages render first, so their robots directive decides: Spanish shells of English
+        // articles and thin archives stay reachable without being submitted for indexing.
+        !isNoindexBuiltPage(outDir, page),
       serialize(item) {
-        const contentLastmod = contentLastmodMap.get(item.url)
+        const contentLastmod = contentLastmodMap.get(canonicalContentURL(item.url))
 
         return contentLastmod ? { ...item, lastmod: contentLastmod } : item
       }
     }),
-    mdx(),
-    robotsTxt({
-      // The search-index.json blob is intended for the in-page site search and
-      // duplicates content already crawlable from posts/projects. Keep it out
-      // of search results so listings stay clean. Search-specific AI crawlers
-      // are allowed explicitly so Cloudflare's separate training opt-out does
-      // not accidentally remove the site from cited answer experiences.
-      policy: [
-        { userAgent: 'OAI-SearchBot', allow: '/', disallow: ['/search-index.json'] },
-        { userAgent: 'PerplexityBot', allow: '/', disallow: ['/search-index.json'] },
-        { userAgent: 'Claude-SearchBot', allow: '/', disallow: ['/search-index.json'] },
-        { userAgent: 'Claude-User', allow: '/', disallow: ['/search-index.json'] },
-        { userAgent: '*', allow: '/', disallow: ['/search-index.json'] }
-      ],
-      sitemap: 'https://santi020k.com/sitemap.xml'
-    }),
-    webmanifest({
-      // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
-      name: siteConfig.title,
-      short_name: 'santi020k',
-      description: siteConfig.description,
-      lang: siteConfig.lang,
-      icon: 'public/favicon-source.webp',
-      icons: [
-        {
-          src: 'apple-touch-icon.webp',
-          sizes: '180x180',
-          type: 'image/webp'
-        },
-        {
-          src: 'icons/icon-192.webp',
-          sizes: '192x192',
-          type: 'image/webp',
-          purpose: 'any maskable'
-        },
-        {
-          src: 'icons/icon-512.webp',
-          sizes: '512x512',
-          type: 'image/webp',
-          purpose: 'any maskable'
-        }
-      ],
-      id: '/',
-      scope: '/',
-      start_url: '/',
-      background_color: '#09040f',
-      theme_color: '#09040f',
-      display: 'standalone',
-      config: {
-        insertFaviconLinks: false,
-        insertThemeColorMeta: false,
-        insertManifestLink: false
-      }
-    })
+    mdx()
   ],
   markdown: {
     syntaxHighlight: false,
@@ -279,32 +267,30 @@ export default defineConfig({
         [
           rehypeExternalLinks,
           {
-            rel: ['nofollow', 'noopener', 'noreferrer'],
+            // Owned sites and profiles keep search signals; third-party links stay nofollow.
+            rel: externalLinkRel,
             target: '_blank'
           }
         ],
 
-        [
-          rehypePrettyCode,
-          {
-            theme: {
-              light: santi020kLightShikiTheme,
-              dark: santi020kDarkShikiTheme
-            },
-
-            transformers: [
-              transformerNotationDiff(),
-              transformerMetaHighlight(),
-              transformerNotationFocus()
-            ]
-          }
-        ],
+        [rehypePrettyCode, codeHighlightingOptions],
         rehypeLumenCode,
-        rehypeUnwrapImages
+        rehypeArticleQuotes,
+        rehypeReadableTables,
+        rehypeProjectLedger,
+        rehypeArticleChecklists,
+        rehypeUnwrapImages,
+        rehypeArticleFigures,
+        rehypeArticleReferences,
+        rehypeArticleOpening,
+        rehypeArticleHeadings,
+        [rehypePrintReferences, { site: siteOrigin }],
+        // Last: every code transformation above has settled its token spans.
+        rehypeCodeTokenClasses
       ],
-      remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
+      remarkPlugins: [remarkDirective, remarkAdmonitions],
       remarkRehype: {
-        footnoteBackContent: '⤴',
+        footnoteBackContent: '↩',
         footnoteLabelProperties: {
           className: ['']
         }
@@ -313,7 +299,7 @@ export default defineConfig({
   },
   // https://docs.astro.build/en/guides/prefetch/
   prefetch: true,
-  site: 'https://santi020k.com/',
+  site: siteOrigin,
   vite: {
     build: {
       // Drop the Vite modulepreload polyfill — all browsers we target (Chrome 66+,
@@ -372,11 +358,14 @@ export default defineConfig({
         context: 'client',
         access: 'public',
         optional: true
+      }),
+      // Site token from Cloudflare dashboard → Web Analytics. Leave unset to ship no beacon.
+      CLOUDFLARE_WEB_ANALYTICS_TOKEN: envField.string({
+        context: 'client',
+        access: 'public',
+        optional: true
       })
     }
-  },
-  server: {
-    host: true
   },
   build: {
     // The global bundle (Tailwind + Lumen UI + site partials) is ~420 KiB raw.

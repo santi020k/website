@@ -1,3 +1,5 @@
+import type { Locale } from './i18n/index.ts'
+import { defaultLocale, sharedTranslator } from './i18n/index.ts'
 import type { SiteConfig, SiteLink } from './types/site'
 
 export const CAREER_START_YEAR = 2014
@@ -6,29 +8,33 @@ export const WRITING_START_YEAR = 2017
 const whatsappPhone = '573507990136'
 
 export const whatsappMessages = {
-  default:
-    'Hi Santiago, I found your website and would like to talk about a role, project, or technical collaboration. Here is a bit of context:',
-  speaking:
-    'Hi Santiago, I found your speaking page and would like to invite you to a talk or workshop. Event: Audience: Date: Format: Goal:'
+  default: 'Hi Santiago, I found your website and I’d like to talk about',
+  speaking: 'Hi Santiago, I found your speaking page and I’d like to invite you to a talk or workshop. Event and date:'
 } as const
 
+/**
+ * `wa.me` is WhatsApp's official click-to-chat link. It opens the app directly on phones and
+ * offers WhatsApp Web or the desktop app on computers, without the extra api.whatsapp.com hop.
+ */
 export const createWhatsAppHref = (message: string = whatsappMessages.default) => {
   const text = encodeURIComponent(message)
 
-  return `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${text}`
+  return `https://wa.me/${whatsappPhone}?text=${text}`
 }
 
 export const siteConfig: SiteConfig = {
   author: 'Santiago Molina',
   availability: 'Available for tech lead, staff-level full-stack, and engineering leadership roles',
   contact: {
+    calendar: 'https://calendar.app.google/pQyPiv1yMViZUEcj8',
     email: 'hi@santi020k.com',
     github: 'https://github.com/santi020k',
     linkedin: 'https://linkedin.com/in/santi020k',
     medium: 'https://medium.com/@santi020k',
     resume: '/resume/',
     whatsapp: createWhatsAppHref(),
-    whatsappPhone
+    whatsappPhone,
+    workWithMe: '/work-with-me/'
   },
   date: {
     locale: 'en-US',
@@ -117,40 +123,46 @@ export const createWebsiteSchemaReference = (siteUrl: URL | undefined) => ({
   '@id': createSchemaEntityId('website', siteUrl)
 })
 
-export const menuLinks: SiteLink[] = [
-  {
-    icon: 'tabler:home-2',
-    path: '/',
-    title: 'Home'
-  },
-  {
-    icon: 'tabler:user-circle',
-    path: '/about/',
-    title: 'About'
-  },
-  {
-    icon: 'tabler:timeline',
-    path: '/work/',
-    title: 'Work'
-  },
-  {
-    icon: 'tabler:layers-intersect',
-    path: '/projects/',
-    title: 'Projects'
-  },
-  {
-    icon: 'tabler:speakerphone',
-    path: '/speaking/',
-    title: 'Speaking & Community'
-  },
-  {
-    icon: 'tabler:world',
-    path: '/travel/',
-    title: 'Travel'
-  },
-  {
-    icon: 'tabler:edit',
-    path: '/blog/',
-    title: 'Blog'
-  }
-]
+export const getMenuLinks = (locale: Locale = defaultLocale): SiteLink[] => {
+  const t = sharedTranslator(locale)
+
+  return [
+    {
+      icon: 'tabler:home-2',
+      path: '/',
+      title: t('nav.home')
+    },
+    {
+      icon: 'tabler:user-circle',
+      path: '/about/',
+      title: t('nav.about')
+    },
+    {
+      icon: 'tabler:timeline',
+      path: '/work/',
+      title: t('nav.work')
+    },
+    {
+      icon: 'tabler:layers-intersect',
+      path: '/projects/',
+      title: t('nav.projects')
+    },
+    {
+      icon: 'tabler:speakerphone',
+      path: '/speaking/',
+      title: t('nav.speakingCommunity')
+    },
+    {
+      icon: 'tabler:world',
+      path: '/travel/',
+      title: t('nav.travel')
+    },
+    {
+      icon: 'tabler:edit',
+      path: '/blog/',
+      title: t('nav.blog')
+    }
+  ]
+}
+
+export const menuLinks = getMenuLinks()

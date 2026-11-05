@@ -1,0 +1,281 @@
+---
+title: "PostLens"
+seoTitle: "PostLens: Private Photo Editing for iPhone and iPad"
+description: "Built a private visual content studio for iPhone and iPad: select strong photos, apply transparent on-device enhancements, compose layouts, and prepare work to share."
+cardDescription: "A private photo studio for iPhone and iPad. Choose your best shots, refine them, and compose layouts ready to share."
+brand:
+  primary: "#f26044"
+  secondary: "#7c2ce8"
+  surface: "#05051f"
+role: "Creator"
+startingDate: "14 Jul 2026"
+updatedDate: "25 Oct 2026"
+liveDemoUrl: "https://postlens.santi020k.com/"
+typesId: "personal"
+purpose: "apps"
+draft: false
+relevanceWeight: 99
+previews:
+  description: "PostLens 2 workflow previews captured during development. Sample photos are AI-generated and gallery scores are illustrative; appearance may vary from the released app."
+  images:
+    - src: "./preview-photos.webp"
+      alt: "PostLens development gallery showing generated sample photos with illustrative scores and photo-selection controls."
+      title: "Find a photo worth working on"
+      caption: "The gallery brings local photo guidance into the selection step, so reviewing a set and opening an image stay in one workflow."
+    - src: "./preview-editor.webp"
+      alt: "PostLens development editor displaying a generated mountain-lake sample, original comparison, format selection, and editing tools."
+      title: "Refine it in one focused editor"
+      caption: "Framing, adjustments, and the original comparison stay close to the photo. This capture shows the editing workflow developed for PostLens 2."
+impactMetrics: ["Keeps core photo analysis, scoring, editing, and caption preparation on the device", "Supports reusable formats for Instagram, Pinterest, LinkedIn, and generic exports", "Provides the app, permission language, StoreKit catalog, landing page, and support hub in English and Spanish"]
+technologies: ["Swift", "SwiftUI", "iOS", "PhotoKit", "PhotosPicker", "Vision", "Core Image", "Foundation Models", "Image Playground", "StoreKit", "Astro", "TypeScript", "Privacy Engineering", "Accessibility", "On-device AI", "Image Processing", "Localization", "Testing"]
+coverImage:
+  src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
+  logoScale: 1.2
+  logoSurface: "dark"
+  alt: "PostLens camera logo on a dark geometric cover with coral accents"
+  ogImage: "./cover.webp"
+focusAreas:
+  - label: "Photo selection"
+    description: "A scored gallery with private on-device analysis"
+  - label: "Visual editing"
+    description: "Measured enhancements, tailored looks, and layouts"
+  - label: "Publishing prep"
+    description: "Carousels, captions, and private planning"
+notesLayout: "context-lead"
+relatedWriting:
+  - post: "2026/postlens-2-is-live"
+    label: "Launch note"
+  - post: "2026/postlens-private-on-device-content-studio"
+    label: "Deep dive"
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectReleaseNote from '@/components/molecules/ProjectReleaseNote.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+
+<ProjectContextLead projectId="postlens" headingId="building-a-private-visual-content-studio-for-iphone-and-ipad">
+
+## Building a private visual content studio for iPhone and iPad
+
+PostLens 2 is available for iPhone and iPad. It helps people choose strong photos, improve them with explainable edits, compose social-ready layouts, and export the result. Its workflow is intentionally narrow: **Select → Enhance → Compose → Export**.
+
+Optional Supporter tools add private planning with local reminders. Plans stay on the device and do not publish automatically. Instagram account connection and direct publishing remain unavailable while we await Meta approval for production. Analytics and engagement tracking stay outside the product.
+
+</ProjectContextLead>
+
+<ProjectPreviews projectId="postlens">
+
+### Inside the product
+
+</ProjectPreviews>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Technical highlights", href: "#technical-highlights" },
+    { label: "Results", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="postlens"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Goals
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Make photo selection easier** with useful scoring that does not upload a library to a private server.
+
+</li>
+
+<li>
+
+**Keep edits understandable** through measured signals and bounded adjustment recipes.
+
+</li>
+
+<li>
+
+**Support real publishing formats** without locking a photo into one destination or crop.
+
+</li>
+
+<li>
+
+**Treat privacy, accessibility, and localization as product features** rather than release notes.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### What I built
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A progressive scored gallery"}>
+
+that prioritizes visible photos, analyzes local assets in battery-aware batches, and reuses a private on-device index.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"An editing workflow"}>
+
+that measures exposure, contrast, saturation, color balance, clipping, and sharpness before applying predictable looks.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"A tailored AI look"}>
+
+that searches bounded candidates, validates the result, frames a Vision-guided crop, and drafts an editable grounded caption.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Layouts and carousels"}>
+
+for reusable social formats, publishing sets, profile grids, and still-frame video export.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Private planning"}>
+
+with a local calendar and reminders for preparing work without connecting a social account.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Optional Apple integrations"}>
+
+for Foundation Models coaching and per-use Image Playground handoff on supported devices.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={7} title={"An Astro landing and support site"}>
+
+in English and Spanish.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Technical highlights
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Native stack</dt>
+  <dd>
+
+`SwiftUI`, `PhotoKit`, `PhotosPicker`, `Vision`, `Core Image`, `StoreKit`, and Apple system sharing.
+
+  </dd>
+</div>
+
+<div>
+  <dt>On-device intelligence</dt>
+  <dd>
+
+local scoring, bounded preview re-analysis, subject-aware framing, and caption preparation.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Privacy boundaries</dt>
+  <dd>
+
+core photo work stays on the device, saved copies omit metadata, and optional Apple generative workflows begin with an explicit disclosure.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Release quality</dt>
+  <dd>
+
+privacy manifests, source-size checks, native tests, SEO checks, and a release preflight.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Results
+
+</ProjectSectionHeading>
+
+- **A complete free single-photo workflow** from library review to format-specific export.
+- **Optional Supporter features** that add multi-photo exports and private planning without gating privacy, accessibility, scoring, or core editing.
+- **A clear product boundary** that keeps PostLens a visual studio instead of another social account dashboard.
+
+<ProjectSectionHeading>
+
+### Release status
+
+</ProjectSectionHeading>
+
+<span id="available-today-and-in-development" aria-hidden="true" />
+
+<ProjectReleaseNote
+  labelledBy="release-status"
+  states={[
+    {
+      label: "Available now",
+      title: "PostLens 2",
+      description: "The photo studio is live on iPhone and iPad: select photos, edit, compose, and export. Private planning uses local reminders and does not publish automatically.",
+      link: { label: "Get PostLens on the App Store", href: "https://apps.apple.com/app/id6804601300" }
+    },
+    {
+      label: "Awaiting Meta approval",
+      title: "Instagram publishing",
+      description: "Instagram connection and direct publishing are not available in the production app. They remain separate from the launched v2 workflow while we await Meta approval.",
+      link: { label: "Read the PostLens 2 launch note", href: "/blog/postlens-2-is-live/" }
+    }
+  ]}
+>
+
+Export and manual sharing are available now. Meta approval and a separately verified release are still required before direct Instagram publishing can become available.
+
+</ProjectReleaseNote>
+
+<ProjectSectionHeading>
+
+### Why it matters
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Creative tools can be helpful without becoming opaque."}>
+
+PostLens combines on-device measurement, predictable adjustments, and optional system intelligence while keeping the user in control of the final image and caption.
+
+</ProjectPrincipleClose>

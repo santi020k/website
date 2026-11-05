@@ -10,7 +10,7 @@ test.describe('About page', () => {
 
   test('should have the correct title and main heading', async ({ page }) => {
     await expect(page).toHaveTitle('Santiago Molina — Engineering Leader | santi020k')
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Calm systems. Clear delivery.')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Engineer. Maker. Always curious.')
   })
 
   test('should identify Santiago Molina as the profile page main entity', async ({ page }) => {
@@ -29,7 +29,7 @@ test.describe('About page', () => {
     await expect(page.locator('#main').getByText('Engineering leader · full-stack architect', { exact: true })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What I believe about engineering/i })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What collaborators say about the work/i })).toBeVisible()
-    await expect(page.locator('.ui-note')).toHaveCount(3)
+    await expect(page.getByRole('region', { name: 'Profile highlights' }).getByRole('article')).toHaveCount(3)
     await expect(page.locator('[data-principle]')).toHaveCount(6)
   })
 
@@ -44,23 +44,62 @@ test.describe('About page', () => {
     await expect(blogLink).toHaveAttribute('href', /^\/blog\/$/)
   })
 
-  test('should page the organization carousel reversibly without hiding focused links', async ({ page }) => {
+  test('chapter guide reaches each section using the keyboard', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+
+    const guide = page.getByRole('navigation', { name: 'Explore this profile' })
+    await expect(guide.getByRole('link')).toHaveCount(5)
+
+    for (const name of ['Collaboration', 'Context', 'Principles', 'Outside work', 'Recommendations']) {
+      const link = guide.getByRole('link', { name, exact: true })
+      await expect(link).not.toHaveAttribute('target', '_blank')
+      const destination = await link.evaluate((anchor: HTMLAnchorElement) => anchor.hash)
+      expect(destination).toMatch(/^#about-/)
+
+      await link.focus()
+      await expect(link).toBeFocused()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(`/about/${destination}`)
+      await expect(page.locator(destination).getByRole('heading', { level: 2 })).toBeInViewport()
+    }
+  })
+
+  test('principle captions lead to published writing', async ({ page, request }) => {
+    const links = page.locator('#about-principles [data-principle-source]').getByRole('link')
+
+    await expect(links).toHaveCount(6)
+    for (const link of await links.all()) {
+      await expect(link).toHaveAttribute('href', /^\/blog\/.+\/$/)
+
+      const href = await link.evaluate((anchor: HTMLAnchorElement) => anchor.pathname)
+
+      expect((await request.get(href)).status()).toBe(200)
+      await expect(link).not.toHaveAttribute('target', '_blank')
+    }
+    const firstLink = links.first()
+    const destination = await firstLink.evaluate((anchor: HTMLAnchorElement) => anchor.pathname)
+
+    await firstLink.focus()
+    await expect(firstLink).toBeFocused()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(destination)
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  })
+
+  test('should select organizations by name without hiding focused links', async ({ page }) => {
     await page.setViewportSize({ height: 900, width: 800 })
 
     const carousel = page.locator('[data-organization-carousel]')
     const items = carousel.locator('[data-carousel-item]')
-    const previousButton = carousel.getByRole('button', { name: 'Show previous organizations' })
-    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
-
     await expect(items).toHaveCount(9)
-
-    for (let pageIndex = 0; pageIndex < 4; pageIndex += 1) await nextButton.click()
+    await items.first().getByRole('link').focus()
+    await carousel.getByRole('button', { name: '09 ReactJS Colombia', exact: true }).click()
 
     await expect(items.nth(6)).toBeHidden()
     await expect(items.nth(7)).toBeVisible()
     await expect(items.nth(8)).toBeVisible()
 
-    await previousButton.click()
+    await carousel.getByRole('button', { name: '07 Justbit', exact: true }).click()
 
     await expect(items.nth(6)).toBeVisible()
     await expect(items.nth(7)).toBeVisible()
@@ -80,9 +119,7 @@ test.describe('About page', () => {
     await page.setViewportSize({ height: 900, width: 800 })
 
     const carousel = page.locator('[data-organization-carousel]')
-    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
-
-    for (let pageIndex = 0; pageIndex < 3; pageIndex += 1) await nextButton.click()
+    await carousel.getByRole('button', { name: '08 Nebular Technologies', exact: true }).click()
 
     const focusedLink = carousel.locator('[data-carousel-item]').nth(7).locator('a')
 
@@ -91,7 +128,7 @@ test.describe('About page', () => {
     for (const { width, status } of [
       { width: 390, status: 'Showing 8 of 9' },
       { width: 1440, status: 'Showing 7–9 of 9' },
-      { width: 800, status: 'Showing 7–8 of 9' }
+      { width: 800, status: 'Showing 8–9 of 9' }
     ]) {
       await page.setViewportSize({ height: 900, width })
       await expect(carousel.locator('[data-carousel-status]')).toHaveText(status)
@@ -132,7 +169,7 @@ test.describe('About page', () => {
         await page.reload()
         await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
 
-        const portrait = page.getByRole('img', { name: 'Portrait of Santiago Molina (@santi020k)' })
+        const portrait = page.getByRole('img', { name: 'Santiago Molina outdoors with his brown-and-white dog.' })
         await expect(portrait).toBeVisible()
         const portraitLoaded = await portrait.evaluate(image => {
           if (!(image instanceof HTMLImageElement)) return false
@@ -149,7 +186,7 @@ test.describe('About page', () => {
         await page.keyboard.press('Enter')
         await expect(page).toHaveURL('/resume/')
         await page.goBack()
-        await expect(page.getByRole('heading', { level: 1 })).toContainText('Calm systems. Clear delivery.')
+        await expect(page.getByRole('heading', { level: 1 })).toContainText('Engineer. Maker. Always curious.')
       })
     }
   }

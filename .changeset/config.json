@@ -2,7 +2,9 @@
   "$schema": "https://unpkg.com/@changesets/config@4.0.0/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "santi020k/website" }
+    {
+      "repo": "santi020k/website"
+    }
   ],
   "commit": false,
   "fixed": [],
@@ -10,7 +12,14 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": [],
+  "ignore": [
+    "@santi020k/website-history",
+    "@santi020k/website-v1",
+    "@santi020k/website-v2",
+    "@santi020k/website-v3",
+    "@santi020k/website-v4",
+    "@santi020k/website-motion"
+  ],
   "privatePackages": {
     "version": true,
     "tag": false

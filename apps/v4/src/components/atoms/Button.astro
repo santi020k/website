@@ -1,0 +1,52 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+import { Button as UIButton, Icon } from '@santi020k/lumen-astro'
+
+type Props = Omit<HTMLAttributes<'button'>, 'class'> & {
+  className?: string
+  showArrow?: boolean
+  variant?: 'ghost' | 'inline' | 'primary' | 'secondary'
+}
+
+const {
+  className = '',
+  disabled,
+  showArrow = false,
+  type = 'button',
+  variant = 'primary',
+  ...rest
+} = Astro.props
+
+const uiVariant = {
+  ghost: 'ghost',
+  inline: 'link',
+  primary: 'default',
+  secondary: 'secondary'
+} as const
+
+---
+
+<UIButton
+  class:list={[
+    variant === 'primary' && 'btn-primary',
+    variant === 'secondary' && 'btn-secondary',
+    variant === 'ghost' && 'btn-ghost',
+    variant === 'inline' && 'btn-inline',
+    className
+  ]}
+  data-site-action={variant}
+  disabled={disabled}
+  type={type}
+  variant={uiVariant[variant]}
+  {...rest}
+>
+  <span class="inline-flex items-center justify-center gap-2">
+    <slot />
+    {showArrow && (
+      <span aria-hidden="true" class="site-action-arrow">
+        <Icon name="arrow-right" size="sm" />
+      </span>
+    )}
+  </span>
+</UIButton>

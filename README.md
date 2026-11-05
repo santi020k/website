@@ -37,7 +37,7 @@ contracts, Theme supplies shared foundations, and OG generates social cards. The
 its own content, editorial layouts, and application behavior. Follow the source and verification
 commands below to see how those boundaries work together.
 
-**Explore:** [The site](#explore-the-site) · [Products](#products-and-the-systems-behind-them) · [Architecture](#how-the-site-works) · [Local setup](#run-it-locally) · [Quality](#verify-a-change) · [Documentation](#find-your-next-step) · [Feedback](#feedback-and-contributions)
+**Explore:** [The site](#explore-the-site) · [Products](#products-and-the-systems-behind-them) · [How it works](#how-the-site-works) · [Local setup](#run-it-locally) · [Quality](#verify-a-change) · [Documentation](#find-your-next-step) · [Feedback](#feedback-and-contributions)
 
 ## Explore the site
 
@@ -88,20 +88,8 @@ through the site. Browser tests cover the interactions; the accessibility statem
 | **Owned tooling** | Theme tokens, OG generation, ESLint configs, Commitprompt, Quality hooks, and Astro Doctor diagnostics. |
 | **Cloudflare Pages** | Production deployment from reviewed `main`, with versioned redirects, caching, and security headers. |
 
-The [Lumen integration guide](docs/lumen-integration.md) maps the components in use, application-owned
-controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile use coordinated
-`@santi020k/lumen`, `lumen-astro`, and `lumen-core` 4.0.0 packages from the npm registry.
-
-### Content with room for a life outside code
-
-- **Blog:** one chronological feed for software, reading, gaming, hobbies, and everyday experiences.
-  Published tags generate topic archives; reading and gaming remain discoverable in the filters.
-- **Travel:** Lumen `WorldMap` connects country visit counts with personal notes. Follow the
-  [travel editing guide](docs/editorial/travel.md) for data and title-only drafts.
-- **Projects:** `relevanceWeight` ranks personal projects consistently across the homepage,
-  portfolio, projects gallery, and structured data. Lumen, PostLens, Between Contractions,
-  and RoadScore lead the selection.
-- **Search:** the header searches posts and projects; open it with `/`, ⌘K, or Ctrl+K.
+Architecture notes, content authoring rules, search, and date handling are collected in the
+[developer guide](docs/development.md).
 
 ### The developer tools behind this repository
 
@@ -113,19 +101,6 @@ controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile 
 | [ESLint Config Basic](https://github.com/santi020k/eslint-config-basic) | Coordinated Astro, TypeScript, browser-test, and tooling rules. |
 | [Quality](https://github.com/santi020k/quality) / [Commitprompt](https://github.com/santi020k/commitprompt) | Repository hooks and validated Conventional Commits. |
 | [Astro Doctor](https://github.com/santi020k/astro-doctor) | Changed-code diagnostics in pull requests. |
-
-### Source map
-
-| Path | Responsibility |
-| --- | --- |
-| `src/site.config.ts` | Metadata, navigation, and social links. |
-| `src/content.config.ts` / `src/content/` | Schemas, posts, projects, and editorial data. |
-| `src/layouts/` / `src/components/` | Page composition and reusable Astro UI. |
-| `src/styles/global.css` / `src/styles/partials/` | Shared style boundary, tokens, and page styles. |
-| `scripts/` | Assets, content checks, CV generation, sitemap, and deployment helpers. |
-| `markdownlint.config.json` | Markdown rules and file scope, checked through the engine and native file discovery. |
-| `src/**/__tests__/` / `tests/` | Unit and rendered browser regression coverage. |
-| `docs/` | Editorial, UI, security, SEO, and deployment guidance. |
 
 ## Run it locally
 
@@ -139,8 +114,9 @@ pnpm run dev
 ```
 
 Open `http://localhost:4321`. Basic local development does not require service credentials.
-Optional build integrations and production configuration are documented in the
-[deployment runbook](docs/deployment.md).
+The development server listens on localhost only. Run `pnpm run dev:host` to open it from
+another device on a network you trust. Optional build integrations and production
+configuration are documented in the [deployment runbook](docs/deployment.md).
 
 To build and serve the static output:
 
@@ -149,78 +125,27 @@ pnpm run build
 pnpm run preview
 ```
 
-[Quality CLI](https://github.com/santi020k/quality) v1.3.0 powers repository Git hooks. Install it
-with the checksum-verifying installer, then mount the hooks:
-
-```bash
-curl --proto '=https' --tlsv1.2 -fsSL \
-  https://raw.githubusercontent.com/santi020k/quality/main/install.sh \
-  | sh -s -- santi020k/quality v1.3.0
-pnpm run hooks:install
-```
-
-Dependency installation remains non-blocking when Quality is absent and prints recovery instructions.
-Normal commands use published Lumen packages. The isolated
-[candidate preview](docs/lumen-integration.md#lumen-4-candidate-preview) is available for evaluating
-future library changes without committing tarballs.
+Contributors install the repository Git hooks as described in the
+[developer guide](docs/development.md#git-hooks).
 
 ## Verify a change
 
-| Command | Evidence |
-| --- | --- |
-| `pnpm run verify:fast` | Spellcheck, zero-warning lint, strict Astro checks, Markdown/content checks, CV consistency, unit tests, and build. |
-| `pnpm run audit` | Moderate-and-higher dependency vulnerability audit, including development dependencies. |
-| `pnpm run ci:verify` | Coverage, production build, Lighthouse assertions, and stable Chromium E2E alongside quality checks. |
-| `pnpm run audit:seo` | Built-page metadata, canonical, and social-image audit. |
-| `pnpm run audit:pages` | Every built document: local links/assets (including responsive image candidates), fragments, duplicate IDs, and page landmarks. |
-| `pnpm run lint:content` | Frontmatter and editorial quality checks. |
-
-For a focused browser run against an existing build:
-
-```bash
-SKIP_BUILD=1 pnpm run test:e2e:ci:stable tests/lumen-interactions.spec.ts --retries=0
-```
-
-`pnpm run test:e2e:fast` reuses an existing build; browser-test scripts install Chromium when
-needed. Run `pnpm run build` first when verifying changed routes. Use `pnpm run lighthouse`
-for a local lab audit. Passing checks describe the revision tested; badges above describe their
-workflow runs and do not certify an unpublished release candidate.
-
-<details>
-<summary>Generated assets and release boundaries</summary>
-
-Builds regenerate favicons, fonts, and OG images before Astro renders pages.
-OG 1.2.0 writes content-versioned image URLs to `public/og/manifest.json`; page
-metadata uses those URLs so changed cards invalidate social preview caches.
-Explicit custom artwork and unlisted utility-page fallbacks remain supported.
-ESLint Basic 3.6.0 owns browser-test detection through `testingFiles.playwright`,
-with `tests/**/*.spec.ts` declared in the site configuration. After-build scripts
-assemble the cross-site sitemap, generate Cloudflare redirects, and audit SEO and local page integrity.
-
-`pnpm run generate:project-images` discovers frontmatter and logos, producing thumbnail,
-horizontal, and portrait covers. `src/utils/project-cover.ts` owns fallback selection. The
-projects index uses an editorial gallery; technology archives retain the default gallery.
-
-`pnpm run generate:cv` builds the site and regenerates résumé downloads after UI or dependency
-changes. Do not edit generated files by hand.
-
-The v4 redesign is consolidated on `release/v4.0.0`. Production publishing follows the reviewed
-GitHub workflow from `main`; local validation and integration are separate from remote merge,
-Cloudflare deployment, and production smoke checks. See the
-[deployment runbook](docs/deployment.md) for Changesets, protected checks, and rollback.
-
-</details>
+`pnpm run verify:fast` runs spelling, zero-warning lint, strict Astro checks, Markdown and content
+checks, CV consistency, unit tests, and the production build with its audits. The
+[developer guide](docs/development.md#verify-a-change) lists every gate, focused browser runs, and
+Lighthouse audits; [CONTRIBUTING.md](CONTRIBUTING.md) covers review evidence.
 
 ## Find your next step
 
 | Resource | Use it for |
 | --- | --- |
 | [Contributing](CONTRIBUTING.md) | Setup, validation, contribution scope, and review evidence. |
+| [Developer guide](docs/development.md) | Architecture notes, content rules, source map, checks, and generated assets. |
 | [Lumen integration](docs/lumen-integration.md) | Components, stable styling hooks, and v4 upgrade checks. |
 | [Theming](docs/theming.md) / [Brand](docs/brand-guidelines.md) | Theme behavior and visual standards. |
 | [Sitemaps](docs/sitemaps.md) | Canonical routes and cross-site search discovery. |
 | [Deployment](docs/deployment.md) | Release automation, environment setup, smoke checks, and rollback. |
-| [v4 readiness](docs/v4-release-readiness.md) | Current integration, browser coverage, review findings, and release gates. |
+| [Release checklist](docs/release-checklist.md) | Gates for the release in flight; earlier logs are in [docs/archive](docs/archive/README.md). |
 | [Cache strategy](docs/cache-strategy.md) | Browser and edge cache behavior. |
 | [Security](.github/SECURITY.md) / [Incident response](docs/incident-response.md) | Private vulnerability reports and recovery. |
 | [Observability](docs/observability.md) | Existing diagnostic boundaries and operational evidence. |
@@ -245,3 +170,17 @@ are not licensed for reuse in other products.
 [Email](mailto:hi@santi020k.com)
 
 © 2026 [Santiago Molina](https://santi020k.com/). All rights reserved.
+
+## Website history
+
+`/history/` presents five design eras. The current Astro app remains at the root;
+`apps/v1`, `apps/v2`, `apps/v3`, and `apps/v4` preserve usable historical websites. pnpm
+workspaces share one maintained dependency catalog and lockfile; Turborepo builds
+one combined static deployment. See [website history](docs/website-history.md)
+for snapshots, SEO, storage isolation, and screenshot capture commands.
+
+### Website history film
+
+The private [motion studio](apps/motion/README.md) uses the real website-history
+captures for a short film in portrait, square, and landscape formats. Run
+`pnpm --filter @santi020k/website-motion dev` to preview it locally.

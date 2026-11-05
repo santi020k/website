@@ -38,6 +38,21 @@ color preference applies until the visitor chooses a theme.
 
 Dark mode is controlled with `data-theme="dark"` on `<html>`. Do not use `class="dark"` for theme switching; the Tailwind custom variant is defined against the data attribute.
 
+Article comments (`src/components/molecules/CommentsSection.astro`) follow the site theme. The
+Giscus client loads when the comments section is within 400 pixels of the viewport or receives
+keyboard focus, using the current theme at that moment. Browsers without `IntersectionObserver`
+load it immediately; the GitHub Discussions link remains available without JavaScript. Pending
+observation and focus listeners are removed on loading or navigation. A theme
+change before the Giscus client runs updates the pending script's `data-theme`. The initial blank
+lazy frame receives no messages until it loads or reports ready. Theme updates use Giscus's
+documented [configuration messages](https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md#parent-to-giscus-message-events).
+Each iframe load and its first ready message synchronize the latest theme, covering either order
+of loading and widget initialization. A ready message is `{ giscus: { resizeHeight } }` with a
+finite positive height, from `https://giscus.app` and the current comments frame. Later resize
+messages are deduplicated. When Giscus reloads the same iframe on sign-out, the `src` observer
+resets readiness so the old URL's theme cannot win. That observer disconnects before page swaps;
+the controller never reloads the discussion itself.
+
 ## Usage
 
 Use Tailwind token utilities such as `bg-canvas`, `bg-surface`, `border-line`, `text-ink`, `text-ink-soft`, `text-brand`, and `bg-brand/10`. For custom CSS, use semantic variables such as `hsl(var(--surface))` or `hsl(var(--brand) / 0.12)`.
@@ -77,11 +92,31 @@ Its keyboard loop includes the visible header controls, yields to the search dia
 focus on dismissal. Route changes and desktop resizing close it. Panel motion is disabled for
 reduced-motion preferences. Navigation shadows are site tokens in `partials/tokens.css`.
 
+`NavProgress.astro` follows Astro's navigation lifecycle, including the preparation event's
+abort signal. Canceling a slow navigation through a same-page anchor clears the loading bar
+and queued animation frames. A replacement navigation owns its own progress; an earlier
+page-load event cannot finish it while its document is still preparing. Older aborted requests
+cannot clear it. Reduced-motion preferences keep the bar hidden.
+
+Topic-filter navigation preserves keyboard focus and the strip's viewport position immediately,
+then checks the vertical offset once at the next render because newly inserted stylesheets can
+change the Blog hero's height. It uses an absolute pixel position to avoid accumulating fractional
+scroll offsets. A newer navigation cancels that correction; a changed URL or focus also skips it.
+
 `SearchDialog.astro` carries the same signature tab, solid surface, and squared controls into
 site search. Numbered suggestions and compact result rows share a scrollable area above keyboard
 hints. The panel uses the available viewport height, with a compact header on short screens.
 `SiteSearch.astro` retains query ranking, recent searches, retry and clear actions, keyboard
 navigation, focus restoration, and reduced-motion-aware opening and closing.
+Editing the query resets keyboard selection to the first result. Query changes preserve
+Astro's history state, other URL parameters, and fragments. Dismissal clears `q` before
+the close animation so Back does not reopen search after following a result; reopening
+restores the retained query and selection. Modified clicks and canceled activations keep
+search open; Ctrl/Cmd/Shift+Enter opens a result in another tab. Search shortcuts can
+interrupt an in-progress dismissal.
+Composition keys stay with the input method editor so choosing or confirming characters
+does not move results, close search, or navigate away. Restoring a query from the URL
+starts at its first result.
 
 ## Blog archive
 

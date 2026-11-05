@@ -1,0 +1,79 @@
+{/* Inlined to avoid FOUC. This is a parser blocking script. */}
+<script is:inline>
+const lightModePref = window.matchMedia('(prefers-color-scheme: light)')
+
+const getStoredTheme = () => {
+  try {
+    const stored = localStorage.getItem('website-v2-theme')
+
+    return stored === 'light' || stored === 'dark' ? stored : null
+  } catch {
+    return null
+  }
+}
+
+const getUserPref = () => {
+  const storedTheme = getStoredTheme()
+
+  return storedTheme || (lightModePref.matches ? 'light' : 'dark')
+}
+
+const setTheme = newTheme => {
+  if (newTheme !== 'light' && newTheme !== 'dark') {
+    return
+  }
+
+  const root = document.documentElement
+
+  // root already set to newTheme, exit early
+  if (newTheme === root.getAttribute('data-theme')) {
+    return
+  }
+
+  root.setAttribute('data-theme', newTheme)
+
+  // Defer both the querySelector and getComputedStyle reads to avoid a forced
+  // synchronous style recalculation immediately after the DOM write above.
+  requestAnimationFrame(() => {
+    const colorThemeMetaTag = document.querySelector('meta[name="theme-color"]')
+
+    if (colorThemeMetaTag) {
+      const bgColor = getComputedStyle(document.body).getPropertyValue('--theme-bg')
+
+      if (bgColor) {
+        colorThemeMetaTag.setAttribute('content', `hsl(${bgColor})`)
+      }
+    }
+  })
+
+  if (typeof localStorage !== 'undefined' && newTheme) {
+    try {
+      localStorage.setItem('website-v2-theme', newTheme)
+    } catch {
+      // The selected theme remains usable when storage is unavailable.
+    }
+  }
+}
+
+// initial setup
+setTheme(getUserPref())
+
+// View Transitions hook to restore theme
+document.addEventListener('astro:after-swap', () => setTheme(getUserPref()))
+
+// listen for theme-change custom event, fired in src/components/ThemeToggle.astro
+document.addEventListener('theme-change', e => {
+  setTheme(e.detail.theme)
+})
+
+// listen for prefers-color-scheme change.
+// Only auto-switch when the user has not made an explicit choice (no stored
+// theme); a saved preference takes precedence over the OS toggling.
+lightModePref.addEventListener('change', e => {
+  const hasStoredTheme = Boolean(getStoredTheme())
+
+  if (hasStoredTheme) return
+
+  setTheme(e.matches ? 'light' : 'dark')
+})
+</script>

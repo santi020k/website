@@ -1,0 +1,69 @@
+---
+import { BackToTop, Icon } from '@santi020k/lumen-astro'
+---
+
+<BackToTop
+  id="back-to-top"
+  inert
+  aria-label="Scroll back to top"
+  className="
+    back-to-top-button
+    max-sm:pr-2.5
+  "
+>
+  <span aria-hidden="true" class="back-to-top-icon">
+    <Icon name="arrow-up" size="sm" />
+  </span>
+  <span class="
+    back-to-top-label
+    max-sm:sr-only
+  "
+  >Top
+  </span>
+</BackToTop>
+
+<script>
+  const focusMain = () => document.getElementById('main')?.focus({ preventScroll: true })
+
+  const setup = function () {
+    const btn = document.getElementById('back-to-top')
+
+    if (!(btn instanceof HTMLButtonElement)) return () => undefined
+
+    const onScroll = () => {
+      const isVisible = window.scrollY > 400
+
+      // Never leave keyboard focus on a control that is about to disappear.
+      if (!isVisible && document.activeElement === btn) focusMain()
+
+      btn.inert = !isVisible
+
+      btn.classList.toggle('is-visible', isVisible)
+    }
+
+    // Lumen's runtime performs the scroll; this only hands focus back to the page.
+    const onClick = () => {
+      if (document.activeElement === btn) focusMain()
+    }
+
+    btn.addEventListener('click', onClick)
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    onScroll()
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+
+      btn.removeEventListener('click', onClick)
+    }
+  }
+
+  let cleanup = setup()
+
+  document.addEventListener('astro:after-swap', () => {
+    cleanup()
+
+    cleanup = setup()
+  })
+</script>

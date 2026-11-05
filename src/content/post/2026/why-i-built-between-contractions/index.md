@@ -7,6 +7,10 @@ coverImage:
   src: "./cover.webp"
 tags: ["product-engineering", "swiftui", "android", "astro", "privacy", "personal-projects"]
 postType: "Case Study"
+startHere:
+  order: 3
+  label: "Why I make things"
+  reason: "How waiting for my son became a calm, private tool built around one important interaction."
 ---
 
 Some projects begin with a market gap. Between Contractions began while Alejandra and I were waiting for our son, Aarón.

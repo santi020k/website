@@ -17,3 +17,27 @@ export const getPostSlug = (id: string): string => {
 
   return segments[segments.length - 1] ?? id
 }
+
+/**
+ * Throws when several post IDs resolve to one URL, such as `2025/my-post` and
+ * `2026/my-post/index`. Astro would otherwise render only one of them there.
+ */
+export const assertUniquePostPaths = (posts: readonly { id: string }[], getPath: (id: string) => string): void => {
+  const idsByPath = new Map<string, string[]>()
+
+  for (const { id } of posts) {
+    const path = getPath(id)
+    const ids = idsByPath.get(path)
+
+    if (ids) ids.push(id)
+    else idsByPath.set(path, [id])
+  }
+
+  const conflicts = [...idsByPath]
+    .filter(([, ids]) => ids.length > 1)
+    .map(([path, ids]) => `${path} (${ids.join(', ')})`)
+
+  if (conflicts.length > 0) {
+    throw new Error(`Blog posts share a URL: ${conflicts.join('; ')}`)
+  }
+}

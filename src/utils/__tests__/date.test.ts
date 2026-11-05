@@ -38,6 +38,15 @@ describe('getFormattedDate', () => {
     expect(getFormattedDate('2026-06-22T00:00:00.000Z')).toBe('Jun 22, 2026')
   })
 
+  test('formats a legacy D Mon YYYY string as its calendar date', () => {
+    expect(getFormattedDate('4 Sep 2026')).toBe('Sep 4, 2026')
+  })
+
+  test('reads zone-less timestamps as UTC and keeps explicit offset instants', () => {
+    expect(getFormattedDate('2024-12-25T23:30:00')).toBe('Dec 25, 2024')
+    expect(getFormattedDate('2026-09-04T23:30:00-05:00')).toBe('Sep 5, 2026')
+  })
+
   test('accepts a numeric timestamp and formats it', () => {
     const timestamp = new Date('2024-03-15T12:00:00.000Z').getTime()
     const result = getFormattedDate(timestamp)
@@ -103,9 +112,9 @@ describe('collectionDateSortProjects', () => {
     const sorted = [...projects].sort(collectionDateSortProjects)
     const [first, second, third] = sorted
 
-    expect(expectDefined(first).data.startingDate.getFullYear()).toBe(2023)
-    expect(expectDefined(second).data.startingDate.getFullYear()).toBe(2021)
-    expect(expectDefined(third).data.startingDate.getFullYear()).toBe(2020)
+    expect(expectDefined(first).data.startingDate.getUTCFullYear()).toBe(2023)
+    expect(expectDefined(second).data.startingDate.getUTCFullYear()).toBe(2021)
+    expect(expectDefined(third).data.startingDate.getUTCFullYear()).toBe(2020)
   })
 })
 

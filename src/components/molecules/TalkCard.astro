@@ -1,126 +1,79 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Pill from '@/components/atoms/Pill.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { Card } from '@santi020k/lumen-astro'
+import { Card, Link } from '@santi020k/lumen-astro'
 
-interface SessionVariant {
-  audience: string | undefined
-  description: string
-  event: string
-  links: {
-    slides?: string | undefined
-    video?: string | undefined
-  }
-  tags: string[]
-  title: string
-  variant: 'session'
-  year: number | string
-}
+import type { SpeakingFormat, SpeakingTopic } from '@/data/profile'
+import { getLocale, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
 
-interface TopicVariant {
+interface Props {
   description: string
   index?: number
+  outcome?: SpeakingFormat['outcome'] & { href: string }
+  source?: SpeakingTopic['source']
+  subtitle?: string
   title: string
-  variant: 'topic'
+  variant: 'topic' | 'format'
 }
 
-interface FormatVariant {
-  description: string
-  index?: number
-  title: string
-  variant: 'format'
-}
-
-type TalkCardProps = SessionVariant | TopicVariant | FormatVariant
-
-const props = Astro.props as TalkCardProps
+const { description, index, outcome, source, subtitle, title, variant } = Astro.props
+const readingSource = variant === 'topic' ? source : undefined
+const formatOutcome = variant === 'format' ? outcome : undefined
+const hasCaption = Boolean(readingSource ?? formatOutcome)
+const locale = getLocale(Astro.url.pathname)
+const t = pageTranslator(locale)
 ---
 
-{
-  props.variant === 'session' && (
-    <Card
-      as="article"
-      class="
-        flex h-full flex-col space-y-4 rounded-[1.75rem] p-6
-        sm:p-7
-      "
-      glass="strong"
-      variant="interactive"
-    >
-      <div>
-        <p class="section-label">{props.event} · {props.year}</p>
-        {props.audience && <p class="mt-1 text-xs text-ink-muted">{props.audience}</p>}
-      </div>
-      <h3 class="text-xl font-semibold text-ink">{props.title}</h3>
-      <p class="grow text-sm/7 text-ink-soft">{props.description}</p>
-      <div class="flex flex-wrap gap-2">
-        {props.tags.map(tag => (
-          <Pill label={tag} tone="outline" />
-        ))}
-      </div>
-      {(props.links.slides ?? props.links.video) && (
-        <div class="section-actions">
-          {props.links.slides && (
-            <ButtonLink href={props.links.slides} newTab showArrow variant="secondary">
-              Slides
-            </ButtonLink>
-          )}
-          {props.links.video && (
-            <ButtonLink href={props.links.video} newTab showArrow variant="secondary">
-              Watch talk
-            </ButtonLink>
-          )}
-        </div>
-      )}
-    </Card>
-  )
-}
+<Card
+  as="article"
+  class:list={[
+    `
+      card-hierarchy h-full p-6
+      sm:p-7
+    `,
+    hasCaption && 'flex flex-col'
+  ]}
+  data-talk-card={variant}
+  data-talk-caption={hasCaption ? '' : undefined}
+>
+  {index !== undefined && (
+    <p aria-hidden="true" class="text-sm font-semibold text-brand">
+      {String(index + 1).padStart(2, '0')}
+    </p>
+  )}
+  <h3 class="text-ink">
+    <span data-card-title data-talk-title>{title}</span>
+    {subtitle && <> <span data-card-subtitle data-talk-subtitle>{subtitle}</span></>}
+  </h3>
+  <p class="text-sm/7 text-ink-soft">{description}</p>
+  {readingSource && (
+    <footer data-talk-source>
+      <p>{t('page.readTheApproach')}</p>
+      <Link href={localizePath(readingSource.href, locale)} variant="inherit">
+        <span>{readingSource.label}</span><ArrowExchange data-talk-source-icon direction="up-right" size="sm" />
+      </Link>
+    </footer>
+  )}
+  {formatOutcome && (
+    <footer data-talk-outcome>
+      <p>{t('page.goodFit')}</p>
+      <p data-talk-fit>{formatOutcome.fit}</p>
+      <Link href={localizePath(formatOutcome.href, locale)} variant="inherit">
+        <span>{formatOutcome.label}</span><ArrowExchange data-talk-outcome-icon direction="down-right" size="sm" />
+      </Link>
+    </footer>
+  )}
+</Card>
 
-{
-  props.variant === 'topic' && (
-    <Card
-      as="article"
-      class="
-        h-full space-y-4 rounded-[1.75rem] p-6
-        sm:p-7
-      "
-      glass="strong"
-      variant="interactive"
-    >
-      {props.index !== undefined && (
-        <p aria-hidden="true" class="text-sm font-semibold text-brand">
-          {String(props.index + 1).padStart(2, '0')}
-        </p>
-      )}
-      <h3 class="
-        text-xl font-semibold text-ink
-        sm:text-2xl
-      "
-      >{props.title}</h3>
-      <p class="text-sm/7 text-ink-soft">{props.description}</p>
-    </Card>
-  )
-}
-
-{
-  props.variant === 'format' && (
-    <Card
-      as="article"
-      class="
-        h-full space-y-4 rounded-[1.75rem] p-6
-        sm:p-7
-      "
-      glass="strong"
-      variant="interactive"
-    >
-      {props.index !== undefined && (
-        <p aria-hidden="true" class="text-sm font-semibold text-brand">
-          {String(props.index + 1).padStart(2, '0')}
-        </p>
-      )}
-      <h3 class="section-label text-ink">{props.title}</h3>
-      <p class="text-base/7 text-ink-soft">{props.description}</p>
-    </Card>
-  )
-}
+<style>
+  [data-talk-caption] { padding-bottom: 1.5rem; }
+  :is([data-talk-source], [data-talk-outcome]) { margin-top: auto; padding-top: 1.75rem; }
+  :is([data-talk-source], [data-talk-outcome]) > p:first-child { margin-bottom: 0.5rem; padding-top: 1.25rem; border-top: 1px solid hsl(var(--line)); color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.8; letter-spacing: 0.08em; text-transform: uppercase; }
+  :is([data-talk-source], [data-talk-outcome]) :global(a) { display: flex; min-height: 2.75rem; align-items: center; justify-content: space-between; gap: 1rem; color: hsl(var(--ink)); font-size: 0.8125rem; line-height: 1.8; text-decoration: none; }
+  :is([data-talk-source], [data-talk-outcome]) span { min-width: 0; overflow-wrap: anywhere; }
+  :is([data-talk-source], [data-talk-outcome]) :global([data-talk-source-icon], [data-talk-outcome-icon]) { flex-shrink: 0; color: hsl(var(--brand)); }
+  :is([data-talk-source], [data-talk-outcome]) :global(a:hover) span { color: hsl(var(--brand)); text-decoration: underline; text-underline-offset: 0.25rem; }
+  :is([data-talk-source], [data-talk-outcome]) :global(a:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 0.25rem; }
+  [data-talk-fit] { margin-bottom: 0.75rem; color: hsl(var(--ink)); font-size: 0.875rem; font-weight: 500; line-height: 1.75; }
+</style>

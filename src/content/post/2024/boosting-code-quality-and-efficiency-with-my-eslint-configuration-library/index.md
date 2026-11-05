@@ -7,6 +7,10 @@ coverImage:
   alt: "Inconsistent code modules entering a shared linting engine and emerging as verified outputs"
   src: "./cover.webp"
 canonicalUrl: "https://towardsdev.com/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-3a4cbc1993a7"
+originalPublication:
+  name: "Towards Dev"
+  url: "https://towardsdev.com"
+  platform: "Medium"
 postType: "Case Study"
 seriesId: "eslint-in-practice"
 seriesOrder: 2
@@ -143,9 +147,9 @@ Having this configuration library as a foundational tool has allowed me to focus
 
 I’m continuously working to improve this library and would love community contributions. Here’s a look at upcoming features:
 
-- [ ] Support for additional frameworks like Vue, Angular, and an improved Astro configuration
-- [ ] Unit testing and extended documentation for various use cases
-- [ ] Customizable rule sets for more granular control
+- Support for additional frameworks like Vue, Angular, and an improved Astro configuration
+- Unit testing and extended documentation for various use cases
+- Customizable rule sets for more granular control
 
 I encourage you to [check out the GitHub repository](https://github.com/santi020k/eslint-config-santi020k) if you’re interested in contributing or raising issues.
 
@@ -156,7 +160,3 @@ Incorporating @santi020k/eslint-config-santi020k into your Next.js, TypeScript, 
 Thank you for reading, and I hope you find this tool as helpful as I have in maintaining high standards in code quality. Let’s continue building better, cleaner, and more maintainable code!
 
 *Stay tuned for more updates and insights! Feel free to reach out with any questions or feedback.*
-
----
-
-[Boosting Code Quality and Efficiency with My ESLint Configuration Library](https://towardsdev.com/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-3a4cbc1993a7) was originally published in [Towards Dev](https://towardsdev.com) on Medium, where people are continuing the conversation by highlighting and responding to this story.
