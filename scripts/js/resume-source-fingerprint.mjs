@@ -108,7 +108,21 @@ export const getResumeSourceHash = async (root = projectRoot) => {
 
     hash.update('\0')
 
-    hash.update(content)
+    if (sourcePath === 'package.json') {
+      // Changesets updates the version without changing the résumé render inputs.
+      /** @type {unknown} */
+      const manifest = JSON.parse(content.toString('utf8'))
+
+      if (typeof manifest !== 'object' || manifest === null || Array.isArray(manifest)) {
+        throw new TypeError('Expected package.json to contain an object')
+      }
+
+      Reflect.deleteProperty(manifest, 'version')
+
+      hash.update(JSON.stringify(manifest))
+    } else {
+      hash.update(content)
+    }
 
     hash.update('\0')
   }

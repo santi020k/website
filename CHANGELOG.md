@@ -1,5 +1,51 @@
 # Changelog
 
+## 5.1.0
+
+### Minor Changes
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Publish `/llms.txt`, a Markdown index of the primary pages, case studies, projects, series, and
+  published articles for AI assistants and other readers that prefer plain text.
+
+### Patch Changes
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Screen readers hear a space between "Archive match:" and the technology name on matched archive
+  cards again.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Submit only pages with distinct content to search engines. Spanish shells of English articles
+  and case studies, and topic or technology archives with fewer than three entries, stay
+  reachable but are marked `noindex`, leave the sitemap and language alternates, and share an
+  existing social card.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Make the homepage product artwork open its captioned film, with a visible play control, keyboard support, and a direct-file fallback. Refresh the current v5 History captures.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Load page-specific and article styles only where they are used. The stylesheet every page waits
+  for shrinks by about a quarter (79 KB to 62 KB compressed). Code highlighting and the repeated
+  arrow icons now share one definition per page, which trims article HTML by up to a fifth.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Long pages respond sooner after loading. The page backdrop's gradients no longer make the browser
+  paint one image as tall as the page, which held up long articles for hundreds of milliseconds.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Keep search signals on article and case-study links to Santiago's own sites, profiles, and
+  packages. Third-party Markdown links stay `nofollow`, and every external link keeps new-tab
+  protection.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Code-heavy articles respond sooner after loading. Overflow cues on code examples settle in one
+  layout instead of one per example, and copy-link fallbacks no longer force a style pass on every
+  page.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Pages no longer show a frame without their layout in Safari when you move between them.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - Harden transport and script security. Responses now send `Strict-Transport-Security`, and every
+  current page carries a script policy that allows only the site's own inline scripts by hash, so
+  injected inline code no longer runs. Archived versions keep their existing policy.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - The ReactJS Colombia title on Speaking stays inside its card at narrow widths with enlarged text,
+  including in browsers that cannot hyphenate the page language.
+
+- [#160](https://github.com/santi020k/website/pull/160) [`0c94840`](https://github.com/santi020k/website/commit/0c948403cf93ed8319435ce65fcf144012057b39) Thanks [@santi020k](https://github.com/santi020k)! - At the narrowest widths with enlarged text, the About headline and the travel notebook's country
+  names are slightly smaller so their longest words stay whole in every browser.
+
 ## 5.0.0
 
 ### Major Changes

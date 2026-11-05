@@ -99,17 +99,20 @@ jobs:
             exit 0
           fi
 
+          notes_file=$(mktemp "$RUNNER_TEMP/website-release-notes.XXXXXX")
+          trap 'rm -f "$notes_file"' EXIT
+
           awk -v heading="## ${RELEASE_VERSION}" '
             $0 == heading { found = 1; next }
             found && /^## / { exit }
             found { print }
-          ' CHANGELOG.md > release-notes.md
+          ' CHANGELOG.md > "$notes_file"
 
-          if [[ -s release-notes.md ]]; then
+          if [[ -s "$notes_file" ]]; then
             gh release create "$RELEASE_TAG" \
               --verify-tag \
               --title "$RELEASE_TAG" \
-              --notes-file release-notes.md
+              --notes-file "$notes_file"
           else
             gh release create "$RELEASE_TAG" \
               --verify-tag \
