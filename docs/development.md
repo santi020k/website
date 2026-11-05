@@ -8,8 +8,8 @@ in [AGENTS.md](../AGENTS.md).
 
 The [Lumen integration guide](lumen-integration.md) maps the components in use, application-owned
 controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile use
-`@santi020k/lumen` 4.2.0 with `lumen-astro` and `lumen-core` 4.1.0 from the npm registry.
-The integration guide records the version-pinned Anchor, synchronized code tabs, and CoverImage fallback patches.
+`@santi020k/lumen`, `@santi020k/lumen-astro`, and `@santi020k/lumen-core` 4.4.0 from the npm registry.
+The integration guide records the upstream contracts and any remaining compatibility patch.
 
 Current pages share their components across English and Spanish (`/es/`). English remains the
 primary language and translation fallback. The [language maintenance guide](i18n.md) explains

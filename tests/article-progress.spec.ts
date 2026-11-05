@@ -105,8 +105,12 @@ test('progress recalculates after resizing the reading viewport', async ({ page 
   await expect(progress).toHaveAttribute('aria-valuenow', '50')
   await page.setViewportSize({ width: 320, height: 844 })
   await expect.poll(async () => Number(await progress.getAttribute('aria-valuenow'))).toBeLessThan(50)
-  await scrollThroughArticle(page, 1)
-  await expect(progress).toHaveAttribute('aria-valuenow', '100')
+  // Resize observers can add overflow cues after progress first reacts to the new viewport.
+  await expect.poll(async () => {
+    await scrollThroughArticle(page, 1)
+
+    return progress.getAttribute('aria-valuenow')
+  }).toBe('100')
 })
 
 test('article targets reconnect after client navigation and restored history', async ({ page }) => {
