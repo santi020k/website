@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Astro Doctor on the changed code
         if: steps.changes.outputs.full == 'true' && github.event_name == 'pull_request'
-        uses: santi020k/astro-doctor@ada77ece2296778b4c9a84b26229bd0c9e52c83f # v1
+        uses: santi020k/astro-doctor@69a859a26a22de46a0da6b71cd1e894434d80c1f # v1
         with:
           comment: 'false'
           diff-only: 'true'
@@ -47,7 +47,7 @@ jobs:
 
       - name: Set up pnpm workspace
         if: steps.changes.outputs.checks == 'true'
-        uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
+        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
         with:
           node-version: 24.x
 
@@ -94,7 +94,7 @@ jobs:
 
       - name: Set up pnpm workspace
         if: steps.changes.outputs.full == 'true'
-        uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
+        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
         with:
           node-version: 24.x
 
@@ -122,7 +122,7 @@ jobs:
 
       - name: Upload the production build
         if: steps.changes.outputs.full == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: production-build
           path: dist/
@@ -149,7 +149,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up pnpm workspace
-        uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
+        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
         with:
           node-version: 24.x
 
@@ -179,7 +179,7 @@ jobs:
 
       - name: Upload browser diagnostics on failure
         if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: browser-diagnostics-${{ matrix.shard }}
           path: |
@@ -203,7 +203,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up pnpm workspace
-        uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
+        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
         with:
           node-version: 24.x
 
@@ -218,7 +218,7 @@ jobs:
 
       - name: Upload Lighthouse diagnostics on failure
         if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: lighthouse-diagnostics
           path: .lighthouseci/
