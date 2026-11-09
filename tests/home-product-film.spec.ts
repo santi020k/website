@@ -7,7 +7,7 @@ for (const locale of ['en', 'es'] as const) {
     const mediaRequests: string[] = []
 
     page.on('request', request => {
-      if (request.url().endsWith('.mp4')) mediaRequests.push(request.url())
+      if (/\.(?:mp4|vtt)$/u.test(request.url())) mediaRequests.push(request.url())
     })
     await page.setViewportSize({ width: locale === 'en' ? 1440 : 390, height: 1000 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -19,6 +19,7 @@ for (const locale of ['en', 'es'] as const) {
 
     await expect(opener).toBeVisible()
     await expect(video).not.toHaveAttribute('src')
+    await expect(video.locator('track')).toHaveCount(0)
     expect(mediaRequests).toEqual([])
     await page.locator('[data-film-stage]').click({ position: { x: 24, y: 24 } })
     await expect(dialog).toBeVisible()
@@ -29,6 +30,9 @@ for (const locale of ['en', 'es'] as const) {
       element instanceof HTMLVideoElement ? element.currentTime : 0
     ))).toBeGreaterThan(0.1)
     await expect(video.locator('track[srclang="es"]')).toHaveJSProperty('default', locale === 'es')
+    await expect(video.locator('track')).toHaveCount(2)
+    await expect(page.locator('[data-film-error]')).toBeEmpty()
+    await expect(page.locator('[data-film-retry]')).toBeHidden()
     await expectNoUnexpectedAccessibilityViolations(page)
     await page.keyboard.press('Escape')
     await expect(dialog).toBeHidden()
@@ -40,21 +44,112 @@ for (const locale of ['en', 'es'] as const) {
     await expect(video).toHaveJSProperty('paused', true)
     await expect(opener).toBeFocused()
   })
+
+  test(`the ${locale} film announces loading before media becomes available`, async ({ page }) => {
+    let releaseMedia: (() => void) | undefined
+    const mediaReady = new Promise<void>(resolve => {
+      releaseMedia = resolve
+    })
+
+    await page.route('**/media/products/*.mp4', async route => {
+      await mediaReady
+      await route.continue()
+    })
+    await page.goto(locale === 'en' ? '/' : '/es/')
+
+    try {
+      await page.locator('[data-film-open]').click()
+      await expect(page.locator('[data-film-error]')).toHaveText(locale === 'en' ? 'Loading video…' : 'Cargando video…')
+      await expect(page.locator('[data-film-retry]')).toBeHidden()
+    } finally {
+      releaseMedia?.()
+    }
+
+    await expect(page.locator('[data-film-error]')).toBeEmpty()
+  })
 }
 
-for (const [format, width, videoPath] of [
-  ['landscape', 1440, '/media/products/santi020k-products.mp4'],
-  ['portrait', 390, '/media/products/santi020k-products-portrait.mp4']
+for (const [format, width, videoPath, locale] of [
+  ['landscape', 1440, '/media/products/santi020k-products.mp4', 'en'],
+  ['portrait', 390, '/media/products/santi020k-products-portrait.mp4', 'es']
 ] as const) {
-  test(`the ${format} film provides recovery when media cannot be loaded`, async ({ page }) => {
+  test(`the ${format} film retries its failed source without leaving the dialog`, async ({ page }) => {
+    let available = false
+    let requests = 0
+
     await page.setViewportSize({ width, height: 1000 })
-    await page.route('**/media/products/*.mp4', route => route.abort())
+    await page.route('**/media/products/*.mp4', route => {
+      requests += 1
+
+      return available ? route.continue() : route.abort()
+    })
+    await page.goto(locale === 'en' ? '/' : '/es/')
+    await page.locator('[data-film-open]').click()
+    const video = page.locator('[data-film-video]')
+    const retry = page.getByRole('button', { name: locale === 'en' ? 'Retry video' : 'Reintentar video', exact: true })
+
+    await expect(page.locator('[data-film-error]')).toHaveText(locale === 'en' ?
+      'The film could not load. Retry or open the video file.' :
+      'No se pudo cargar el video. Reintenta o abre el archivo de video.')
+    await expect(retry).toBeVisible()
+    await expect(page.locator('[data-film-file]')).toHaveAttribute('href', videoPath)
+    await page.locator('[data-film-footer] summary').click()
+    await expect(page.locator('[data-film-footer] details p')).toBeVisible()
+    await expectNoUnexpectedAccessibilityViolations(page)
+
+    const failedRequests = requests
+
+    available = true
+    await retry.click()
+    await expect(video).toBeFocused()
+    await expect.poll(() => requests).toBeGreaterThan(failedRequests)
+    await expect(video).toHaveAttribute('src', videoPath)
+    await expect(video.locator('track')).toHaveCount(2)
+    await expect.poll(() => video.evaluate(element => (
+      element instanceof HTMLVideoElement ? element.currentTime : 0
+    ))).toBeGreaterThan(0.1)
+    await expect(page.locator('[data-film-error]')).toBeEmpty()
+    await expect(retry).toBeHidden()
+    await expect(page.locator('[data-film-dialog]')).toBeVisible()
+  })
+}
+
+test('reopening a failed film reloads the same source', async ({ page }) => {
+  let available = false
+
+  await page.route('**/media/products/*.mp4', route => available ? route.continue() : route.abort())
+  await page.goto('/')
+  const opener = page.locator('[data-film-open]')
+  const video = page.locator('[data-film-video]')
+
+  await opener.click()
+  await expect(page.locator('[data-film-retry]')).toBeVisible()
+  const failedSource = await video.getAttribute('src')
+
+  await page.keyboard.press('Escape')
+  available = true
+  await opener.click()
+  await expect(video).toHaveAttribute('src', failedSource ?? '')
+  await expect.poll(() => video.evaluate(element => (
+    element instanceof HTMLVideoElement ? element.currentTime : 0
+  ))).toBeGreaterThan(0.1)
+  await expect(page.locator('[data-film-retry]')).toBeHidden()
+})
+
+for (const exit of ['pagehide', 'astro:before-swap', 'disconnect'] as const) {
+  test(`the film pauses on ${exit}`, async ({ page }) => {
     await page.goto('/')
     await page.locator('[data-film-open]').click()
-    await expect(page.locator('[data-film-error]')).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Open the video file' })).toHaveAttribute('href', videoPath)
-    await page.getByText('Read the visual transcript', { exact: true }).click()
-    await expect(page.locator('[data-film-footer] details p')).toContainText('compare the edited landscape')
+    await expect(page.locator('[data-film-video]')).toHaveJSProperty('paused', false)
+    expect(await page.locator('home-product-film').evaluate((element, eventName) => {
+      const video = element.querySelector('video')
+
+      if (eventName === 'disconnect') element.remove()
+      else if (eventName === 'pagehide') window.dispatchEvent(new Event('pagehide'))
+      else document.dispatchEvent(new Event('astro:before-swap'))
+
+      return video?.paused
+    }, exit)).toBe(true)
   })
 }
 

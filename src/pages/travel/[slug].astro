@@ -49,8 +49,12 @@ const meta = {
   description: notes.summary && notes.language === locale ? notes.summary : t('description', { country: country.name }),
   noindex: !notes.summary,
   contentLocale: notes.language,
-  ogImage: '/og/pages/travel.webp',
-  ogImageAlt: shared('nav.travel'),
+  ...(!notes.summary || notes.language !== locale ?
+{
+    ogImage: '/og/pages/travel.webp',
+    ogImageAlt: shared('nav.travel')
+  } :
+{}),
   breadcrumbs: [
     { name: shared('nav.home'), url: localizePath('/', locale) },
     { name: shared('nav.travel'), url: localizePath('/travel/', locale) },

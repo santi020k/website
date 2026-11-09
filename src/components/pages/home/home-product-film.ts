@@ -16,10 +16,47 @@ class HomeProductFilm extends HTMLElement {
     const dialog = this.querySelector<HTMLDialogElement>('[data-film-dialog]')
     const video = this.querySelector<HTMLVideoElement>('[data-film-video]')
     const error = this.querySelector<HTMLElement>('[data-film-error]')
+    const retry = this.querySelector<HTMLButtonElement>('[data-film-retry]')
+    const tracks = this.querySelector<HTMLTemplateElement>('[data-film-tracks]')
 
-    if (!opener || !fallback || !dialog || !video || !error) return
+    if (!opener || !fallback || !dialog || !video || !error || !retry || !tracks) return
 
     this.#video = video
+
+    let playbackRequest = 0
+
+    const showError = () => {
+      error.textContent = this.dataset.errorLabel ?? ''
+
+      retry.hidden = false
+    }
+
+    const load = (source: string) => {
+      error.textContent = this.dataset.loadingLabel ?? ''
+
+      retry.hidden = true
+
+      video.replaceChildren(document.importNode(tracks.content, true))
+
+      video.src = source
+
+      video.load()
+    }
+
+    const play = () => {
+      const request = ++playbackRequest
+
+      // A direct user request starts playback; native controls remain available if blocked.
+      void video.play().catch(() => {
+        if (!signal.aborted && this.isConnected && request === playbackRequest && video.error) showError()
+      })
+    }
+
+    const pause = () => {
+      playbackRequest += 1
+
+      video.pause()
+    }
 
     const enable = () => {
       if (opener.dataset.uiBound !== 'true') return
@@ -38,40 +75,51 @@ class HomeProductFilm extends HTMLElement {
     enable()
 
     opener.addEventListener('click', () => {
-      error.hidden = true
-
       const portrait = window.matchMedia('(max-width: 639px)').matches
       const source = portrait ? video.dataset.portraitSrc : video.dataset.src
       const poster = portrait ? video.dataset.portraitPoster : video.dataset.poster
       const fileLink = this.querySelector<HTMLAnchorElement>('[data-film-file]')
 
+      if (!source) return
+
       video.dataset.format = portrait ? 'portrait' : 'landscape'
 
       if (poster) video.poster = poster
 
-      if (source && video.getAttribute('src') !== source) video.src = source
+      if (video.getAttribute('src') !== source || video.error) load(source)
 
-      if (source && fileLink) fileLink.href = source
+      if (fileLink) fileLink.href = source
 
       if (video.ended) video.currentTime = 0
 
-      // A direct user request starts playback; native controls remain available if blocked.
-      void video.play().catch(() => {
-        if (video.error) error.hidden = false
-      })
+      play()
     }, { capture: true, signal })
 
-    video.addEventListener('error', () => {
-      error.hidden = false
+    retry.addEventListener('click', () => {
+      const source = video.getAttribute('src')
+
+      if (!source) return
+
+      load(source)
+
+      video.focus({ preventScroll: true })
+
+      play()
     }, { signal })
 
-    dialog.addEventListener('close', () => {
-      video.pause()
+    video.addEventListener('loadedmetadata', () => {
+      error.textContent = ''
+
+      retry.hidden = true
     }, { signal })
 
-    document.addEventListener('astro:before-swap', () => {
-      video.pause()
-    }, { signal })
+    video.addEventListener('error', showError, { signal })
+
+    dialog.addEventListener('close', pause, { signal })
+
+    document.addEventListener('astro:before-swap', pause, { signal })
+
+    window.addEventListener('pagehide', pause, { signal })
   }
 
   disconnectedCallback() {

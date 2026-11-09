@@ -16,10 +16,10 @@ for (const theme of ['light', 'dark']) {
       await page.goto(route)
       await page.evaluate(() => document.fonts.ready)
       const comparison = page.getByRole('region', { name: 'Marcone before and after' })
-      const figures = comparison.locator('figure')
+      const figures = comparison.locator('[data-comparison-version]')
 
       await expect(figures).toHaveCount(2)
-      await expect(comparison.locator('figcaption')).toHaveText(['BeforeLegacy monolith', 'AfterHeadless storefront'])
+      await expect(comparison.locator('[data-comparison-version] > figcaption')).toHaveText(['BeforeLegacy monolith', 'AfterHeadless storefront'])
       for (const textSize of [100, 200]) {
         await page.evaluate(size => {
           document.documentElement.style.fontSize = `${size}%`
@@ -59,7 +59,7 @@ for (const theme of ['light', 'dark']) {
           ))).toBe(true)
           await expect(figure.getByRole('button', { name: /^View larger:/u })).toBeVisible()
         }
-        expect(await comparison.locator('figcaption, [data-comparison-topline]').evaluateAll(elements => (
+        expect(await comparison.locator('[data-comparison-version] > figcaption, [data-comparison-topline]').evaluateAll(elements => (
           elements.some(element => element.scrollWidth > element.clientWidth + 1)
         ))).toBe(false)
         expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)).toBe(false)
@@ -91,11 +91,13 @@ for (const width of [390, 1440]) {
       await expect(dialog.locator('[data-gallery-status]')).toHaveText('Complete image')
       await expect(dialog.locator('[data-gallery-caption]')).toHaveText(caption)
       await expect(dialog.getByRole('img')).toHaveAttribute('alt', await figure.locator('[data-comparison-image]').getAttribute('alt') ?? '')
-      await dialog.getByRole('button', { name: 'Inspect detail', exact: true }).click()
-      const canvas = dialog.locator('[data-gallery-canvas]')
+      await dialog.getByRole('button', { name: 'Zoom in', exact: true }).click()
+      const viewport = dialog.locator('[data-gallery-viewport]')
 
+      await expect(viewport).toHaveAttribute('data-zoom', '1.25')
+      await viewport.locator('[data-ui-media-viewport-stage]').focus()
       await page.keyboard.press('ArrowRight')
-      await expect.poll(() => canvas.evaluate(element => element.scrollLeft)).toBeGreaterThan(0)
+      await expect(viewport).toHaveAttribute('data-pan-x', '0.25')
       await page.keyboard.press('Escape')
       await expect(opener).toBeFocused()
     }

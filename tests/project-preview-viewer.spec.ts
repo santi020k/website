@@ -71,7 +71,8 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
         await expect(dialog.getByRole('button', { name: 'Close', exact: true })).toBeFocused()
         await expect(dialog.locator('[data-gallery-status]')).toHaveText('Complete image')
         const image = dialog.getByRole('img')
-        const canvas = dialog.getByRole('region', { name: /^Image:/u })
+        const canvas = dialog.locator('[data-ui-media-viewport-stage]')
+        const viewport = dialog.locator('[data-gallery-viewport]')
         const fitted = await image.boundingBox()
         const available = await canvas.boundingBox()
 
@@ -80,35 +81,40 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
         expect(fitted?.width).toBeLessThanOrEqual(available?.width ?? 0)
         expect(fitted?.height).toBeLessThanOrEqual((available?.height ?? 0) + 1)
         await expect(image).toHaveCSS('object-fit', 'contain')
+        expect(await canvas.evaluate(stage => {
+          const media = stage.querySelector('img')
+
+          if (!media?.naturalWidth || !media.naturalHeight) return false
+
+          // CSS aspect-ratio uses the border box, including both stage borders.
+          const bounds = stage.getBoundingClientRect()
+          const intrinsicHeight = bounds.width * media.naturalHeight / media.naturalWidth
+          const minimumHeight = Number.parseFloat(getComputedStyle(stage).minHeight)
+
+          // Landscape images retain their natural fitted height; tall images may
+          // be capped, but the viewport must not add excess empty space.
+          return bounds.height <= Math.max(minimumHeight, intrinsicHeight) + 1
+        })).toBe(true)
         await expectNoUnexpectedAccessibilityViolations(page)
 
-        // The name states the next action, so the control is not a pressed toggle.
-        const inspect = dialog.getByRole('button', { name: 'Inspect detail', exact: true })
+        const zoomIn = dialog.getByRole('button', { name: 'Zoom in', exact: true })
+        const zoomOut = dialog.getByRole('button', { name: 'Zoom out', exact: true })
         const fit = dialog.getByRole('button', { name: 'Fit image', exact: true })
 
-        await expect(inspect).not.toHaveAttribute('aria-pressed')
-        await inspect.click()
-        await expect(canvas).toHaveAttribute('data-zoomed', 'true')
-        await expect(fit).not.toHaveAttribute('aria-pressed')
-        await expect(inspect).toHaveCount(0)
-        expect(await image.evaluate(element => (
-          element instanceof HTMLImageElement && Math.abs(element.clientWidth - element.naturalWidth) < 1
-        ))).toBe(true)
-        const detail = await image.boundingBox()
-        const detailCanvas = await canvas.boundingBox()
-
-        // Centering a full-width image hides its left edge outside the scroll range.
-        expect(detail?.x).toBeCloseTo(detailCanvas?.x ?? 0, 0)
-        expect(detail?.y).toBeCloseTo(detailCanvas?.y ?? 0, 0)
+        await expect(zoomOut).toBeDisabled()
+        await expect(fit).toBeDisabled()
+        await zoomIn.click()
+        await expect(viewport).toHaveAttribute('data-zoom', '1.25')
+        await expect(viewport.locator('[data-ui-media-viewport-status]')).toHaveText('125%')
+        await zoomIn.click()
+        await expect(viewport).toHaveAttribute('data-zoom', '1.5')
+        await zoomOut.click()
+        await expect(viewport).toHaveAttribute('data-zoom', '1.25')
+        await canvas.focus()
         await page.keyboard.press('ArrowDown')
-        await expect.poll(() => canvas.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
+        await expect(viewport).toHaveAttribute('data-pan-y', '0.25')
         await page.keyboard.press('ArrowRight')
-        const horizontal = await canvas.evaluate(element => ({
-          actual: element.scrollLeft,
-          expected: Math.min(100, element.scrollWidth - element.clientWidth)
-        }))
-
-        expect(horizontal.actual).toBeCloseTo(horizontal.expected, 0)
+        await expect(viewport).toHaveAttribute('data-pan-x', '0.25')
         await dialog.getByRole('button', { name: 'Close', exact: true }).focus()
         await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
         await expect(canvas).toBeFocused()
@@ -122,15 +128,16 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
           await expect(canvas).toBeFocused()
         }
         await fit.click()
-        await expect(canvas).toHaveAttribute('data-zoomed', 'false')
-        await expect(inspect).not.toHaveAttribute('aria-pressed')
-        expect(await canvas.evaluate(element => element.scrollTop + element.scrollLeft)).toBe(0)
-        // A fitted image may have no scroll range, so check that panning keys stay unhandled.
-        expect(await inspect.evaluate(button => ['ArrowDown', 'ArrowRight'].map(key => button.dispatchEvent(
+        await expect(viewport).toHaveAttribute('data-zoom', '1')
+        await expect(viewport).toHaveAttribute('data-pan-x', '0')
+        await expect(viewport).toHaveAttribute('data-pan-y', '0')
+        await expect(fit).toBeDisabled()
+        await expect(zoomOut).toBeDisabled()
+        // The viewport owns shortcuts; unrelated dialog controls keep native keys.
+        expect(await zoomIn.evaluate(button => ['ArrowDown', 'ArrowRight'].map(key => button.dispatchEvent(
           new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true })
         )))).toEqual([true, true])
-        await inspect.click()
-        await expect(fit).toBeVisible()
+        await zoomIn.click()
         const scrollPosition = await page.evaluate(() => scrollY)
 
         // Closing while zoomed resets the next opening to the fitted image.
@@ -140,10 +147,10 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
         expect(await page.evaluate(() => scrollY)).toBe(scrollPosition)
         await opener.click()
         await expect(dialog.locator('[data-gallery-status]')).toHaveText('Complete image')
-        await expect(canvas).toHaveAttribute('data-zoomed', 'false')
-        await expect(inspect).not.toHaveAttribute('aria-pressed')
-        await expect(fit).toHaveCount(0)
-        expect(await canvas.evaluate(element => element.scrollTop + element.scrollLeft)).toBe(0)
+        await expect(viewport).toHaveAttribute('data-zoom', '1')
+        await expect(viewport).toHaveAttribute('data-pan-x', '0')
+        await expect(viewport).toHaveAttribute('data-pan-y', '0')
+        await expect(fit).toBeDisabled()
         await dialog.getByRole('button', { name: 'Close', exact: true }).click()
         await expect(opener).toBeFocused()
         expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)
@@ -151,6 +158,85 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
     }
   }
 }
+
+test('the image viewport supports bounded keyboard zoom, pointer dragging, and pan controls', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 900 })
+  await page.goto(route)
+  const viewer = page.locator('[data-product-previews] project-preview-viewer').first()
+
+  await viewer.getByRole('button', { name: /^View larger:/u }).click()
+  await expect(viewer.locator('[data-gallery-status]')).toHaveText('Complete image')
+  const viewport = viewer.locator('[data-gallery-viewport]')
+  const stage = viewport.locator('[data-ui-media-viewport-stage]')
+
+  await stage.focus()
+  await page.keyboard.press('Equal')
+  await expect(viewport).toHaveAttribute('data-zoom', '1.25')
+  await page.keyboard.press('Equal')
+  await expect(viewport).toHaveAttribute('data-zoom', '1.5')
+  await stage.scrollIntoViewIfNeeded()
+  const bounds = await stage.evaluate(element => {
+    const { x, y, width, height } = element.getBoundingClientRect()
+
+    return { x, y, width, height }
+  })
+
+  const x = bounds.x + bounds.width / 2
+  const y = bounds.y + bounds.height / 2
+
+  await page.mouse.move(x, y)
+  await page.mouse.down()
+  await page.mouse.move(x + 24, y + 24, { steps: 4 })
+  await page.mouse.up()
+  await expect.poll(() => viewport.getAttribute('data-pan-x').then(value => Number(value))).toBeGreaterThan(0)
+  await expect.poll(() => viewport.getAttribute('data-pan-y').then(value => Number(value))).toBeGreaterThan(0)
+  const stoppedPan = await viewport.getAttribute('data-pan-x')
+
+  await page.mouse.move(x - 24, y)
+  await expect(viewport).toHaveAttribute('data-pan-x', stoppedPan ?? '')
+  await viewer.getByRole('button', { name: 'Pan left', exact: true }).click()
+  expect(Number(await viewport.getAttribute('data-pan-x'))).toBeLessThan(Number(stoppedPan))
+  await stage.focus()
+  await page.keyboard.press('Home')
+  await expect(viewport).toHaveAttribute('data-zoom', '1')
+  await expect(viewport).toHaveAttribute('data-pan-x', '0')
+  await expect(viewport).toHaveAttribute('data-pan-y', '0')
+  await expect(viewer.getByRole('button', { name: 'Pan left', exact: true })).toBeDisabled()
+  await expect(viewer.getByRole('button', { name: 'Zoom out', exact: true })).toBeDisabled()
+
+  for (let step = 0; step < 14; step += 1) await page.keyboard.press('Equal')
+
+  await expect(viewport).toHaveAttribute('data-zoom', '4')
+  await expect(viewer.getByRole('button', { name: 'Zoom in', exact: true })).toBeDisabled()
+  await page.keyboard.press('Minus')
+  await expect(viewport).toHaveAttribute('data-zoom', '3.75')
+  await expect(viewer.getByRole('button', { name: 'Zoom in', exact: true })).toBeEnabled()
+  await page.keyboard.press('Escape')
+  await expect(viewer.getByRole('button', { name: /^View larger:/u })).toBeFocused()
+})
+
+test('Spanish image controls and failure recovery remain localized', async ({ page }) => {
+  await page.goto('/es/portfolio/smith-commerce/')
+  const viewer = page.locator('[data-product-previews] project-preview-viewer').first()
+  const source = await viewer.locator('[data-gallery-fallback]').getAttribute('href')
+  const imageURL = new URL(source ?? '', page.url()).href
+
+  // Fail the first request so WebKit cannot reuse an already decoded image.
+  await page.route(imageURL, request => request.abort())
+  await viewer.getByRole('button', { name: /^Ampliar imagen:/u }).click()
+  await expect(viewer.locator('[data-gallery-status]')).toContainText('No se pudo cargar la vista previa')
+  await page.unroute(imageURL)
+  await viewer.getByRole('button', { name: 'Reintentar', exact: true }).click()
+  await expect(viewer.locator('[data-gallery-status]')).toHaveText('Imagen completa')
+  await expect(viewer.getByRole('button', { name: 'Cerrar', exact: true })).toBeFocused()
+
+  for (const name of ['Acercar', 'Alejar', 'Ajustar imagen', 'Mover a la izquierda', 'Mover a la derecha', 'Mover hacia arriba', 'Mover hacia abajo']) {
+    await expect(viewer.getByRole('button', { name, exact: true })).toBeVisible()
+  }
+
+  await expect(viewer.locator('[data-gallery-help]')).toContainText('Enfoca la imagen')
+  await expect(viewer.getByRole('link', { name: 'Abrir imagen original', exact: true })).toBeVisible()
+})
 
 for (const width of [390, 1440]) {
   test(`enlarged text keeps viewer controls reachable on a short ${width}px viewport`, async ({ page }) => {
@@ -167,7 +253,7 @@ for (const width of [390, 1440]) {
     const close = dialog.getByRole('button', { name: 'Close', exact: true })
 
     await expect(close).toBeInViewport()
-    await dialog.getByRole('button', { name: 'Inspect detail', exact: true }).click()
+    await dialog.getByRole('button', { name: 'Zoom in', exact: true }).click()
     await expect(close).toBeInViewport()
     expect(await dialog.evaluate(element => element.scrollWidth > element.clientWidth + 1)).toBe(false)
     await page.keyboard.press('Escape')
@@ -194,7 +280,7 @@ test('full-size images load on demand and each viewer keeps its own image and ca
   await expect(second.getByRole('img')).toHaveAttribute('alt', /F.W. Webb mobile storefront/u)
 })
 
-test('failed images keep a recovery link and can be retried by reopening', async ({ page }) => {
+test('failed images keep a recovery link and support an explicit retry', async ({ page }) => {
   await page.goto(route)
   const viewer = page.locator('[data-product-previews] project-preview-viewer').first()
   const fullImage = await viewer.locator('[data-gallery-fallback]').getAttribute('href')
@@ -206,12 +292,13 @@ test('failed images keep a recovery link and can be retried by reopening', async
   await viewer.getByRole('button', { name: /^View larger:/u }).click()
   await expect(viewer.locator('[data-gallery-status]')).toContainText('The preview could not load')
   await expect(viewer.getByRole('link', { name: 'Open original image', exact: true })).toHaveAttribute('href', fullImage ?? '')
-  await expect(viewer.getByRole('button', { name: 'Inspect detail', exact: true })).toHaveCount(0)
-  await viewer.getByRole('button', { name: 'Close', exact: true }).click()
+  await expect(viewer.getByRole('button', { name: 'Zoom in', exact: true })).toHaveCount(0)
+  await expect(viewer.getByRole('button', { name: 'Retry', exact: true })).toBeVisible()
   await page.unroute(imageURL)
-  await viewer.getByRole('button', { name: /^View larger:/u }).click()
+  await viewer.getByRole('button', { name: 'Retry', exact: true }).click()
+  await expect(viewer.getByRole('button', { name: 'Close', exact: true })).toBeFocused()
   await expect(viewer.locator('[data-gallery-status]')).toHaveText('Complete image')
-  await expect(viewer.getByRole('button', { name: 'Inspect detail', exact: true })).toBeEnabled()
+  await expect(viewer.getByRole('button', { name: 'Zoom in', exact: true })).toBeEnabled()
 })
 
 test('viewer controls reconnect after client navigation and Back', async ({ page }) => {

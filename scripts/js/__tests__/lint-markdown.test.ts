@@ -19,6 +19,7 @@ const fixture = async () => {
   directories.push(directory)
   await mkdir(path.join(directory, 'docs/nested'), { recursive: true })
   await mkdir(path.join(directory, 'src/content/posts'), { recursive: true })
+  await mkdir(path.join(directory, 'src/content/country'), { recursive: true })
 
   return directory
 }
@@ -56,6 +57,55 @@ describe('Markdown lint runner', () => {
     expect(diagnostics.join('\n')).toContain('MD041')
     expect(diagnostics.join('\n')).toContain('README.md:1')
     await expect(execFileAsync(process.execPath, [runner], { cwd: directory })).rejects.toMatchObject({ code: 1 })
+  })
+
+  test('accepts the country code that supplies the template title while retaining standard front matter titles', async () => {
+    const directory = await fixture()
+
+    await writeFile(path.join(directory, 'src/content/country/colombia.md'), '---\ncode: CO\n---\n\nA country notebook.\n')
+    await writeFile(path.join(directory, 'docs/nested/guide.md'), '---\ntitle: Guide\n---\n\nA guide with a front matter title.\n')
+
+    const { files, errorCount } = await lintMarkdown(directory)
+
+    expect(files).toEqual(['docs/nested/guide.md', 'src/content/country/colombia.md'])
+    expect(errorCount).toBe(0)
+  })
+
+  test.each(['summary: Notes', 'title: Colombia', 'metadata:\n  code: CO'])('rejects country notebooks without their top-level code: %s', async frontMatter => {
+    const directory = await fixture()
+
+    await writeFile(path.join(directory, 'src/content/country/colombia.md'), `---\n${frontMatter}\n---\n\nA country notebook.\n`)
+
+    const { diagnostics } = await lintMarkdown(directory)
+
+    expect(diagnostics).toEqual([expect.stringContaining('MD041')])
+  })
+
+  test('does not accept a country code as the title of other Markdown files', async () => {
+    const directory = await fixture()
+    const files = ['docs/nested/guide.md', 'src/content/posts/post.md', 'src/content/country/nested/notes.md']
+
+    await mkdir(path.join(directory, 'src/content/country/nested'), { recursive: true })
+    for (const file of files) {
+      await writeFile(path.join(directory, file), '---\ncode: CO\n---\n\nMissing a document title.\n')
+    }
+
+    const { diagnostics } = await lintMarkdown(directory)
+
+    expect(diagnostics).toHaveLength(files.length)
+    for (const file of files) {
+      expect(diagnostics).toContainEqual(expect.stringContaining(`${file}:5 MD041`))
+    }
+  })
+
+  test('continues checking other Markdown rules in country notebooks', async () => {
+    const directory = await fixture()
+
+    await writeFile(path.join(directory, 'src/content/country/colombia.md'), '---\ncode: CO\n---\n\nA country notebook with trailing whitespace. \n')
+
+    const { diagnostics } = await lintMarkdown(directory)
+
+    expect(diagnostics).toEqual([expect.stringContaining('MD009')])
   })
 
   test('fails instead of silently passing when no files match', async () => {

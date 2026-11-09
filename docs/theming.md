@@ -1,8 +1,8 @@
 # Theming: Lumen santi020k appearance
 
 The current website uses Lumen 5's named `santi020k-light` and `santi020k-dark`
-appearances. The full `@santi020k/lumen-astro/styles.css` import includes this palette
-and its editorial component styling. Lumen generates the colors from the shared
+appearances. The selective `@santi020k/lumen-astro/styles/themes/santi020k.css` import
+loads this palette and its editorial component styling alongside `styles/foundation.css`. Lumen generates the colors from the shared
 `@santi020k/theme/site.css` source; do not import a second color palette over it.
 
 `src/styles/global.css` loads the adapter's `tailwind.css` bridge and
