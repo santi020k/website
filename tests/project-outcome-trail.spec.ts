@@ -12,7 +12,7 @@ for (const javaScriptEnabled of [true, false]) {
           await page.setViewportSize({ width, height: 900 })
           await page.goto('/portfolio/smith-commerce/#key-outcomes')
           await page.evaluate(value => {
-            document.documentElement.dataset.theme = value
+            document.documentElement.dataset.theme = `santi020k-${value}`
           }, theme)
           const trail = page.getByRole('navigation', { name: 'Explore Marcone', exact: true })
 
@@ -55,7 +55,7 @@ for (const theme of ['light', 'dark']) {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/portfolio/smith-commerce/#key-outcomes')
     await page.evaluate(value => {
-      document.documentElement.dataset.theme = value
+      document.documentElement.dataset.theme = `santi020k-${value}`
       document.documentElement.style.fontSize = '200%'
     }, theme)
     await page.evaluate(() => document.fonts.ready)

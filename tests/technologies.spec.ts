@@ -118,7 +118,7 @@ test('technology project labels keep sufficient contrast on dark card surfaces',
   await page.setViewportSize({ width: 375, height: 900 })
   await page.goto('/technologies/3rd-party-apis/')
 
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'santi020k-dark')
   await expect(page.locator('.projects-editorial-action').first()).toContainText('View project')
   await expectNoUnexpectedAccessibilityViolations(page)
   const project = page.locator('.projects-editorial-link').first()

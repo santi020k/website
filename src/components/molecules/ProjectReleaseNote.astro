@@ -1,7 +1,7 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { Link } from '@santi020k/lumen-astro'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 interface ReleaseState {
   label: string
@@ -49,7 +49,7 @@ const { labelledBy, states } = Astro.props
     color: hsl(var(--ink));
   }
 
-  :global([data-theme='dark']) [data-project-release-note] { --release-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  :global([data-theme='santi020k-dark']) [data-project-release-note] { --release-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
   [data-release-lead] { margin: 0 0 1rem; font-size: 1.75rem; line-height: 1.5; letter-spacing: -0.025em; overflow-wrap: anywhere; }
   [data-release-lead] strong { font-weight: 500; color: var(--release-accent); }
   [data-release-pending] { margin-top: 1.625rem; padding: 1.5rem; border-radius: 1.75rem 0.3125rem 1.75rem 0.3125rem; background: hsl(var(--brand-soft)); }

@@ -1,0 +1,130 @@
+---
+title: "PostLens: un estudio de contenido privado en el dispositivo"
+description: "Por qué PostLens mantiene selección, puntuación, mejora, composición y textos en el iPhone, y hace explícitas las transferencias generativas opcionales."
+coverImage:
+  alt: "Fotos pasan por selección, puntuación, mejora, composición y exportación dentro de un teléfono protegido"
+---
+
+import ArticleUpdateNote from '@/components/molecules/ArticleUpdateNote.astro'
+
+<ArticleUpdateNote title="Actualización de octubre de 2026">
+
+PostLens 2 ya está disponible para iPhone y iPad. El artículo de abajo describe la dirección original del producto; desde entonces, la planificación local privada se ha incorporado al flujo. La conexión con Instagram y la publicación directa siguen sin estar disponibles mientras esperamos la aprobación de Meta para producción. [Lee la nota de lanzamiento de PostLens 2](/es/blog/postlens-2-is-live/).
+
+</ArticleUpdateNote>
+
+
+La parte más difícil de publicar una foto muchas veces no es tomarla.
+
+Es elegir una imagen entre una biblioteca llena, decidir si necesita trabajo, adaptarla al destino, escribir algo útil y exportar el resultado sin perder calidad.
+
+[PostLens](https://postlens.santi020k.com/) es un estudio de contenido visual pensado primero para iPhone y construido alrededor de ese recorrido:
+
+El flujo es **Seleccionar → Mejorar → Componer → Exportar**.
+
+El producto se detiene ahí deliberadamente. No administra cuentas sociales, programa publicaciones, mide interacciones ni construye un panel de analítica. Ese límite le permite concentrarse en la preparación visual y mantener la primera versión privada y local al dispositivo.
+
+## La selección debe empezar donde está la biblioteca
+
+PostLens no sube una biblioteca de fotos para puntuarla.
+
+La galería prioriza las fotos visibles y después analiza los recursos disponibles localmente en lotes que tienen en cuenta la batería mientras la aplicación está abierta. Los resultados se guardan en un índice privado de puntuaciones dentro del dispositivo para no tener que medir el mismo recurso desde cero cada vez.
+
+La puntuación usa cualidades que la aplicación puede explicar:
+
+- exposición
+- contraste
+- saturación
+- equilibrio entre tonos cálidos y fríos
+- recorte tonal
+- nitidez
+
+Una puntuación no es un veredicto artístico. Es una forma de reducir la primera revisión de un conjunto grande y destacar imágenes que vale la pena revisar.
+
+Esa distinción importa. Las herramientas creativas deben apoyar el criterio, no pretender reemplazarlo con un número.
+
+## La puntuación de la galería es solo una instantánea
+
+Una vez que una imagen entra en Review, la edición renderizada se convierte en el estado relevante.
+
+Un recorte puede cambiar la composición. Un ajuste de exposición puede cambiar el recorte tonal. Un cambio de color puede modificar el equilibrio que contribuyó a la puntuación de la galería.
+
+PostLens vuelve a analizar una vista previa de tamaño limitado a medida que cambia la edición. El objetivo es ofrecer respuesta ágil sin procesar repetidamente la fuente de resolución completa con cada movimiento de un control deslizante.
+
+Cuando la calidad importa para exportar, toma el relevo el proceso de resolución completa.
+
+Esta división mantiene rápida la interacción sin descuidar la imagen final.
+
+## Los estilos de IA deben seguir siendo acotados y explicables
+
+PostLens incluye un estilo de IA personalizado, pero la expresión «estilo de IA» no significa enviar la imagen a un servidor opaco y aceptar un reemplazo generado.
+
+La aplicación deriva recetas candidatas de ajustes a partir de señales medidas. Renderiza alternativas acotadas en el dispositivo, valida los resultados y conserva solo una candidata que cumpla las reglas de calidad.
+
+Natural, Vibrant, Warm y Dramatic siguen siendo alternativas manuales predecibles.
+
+Eso permite comparar el recorrido inteligente con la edición normal. Puede explorar un espacio mayor, pero sigue trabajando con ajustes comprensibles y un resultado que el usuario puede continuar editando.
+
+## La composición necesita contexto del destino
+
+Una buena foto original puede fallar al forzarla a un recorte equivocado.
+
+PostLens admite formatos reutilizables de publicación para Instagram, TikTok, Pinterest, LinkedIn, X y exportaciones genéricas. Los destinos pueden ofrecer más de un formato sin reemplazar un recorte ya guardado para otro uso.
+
+Vision ayuda a posicionar el sujeto para el formato seleccionado. La aplicación trata ese encuadre como un punto de partida, no como una respuesta fija.
+
+Las imágenes seleccionadas pueden continuar hacia composiciones o carruseles sin repetir la selección. Los flujos Supporter añaden comparación de varias fotos, conjuntos de publicación, construcción de carruseles, cuadrículas de perfil, instantáneas de edición y exportación de video con fotogramas estáticos.
+
+El flujo principal de una sola foto sigue siendo gratuito.
+
+## Los textos de publicación deben basarse en la foto
+
+PostLens puede preparar un texto breve y editable a partir de la información disponible en el dispositivo.
+
+En dispositivos compatibles con iOS 26 y Apple Intelligence activado, Foundation Models puede añadir orientación opcional. La aplicación también tiene una alternativa determinista para que la selección, la edición, el recorte y la preparación de textos no dependan de esa capacidad.
+
+Cuando el usuario prepara o genera explícitamente un texto, el geocodificador del sistema de Apple puede resolver las coordenadas de la foto a una ciudad. Las coordenadas sin procesar no entran en el prompt del modelo de lenguaje ni se persisten.
+
+Ese es un pequeño límite de privacidad con un gran efecto en la confianza. El contexto útil no requiere conservar su representación más sensible.
+
+## La edición generativa es una transferencia separada
+
+PostLens también admite una acción opcional **Editar con Image Playground** en dispositivos compatibles.
+
+Esto no se mezcla silenciosamente con el proceso normal de mejora. El usuario ve un aviso en cada uso, la aplicación entrega a Apple un render sin metadatos y el resultado aceptado regresa como una edición nueva.
+
+Apple puede usar Private Cloud Compute para esa experiencia del sistema. PostLens no opera su propio servidor de subida.
+
+Mantener separada la transferencia hace que el estado del producto sea honesto:
+
+- la puntuación y edición normales son locales
+- la orientación de Foundation Models es opcional y depende del dispositivo
+- Image Playground es un flujo explícito de Apple con su propio aviso
+
+Una sola etiqueta de «IA» escondería diferencias importantes entre esas funciones.
+
+## El trabajo guardado no debería reconstruir el riesgo de privacidad
+
+Los favoritos restauran el estado de edición desde copias sin metadatos. Conservan un orden persistente sin retener los metadatos de las fotos originales ni las puntuaciones de favoritos.
+
+Ese diseño evita un error común: proteger el procesamiento original y después construir una función de contenido guardado que recrea silenciosamente el conjunto de datos sensibles.
+
+La privacidad debe acompañar al recurso durante la selección, edición, almacenamiento y exportación.
+
+## La localización incluye los textos incómodos
+
+La aplicación, los mensajes de permisos, el catálogo de pruebas de StoreKit, la página de presentación y el centro de soporte están disponibles en inglés y español.
+
+El lenguaje de permisos y compras forma parte del producto. Debe recibir el mismo cuidado de localización que la interfaz del recorrido habitual.
+
+La orientación en el dispositivo sigue su configuración regional cuando es compatible. El sitio de soporte da a ambas audiencias una vía para informar errores, solicitar funciones o hacer preguntas.
+
+## Una herramienta enfocada puede ser más completa
+
+PostLens no necesita convertirse en un panel de redes sociales para ayudar a alguien a publicar mejor trabajo visual.
+
+Al concentrarse en selección, mejora, composición y exportación, la aplicación puede profundizar en calidad fotográfica, formatos de destino, procesamiento local, límites de privacidad y un flujo creativo coherente.
+
+Ese alcance no es una limitación. Es el producto.
+
+Puedes [visitar PostLens](https://postlens.santi020k.com/) o leer el [caso de estudio resumido del portafolio](/es/portfolio/postlens/).

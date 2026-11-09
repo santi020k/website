@@ -1,0 +1,233 @@
+---
+title: "Pruebas de componentes React con Vitest y React Testing Library"
+description: "Configura pruebas de React con Vitest y React Testing Library, centradas en el comportamiento, la confianza y un código frontend fácil de mantener."
+seoTitle: "Guía de Vitest y React Testing Library"
+coverImage:
+  alt: "Un componente atraviesa comprobaciones de interacción, selección, estado y aserciones hasta su verificación"
+---
+
+import PackageManagerCodeTabs from '@/components/molecules/PackageManagerCodeTabs.astro'
+
+[Lee el artículo anterior: Storybook en acción con Next.js, Tailwind y TypeScript](https://medium.com/towardsdev/storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2)
+
+Después de usar Storybook para aislar y revisar visualmente los componentes, el siguiente paso es validar su comportamiento con pruebas. Me gusta esa combinación porque Storybook mejora la experiencia de desarrollo y las pruebas reducen el temor cuando el componente cambia con el tiempo.
+
+En proyectos frontend, uno de los errores más comunes es creer que basta con revisar la apariencia. No basta. Un componente puede verse correcto y fallar cuando el usuario hace clic, escribe, envía un formulario o provoca un cambio de estado que nadie comprobó manualmente.
+
+Por eso prefiero agregar pruebas de componentes pronto, antes de que la interfaz crezca demasiado y el costo de los comportamientos no cubiertos aumente con cada versión.
+
+## ¿Por qué Vitest y React Testing Library?
+
+En proyectos React prefiero esta combinación por una razón sencilla: es práctica.
+
+- **Vitest** es rápido, moderno y encaja bien en proyectos que usan Vite o herramientas inspiradas en ese ecosistema.
+- **React Testing Library** fomenta pruebas centradas en lo que el usuario realmente puede percibir y hacer.
+- La combinación es suficientemente sólida para proyectos reales sin agregar complejidad innecesaria desde el primer día.
+
+No quiero una suite de pruebas que se sienta pesada, lenta o demasiado ligada a detalles de implementación. El equipo suele ignorar ese tipo de configuración muy pronto.
+
+## Instalación de dependencias
+
+Empieza por instalar los paquetes de pruebas:
+
+<PackageManagerCodeTabs
+  ariaLabel="Elige un gestor de paquetes para instalar las dependencias de pruebas"
+  commands={{
+    npm: 'npm install --save-dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event',
+    yarn: 'yarn add --dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event',
+    pnpm: 'pnpm add --save-dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event',
+    bun: 'bun add --dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event'
+  }}
+/>
+
+Si el proyecto ya usa TypeScript, no hace falta complicar la configuración. Mantén pequeña la base y agrega capas solo cuando el proyecto realmente las necesite.
+
+## Configuración base de Vitest
+
+Crea un archivo `vitest.config.ts` como este:
+
+```typescript title="vitest.config.ts"
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/tests/setup.ts']
+  }
+})
+```
+
+La parte importante es `jsdom`, porque las pruebas de componentes suelen necesitar un entorno similar al navegador. Sin él, fallarán en cuanto interactúen con el DOM.
+
+Después crea el archivo de preparación:
+
+```typescript title="src/tests/setup.ts"
+import '@testing-library/jest-dom/vitest'
+```
+
+Esto proporciona aserciones más útiles, como:
+
+- `toBeInTheDocument`
+- `toBeDisabled`
+- `toHaveTextContent`
+
+Estas aserciones facilitan la lectura de las pruebas, y las pruebas legibles son mucho más fáciles de mantener.
+
+## Componente de ejemplo
+
+Usemos un botón sencillo:
+
+```tsx title="src/components/atoms/button/button.tsx"
+interface ButtonProps {
+  children: React.ReactNode
+  disabled?: boolean
+  onClick?: () => void
+}
+
+const Button = ({ children, disabled = false, onClick }: ButtonProps) => (
+  <button
+    disabled={disabled}
+    onClick={onClick}
+    type="button"
+  >
+    {children}
+  </button>
+)
+
+export default Button
+```
+
+El ejemplo es pequeño a propósito. Cuando escribo un artículo, prefiero ejemplos fáciles de comprender en lugar de componentes de demostración gigantes que distraigan del enfoque de pruebas.
+
+## La primera prueba útil
+
+Ahora escribe una prueba que compruebe lo importante para el usuario:
+
+```tsx title="src/components/atoms/button/button.test.tsx"
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
+
+import Button from './button'
+
+describe('Button', () => {
+  it('renders the label', () => {
+    render(<Button>Save changes</Button>)
+
+    expect(
+      screen.getByRole('button', { name: /save changes/i })
+    ).toBeInTheDocument()
+  })
+
+  it('calls onClick when pressed', async () => {
+    const user = userEvent.setup()
+    const onClick = vi.fn()
+
+    render(<Button onClick={onClick}>Save</Button>)
+
+    await user.click(screen.getByRole('button', { name: /save/i }))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not allow interaction when disabled', async () => {
+    const user = userEvent.setup()
+    const onClick = vi.fn()
+
+    render(
+      <Button disabled onClick={onClick}>
+        Save
+      </Button>
+    )
+
+    const button = screen.getByRole('button', { name: /save/i })
+
+    expect(button).toBeDisabled()
+
+    await user.click(button)
+
+    expect(onClick).not.toHaveBeenCalled()
+  })
+})
+```
+
+Lo que me gusta de este archivo es que comprueba el comportamiento en lugar de la implementación.
+
+No estoy probando:
+
+- Los nombres del estado interno
+- Los nombres de las clases CSS
+- Si internamente se llamó a una función auxiliar
+
+Estoy probando lo que el usuario puede observar:
+
+- El botón está presente
+- El botón responde correctamente
+- El estado deshabilitado funciona
+
+La distinción es muy importante. Si la suite depende demasiado de detalles internos, refactorizar se vuelve doloroso aunque el comportamiento visible no cambie.
+
+## Prefiere consultas accesibles
+
+Uno de los mejores hábitos en React Testing Library es consultar la interfaz de la misma forma en que lo haría una persona o una tecnología de asistencia.
+
+Recomiendo priorizar estas consultas:
+
+1. `getByRole`
+2. `getByLabelText`
+3. `getByText`
+4. `getByPlaceholderText`
+
+Si puedo encontrar un componente por su rol y nombre accesible, normalmente significa que su marcado también está mejor preparado para los usuarios reales. Es otra razón por la que me gusta la biblioteca: orienta al equipo hacia mejores patrones de accesibilidad casi sin proponérselo.
+
+## Prueba el comportamiento, no el framework
+
+En muchos proyectos React, los desarrolladores dedican demasiado tiempo a probar cosas que React, Next.js o el navegador ya garantizan.
+
+Por ejemplo, no veo mucho valor en comprobar detalles triviales como:
+
+- Si existe un hook `useState`
+- Si el componente tiene un `div` contenedor específico
+- Si se pasa una propiedad a un hijo interno con el que el usuario nunca interactúa
+
+Prefiero probar:
+
+- Cambios de estado visibles
+- Validación de formularios
+- Interacciones del usuario
+- Condiciones de renderizado
+- Contenido que debe aparecer o permanecer oculto
+
+Eso ofrece mucho más valor a largo plazo.
+
+## Agrega un script de pruebas al proyecto
+
+Actualiza tu `package.json` con los scripts básicos:
+
+```json title="package.json"
+{
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  }
+}
+```
+
+Después ejecuta:
+
+```bash title="terminal"
+npm run test
+```
+
+Cuando esto funcione, podrás conectarlo a hooks previos al commit, CI o controles de despliegue. Ahí las pruebas empiezan a formar parte del trabajo cotidiano, en lugar de ser algo que los desarrolladores recuerdan solo antes de publicar.
+
+Agrega una capa de pruebas en navegador para las interacciones que dependen del foco y la navegación reales. La [guía de accesibilidad con Playwright](/es/blog/playwright-accessibility-checks-that-teams-keep-running/) incluye análisis ejecutables con axe, pruebas de diálogos y enlaces de salto, y una lista de comprobación manual con teclado para complementar estas pruebas de componentes.
+
+## Conclusiones
+
+- Vitest y React Testing Library son una combinación práctica para proyectos React modernos.
+- Las pruebas deben centrarse en el comportamiento que importa al usuario, no en detalles internos.
+- Las consultas accesibles suelen mejorar tanto las pruebas como el marcado de los componentes.
+- Una configuración ligera de pruebas al principio es mucho mejor que una migración grande más adelante.
+- Las buenas pruebas de componentes reducen el temor al refactorizar la interfaz.

@@ -3,6 +3,12 @@ import type { Plugin } from 'unified'
 
 import { applyLedger } from './rehype-project-ledger'
 
+const checklistHeading = new RegExp(
+  String.raw`\b(?:checklists?|listas?(?:\s+(?:final(?:es)?|prácticas?))?\s+` +
+  String.raw`(?:de\s+(?:verificación|comprobación|revisión)|para\s+revisar))\b`,
+  'iu'
+)
+
 const textContent = (node: ElementContent): string => {
   if (node.type === 'text') return node.value
 
@@ -25,7 +31,7 @@ export const rehypeArticleChecklists: Plugin<[], Root> = () => (tree, file) => {
 
       while (sections.length && (sections.at(-1)?.depth ?? 0) >= depth) sections.pop()
 
-      sections.push({ depth, checklist: /\bchecklists?\b/iu.test(textContent(node)) })
+      sections.push({ depth, checklist: checklistHeading.test(textContent(node)) })
     } else if (sections.some(section => section.checklist) && ['ul', 'ol'].includes(node.tagName)) {
       applyLedger(node, 'Checklist')
     }

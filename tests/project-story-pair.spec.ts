@@ -62,7 +62,7 @@ test('Story pair aligns content rows and remains readable and keyboard usable wh
     }
     for (const theme of ['light', 'dark']) {
       await page.evaluate(value => {
-        document.documentElement.dataset.theme = value
+        document.documentElement.dataset.theme = `santi020k-${value}`
       }, theme)
       const result = await new AxeBuilder({ page }).include('[data-project-story-pair]').analyze()
 

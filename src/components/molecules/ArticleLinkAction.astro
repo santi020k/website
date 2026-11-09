@@ -1,7 +1,7 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { Link } from '@santi020k/lumen-astro'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getLocale, sharedTranslator } from '@/i18n'
 
@@ -34,7 +34,7 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
     max-width: 100%;
   }
 
-  :global(:root[data-theme='dark']) [data-article-utilities] {
+  :global(:root[data-theme='santi020k-dark']) [data-article-utilities] {
     --publication-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
   }
 

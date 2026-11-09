@@ -1,7 +1,13 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { Button, ButtonLink, Dialog, DialogClose, DialogTitle, Icon } from '@santi020k/lumen-astro'
+import Button from '@santi020k/lumen-astro/components/Button'
+import ButtonLink from '@santi020k/lumen-astro/components/ButtonLink'
+import Dialog from '@santi020k/lumen-astro/components/Dialog'
+import DialogClose from '@santi020k/lumen-astro/components/DialogClose'
+import DialogTitle from '@santi020k/lumen-astro/components/DialogTitle'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import MediaViewport from '@santi020k/lumen-astro/components/MediaViewport'
 
 import { getLocale, sharedTranslator } from '@/i18n'
 
@@ -16,6 +22,16 @@ const { id, title, caption, source } = Astro.props
 const locale = getLocale(Astro.url.pathname)
 const t = sharedTranslator(locale)
 
+const viewportLabels = {
+  'zoom-in': t('shared.zoomIn'),
+  'zoom-out': t('shared.zoomOut'),
+  fit: t('shared.fitImage'),
+  left: t('shared.panLeft'),
+  right: t('shared.panRight'),
+  up: t('shared.panUp'),
+  down: t('shared.panDown')
+}
+
 ---
 
 <gallery-viewer
@@ -24,7 +40,6 @@ const t = sharedTranslator(locale)
   data-article-figure-index={source.kind === 'article' ? source.index : undefined}
   data-gallery-image-src={source.kind === 'asset' ? source.src : undefined}
   data-gallery-image-alt={source.kind === 'asset' ? source.alt : undefined}
-  style={source.kind === 'asset' ? `--viewer-image-width: ${source.width}px` : undefined}
 >
   <div data-gallery-actions>
     {source.kind === 'asset' && (
@@ -54,20 +69,21 @@ const t = sharedTranslator(locale)
         <Icon name="x" class="size-4" />{t('shared.close')}
       </DialogClose>
     </div>
-    <div
-      aria-label={t('shared.imageTitle', { title })}
-      data-gallery-canvas
-      data-zoomed="false"
-      id={`${id}-canvas`}
-      role="region"
-      tabindex="0"
-    ></div>
+    <MediaViewport
+      data-gallery-viewport
+      disabled
+      hidden
+      label={t('shared.imageTitle', { title })}
+      labels={viewportLabels}
+      locale={locale}
+    ><div data-gallery-image-mount></div></MediaViewport>
+    <p data-gallery-help hidden>{t('shared.imageViewportHelp')}</p>
     <div data-gallery-tools>
       <p aria-live="polite" data-gallery-status>{t('shared.loadingImage')}</p>
-      <Button aria-controls={`${id}-canvas`} data-gallery-control data-gallery-zoom variant="outline">
-        <Icon name="zoom-in" class="size-4" /><span data-gallery-zoom-label>{t('shared.inspectDetail')}</span>
+      <Button data-gallery-control data-gallery-retry hidden variant="outline">
+        <Icon name="rotate-cw" class="size-4" />{t('shared.retry')}
       </Button>
-      <ButtonLink data-gallery-error-link data-gallery-control hidden href={source.kind === 'asset' ? source.src : ''} newTab variant="unstyled">
+      <ButtonLink data-gallery-error-link data-gallery-control href={source.kind === 'asset' ? source.src : ''} newTab variant="unstyled">
         <ArrowExchange direction="up-right" class="size-4" />{t('shared.openOriginalImage')}
       </ButtonLink>
     </div>
@@ -87,7 +103,7 @@ const t = sharedTranslator(locale)
   [data-gallery-control] { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 2.75rem; max-width: 100%; white-space: normal; text-align: center; padding: 0.5rem 0.875rem; border: 1px solid hsl(var(--line)); border-radius: 0.75rem 0.75rem 0.25rem 0.75rem; background: hsl(var(--surface)); color: hsl(var(--ink)); font: 500 0.8125rem/1.5 var(--font-sans); letter-spacing: normal; text-decoration: none; }
   [data-gallery-control] :global(.ui-button__content) { min-width: 0; }
   [data-gallery-control]:hover { color: hsl(var(--brand)); border-color: currentColor; }
-  :global(:root[data-theme='dark']) [data-gallery-control]:hover { color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) [data-gallery-control]:hover { color: hsl(var(--accent)); }
   [data-gallery-control][hidden] { display: none; }
   [data-gallery-dialog] { inset: 0; translate: none; transform: none; width: min(72rem, calc(100% - 2rem)); max-width: none; max-height: calc(100dvh - 2rem); margin: auto; padding: 1.5rem; overflow: auto; overscroll-behavior: contain; border: 1px solid hsl(var(--line)); border-radius: var(--radius-sheet); background: hsl(var(--surface)); color: hsl(var(--ink)); }
   [data-gallery-dialog][open] { display: flex; flex-direction: column; gap: 1rem; }
@@ -96,12 +112,22 @@ const t = sharedTranslator(locale)
   [data-gallery-heading] :global([data-slot='dialog-title']) { flex: 1 1 14rem; margin: 0; padding: 0; border: 0; color: hsl(var(--ink)); font: 500 1.25rem/1.5 var(--font-sans); letter-spacing: -0.025em; }
   [data-gallery-heading] :global([data-slot='dialog-title'])::after { content: none; }
   [data-gallery-heading] [data-gallery-control] { flex-shrink: 0; }
-  [data-gallery-canvas] { display: grid; place-items: center; min-height: 8rem; flex: 0 0 auto; max-height: min(65dvh, 48rem); overflow: auto; overscroll-behavior: contain; background: hsl(var(--brand-soft) / 0.35); }
-  [data-gallery-canvas] :global(img) { display: block; width: auto; height: auto; max-width: 100%; max-height: max(8rem, min(65dvh, calc(100dvh - 18rem))); object-fit: contain; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
-  [data-gallery-canvas][data-zoomed='true'] { display: block; place-items: start; height: min(65dvh, 48rem); }
-  [data-gallery-canvas][data-zoomed='true'] :global(img) { width: var(--viewer-image-width); max-width: none; max-height: none; }
+  [data-gallery-viewport] { flex: 0 0 auto; min-width: 0; }
+  [data-gallery-viewport][hidden], [data-gallery-help][hidden] { display: none; }
+  [data-gallery-viewport] :global([data-ui-media-viewport-stage]) { height: auto; min-height: 8rem; max-height: max(8rem, min(65dvh, calc(100dvh - 18rem))); border-radius: 0; background: hsl(var(--brand-soft) / 0.35); }
+  [data-gallery-viewport][data-zoom]:not([data-zoom='1']) :global([data-ui-media-viewport-stage]) { cursor: grab; }
+  [data-gallery-viewport][data-zoom]:not([data-zoom='1']) :global([data-ui-media-viewport-stage]:active) { cursor: grabbing; }
+  [data-gallery-image-mount] { height: 100%; }
+  [data-gallery-image-mount] :global(img) { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
+  [data-gallery-viewport] :global(figcaption) { color: hsl(var(--ink-soft)); font: 400 0.75rem/1.7 var(--font-sans); }
+  [data-gallery-viewport] :global([data-ui-media-viewport-action]) { min-height: 2.75rem; height: auto; max-width: 100%; padding: 0.5rem 0.875rem; white-space: normal; overflow-wrap: anywhere; font: 500 0.8125rem/1.5 var(--font-sans); letter-spacing: normal; }
+  /* Published Lumen 5.0 retains its SSR disabled class when the runtime removes the
+     native disabled attribute. Follow native state through the public action hook;
+     leave the adapter's private classes untouched. */
+  [data-gallery-viewport] :global([data-ui-media-viewport-action]:enabled) { opacity: 1; pointer-events: auto; }
   [data-gallery-tools] { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
   [data-gallery-status] { flex: 1 1 12rem; margin: 0; color: hsl(var(--ink-soft)); font: 400 0.75rem/1.7 var(--font-sans); }
+  [data-gallery-help] { margin: 0; color: hsl(var(--ink-soft)); font: 400 0.75rem/1.7 var(--font-sans); }
   [data-gallery-caption] { margin: 0; color: hsl(var(--ink-soft)); font: 400 0.8125rem/1.75 var(--font-sans); }
   @media (width < 30rem) {
     [data-gallery-dialog] { width: calc(100% - 1.5rem); max-height: calc(100dvh - 1.5rem); padding: 1rem; }

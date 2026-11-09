@@ -5,7 +5,10 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { getArchivePageUrl, getPaginationItems, PAGINATION_GAP } from '@/utils/pagination'
 
-import { ButtonLink, Icon, Link, Pagination } from '@santi020k/lumen-astro'
+import ButtonLink from '@santi020k/lumen-astro/components/ButtonLink'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Link from '@santi020k/lumen-astro/components/Link'
+import Pagination from '@santi020k/lumen-astro/components/Pagination'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
@@ -89,7 +92,7 @@ const nextUrl = currentPage < lastPage ? localizePath(getArchivePageUrl(baseUrl,
     container: split-pager / inline-size;
   }
 
-  :global([data-theme='dark']) [data-split-pager] {
+  :global([data-theme='santi020k-dark']) [data-split-pager] {
     --pager-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
   }
 

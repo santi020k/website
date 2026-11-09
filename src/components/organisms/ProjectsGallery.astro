@@ -5,13 +5,18 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import ProjectGalleryBody from '@/components/molecules/ProjectGalleryBody.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath, getTechnologySlug } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectPrimaryDestination } from '@/utils/project-destinations'
 import { getProjectDateRangeLabel, getProjectStatusLabel } from '@/utils/project-meta'
 
-import { ButtonLink, Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
+import ButtonLink from '@santi020k/lumen-astro/components/ButtonLink'
+import Card from '@santi020k/lumen-astro/components/Card'
+import CoverImage from '@santi020k/lumen-astro/components/CoverImage'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
@@ -25,7 +30,8 @@ interface Props {
   projects: CollectionEntry<'project'>[]
 }
 
-const { matchedTechnology, productFirst = false, projects } = Astro.props
+const { matchedTechnology, productFirst = false, projects: originalEntries } = Astro.props
+const projects = await Promise.all(originalEntries.map(entry => localizeProject(entry, locale)))
 const matchedSlug = matchedTechnology ? getTechnologySlug(matchedTechnology) : undefined
 
 const projectItems = projects.map(project => {
@@ -45,6 +51,7 @@ const projectItems = projects.map(project => {
     href: localizePath(getPortfolioPath(project.id), locale),
     status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
     technologies,
+    contentLocale: project.data.contentLocale,
     title: project.data.title
   }
 })
@@ -77,8 +84,8 @@ const projectItems = projects.map(project => {
             <span>{String(index + 1).padStart(2, '0')} / {project.dateRange}</span>
             <Pill label={localizeCollectionSource(locale, project.status)} tone="outline" />
           </div>
-          <h3 lang="en">{project.title}</h3>
-          <p lang="en">{project.cardDescription}</p>
+          <h3 lang={project.contentLocale}>{project.title}</h3>
+          <p lang={project.contentLocale}>{project.cardDescription}</p>
           {project.technologies.length > 0 && (
             <ul aria-label={project.hasMatch ? undefined : t('collection.coreTechnologies')} data-matched-stack={project.hasMatch ? '' : undefined}>
               {project.technologies.map((technology, technologyIndex) => (
@@ -155,10 +162,10 @@ const projectItems = projects.map(project => {
     color: color-mix(in srgb, hsl(var(--project-primary-readable)) 80%, hsl(var(--ink)));
   }
   :global([data-product-first]):focus-within h3 { color: hsl(var(--project-primary-readable)); }
-  :global([data-theme='dark']) [data-project-destinations] :global(a:is(:hover, :focus-visible)) {
+  :global([data-theme='santi020k-dark']) [data-project-destinations] :global(a:is(:hover, :focus-visible)) {
     color: color-mix(in srgb, hsl(var(--project-primary-readable-dark)) 80%, hsl(var(--ink)));
   }
-  :global([data-theme='dark'] [data-product-first]):focus-within h3 { color: hsl(var(--project-primary-readable-dark)); }
+  :global([data-theme='santi020k-dark'] [data-product-first]):focus-within h3 { color: hsl(var(--project-primary-readable-dark)); }
   [data-project-destinations] :global(a:focus-visible) {
     outline: 2px solid hsl(var(--accent));
     outline-offset: 4px;
@@ -189,5 +196,5 @@ const projectItems = projects.map(project => {
   }
   [data-technology-match] :global([data-slot='icon']) { flex-shrink: 0; }
   [data-technology-match] > span:last-child { min-width: 0; overflow-wrap: anywhere; }
-  :global([data-theme='dark']) [data-technology-match] { color: hsl(var(--ink)); }
+  :global([data-theme='santi020k-dark']) [data-technology-match] { color: hsl(var(--ink)); }
 </style>

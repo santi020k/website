@@ -1,5 +1,6 @@
 ---
-import { Card, Icon } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 interface Props {
   label: string
@@ -34,7 +35,7 @@ const { label, title } = Astro.props
     overflow: hidden;
     overflow-wrap: break-word;
   }
-  :global([data-theme='dark']) [data-policy-contact] { --policy-contact-emphasis: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  :global([data-theme='santi020k-dark']) [data-policy-contact] { --policy-contact-emphasis: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
   [data-policy-contact-label] {
     display: flex;
     align-items: center;

@@ -1,6 +1,9 @@
 /* Astro may link this file before the Base bundle. Declaring Lumen's layer order first keeps
  * the `utilities.prose` sublayer below from creating `utilities` ahead of the base layers. */
-@import "@santi020k/lumen/layers.css";
+@import "@santi020k/lumen-astro/layers.css";
+/* Rehype emits these controls without mounting their Astro components. */
+@import "@santi020k/lumen-astro/styles/components/code-tabs.css";
+@import "@santi020k/lumen-astro/styles/components/table.css";
 
 @reference "./global.css";
 
@@ -262,6 +265,9 @@
       border-radius: 0.375rem 1.625rem 1.625rem 1.625rem;
       box-shadow: none;
     }
+
+    /* Pair Shiki's syntax colors with their intended surface in both themes. */
+    & [data-article-code-folio] pre { --ui-code-bg: var(--shiki-light-bg, hsl(var(--surface))); }
 
     @variant dark {
       & [data-article-code-folio] { --folio-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }

@@ -1,0 +1,82 @@
+@reference "../global.css";
+
+[data-country-notebook] {
+  container: country-notebook / inline-size;
+}
+
+[data-country-notebook] [data-country-spread] {
+  max-width: 72rem;
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  gap: 4rem;
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid hsl(var(--line) / .65);
+}
+
+[data-country-notebook] h2 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -.05em;
+}
+
+[data-country-places] .editorial-eyebrow { margin-bottom: 1rem; }
+[data-country-places] > ul { margin-top: 2rem; }
+[data-country-places] li {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 1rem;
+  border-bottom: 1px solid hsl(var(--line) / .65);
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+[data-country-places] li > span { color: hsl(var(--brand)); font-size: .75rem; }
+[data-country-places] > p:not(.editorial-eyebrow) { margin-top: 1.5rem; }
+
+[data-country-scorecard] {
+  overflow: hidden;
+  border: 1px solid hsl(var(--line) / .65);
+  border-radius: .375rem 2rem;
+  background: hsl(var(--surface));
+}
+[data-country-scorecard] > header { padding: 2rem; background: hsl(var(--brand-soft)); }
+[data-country-scorecard] > header > p { margin-top: .75rem; }
+[data-country-scorecard] > dl { padding: .5rem 2rem; }
+[data-country-scorecard] dl > div { display: grid; gap: .5rem; padding-block: 1.5rem; }
+[data-country-scorecard] dl > div + div { border-top: 1px solid hsl(var(--line) / .65); }
+[data-country-scorecard] dt { color: hsl(var(--ink-soft)); font-size: .8125rem; line-height: 1.6; }
+[data-country-scorecard] dd { font-size: 1.125rem; line-height: 1.5; }
+[data-country-score][data-rated="true"] { color: hsl(var(--brand)); font-size: 2.5rem; font-weight: 500; }
+
+[data-country-notebook] :is([data-country-places] > p, [data-country-scorecard] header > p, [data-country-empty] > p) {
+  color: hsl(var(--ink-soft));
+  font-size: .9375rem;
+  line-height: 1.85;
+}
+[data-country-notebook] :is([data-country-summary], [data-country-highlights], [data-country-narrative], [data-country-empty]) { margin-top: 2.5rem; }
+[data-country-summary] { font-size: 1.1875rem; line-height: 1.8; }
+[data-country-language] { margin-top: 1.5rem; color: hsl(var(--ink-soft)); font-size: .8125rem; }
+[data-country-highlights] ul { display: grid; gap: .75rem; margin-top: 1.25rem; padding-left: 1.25rem; list-style: disc; color: hsl(var(--ink-soft)); line-height: 1.85; }
+[data-country-narrative] .prose-santi { margin-top: 1.5rem; }
+[data-country-empty] > p { margin-top: .75rem; }
+
+[data-theme="santi020k-dark"] [data-country-places] li > span,
+[data-theme="santi020k-dark"] [data-country-score][data-rated="true"] { color: hsl(var(--accent)); }
+
+@container country-notebook (width < 48rem) {
+  [data-country-notebook] [data-country-spread] { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; margin-top: 2rem; padding-top: 2rem; }
+}
+@container country-notebook (width < 24rem) {
+  [data-country-scorecard] > header { padding: 1.25rem; }
+  [data-country-scorecard] > dl { padding-inline: 1.25rem; }
+  [data-country-places] li { gap: .5rem; font-size: 1rem; }
+}
+@container country-notebook (width < 14rem) {
+  [data-country-notebook] h2 { font-size: 1.25rem; }
+  [data-country-scorecard] > header { padding: 1rem; }
+  [data-country-scorecard] > dl { padding-inline: 1rem; }
+  [data-country-places] li { grid-template-columns: minmax(0, 1fr); gap: .25rem; }
+}

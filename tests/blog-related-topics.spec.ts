@@ -9,7 +9,7 @@ for (const locale of ['en', 'es'] as const) {
   test(`${locale} articles lead the archive before pagination and related topics`, async ({ page, browserName }) => {
     for (const archive of [
       { path: 'wine', posts: 1, continuation: '[data-topic-guide-catalog]', middle: [] },
-      { path: 'developer-tools', posts: 2, continuation: '[data-topic-guide-catalog]', middle: [] },
+      { path: 'developer-tools', posts: 3, continuation: '[data-topic-guide-catalog]', middle: [] },
       { path: 'developer-experience', posts: 12, continuation: '[data-pager-number]', middle: ['data-split-pager'] },
       { path: 'developer-experience/2', posts: 4, continuation: '[data-pager-number]', middle: ['data-split-pager'] },
       { path: 'typescript/2', posts: 1, continuation: '[data-pager-number]', middle: ['data-split-pager'] }

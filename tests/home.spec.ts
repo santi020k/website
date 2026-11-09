@@ -67,9 +67,9 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
 
   await expect(themeToggle).toBeVisible()
   await themeToggle.click()
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'santi020k-dark')
   await themeToggle.click()
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'santi020k-light')
   await expect(
     page.locator('header').getByRole('link', { name: 'santi020k — Santiago Molina home' })
   ).toHaveAttribute('href', /^\/$/)

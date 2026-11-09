@@ -1,5 +1,6 @@
 ---
-import { Button, Icon } from '@santi020k/lumen-astro'
+import Button from '@santi020k/lumen-astro/components/Button'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale, sharedTranslator } from '@/i18n'
 
@@ -57,7 +58,7 @@ const t = sharedTranslator(locale)
     transition: color 180ms ease;
   }
 
-  :global(:root[data-theme='dark'] [data-article-print]) { --print-accent: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark'] [data-article-print]) { --print-accent: hsl(var(--accent)); }
   :global([data-article-print][hidden]) { display: none; }
   :global([data-article-print] .ui-button__content) { gap: .5rem; }
   [data-print-label] { min-width: 0; overflow-wrap: anywhere; }

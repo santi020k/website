@@ -3,7 +3,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Icon } from '@santi020k/lumen-astro'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale, localizePath } from '@/i18n'
 import { getDirectContactMessage } from '@/i18n/intake'
@@ -73,7 +73,7 @@ data-sent-fallback
     border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
     background: hsl(var(--surface));
   }
-  :global(:root[data-theme='dark']) [data-sent-fallback] { --sent-accent: var(--accent); }
+  :global(:root[data-theme='santi020k-dark']) [data-sent-fallback] { --sent-accent: var(--accent); }
   [data-sent-fallback] h2 { margin: 0; color: hsl(var(--ink)); font-size: 1.375rem; font-weight: 500; letter-spacing: -0.04em; }
   [data-sent-fallback] > p { margin: 0.5rem 0 1.25rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; }
   [data-sent-channels] { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 0.75rem; }

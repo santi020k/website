@@ -9,8 +9,8 @@ Publish one useful LinkedIn introduction per month, linking to the full website 
 three slots preserve the previously proposed articles. The remaining slots complete the original
 eight-topic plan without writing duplicate ecosystem or Quality articles.
 
-The queue contains ten distinct articles: four existing website articles and six unpublished drafts.
-The drafts include Smith API contracts, Astro Doctor, Void leadership, Lumen accessibility, React
+The queue contains ten distinct articles: four existing website articles, one article prepared for the next release, and five drafts.
+The drafts include Smith API contracts, Void leadership, Lumen accessibility, React
 interview practice, and a Theme retrospective. Each draft has a dedicated 1600 × 900 WebP cover.
 
 All dates below are proposals. The suggested LinkedIn time is **10:00 America/Bogota (15:00 UTC)**,
@@ -23,7 +23,7 @@ Draft frontmatter uses 09:00 local on the corresponding day as a provisional web
 | 3 Nov 2026 | [Code standards](../../src/content/post/2025/code-standards-that-scale-with-a-team/index.md) | Existing article |
 | 1 Dec 2026 | [Release process](../../src/content/post/2025/a-release-process-that-reduces-drama/index.md) | Existing article |
 | 5 Jan 2027 | [Smith: API contracts](../../src/content/post/2027/api-contracts-for-parallel-frontend-delivery/index.md) | Draft |
-| 2 Feb 2027 | [Astro Doctor: missing alt text](../../src/content/post/2027/a-successful-astro-build-can-still-miss-alt-text/index.md) | Draft |
+| 2 Feb 2027 | [Astro Doctor: missing alt text](../../src/content/post/2026/a-successful-astro-build-can-still-miss-alt-text/index.md) | Prepared for release |
 | 2 Mar 2027 | [Void: team handoffs](../../src/content/post/2027/making-team-handoffs-easier-to-finish/index.md) | Draft |
 | 6 Apr 2027 | [Lumen: dialog keyboard journey](../../src/content/post/2027/a-dialog-is-a-keyboard-journey/index.md) | Draft |
 | 4 May 2027 | [Quality: one command](../../src/content/post/2026/one-quality-command-across-polyglot-repositories/index.md) | Existing article |

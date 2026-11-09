@@ -2,16 +2,21 @@ import type { CollectionEntry } from 'astro:content'
 
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-const { posts, series } = vi.hoisted(() => ({
+const { posts, postTranslations, series } = vi.hoisted(() => ({
   posts: [] as CollectionEntry<'post'>[],
+  postTranslations: [] as CollectionEntry<'postTranslation'>[],
   series: [] as CollectionEntry<'series'>[]
 }))
 
 vi.mock('astro:content', () => ({
   getCollection: (
-    collection: 'post' | 'series',
-    filter?: (entry: CollectionEntry<'post'> | CollectionEntry<'series'>) => unknown
-  ) => Promise.resolve((collection === 'post' ? posts : series).filter(entry => !filter || filter(entry)))
+    collection: 'post' | 'postTranslation' | 'series',
+    filter?: (entry: CollectionEntry<'post' | 'postTranslation' | 'series'>) => unknown
+  ) => {
+    const entries = { post: posts, postTranslation: postTranslations, series }[collection]
+
+    return Promise.resolve(entries.filter(entry => !filter || filter(entry)))
+  }
 }))
 
 const makeSeries = (id: string, draft = false): CollectionEntry<'series'> => ({
@@ -32,6 +37,7 @@ const makePost = (id: string, seriesId: string, overrides: Partial<CollectionEnt
   collection: 'post',
   id,
   data: {
+    contentLocale: 'en',
     title: id,
     description: 'A series article.',
     publishDate: new Date('2026-01-01T00:00:00Z'),
@@ -51,6 +57,7 @@ describe('series publication and navigation', () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-10-16T00:00:00Z'))
     posts.length = 0
+    postTranslations.length = 0
     series.length = 0
   })
 
@@ -138,5 +145,24 @@ describe('series publication and navigation', () => {
     const { getSeriesSummaries } = await import('../series')
 
     expect(await getSeriesSummaries()).toMatchObject([{ postCount: 2, readingMinutes: 2 }])
+  })
+
+  test('uses translated chapter durations when available and keeps the original route entries', async () => {
+    const first = { ...makePost('first', 'public', { seriesOrder: 1 }), body: 'word '.repeat(199) }
+    const second = { ...makePost('second', 'public', { seriesOrder: 2 }), body: 'word '.repeat(201) }
+
+    series.push(makeSeries('public'))
+    posts.push(first, second)
+    postTranslations.push({
+      collection: 'postTranslation',
+      id: first.id,
+      body: 'palabra '.repeat(401),
+      data: { title: 'Primer capítulo', description: 'Un artículo de la serie.' }
+    })
+
+    const { getSeriesSummaries } = await import('../series')
+
+    expect(await getSeriesSummaries()).toMatchObject([{ posts: [first, second], readingMinutes: 3 }])
+    expect(await getSeriesSummaries('es')).toMatchObject([{ posts: [first, second], readingMinutes: 5 }])
   })
 })

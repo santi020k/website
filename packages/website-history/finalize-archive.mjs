@@ -26,6 +26,17 @@ export const archiveUrl = (value, id) => {
 
 export const archiveOrigin = 'https://santi020k.com'
 
+/** Keep the skip link first in the keyboard order, followed by the archive notice.
+ * @param {string} html @param {string} notice
+ */
+export const addArchiveNotice = (html, notice) => {
+  const skipLink = /<a\b[^>]*\bhref=(["'])#main\1[^>]*>[\s\S]*?<\/a>/i
+
+  if (!skipLink.test(html)) throw new Error('Archive document is missing its skip link')
+
+  return html.replace(skipLink, link => `${link}${notice}`)
+}
+
 // Absolute and protocol-relative links to the production origin bypass local URL
 // scoping. Outside this archive they lead to another app, so they need a full load.
 /** @param {string} value @param {string} id */

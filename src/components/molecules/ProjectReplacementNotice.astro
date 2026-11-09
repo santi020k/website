@@ -1,7 +1,14 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { Callout, Link } from '@santi020k/lumen-astro'
+import Callout from '@santi020k/lumen-astro/components/Callout'
+import Link from '@santi020k/lumen-astro/components/Link'
+
+import { getLocale, localizePath } from '@/i18n'
+import { projectStoryTranslator } from '@/i18n/project-story'
+
+const locale = getLocale(Astro.url.pathname)
+const t = projectStoryTranslator(locale)
 
 interface Props {
   currentPackage: string
@@ -15,21 +22,21 @@ const scope = replacementPackage.slice(0, separator)
 const name = replacementPackage.slice(separator)
 ---
 
-<Callout aria-label="This library has been superseded." class="not-prose" data-project-replacement>
+<Callout aria-label={t('replacement.superseded')} class="not-prose" data-project-replacement>
   <div data-replacement-spread>
     <div data-replacement-context>
-      <p data-replacement-title>This library has been superseded.</p>
+      <p data-replacement-title>{t('replacement.superseded')}</p>
       <p><code>{currentPackage}</code></p>
     </div>
     <Link
-      href={href}
+      href={localizePath(href, locale)}
       variant="inherit"
       data-replacement-destination
     >
-      <span data-replacement-label>Use for new projects</span>
+      <span data-replacement-label>{t('replacement.useForNewProjects')}</span>
       <code data-replacement-name>{scope && <span data-replacement-scope>{scope}</span>}{name}</code>
       <span data-replacement-action>
-        <span>Explore the replacement</span>
+        <span>{t('replacement.explore')}</span>
         <span data-replacement-arrow><ArrowExchange
 direction="up-right"
 class="size-5"
@@ -55,7 +62,7 @@ class="size-5"
     box-shadow: none;
   }
 
-  :global(:root[data-theme='dark'] [data-project-replacement]) {
+  :global(:root[data-theme='santi020k-dark'] [data-project-replacement]) {
     --replacement-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
   }
 

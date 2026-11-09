@@ -4,15 +4,17 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getFormattedDate } from '@/utils/date'
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
-import { Card, Timeline } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Timeline from '@santi020k/lumen-astro/components/Timeline'
 
 import { getLocale, localizePath } from '@/i18n'
-import { collectionTranslator } from '@/i18n/collection-copy'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
@@ -21,7 +23,8 @@ interface Props {
   projects: CollectionEntry<'project'>[]
 }
 
-const { projects } = Astro.props
+const { projects: originalEntries } = Astro.props
+const projects = await Promise.all(originalEntries.map(entry => localizeProject(entry, locale)))
 
 const careerItems = projects.map((project, index) => ({
   brand: project.data.brand,
@@ -36,7 +39,7 @@ const careerItems = projects.map((project, index) => ({
   logo: project.data.coverImage?.logo,
   logoAspect: project.data.coverImage?.logoAspect ?? 'square',
   logoSurface: project.data.coverImage?.logoSurface ?? 'dark',
-  role: project.data.role ?? t('collection.engineer'),
+  role: project.data.role ? localizeCollectionSource(locale, project.data.role) : t('collection.engineer'),
   startDate: project.data.startingDate.toISOString().slice(0, 10),
   startMonth: getFormattedDate(project.data.startingDate, { day: undefined, month: 'short', year: undefined }, locale === 'es' ? 'es-419' : 'en-US'),
   startYear: getFormattedDate(project.data.startingDate, { day: undefined, month: undefined, year: 'numeric' }),
@@ -99,8 +102,8 @@ class="size-4"
     padding: 0;
     list-style: none;
   }
-  :global(:root[data-theme='dark']) [data-career-timeline] { --career-emphasis: var(--accent); }
-  :global(:root[data-theme='dark']) [data-career-action] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global(:root[data-theme='santi020k-dark']) [data-career-timeline] { --career-emphasis: var(--accent); }
+  :global(:root[data-theme='santi020k-dark']) [data-career-action] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
   [data-career-row] {
     --career-project-ink: var(--project-primary-readable);
     --career-rail-x: 7.125rem;
@@ -111,7 +114,7 @@ class="size-4"
     --career-next-node-y: calc(var(--career-full-year-size) * 0.6);
   }
   [data-career-row]:has(+ [data-career-density='compact']) { --career-next-node-y: calc(var(--career-compact-year-size) * 0.6); }
-  :global(:root[data-theme='dark']) [data-career-row] { --career-project-ink: var(--project-primary-readable-dark); }
+  :global(:root[data-theme='santi020k-dark']) [data-career-row] { --career-project-ink: var(--project-primary-readable-dark); }
   [data-career-link] {
     position: relative;
     display: grid;
@@ -166,6 +169,7 @@ class="size-4"
     line-height: 1.667;
   }
   [data-career-start] { display: flex; flex-direction: column; gap: 0.3125rem; }
+  [data-career-end] time { display: inline-block; }
   [data-career-year] {
     order: -1;
     color: hsl(var(--career-emphasis));

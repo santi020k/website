@@ -1,12 +1,14 @@
 # Travel notebook
 
 The `/travel/` page uses the destinations and country visit counts supplied by Santiago on
-October 6, 2026. Edit `src/data/travel.ts` for country names, places, visits, and residence labels.
+October 6, 2026, with Colombia's places and personal notes added from his answers on November 9, 2026.
+Edit `src/data/travel.ts` for country names, places, visits, and residence labels.
 Edit `src/components/pages/travel/TravelMap.astro` for the hero copy and
 `src/pages/travel.astro` for the personal story.
 
 There are 14 countries visited outside Colombia and 29 country visits. Colombia is the home
-country, with no invented visit count. Paraguay has seven visits and a separate residence label.
+country, with no invented visit count. Medellín is where Santiago lives; Colombia's place list is
+explicitly partial. Paraguay has seven visits and a separate residence label.
 Mexico's list is explicitly partial. Patagonia remains a region. Columbus and Iguazu retain the
 names supplied without inferring a state, exact city, or coordinates. The map highlights countries;
 it does not imply that a country-level count applies to each city.
@@ -14,6 +16,62 @@ it does not imply that a country-level count applies to each city.
 Dates, trip order, lengths of stay, photos, and claims about working in particular countries have
 not been supplied. Add these only when confirmed. The current page is a geographic notebook rather
 than a chronological itinerary.
+
+## Country pages and personal scores
+
+Each notebook entry has a page at `/travel/<country>/` and the matching Spanish interface at
+`/es/travel/<country>/`. The country links in the travel notebook open these pages. Confirmed places,
+visit counts, and home or residence labels still come from `src/data/travel.ts`; do not copy those
+facts into the country files. The files below hold only Santiago's personal experience.
+
+Edit the Markdown source files to fill the notebook. There is no browser form or account to save
+changes. Use this checklist to open a country's file, add the details you remember, and preview
+the result with `pnpm run dev`:
+
+- [x] [Colombia](../../src/content/country/colombia.md)
+- [ ] [United States](../../src/content/country/united-states.md)
+- [ ] [Mexico](../../src/content/country/mexico.md)
+- [ ] [Guatemala](../../src/content/country/guatemala.md)
+- [ ] [Panama](../../src/content/country/panama.md)
+- [ ] [Ecuador](../../src/content/country/ecuador.md)
+- [ ] [Peru](../../src/content/country/peru.md)
+- [ ] [Brazil](../../src/content/country/brazil.md)
+- [ ] [Chile](../../src/content/country/chile.md)
+- [ ] [Paraguay](../../src/content/country/paraguay.md)
+- [ ] [Uruguay](../../src/content/country/uruguay.md)
+- [ ] [Argentina](../../src/content/country/argentina.md)
+- [ ] [Spain](../../src/content/country/spain.md)
+- [ ] [France](../../src/content/country/france.md)
+- [ ] [Japan](../../src/content/country/japan.md)
+
+Personal fields start unanswered and are filled from Santiago's own answers. The shared schema in `src/data/travel-notes-schema.ts`
+validates both the Astro `country` collection and `pnpm run lint:content`.
+
+| Field | What to fill in |
+| --- | --- |
+| `code` | Keep the existing country code. It must match an entry in `src/data/travel.ts`. |
+| `score` | Your experience, from `0` to `10`; decimals such as `8.5` are allowed. Leave `null` until scored. Zero is a real score, not an empty answer. |
+| `summary` | A short personal explanation of the score or what stayed with you. Leave `''` until written. |
+| `visitedWhen` | Optional context in your own words, such as a remembered month or several trips. Leave `''` when unknown; do not infer dates from visit counts. |
+| `highlights` | A YAML list of your highlights. Keep `[]` until you have something to add; each item must contain text. |
+| `wouldReturn` | `yes`, `maybe`, or `no`; leave `null` when unanswered. These display as a personal return preference. |
+| `language` | `en` or `es`, matching the language of your summary, highlights, visit context, and narrative. |
+
+Write longer notes in Markdown after the closing `---`, replacing the authoring comment. Use
+third-level headings for sections beneath the page’s notes heading. Scores describe your own experience of the visits; they are
+not an objective assessment of an entire country. Keep unanswered details blank instead of
+creating sample experiences, dates, photographs, or a return preference.
+
+The page controls and country facts follow the selected interface language. Your authored notes
+retain their declared language; changing the interface does not translate or duplicate them.
+Pages without a personal summary remain reachable from the notebook but use `noindex, follow`
+and stay outside the sitemap. Once the summary is written, only the route matching `language`
+becomes indexable; its other-language interface remains `noindex, follow`. Country notes do not
+enter the blog feeds, the article body search index, or the existing title-only travel drafts.
+Run `pnpm run generate:og` after adding a summary or changing its language to refresh the country's
+share image and route metadata. The normal build also runs this generator automatically.
+These files are public-site source, not private drafts: `noindex` controls search discovery,
+not access. Changes appear on the deployed site only through its normal release workflow.
 
 ## Map hero interaction
 
@@ -89,9 +147,9 @@ published posts still require a valid cover.
 
 ## Map dependency and release boundary
 
-The page uses Lumen 4's public `WorldMap` component and
+The page uses Lumen 5's public `WorldMap` component and
 `@santi020k/lumen-core/world-map-data` export. The coordinated Astro, core, and umbrella
-catalog entries and registry lockfile pin `lumen` 4.2.0 and the Astro/core 4.1.0 packages. Normal development
+catalog entries and registry lockfile pin the three current-site packages to 5.0.0. Normal development
 and validation use the committed registry dependencies; local tarball paths must never
 enter a deployment or commit. Regenerate the CV PDFs and rerun the website gates whenever
 the coordinated packages change.

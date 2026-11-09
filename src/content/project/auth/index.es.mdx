@@ -1,0 +1,169 @@
+---
+title: "santi020k auth"
+description: "Creé una política de autenticación de código abierto para aplicaciones Hono de un propietario o múltiples usuarios en Cloudflare Workers y D1, con códigos por correo, passkeys, identidad aislada y controles explícitos de preparación para producción."
+cardDescription: "Bases de autenticación para Hono en Cloudflare: códigos por correo, passkeys y datos de identidad aislados, con controles de preparación explícitos."
+coverImage:
+  alt: "Símbolo de candado que representa autenticación aislada para aplicaciones Cloudflare"
+impactMetrics: ["Publiqué @santi020k/auth-cloudflare como paquete experimental de código abierto para aplicaciones Cloudflare de un propietario o múltiples usuarios", "Combina autenticación por códigos de correo y passkeys con controles de origen exacto, límites persistentes en D1 y cookies seguras en producción", "Mantiene aislados los usuarios, sesiones, secretos, migraciones, passkeys, políticas de recuperación y despliegues de cada consumidor"]
+caseStudy:
+  problem: "Varias aplicaciones necesitaban la misma política de autenticación cuidadosamente revisada sin compartir cuentas, credenciales ni responsabilidad operativa."
+  approach: "Extraer la política del protocolo a un adaptador acotado de Better Auth y mantener los datos, migraciones, secretos, orígenes, cookies, envío de correos, autorización y recuperación dentro de cada consumidor."
+  outcome: "Un paquete público experimental ofrece ahora una base consistente de autenticación para aplicaciones de un propietario o múltiples usuarios, con verificaciones explícitas de adopción y preparación para producción."
+focusAreas:
+  - label: "Política de acceso"
+    description: "Códigos por correo y passkeys para aplicaciones Hono"
+  - label: "Límites de identidad"
+    description: "Cuentas, sesiones y datos separados para cada producto"
+  - label: "Controles de adopción"
+    description: "Pruebas y verificaciones de recuperación antes de producción"
+closingLinkLabels: ["instalar el paquete desde npm"]
+relatedWritingLabels: ["Publicación de código abierto", "Ecosistema de herramientas"]
+---
+
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="auth" headingId="reusing-authentication-policy-without-sharing-accounts">
+
+## Reutilizar la política de autenticación sin compartir cuentas
+
+Creé `santi020k auth` para resolver un problema recurrente en mis aplicaciones Cloudflare: el trabajo del protocolo sensible para la seguridad era similar, pero los datos de identidad y las responsabilidades del producto debían mantenerse separados.
+
+El primer adaptador público, [`@santi020k/auth-cloudflare`](https://www.npmjs.com/package/@santi020k/auth-cloudflare), proporciona autenticación por códigos de correo y passkeys para aplicaciones Hono de un propietario o múltiples usuarios que se ejecutan en Cloudflare Workers y D1. El [repositorio del código](https://github.com/santi020k/auth) es abierto bajo la licencia MIT y el paquete está disponible como versión experimental `0.x`.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Funciones", href: "#what-i-built" },
+    { label: "Seguridad y disciplina de publicación", href: "#security-and-release-discipline" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="auth"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Reutilizar una política de autenticación revisada** sin crear un sistema de cuentas compartido entre productos.
+
+</li>
+
+<li>
+
+**Hacer explícito cada límite del navegador** mediante orígenes exactos de aplicación, prefijos de cookies e identificadores de parte autenticadora de WebAuthn.
+
+</li>
+
+<li>
+
+**Permitir revisar el comportamiento seguro** con pruebas de integración de D1, verificaciones del contrato del paquete, pruebas en navegador y controles documentados de adopción.
+
+</li>
+
+<li>
+
+**Permitir una migración gradual** mientras cada producto conserva su acceso y recuperación existentes hasta demostrar el nuevo flujo en su origen real.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Qué construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Una capa tipada de políticas de Better Auth"}>
+
+con políticas de un propietario y de pertenencia multiusuario gestionadas por la aplicación para Hono en Cloudflare Workers.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Autenticación por códigos de correo"}>
+
+con códigos almacenados mediante hash, vencimiento de diez minutos, intentos limitados de verificación y respuestas con apariencia de éxito que no revelan si una dirección está autorizada.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Compatibilidad con passkeys"}>
+
+que exige credenciales detectables y verificación del usuario para el nombre de host exacto de la aplicación.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Límites de solicitudes persistentes en D1"}>
+
+en lugar de memoria del entorno aislado que desaparece cuando se recicla un Worker.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Exportaciones de servidor, cliente del navegador, middleware de Hono y esquema"}>
+
+para que los consumidores integren el paquete sin acceder a módulos privados.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Un entorno local de pruebas y un sitio de documentación"}>
+
+para revisar el flujo completo, los límites de seguridad, los pasos de migración y el estado de la publicación.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### El contrato de aislamiento
+
+</ProjectSectionHeading>
+
+El paquete es responsable de la política del protocolo y del código de integración reutilizable. No es responsable de los usuarios de un producto.
+
+Cada aplicación consumidora conserva su propia base de datos D1, migraciones aditivas, secreto de autenticación, espacio de nombres de cookies, nombre de host, passkeys, envío de correos, reglas de autorización, proceso de recuperación y despliegue. Las sesiones nunca cruzan los límites de la aplicación y adoptar el paquete nunca convierte productos separados en una sola plataforma de identidad.
+
+<ProjectSectionHeading>
+
+### Seguridad y disciplina de publicación
+
+</ProjectSectionHeading>
+
+- **Solicitudes de origen exacto:** las solicitudes del navegador con credenciales solo se aceptan desde el origen configurado de la aplicación.
+- **Pertenencia vigente:** solo el propietario configurado o un correo aprobado por la política activa de pertenencia del consumidor puede crear o actualizar un usuario; las sesiones multiusuario y las operaciones autenticadas con passkeys vuelven a verificar el acceso para que una revocación no espere al vencimiento de la sesión.
+- **Transporte en producción:** los orígenes no locales requieren HTTPS y cookies seguras.
+- **Reporte privado de vulnerabilidades:** los reportes de seguridad siguen el canal privado documentado del repositorio, en lugar de incidencias públicas.
+- **Evidencia antes de la estabilidad:** las verificaciones del repositorio pueden demostrar el comportamiento del paquete, pero el envío real de correos, la recuperación, las migraciones y las passkeys aún deben verificarse en el origen de producción de cada consumidor.
+
+<ProjectSectionHeading>
+
+### Por qué importa
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Reutilizar autenticación se vuelve peligroso cuando compartir código se convierte silenciosamente en compartir datos de identidad."}>
+
+El límite más sólido es más acotado: estandarizar las decisiones del protocolo que deberían revisarse una vez y mantener a cada producto responsable de sus propios datos y de su recuperación operativa.
+
+</ProjectPrincipleClose>
+
+Eso es lo que ofrece `santi020k auth`. Es público para que la política y la implementación se puedan inspeccionar, probar y mejorar de forma abierta. Sigue siendo explícitamente experimental mientras los consumidores reales producen la evidencia necesaria para un contrato estable.

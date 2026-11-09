@@ -1,8 +1,8 @@
 ---
 title: "Migrate from ESLint 8 or Earlier to ESLint 9"
-description: "A practical guide to moving from ESLint 8 to flat config in ESLint 9, with a cleaner setup for React, Next.js, and TypeScript projects."
+description: "Migrate ESLint 8 to 9 by converting .eslintrc to eslint.config.js, moving ignore patterns, and checking the rules used by your files."
 publishDate: "2024-05-19T15:41:30.167Z"
-updatedDate: "2026-07-28T00:00:00.000Z"
+updatedDate: "2026-11-09"
 seoTitle: "ESLint 8 to 9 Migration Guide: Flat Config"
 tags: ["eslint", "typescript", "react", "nextjs", "migration"]
 coverImage:
@@ -12,6 +12,14 @@ postType: "Guide"
 seriesId: "eslint-in-practice"
 seriesOrder: 1
 ---
+
+To migrate from ESLint 8 to 9, move your `.eslintrc` settings into an `eslint.config.js` flat config. Convert
+plugin and parser references to imports, move ignore patterns into the config, and compare the effective rules
+for a few representative files before removing the legacy config.
+
+Start with [ESLint’s v9 migration notes](https://eslint.org/docs/latest/use/migrate-to-9.0.0) to check your Node
+version and plugin compatibility. If ESLint reports that it cannot find `eslint.config.js` after the upgrade,
+check that the command runs from the project with the new flat config and that CI uses the same setup.
 
 [Read the Previous Post: Authentication and Authorization in Next.js Applications with Supabase](/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)
 

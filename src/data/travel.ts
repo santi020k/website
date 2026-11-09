@@ -12,7 +12,14 @@ export type TravelCountry = TravelCountryDetails & (
 
 // Country-level visits supplied by Santiago. Dates and city-level counts are intentionally absent.
 export const travelCountries: readonly TravelCountry[] = [
-  { code: 'CO', name: 'Colombia', places: [], visits: null, connection: 'home' },
+  {
+    code: 'CO',
+    name: 'Colombia',
+    places: ['Medellín', 'Bogotá', 'Cali', 'Barranquilla', 'Cartagena', 'Pereira', 'Santa Marta', 'Pasto'],
+    visits: null,
+    connection: 'home',
+    note: 'Medellín is where I live. These are some of the places I have explored in Colombia; there are plenty more to add.'
+  },
   { code: 'US', name: 'United States', places: ['New York', 'Columbus'], visits: 2 },
   {
     code: 'MX',

@@ -142,6 +142,8 @@ const buildContentSitemapMetadata = () => {
 
   // Posts: src/content/post/**/<slug>(/index)?.md(x) -> /blog/<slug>/
   for (const file of walk(path.resolve('src/content/post'))) {
+    if (/\.es\.mdx?$/u.test(file)) continue
+
     try {
       const raw = fs.readFileSync(file, 'utf8')
       const match = frontmatterRegex.exec(raw)
@@ -193,6 +195,8 @@ const buildContentSitemapMetadata = () => {
 
   // Projects: src/content/project/<slug>(/index)?.md(x) -> /portfolio/<slug>/
   for (const file of walk(path.resolve('src/content/project'))) {
+    if (/\.es\.mdx?$/u.test(file)) continue
+
     try {
       const raw = fs.readFileSync(file, 'utf8')
       const match = frontmatterRegex.exec(raw)
@@ -247,7 +251,7 @@ export default defineConfig({
       filter: page => !page.endsWith('/offline/') &&
         !page.endsWith('/404/') &&
         !page.endsWith('/work-with-me/sent/') &&
-        !nonCanonicalPageUrls.has(canonicalContentURL(page)) &&
+        !nonCanonicalPageUrls.has(page) &&
         // Pages render first, so their robots directive decides: Spanish shells of English
         // articles and thin archives stay reachable without being submitted for indexing.
         !isNoindexBuiltPage(outDir, page),

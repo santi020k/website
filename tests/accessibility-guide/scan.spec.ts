@@ -9,7 +9,7 @@ for (const theme of ['light', 'dark']) {
     }, theme)
     await page.goto('/blog/playwright-accessibility-checks-that-teams-keep-running/')
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-    await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+    await expect(page.locator('html')).toHaveAttribute('data-theme', `santi020k-${theme}`)
     await page.evaluate(() => document.fonts.ready.then(() => undefined))
 
     const results = await new AxeBuilder({ page })

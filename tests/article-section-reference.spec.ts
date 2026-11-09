@@ -116,7 +116,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.addInitScript(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: undefined }))
     await page.goto('/blog/migrate-eslint-8-or-less-to-eslint-9/')
     await page.evaluate(scheme => {
-      document.documentElement.dataset.theme = scheme
+      document.documentElement.dataset.theme = `santi020k-${scheme}`
     }, theme)
     const rows = page.locator('[data-section-reference-row]')
 

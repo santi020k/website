@@ -1,0 +1,211 @@
+---
+title: "RoadScore"
+seoTitle: "RoadScore: juego de viajes por carretera sin conexión"
+description: "Creé un juego bilingüe de cartas para viajes que funciona sin conexión y convierte un teléfono manejado por un pasajero en marcador compartido, biblioteca de mazos y diario privado."
+cardDescription: "Un juego de cartas sin conexión para viajes: un teléfono de un pasajero se convierte en marcador compartido, biblioteca de mazos y diario privado."
+impactMetrics: ["Ofrece cientos de cartas bilingües en el Road Trip Mix gratuito para jugar sin conexión", "Admite viajes competitivos y cooperativos con límites configurables de cartas, puntos y tiempo", "Conserva pasajeros, puntuaciones, mazos propios, compras y los últimos 20 viajes en el dispositivo"]
+coverImage:
+  alt: "Logotipo de RoadScore sobre una portada geométrica gris carbón con detalles naranjas"
+focusAreas:
+  - label: "Juego compartido"
+    description: "Cartas bilingües y puntuaciones en un teléfono manejado por un pasajero"
+  - label: "Viajes flexibles"
+    description: "Partidas cooperativas o competitivas con objetivos configurables"
+  - label: "Biblioteca privada"
+    description: "Mazos sin conexión, favoritos y diario de viajes en el dispositivo"
+closingLinkLabels: ["Jugar RoadScore en el navegador"]
+relatedWritingLabels: ["Historia del producto"]
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectReleaseNote from '@/components/molecules/ProjectReleaseNote.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="roadscore" headingId="turning-the-miles-into-a-game">
+
+## Convertir los kilómetros en un juego
+
+RoadScore es un juego de cartas para viajes por carretera diseñado para compartir un solo teléfono. Un pasajero dirige el juego, quien conduce se concentra en la vía y todos en el carro tienen algo que observar, conversar o disputar.
+
+Creé el juego móvil, su servicio de catálogo de mazos y un sitio de presentación bilingüe como un monorepo de pnpm. RoadScore se puede jugar en el navegador y está disponible para Android en [Google Play](https://play.google.com/store/apps/details?id=com.santi020k.roadscore). La versión para iPhone y iPad sigue en preparación.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Funciones", href: "#what-i-built" },
+    { label: "Aspectos técnicos", href: "#technical-highlights" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="roadscore"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Hacer social el tiempo en carretera** sin exigir a cada pasajero instalar una aplicación ni crear una cuenta.
+
+</li>
+
+<li>
+
+**Funcionar sin conexión por defecto** para que perder la señal nunca termine el viaje.
+
+</li>
+
+<li>
+
+**Proteger la atención de quien conduce** asignando el control al copiloto o a otro pasajero fijo.
+
+</li>
+
+<li>
+
+**Adaptarse a distintos grupos** con contenido bilingüe, mazos personalizados, modalidades flexibles y consentimiento previo para contenido adulto.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Qué construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Un Road Trip Mix gratuito y completo"}>
+
+con cientos de cartas en inglés y español de trivia, observación, conversaciones, desafíos y actividades.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Partidas de viaje flexibles"}>
+
+con modalidades equilibrada, rápida, panorámica, de conversación y caos; juego competitivo o cooperativo; y límites opcionales de cartas, puntos o tiempo.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Puntuación rápida en un teléfono compartido"}>
+
+con lector de cartas rotativo, desafíos guardados, corrección de puntuaciones, clasificación en vivo y alternativas accesibles a los gestos.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Personalización privada"}>
+
+para favoritos, cartas ocultas, importación y exportación de mazos propios y un diario local de 20 viajes con revanchas.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Mazos premium opcionales"}>
+
+con restauración de compras de cada plataforma y consentimiento separado para contenido Adults Only.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Un proceso de catálogo versionado"}>
+
+que publica instantáneas de mazos inmutables y validadas, mientras los dispositivos conservan sin conexión su último catálogo válido.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Móvil</dt>
+  <dd>
+
+`Expo`, `React Native`, `Expo Router`, `TypeScript`, `Zustand` y componentes React Native de Lumen.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Web</dt>
+  <dd>
+
+`Astro`, contenido estático bilingüe, una versión para navegador sin instalación y componentes web de Lumen.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Servicios</dt>
+  <dd>
+
+`Hono`, `Cloudflare Workers`, `D1`, acceso firmado del propietario y contratos Zod compartidos.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Entrega</dt>
+  <dd>
+
+`Turborepo`, `pnpm`, EAS, GitHub Actions, generación determinista de catálogos y una verificación amplia previa a publicación.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Límites de privacidad y seguridad
+
+</ProjectSectionHeading>
+
+RoadScore no necesita una cuenta ni un servicio de analítica. Los pasajeros, las puntuaciones, el historial de viajes, los mazos propios y el estado de las compras permanecen en el dispositivo. El servicio de catálogo no recibe datos del juego ni identificadores del dispositivo; solo devuelve el mismo catálogo publicado a cada jugador.
+
+El juego también expresa su regla más importante con claridad: RoadScore debe manejarlo un pasajero. Quien conduce nunca debe manipular el teléfono mientras el vehículo está en movimiento.
+
+<ProjectSectionHeading>
+
+### Estado actual del lanzamiento
+
+</ProjectSectionHeading>
+
+<ProjectReleaseNote
+  labelledBy="current-launch-state"
+  states={[
+    {
+      label: "Disponible ahora",
+      title: "Navegador y Android",
+      description: "El sitio de producción, el servicio de catálogo y el juego web están desplegados. La aplicación Android tiene una ficha pública en Google Play.",
+      link: { label: "Jugar RoadScore en el navegador", href: "https://roadscore.santi020k.com/app/" }
+    },
+    {
+      label: "En preparación",
+      title: "iPhone y iPad",
+      description: "La publicación en Apple sigue su propio proceso de pruebas y revisión de la App Store. El sitio del producto mantiene esta plataforma marcada como próximamente.",
+      link: { label: "Consultar la disponibilidad de RoadScore", href: "https://roadscore.santi020k.com/" }
+    }
+  ]}
+/>

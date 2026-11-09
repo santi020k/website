@@ -17,6 +17,8 @@
  */
 import { type CollectionEntry, getCollection } from 'astro:content'
 
+import { stripLocale } from '../i18n'
+
 import { getPostPath } from './links'
 import { assertUniquePostPaths } from './posts'
 
@@ -75,14 +77,17 @@ export const getProjectWriting = async (selections: CollectionEntry<'project'>['
   })
 }
 
-/** Compare reading destinations without tracking parameters, fragments, or trailing slashes. */
+/** Compare reading destinations without tracking metadata or same-site locale prefixes. */
 const readingDestination = (href: string): string | undefined => {
   try {
-    const url = new URL(href, import.meta.env.SITE)
+    const site = new URL(import.meta.env.SITE)
+    const url = new URL(href, site)
 
     if (url.protocol !== 'https:' && url.protocol !== 'http:') return
 
-    return url.origin + decodeURIComponent(url.pathname).replace(/\/+$/u, '')
+    const pathname = decodeURIComponent(url.pathname)
+
+    return url.origin + (url.origin === site.origin ? stripLocale(pathname) : pathname).replace(/\/+$/u, '')
   } catch {
     return undefined
   }

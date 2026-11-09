@@ -72,7 +72,7 @@ for (const theme of ['light', 'dark'] as const) {
       for (const invitation of invitations) {
         test(`${invitation.route} keeps normal-size contact text readable`, async ({ page }) => {
           await page.goto(invitation.route)
-          await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+          await expect(page.locator('html')).toHaveAttribute('data-theme', `santi020k-${theme}`)
           await page.evaluate(() => document.fonts.ready)
           const panel = page.getByRole('region', { name: invitation.title })
           await expect(panel.locator('[data-policy-contact-label] p')).toHaveCSS('font-size', '12px')

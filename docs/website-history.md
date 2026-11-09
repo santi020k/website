@@ -72,22 +72,30 @@ layouts are outside the rendered archive: its routes cover the homepage,
 portfolio, technologies, and error page.
 
 Accessibility maintenance also preserves readable project content with enlarged
-text. V1 portfolio tabs and project card labels wrap within the available width.
+text. V1 long words, homepage labels, footer text, portfolio tabs, and project card labels wrap
+within the available width.
 V1 project badges wrap and use valid Tailwind v4 color tokens; v3 project pills, action labels, metadata and prose fit their reading column. Header controls
 in v2 and v3 reflow when their enlarged contents no longer fit one row. These
 repairs keep each era's content and visual identity rather than applying the
 current website's editorial layout to historical pages.
 
 Utility controls follow the same rule. The archive notice uses relative text and
-wrapping links, and stays in normal flow without JavaScript. On archive pages only,
-`packages/website-history/archive-banner.js`, copied into each archive, measures
-it with `ResizeObserver` and sets
-`data-website-archive-ready` plus `--website-archive-banner-height` on `<html>`;
-that pins the notice (at most 45dvh, scrolling vertically) and reserves its real
-height for body padding, `scroll-padding-bottom` and `#back-to-top`. Astro client
-navigation remeasures the new notice. Keyboard focus scrolling accounts for the
-fixed notice and header after lazy content layout settles. Pointer focus and
-fixed controls retain their own behavior. Hidden v2/v3 back-to-top buttons are `inert`;
+wrapping links in normal document flow, after the skip link and above archived
+navigation. It scrolls away with the page and works without JavaScript. It always
+links to the current homepage and website history, and adds a current-page link
+when an equivalent route exists. Home and utility pages omit that redundant link.
+The neutral toolbar separates its archive label, version badge, date, and muted
+supporting copy. The current-page link is the primary action, or the homepage when
+there is no distinct current route. Secondary links remain quieter. On phones,
+three-action notices place the primary link above the secondary links; enlarged
+text can stack them further. System colors keep this shared wrapper independent
+of each era's palette, with visible focus and at least 44px action targets.
+V1's mobile header uses sticky positioning below the notice while retaining its
+original content spacing. While its full-screen menu is open, the header returns
+to the viewport top so it cannot cover the centered menu links. On archive pages only,
+`packages/website-history/archive-banner.js` keeps keyboard focus clear of sticky
+navigation after lazy content layout settles. Pointer focus and fixed controls
+retain their own behavior. Hidden v2/v3 back-to-top buttons are `inert`;
 activating one from the keyboard moves focus to `#main`. The v3 footer directory and
 v2 contact rows choose columns from their own container width, and v2's copy-email
 button reports success or failure in a polite status message.
@@ -119,8 +127,8 @@ Archive builds use Astro's `/vN/` base for generated assets. The shared build ho
 prefixes historical root-relative navigation, media, CSS URLs, and search indexes.
 It marks absolute same-origin links leaving an archive for a full document load,
 including the v4 footer wordmark, so another app never inherits its script state.
-Assembly adds a persistent archive notice with full-document links to `/history/`
-and the current equivalent route. When that route does not exist, it links to `/`.
+Assembly adds the top archive notice with full-document links to `/history/`, `/`,
+and the current equivalent route when it exists.
 The current service worker bypasses all `/vN` namespaces, including assets.
 
 Every archive HTML document has `noindex, follow`. Assembly also adds

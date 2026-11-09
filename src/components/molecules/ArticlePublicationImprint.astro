@@ -3,7 +3,7 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import type { getPublicationImprint } from '@/utils/article-publication'
 
-import { Link } from '@santi020k/lumen-astro'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getLocale, sharedTranslator } from '@/i18n'
 
@@ -46,7 +46,7 @@ const t = sharedTranslator(locale)
     color: hsl(var(--ink));
   }
 
-  :global(:root[data-theme='dark']) [data-article-publication] {
+  :global(:root[data-theme='santi020k-dark']) [data-article-publication] {
     --publication-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
   }
 

@@ -1,7 +1,9 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
+import ButtonLink from '@santi020k/lumen-astro/components/ButtonLink'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 import type { LumenIconName } from '@santi020k/lumen-core'
 
 interface Props {
@@ -45,7 +47,7 @@ const { body, category, href, icon, linkLabel, title } = Astro.props
     color: hsl(var(--ink));
     overflow-wrap: break-word;
   }
-  :global([data-theme='dark']) [data-shipped-system] { --system-emphasis: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  :global([data-theme='santi020k-dark']) [data-shipped-system] { --system-emphasis: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
   [data-system-heading] {
     padding: 1.5rem 1.375rem 1.25rem;
     border-radius: 1.6875rem 1.6875rem 0 0;

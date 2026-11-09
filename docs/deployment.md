@@ -93,13 +93,14 @@ triggers or shared deploy-hook secrets requires separate authorization.
 
 The site uses GitHub Flow and has one production branch:
 
-1. Create a feature or fix branch from `main`.
-2. Open a pull request into `main`. GitHub Actions validates the pull request:
+1. Create a feature or fix branch from the active release branch. Use `main` for standalone work.
+2. Integrate finished work into the release branch and open its pull request into `main`.
+   GitHub Actions validates the pull request:
    - Astro Doctor
    - lint, Astro type-check, Markdown/content checks, and spellcheck
    - dependency audit and unit tests
    - production build, stable Chromium E2E, and Lighthouse assertions
-   The checks share one path-aware runner and one dependency installation.
+   Path filters select the required jobs. The browser and Lighthouse jobs reuse the production build.
 3. Merge the approved pull request once. Cloudflare Pages deploys `main`;
    GitHub Actions does not repeat the pull-request suite after the merge.
 4. Confirm the Cloudflare Pages production deployment completed successfully.
@@ -114,9 +115,9 @@ The site uses GitHub Flow and has one production branch:
    - `/offline/`
 
 Protect `main` in the GitHub repository settings. Require a pull request and the
-`Quality gate` status check before merging. Routine changes use feature or fix
-branches; the next release is being consolidated on `release/v5.0.0`. Merge its
-reviewed pull request once into `main`, using the same production checks.
+`Quality gate` status check before merging. The
+[release checklist](release-checklist.md) names the active branch and the checks
+required for its pull request.
 
 Website versions and GitHub Releases are managed with Changesets:
 
@@ -171,39 +172,28 @@ browser dependency installation, with a 40-minute limit on the test step.
 
 ## Current release integration
 
-`release/v5.0.0` consolidates the unpublished v4.1 work as a new editorial design
-generation. The published v4.0.0 site is preserved at `/v4/`, alongside the earlier
-archives. Existing source checkouts remain intact until their work is
-integrated and their owners finish. Public page URLs and content collections are
-retained; no visitor migration is required.
+`release/v5.2.0` builds on v5.1.0. The current site uses published Lumen 5 packages
+and the santi020k theme. The historical sites retain their pinned Lumen versions,
+including Lumen 4.4.0 where applicable. Install from the committed lockfile using
+Node 24 and the pnpm version in `package.json`. Regenerate social cards and résumé
+downloads when their inputs change.
 
-The [release checklist](release-checklist.md) lists the remaining publication gates. The
-[v5.0.0 readiness record](archive/v5-release-readiness.md) keeps the detailed integration and
-validation history.
+Commit finished work into the active release branch and validate the integrated
+revision. Check worktree status, commit ancestry and the resulting behavior before
+bringing over older changes. Preserve source checkouts until their owners finish.
+Delete a remote source branch only after confirming its intended work is in the
+release and accounting for any open pull request.
 
-The candidate uses the published Lumen 4 registry packages pinned in the workspace catalog. Install the committed
-lockfile with the pinned pnpm version, regenerate CV downloads after dependency or design
-changes, and run the release gates. `preview:lumen:v4` remains available for future local
-library evaluation; never commit its temporary overrides or local tarball paths.
-
-Finished task changes must be committed into `release/v5.0.0` and validated on the
-integrated revision. Inspect worktree status and commit ancestry before carrying
-forward older edits: already-integrated copies and superseded local preview
-overrides must not overwrite the current release. Preserve dirty source checkouts
-until their owners finish. Delete a remote source branch only after its intended
-work is proven contained in the release and its open pull request is accounted for.
-
-Before the first push or pull request, independently review the complete v5 diff
-against `main` and address findings. Publishing remains the existing GitHub
+Before the first push or pull request, independently review the complete release
+diff against `main` and address findings. Publishing follows the GitHub
 Actions and Cloudflare Pages workflow from the reviewed, merged `main` commit.
 Use the rollback procedure below if production smoke checks fail.
 
 ## Pre-release local validation
 
-Two tiers, picked by intent:
-
 - `pnpm run verify:fast` — lint, Astro type-check, content checks, unit tests, and a build. Runs on `pre-push` to keep daily pushes fast.
-- `pnpm run verify:full` (alias of `ci:verify`) — everything `verify:fast` does, plus coverage, Lighthouse CI, and stable Playwright. Run before manual releases or large changes.
+- `pnpm run ci:verify` — runs `verify:full`, including coverage, the production
+  build, Lighthouse CI and stable Chromium. Run on the final release revision.
 - `pnpm run audit` — audits production and development dependencies at moderate
   severity without a vulnerability allowlist. Any exception must document its
   exact dependency path, exposure boundary, and removal condition.
@@ -240,6 +230,13 @@ running and select an unused port for the gate, for example:
 PW_PREVIEW_PORT=4460 pnpm run ci:verify
 ```
 
+For local cross-browser checks against the same build, use the Playwright matrix:
+
+```bash
+CI=1 SKIP_BUILD=1 pnpm exec playwright test --project=firefox --project=webkit \
+  --project='Mobile Chrome' --project='Mobile Safari' --reporter=line
+```
+
 Astro also allows one preview server per checkout. Stop only your own completed
 verification preview before starting the gate; an unrelated active preview must
 remain intact. Do not relax server isolation to make the tests run.
@@ -252,9 +249,12 @@ mix another run's results.
 
 If a production regression is detected:
 
-1. Promote or redeploy the previous healthy build from your host’s dashboard or pipeline.
-2. Alternatively revert the offending commit and redeploy.
-3. Re-run smoke checks on the same key routes.
+1. Promote the previous healthy Cloudflare Pages production deployment. For a
+   regression in v5.2.0, use the verified v5.1.0 deployment.
+2. Re-run the release smoke checks against the restored deployment.
+3. Prepare a revert or fix through a reviewed pull request and validate the
+   resulting production deployment. Preserve any published version tag and use a
+   new version for the corrected release.
 4. Document the cause and follow-up in the incident notes.
 
 ## Build-time environment variables (Webmentions)

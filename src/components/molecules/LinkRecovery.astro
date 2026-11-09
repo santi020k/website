@@ -1,5 +1,5 @@
 ---
-import { Textarea } from '@santi020k/lumen-astro'
+import Textarea from '@santi020k/lumen-astro/components/Textarea'
 
 import { getLocale, localeLanguage, sharedTranslator } from '@/i18n'
 
@@ -69,7 +69,7 @@ role="status"
     color: hsl(var(--ink));
   }
 
-  :global(:root[data-theme='dark']) [data-link-recovery] { --link-recovery-accent: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) [data-link-recovery] { --link-recovery-accent: hsl(var(--accent)); }
   [data-link-recovery][hidden] { display: none; }
   [data-link-recovery] p { margin: 0 0 .5rem; font: 500 .875rem/1.6 var(--font-sans); }
   [data-link-recovery] label { display: block; margin-bottom: .625rem; color: hsl(var(--ink-soft)); font: 400 .8125rem/1.6 var(--font-sans); }

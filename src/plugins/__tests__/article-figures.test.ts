@@ -61,6 +61,15 @@ describe('article Caption spread figures', () => {
     expect(transform([image()]).children[0]).toMatchObject({ children: [expect.anything(), { children: [expect.anything(), { children: [{ value: '01' }] }] }] })
   })
 
+  test('labels translated figures in Spanish while retaining authored captions', () => {
+    const tree = transform([image('Mapa de la configuración.')], '/repo/src/content/post/2024/example/index.es.md')
+    const figure = tree.children[0]
+
+    if (figure?.type !== 'element') throw new TypeError('Expected a figure')
+
+    expect(textContent(figure)).toContain('Figura 1Mapa de la configuración.')
+  })
+
   test('shares ordered captions with the layout for Markdown and MDX without changing asset paths', () => {
     for (const extension of ['md', 'mdx']) {
       const captions: string[] = []

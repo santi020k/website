@@ -1,5 +1,6 @@
 ---
-import { Card, RevealGroup } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import RevealGroup from '@santi020k/lumen-astro/components/RevealGroup'
 
 interface Props {
   sections: readonly {
@@ -37,7 +38,7 @@ const { sections } = Astro.props
     background: hsl(var(--surface));
     color: hsl(var(--ink));
   }
-  :global([data-theme='dark']) [data-policy-card] { --policy-emphasis: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-policy-card] { --policy-emphasis: hsl(var(--accent)); }
   [data-policy-row] {
     display: grid;
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);

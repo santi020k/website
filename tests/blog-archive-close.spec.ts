@@ -12,7 +12,7 @@ for (const locale of ['en', 'es'] as const) {
       const close = page.locator('[data-topic-close]')
       await expect(close.getByRole('heading', { level: 2 })).toHaveText(heading)
       await expect(close.locator('[data-topic-close-count]')).toHaveText(
-        locale === 'es' ? ['112 temas', '47 artículos'] : ['112 topics', '47 posts']
+        locale === 'es' ? ['112 temas', '48 artículos'] : ['112 topics', '48 posts']
       )
       await expect(page.locator('[data-stats-section]')).toHaveCount(0)
       await expect(close.getByRole('link')).toHaveCount(2)

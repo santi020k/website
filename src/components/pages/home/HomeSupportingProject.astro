@@ -4,10 +4,12 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 
-import { Card, Icon } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale, localizePath } from '@/i18n'
 import { pageTranslator } from '@/i18n/page-copy'
@@ -20,7 +22,8 @@ interface Props {
   position: number
 }
 
-const { project, position } = Astro.props
+const { project: originalEntry, position } = Astro.props
+const project = await localizeProject(originalEntry, getLocale(Astro.url.pathname))
 const logo = project.data.coverImage?.logo
 const evidence = project.data.typesId === 'professional' ? project.data.impactMetrics[0] : undefined
 ---

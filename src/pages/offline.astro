@@ -4,7 +4,8 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Card, Icon } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale, localizePath } from '@/i18n'
 import { pageTranslator } from '@/i18n/page-copy'
@@ -198,8 +199,8 @@ const meta = {
     letter-spacing: 0;
   }
 
-  :global([data-theme='dark']) [data-offline-header] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
-  :global([data-theme='dark']) [data-connection-indicator] { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-offline-header] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme='santi020k-dark']) [data-connection-indicator] { color: hsl(var(--accent)); }
 
   @container offline-folio (width < 20rem) {
     [data-offline-header] { padding: 1.375rem; }

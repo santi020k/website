@@ -23,13 +23,17 @@ import {
   getFrontmatterValue,
   groupArchive,
   paginateArchive,
+  readContent,
   resolveContentAsset
 } from '@santi020k/og/content'
 import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
 
+import { travelNotesSchema } from '../../src/data/travel-notes-schema.ts'
 import { localizeCollectionSource } from '../../src/i18n/collection-copy.ts'
+import { countryTranslator } from '../../src/i18n/country-copy.ts'
 import { localizePageSource } from '../../src/i18n/page-copy.ts'
+import { getLocalizedTravelCountries } from '../../src/i18n/travel.ts'
 import { isIndexedArchive } from '../../src/utils/archive-indexing.ts'
 import { parseContentDate } from '../../src/utils/content-date.ts'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
@@ -294,6 +298,38 @@ const archiveCard = (pathname, title, description, badge) => ({
   route: { description, pathname, title }
 })
 
+/** Country notes get one card in their authored language once their summary is written. */
+export const collectCountryCards = (root = ROOT) => collectContentCards({
+  directory: 'src/content/country',
+  map: entry => {
+    const notes = travelNotesSchema.parse(entry.frontmatter)
+
+    if (!notes.summary) return null
+
+    const country = getLocalizedTravelCountries(notes.language).find(item => item.code === notes.code)
+
+    if (!country) throw new Error(`Unknown country notebook: ${notes.code}`)
+
+    const t = countryTranslator(notes.language)
+
+    return {
+      badge: t('notebook'),
+      description: notes.summary,
+      domain: `${notes.language === 'es' ? '/es' : ''}/travel/${entry.slug}/`,
+      title: t('title', { country: country.name }),
+      variant: 'simple'
+    }
+  },
+  output: (_entry, data) => `pages/${getSocialImageFileName(data.domain)}`,
+  root,
+  route: (_entry, data) => ({
+    alt: `${data.title} — Santiago Molina`,
+    description: data.description,
+    pathname: data.domain,
+    title: data.title
+  })
+})
+
 export const collectCards = async () => {
   const staticPages = staticSocialPages.map(page => definePageMetadata({
     badge: page.badge,
@@ -368,6 +404,7 @@ export const collectCards = async () => {
     ],
     basePath: 'blog',
     directory: 'src/content/post',
+    exclude: ['**/index.es.md', '**/index.es.mdx'],
     filter: isPublishedPost,
     includeDrafts,
     map: async entry => {
@@ -422,6 +459,7 @@ export const collectCards = async () => {
       return []
     },
     directory: 'src/content/project',
+    exclude: ['**/index.es.md', '**/index.es.mdx'],
     basePath: 'portfolio',
     includeDrafts,
     map: async entry => {
@@ -509,25 +547,43 @@ export const collectCards = async () => {
       } :
       card)
 
-  // Articles and case studies are written in English. Their Spanish shells are kept out of
-  // search indexes and share the English card, so only translated pages get a localized card.
-  const isSingleLanguageCard = card => card.output.startsWith('blog/') || card.output.startsWith('portfolio/')
+  const translations = new Map()
 
-  const localizedCards = englishCards.filter(card => card.route && !isSingleLanguageCard(card)).map(card => {
+  for (const [collection, basePath] of [['post', '/blog/'], ['project', '/portfolio/']]) {
+    const entries = await readContent({ directory: `src/content/${collection}`, include: ['**/index.es.md', '**/index.es.mdx'], root: ROOT })
+
+    for (const entry of entries) {
+      const id = entry.id.replace(/\/index\.es\.mdx?$/u, '')
+      const slug = collection === 'post' ? id.split('/').at(-1) : id
+
+      translations.set(`${basePath}${slug}/`, entry)
+    }
+  }
+
+  const localizedCards = englishCards.flatMap(card => {
+    if (!card.route) return []
+
+    const translation = translations.get(card.route.pathname)
+    const isArticle = card.output.startsWith('blog/') || card.output.startsWith('portfolio/')
+
+    if (isArticle && !translation) return []
+
     const pathname = `/es${card.route.pathname}`
-    const title = `${localizeCollectionSource('es', localizePageSource('es', card.data.title))} · Español`
-    const description = localizeCollectionSource('es', localizePageSource('es', card.data.description))
+    const title = `${translation?.frontmatter.title ?? localizeCollectionSource('es', localizePageSource('es', card.data.title))} · Español`
+    const description = translation?.frontmatter.seoDescription ?? translation?.frontmatter.description ?? localizeCollectionSource('es', localizePageSource('es', card.data.description))
+    const badge = card.output.startsWith('blog/') ? 'Artículo' : localizeCollectionSource('es', card.data.badge ?? '')
 
-    return {
+    return [{
       ...card,
       aliases: [],
-      data: { ...card.data, title, description, domain: pathname },
+      sources: [...card.sources ?? [], ...translation ? [translation.filePath] : []],
+      data: { ...card.data, title, description, badge, domain: pathname },
       output: `pages/${getSocialImageFileName(pathname)}`,
       route: { ...card.route, pathname, title, description, alt: `${title} — Santiago Molina` }
-    }
+    }]
   })
 
-  return [...englishCards, ...localizedCards]
+  return [...englishCards, ...localizedCards, ...await collectCountryCards()]
 }
 
 export const collectSpecs = async () => (await collectCards()).map(card => ({

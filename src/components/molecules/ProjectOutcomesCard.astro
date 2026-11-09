@@ -1,11 +1,15 @@
 ---
-import { getEntry } from 'astro:content'
-
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { getLocalizedProject } from '@/utils/content-translations'
 import { getProjectOutcomeDisplay, getProjectOutcomeLabel } from '@/utils/portfolio-metric'
 
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Link from '@santi020k/lumen-astro/components/Link'
+
+import { getLocale } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
 
 interface Props {
   attribution?: { client: string, context: string }
@@ -17,10 +21,12 @@ interface Props {
 }
 
 const { attribution, contextLinks = [], headingId = 'sidebar-outcomes', id, legacyId, projectId } = Astro.props
-const project = await getEntry('project', projectId)
+const project = await getLocalizedProject(projectId, getLocale(Astro.url.pathname))
 
 if (!project) throw new Error(`Project ${projectId} must exist before rendering its outcomes.`)
 
+const t = collectionTranslator(getLocale(Astro.url.pathname))
+const exploreLabel = t('project.exploreNamed', { name: attribution?.client ?? project.data.title })
 const outcomes = project.data.impactMetrics
 const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), summary }))
 ---
@@ -31,7 +37,7 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
   <Card as="section" aria-labelledby={headingId} data-project-outcomes variant="unstyled">
     <header>
       <div data-outcome-heading>
-        <slot><h3 id={headingId}>Outcomes</h3></slot>
+        <slot><h3 id={headingId}>{t('project.outcomesHeading')}</h3></slot>
         <Icon class="size-4 shrink-0" name="trophy" />
       </div>
       {attribution && (
@@ -62,8 +68,8 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
       ))}
     </ul>
     {contextLinks.length > 0 && (
-      <nav data-outcome-trail aria-label={`Explore ${attribution?.client ?? project.data.title}`}>
-        <span>Explore {attribution?.client ?? project.data.title}</span>
+      <nav data-outcome-trail aria-label={exploreLabel}>
+        <span>{exploreLabel}</span>
         {contextLinks.map(link => (
           <Link data-outcome-link href={link.href} variant="inherit">
             <span>{link.label}</span><ArrowExchange data-outcome-arrow direction="down-right" size="sm" />
@@ -107,10 +113,10 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
   [data-outcome-link] :global([data-outcome-arrow]) { flex-shrink: 0; }
   [data-outcome-link]:hover { text-decoration: underline; text-underline-offset: 0.25rem; }
   [data-outcome-link]:focus-visible { outline: 2px solid currentColor; outline-offset: 0.25rem; border-radius: 0.25rem; }
-  :global(:root[data-theme='dark']) [data-project-outcomes] [data-outcome-value],
-  :global(:root[data-theme='dark']) [data-project-outcomes] [data-outcome-link],
-  :global(:root[data-theme='dark']) [data-outcome-heading] :global(h3),
-  :global(:root[data-theme='dark']) [data-project-outcomes] :global(svg) { color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) [data-project-outcomes] [data-outcome-value],
+  :global(:root[data-theme='santi020k-dark']) [data-project-outcomes] [data-outcome-link],
+  :global(:root[data-theme='santi020k-dark']) [data-outcome-heading] :global(h3),
+  :global(:root[data-theme='santi020k-dark']) [data-project-outcomes] :global(svg) { color: hsl(var(--accent)); }
   @container project-evidence (width < 35rem) {
     [data-outcome-trail] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
     [data-outcome-link][data-slot='link'] { justify-content: space-between; }

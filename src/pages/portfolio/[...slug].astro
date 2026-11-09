@@ -7,7 +7,11 @@ import Prose from '@/components/atoms/Prose.astro'
 import ProjectLayout from '@/layouts/Projects.astro'
 
 import { getCachedProjects, getRelatedProjects } from '@/utils/content'
+import { getProjectTranslation, localizeProject } from '@/utils/content-translations'
 import { collectionDateSortProjects } from '@/utils/date'
+import { translatedHeadings } from '@/utils/translated-headings'
+
+import { getLocale } from '@/i18n'
 
 // If you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
 export const getStaticPaths = (async () => {
@@ -21,8 +25,14 @@ export const getStaticPaths = (async () => {
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
-const { project } = Astro.props
-const { Content, headings } = await render(project)
+const { project: original } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const translation = await getProjectTranslation(original.id)
+const project = await localizeProject(original, locale)
+const source = await render(original)
+const rendered = locale === 'es' && translation ? await render(translation) : source
+const { Content } = rendered
+const { headings, ids: headingIds } = translatedHeadings(source.headings, rendered.headings)
 
 const relatedProjects = (await getRelatedProjects({
   currentProjectId: project.id,
@@ -33,7 +43,7 @@ const relatedProjects = (await getRelatedProjects({
   .sort(collectionDateSortProjects)
 ---
 
-<ProjectLayout project={project} headings={headings} relatedProjects={relatedProjects}>
+<ProjectLayout translated={Boolean(translation)} headingIds={headingIds} project={project} headings={headings} relatedProjects={relatedProjects}>
   <Prose>
     <Content />
   </Prose>

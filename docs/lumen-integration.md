@@ -1,7 +1,9 @@
 # Lumen UI integration
 
-The dependency catalog and lockfile use the `@santi020k/lumen` 4.2.0, `@santi020k/lumen-astro`
-4.1.0, and `@santi020k/lumen-core` 4.1.0 registry packages.
+The dependency catalog and lockfile pin `@santi020k/lumen`, `@santi020k/lumen-astro`,
+and `@santi020k/lumen-core` to 5.0.0 through the `lumen5` catalog. The CLI is a development
+dependency; the adapter and Core remain runtime dependencies. Historical apps and the motion
+studio keep the default 4.4.0 catalog and its existing compatibility patch.
 Normal development and validation use those published dependencies. Import Lumen styles
 once from `src/styles/global.css`, mount the default export from
 `@santi020k/lumen-astro/runtime` once in `src/layouts/Base.astro`, use public Lumen components
@@ -14,20 +16,29 @@ The website follows the same one-adapter setup as Lumen's README. Keep the layer
 shared stylesheet so Tailwind utilities can override component defaults:
 
 ```css
-@import "@santi020k/lumen/layers.css";
+@import "@santi020k/lumen-astro/layers.css";
 @import "tailwindcss";
-@import "@santi020k/lumen/styles.css";
-@import "@santi020k/lumen/styles/motion.css";
+@import "@santi020k/lumen-astro/styles/foundation.css";
+@import "@santi020k/lumen-astro/styles/themes/santi020k.css";
+@import "@santi020k/lumen-core/styles/motion.css";
+@import "@santi020k/lumen-astro/tailwind.css";
+@import "@santi020k/theme/typography.css";
 ```
 
-`Base.astro` imports that global stylesheet and mounts `UIPrimitives` once. Pages and content
-components import their public primitives from `@santi020k/lumen-astro`; they do not add a
-second adapter or mount a second runtime. The site-owned Theme tokens follow the shared imports.
+`Base.astro` imports that global stylesheet and mounts `UIPrimitives` once. Import each
+primitive from its public component entry, for example
+`import Button from '@santi020k/lumen-astro/components/Button'`. The package root
+re-exports every component; Astro can follow that shared import when assigning
+component styles to pages, linking unrelated styles on routes that never render
+them. Direct imports keep the component styles with the routes that use them.
+The named santi020k appearance owns colors; Theme supplies typography without overriding the palette.
 
-The current site uses the umbrella package's public stylesheet directly. The Astro 4.1.0
-compatibility entry imports it again and appends device-frame rules already present in Lumen 4.2.0.
-The production CSS optimizer already deduplicates those rules; this keeps the import boundary
-current without claiming a duplicate-payload saving. Historical sites retain their own entries.
+The current site loads the foundation and named santi020k appearance. Astro primitives import
+their component styles automatically. `src/styles/prose.css` explicitly imports the public
+`styles/components/code-tabs.css` and `styles/components/table.css` entries because rehype
+generates those controls without mounting Astro components. The code-tabs entry includes
+Code, Tabs, Icon, and Textarea dependencies; `UIPrimitives` supplies scroll-cue styles.
+Historical sites retain their own stylesheet entries.
 
 | Contract | Website usage |
 | --- | --- |
@@ -44,18 +55,14 @@ when adding a failure state, rather than inventing another alert or toast system
 
 ## Reusing the v5 editorial components
 
-The editorial review recommends keeping the current compositions in the website and adding an
-editorial recipe family to Lumen when a second application needs them. A separate
-`lumen-cards` or `lumen-santi020k` package is not needed for this release. Lumen already owns
-the accessible primitives; these designs also include headers, reading navigation, notices,
-and page composition, so a cards-only package would misrepresent the reusable work.
+Lumen 5 publishes installable Astro editorial, article reading, site search, and image
+viewer recipes. The website keeps its existing compositions and owns its routing, content,
+and application behavior.
 
 The local Lumen repository's `packages/templates/README.md` and `package.json` identify
 `@santi020k/lumen-templates` as a private workspace package for its gallery and metadata,
 not an npm dependency for applications. Its documented distribution path is the public
-adapter CLI's `lumen add <recipe> --target astro`. An editorial family can follow that
-existing path without a second runtime, another adapter, or a new package release train.
-That family is a recommendation; this website change does not add or publish it.
+CLI's `lumen add <recipe> --target astro`.
 
 | Layer | Examples from this release | Reuse boundary |
 | --- | --- | --- |
@@ -353,7 +360,7 @@ enlarged text sizes. No new client controller is introduced.
   choices and focus, opens incoming hashes, and cleans up on disconnection. Only
   inner chapter disclosures follow reading position; the outer mobile opener stays
   reader-controlled. A single chapter starts expanded, and native links and details
-  remain usable without JavaScript. The version-pinned Anchor patch is documented below.
+  remain usable without JavaScript. See Anchor fragment navigation below.
   The site's reading page boundary also sets `font-size: 1rem` explicitly: in WebKit,
   relying on inheritance left descendant layout stale
   after root text resizing during client navigation, shifting native fragment targets. This
@@ -400,9 +407,9 @@ enlarged text sizes. No new client controller is introduced.
   slot so Astro collects its actual navigation position. The component reads validated
   collection preview data and preserves the legacy gallery fragment.
   `ProjectPreviewViewer` adapts project assets to the shared `GalleryViewer`, built with Lumen
-  `Dialog`, `DialogTitle`, `DialogClose`, `Button`, and `ButtonLink`. Lumen owns native modal controls and focus
-  return. The site custom element inserts an optimized full-size `Image` from an inert
-  template, handles load/error states and keyboard detail panning, and aborts listeners
+  `Dialog`, `DialogTitle`, `DialogClose`, `MediaViewport`, `Button`, and `ButtonLink`. Lumen owns native modal controls and focus
+  return. The site custom element loads the full-size asset on demand, handles loading
+  and retry, and aborts listeners
   on disconnection. The original-image link stays available until the public trigger
   binding is ready, preserving a useful no-JavaScript path. Modal shortcuts stay inside
   the viewer rather than opening site search above it.
@@ -569,8 +576,8 @@ enlarged text sizes. No new client controller is introduced.
   Tab folio uses nested CSS grids to share the tablist and copy toolbar row while keeping
   panel and figure semantics intact. The visible Copy/Copied/Copy failed labels and shell
   prompt are decorative CSS content; Lumen supplies the accessible names and announcements.
-  Package-manager panels opt into the same Scroll cue as standalone code. The pinned
-  Astro patch forwards the public `scrollCue` prop from `CodeTabs` to each `Code`;
+  Package-manager panels opt into the same Scroll cue as standalone code. Lumen 5
+  forwards `scrollCue` from `CodeTabs` to each `Code`;
   Markdown-generated groups reuse `createLumenScrollCue`. Lumen owns overflow detection,
   description IDs, hidden-panel updates, and navigation cleanup. Tabs refresh their
   cue visibility synchronously across selected and synchronized panels before scrolling.
@@ -688,7 +695,7 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   would not change a cue, so a code-heavy article pays for one layout when it loads
   instead of one per example. It measures again when web fonts finish loading, using
   the `loadingdone` event rather than `document.fonts.ready`, which forces a style pass
-  on every page. Keep this batching when the controller moves into a Lumen release.
+  on every page. Keep the font event handling until an upstream release preserves it.
 - Project prose lists use Ownership ledger. `rehype-project-ledger.ts` separates an authored
   leading `strong` from its explanation at build time, preserving links, code, nested lists,
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
@@ -795,8 +802,7 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   on narrow screens. Article tables opt into the same Lumen Scroll cue controller as
   code examples: a stationary “Scroll horizontally to compare” strip above the named
   viewport appears only while columns overflow. Project tables retain their existing markup.
-  The opt-in Astro `Code`/`Table` API and runtime are tracked upstream for Lumen 4.4.0;
-  the version-pinned 4.1.0 patch carries this additive change until publication. The cue
+  Lumen 5 supplies the opt-in Astro `Code` and `Table` API and runtime. The cue
   stays hidden without JavaScript, leaving native table semantics and keyboard scrolling.
   Its resize observer schedules cue updates in the next animation frame so showing
   the message cannot resize its observed viewport during delivery. Cancel pending
@@ -839,30 +845,12 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   excluded even during development; fewer eligible posts produce fewer cards, with no
   unrelated fallback. Project headers retain the separate approved `shelf` variant.
 
-## Anchor runtime patch
+## Anchor fragment navigation
 
-The installed `@santi020k/lumen-astro` 4.1.0 runtime marks an `Anchor` heading current only when
-its top reaches the numeric `activationOffset` in CSS pixels. Native fragment navigation lands the
-heading at the root `scroll-padding-top` (`7em` on `<html>`, equal to 7rem; WebKit can resolve a
-root `rem` value here against the default font size), which grows with root text size. With enlarged
-text the destination therefore landed below the threshold and the marker stayed on the previous
-section. Browser zoom was unaffected because it scales pixels and rems together.
-
-The [version-pinned pnpm patch](../patches/@santi020k__lumen-astro@4.1.0.patch), registered under
-`patchedDependencies`, updates
-`runtime/controllers/document-navigation.ts` and documents the behavior in its README. The runtime treats a heading as
-current once it reaches the greater of `activationOffset` and the native landing line, computed
-from the owning window's root `scroll-padding-top` plus the heading's `scroll-margin-top`, within
-one CSS pixel. Percentage scroll padding resolves against the scrolling element's height; `auto`
-and unresolved values count as zero, and the offset is never negative or non-finite. The public
-`Anchor` API, native fragment links, page-lifecycle initialization, and listeners are unchanged,
-and the site adds no second scroll-spy or client bridge. Lumen still owns the behavior.
-
-Do not compensate with negative heading `scroll-margin-top`: at 200% text it would place headings
-under the sticky header. Remove the Anchor portion of the patch when a published `lumen-astro` release provides the same
-landing-line activation. If `lumen-astro` changes version first, regenerate the version-specific
-patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
-text-size marker cases in `tests/responsive-reading.spec.ts`.
+Lumen 5 activates a heading when it reaches the greater of `activationOffset` and the
+native fragment landing line. The latter includes the root scroll padding and the heading's
+scroll margin, so the marker tracks the fragment destination when root text is enlarged.
+`tests/responsive-reading.spec.ts` checks the marker and heading clearance.
 
 ## Article prose typography
 
@@ -884,21 +872,19 @@ top-level paragraphs and lists have a 40rem maximum inline size. Lumen code and 
 surfaces, approved editorial treatments, and the reading layout retain their existing
 space. This is a scoped typography rule, without a new component or runtime behavior.
 
-## Article progress runtime patch
+## Article reading progress
 
-Article progress preserves the existing Lumen indicator and its accessible value. The
-version-pinned `lumen-astro` patch adds an optional `targetId` prop and measurement inside
-the existing document-navigation controller. `Post.astro` targets only the authored prose,
+Lumen measures the optional `targetId` in its document navigation controller and updates the
+progress indicator and its accessible value. `Post.astro` targets only the authored prose,
 excluding the hero, series navigation, comments, sharing, recommendations, and footer.
 
 Progress begins when the prose reaches the root scroll-padding landing line and reaches
 100% when the final line enters the viewport. A short article becomes complete once fully
 visible; an empty target remains at zero. An absent or unresolved target preserves document
 progress. Scroll, viewport resizing, font and content reflow update the same indicator;
-resize observation reconnects after Astro navigation and disconnects before a page swap.
+resize observation reconnects when the runtime initializes after Astro navigation.
 
-Remove this portion of the patch when a published Lumen release supports the same scoped
-measurement contract. `tests/article-progress.spec.ts` covers completion, scrolling back,
+`tests/article-progress.spec.ts` covers completion, scrolling back,
 enlarged text, both themes, reflow, short/empty content, client navigation, restored history,
 and document fallback. No site-owned parallel scroll controller is introduced.
 
@@ -926,11 +912,11 @@ The same transform supplies ordered `articleFigureCaptions` in Astro's render me
 route validates that list and `ArticleFigureViewers` renders shared `GalleryViewer` instances outside
 the prose, then places their existing controls below each caption. This lets the single Lumen runtime
 bind before or after placement, without cloned controls or a second modal implementation. Gallery
-viewer uses the same dialog, fit/detail controls, keyboard handling, load/error states, and focus
+viewer uses the same dialog, incremental zoom/pan controls, keyboard handling, load/error states, and focus
 return as project previews. On demand it clones the already optimized article image, preserving its
 source and alternative text; it does not request a separate image rendition or replace the inline asset.
 Without JavaScript, the complete Caption spread illustration remains readable and inactive controls
-stay hidden. Project viewers retain their direct-image fallback links and full-size inert templates.
+stay hidden. Project viewers retain their direct-image fallback links and defer the full-size asset until opening.
 
 ## Article and project cover composition
 
@@ -950,37 +936,40 @@ the header logo's public draw/pop/reveal hooks. First-load animations remain int
 The header DOM still updates on every route, keeping active links, responsive
 menus, and search controllers current. It is not a persisted component.
 
-## Synchronized code tabs patch
+## Code tab scroll compatibility
 
-The version-pinned Astro patch also keeps package-manager preferences synchronized without
-scrolling the reader to another code block. Each bound tab group registers a passive activation
-callback in a weak map. Reader input retains normal scrolling, keyboard focus, storage writes,
-and synchronization; passive updates change selection and emit `ui:tabs-change` without scrolling
-or propagating another update. Initial selection stays silent. Native disabled controls remain
-unselected, and blocked storage does not prevent selection or synchronization.
+Lumen 5 owns tab selection, storage, passive synchronization, and the scroll safeguards
+previously patched into 4.4.0. It settles cue visibility before scrolling, skips native
+scrolling for a fully visible trigger, and briefly suspends scroll anchoring during layout.
+It batches initial cue measurements and observes font load events once per document.
+The current site uses the unpatched v5 package. The 4.4.0 patch remains only for archived
+consumers. `tests/package-manager-scroll.spec.ts` covers distant synchronized groups.
 
-`tests/package-manager-scroll.spec.ts` covers separated groups in both directions, pointer and
-keyboard input, event counts, reload persistence, blocked storage, mobile and desktop layouts,
-and both motion preferences. Remove this hunk once a published Astro adapter includes equivalent
-behavior, then rerun these regressions and the existing Lumen interaction suites. This is a local
-consumer patch; it does not establish an upstream release or issue submission.
+## V5 theme and runtime migration
 
-## Cover image fallback patch
+The root uses `data-theme="santi020k-light"` or `data-theme="santi020k-dark"`.
+The existing ThemeProvider accepts legacy saved preferences and restores the named appearance
+before navigation swaps and after asynchronous Lumen enhancement. Dark CSS selectors,
+Tailwind's dark variant, controls, and Giscus synchronization follow this boundary.
+See [theming](theming.md) for palette ownership and storage compatibility.
 
-The same version-pinned patch exposes Astro Picture's typed `fallbackFormat` option on
-`CoverImage`. Current-site project galleries and detail covers select `fallbackFormat="webp"`,
-keeping AVIF sources while replacing the much larger PNG fallback. The redundant WebP source is
-omitted because the fallback already supplies its responsive WebP `srcset`. The default remains
-unchanged for the historical sites, which share this dependency.
+Keep the single public root runtime. It loads behavior chunks for matching page markup and
+initializes them again after Astro navigation. Components carry their own styles, and the
+runtime loads styles for controls it creates on demand. No application code calls
+`LumenInitUiPrimitives` or synchronously queries a toast. If either is added, follow the
+[v5 migration contract](https://github.com/santi020k/lumen/blob/main/docs/migrating-v4-to-v5.md).
+Restore the root manifest, named catalog, lockfile, and theme migration together to roll back.
 
-Remove this addition once a published Lumen release supports the same option. Keep the Anchor
-fix until its own upstream replacement is available. The isolated render regression in
-`scripts/js/__tests__/cover-image-render.test.ts` checks both the opt-in and default output;
-`tests/site-resources.spec.ts` checks the current-site image responses.
+## Cover image fallback
+
+Lumen 5 exposes Astro Picture's `fallbackFormat` on `CoverImage`. Project galleries
+and detail covers use `fallbackFormat="webp"` to keep AVIF sources with a responsive WebP
+fallback. The isolated render regression in `scripts/js/__tests__/cover-image-render.test.ts`
+checks both opt-in and default output. `tests/site-resources.spec.ts` checks image responses.
 
 ## Tall reveal groups
 
-Keep the website's 13 `threshold={0}` settings. The installed `lumen-astro` 4.1.0 runtime observes
+Keep the website's 13 `threshold={0}` settings. The Lumen Astro runtime observes
 the configured threshold alone (`0.15` by default). In native Chromium and WebKit checks, a group
 entering below that ratio did not reliably trigger another observer callback after its initial
 offscreen notification. At 390 × 844 with 200% root text, the selected-projects group on
@@ -989,8 +978,7 @@ featured card and supporting grid transparent when the zero threshold was remove
 
 The explicit zero thresholds reveal these groups on viewport entry without changing the shared
 timing for other Lumen consumers. Observing `[0, threshold]` globally also revealed short sections
-with custom thresholds on entry, so that runtime change was rejected. The installed patch remains
-limited to Anchor behavior, synchronized code tabs, and the image option; there is no motion runtime patch.
+with custom thresholds on entry, so that runtime change was rejected.
 
 Before removing the overrides, verify a compatible upstream solution that preserves custom
 threshold timing. Run `tests/reveal-entry.spec.ts` with native browser observers: it checks a
@@ -1004,7 +992,7 @@ covers the remaining consumers at mobile and desktop widths with 100% and 200% t
   value and final content rendered on the server. Text-only statistics remain static.
 - Topic sorting and technology filtering use keyed `MotionGroup` children. Site controllers retain
   ownership of sorting, search, focus, and result announcements.
-- `@santi020k/lumen/styles/motion.css` enables native disclosure height transitions in supporting
+- `@santi020k/lumen-core/styles/motion.css` enables native disclosure height transitions in supporting
   browsers. Unsupported browsers keep the native immediate toggle.
 - Stack cards use a static mesh effect. The homepage hero combines an Astro image crop with
   Lumen's public `DeviceFrame` for the PostLens editor. A finite CSS entrance and native
@@ -1056,14 +1044,14 @@ That revision records historical local consumer evidence. Normal website develop
 the published registry packages; historical candidate checks do not qualify later revisions.
 
 The travel page consumes the public `WorldMap` and `lumen-core/world-map-data` exports
-from the published v4 packages. See the [travel editing guide](editorial/travel.md) for map data.
+from the published v5 packages. See the [travel editing guide](editorial/travel.md) for map data.
 Its Map folio groups the original native picker and zoom controls inside the same map root,
 using a Lumen Card shell and decorative Icons. The website controls layout and DOM order;
 Lumen retains the existing nodes, event handlers, live zoom status, and selection behavior.
 The application initializer groups them once per page, preserving View Transition cleanup.
 
 The registry rollout updates the catalog entries together and retains exact release-age
-exceptions for the installed `lumen` 4.2.0, `lumen-astro` 4.1.0, and `lumen-core` 4.1.0 packages
+exceptions for the pinned Lumen 5.0.0 and historical 4.4.0 packages
 under the existing supply-chain policy. The lockfile
 contains registry resolutions, and CV downloads are regenerated from the resulting build.
 Run the migration audit, website gates, Playwright interactions, and mobile / desktop visual
@@ -1079,13 +1067,25 @@ without sharing Lumen's internal Label class. Card spacing and Work metrics use 
 `data-slot` hooks. About descriptions, testimonial authors, homepage icons, project
 section eyebrows, and branded Work pills use consumer-owned attributes.
 
-The installed `lumen-astro` 4.1.0 contracts do not expose styling parts for TimelineItem's connector,
-dot frame, and content wrapper, or for every WorldMap frame/control part. Those scoped
-internal selectors remain necessary to preserve the approved timeline and travel layouts.
-ThemeToggle's icon-position override also remains until the adapter exposes icon parts.
-Track their replacement in this section after Lumen publishes matching public parts;
-do not replace them with child-index selectors or remove them solely to silence an audit.
-The two Timeline part advisories from `lumen doctor src` therefore remain reviewed limitations.
+ThemeToggle uses the public sun and moon slots. TravelMap uses `world-map`,
+`world-map-frame`, and `world-map-zoom-controls` slots, plus public `data-ui-world-map-*`
+hooks for the viewport, countries, selection control, inspection, and highlights. Its plot,
+selection overlay, and select-label wrapper still require scoped internal selectors because
+5.0.0 does not expose matching public parts. Career and speaking timelines use consumer-owned
+rows inside `Timeline`; they no longer depend on `TimelineItem` internals.
+
+The product film adopts v5's deferred caption tracks, loading feedback, explicit retry, and
+page lifecycle cleanup while retaining responsive sources, native controls, the transcript,
+and the direct-file fallback. GalleryViewer uses `MediaViewport` for incremental zoom,
+keyboard and pointer panning, and fit controls; the website owns optimized image loading,
+retry, captions, and dialog focus. Both surfaces keep English and Spanish parity.
+In 5.0.0, viewport actions retain their initial disabled styling after the runtime enables
+them. A scoped `[data-ui-media-viewport-action]:enabled` rule restores opacity and pointer
+events using native state; recheck this workaround when upgrading Lumen.
+
+Reading, search, code-copy recovery, sharing, and sticky table columns retain their tested
+local compositions. Editorial Code/Prose appearances are optional consolidation opportunities;
+do not enable them over the approved styles without checking the resulting layout.
 
 ## Upgrade checks
 

@@ -17,7 +17,7 @@
 
 [data-history-hero-current] figcaption { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; border-top: 1px solid hsl(var(--line) / .65); padding: .875rem 1rem; }
 
-[data-theme='dark'] .history-hero-current-version { color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-hero-current-version { color: hsl(var(--accent)); }
 
 .history-hero-past img { border-radius: .75rem .25rem .25rem .25rem; }
 
@@ -35,7 +35,8 @@
 
 @container history-exhibit (width < 17.5rem) {
   .history-hero-print-label { display: block; }
-  .history-hero-print-label > span:first-child { display: block; margin-bottom: .125rem; }
+  .history-hero-print-label > span { display: block; }
+  .history-hero-print-label > span:first-child { margin-bottom: .125rem; }
 }
 
 @container history-exhibit (width < 13rem) {
@@ -64,13 +65,13 @@
 
 .history-hero-chapter-links a:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; }
 
-[data-theme='dark'] .history-hero-chapter-links [data-history-current-era]::before { background: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-hero-chapter-links [data-history-current-era]::before { background: hsl(var(--accent)); }
 
-[data-theme='dark'] .history-hero-chapter-links [data-history-current-era], [data-theme='dark'] .history-hero-chapter-links a:is(:hover, :focus-visible) { border-color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-hero-chapter-links [data-history-current-era], [data-theme='santi020k-dark'] .history-hero-chapter-links a:is(:hover, :focus-visible) { border-color: hsl(var(--accent)); }
 
-[data-theme='dark'] .history-hero-chapter-links [data-history-current-era] .history-hero-chapter-version, [data-theme='dark'] .history-hero-chapter-links a:is(:hover, :focus-visible) .history-hero-chapter-version { color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-hero-chapter-links [data-history-current-era] .history-hero-chapter-version, [data-theme='santi020k-dark'] .history-hero-chapter-links a:is(:hover, :focus-visible) .history-hero-chapter-version { color: hsl(var(--accent)); }
 
-[data-theme='dark'] .history-hero-chapter-links a:focus-visible { outline-color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-hero-chapter-links a:focus-visible { outline-color: hsl(var(--accent)); }
 
 @media (max-width: 959px) {
   .history-hero-stage { grid-template-columns: 1fr; gap: 2.5rem; padding-block: 1rem 2.5rem; }
@@ -89,7 +90,7 @@
   box-shadow: var(--shadow-history-sheet);
 }
 
-[data-theme='dark'] .history-version { color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-version { color: hsl(var(--accent)); }
 
 .history-era-marker time { color: hsl(var(--ink-soft)); font-size: .75rem; }
 
@@ -114,9 +115,9 @@
 
 .history-mobile figcaption { border-color: hsl(var(--brand)); }
 
-[data-theme='dark'] .history-capture-version { color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-capture-version { color: hsl(var(--accent)); }
 
-[data-theme='dark'] .history-mobile figcaption { border-color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-mobile figcaption { border-color: hsl(var(--accent)); }
 
 .history-era-actions > span { color: hsl(var(--ink-soft)); font-size: .6875rem; }
 
@@ -133,9 +134,9 @@
 
 .history-colophon-copy p + p { margin-top: 1rem; }
 
-[data-theme='dark'] .history-colophon-eyebrow, [data-theme='dark'] .history-colophon-seal { color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-colophon-eyebrow, [data-theme='santi020k-dark'] .history-colophon-seal { color: hsl(var(--accent)); }
 
-[data-theme='dark'] .history-colophon-copy { border-color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] .history-colophon-copy { border-color: hsl(var(--accent)); }
 
 @container history-note (width < 32rem) {
   .history-colophon { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
@@ -257,7 +258,7 @@
     color: hsl(var(--brand));
   }
 
-  [data-theme='dark'] [data-history-era-current] .history-status { color: hsl(var(--ink)); }
+  [data-theme='santi020k-dark'] [data-history-era-current] .history-status { color: hsl(var(--ink)); }
 
   .remaining-pages [data-history-era-current] [data-history-captures][data-slot='card'] { border-radius: 0; }
 

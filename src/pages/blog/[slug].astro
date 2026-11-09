@@ -7,7 +7,11 @@ import { render } from 'astro:content'
 import PostLayout from '@/layouts/Post.astro'
 
 import { getCachedPosts } from '@/utils/content'
+import { getPostTranslation, localizePost } from '@/utils/content-translations'
 import { getPostSlug } from '@/utils/posts'
+import { translatedHeadings } from '@/utils/translated-headings'
+
+import { getLocale } from '@/i18n'
 
 export const getStaticPaths = async () => {
   const posts = await getCachedPosts()
@@ -22,13 +26,19 @@ interface Props {
   post: CollectionEntry<'post'>
 }
 
-const { post } = Astro.props
-const { Content, headings, remarkPluginFrontmatter } = await render(post)
+const { post: original } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const translation = await getPostTranslation(original.id)
+const post = await localizePost(original, locale)
+const source = await render(original)
+const rendered = locale === 'es' && translation ? await render(translation) : source
+const { Content, remarkPluginFrontmatter } = rendered
+const { headings, ids: headingIds } = translatedHeadings(source.headings, rendered.headings)
 const figureCaptions = z.array(z.string()).parse(remarkPluginFrontmatter.articleFigureCaptions ?? [])
 const recommendationUrls = z.array(z.string()).parse(remarkPluginFrontmatter.articleRecommendationUrls ?? [])
 const printReferences = z.array(z.object({ href: z.url(), label: z.string().min(1) })).parse(remarkPluginFrontmatter.articlePrintReferences ?? [])
 ---
 
-<PostLayout post={post} headings={headings} figureCaptions={figureCaptions} recommendationUrls={recommendationUrls} printReferences={printReferences}>
+<PostLayout translated={Boolean(translation)} headingIds={headingIds} post={post} headings={headings} figureCaptions={figureCaptions} recommendationUrls={recommendationUrls} printReferences={printReferences}>
   <Content />
 </PostLayout>

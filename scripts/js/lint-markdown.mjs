@@ -1,5 +1,5 @@
 import { glob } from 'node:fs/promises'
-import { relative, resolve as resolvePath } from 'node:path'
+import { dirname, relative, resolve as resolvePath } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 import { lint } from 'markdownlint/promise'
@@ -21,16 +21,34 @@ export const lintMarkdown = async (cwd = process.cwd()) => {
     throw new Error('No Markdown files matched markdownlint.config.json.')
   }
 
-  const results = await lint({
-    files: files.map(file => resolvePath(cwd, file)),
-    config: settings.config
-  })
+  const countryDirectory = resolvePath(cwd, 'src/content/country')
+  const countryFiles = files.filter(file => dirname(resolvePath(cwd, file)) === countryDirectory)
+  const standardFiles = files.filter(file => dirname(resolvePath(cwd, file)) !== countryDirectory)
 
-  const diagnostics = Object.entries(results).flatMap(([file, errors]) => errors.map(error => {
-    const detail = error.errorDetail ? ` [${error.errorDetail}]` : ''
+  // The country loader accepts only direct *.md children. Their required code selects
+  // the localized country name rendered as PageHero's h1; a body h1 would duplicate it.
+  // Keep MD041 active and leave code validity to the collection's travelNotesSchema.
+  const batches = [
+    { files: standardFiles, config: settings.config },
+    {
+      files: countryFiles,
+      config: { ...settings.config, MD041: { front_matter_title: '^code\\s*:' } }
+    }
+  ]
 
-    return `${relative(cwd, file)}:${error.lineNumber} ${error.ruleNames.join('/')} ${error.ruleDescription}${detail}`
-  }))
+  const results = await Promise.all(batches.filter(batch => batch.files.length > 0).map(batch => lint({
+    files: batch.files.map(file => resolvePath(cwd, file)),
+    config: batch.config
+  })))
+
+  const diagnostics = results
+    .flatMap(result => Object.entries(result))
+    .sort(([first], [second]) => first.localeCompare(second))
+    .flatMap(([file, errors]) => errors.map(error => {
+      const detail = error.errorDetail ? ` [${error.errorDetail}]` : ''
+
+      return `${relative(cwd, file)}:${error.lineNumber} ${error.ruleNames.join('/')} ${error.ruleDescription}${detail}`
+    }))
 
   return { files, diagnostics, errorCount: diagnostics.length }
 }

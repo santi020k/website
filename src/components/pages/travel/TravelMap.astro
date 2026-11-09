@@ -1,5 +1,8 @@
 ---
-import { Button, Card, Icon, WorldMap } from '@santi020k/lumen-astro'
+import Button from '@santi020k/lumen-astro/components/Button'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import WorldMap from '@santi020k/lumen-astro/components/WorldMap'
 import { lumenWorldMapCountries } from '@santi020k/lumen-core/world-map-data'
 
 import { travelSummary } from '@/data/travel'
@@ -146,7 +149,7 @@ const labels = pageLocale === 'es' ?
   [data-travel-counts] > div:last-child { padding-bottom: 0; }
   [data-travel-counts] dt { min-width: 0; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.7; }
   [data-travel-counts] dd { flex-shrink: 0; margin: 0; color: hsl(var(--ink)); font-size: 2.125rem; font-weight: 500; line-height: 1.15; letter-spacing: -.06em; }
-  :global([data-theme='dark']) [data-travel-counts] { border-color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-travel-counts] { border-color: hsl(var(--accent)); }
   @container travel-totals (width < 12rem) {
     [data-travel-counts] > div { gap: .375rem; }
   }
@@ -168,7 +171,7 @@ const labels = pageLocale === 'es' ?
     pointer-events: none;
   }
 
-  [data-travel-explorer] :global(.ui-world-map) {
+  [data-travel-explorer] :global([data-slot="world-map"]) {
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -178,19 +181,19 @@ const labels = pageLocale === 'es' ?
     --ui-world-map-highlight: hsl(var(--brand));
   }
 
-  :global([data-theme="dark"]) [data-travel-explorer] :global(.ui-world-map) {
+  :global([data-theme="santi020k-dark"]) [data-travel-explorer] :global([data-slot="world-map"]) {
     --ui-world-map-highlight: hsl(var(--accent));
   }
 
-  [data-travel-explorer] :global(.ui-world-map__frame) { grid-area: 1 / 1; min-width: 0; border-radius: 0; }
-  [data-travel-explorer] :global(.ui-world-map__viewport) { width: 100%; min-width: 0; min-height: 24rem; height: var(--travel-map-height); }
+  [data-travel-explorer] :global([data-slot="world-map-frame"]) { grid-area: 1 / 1; min-width: 0; border-radius: 0; }
+  [data-travel-explorer] :global([data-ui-world-map-viewport]) { width: 100%; min-width: 0; min-height: 24rem; height: var(--travel-map-height); }
   [data-travel-explorer] :global(.ui-world-map__plot) { width: calc(max(100%, 48rem) * var(--ui-world-map-zoom, 1)); }
-  [data-travel-explorer] :global(.ui-world-map__country) { stroke: transparent; }
+  [data-travel-explorer] :global([data-ui-world-map-country]) { stroke: transparent; }
   [data-travel-explorer] :global(.ui-world-map__selection) { stroke: var(--ui-world-map-highlight); }
-  [data-travel-explorer] :global(.ui-world-map__highlights),
+  [data-travel-explorer] :global([data-ui-world-map-highlights]),
   [data-travel-explorer] :global([data-ui-world-map-zoom="fit"]) { display: none; }
 
-  [data-travel-explorer] :global(.ui-world-map__inspection) { inset: 0.5rem 1.5rem auto auto; }
+  [data-travel-explorer] :global([data-ui-world-map-inspection]) { inset: 0.5rem 1.5rem auto auto; }
 
   /* Group the existing Lumen controls in one sheet, in their keyboard order. */
   [data-travel-controls] {
@@ -230,7 +233,7 @@ const labels = pageLocale === 'es' ?
   [data-travel-controls-globe] { flex-shrink: 0; width: 1.25rem; height: 1.25rem; }
   [data-travel-controls-reset] { flex-shrink: 0; width: 1.125rem; height: 1.125rem; }
 
-  [data-travel-explorer] :global(.ui-world-map__select) {
+  [data-travel-explorer] :global([data-ui-world-map-select]) {
     width: 100%;
     min-width: 0;
     min-height: 3rem;
@@ -246,7 +249,7 @@ const labels = pageLocale === 'es' ?
     scroll-margin-block: 7rem 1rem;
   }
 
-  [data-travel-explorer] :global(.ui-world-map__zoom-controls) {
+  [data-travel-explorer] :global([data-slot="world-map-zoom-controls"]) {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -260,7 +263,7 @@ const labels = pageLocale === 'es' ?
     background: hsl(var(--brand-soft));
   }
 
-  [data-travel-explorer] :global(.ui-world-map__zoom-controls button) {
+  [data-travel-explorer] :global([data-slot="world-map-zoom-controls"] button) {
     flex-shrink: 0;
     min-width: 44px;
     min-height: 44px;
@@ -275,8 +278,8 @@ const labels = pageLocale === 'es' ?
   [data-travel-explorer] :global([data-ui-world-map-zoom-status]) { color: hsl(var(--ink)); font-size: .75rem; font-weight: 500; }
   [data-travel-explorer] :global([data-ui-world-map-zoom="in"]),
   [data-travel-explorer] :global([data-ui-world-map-zoom="out"]) { width: 44px; height: 44px; }
-  [data-travel-explorer] :global(.ui-world-map__zoom-controls [data-ui-world-map-zoom="reset"]) { gap: .5rem; margin-left: auto; border-color: transparent; background: transparent; white-space: normal; }
-  [data-travel-explorer] :global(.ui-world-map__zoom-controls [data-ui-world-map-zoom="reset"]:hover:not(:disabled)) { background: hsl(var(--surface)); }
+  [data-travel-explorer] :global([data-slot="world-map-zoom-controls"] [data-ui-world-map-zoom="reset"]) { gap: .5rem; margin-left: auto; border-color: transparent; background: transparent; white-space: normal; }
+  [data-travel-explorer] :global([data-slot="world-map-zoom-controls"] [data-ui-world-map-zoom="reset"]:hover:not(:disabled)) { background: hsl(var(--surface)); }
 
   @container travel-atlas (width >= 64rem) {
     [data-travel-hint] { top: calc(var(--travel-map-height) + 3rem); }
@@ -284,9 +287,9 @@ const labels = pageLocale === 'es' ?
 
   @container travel-controls (width < 18rem) {
     [data-travel-explorer] :global(.ui-world-map__select-label) { padding: 1.125rem 1rem; }
-    [data-travel-explorer] :global(.ui-world-map__select) { font-size: 1.375rem; }
-    [data-travel-explorer] :global(.ui-world-map__zoom-controls) { gap: .25rem; padding: .625rem .75rem; }
-    [data-travel-explorer] :global(.ui-world-map__zoom-controls [data-ui-world-map-zoom="reset"]) { width: 100%; margin: .25rem 0 0; padding-top: .75rem; border-top-color: hsl(var(--line)); border-radius: 0; }
+    [data-travel-explorer] :global([data-ui-world-map-select]) { font-size: 1.375rem; }
+    [data-travel-explorer] :global([data-slot="world-map-zoom-controls"]) { gap: .25rem; padding: .625rem .75rem; }
+    [data-travel-explorer] :global([data-slot="world-map-zoom-controls"] [data-ui-world-map-zoom="reset"]) { width: 100%; margin: .25rem 0 0; padding-top: .75rem; border-top-color: hsl(var(--line)); border-radius: 0; }
   }
 
   [data-travel-selection] {
@@ -342,8 +345,8 @@ const labels = pageLocale === 'es' ?
   [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) { color: hsl(var(--travel-navigation-accent)); }
   [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-country] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
   [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-arrow] { color: hsl(var(--on-brand)); background: hsl(var(--brand-solid)); }
-  :global([data-theme="dark"]) [data-travel-explorer] { --travel-navigation-accent: var(--accent); }
-  :global([data-theme="dark"]) [data-travel-code] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme="santi020k-dark"]) [data-travel-explorer] { --travel-navigation-accent: var(--accent); }
+  :global([data-theme="santi020k-dark"]) [data-travel-code] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
 
   @media (prefers-reduced-motion: reduce) {
     [data-travel-explorer] :global([data-travel-next]), [data-travel-next-arrow] { transition: none; }
@@ -362,7 +365,7 @@ const labels = pageLocale === 'es' ?
     [data-travel-context] { display: block; font-size: 0.8125rem; }
     [data-travel-counts] { margin-top: 1rem; }
     [data-travel-atlas] { --travel-map-height: clamp(32rem, 68svh, 42rem); }
-    [data-travel-explorer] :global(.ui-world-map__viewport) { aspect-ratio: auto; height: var(--travel-map-height); }
+    [data-travel-explorer] :global([data-ui-world-map-viewport]) { aspect-ratio: auto; height: var(--travel-map-height); }
     [data-travel-explorer] :global(.ui-world-map__plot) { width: calc(max(100%, var(--travel-map-height) * 2.5) * var(--ui-world-map-zoom, 1)); }
     [data-travel-hint] { top: 0.75rem; bottom: auto; left: 0.75rem; }
     [data-travel-controls] { width: calc(100% - 2.5rem); margin: 1rem 1.25rem 0; }
@@ -382,7 +385,7 @@ const labels = pageLocale === 'es' ?
     [data-travel-hint] { position: static; margin: 0 1.25rem 0.75rem; padding: 0; background: none; }
     [data-travel-controls] { width: calc(100% - 1rem); margin-inline: .5rem; }
     [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 0.5rem 0; overflow: visible; box-shadow: none; }
-    [data-travel-explorer] :global(.ui-world-map__frame) { grid-area: auto; }
+    [data-travel-explorer] :global([data-slot="world-map-frame"]) { grid-area: auto; }
     [data-travel-cover] { padding: 1rem 0.75rem 1.25rem; }
     [data-travel-selection-body] { padding-inline: 0.75rem; }
     [data-travel-destination] { align-items: start; }
@@ -443,7 +446,7 @@ const labels = pageLocale === 'es' ?
     const map = explorer.querySelector<HTMLElement>('[data-ui-world-map]')
     const controlsTemplate = explorer.querySelector<HTMLTemplateElement>('[data-travel-controls-template]')
     const picker = chooser.closest('label')
-    const zoomControls = explorer.querySelector<HTMLElement>('.ui-world-map__zoom-controls')
+    const zoomControls = explorer.querySelector<HTMLElement>('[data-slot="world-map-zoom-controls"]')
     const controls = controlsTemplate?.content.firstElementChild?.cloneNode(true)
 
     if (map && picker && zoomControls && controls instanceof HTMLElement) {

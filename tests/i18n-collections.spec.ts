@@ -83,11 +83,11 @@ test('topic and technology filters announce Spanish results', async ({ page }) =
   await expectNoUnexpectedAccessibilityViolations(page)
 })
 
-test('Spanish article shell keeps the authored article in English', async ({ page }) => {
+test('Spanish article renders its translated prose and publication details', async ({ page }) => {
   await page.goto('/es/blog/a-release-process-that-reduces-drama/')
   await expect(page.locator('html')).toHaveAttribute('lang', 'es-419')
-  await expect(page.locator('[data-article-prose]')).toHaveAttribute('lang', 'en')
+  await expect(page.locator('[data-article-prose]')).toHaveAttribute('lang', 'es')
   await expect(page.locator('[data-publication-field="published"] dt')).toHaveText('Publicado')
-  await expect(page.locator('[data-article-prose]')).toContainText('release')
+  await expect(page.locator('[data-article-prose]')).toContainText('versión')
   await expectNoUnexpectedAccessibilityViolations(page)
 })

@@ -1,5 +1,5 @@
 ---
-import { ThemeToggle } from '@santi020k/lumen-astro'
+import ThemeToggle from '@santi020k/lumen-astro/components/ThemeToggle'
 
 import { getLocale, sharedTranslator } from '@/i18n'
 
@@ -10,14 +10,16 @@ const t = sharedTranslator(locale)
 
 <ThemeToggle
   aria-label={t('shared.switchTheme')}
+  darkTheme="santi020k-dark"
   data-theme-toggle-btn
+  lightTheme="santi020k-light"
   storageKey="theme"
 />
 
 <style is:global>
   /* Header action styling lives in nav.css. Lumen offsets these icons with fixed
      negative margins; translate centers them at whatever size they render. */
-  [data-theme-toggle-btn] :is(.ui-theme-toggle__sun, .ui-theme-toggle__moon) {
+  [data-theme-toggle-btn] :is([data-slot="theme-toggle-sun"], [data-slot="theme-toggle-moon"]) {
     margin: 0;
     translate: -50% -50%;
   }

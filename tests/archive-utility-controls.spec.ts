@@ -72,6 +72,75 @@ const expectClickable = async (target: Locator) => {
   })).toBe(true)
 }
 
+const activateWithoutScripts = async (page: Page, target: Locator, isMobile: boolean) => {
+  await expect(target).toBeInViewport()
+  await expectClickable(target)
+  const bounds = await target.boundingBox()
+
+  if (!bounds) throw new Error('Missing pointer target bounds')
+
+  // With scripts disabled, WebKit can stop the animation frames used by
+  // locator stability checks. Hit-test first, then use the native pointer.
+  const x = bounds.x + bounds.width / 2
+  const y = bounds.y + bounds.height / 2
+
+  if (isMobile) await page.touchscreen.tap(x, y)
+  else await page.mouse.click(x, y)
+}
+
+const expectNoticeAboveNavigation = async (page: Page, notice: Locator) => {
+  await expect(notice).toHaveCSS('position', 'static')
+  await expect.poll(() => notice.evaluate(element => {
+    const header = document.querySelector('header')
+
+    if (!header) throw new Error('Missing archive navigation')
+
+    return header.getBoundingClientRect().top - element.getBoundingClientRect().bottom
+  })).toBeGreaterThanOrEqual(-1)
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+}
+
+for (const width of [320, 390, 1440]) {
+  for (const scale of [100, 200]) {
+    for (const theme of ['light', 'dark'] as const) {
+      test.describe(`Archive notice ${width}px / ${scale}% / ${theme}`, () => {
+        test.use({ viewport: { width, height: width < 1440 ? 844 : 900 }, colorScheme: theme, reducedMotion: 'reduce' })
+
+        test.beforeEach(async ({ page }) => readingPreferences(page, scale))
+
+        for (const era of ['v1', 'v2', 'v3', 'v4']) {
+          test(`${era} notice grows with text and leaves its links reachable`, async ({ page }) => {
+            await openArchive(page, `/${era}/portfolio/`)
+            const notice = page.getByRole('complementary', { name: 'Website archive' })
+            const links = notice.getByRole('link')
+
+            await expect(links).toHaveText(['View current page', 'Current homepage', 'Website history'])
+            await expectTextFits(notice)
+            await expectTextFits(links)
+            await expect.poll(() => notice.evaluate(element => {
+              const root = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
+              const font = Number.parseFloat(getComputedStyle(element).fontSize)
+
+              return font / root
+            })).toBeCloseTo(0.875, 2)
+            await expectNoticeAboveNavigation(page, notice)
+            const scan = await new AxeBuilder({ page }).include('.website-archive-banner').analyze()
+
+            expect(scan.violations).toEqual([])
+            for (const link of await links.all()) {
+              expect(await link.evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44)
+              await link.focus()
+              await expect(link).toBeFocused()
+              await expectClickable(link)
+              await expect(link).toHaveCSS('outline-style', 'solid')
+            }
+          })
+        }
+      })
+    }
+  }
+}
+
 for (const width of [390, 1440]) {
   for (const scale of [100, 200]) {
     for (const theme of ['light', 'dark'] as const) {
@@ -80,37 +149,8 @@ for (const width of [390, 1440]) {
 
         test.beforeEach(async ({ page }) => readingPreferences(page, scale))
 
-        for (const era of ['v1', 'v2', 'v3', 'v4']) {
-          test(`${era} notice grows with text and leaves its links reachable`, async ({ page }) => {
-            await openArchive(page, `/${era}/${era === 'v1' ? 'portfolio/optic-power' : 'offline'}/`)
-            const notice = page.getByRole('complementary', { name: 'Website archive' })
-
-            await expectTextFits(notice)
-            await expect.poll(() => notice.evaluate(element => {
-              const root = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
-              const font = Number.parseFloat(getComputedStyle(element).fontSize)
-
-              return font / root
-            })).toBeCloseTo(0.875, 2)
-            await expect.poll(() => notice.evaluate(element => {
-              const reserved = Number.parseFloat(getComputedStyle(document.body).paddingBottom)
-
-              return reserved >= element.getBoundingClientRect().height
-            })).toBe(true)
-            const scan = await new AxeBuilder({ page }).include('.website-archive-banner').analyze()
-
-            expect(scan.violations).toEqual([])
-            for (const link of await notice.getByRole('link').all()) {
-              await link.focus()
-              await expect(link).toBeFocused()
-              await expectClickable(link)
-              await expect(link).toHaveCSS('outline-style', 'solid')
-            }
-          })
-        }
-
         for (const era of ['v2', 'v3', 'v4']) {
-          test(`${era} back-to-top clears the notice and returns keyboard focus`, async ({ page }) => {
+          test(`${era} back-to-top remains reachable after the notice scrolls away`, async ({ page }) => {
             await openArchive(page, `/${era}/offline/`)
             const button = page.locator('#back-to-top')
 
@@ -124,13 +164,8 @@ for (const width of [390, 1440]) {
             })
             await expect(button).not.toHaveAttribute('inert')
             await expectClickable(button)
-            const gap = await button.evaluate(element => {
-              const notice = document.querySelector('.website-archive-banner')
-
-              return notice ? notice.getBoundingClientRect().top - element.getBoundingClientRect().bottom : -1
-            })
-
-            expect(gap).toBeGreaterThanOrEqual(8)
+            await expect(button).toBeInViewport()
+            await expect.poll(() => page.locator('.website-archive-banner').evaluate(element => element.getBoundingClientRect().bottom)).toBeLessThanOrEqual(0)
             await button.focus()
             await page.keyboard.press('Enter')
             await expect(page.locator('#main')).toBeFocused()
@@ -179,22 +214,34 @@ for (const width of [390, 1440]) {
 }
 
 test.describe('Without JavaScript', () => {
-  test.use({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
-  for (const era of ['v1', 'v2', 'v3', 'v4']) {
-    test(`${era} notice remains usable without JavaScript`, async ({ page }) => {
-      await page.goto(`/${era}/`)
-      const notice = page.getByRole('complementary', { name: 'Website archive' })
+  test.use({ javaScriptEnabled: false, viewport: { width: 320, height: 844 } })
+  for (const theme of ['light', 'dark'] as const) {
+    for (const era of ['v1', 'v2', 'v3', 'v4']) {
+      test(`${era} enlarged notice remains usable without JavaScript in ${theme}`, async ({ page, isMobile }) => {
+        await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+        await page.goto(`/${era}/`)
+        await page.evaluate(() => {
+          document.documentElement.style.fontSize = `${Number.parseFloat(getComputedStyle(document.documentElement).fontSize) * 2}px`
+        })
+        const notice = page.getByRole('complementary', { name: 'Website archive' })
 
-      await expect(notice).toHaveCSS('position', 'static')
-      await expect(page.locator('html')).not.toHaveAttribute('data-website-archive-ready')
-      expect(await page.evaluate(() => document.documentElement.style.getPropertyValue('--website-archive-banner-height'))).toBe('')
-      await notice.getByRole('link', { name: 'Website history', exact: true }).click()
-      await expect(page).toHaveURL(/\/history\/$/u)
-    })
+        await expectNoticeAboveNavigation(page, notice)
+        await expectTextFits(notice)
+        await expect(notice.getByRole('link', { name: 'Current homepage', exact: true })).toHaveAttribute('href', '/')
+        await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
+        await activateWithoutScripts(page, notice.getByRole('link', { name: 'Website history', exact: true }), isMobile)
+        await expect(page).toHaveURL(/\/history\/$/u)
+      })
+    }
   }
 })
 
-test('archive notice remeasures after resize and client navigation', async ({ page }) => {
+// macOS WebKit uses Option+Tab to include links in keyboard navigation.
+const archiveTabKey = (browserName: string) => browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab'
+
+test('archive notice reflows after resize and client navigation', async ({ page, browserName }) => {
+  const tab = archiveTabKey(browserName)
+
   await readingPreferences(page, 200)
   await page.setViewportSize({ width: 390, height: 844 })
   await openArchive(page, '/v2/offline/')
@@ -207,16 +254,16 @@ test('archive notice remeasures after resize and client navigation', async ({ pa
     await page.setViewportSize(viewport)
     const notice = page.getByRole('complementary', { name: 'Website archive' })
 
-    await expect.poll(() => notice.evaluate(element => {
-      const reserved = Number.parseFloat(getComputedStyle(document.body).paddingBottom)
-
-      return reserved - element.getBoundingClientRect().height
-    })).toBeGreaterThanOrEqual(0)
-    const box = await notice.boundingBox()
-
-    expect(box?.height).toBeLessThanOrEqual(viewport.height * 0.45 + 1)
+    await page.evaluate(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    })
+    await expectNoticeAboveNavigation(page, notice)
+    await expectTextFits(notice)
+    await expect(notice.getByRole('link', { name: 'View current page', exact: true })).toHaveAttribute('href', '/portfolio/')
+    await page.getByRole('link', { name: 'Skip to content', exact: true }).focus()
     for (const link of await notice.getByRole('link').all()) {
-      await link.focus()
+      await page.keyboard.press(tab)
+      await expect(link).toBeFocused()
       await expectClickable(link)
     }
   }

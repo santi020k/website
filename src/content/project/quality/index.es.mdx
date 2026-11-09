@@ -1,0 +1,215 @@
+---
+title: "quality"
+seoTitle: "Quality: una CLI para verificar repositorios"
+description: "Creé una CLI de calidad de código rápida y predecible y una GitHub Action que detecta y coordina analizadores nativos en repositorios Rust, Swift, Android, Kotlin, JavaScript y Astro."
+cardDescription: "Un comando para coordinar verificaciones de calidad. Ejecuta los analizadores nativos adecuados en proyectos web, móviles y de sistemas."
+impactMetrics: ["Coordina 13 analizadores nativos para Rust, Swift, Android, Kotlin, JavaScript, TypeScript y Astro", "Admite archivos modificados, líneas base, adaptadores externos, ejecución concurrente y auditorías entre repositorios", "Distribuye binarios nativos y una GitHub Action con anotaciones, resúmenes, verificación de sumas de comprobación y salida SARIF"]
+coverImage:
+  alt: "Logotipo de Quality sobre una portada geométrica oscura con detalles azules"
+focusAreas:
+  - label: "Coordinación de herramientas"
+    description: "Analizadores nativos detrás de una CLI predecible"
+  - label: "Contexto del repositorio"
+    description: "Scripts canónicos y verificaciones de archivos modificados"
+  - label: "Información para revisión"
+    description: "Líneas base, anotaciones de CI e informes accionables"
+relatedWritingLabels: ["Notas de ingeniería", "Ecosistema de herramientas"]
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+{/* cspell:words Clippy detekt ktlint SARIF */}
+
+<ProjectContextLead projectId="quality" headingId="one-quality-workflow-for-polyglot-repositories">
+
+## Un flujo de calidad para repositorios con varios lenguajes
+
+Creé `quality` para repositorios donde “ejecuta las verificaciones” deja de ser una instrucción sencilla.
+
+Un producto moderno puede contener servicios Rust, una aplicación Swift, módulos Android, paquetes TypeScript y un sitio Astro. Cada ecosistema ya tiene buenos analizadores. Lo que falta es una forma predecible de detectarlos, ejecutarlos juntos, normalizar sus resultados y explicar qué espera un repositorio.
+
+`quality` es esa capa. Coordina las herramientas nativas en lugar de reemplazarlas.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Funciones", href: "#what-i-built" },
+    { label: "Aspectos técnicos", href: "#technical-highlights" },
+    { label: "Resultados", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="quality"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Conservar el conocimiento del ecosistema** invocando los analizadores en los que los equipos ya confían.
+
+</li>
+
+<li>
+
+**Dar a cada repositorio un flujo fácil de recordar** para verificar, formatear, corregir, diagnosticar y adoptar políticas.
+
+</li>
+
+<li>
+
+**Hacer práctica la adopción gradual** con configuración explícita y líneas base para hallazgos existentes.
+
+</li>
+
+<li>
+
+**Usar la misma política localmente y en CI** con resultados estructurados para personas, agentes y GitHub.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Qué construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Una CLI nativa en Rust"}>
+
+con `init`, `doctor`, `check`, `format`, `fix`, `baseline`, `repositories`, `instructions`, `completions` y comandos de generación de CI.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Trece adaptadores integrados"}>
+
+que cubren Cargo fmt, Clippy, SwiftLint, SwiftFormat, Android Lint, detekt, ktlint, ESLint, Astro Check, Prettier, CSpell, Knip y Actionlint.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Descubrimiento de tareas del repositorio"}>
+
+que conserva los scripts canónicos de paquetes y las particularidades de verificación de tipos o validación de cada monorepo.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Ejecución sobre archivos modificados"}>
+
+que envía las rutas relevantes a herramientas capaces de trabajar por archivo y escala los cambios de configuración a verificaciones completas.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Compatibilidad con líneas base"}>
+
+que registra diagnósticos existentes y falla solo ante regresiones nuevas, sin ocultar herramientas ausentes ni fallos de los analizadores.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Una GitHub Action"}>
+
+con descargas verificadas, anotaciones en solicitudes de cambios, resúmenes de tareas, informes SARIF y umbrales de fallo configurables.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Ejecución concurrente</dt>
+  <dd>
+
+Las verificaciones independientes se ejecutan juntas por defecto; `--fail-fast` está disponible cuando el primer fallo importa más que un informe completo.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Diagnósticos normalizados</dt>
+  <dd>
+
+Los formatos legible, JSON, SARIF y GitHub convierten las distintas convenciones de los analizadores en un modelo común de resultados.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Adaptadores personalizados</dt>
+  <dd>
+
+Los equipos pueden añadir herramientas propias con comandos, modos de archivo, extensiones, archivos de configuración y analizadores explícitos.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Operaciones entre repositorios</dt>
+  <dd>
+
+Auditar una carpeta de repositorios, previsualizar políticas ausentes y aplicar configuración desde una misma interfaz de comandos.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Distribuciones portables</dt>
+  <dd>
+
+Binarios verificados mediante sumas de comprobación para macOS, Linux y Windows, junto a una GitHub Action versionada.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Resultados
+
+</ProjectSectionHeading>
+
+- **Un punto de entrada para verificar la calidad en varios lenguajes**, mientras cada ecosistema conserva su mejor analizador.
+- **Retroalimentación más rápida** mediante ejecución concurrente y consciente de los archivos modificados.
+- **Aplicación incremental de políticas** que permite a repositorios consolidados bloquear nuevas regresiones antes de resolver todos los hallazgos antiguos.
+- **Evidencia consistente en las solicitudes de cambios** mediante anotaciones, resúmenes, SARIF y comportamiento explícito de salida.
+
+<ProjectSectionHeading>
+
+### Por qué importa
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Las políticas de calidad se vuelven frágiles cuando viven en conocimiento informal, una colección de scripts inconexos o un archivo de CI que nadie ejecuta localmente."}>
+
+Se vuelven pesadas cuando una capa envolvente intenta reimplementar cada analizador.
+
+</ProjectPrincipleClose>
+
+`quality` toma un camino más acotado: detectar la intención del repositorio, resolver herramientas nativas de forma reproducible, ejecutarlas con eficiencia y hacer comprensibles sus resultados dondequiera que se trabaje.

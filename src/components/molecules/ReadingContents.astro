@@ -3,7 +3,9 @@ import type { MarkdownHeading } from 'astro'
 
 import { getReadingChapters } from '@/utils/reading-chapters'
 
-import { Anchor, Collapsible, Icon } from '@santi020k/lumen-astro'
+import Anchor from '@santi020k/lumen-astro/components/Anchor'
+import Collapsible from '@santi020k/lumen-astro/components/Collapsible'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
@@ -30,7 +32,7 @@ const chapters = getReadingChapters(headings).map(chapter => {
 ---
 
 {chapters.length > 0 && (
-  <reading-contents>
+  <reading-contents tabindex="-1">
     <Anchor activationOffset={120} aria-label={t('collection.tableOfContents')} data-reading-contents data-contents-embedded={embedded || undefined}>
       {!embedded && (
         <p data-chapters-title>{t('collection.onThisPage')}<Icon
@@ -102,9 +104,9 @@ name="list"
   [data-chapter-sections] a[aria-current='location']::before { content: ''; position: absolute; inset-inline-start: -1px; inset-block: 0.625rem; width: 3px; border-inline-start: 3px solid currentColor; border-radius: 2px; }
   [data-chapter-standalone][aria-current='location']::before { content: ''; position: absolute; inset-inline-start: -0.75rem; inset-block: 0.625rem; width: 3px; border-inline-start: 3px solid currentColor; border-radius: 2px; }
   [data-reading-contents] a:is(:hover, [aria-current='location']), [data-chapter-group][open] > summary { color: hsl(var(--brand)); }
-  :global(:root[data-theme='dark']) [data-chapters-title],
-  :global(:root[data-theme='dark']) [data-reading-contents] a:is(:hover, [aria-current='location']),
-  :global(:root[data-theme='dark']) [data-chapter-group][open] > summary { color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) [data-chapters-title],
+  :global(:root[data-theme='santi020k-dark']) [data-reading-contents] a:is(:hover, [aria-current='location']),
+  :global(:root[data-theme='santi020k-dark']) [data-chapter-group][open] > summary { color: hsl(var(--accent)); }
   @container chapter-groups (width < 16rem) {
     [data-reading-contents] { padding-inline: 0.75rem; }
     [data-chapter-summary], [data-chapter-standalone] { font-size: 0.8125rem; }

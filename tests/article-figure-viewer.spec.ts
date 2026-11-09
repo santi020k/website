@@ -19,7 +19,8 @@ for (const theme of ['light', 'dark']) {
       const viewer = figure.locator('gallery-viewer')
       const opener = viewer.getByRole('button', { name: 'View larger: From layers to flat config.' })
       const dialog = viewer.getByRole('dialog')
-      const canvas = viewer.locator('[data-gallery-canvas]')
+      const canvas = viewer.locator('[data-ui-media-viewport-stage]')
+      const viewport = viewer.locator('[data-gallery-viewport]')
 
       await expect(figure.locator('[data-figure-caption]')).toHaveText('From layers to flat config.')
       await expect(canvas.locator('img')).toHaveCount(0)
@@ -39,14 +40,14 @@ for (const theme of ['light', 'dark']) {
         return available && bounds.width <= available.width + 1 && bounds.height <= available.height + 1
       })).toBe(true)
       await expectNoUnexpectedAccessibilityViolations(page)
-      await dialog.getByRole('button', { name: 'Inspect detail', exact: true }).click()
-      await expect(canvas).toHaveAttribute('data-zoomed', 'true')
-      expect(await image.evaluate(element => element instanceof HTMLImageElement &&
-        Math.abs(element.clientWidth - element.naturalWidth) < 1)).toBe(true)
+      await dialog.getByRole('button', { name: 'Zoom in', exact: true }).click()
+      await expect(viewport).toHaveAttribute('data-zoom', '1.25')
+      await expect(viewport.locator('[data-ui-media-viewport-status]')).toHaveText('125%')
+      await dialog.getByRole('button', { name: 'Zoom in', exact: true }).click()
+      await expect(viewport).toHaveAttribute('data-zoom', '1.5')
+      await canvas.focus()
       await page.keyboard.press('ArrowRight')
-      expect(await canvas.evaluate(element => element.scrollLeft)).toBeCloseTo(
-        await canvas.evaluate(element => Math.min(100, element.scrollWidth - element.clientWidth)), 0
-      )
+      await expect(viewport).toHaveAttribute('data-pan-x', '0.25')
       // The viewer owns its keys, so neither search shortcut opens a second modal.
       for (const shortcut of ['Control+k', 'Meta+k']) {
         await page.keyboard.press(shortcut)
@@ -55,8 +56,9 @@ for (const theme of ['light', 'dark']) {
         await expect(page.locator('[data-site-search-trigger]')).toHaveAttribute('aria-expanded', 'false')
       }
       await dialog.getByRole('button', { name: 'Fit image', exact: true }).click()
-      await expect(canvas).toHaveAttribute('data-zoomed', 'false')
-      expect(await canvas.evaluate(element => element.scrollLeft + element.scrollTop)).toBe(0)
+      await expect(viewport).toHaveAttribute('data-zoom', '1')
+      await expect(viewport).toHaveAttribute('data-pan-x', '0')
+      await expect(dialog.getByRole('button', { name: 'Fit image', exact: true })).toBeDisabled()
       await page.keyboard.press('Escape')
       await expect(dialog).toBeHidden()
       await expect(opener).toBeFocused()
@@ -86,7 +88,7 @@ for (const width of [320, 1440]) {
     const close = dialog.getByRole('button', { name: 'Close', exact: true })
 
     await expect(close).toBeInViewport()
-    await dialog.getByRole('button', { name: 'Inspect detail', exact: true }).click()
+    await dialog.getByRole('button', { name: 'Zoom in', exact: true }).click()
     await expect(close).toBeInViewport()
     expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true)
     await page.keyboard.press('Escape')
@@ -94,7 +96,7 @@ for (const width of [320, 1440]) {
   })
 }
 
-test('each illustration uses its own optimized image and retries failures on reopen', async ({ page }) => {
+test('each illustration uses its own optimized image and explicitly retries failures', async ({ page }) => {
   await page.goto(route)
   const figures = page.locator('[data-article-figure]')
 
@@ -112,12 +114,13 @@ test('each illustration uses its own optimized image and retries failures on reo
   await expect(recovery).toHaveAttribute('href', imageURL)
   await expect(recovery).toHaveAttribute('rel', /noopener/u)
   await expect(recovery).toHaveAttribute('rel', /noreferrer/u)
-  await expect(second.getByRole('button', { name: 'Inspect detail', exact: true })).toHaveCount(0)
-  await second.getByRole('button', { name: 'Close', exact: true }).click()
+  await expect(second.getByRole('button', { name: 'Zoom in', exact: true })).toHaveCount(0)
+  await expect(second.getByRole('button', { name: 'Retry', exact: true })).toBeVisible()
   await page.unroute(imageURL)
-  await second.locator('[data-gallery-open]').click()
+  await second.getByRole('button', { name: 'Retry', exact: true }).click()
+  await expect(second.getByRole('button', { name: 'Close', exact: true })).toBeFocused()
   await expect(second.locator('[data-gallery-status]')).toHaveText('Complete image')
-  await expect(figures.first().locator('[data-gallery-canvas] img')).toHaveCount(0)
+  await expect(figures.first().locator('[data-gallery-image-mount] img')).toHaveCount(0)
 })
 
 test('MDX illustrations use the same viewer, including after client navigation and Back', async ({ page }) => {

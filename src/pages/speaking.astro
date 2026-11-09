@@ -18,7 +18,10 @@ import SpeakerPortrait from '@/assets/photos/originals/me-1-square.webp'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { getPortfolioPath } from '@/utils/links'
 
-import { Card, Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Link from '@santi020k/lumen-astro/components/Link'
+import RevealGroup from '@santi020k/lumen-astro/components/RevealGroup'
 
 import { getLocale, localizePath } from '@/i18n'
 import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
@@ -378,7 +381,7 @@ class="size-6.5"
 <style>
   [data-speaking-guide-container] { container: speaking-guide / inline-size; }
   [data-speaking-guide] { --guide-accent: var(--brand); margin-top: 2.5rem; }
-  :global(:root[data-theme='dark']) [data-speaking-guide] { --guide-accent: var(--accent); }
+  :global(:root[data-theme='santi020k-dark']) [data-speaking-guide] { --guide-accent: var(--accent); }
   [data-speaking-guide] > p { color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.8; letter-spacing: 0.1em; text-transform: uppercase; }
   [data-speaking-guide] ol { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin: 1rem 0 0; padding: 0; border-bottom: 1px solid hsl(var(--line)); list-style: none; }
   [data-speaking-guide] li { min-width: 0; }
@@ -477,8 +480,8 @@ class="size-6.5"
   [data-community-number] { padding-top: 0.125rem; color: hsl(var(--brand)); font-size: 0.6875rem; }
   [data-community-actions] { padding: 1.375rem 1.625rem; border-top: 1px solid hsl(var(--line)); }
 
-  :global([data-theme='dark']) [data-community-role] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
-  :global([data-theme='dark']) :is([data-community-number], [data-community-symbol]) { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-community-role] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme='santi020k-dark']) :is([data-community-number], [data-community-symbol]) { color: hsl(var(--accent)); }
 
   @container speaking-community (width >= 32rem) {
     [data-community-dossier-grid] { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); }
@@ -563,8 +566,8 @@ class="size-6.5"
     letter-spacing: -0.035em;
   }
 
-  :global([data-theme='dark']) [data-invitation-icon] { color: hsl(var(--accent)); }
-  :global([data-theme='dark']) [data-invitation-link] :global([data-invitation-link-icon]) { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-invitation-icon] { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-invitation-link] :global([data-invitation-link-icon]) { color: hsl(var(--accent)); }
 
   @container speaking-booking (width >= 32rem) {
     [data-invitation-grid] { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }

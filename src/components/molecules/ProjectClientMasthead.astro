@@ -1,4 +1,9 @@
 ---
+import { getLocale } from '@/i18n'
+import { projectStoryTranslator } from '@/i18n/project-story'
+
+const t = projectStoryTranslator(getLocale(Astro.url.pathname))
+
 interface Props {
   sequence: string
 }
@@ -7,7 +12,7 @@ const { sequence } = Astro.props
 ---
 
 <header class="not-prose" data-client-masthead>
-  <p data-client-sequence>Client project {sequence}</p>
+  <p data-client-sequence>{t('client.projectSequence', { sequence })}</p>
   <slot />
 </header>
 
@@ -15,7 +20,7 @@ const { sequence } = Astro.props
   [data-client-masthead] { container: client-masthead / inline-size; margin-block: 3.5rem 1.75rem; }
   [data-client-sequence] { display: flex; align-items: center; gap: 1rem; margin: 0 0 1.125rem; color: hsl(var(--brand)); font: 500 0.6875rem/1.7 var(--font-sans); }
   [data-client-sequence]::after { content: ''; flex: 1; height: 1px; background: hsl(var(--line)); }
-  :global([data-theme='dark']) [data-client-sequence] { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-client-sequence] { color: hsl(var(--accent)); }
   /* The authored Markdown heading remains the source of its name and fragment. */
   [data-client-masthead] :global(h2) { margin: 0; border: 0; padding: 0; color: hsl(var(--ink)); font: 500 2.375rem/1.1 var(--font-sans); letter-spacing: -0.045em; overflow-wrap: anywhere; }
   [data-client-masthead] :global(h2::after) { content: none; }

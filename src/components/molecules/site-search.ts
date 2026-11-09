@@ -20,6 +20,7 @@ let searchURL = window.location.href
 let closeAnimTimer = 0
 let closeAnimPanel: HTMLElement | null = null
 let closeAnimHandler: ((event: AnimationEvent) => void) | null = null
+let indexLocale = getLocale(window.location.pathname)
 let indexLoadState: 'idle' | 'loading' | 'ready' | 'error' = 'idle'
 let indexLoadPromise: Promise<boolean> | null = null
 let indexLoadController: AbortController | null = null
@@ -306,7 +307,7 @@ const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e
 
   titleEl.textContent = e.title
 
-  titleEl.lang = 'en'
+  titleEl.lang = getLocale(e.path)
 
   const descEl = document.createElement('span')
 
@@ -314,7 +315,7 @@ const appendResult = (results: HTMLElement, e: SearchIndexEntry, description = e
 
   descEl.textContent = description
 
-  descEl.lang = 'en'
+  descEl.lang = getLocale(e.path)
 
   body.append(typeEl, titleEl, descEl)
 
@@ -369,7 +370,9 @@ const appendBodyMatches = async (query: string, shown: SearchIndexEntry[], resul
     setStatusMessage(t('shared.searchingArticleText7'))
   }
 
-  const outcome = await fullTextSearch(query, entries, new Set(shown.map(entry => entry.path)), window.location.origin)
+  const outcome = await fullTextSearch(
+    query, entries, new Set(shown.map(entry => entry.path)), window.location.origin, getLocale(window.location.pathname)
+  )
 
   if (revision !== renderRevision || results !== getResults() || !getDialog()?.open) return
 
@@ -665,6 +668,19 @@ const isEditableTarget = (target: EventTarget | null) => {
 
 const loadIndex = async (options: { force?: boolean } = {}): Promise<boolean> => {
   const { force = false } = options
+  const locale = getLocale(window.location.pathname)
+
+  if (indexLocale !== locale) {
+    indexLoadController?.abort()
+
+    indexLocale = locale
+
+    indexLoadState = 'idle'
+
+    indexLoadPromise = null
+
+    entries = []
+  }
 
   // A valid empty index is still a successful load; reuse it until a full reload.
   if (!force && indexLoadState === 'ready') return true
@@ -696,7 +712,7 @@ const loadIndex = async (options: { force?: boolean } = {}): Promise<boolean> =>
     }, { once: true })
   })
 
-  const request = fetch('/search-index.json', { signal })
+  const request = fetch(locale === 'es' ? '/es/search-index.json' : '/search-index.json', { signal })
     .then(response => {
       if (!response.ok) {
         throw new Error('Failed search index response')

@@ -1,0 +1,192 @@
+---
+title: "Coolstead"
+description: "Creé una aplicación nativa para la barra de menús de macOS que supervisa las condiciones térmicas y aplica una curva gradual y limitada de ventilación sin sustituir la protección térmica de macOS."
+cardDescription: "Una aplicación para la barra de menús de macOS que supervisa la temperatura y regula los ventiladores junto a la protección térmica del sistema."
+coverImage:
+  alt: "Logotipo de refrigeración de Coolstead sobre una portada geométrica azul oscura con detalles cian"
+impactMetrics: ["Devuelve cada ventilador controlado al modo automático al detener la refrigeración o cerrar la aplicación", "Limita la velocidad solicitada al 75% del rango informado por cada ventilador", "Permite usar Macs sin ventilador con una experiencia solo de monitoreo"]
+focusAreas:
+  - label: "Visibilidad térmica"
+    description: "Monitoreo nativo del hardware del Mac desde la barra de menús"
+  - label: "Refrigeración gradual"
+    description: "Curvas de ventilación limitadas con cambios suaves del objetivo"
+  - label: "Recuperación segura"
+    description: "Vuelta al control automático cuando las lecturas no son fiables"
+relatedWritingLabels: ["Historia del producto"]
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="coolstead" headingId="designing-steadier-cooling-for-a-mac">
+
+## Diseñar una refrigeración más estable para un Mac
+
+Coolstead es un experimento nativo para la barra de menús de macOS que inicia la refrigeración antes que la política predeterminada de ventilación, sin tratar la velocidad máxima como la respuesta. Lee el estado térmico y los datos de los sensores, aplica una curva gradual de ventilación y devuelve el control a macOS cuando se desactiva la refrigeración activa.
+
+El producto es deliberadamente conservador. Controlar los ventiladores afecta al comportamiento del hardware, así que cada función se diseña alrededor de límites, manejo de datos inválidos y una vuelta fiable al modo automático.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Funciones", href: "#what-i-built" },
+    { label: "Aspectos técnicos", href: "#technical-highlights" },
+    { label: "Resultados", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="coolstead"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Responder antes de que el calor resulte incómodo** con una curva suave, en vez de un cambio abrupto a la velocidad máxima.
+
+</li>
+
+<li>
+
+**Hacer visible la seguridad en la arquitectura**, en lugar de dejarla solo en los textos de la interfaz.
+
+</li>
+
+<li>
+
+**Admitir distintos equipos Mac**, incluidos los dispositivos sin ventilador que también pueden beneficiarse del monitoreo.
+
+</li>
+
+<li>
+
+**Mantener la reversibilidad** para que cerrar la aplicación, desconectar o perder datos fiables de sensores restaure el control automático.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Qué construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Una aplicación nativa para la barra de menús"}>
+
+con estado térmico actual, lecturas de temperatura, monitoreo de ventiladores y controles de refrigeración equilibrada.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Una vía mediante un proceso auxiliar privilegiado"}>
+
+para el conjunto acotado de operaciones que requieren permisos elevados.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Un modelo de control limitado"}>
+
+que ajusta las solicitudes al rango informado por el ventilador y nunca pide más del 75% de ese rango.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Ajuste gradual del objetivo"}>
+
+para que las solicitudes a los ventiladores se acerquen a la curva en lugar de saltar directamente a ella.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Funcionamiento solo de monitoreo"}>
+
+para hardware no compatible o sin ventilador.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Desarrollo nativo de plataforma</dt>
+  <dd>
+
+`Swift`, `SwiftUI`, empaquetado de aplicaciones macOS, comportamiento de la barra de menús y un proceso auxiliar incluido.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Integración de hardware</dt>
+  <dd>
+
+Comportamiento del SMC obtenido mediante ingeniería inversa a través del paquete `macos-smc-fan`, con licencia MIT.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Manejo de fallos</dt>
+  <dd>
+
+Las lecturas ausentes o inválidas desactivan las escrituras, y los eventos del ciclo de vida devuelven los ventiladores controlados al modo automático.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Herramientas del espacio de trabajo</dt>
+  <dd>
+
+Una pequeña estructura de `pnpm` y `Turborepo` mantiene consistentes los comandos de compilación, pruebas, verificación de tipos y empaquetado de escritorio.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Resultados
+
+</ProjectSectionHeading>
+
+- **Un ciclo térmico que prioriza la seguridad**, donde las protecciones forman parte de la ruta de control.
+- **Una filosofía de producto más silenciosa**, centrada en refrigerar antes y de forma gradual, en lugar de forzar los ventiladores.
+- **Una base nativa** que se puede probar en modo de monitoreo antes de aprobar el control privilegiado.
+
+<ProjectSectionHeading>
+
+### Por qué importa
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Las utilidades del sistema se ganan la confianza con lo que se niegan a hacer."}>
+
+Coolstead es un ejercicio para hacer útil una pequeña herramienta que interactúa con el hardware y mantener explícitos sus límites.
+
+</ProjectPrincipleClose>

@@ -3,7 +3,9 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getLocale, localizePath } from '@/i18n'
 import { pageTranslator } from '@/i18n/page-copy'
@@ -223,9 +225,9 @@ const meta = {
     text-underline-offset: 0.2em;
   }
 
-  :global([data-theme='dark']) [data-recovery-header] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
-  :global([data-theme='dark']) [data-recovery-direction],
-  :global([data-theme='dark']) [data-recovery-card] :global([data-recovery-link]:is(:hover, :focus-visible)) [data-recovery-title] { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-recovery-header] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme='santi020k-dark']) [data-recovery-direction],
+  :global([data-theme='santi020k-dark']) [data-recovery-card] :global([data-recovery-link]:is(:hover, :focus-visible)) [data-recovery-title] { color: hsl(var(--accent)); }
 
   @container recovery (width < 20rem) {
     [data-recovery-header] { padding: 1.25rem; }

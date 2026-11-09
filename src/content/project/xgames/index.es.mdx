@@ -1,0 +1,142 @@
+---
+title: "X Games"
+description: "Construí y escalé la plataforma digital oficial de X Games, un sitio deportivo para millones de fans, con transmisiones en vivo, acceso por ubicación e infraestructura de publicidad programática con Google Ad Manager."
+coverImage:
+  alt: "Logotipo vertical de X Games sobre una portada geométrica de marca en rojo, carbón y marfil"
+impactMetrics: ["Más de 56 pull requests integrados en dos bases de código", "Acceso en tiempo real a transmisiones en vivo según la ubicación de audiencias globales", "Infraestructura completa de publicidad programática con Google Ad Manager creada desde cero"]
+focusAreas:
+  - label: "Eventos en vivo"
+    description: "Acceso a transmisiones y enrutamiento regional controlados desde el CMS"
+  - label: "Publicidad"
+    description: "Espacios adaptables de Google Ad Manager entre cambios de ruta"
+  - label: "Herramientas editoriales"
+    description: "Esquemas de Sanity para contenido y configuración en tiempo de ejecución"
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="xgames" headingId="building-the-official-x-games-digital-platform">
+
+## Construir la plataforma digital oficial de X Games
+
+X Games es una de las marcas de deportes extremos más reconocidas del mundo: reúne competencias de snowboard, skateboard, BMX y FMX transmitidas globalmente por ESPN. Me uní al equipo para ayudar a mantener y evolucionar la plataforma digital oficial durante un periodo de temporadas activas de eventos, abordando el trabajo de sistemas que sostiene a audiencias de millones de personas.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Mi contribución", href: "#what-i-built-and-shipped" },
+    { label: "Resultados en detalle", href: "#key-outcomes" },
+    { label: "Tecnologías", href: "#tech-stack" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="xgames"
+>
+
+### Resultados
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### El desafío principal
+
+</ProjectSectionHeading>
+
+El sitio debía funcionar de forma confiable bajo la presión real de una transmisión: eventos en vivo sujetos a horarios, audiencias globales con restricciones de acceso geográficas y una infraestructura publicitaria en crecimiento que debía integrarse de forma limpia con Next.js sin romper el proceso de renderizado. Había que manejar con precisión los problemas de sincronización, los cambios de ruta y los conflictos entre espacios publicitarios para que los fans vieran el contenido correcto en el momento adecuado.
+
+<ProjectSectionHeading>
+
+### Lo que construí y entregué
+
+</ProjectSectionHeading>
+
+- **Una integración completa de Google Ad Manager desde cero**, incluido un hook personalizado `useAdSlot` que resolvió uno de los problemas de frontend más complejos del proyecto: cargar `googletag` de forma confiable dentro del ciclo de vida de React. El hook usa lógica de reintentos con sondeo basado en promesas, maneja cambios de ruta mediante los eventos del router de Next.js y limpia los espacios publicitarios al desmontarse para evitar fugas de memoria y conflictos entre iframes.
+- **Control de acceso a transmisiones en vivo según la ubicación**, trabajando en las secciones `HappeningNow` y del reproductor de video para redirigir a usuarios con bloqueo geográfico hacia las transmisiones externas apropiadas, controlado completamente mediante indicadores de Sanity CMS sin exigir cambios de código por región.
+- **Módulos adaptables de banners de Ad Manager**, refactorizando la implementación inicial en un componente independiente con mapeo de tamaños, manejo adaptable de altura y separación clara entre la definición del esquema de Sanity y el ciclo de vida del espacio publicitario en ejecución.
+- **Variantes del formulario de boletín del pie de página** con instancias de tema azul y rojo, administradas mediante contenido estructurado de Sanity y renderizadas sin regresiones de diseño entre anchos de dispositivo.
+- **Soporte para insertar scripts mediante bloques de código**, permitiendo que los editores incorporaran scripts de terceros a través de contenido de Portable Text sin tocar la base de código.
+- **Mejoras de experiencia en eventos en vivo**, incluidas insignias animadas de "LIVE", mejoras en la interacción del cursor sobre el marcador de posición del video y escalado al pasar el cursor sobre los botones de llamada a la acción, con tiempos ajustados cuidadosamente.
+- **Extensiones de los esquemas de Sanity Studio** para campos de bloqueo geográfico, configuración de Ad Manager y ajustes globales de anuncios en el encabezado, manteniendo sincronizados el contenido y el comportamiento en ejecución sin fijar valores en el código.
+
+<ProjectSectionHeading>
+
+### Resultados principales
+
+</ProjectSectionHeading>
+
+- **Más de 56 PR integrados** entre el frontend de Next.js y el backend de Sanity CMS durante el periodo de colaboración.
+- **Una infraestructura de publicidad programática** capaz de registrar, mostrar, redimensionar y limpiar espacios de Google Ad Manager entre navegaciones de página: una integración compleja en un contexto de React y Next.js.
+- **Enrutamiento de contenido por ubicación** que gestionaba el acceso a transmisiones en vivo para audiencias internacionales mediante configuración del CMS, sin despliegues condicionales.
+- **Correspondencia clara entre CMS y frontend** para la configuración de anuncios, indicadores de transmisiones en vivo y módulos de patrocinadores: los editores podían administrar el comportamiento en ejecución sin intervención de desarrolladores.
+
+<ProjectSectionHeading>
+
+### Tecnologías
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Frontend</dt>
+  <dd>
+
+`Next.js 13`, `React.js`, `JavaScript`, `SCSS`, `Embla Carousel`, `Radix UI`
+
+  </dd>
+</div>
+
+<div>
+  <dt>CMS y contenido</dt>
+  <dd>
+
+`Sanity v3`, `Sanity Studio`, `Portable Text`, `sanity-plugin-vercel-deploy`
+
+  </dd>
+</div>
+
+<div>
+  <dt>Publicidad y analítica</dt>
+  <dd>
+
+`Google Ad Manager`, `Google Tag Manager`, `Firebase`
+
+  </dd>
+</div>
+
+<div>
+  <dt>Infraestructura y calidad</dt>
+  <dd>
+
+`Vercel`, `Node.js`, `Jest`, `Storybook`, `ESLint`, `Stylelint`
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Una captura de la plataforma
+
+</ProjectSectionHeading>
+
+La imagen de portada muestra la versión de la plataforma en la que trabajé, archivada el 27 de agosto de 2025, antes del posterior rediseño con WordPress. El enlace al sitio apunta a esa captura preservada.
+
+<ProjectSectionHeading>
+
+### Por qué fue importante
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"X Games opera con ventanas de transmisión muy ajustadas."}>
+
+No existe un "lo arreglamos después del evento". Trabajar en una plataforma de esa escala, donde un espacio publicitario roto o una falla de enrutamiento geográfico afecta a miles de usuarios simultáneos, afinó mi forma de pensar sobre confiabilidad, lógica de limpieza y la diferencia operativa entre una función que funciona en desarrollo y una que resiste el tráfico real de una transmisión.
+
+</ProjectPrincipleClose>

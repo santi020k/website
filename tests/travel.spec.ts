@@ -80,7 +80,7 @@ for (const theme of ['light', 'dark']) {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.goto('/travel/')
       await page.evaluate(value => {
-        document.documentElement.dataset.theme = value
+        document.documentElement.dataset.theme = `santi020k-${value}`
       }, theme)
       await expect(page.locator('[data-ui-world-map-viewport]')).toBeVisible()
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
@@ -230,7 +230,7 @@ for (const theme of ['light', 'dark'] as const) {
         [country.note].filter((note): note is string => typeof note === 'string')
       )
     }
-    await expect(page.locator('#country-co')).toContainText('I’m from Colombia. This is where my story begins.')
+    await expect(page.locator('#country-co')).toContainText('Medellín is where I live.')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
     const splitWords = await page.locator('#travel-notebook').evaluate(element => {
       const problems: string[] = []
@@ -437,10 +437,11 @@ test('country notebook preserves partial lists, home copy, and matching silhouet
   await chooser.selectOption('AR')
   await expect(details.locator('[data-travel-note]')).toContainText('Patagonia is a region')
   await chooser.selectOption('CO')
-  await expect(details.locator('li')).toHaveCount(0)
-  await expect(details.locator('[data-travel-places-heading]')).toBeHidden()
-  await expect(details.locator('[data-travel-note]')).toBeHidden()
-  await expect(details.locator('[data-travel-empty]')).toContainText('I’m from Colombia')
+  const colombia = requireValue(travelCountries.find(country => country.code === 'CO'))
+  await expect(details.locator('[data-travel-place-name]')).toHaveText([...colombia.places])
+  await expect(details.locator('[data-travel-places-heading]')).toBeVisible()
+  await expect(details.locator('[data-travel-note]')).toContainText('Medellín is where I live.')
+  await expect(details.locator('[data-travel-empty]')).toBeHidden()
   await expect(details.locator('[data-travel-visits]')).toHaveText('Home country')
   await chooser.selectOption('CA')
   await expect(details.locator('[data-travel-empty]')).toContainText('Choose a highlighted country')
@@ -516,7 +517,10 @@ test('a pointer choice in the travel picker reveals the phone card without movin
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/travel/')
   const chooser = page.locator('[data-ui-world-map-select]')
+  // V5 enables the native chooser after its asynchronous map enhancement.
+  await expect(chooser).toBeEnabled()
   await chooser.focus()
+  await expect(chooser).toBeFocused()
   await chooser.dispatchEvent('pointerdown', { pointerType: 'touch' })
   await chooser.selectOption('PY')
   await expect(page.locator('[data-travel-selection]')).toBeInViewport({ ratio: 1 })
@@ -563,7 +567,7 @@ for (const theme of ['light', 'dark']) {
     const folio = page.locator('[data-travel-controls]')
     await expect(folio).toBeVisible()
     await page.evaluate(value => {
-      document.documentElement.dataset.theme = value
+      document.documentElement.dataset.theme = `santi020k-${value}`
       document.documentElement.style.fontSize = '200%'
     }, theme)
     const chooser = folio.getByRole('combobox', { name: 'Explore a country', exact: true })
@@ -592,7 +596,7 @@ for (const theme of ['light', 'dark']) {
     await page.goto('/travel/')
     const regularHeadingSize = await page.locator('[data-travel-country]').evaluate(element => Number.parseFloat(getComputedStyle(element).fontSize))
     await page.evaluate(value => {
-      document.documentElement.dataset.theme = value
+      document.documentElement.dataset.theme = `santi020k-${value}`
       document.documentElement.style.fontSize = '200%'
     }, theme)
     const chooser = page.getByRole('combobox', { name: 'Explore a country', exact: true })

@@ -28,7 +28,8 @@ const previewServerCommand = shouldBuildPreviewServer ?
 // Workaround for occasional CI sandbox/driver instability. These are Chromium switches:
 // WebKit refuses to start with an unknown option, so only Chromium projects pass them.
 const chromiumLaunchOptions = {
-  args: ['--disable-gpu', '--disable-software-rasterizer']
+  // Keep the media clock independent of host audio devices, as in the motion workspace.
+  args: ['--disable-gpu', '--disable-software-rasterizer', '--disable-audio-output']
 }
 
 const chromiumProject = {
@@ -44,7 +45,16 @@ const fullBrowserProjects = [
   chromiumProject,
   {
     name: 'firefox',
-    use: { ...devices['Desktop Firefox'] }
+    use: {
+      ...devices['Desktop Firefox'],
+      launchOptions: {
+        firefoxUserPrefs: {
+          'accessibility.typeaheadfind': false,
+          'accessibility.typeaheadfind.autostart': false,
+          'accessibility.typeaheadfind.manual': false
+        }
+      }
+    }
   },
   {
     name: 'webkit',

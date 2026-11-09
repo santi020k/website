@@ -10,7 +10,9 @@ import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
 
 import '@/styles/pages/resume.css'
 
-import { ButtonLink, Icon, Link } from '@santi020k/lumen-astro'
+import ButtonLink from '@santi020k/lumen-astro/components/ButtonLink'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getUniqueTechnologies } from '@/data/project'
 import { getLocale, localizePath } from '@/i18n'
@@ -539,7 +541,7 @@ data-resume-skills-print
   @media print {
     :global(html) {
       color-scheme: light !important;
-      --theme-bg: 0 0% 100% !important;
+      --canvas: 0 0% 100% !important;
       --surface: 0 0% 100% !important;
       --surface-muted: 0 0% 97% !important;
       --surface-strong: 0 0% 92% !important;

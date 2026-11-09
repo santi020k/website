@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths, Page } from 'astro'
 
+import { getImage, Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
@@ -16,11 +17,14 @@ import BlogHero from '@/components/pages/blog/BlogHero.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
+import { localizePost } from '@/utils/content-translations'
 import { getPostPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
+import { getResponsiveImageDimensions } from '@/utils/responsive-image'
 import { getAllTags, getBlogBrowseTags } from '@/utils/tags'
 
-import { Link, RevealGroup } from '@santi020k/lumen-astro'
+import Link from '@santi020k/lumen-astro/components/Link'
+import RevealGroup from '@santi020k/lumen-astro/components/RevealGroup'
 
 import { getSeriesSummaries } from '@/data/series'
 import { getLocale, localizePath } from '@/i18n'
@@ -47,9 +51,21 @@ interface Props {
 
 const { allTagsData, page } = Astro.props
 const isFirstPage = page.currentPage === 1
-const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
+const activeSeries = (await getSeriesSummaries(locale)).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const topTags = getBlogBrowseTags(allTagsData)
-const latestPost = page.data[0] ?? null
+const firstPost = page.data[0]
+const latestPost = isFirstPage && firstPost ? await localizePost(firstPost, locale) : null
+const coverSource = latestPost?.data.coverImage?.src
+
+const cover = coverSource ?
+{
+  ...getResponsiveImageDimensions(coverSource, 960, [320, 480, 640, 800]),
+  sizes: '(min-width: 1280px) 480px, (min-width: 1024px) 40vw, (min-width: 640px) 90vw, 100vw',
+  src: coverSource
+} :
+undefined
+
+const coverPreload = cover ? await getImage({ ...cover, format: 'avif' }) : undefined
 const archiveDescription = t('collection.notesOnSoftwareReadingGamingAnd')
 
 const breadcrumbs = [
@@ -84,6 +100,16 @@ const blogListSchema = {
     description: isFirstPage ?
       archiveDescription :
       t('pagination.description', { description: archiveDescription, page: page.currentPage, total: page.lastPage }),
+    ...(cover && coverPreload ?
+{
+      preloadImage: {
+        href: coverPreload.src,
+        imagesizes: cover.sizes,
+        imagesrcset: coverPreload.srcSet.attribute,
+        type: 'image/avif'
+      }
+    } :
+{}),
     structuredData: blogListSchema,
     title: isFirstPage ?
       t('collection.personalBlogSantiagoMolina') :
@@ -92,7 +118,23 @@ const blogListSchema = {
 >
   {isFirstPage ?
 (
-    <BlogHero latestPost={latestPost} postCount={page.total} topicCount={allTagsData.length} />
+    <BlogHero latestPost={latestPost} postCount={page.total} topicCount={allTagsData.length}>
+      <Fragment slot="cover">
+        {cover ?
+          (
+            <Picture
+              alt=""
+              class="size-full object-cover"
+              fallbackFormat="webp"
+              fetchpriority="high"
+              formats={['avif']}
+              loading="eager"
+              {...cover}
+            />
+          ) :
+          <div aria-hidden="true" class="absolute inset-0 grid-fade" />}
+      </Fragment>
+    </BlogHero>
   ) :
 (
     <BlogArchiveHero currentPage={page.currentPage} lastPage={page.lastPage} postCount={page.data.length} />
@@ -214,8 +256,8 @@ threshold={0}
     text-wrap: balance;
   }
 
-  :global([data-theme='dark']) [data-blog-archive-caption] p { color: hsl(var(--accent)); }
-  :global([data-theme='dark']) [data-blog-archive-caption]::after { background: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-blog-archive-caption] p { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-blog-archive-caption]::after { background: hsl(var(--accent)); }
 
   [data-blog-archive-feed] :global([data-topic-guide-heading]) {
     padding-top: 0;
@@ -265,7 +307,7 @@ threshold={0}
     line-height: 1.7;
   }
 
-  :global([data-theme='dark']) [data-blog-series-caption] :global([data-blog-series-browse]) {
+  :global([data-theme='santi020k-dark']) [data-blog-series-caption] :global([data-blog-series-browse]) {
     color: hsl(var(--accent));
   }
 

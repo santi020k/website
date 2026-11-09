@@ -4,11 +4,13 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 
-import { Card, Icon } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
@@ -20,7 +22,8 @@ interface Props {
 
 const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
-const { index, project } = Astro.props
+const { index, project: originalEntry } = Astro.props
+const project = await localizeProject(originalEntry, getLocale(Astro.url.pathname))
 const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
 ---
 
@@ -48,9 +51,9 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
   <div data-related-body>
     <div data-related-heading>
       <p data-related-role lang={project.data.role ? 'en' : undefined}>{project.data.role ?? t('collection.engineering')}</p>
-      <h3 lang="en">{project.data.title}</h3>
+      <h3 lang={project.data.contentLocale}>{project.data.title}</h3>
     </div>
-    <p data-related-description lang="en">{project.data.description}</p>
+    <p data-related-description lang={project.data.contentLocale}>{project.data.description}</p>
     <div data-related-footer>
       <span data-related-action>
         {t('collection.readCaseStudy')}
@@ -77,7 +80,7 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
     border-radius: 0;
     background: transparent;
   }
-  :global(:root[data-theme='dark']) [data-related-project] { --related-emphasis: var(--accent); --related-project-ink: var(--project-primary-readable-dark); }
+  :global(:root[data-theme='santi020k-dark']) [data-related-project] { --related-emphasis: var(--accent); --related-project-ink: var(--project-primary-readable-dark); }
   [data-related-project][data-slot='card']:last-child { border-bottom: 1px solid hsl(var(--line) / 0.65); }
   [data-related-number] { padding-top: 0.25rem; color: hsl(var(--related-project-ink)); font-family: var(--font-code); font-size: 0.875rem; font-weight: 500; line-height: 1.5; font-variant-numeric: tabular-nums; }
   [data-related-artwork] { position: relative; display: grid; align-self: start; place-items: center; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 0.75rem; background: hsl(var(--brand-soft)); color: hsl(var(--related-emphasis)); }

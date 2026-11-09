@@ -4,7 +4,10 @@ import path from 'node:path'
 import { load as loadYaml } from 'js-yaml'
 import sharp from 'sharp'
 
+import { travelNotesSchema } from '../../src/data/travel-notes-schema.ts'
+
 const CONTENT_ROOT = path.resolve('src/content')
+const COUNTRY_ROOT = path.resolve(CONTENT_ROOT, 'country')
 const POST_ROOT = path.resolve(CONTENT_ROOT, 'post')
 const SERIES_ROOT = path.resolve(CONTENT_ROOT, 'series')
 const POST_COVER_HEIGHT = 900
@@ -94,6 +97,14 @@ const validateFile = async filePath => {
     return { errors: [`${filePath}: missing or invalid frontmatter`] }
   }
 
+  if (filePath.startsWith(`${COUNTRY_ROOT}${path.sep}`)) {
+    const result = travelNotesSchema.safeParse(frontmatter)
+
+    return {
+      errors: result.success ? [] : result.error.issues.map(issue => `${filePath}: ${issue.path.join('.')}: ${issue.message}`)
+    }
+  }
+
   const errors = []
   const title = String(frontmatter.title ?? '')
   const description = String(frontmatter.description ?? '')
@@ -123,7 +134,7 @@ const validateFile = async filePath => {
   const body = parsed.body
   const titleOnlyDraft = frontmatter.draft === true && body.length === 0 && coverImage === undefined
 
-  if (!titleOnlyDraft) errors.push(...await validatePostCover(filePath, coverImage))
+  if (!titleOnlyDraft && !/\.es\.mdx?$/u.test(filePath)) errors.push(...await validatePostCover(filePath, coverImage))
 
   const isPost = filePath.startsWith(`${POST_ROOT}${path.sep}`)
 

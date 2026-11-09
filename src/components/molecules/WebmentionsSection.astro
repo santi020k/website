@@ -189,7 +189,7 @@ const showSection = likes.length > 0 || replies.length > 0
     border-block: 1px solid hsl(var(--line));
     color: hsl(var(--ink));
   }
-  :global([data-theme='dark']) [data-webmention-likes] { --likes-accent: var(--accent); }
+  :global([data-theme='santi020k-dark']) [data-webmention-likes] { --likes-accent: var(--accent); }
   [data-webmention-likes-heading] { min-width: 0; margin: 0; font-size: .75rem; line-height: 1.7; font-weight: 400; }
   [data-webmention-likes-count] { display: flex; flex-wrap: wrap; align-items: baseline; gap: .625rem; color: hsl(var(--likes-accent)); }
   [data-webmention-likes-total] { font-size: 2.25rem; line-height: 1; font-weight: 500; letter-spacing: -.06em; }
@@ -226,7 +226,7 @@ const showSection = likes.length > 0 || replies.length > 0
     color: hsl(var(--ink));
     overflow-wrap: anywhere;
   }
-  :global(:root[data-theme='dark']) [data-webmention-reply] { --reply-accent: var(--accent); }
+  :global(:root[data-theme='santi020k-dark']) [data-webmention-reply] { --reply-accent: var(--accent); }
   [data-webmention-identity] { min-width: 0; align-self: start; padding-left: 1rem; border-left: 3px solid hsl(var(--reply-accent)); }
   [data-webmention-author] { min-width: 0; max-width: 100%; margin: 0; color: hsl(var(--reply-accent)); font-size: 1rem; line-height: 1.5; font-weight: 500; overflow-wrap: anywhere; }
   [data-webmention-profile] { display: inline-block; max-width: 100%; }

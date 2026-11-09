@@ -63,13 +63,13 @@ test('search controls and recovery templates render in Spanish', async ({ page }
   await expectNoUnexpectedAccessibilityViolations(page)
 })
 
-test('Spanish article and case-study shells retain English prose outside the search index', async ({ page }) => {
+test('Spanish articles and case studies publish translated, indexable content', async ({ page }) => {
   const sitemap = await (await page.request.get('/sitemap-0.xml')).text()
 
   for (const path of ['/blog/playwright-accessibility-checks-that-teams-keep-running/', '/portfolio/lumen-ui/']) {
     await page.goto(path)
-    // English-only content has no translation to announce.
-    await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0)
+    // Both authored languages advertise the same pair.
+    await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(3)
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /\bindex, follow\b/u)
     const englishImage = await page.locator('meta[property="og:image"]').getAttribute('content')
 
@@ -77,13 +77,14 @@ test('Spanish article and case-study shells retain English prose outside the sea
 
     await page.goto(`/es${path}`)
     await expect(page.locator('html')).toHaveAttribute('lang', 'es-419')
-    await expect(page.locator('[lang="en"]').first()).toBeAttached()
+    await expect(page.locator('[data-pagefind-body]')).toHaveAttribute('lang', 'es')
+    await expect(page.locator('[data-article-language]')).toHaveCount(0)
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://santi020k.com/es${path}`)
-    // The shell repeats the English main content, so only the original is indexed.
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
-    await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0)
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', englishImage ?? '')
-    expect(sitemap).not.toContain(`<loc>https://santi020k.com/es${path}</loc>`)
+    // A real translation has its own canonical and social image.
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /^index, follow/u)
+    await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(3)
+    await expect(page.locator('meta[property="og:image"]')).not.toHaveAttribute('content', englishImage ?? '')
+    expect(sitemap).toContain(`<loc>https://santi020k.com/es${path}</loc>`)
   }
 })
 
@@ -105,14 +106,16 @@ test('Spanish contact receipt keeps noindex with localized recovery navigation',
   await expect(page.locator('main a[href="/es/work-with-me/#start"]').first()).toBeVisible()
 })
 
-test('Spanish shells preserve external canonical destinations without conflicting alternates', async ({ page }) => {
+test('Spanish translations of syndicated articles have local canonicals and retain attribution', async ({ page }) => {
   await page.goto('/es/blog/atomic-module-component-structure-for-react/')
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://santi020k.com/es/blog/atomic-module-component-structure-for-react/')
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /^index, follow/u)
   await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0)
   const response = await page.request.get('/sitemap.xml')
   const sitemap = await response.text()
 
-  expect(sitemap).not.toContain('https://santi020k.com/es/blog/atomic-module-component-structure-for-react/')
+  expect(sitemap).toContain('https://santi020k.com/es/blog/atomic-module-component-structure-for-react/')
+  expect(sitemap).not.toContain('<loc>https://santi020k.com/blog/atomic-module-component-structure-for-react/</loc>')
 })
 
 test('language switching preserves the live query and fragment before the client router reads the link', async ({ page }) => {

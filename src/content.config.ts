@@ -4,7 +4,9 @@ import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
 import { projectPurposeIds } from './data/project-purposes'
+import { travelNotesSchema } from './data/travel-notes-schema'
 import { parseContentDate } from './utils/content-date'
+import { postTranslationSchema, projectTranslationSchema } from './content-translations'
 
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 // Unsupported or nonexistent dates parse to Invalid Date, which the refinement rejects.
@@ -50,8 +52,9 @@ const series = defineCollection({
 })
 
 const project = defineCollection({
-  loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: './src/content/project', pattern: ['**/*.{md,mdx}', '!**/*.es.md', '!**/*.es.mdx'] }),
   schema: ({ image }) => baseSchema.extend({
+    contentLocale: z.enum(['en', 'es']).default('en'),
     description: z.string(),
     cardDescription: z.string().trim().min(1).max(160).optional(),
     brand: z.object({
@@ -172,8 +175,9 @@ const talk = defineCollection({
 })
 
 const post = defineCollection({
-  loader: glob({ base: './src/content/post', pattern: ['**/*.{md,mdx}', '!AGENTS.md'] }),
+  loader: glob({ base: './src/content/post', pattern: ['**/*.{md,mdx}', '!AGENTS.md', '!**/*.es.md', '!**/*.es.mdx'] }),
   schema: ({ image }) => baseSchema.extend({
+    contentLocale: z.enum(['en', 'es']).default('en'),
     description: z.string(),
     cardDescription: z.string().trim().min(1).max(160).optional(),
     publishDate: dateField(),
@@ -212,4 +216,18 @@ const post = defineCollection({
   })
 })
 
-export const collections = { post, project, series, talk }
+const translationLoader = (collection: 'post' | 'project') => glob({
+  base: `./src/content/${collection}`,
+  pattern: '**/index.es.{md,mdx}',
+  generateId: ({ entry }) => entry.replace(/\/index\.es\.mdx?$/u, '')
+})
+
+const postTranslation = defineCollection({ loader: translationLoader('post'), schema: postTranslationSchema })
+const projectTranslation = defineCollection({ loader: translationLoader('project'), schema: projectTranslationSchema })
+
+const country = defineCollection({
+  loader: glob({ base: './src/content/country', pattern: '*.md' }),
+  schema: travelNotesSchema
+})
+
+export const collections = { country, post, postTranslation, project, projectTranslation, series, talk }

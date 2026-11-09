@@ -10,7 +10,7 @@ for (const width of [320, 375, 768, 1440]) {
       await screen.goto('/projects/')
 
       await expect(screen.getByRole('heading', { level: 1 })).toHaveText('Built for the love of it.')
-      await expect(screen.locator('html')).toHaveAttribute('data-theme', theme)
+      await expect(screen.locator('html')).toHaveAttribute('data-theme', `santi020k-${theme}`)
       const projects = screen.locator('[data-project-gallery-card]')
       expect(await projects.count()).toBeGreaterThan(1)
 

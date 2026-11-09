@@ -277,6 +277,8 @@ const convertFigure = (
 
     pre.properties.role = 'region'
 
+    pre.properties.dataCodeExample = ''
+
     pre.properties.ariaLabel = imported?.codeLabel ?? `Code example ${exampleNumber}: ${label || language || 'plain text'}`
   }
 
@@ -327,6 +329,7 @@ const createCodeTabs = (figures: [Element, Element], labels: [string, string]): 
   }, [
     element('div', {
       ariaLabel: 'Package manager',
+      dataPackageManagerTablist: '',
       role: 'tablist'
     }, labels.map((label, index) => element('button', {
       ariaSelected: index === 0 ? 'true' : 'false',

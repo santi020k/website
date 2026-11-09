@@ -1,9 +1,11 @@
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import {
   collectCards,
+  collectCountryCards,
   collectSpecs,
   formatTopicName,
   isPublishedPost
@@ -17,6 +19,98 @@ interface SocialImageProps {
   pathLabel?: string
   title?: string
 }
+
+describe('collectCountryCards', () => {
+  let fixtureRoot = ''
+
+  beforeEach(async () => {
+    const cacheRoot = path.join(process.cwd(), '.cache')
+
+    await mkdir(cacheRoot, { recursive: true })
+    fixtureRoot = await mkdtemp(path.join(cacheRoot, 'country-og-'))
+    const directory = path.join(fixtureRoot, 'src/content/country')
+
+    await mkdir(directory, { recursive: true })
+    await Promise.all([
+      writeFile(path.join(directory, 'colombia.md'), [
+        '---',
+        'code: CO',
+        'score: 10',
+        'summary: A personal memory of home.',
+        'language: en',
+        '---'
+      ].join('\n')),
+      writeFile(path.join(directory, 'japan.md'), [
+        '---',
+        'code: JP',
+        'score: 8.5',
+        'summary: Un recuerdo personal de Japón.',
+        'language: es',
+        '---'
+      ].join('\n')),
+      writeFile(path.join(directory, 'united-states.md'), [
+        '---',
+        'code: US',
+        'summary: "   "',
+        '---'
+      ].join('\n'))
+    ])
+  })
+
+  afterEach(async () => {
+    if (fixtureRoot) await rm(fixtureRoot, { recursive: true, force: true })
+  })
+
+  test('includes only authored-language routes with a completed summary', async () => {
+    const cards = await collectCountryCards(fixtureRoot)
+
+    expect(cards.map(card => card.route?.pathname).sort()).toEqual([
+      '/es/travel/japan/',
+      '/travel/colombia/'
+    ])
+  })
+
+  test.each([
+    {
+      slug: 'colombia',
+      pathname: '/travel/colombia/',
+      title: 'Colombia — Travel notebook',
+      description: 'A personal memory of home.',
+      output: 'pages/travel--colombia.webp'
+    },
+    {
+      slug: 'japan',
+      pathname: '/es/travel/japan/',
+      title: 'Japón — Cuaderno de viajes',
+      description: 'Un recuerdo personal de Japón.',
+      output: 'pages/es--travel--japan.webp'
+    }
+  ])('keeps $pathname card metadata and cache sources aligned with its page', async ({ slug, pathname, title, description, output }) => {
+    const cards = await collectCountryCards(fixtureRoot)
+    const card = cards.find(candidate => candidate.route?.pathname === pathname)
+
+    expect(card).toBeDefined()
+    expect(card?.route).toMatchObject({
+      pathname,
+      title,
+      description,
+      alt: `${title} — Santiago Molina`
+    })
+    expect(card?.data).toMatchObject({ title, description, domain: pathname })
+    expect(card?.output).toBe(output)
+    expect(card?.sources).toContain(path.join(fixtureRoot, 'src/content/country', `${slug}.md`))
+  })
+
+  test.each([
+    { name: 'unknown country without a summary', fields: 'code: XX' },
+    { name: 'out-of-range personal score', fields: 'code: CO\nscore: 11\nsummary: A personal memory.' },
+    { name: 'unsupported authored language', fields: 'code: CO\nlanguage: fr\nsummary: A personal memory.' }
+  ])('rejects invalid frontmatter: $name', async ({ fields }) => {
+    await writeFile(path.join(fixtureRoot, 'src/content/country/invalid.md'), `---\n${fields}\n---\n`)
+
+    await expect(collectCountryCards(fixtureRoot)).rejects.toThrow()
+  })
+})
 
 describe('collectSpecs', { timeout: 15_000 }, () => {
   // The first collection normalizes artwork for every post and project before caching it.
@@ -65,14 +159,14 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(pathnames.has('/es/technologies/typescript/')).toBe(true)
   })
 
-  test('keeps English cards for single-language articles and case studies', async () => {
+  test('generates separate cards for translated articles and case studies', async () => {
     const cards = await collectCards()
     const pathnames = new Set(cards.map(card => card.route?.pathname))
 
     expect(pathnames.has('/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(true)
-    expect(pathnames.has('/es/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(false)
+    expect(pathnames.has('/es/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(true)
     expect(pathnames.has('/portfolio/lumen-ui/')).toBe(true)
-    expect(pathnames.has('/es/portfolio/lumen-ui/')).toBe(false)
+    expect(pathnames.has('/es/portfolio/lumen-ui/')).toBe(true)
     expect(pathnames.has('/es/blog/')).toBe(true)
   })
 

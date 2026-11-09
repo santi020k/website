@@ -21,6 +21,7 @@ const makeProject = (
     id,
     collection: 'project',
     data: {
+      contentLocale: 'en',
       brand: { primary: '#620ae6', secondary: '#b78cff', surface: '#10091c' },
       description: 'A project',
       endingDate: undefined,

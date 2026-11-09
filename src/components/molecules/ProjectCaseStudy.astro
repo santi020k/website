@@ -1,5 +1,6 @@
 ---
-import { Card, Icon } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale } from '@/i18n'
 import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
@@ -10,12 +11,13 @@ interface CaseStudyRow {
 }
 
 interface Props {
+  contentLocale?: 'en' | 'es'
   rows: CaseStudyRow[]
 }
 
 const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
-const { rows } = Astro.props
+const { contentLocale = 'en', rows } = Astro.props
 ---
 
 {!!rows.length && (
@@ -27,7 +29,7 @@ const { rows } = Astro.props
           <span aria-hidden="true" data-project-case-number>{String(i + 1).padStart(2, '0')}</span>
           <div data-project-case-copy>
             <h3>{localizeCollectionSource(locale, row.label)}</h3>
-            <p lang="en">{row.body}</p>
+            <p lang={contentLocale}>{row.body}</p>
           </div>
         </li>
       ))}
@@ -83,7 +85,7 @@ const { rows } = Astro.props
     letter-spacing: -0.021em;
   }
   p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.714; }
-  :global(:root[data-theme='dark']) :is(h2, [data-project-case-number]) { color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) :is(h2, [data-project-case-number]) { color: hsl(var(--accent)); }
   @container reading-layout (width < 26rem) {
     [data-project-case-study][data-slot='card'] { padding-inline: 1.25rem; }
   }

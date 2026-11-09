@@ -6,7 +6,8 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
 import Portrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
 
-import { Card, Link } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getLocale, localizePath } from '@/i18n'
 import { pageTranslator } from '@/i18n/page-copy'
@@ -59,7 +60,7 @@ const t = pageTranslator(pageLocale)
 
 <style>
   [data-contact-hero] { --contact-accent: var(--brand); container: contact-hero / inline-size; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); align-items: center; gap: 3rem 5rem; padding-top: 1rem; }
-  :global(:root[data-theme='dark']) [data-contact-hero] { --contact-accent: var(--accent); }
+  :global(:root[data-theme='santi020k-dark']) [data-contact-hero] { --contact-accent: var(--accent); }
   [data-contact-opening] { min-width: 0; }
   .editorial-page-title { font-size: clamp(3rem, 6.2vw, 5.5rem); }
   .editorial-page-description { max-width: 35rem; }

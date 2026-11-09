@@ -16,10 +16,11 @@ The child sites keep their own sitemap and `robots.txt` declarations. Those
 files are useful for independent diagnostics and other crawlers, while the
 cross-site sitemap provides one Google submission point.
 
-The combined sitemap preserves source `lastmod` dates when supplied. It never
-substitutes the build time for a content modification date. Nested indexes are
-deduplicated, and URLs outside each source's HTTPS origin or invalid dates fail
-validation. Optional unavailable sources remain non-blocking.
+The combined sitemap preserves source `lastmod` dates and `hreflang` links when
+supplied. It never substitutes the build time for a content modification date.
+Nested indexes are deduplicated. Invalid dates, malformed language tags, and URLs
+outside each source's HTTPS origin fail validation. Optional unavailable sources
+remain non-blocking.
 Remote loads retain a 15-second deadline per attempt. Network errors, request
 timeouts, rate limits, and server errors receive up to three attempts, waiting
 one second and then two seconds between attempts. Other HTTP errors fail
@@ -28,7 +29,7 @@ Draft posts, scheduled posts, draft series, series without published posts, util
 pages, and posts with an external canonical URL are excluded from the site's
 production sitemap. Draft and empty series remain available in development.
 The sitemap filter also reads each built page and drops every page marked `noindex`.
-That covers the Spanish shells of English articles and case studies (see
+That covers Spanish routes whose article or case-study translation is missing (see
 [the language guide](i18n.md)) and topic and technology archives with fewer than three
 published entries, which stay reachable from navigation. Change that threshold in
 `src/utils/archive-indexing.ts`; pages, the sitemap, and social cards follow it.

@@ -4,9 +4,11 @@ import type { CollectionEntry } from 'astro:content'
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
+import { localizePost } from '@/utils/content-translations'
 import { getPostPath, getSeriesPath } from '@/utils/links'
 
-import { Collapsible, Icon } from '@santi020k/lumen-astro'
+import Collapsible from '@santi020k/lumen-astro/components/Collapsible'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
@@ -24,7 +26,10 @@ interface Props {
   total: number
 }
 
-const { currentPostId, next, position, posts, previous, series, total } = Astro.props
+const { currentPostId, next: originalNext, position, posts: originalPosts, previous: originalPrevious, series, total } = Astro.props
+const posts = await Promise.all(originalPosts.map(post => localizePost(post, locale)))
+const next = originalNext ? await localizePost(originalNext, locale) : undefined
+const previous = originalPrevious ? await localizePost(originalPrevious, locale) : undefined
 const seriesPath = getSeriesPath(series.id)
 const isLatestChapter = !next
 ---
@@ -234,7 +239,7 @@ direction="right"
     color: hsl(var(--ink));
   }
 
-  :global([data-theme='dark']) [data-series-content] {
+  :global([data-theme='santi020k-dark']) [data-series-content] {
     --series-emphasis: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink)));
   }
 

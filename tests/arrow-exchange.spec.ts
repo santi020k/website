@@ -73,7 +73,9 @@ test.describe('Pointer arrow exchange', () => {
       )).map(arrow => arrow.outerHTML))
 
       expect(unowned).toEqual([])
-      const action = page.locator('main a:has([data-arrow-exchange])').first()
+      await page.emulateMedia({ reducedMotion: 'no-preference' })
+
+      const action = page.locator('main a:has([data-arrow-exchange]:visible)').first()
       await action.focus()
       await expect(action.locator('[data-arrow-track]').first()).toHaveCSS('animation-duration', '0.48s')
       await page.emulateMedia({ reducedMotion: 'reduce' })

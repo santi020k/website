@@ -33,7 +33,8 @@ the title and close control from a dark
 video stage and keeps the transcript and file link in a footer. The
 Lumen dialog loads the video only after an explicit play request, with native
 controls, English and Spanish captions, a visual transcript, and a direct-file
-fallback. Closing or navigating away pauses playback. Reduced motion keeps the
+fallback. Announce loading, offer an inline retry after failure, and load caption tracks
+only when playback is requested. Closing or leaving the page pauses playback. Reduced motion keeps the
 static preview until the visitor requests the film. The native product links
 below name the projects and provide their case studies. At very narrow text measures, place the phone below
 the workspace so both remain legible. Selected work is the primary action;
@@ -890,6 +891,18 @@ label beneath the name, and use 1.4375rem titles. Below 14rem, stack the code ab
 the content and cap titles at 18.5cqi. Keep complete words at enlarged text sizes, readable light/dark
 colors, native keyboard disclosure behavior, and all content without JavaScript.
 The notebook adds no new client controller or animation.
+
+### Country travel notebooks
+
+Each country has a shared PageHero and a 72rem content grid. Confirmed places sit
+beside one Lumen surface containing the personal score, return choice, and visit
+period. Use the Travel notebook's thin rules, numbered place rows, and soft brand
+cover. Stack the columns below 48rem of available width and reduce surface insets
+for narrow or enlarged-text layouts. Keep the home, residence, partial-list, and
+region context visible. Missing scores remain explicitly unrated; authored notes
+and highlights appear only when supplied. Country names in the main notebook are
+native links, with a separate personal-score line beneath each entry. No additional
+client controller is needed.
 
 ### Origin spread Travel story
 
@@ -1859,19 +1872,18 @@ View larger control below the screenshot, aligned to the right. Its outlined sur
 uses 0.75rem corners with a 0.25rem lower-right corner and a 2.75rem minimum target.
 
 The native Lumen Dialog retains the screenshot title, complete caption, and a visible
-Close control. Fit the whole image initially; Inspect detail shows its full pixel width
-inside a scrollable canvas. The zoom button's name switches between Inspect detail and Fit image,
-so it names the next action and carries no `aria-pressed`; the canvas `data-zoomed` state gates
-arrow-key panning and resets on close. Keep the canvas keyboard reachable, support arrow-key panning,
-and announce loading, complete-image, detail, and error states. Escape and backdrop
+Close control. Fit the whole image initially. Lumen `MediaViewport` owns incremental zoom,
+arrow-key and pointer panning, and Fit image controls. Keep its viewport keyboard reachable,
+provide localized control names and instructions, and reset the transform on close. Announce
+loading, complete-image, zoom, and error states. Escape and backdrop
 activation close the viewer and return focus. Keep the close row visible when enlarged
 text or a short viewport requires scrolling. Both themes use opaque semantic surfaces.
 
-Full-resolution images live in inert templates until requested. View larger remains a
+Full-resolution project image sources stay in data attributes until requested. View larger remains a
 direct image link without JavaScript; replace it with the dialog trigger only after
-Lumen binds the trigger. Failed images offer an original-image link. Native Lumen
+Lumen binds the trigger. Failed images offer retry and an original-image link. Native Lumen
 controls own modal opening, closing, and focus return; a small custom element manages
-image insertion, detail inspection, and listener cleanup on page transitions.
+image insertion, loading recovery, and listener cleanup on page transitions.
 
 ### Comparison spread project screenshots
 
@@ -2519,10 +2531,11 @@ Keep both groups beside each other on phones; below 16rem of available width, st
 them so enlarged text remains readable. The shared Reading utility provides the
 progressively enhanced print action beside the word count.
 
-Spanish article shells add Language imprint below these utilities: a decorative
+Spanish articles without a translated body add Language imprint below these utilities: a decorative
 Lumen Languages icon and “Artículo en inglés” in the existing 0.75rem secondary
 scale, with the brand/accent color and natural wrapping. Keep the note within the
-reading group, omit it on English routes, and retain the authored English prose.
+reading group and retain the English fallback prose. Omit it on English routes and
+fully translated Spanish articles.
 The shared language switch names the destination's site interface explicitly.
 
 ### Margin topics article links
@@ -3408,7 +3421,7 @@ historical sites use their existing image treatment.
 Gallery viewer adds the approved outlined View larger action beneath the caption, aligned to the
 right across both caption columns. Preserve the artwork, caption typography, and numbered mount.
 Reuse the project viewer's native Lumen dialog: the authored caption names the dialog, the entire
-image fits initially, and Inspect detail reveals its intrinsic size in a scrollable canvas. Keep Close
+image fits initially, and the shared zoom and pan controls reveal its details. Keep Close
 visible, support Escape and keyboard panning, and return focus to the same illustration's control.
 Do not duplicate the caption inside the dialog or make the artwork itself a hidden interaction target.
 Only captioned standalone illustrations opt in; without JavaScript they retain the complete passive
@@ -3444,7 +3457,8 @@ format props through its wrapper. Keep source artwork and archived-site assets.
 
 - `src/components/pages/home/`: homepage compositions.
 - `src/styles/partials/home-hero.css`: hero styling.
-- `src/styles/partials/home-content.css`: homepage content styling.
+- `src/styles/partials/home-content.css`: homepage content utilities.
+- `src/styles/pages/home.css`: homepage-only styles, including the hero container queries and animations.
 - `src/styles/partials/nav.css`: navbar styling, developed independently.
 - `src/styles/partials/tokens.css`: website extensions to the shared theme.
 - `src/components/organisms/SiteFooter.astro`: shared footer, developed independently.
@@ -3455,6 +3469,7 @@ Use Astro `Image` for optimized assets. Keep home-specific rules scoped to their
 ## Supporting pages and reading templates
 
 The Blog landing and supporting routes opt into `remaining-pages` through the Base layout's `mainClass`.
+The first blog page preloads its featured cover using the same responsive AVIF candidates as the picture. Paginated archives omit this preload. The PostsGallery component loads its own stylesheet on reading routes.
 The Blog keeps its image-led latest-post composition with the same editorial typography
 and solid surfaces. The other primary landing pages retain their integrated compositions. Shared `PageHero`
 uses a plain eyebrow, a Montserrat 500 headline, a solid purple emphasis, a short introduction,

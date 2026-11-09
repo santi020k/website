@@ -1,5 +1,9 @@
 ---
-import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
+import Button from '@santi020k/lumen-astro/components/Button'
+import Dialog from '@santi020k/lumen-astro/components/Dialog'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Kbd from '@santi020k/lumen-astro/components/Kbd'
+import SearchField from '@santi020k/lumen-astro/components/SearchField'
 
 import { getLocale, sharedTranslator } from '@/i18n'
 
@@ -117,7 +121,7 @@ const t = sharedTranslator(locale)
     min-width: 0;
   }
 
-  :root[data-theme="dark"] #site-search-dialog [data-site-search-panel] {
+  :root[data-theme="santi020k-dark"] #site-search-dialog [data-site-search-panel] {
     --search-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
   }
 
@@ -325,19 +329,24 @@ const t = sharedTranslator(locale)
     }
   }
 
-  /* Short space keeps the shortcut legend for assistive technology only. */
-  @container site-search (height < 22rem) {
+  @container site-search (height < 24rem) {
     #site-search-dialog [data-site-search-shell] { padding-block: 0.25rem; }
     #site-search-dialog [data-site-search-heading] { padding-block: 0.375rem 0.875rem; }
     #site-search-dialog [data-site-search-field] { margin-top: -0.375rem; padding-block: 0; }
     #site-search-results { margin-block: 0.5rem; }
+    /* Keep fractional scroll rounding from clipping the focused row. */
+    #site-search-results [data-site-search-result] { scroll-margin-block: 1px; }
+    #site-search-dialog [data-site-search-footer] { padding-block: 0.25rem; }
 
     #site-search-input {
       height: auto;
       min-height: 44px;
       line-height: 1.25;
     }
+  }
 
+  /* Leave room for a focused result and retain the shortcut legend for assistive technology. */
+  @container site-search (height < 22rem) {
     #site-search-dialog [data-site-search-footer] {
       position: absolute;
       width: 1px;

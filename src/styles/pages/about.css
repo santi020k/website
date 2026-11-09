@@ -317,7 +317,7 @@
   .about-explore-link strong { font-size: min(1.375rem, 10cqi); }
 }
 
-:root[data-theme="dark"] .about-page { --about-accent: hsl(var(--accent)); }
+:root[data-theme="santi020k-dark"] .about-page { --about-accent: hsl(var(--accent)); }
 
 .about-page .text-brand { color: var(--about-accent); }
 

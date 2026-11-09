@@ -1,5 +1,6 @@
 ---
-import { Callout, Icon } from '@santi020k/lumen-astro'
+import Callout from '@santi020k/lumen-astro/components/Callout'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 interface Props {
   title: string
@@ -32,7 +33,7 @@ const { title } = Astro.props
     box-shadow: none;
   }
 
-  :global(:root[data-theme="dark"] [data-article-update-note]) {
+  :global(:root[data-theme="santi020k-dark"] [data-article-update-note]) {
     --update-note-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
   }
 

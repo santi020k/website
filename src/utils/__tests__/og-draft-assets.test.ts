@@ -24,7 +24,7 @@ const isDraft = (entry: ContentEntry) => entry.frontmatter.draft === true
 
 describe('draft OG assets', () => {
   test.each(collections)('keeps draft outputs out of public/og for $directory', async ({ directory, outputs }) => {
-    const entries = await readContent({ directory, exclude: ['AGENTS.md'], root: ROOT })
+    const entries = await readContent({ directory, exclude: ['AGENTS.md', '**/index.es.md', '**/index.es.mdx'], root: ROOT })
     const unexpected = entries
       .filter(isDraft)
       .flatMap(outputs)
@@ -34,7 +34,7 @@ describe('draft OG assets', () => {
   })
 
   test('finds existing non-draft post images', async () => {
-    const entries = await readContent({ directory: 'src/content/post', exclude: ['AGENTS.md'], root: ROOT })
+    const entries = await readContent({ directory: 'src/content/post', exclude: ['AGENTS.md', '**/index.es.md', '**/index.es.mdx'], root: ROOT })
     // Future-dated posts also stay unpublished, so this only guards against an empty or wrong root.
     const existing = entries
       .filter(entry => !isDraft(entry))
@@ -45,7 +45,7 @@ describe('draft OG assets', () => {
   })
 
   test('preserves generated project images and aliases', async () => {
-    const entries = await readContent({ directory: 'src/content/project', exclude: ['AGENTS.md'], root: ROOT })
+    const entries = await readContent({ directory: 'src/content/project', exclude: ['AGENTS.md', '**/index.es.md', '**/index.es.mdx'], root: ROOT })
     const outputs = entries.filter(entry => !isDraft(entry)).flatMap(projectOutputs)
 
     expect(outputs.length).toBeGreaterThan(0)

@@ -1,7 +1,15 @@
-import { archiveHeaderRules, archiveHtml, archiveSearchIndex, archiveUrl, isArchiveExit } from '@santi020k/website-history/archive'
+import { addArchiveNotice, archiveHeaderRules, archiveHtml, archiveSearchIndex, archiveUrl, isArchiveExit } from '@santi020k/website-history/archive'
 import { describe, expect, test } from 'vitest'
 
 describe('Website archive boundaries', () => {
+  test('places the archive notice after the skip link and before archived navigation', () => {
+    const html = '<body><script>setup()</script><a class="sr-only" href="#main">Skip to content</a><header>Navigation</header><main id="main">Content</main></body>'
+    const notice = '<aside>Archive notice</aside>'
+
+    expect(addArchiveNotice(html, notice)).toBe(html.replace('</a>', `</a>${notice}`))
+    expect(() => addArchiveNotice('<body><header>Navigation</header></body>', notice)).toThrow('missing its skip link')
+  })
+
   test.each([
     ['/blog/post/?q=astro#code', '/v2/blog/post/?q=astro#code'],
     ['/v2/blog/', '/v2/blog/'],

@@ -1,7 +1,12 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
-import { Link } from '@santi020k/lumen-astro'
+import Link from '@santi020k/lumen-astro/components/Link'
+
+import { getLocale } from '@/i18n'
+import { projectStoryTranslator } from '@/i18n/project-story'
+
+const t = projectStoryTranslator(getLocale(Astro.url.pathname))
 
 interface Props {
   id: string
@@ -15,7 +20,7 @@ const { id, label, references } = Astro.props
 <section id={id} aria-labelledby={`${id}-label`} class="not-prose" data-project-evidence-brief>
   <p id={`${id}-label`} data-evidence-label>{label}</p>
   <div data-evidence-copy><slot /></div>
-  <nav aria-label={`${label} sources`} data-evidence-links>
+  <nav aria-label={t('evidence.sources', { label })} data-evidence-links>
     {references.map(reference => (
       <Link
         href={reference.href}
@@ -41,7 +46,7 @@ const { id, label, references } = Astro.props
     color: hsl(var(--ink));
   }
 
-  :global([data-theme='dark']) [data-project-evidence-brief] { --evidence-accent: var(--accent); }
+  :global([data-theme='santi020k-dark']) [data-project-evidence-brief] { --evidence-accent: var(--accent); }
   :global([data-project-ledger] + [data-project-evidence-brief]) { margin-top: 0; border-top: 0; padding-top: 0; }
 
   [data-evidence-label] {

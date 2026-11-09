@@ -10,7 +10,7 @@ for (const theme of ['light', 'dark']) {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.goto('/')
       await page.evaluate(selectedTheme => {
-        document.documentElement.dataset.theme = selectedTheme
+        document.documentElement.dataset.theme = `santi020k-${selectedTheme}`
         document.documentElement.style.fontSize = '20px'
       }, theme)
       await page.locator('[data-mobile-nav-toggle]').click()
@@ -41,7 +41,7 @@ for (const theme of ['light', 'dark']) {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
     await page.evaluate(selectedTheme => {
-      document.documentElement.dataset.theme = selectedTheme
+      document.documentElement.dataset.theme = `santi020k-${selectedTheme}`
     }, theme)
     await page.locator('[data-mobile-nav-toggle]').click()
 

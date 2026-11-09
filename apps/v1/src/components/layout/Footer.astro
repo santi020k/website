@@ -18,12 +18,11 @@ const year = 2026;
   transition:name="footer"
 >
   <div class="
-    me-0 font-semibold
+    me-0 max-w-full font-semibold
     sm:me-4
   "
   >
-    &copy; {siteConfig.author}
-    {year}.<span class="inline-block">&nbsp;🚀&nbsp;</span> v{version}
+    &copy; {siteConfig.author}{' '}{year}.<span class="inline-block">&nbsp;🚀&nbsp;</span> v{version}
   </div>
   <nav
     aria-label="More on this site"

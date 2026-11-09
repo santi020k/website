@@ -8,8 +8,8 @@ in [AGENTS.md](../AGENTS.md).
 
 The [Lumen integration guide](lumen-integration.md) maps the components in use, application-owned
 controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile use
-`@santi020k/lumen` 4.2.0 with `lumen-astro` and `lumen-core` 4.1.0 from the npm registry.
-The integration guide records the version-pinned Anchor, synchronized code tabs, and CoverImage fallback patches.
+`@santi020k/lumen`, `@santi020k/lumen-astro`, and `@santi020k/lumen-core` 4.4.0 from the npm registry.
+The integration guide records the upstream contracts and any remaining compatibility patch.
 
 Current pages share their components across English and Spanish (`/es/`). English remains the
 primary language and translation fallback. The [language maintenance guide](i18n.md) explains
@@ -91,14 +91,15 @@ article prose (`src/styles/prose.css`) loads only with the `Post` and `Projects`
 - **Search:** the header searches posts and projects; open it with ⌘K or Ctrl+K.
   If the index request stalls for 10 seconds, search offers a retry and preserves the current query.
   Its typed controller is bundled once and keeps a successfully fetched index, even an empty one,
-  across page transitions until a full reload; a failed request retries on the next open.
+  across same-language page transitions; switching languages reloads the localized index,
+  and a failed request retries on the next open.
   Recent searches keep up to five searchable queries, deduplicated case-insensitively, and saved
   history is validated on read and write. Validation, relevance, and history rules live in
   `src/utils/search.ts`. Production builds also create a lazy Pagefind index of current,
-  published English article and case-study bodies. Body matches fill the remaining slots
+  published English and Spanish article and case-study bodies. Body matches fill the remaining slots
   below title/tag matches, keeping at most eight results. The optional module, search, and
   result fetches each time out after five seconds; failures settle without removing primary
-  results. Archives, drafts, and translated UI shells stay outside that index. Pagefind is
+  results. Archives, drafts, and untranslated fallback bodies stay outside the translated index. Pagefind is
   absent in `astro dev`, where title/tag search remains usable. Safe response handling lives
   in `src/utils/full-text-search.ts`; `pagefind.yml` defines the indexed scope. Pagefind files
   bypass the service-worker cache and revalidate through HTTP across deployments.
@@ -166,7 +167,10 @@ SKIP_BUILD=1 pnpm run test:e2e:ci:stable tests/lumen-interactions.spec.ts --retr
 ```
 
 `pnpm run test:e2e:fast` reuses an existing build; browser-test scripts install Chromium when
-needed. Run `pnpm run build` first when verifying changed routes. Use `pnpm run lighthouse`
+needed. Chromium tests use `--disable-audio-output`, matching the motion workspace, to
+keep the media clock independent of host audio devices. The film tests still verify playback,
+seeking, and pause behavior. See the [motion test setup](../apps/motion/README.md).
+Run `pnpm run build` first when verifying changed routes. Use `pnpm run lighthouse`
 for a quick homepage lab audit. The full Lighthouse configuration also covers a long article
 with code examples and the Smith Commerce case study, alongside the main landing pages.
 The local Lighthouse run starts a separate foreground preview and waits for its URL
@@ -193,7 +197,7 @@ projects index and technology archives share the editorial gallery.
 `pnpm run generate:cv` builds the site and regenerates résumé downloads after UI or dependency
 changes. Do not edit generated files by hand.
 
-The next release is consolidated on `release/v5.0.0`. Production publishing follows the reviewed
+The next release is consolidated on `release/v5.2.0`. Production publishing follows the reviewed
 GitHub workflow from `main`; local validation and integration are separate from remote merge,
 Cloudflare deployment, and production smoke checks. See the
 [deployment runbook](deployment.md) for Changesets, protected checks, and rollback.

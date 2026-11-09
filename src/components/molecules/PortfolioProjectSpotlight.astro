@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath } from '@/utils/links'
 import { getPortfolioMetricDisplay } from '@/utils/portfolio-metric'
 import { getProjectBrandStyle } from '@/utils/project-brand'
@@ -11,7 +12,9 @@ import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectStatusLabel, getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
-import { Badge, Card, Icon } from '@santi020k/lumen-astro'
+import Badge from '@santi020k/lumen-astro/components/Badge'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
@@ -25,7 +28,8 @@ interface Props {
   project: CollectionEntry<'project'>
 }
 
-const { featured = false, imagePriority = false, project } = Astro.props
+const { featured = false, imagePriority = false, project: originalEntry } = Astro.props
+const project = await localizeProject(originalEntry, getLocale(Astro.url.pathname))
 const projectLink = localizePath(getPortfolioPath(project.id), locale)
 const previewImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
 const timeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
@@ -123,7 +127,7 @@ direction="up-right"
     border-radius: 1.5rem;
     background: transparent;
   }
-  :global(:root[data-theme='dark']) [data-portfolio-project] { --portfolio-emphasis: var(--accent); --portfolio-project-ink: var(--project-primary-readable-dark); }
+  :global(:root[data-theme='santi020k-dark']) [data-portfolio-project] { --portfolio-emphasis: var(--accent); --portfolio-project-ink: var(--project-primary-readable-dark); }
   [data-portfolio-composition] { display: flex; flex: 1; flex-direction: column; min-width: 0; }
   [data-portfolio-link] { position: absolute; inset: 0; z-index: 1; color: hsl(var(--ink)); text-decoration: none; border-radius: inherit; }
   [data-portfolio-visual] { position: relative; flex-shrink: 0; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1.5rem; background: hsl(var(--surface-muted)); }

@@ -113,38 +113,35 @@ The logo is a custom WebP wordmark with a stylised "S2K" letterform representing
 
 ## 3. Color System
 
-The palette is fully adaptive between **Light** and **Dark** modes, toggled via `data-theme` on `<html>`. In **light** mode, neutrals use a subtle purple tint (hue **~268°**) and brand purple is aligned with the refreshed light logo and icon (hue **~264°**). **Dark** mode keeps a deep purple system (hue **~260°** for neutrals, hue **~264°** for brand). Core color and font tokens come from `@santi020k/theme/tokens.css`, imported in `src/styles/global.css`; site-only status and animation tokens live in `src/styles/partials/tokens.css`.
+The palette follows Lumen 5's `santi020k-light` and `santi020k-dark` appearances on
+`<html>`, generated from the shared Theme website palette. The selective Astro foundation and santi020k theme styles own
+colors; `@santi020k/theme/typography.css` supplies fonts. Site-only shapes, shadows, and
+animation tokens live in `src/styles/partials/tokens.css`. See [theming](theming.md).
 
 **Rule:** Always use semantic CSS custom property tokens in components — never hardcode hex or raw HSL values.
 
 ### Brand Primary
 
-| Tone | Token | HSL (raw) | Hex (approx.) | Usage |
-| :------- | :----------- | :------ | :-------- | :----------- |
-| **Purple** | `--brand` | `264 92% 47%` (light) / `264 90% 58%` (dark) | `#5a0fdb` / `#8747ff` | Logo, CTAs, highlights — deep purple |
-| **Accent** | `--accent` | `264 95% 57%` (light) / `264 90% 68%` (dark) | `#7c3af7` / `#a66bff` | Hovers, active states |
-| **Glow** | `--glow` | `264 95% 70%` (light) / `264 85% 50%` (dark) | `#a66bff` / `#7c3af7` | Background gradients, hero washes |
+| Role | Token | Source |
+| --- | --- | --- |
+| Brand text | `--brand` | Named Lumen appearance; dark text uses the readable accent shade. |
+| Filled brand surface | `--brand-solid` | Named Lumen appearance; pair with `--on-brand`. |
+| Interactive emphasis | `--accent` | Named Lumen appearance. |
+| Decorative glow | `--glow` | Website alias of `--accent`. |
 
 ### Semantic Tokens — Light Mode
 
-Raw HSL values live on `:root` / `[data-theme="light"]` in `@santi020k/theme/tokens.css`. Tailwind maps them under `@theme` (for example `--color-canvas`, `--color-brand`). Local site extensions are kept in [`src/styles/partials/tokens.css`](../src/styles/partials/tokens.css).
-
-| Role | CSS sources | HSL (raw) | Hex (approx.) | Usage |
-| :---------- | :------------------ | :------------ | :--- | :---- |
-| Page background | `--theme-bg` → `--color-canvas` | `268 20% 98%` | `#faf9fb` (exact) | `html` / `body` background |
-| Surfaces | `--surface`, `--surface-muted`, `--surface-strong` | see tokens file | — | Cards, panels, muted bands |
-| Borders | `--line` → `--color-line` | see tokens file | — | Dividers, outlines |
-| Headings / strong UI | `--ink` → `--color-ink` | `268 10% 20%` | `#332e38` (approx.) | `h1`–`h6`, strong emphasis |
-| Body / secondary text | `--ink-soft` | `268 8% 36%` | `#5b5463` (approx.) | Paragraphs, descriptions |
-| Muted labels | `--ink-muted` | `268 6% 28%` | `#47434c` (approx.) | Metadata, captions |
-| Brand wash | `--brand-soft` → `--color-brand-soft` | `264 60% 94%` | — | Tinted surfaces, selections |
-| Links & interactive emphasis | `text-brand`, `hover:text-brand`, `--brand` / `--accent` | — | — | Use utilities; base `a` inherits context |
+Lumen owns the raw HSL values and the adapter's Tailwind bridge maps the color utilities.
+Use `--canvas` for page backgrounds, `--surface` / `--surface-muted` / `--surface-strong`
+for surfaces, `--line` for dividers, and `--ink` / `--ink-soft` / `--ink-muted` for text.
+The website's `--theme-bg` remains an alias of `--canvas` for existing backdrop styles.
+Local site extensions live in [`src/styles/partials/tokens.css`](../src/styles/partials/tokens.css).
 
 ### Semantic Tokens — Dark Mode
 
 | Role | CSS sources | HSL (raw) | Usage |
 | :---------- | :------------------ | :------------ | :---- |
-| Page background | `--theme-bg` → `--color-canvas` | `260 43% 8%` | Deep purple-tinted canvas |
+| Page background | `--theme-bg` → `--color-canvas` | `258 41% 8%` | Deep purple-tinted canvas |
 | Surfaces | `--surface`, `--surface-muted`, `--surface-strong` | see tokens file | Elevated UI |
 | Text | `--ink`, `--ink-soft`, `--ink-muted` | see tokens file | Hierarchy |
 | Brand | `--brand`, `--accent`, `--glow`, `--brand-soft` | see Brand Primary table | Same semantics as light |
@@ -902,7 +899,7 @@ Publishing cadence: one quality post per month is better than four rushed ones. 
 | Internal links | Always use trailing slashes (`/portfolio/`) |
 | Component props | TypeScript `interface Props`, destructured from `Astro.props` |
 | Conditional classes | `class:list` — never template literal string concatenation |
-| Dark mode | `data-theme="dark"` on `<html>` — never `class="dark"` |
+| Dark mode | `data-theme="santi020k-dark"` on `<html>` — never `class="dark"` |
 | Images | `<Image>` from `astro:assets` — never raw `<img>` |
 | Decorative icons | Always `aria-hidden="true"` and `focusable="false"` |
 
@@ -912,7 +909,7 @@ Publishing cadence: one quality post per month is better than four rushed ones. 
 - Custom utilities go in `@utility` blocks — never ad hoc inline styles
 - Never hardcode hex, HSL, or OKLCH values in components — use semantic tokens
 - Class order follows the Tailwind Prettier plugin (ESLint enforces this)
-- Dark mode variant: `@custom-variant dark ([data-theme="dark"] &)`
+- Dark mode variant: `@custom-variant dark ([data-theme="santi020k-dark"] &)`
 
 ### Quality Gates
 
@@ -1005,7 +1002,7 @@ All internal links use trailing slashes.
 | Use `class:list` for conditional Tailwind classes | Concatenate class strings with template literals |
 | Use `<Image>` from `astro:assets` for all images | Use raw `<img>` tags |
 | Pair all animations with `motion-reduce:` variants | Ship animated transitions without reduced-motion fallback |
-| Use `data-theme="dark"` for dark mode | Use `class="dark"` — the `@custom-variant` won't match |
+| Use `data-theme="santi020k-dark"` for dark mode | Use `class="dark"` — the `@custom-variant` won't match |
 | Pass `pnpm run lint` and `pnpm run check` before finishing | Submit work with lint or type errors |
 
 ### Content & Voice
@@ -1034,7 +1031,8 @@ All internal links use trailing slashes.
 
 | File | Purpose |
 | :----------------------------------- | :---------- |
-| `@santi020k/theme/tokens.css` | Shared core color and font tokens |
+| `@santi020k/lumen-astro/styles/themes/santi020k.css` | Shared colors and named santi020k appearance |
+| `@santi020k/theme/typography.css` | Shared font stacks |
 | `src/styles/partials/tokens.css` | Site-only status colors and animation shorthands |
 | `src/styles/global.css` | Entry stylesheet: imports shared tokens, partials, utilities, and plugins |
 | `src/site.config.ts` | Site-wide metadata — title, description, author, nav links |

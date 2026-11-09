@@ -12,6 +12,37 @@ const transform = (children: ElementContent[], path = '/repo/src/content/post/20
   .use(rehypeArticleChecklists).runSync({ children, type: 'root' }, { path })
 
 describe('article Checklist ledger', () => {
+  test.each([
+    'Lista de verificación de pruebas de teclado',
+    '7. Lista final de comprobación de la migración',
+    'Crea una lista de revisión para el trabajo adaptable',
+    'Una lista práctica para revisar'
+  ])('recognizes authored Spanish checklist headings: %s', title => {
+    const lead = element('strong', [text('Entrada:')])
+    const detail = text(' Usa el enlace de salto.')
+    const list = element('ol', [element('li', [lead, detail])])
+    const after = element('ol', [item()])
+
+    transform([heading('h2', title), heading('h3', 'Teclado'), list, heading('h2', 'Conclusión'), after],
+      '/repo/src/content/post/2026/guide/index.es.mdx')
+    expect(list.properties).toEqual({ dataChecklistLedger: '', role: 'list' })
+    expect(list.children[0]).toMatchObject({ children: [{ children: [
+      { properties: { dataChecklistLedgerLead: '' }, children: [lead] },
+      { properties: { dataChecklistLedgerDetail: '' }, children: [detail] }
+    ] }] })
+    expect(after.properties).toEqual({})
+  })
+
+  test.each(['Lista de dependencias', 'Revisión de arquitectura', 'Especialistas de accesibilidad'])(
+    'preserves ordinary Spanish list sections: %s', title => {
+      const list = element('ol', [item()])
+      const before = structuredClone(list)
+
+      transform([heading('h2', title), list], '/repo/src/content/post/2026/guide/index.es.md')
+      expect(list).toEqual(before)
+    }
+  )
+
   test('preserves ordered numbering, lead punctuation, inline markup, and safe links', () => {
     const link = element('a', [text('documentation')])
     link.properties = { href: 'https://example.com/', rel: ['noopener', 'noreferrer'], target: '_blank' }

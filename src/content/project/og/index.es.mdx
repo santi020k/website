@@ -1,0 +1,211 @@
+---
+title: "@santi020k/og"
+seoTitle: "@santi020k/og: generación de imágenes Open Graph"
+description: "Creé un proceso de imágenes Open Graph independiente del renderizador, con caché determinista, limpieza segura, generación paralela y verificación en CI, dejando el sistema visual en manos de cada proyecto."
+cardDescription: "Genera imágenes Open Graph con tu propio sistema visual. Compilaciones predecibles con caché, generación paralela y verificaciones en CI."
+impactMetrics: ["Genera SVG, PNG, WebP, JPEG y AVIF mediante renderizadores propios de cada proyecto", "Admite Astro, Next.js, Node.js, monorepos, colecciones Markdown y datos de CMS sin un runtime de framework", "Incluye huellas deterministas, concurrencia limitada, limpieza registrada y verificación de CI de solo lectura"]
+coverImage:
+  alt: "Logotipo de OG sobre una portada geométrica verde oscura"
+focusAreas:
+  - label: "Generación de imágenes"
+    description: "Configuración tipada con renderizadores Sharp y Satori"
+  - label: "Eficiencia de compilación"
+    description: "Caché basada en contenido y trabajo paralelo limitado"
+  - label: "Seguridad de los resultados"
+    description: "Limpieza registrada y verificación repetible en CI"
+relatedWritingLabels: ["Notas de ingeniería", "Ecosistema de herramientas"]
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="og" headingId="open-graph-generation-without-surrendering-the-design">
+
+## Generación de Open Graph sin renunciar al diseño
+
+Creé `@santi020k/og` para separar dos responsabilidades que suelen venir juntas: la mecánica de generar imágenes sociales y las decisiones visuales que hacen que esas imágenes pertenezcan a un producto.
+
+El paquete gestiona rutas, formatos de salida, caché, concurrencia, limpieza y verificación. El proyecto consumidor aporta su contenido, recursos, fuentes, composición de tarjetas y renderizador. Ese límite hace reutilizable el proceso sin convertir cada marca en una plantilla predeterminada.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Funciones", href: "#what-i-built" },
+    { label: "Aspectos técnicos", href: "#technical-highlights" },
+    { label: "Resultados", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="og"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Mantener el control de la marca en cada proyecto**, en lugar de imponer una plantilla o un modelo de contenido.
+
+</li>
+
+<li>
+
+**Hacer verificables las imágenes sociales guardadas en el repositorio** mediante huellas deterministas y un comando de CI de solo lectura.
+
+</li>
+
+<li>
+
+**Regenerar solo lo que cambió** en colecciones que pueden contener cientos de tarjetas.
+
+</li>
+
+<li>
+
+**Mantener la independencia del framework** para que el mismo proceso funcione con Astro, Next.js, Node.js, un CMS o un arreglo estático.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Qué construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Una API de configuración tipada y una CLI"}>
+
+con flujos de `init`, `generate`, `check` y generación forzada.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Puntos de entrada de Sharp y Satori"}>
+
+para diseños basados en SVG, plantillas similares a HTML, carga de fuentes y codificación de imágenes rasterizadas.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Cinco familias de salida"}>
+
+seleccionadas por extensión: SVG, PNG, WebP, JPEG y AVIF.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Caché basada en contenido"}>
+
+que genera huellas de los datos de las tarjetas, dimensiones, nombres de salida, configuración, plantillas, fuentes, logotipos y archivos fuente declarados.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Generación limitada mediante hilos de trabajo"}>
+
+para colecciones grandes, sin que el procesamiento nativo de imágenes agote la memoria de CI.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Limpieza registrada"}>
+
+que elimina solo las salidas obsoletas registradas en el manifiesto anterior, en lugar de buscar y borrar archivos arbitrarios.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Contrato del renderizador</dt>
+  <dd>
+
+Los proyectos pueden devolver SVG, usar los adaptadores incluidos de Sharp o Satori, o proporcionar un renderizador completamente personalizado.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Rutas seguras</dt>
+  <dd>
+
+Los archivos de salida y el manifiesto de caché quedan limitados a la raíz del proyecto para impedir recorridos fuera de ella.
+
+  </dd>
+</div>
+
+<div>
+  <dt>CI determinista</dt>
+  <dd>
+
+`santi-og check` informa de salidas ausentes o desactualizadas sin modificar el repositorio.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Entradas portables</dt>
+  <dd>
+
+Los datos de las tarjetas pueden provenir de colecciones de contenido, Markdown, respuestas de CMS, cargadores de frameworks o cualquier fuente serializable.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Compilaciones paralelas</dt>
+  <dd>
+
+Los módulos de renderizado en hilos de trabajo admiten datos compatibles con clonación estructurada y concurrencia automática o fija.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Resultados
+
+</ProjectSectionHeading>
+
+- **Un flujo de generación para distintas tecnologías**, sin añadir el runtime de un framework.
+- **Compilaciones posteriores más rápidas**, porque las tarjetas sin cambios conservan su salida existente.
+- **Mantenimiento más seguro del repositorio**, mediante limpieza limitada al manifiesto y validación explícita de rutas.
+- **Diseños propios de cada proyecto**, libres de evolucionar de forma independiente del generador.
+
+<ProjectSectionHeading>
+
+### Por qué importa
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Las imágenes sociales son artefactos pequeños respaldados por un sistema de compilación sorprendentemente repetitivo."}>
+
+La abstracción compartida valiosa no es un diseño universal de tarjeta. Es una forma fiable de descubrir entradas, detectar cambios, renderizar en paralelo, codificar archivos, limpiar artefactos obsoletos y demostrar que la salida guardada está actualizada.
+
+</ProjectPrincipleClose>
+
+`@santi020k/og` se encarga de esa maquinaria y se detiene donde comienza la identidad de cada proyecto.

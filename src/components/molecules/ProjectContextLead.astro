@@ -1,7 +1,9 @@
 ---
-import { getEntry } from 'astro:content'
-
+import { getLocalizedProject } from '@/utils/content-translations'
 import { getProjectNotesLabel, getProjectStageLabel } from '@/utils/project-meta'
+
+import { getLocale } from '@/i18n'
+import { localizeCollectionSource } from '@/i18n/collection-copy'
 
 interface Props {
   headingId: string
@@ -9,7 +11,7 @@ interface Props {
 }
 
 const { headingId, projectId } = Astro.props
-const project = await getEntry('project', projectId)
+const project = await getLocalizedProject(projectId, getLocale(Astro.url.pathname))
 
 if (project?.data.notesLayout !== 'context-lead') {
   throw new Error(`Project ${projectId} must declare notesLayout: context-lead before rendering its authored opening.`)
@@ -21,8 +23,8 @@ const stage = getProjectStageLabel(project.data.typesId, project.data.endingDate
 
 <section aria-labelledby={headingId} class="not-prose" data-project-context-lead>
   <div data-context-meta>
-    <p data-context-label>{label}</p>
-    <p>{stage}</p>
+    <p data-context-label>{localizeCollectionSource(getLocale(Astro.url.pathname), label)}</p>
+    <p>{localizeCollectionSource(getLocale(Astro.url.pathname), stage)}</p>
   </div>
   <slot />
 </section>
@@ -59,7 +61,7 @@ const stage = getProjectStageLabel(project.data.typesId, project.data.endingDate
     font-weight: 500;
   }
 
-  :global([data-theme='dark']) [data-context-meta] [data-context-label] {
+  :global([data-theme='santi020k-dark']) [data-context-meta] [data-context-label] {
     color: hsl(var(--accent));
   }
 
@@ -86,7 +88,7 @@ const stage = getProjectStageLabel(project.data.typesId, project.data.endingDate
     padding-block: 1.375rem;
   }
 
-  :global([data-theme='dark']) [data-project-context-lead] :global([data-project-reading-brief]) {
+  :global([data-theme='santi020k-dark']) [data-project-context-lead] :global([data-project-reading-brief]) {
     --brief-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
   }
 

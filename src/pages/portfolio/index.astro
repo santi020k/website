@@ -8,7 +8,8 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedProjects } from '@/utils/content'
 import { collectionRelevanceSortProjects } from '@/utils/date'
 
-import { Link, RevealGroup } from '@santi020k/lumen-astro'
+import Link from '@santi020k/lumen-astro/components/Link'
+import RevealGroup from '@santi020k/lumen-astro/components/RevealGroup'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
@@ -198,8 +199,8 @@ mainClass="remaining-pages"
     font-weight: 400;
     letter-spacing: normal;
   }
-  :global(:root[data-theme='dark']) [data-portfolio-path-count] { color: hsl(var(--accent)); }
-  :global(:root[data-theme='dark']) [data-portfolio-paths] :global([data-portfolio-path]:hover) { color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) [data-portfolio-path-count] { color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) [data-portfolio-paths] :global([data-portfolio-path]:hover) { color: hsl(var(--accent)); }
   [data-portfolio-path-description] {
     display: block;
     margin-top: 0.625rem;

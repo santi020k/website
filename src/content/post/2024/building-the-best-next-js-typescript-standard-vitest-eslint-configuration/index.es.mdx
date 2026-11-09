@@ -1,0 +1,257 @@
+---
+title: "Una configuración de Next.js con TypeScript, Standard, Vitest y ESLint"
+description: "Configura ESLint para Next.js con TypeScript y Vitest: reglas de calidad, convenciones de importación y una base escalable para proyectos React."
+coverImage:
+  alt: "Núcleo de un proyecto conectado a módulos de configuración, pruebas, seguridad y calidad del código"
+---
+
+import PackageManagerCodeTabs from '@/components/molecules/PackageManagerCodeTabs.astro'
+
+Después de hablar sobre cómo establecer una estructura sólida para proyectos React mediante componentes de módulos atómicos, profundizamos en la mejora del flujo de desarrollo con Next.js, TypeScript y Vitest. En este artículo nos centraremos en configurar ESLint para mantener la consistencia, la calidad y las buenas prácticas del código.
+
+[Artículo anterior: sobre la estructura del proyecto](https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c)
+
+[Repositorio de GitHub](https://github.com/santi020k/posts/tree/post-2)
+
+## ¿Por qué ESLint?
+
+ESLint es una herramienta potente para identificar y corregir errores de programación comunes y aplicar convenciones de estilo. Al integrarlo en un proyecto Next.js con TypeScript, podemos detectar problemas potenciales al comienzo del desarrollo, mantener un estilo consistente y mejorar la calidad general del código.
+
+Una buena configuración de ESLint nos ahorra tiempo en revisiones dedicadas a cuestiones arbitrarias de formato.
+
+## Configuración de ESLint
+
+Para empezar, comprueba que tienes ESLint instalado en el proyecto. Puedes hacerlo ejecutando:
+
+<PackageManagerCodeTabs
+  ariaLabel="Elige un gestor de paquetes para instalar ESLint"
+  commands={{
+    npm: 'npm install --save-dev eslint',
+    yarn: 'yarn add --dev eslint',
+    pnpm: 'pnpm add --save-dev eslint',
+    bun: 'bun add --dev eslint'
+  }}
+/>
+
+Ahora configuremos ESLint para trabajar con Next.js, TypeScript y Vitest. Usaremos la configuración que recomiendo para iniciar un proyecto, que después puede adaptarse a sus necesidades e incluye complementos y reglas diseñados para estas tecnologías.
+
+Comenzamos por instalar las dependencias de esta configuración.
+
+<PackageManagerCodeTabs
+  ariaLabel="Elige un gestor de paquetes para instalar las dependencias de configuración de ESLint"
+  commands={{
+    npm: 'npm install --save-dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports',
+    yarn: 'yarn add --dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports',
+    pnpm: 'pnpm add --save-dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports',
+    bun: 'bun add --dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports'
+  }}
+/>
+
+Crea el archivo `.eslintrc.cjs` con la siguiente configuración.
+
+```javascript title=".eslintrc.cjs"
+// .eslintrc.cjs
+module.exports = {
+  env: {
+    browser: true,
+    es2024: true
+  },
+  globals: {
+    process: true,
+    React: true,
+    JSX: true
+  },
+  ignorePatterns: ['*.md'],
+  extends: [
+    'standard',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@next/next/recommended',
+    'plugin:tailwindcss/recommended',
+    'plugin:testing-library/react',
+    'plugin:vitest/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@stylistic/all-extends'
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true
+    },
+    ecmaVersion: 'latest',
+    sourceType: 'module'
+  },
+  plugins: [
+    'simple-import-sort',
+    'jsx-a11y',
+    'unused-imports',
+    'vitest',
+    'testing-library',
+    '@stylistic',
+    '@typescript-eslint'
+  ],
+  rules: {
+    'react/jsx-max-depth': [
+      'warn',
+      { max: 7 }
+    ],
+    'react/prop-types': 0,
+    'unused-imports/no-unused-imports': 'error',
+    'testing-library/prefer-screen-queries': 0,
+    'testing-library/no-manual-cleanup': 0,
+    indent: 0,
+    'react-hooks/exhaustive-deps': 0,
+    '@stylistic/indent': [
+      'error',
+      2
+    ],
+    '@stylistic/quote-props': [
+      'error',
+      'as-needed'
+    ],
+    '@stylistic/quotes': [
+      'error',
+      'single'
+    ],
+    '@stylistic/semi': [
+      'error',
+      'never'
+    ],
+    '@stylistic/object-curly-spacing': [
+      'error',
+      'always'
+    ],
+    '@stylistic/padded-blocks': [
+      'error',
+      'never'
+    ],
+    '@stylistic/arrow-parens': [
+      'error',
+      'as-needed'
+    ],
+    '@stylistic/dot-location': [
+      'error',
+      'property'
+    ],
+    '@stylistic/function-call-argument-newline': [
+      'error',
+      'never'
+    ],
+    '@stylistic/object-property-newline': [
+      'error',
+      { allowAllPropertiesOnSameLine: true }
+    ],
+    '@stylistic/multiline-ternary': [
+      'error',
+      'always-multiline'
+    ],
+    '@stylistic/member-delimiter-style': 'off',
+    '@stylistic/no-extra-parens': 'off',
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          // Packages `react` related packages come first.
+          ['^react'],
+          ['^next'],
+          // Themes
+          ['^(@/themes)'],
+          // Internal packages.
+          ['^(@/atoms)(/.*|$)'],
+          ['^(@/molecules)(/.*|$)'],
+          ['^(@/organisms)(/.*|$)'],
+          ['^(@/layouts)(/.*|$)'],
+          ['^(@/lib)(/.*|$)'],
+          ['^(@/store)(/.*|$)'],
+          ['^(@/hooks)(/.*|$)'],
+          ['^(@/models)(/.*|$)'],
+          ['^(@/utils)(/.*|$)'],
+          ['^(@/mocks)(/.*|$)'],
+          // Side effect imports.
+          ['^\\u0000'],
+          // Parent imports. Put `..` last.
+          [
+            '^\\.\\.(?!/?$)',
+            '^\\.\\./?$'
+          ],
+          // Other relative imports. Put same-folder imports and `.` last.
+          [
+            '^\\./(?=.*/)(?!/?$)',
+            '^\\.(?!/?$)',
+            '^\\./?$'
+          ],
+          // Style imports.
+          ['^.+\\.?(css)$']
+        ]
+      }
+    ]
+  },
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  }
+}
+```
+
+Esta configuración quedará antigua u obsoleta con el lanzamiento de ESLint 9.0. Todavía no está disponible ni es estable; cuando pueda usarse, posiblemente escribiré un artículo para actualizarla al nuevo formato, que es mucho mejor y que llevo años esperando.
+
+## ¿Por qué esta configuración?
+
+Esta configuración combina reglas estándar de la industria con complementos específicos para proyectos Next.js, TypeScript y Vitest. Estos son algunos componentes clave:
+
+- **eslint:recommended**: incluye reglas recomendadas para todos los usuarios de ESLint.
+- **plugin:@next/next/recommended**: proporciona reglas recomendadas específicas de Next.js.
+- **plugin:@typescript-eslint/recommended**: ofrece reglas recomendadas específicas de TypeScript.
+- **plugin:vitest/recommended**: incluye reglas recomendadas para Vitest.
+- **plugin:@stylistic/all-extends**: incorpora reglas adicionales de estilo para mejorar la consistencia.
+
+Con esta configuración, puedes mantener buenas prácticas y un estilo consistente en tu proyecto Next.js con TypeScript, y aprovechar ESLint para identificar y corregir problemas potenciales.
+
+## ¿Por qué no Prettier?
+
+En el ecosistema JavaScript, Prettier es otra herramienta popular para dar formato al código. Sin embargo, en algunos casos puedes decidir no usarlo junto con ESLint. Este es un ejemplo de cómo configurar Visual Studio Code para que ESLint se encargue del formato:
+
+`.vscode/settings.json`
+
+```json title=".vscode/settings.json"
+// .vscode/settings.json
+{
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": false
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+  // Other settings...
+}
+```
+
+Al configurar ESLint como formateador predeterminado de Visual Studio Code, puedes mantener un formato consistente y aprovechar también sus capacidades de análisis.
+
+## Conclusión
+
+Incorporar ESLint en un proyecto Next.js con TypeScript es un paso fundamental para mejorar la calidad, la mantenibilidad y la productividad. Con la configuración de este artículo puedes establecer una base sólida y mantener el código alineado con estándares y buenas prácticas de la industria.
+
+En el próximo artículo profundizaremos en cómo optimizar el flujo de desarrollo con otras herramientas y técnicas. ¡Pronto compartiré más ideas y consejos para construir mejores aplicaciones React!
+
+Nota: no recomiendo cambiar la configuración de ESLint y corregir los errores de ESLint en el mismo PR. En mi caso lo hice así para simplificar el artículo.

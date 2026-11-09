@@ -73,3 +73,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://giscus.app https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://webmention.io https://buttondown.com https://cloudflareinsights.com; frame-src https://giscus.app; frame-ancestors 'none'; form-action 'self' https://buttondown.com; upgrade-insecure-requests
+
+/es/search-index.json
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex

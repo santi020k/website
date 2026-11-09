@@ -8,7 +8,12 @@ import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { getAllTags, getBlogTopicLabel } from '@/utils/tags'
 
-import { Card, Icon, Input, Link, MotionGroup, Toggle } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Input from '@santi020k/lumen-astro/components/Input'
+import Link from '@santi020k/lumen-astro/components/Link'
+import MotionGroup from '@santi020k/lumen-astro/components/MotionGroup'
+import Toggle from '@santi020k/lumen-astro/components/Toggle'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
@@ -248,7 +253,7 @@ mainClass="remaining-pages"
     line-height: 1.85;
   }
   :global([data-topic-series]) { margin-top: .875rem; color: hsl(var(--brand)); }
-  :global([data-theme='dark'] [data-topic-series]) { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark'] [data-topic-series]) { color: hsl(var(--accent)); }
   @container topic-opening (width < 18rem) {
     [data-topic-opening] h1 { font-size: 2rem; }
   }
@@ -273,7 +278,7 @@ mainClass="remaining-pages"
     text-decoration: none;
     transition: border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
   }
-  :global([data-theme='dark'] a[data-topic-card]) { --topic-card-accent: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark'] a[data-topic-card]) { --topic-card-accent: hsl(var(--accent)); }
   [data-topic-name] {
     grid-column: 1;
     min-width: 0;
@@ -325,7 +330,7 @@ mainClass="remaining-pages"
     background: hsl(var(--surface));
     box-shadow: .375rem .375rem 0 hsl(var(--surface-muted));
   }
-  :global(:root[data-theme='dark'] .remaining-pages [data-topic-search-folio]) {
+  :global(:root[data-theme='santi020k-dark'] .remaining-pages [data-topic-search-folio]) {
     --topic-search-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
   }
   [data-topic-search-field] { min-width: 0; padding: 1.5rem 1.5rem 1.125rem; }
@@ -460,7 +465,7 @@ mainClass="remaining-pages"
     background: hsl(var(--brand-soft));
     color: hsl(var(--brand));
   }
-  :global([data-theme='dark']) [data-topic-empty-icon] { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-topic-empty-icon] { color: hsl(var(--accent)); }
   [data-tags-empty] h2 {
     margin: 0;
     color: hsl(var(--ink));

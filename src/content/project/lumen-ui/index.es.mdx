@@ -1,0 +1,236 @@
+---
+title: "Lumen UI"
+seoTitle: "Lumen UI: biblioteca de componentes web y nativos"
+description: "Creé Lumen UI: bases de diseño compartidas para Astro, React, Web Components e interfaces nativas, con primitivas accesibles, composiciones de producto, Figma y herramientas de IA."
+cardDescription: "Bases de diseño compartidas para aplicaciones web y nativas. Componentes accesibles, composiciones de producto e interfaces consistentes."
+closingLinkLabels: ["Probar los entornos de demostración"]
+previews:
+  description: "Interfaces reales construidas con Lumen: un espacio de trabajo web y el entorno de demostración de SwiftUI. Las pantallas usan datos ilustrativos."
+  images:
+    - alt: "Espacio de trabajo web de Lumen con navegación lateral, gráfico de ingresos, actividad reciente y formulario de tareas con datos ilustrativos."
+      title: "Un espacio de trabajo con piezas compartidas"
+      caption: "La navegación, los gráficos, las métricas y los controles de formulario funcionan juntos en una composición. Las aplicaciones aportan sus propios datos y decisiones."
+    - alt: "Demostración SwiftUI de Lumen con una lista de publicación, selector de fecha, casilla de accesibilidad, progreso y acciones de revisión."
+      title: "Las mismas bases en iPhone"
+      caption: "La demostración nativa presenta una lista de publicación mediante controles SwiftUI. Los tokens compartidos conectan el lenguaje visual y la plataforma define la interacción."
+impactMetrics: ["Conecta interfaces web y nativas mediante tokens compartidos y contratos explícitos de componentes", "Combina controles accesibles, gráficos, mapas y composiciones operativas con desarrollo nativo de cada plataforma", "Apoya flujos de diseño e IA con recursos de Figma, una habilidad para agentes, MCP y un registro legible por máquinas"]
+coverImage:
+  alt: "Logotipo de Lumen UI sobre una portada geométrica oscura con detalles ámbar"
+focusAreas:
+  - label: "Bases compartidas"
+    description: "Tokens semánticos y contratos explícitos de componentes"
+  - label: "Adaptadores de plataforma"
+    description: "Interfaces accesibles en tecnologías web y nativas"
+  - label: "Flujo de diseño"
+    description: "Composiciones de producto, Figma y herramientas de IA"
+relatedWritingLabels: ["Diseño del sistema", "Ecosistema de herramientas"]
+---
+
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
+import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
+
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+import ProjectEvidenceBrief from '@/components/molecules/ProjectEvidenceBrief.astro'
+
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+
+import ProjectConsumerTrail from '@/components/molecules/ProjectConsumerTrail.astro'
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+
+<ProjectContextLead projectId="lumen-ui" headingId="a-shared-language-for-web-and-native-interfaces">
+
+## Un lenguaje compartido para interfaces web y nativas
+
+Creé Lumen UI para llevar un lenguaje visual consistente a distintos productos, respetando la forma
+de construir de cada plataforma. Astro, React y Web Components basados en estándares comparten contratos web;
+React Native, SwiftUI y Jetpack Compose extienden esas bases a interfaces nativas.
+
+Los tokens compartidos y los contratos explícitos de componentes conectan el sistema. Los adaptadores de cada framework controlan
+su renderizado e interacción: mejora progresiva para Astro, componentes y hooks para React,
+elementos personalizados para el navegador y composición nativa para aplicaciones móviles y de escritorio.
+Las aplicaciones conservan sus reglas de negocio, datos, enrutamiento y políticas de recuperación.
+
+</ProjectContextLead>
+
+<ProjectPreviews projectId="lumen-ui">
+
+### Dentro del producto
+
+</ProjectPreviews>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: 'Funciones', href: '#what-lumen-4-brings-together' },
+    { label: 'Aspectos técnicos', href: '#technical-highlights' },
+    { label: 'Uso en este sitio', href: '#used-in-this-website' }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="lumen-ui"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief
+  labelledBy="goals"
+  goals={[
+    { lead: 'Compartir el lenguaje del producto', detail: 'entre interfaces web y nativas sin imponer un entorno de ejecución común.' },
+    { lead: 'Hacer repetible la interacción accesible', detail: 'mediante semántica, recorridos de teclado, gestión del foco, estados legibles y compatibilidad con movimiento reducido.' },
+    { lead: 'Apoyar el trabajo real de producto', detail: 'con formularios, presentación de datos, composiciones operativas y estados de recuperación.' },
+    { lead: 'Facilitar el descubrimiento de las decisiones de diseño', detail: 'para desarrolladores, diseñadores y agentes de programación.' }
+  ]}
+/>
+
+<ProjectSectionHeading>
+
+### Qué reúne Lumen 4
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-lumen-4-brings-together">
+
+<ProjectCapabilityEntry number={1} title="Controles accesibles y respuestas de estado">
+
+botones, paneles desplegables, diálogos, campos, acciones de portapapeles, progreso y estados de error con contratos explícitos de interacción.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title="Interfaces operativas">
+
+tablas de datos, calendarios, composiciones Kanban, navegación y plantillas completas de paneles que las aplicaciones componen alrededor de su propio estado y sus flujos.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title="Datos y presentación">
+
+gráficos, `WorldMap`, `DeviceFrame` y comparación de imágenes para historias de producto, analítica y experiencias multimedia legibles.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title="Movimiento moderado">
+
+grupos de aparición, números animados y movimiento de composición con contenido estable y opciones de movimiento reducido.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title="Bases nativas">
+
+adaptadores de React Native, SwiftUI y Compose, junto con interfaces específicas de WidgetKit y Wear OS que respetan sus plataformas.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title="Recursos de diseño e IA">
+
+una biblioteca de Figma, una habilidad portable para agentes, un catálogo MCP, recetas de CLI, `llms.txt` y contratos de componentes y estilos legibles por máquinas.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief
+  label="Adaptadores web"
+  introduction="Elige el adaptador para la aplicación existente."
+  adapters={[
+    { label: 'Astro', packageName: '@santi020k/lumen-astro' },
+    { label: 'React', packageName: '@santi020k/lumen-react' },
+    { label: 'Web Components', packageName: '@santi020k/lumen-elements' }
+  ]}
+>
+
+<div>
+  <dt>Bases compartidas</dt>
+  <dd>Tokens de diseño canónicos, metadatos y expectativas de comportamiento; el paquete principal <code>@santi020k/lumen</code> expone la CLI y el registro.</dd>
+</div>
+<div>
+  <dt>Contratos públicos de estilos</dt>
+  <dd>Tokens semánticos, propiedades de componentes, variables documentadas y puntos de extensión estables, sin depender de clases privadas de implementación.</dd>
+</div>
+<div>
+  <dt>Arquitectura CSS</dt>
+  <dd>Estilos independientes y capas explícitas de cascada para usar Tailwind de forma opcional.</dd>
+</div>
+<div>
+  <dt>Verificación</dt>
+  <dd>Verificaciones de interacción, accesibilidad, apariencia, paquetes y contratos, con compatibilidad nativa y evidencia de dispositivos registradas por separado.</dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectEvidenceBrief
+  id="compatibility-validation"
+  label="Compatibilidad y validación"
+  references={[
+    { label: 'Matriz de compatibilidad nativa', description: 'Cobertura de adaptadores y herramientas compatibles', href: 'https://github.com/santi020k/lumen/blob/main/docs/native-compatibility.md' },
+    { label: 'Registro de validación en dispositivos', description: 'Verificaciones en dispositivos y su estado', href: 'https://github.com/santi020k/lumen/blob/main/docs/native-device-validation.md' }
+  ]}
+>
+
+Las familias de plataformas comparten bases, pero la cobertura de componentes y las herramientas compatibles
+se especifican por adaptador.
+
+Una compilación local, un paquete publicado, una compilación de tienda y la accesibilidad en un dispositivo físico son evidencias distintas.
+
+</ProjectEvidenceBrief>
+
+<ProjectSectionHeading>
+
+### Uso en este sitio
+
+</ProjectSectionHeading>
+
+<ProjectConsumerTrail
+  introduction="Este sitio consume los paquetes publicados de Astro, core y principal de Lumen 4."
+  responsibility="Las composiciones de lectura combinan primitivas compartidas de progreso, copia y navegación. El sitio conserva sus estilos editoriales, búsqueda, orden del contenido y datos de viajes."
+  examples={[
+    { label: 'Cuaderno de viajes', href: '/es/travel/', description: 'El cuaderno de viajes utiliza', component: 'WorldMap' },
+    { label: 'Vista previa de producto en el inicio', href: '/es/#projects-heading', description: 'Una captura de producto presentada mediante', component: 'DeviceFrame' }
+  ]}
+>
+
+Este trabajo como consumidor ayuda a identificar mejoras de la biblioteca a partir de interfaces reales: valores claros,
+puntos públicos de extensión de estilos, respuestas accesibles del portapapeles y movimiento predecible. La
+[guía de migración de v3 a v4](https://github.com/santi020k/lumen/blob/main/docs/migrating-v3-to-v4.md)
+documenta el contrato de actualización para otros consumidores.
+
+</ProjectConsumerTrail>
+
+<ProjectSectionHeading>
+
+### Por qué importa
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose
+  lead="Lumen hace reutilizables las decisiones de interfaz."
+  emphasis="Las aplicaciones conservan sus políticas."
+  perspectives={[
+    { label: 'Desarrolladores', description: 'Descubrir un contrato real de componente.' },
+    { label: 'Diseñadores', description: 'Trabajar desde las mismas bases.' },
+    { label: 'Agentes de programación', description: 'Consultar orientación respaldada por el código en lugar de inventar una API.' }
+  ]}
+/>

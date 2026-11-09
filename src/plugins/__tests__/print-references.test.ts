@@ -58,6 +58,22 @@ describe('article print Reference notes', () => {
     ])
   })
 
+  test('resolves translated links against the Spanish article and labels its markers in Spanish', () => {
+    const paragraph = element('p', [
+      link('/es/blog/example/#chapter', 'Esta sección'),
+      link('../another/#chapter', 'Otra guía')
+    ])
+    const tree: Root = { type: 'root', children: [paragraph] }
+    const file = transform(tree, new VFile({ path: path.replace('index.mdx', 'index.es.mdx') }))
+
+    expect(file.data.astro?.frontmatter?.articlePrintReferences).toEqual([
+      { href: 'https://santi020k.com/es/blog/another/#chapter', label: 'Otra guía' }
+    ])
+    expect(paragraph.children.filter(child => child.type === 'element' && child.tagName === 'sup')).toMatchObject([
+      { children: [{ properties: { href: '#article-print-reference-1', ariaLabel: 'Referencia 1' } }] }
+    ])
+  })
+
   test('excludes same-page links, explicit URLs, non-web destinations, unsafe URLs and image-only links', () => {
     const tree: Root = { type: 'root',
       children: [element('p', [

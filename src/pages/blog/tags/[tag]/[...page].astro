@@ -17,7 +17,7 @@ import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
 import { getSocialImageURL } from '@/utils/social-image'
 import { getAllTags, getBlogTopicLabel, getRelatedBlogTags } from '@/utils/tags'
 
-import { Link } from '@santi020k/lumen-astro'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { ogManifest } from '@/data/og-manifest'
 import { getLocale, localizePath } from '@/i18n'
@@ -183,7 +183,7 @@ data-topic-close
     --topic-close-accent: hsl(var(--brand));
     container: topic-close / inline-size;
   }
-  :global([data-theme='dark']) [data-topic-close] { --topic-close-accent: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-topic-close] { --topic-close-accent: hsl(var(--accent)); }
   [data-topic-close-sheet] {
     display: grid;
     grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
@@ -306,7 +306,7 @@ data-topic-close
     container: topic-archive / inline-size;
     padding-block: 1rem 0;
   }
-  :global([data-theme='dark']) [data-topic-archive-opening] { --topic-archive-accent: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-topic-archive-opening] { --topic-archive-accent: hsl(var(--accent)); }
   [data-topic-archive-topline] {
     display: flex;
     flex-wrap: wrap;

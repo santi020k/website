@@ -3,10 +3,12 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizePost } from '@/utils/content-translations'
 import { getPostPath, getSeriesPath } from '@/utils/links'
 import { getReadingTime } from '@/utils/reading-time'
 
-import { Card, Link } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
@@ -21,7 +23,8 @@ interface Props {
   series: CollectionEntry<'series'>
 }
 
-const { firstPost, postCount, readingMinutes, series } = Astro.props
+const { firstPost: originalEntry, postCount, readingMinutes, series } = Astro.props
+const firstPost = originalEntry ? await localizePost(originalEntry, getLocale(Astro.url.pathname)) : originalEntry
 const postCountLabel = `${postCount} ${postCount === 1 ? t('collection.article7') : t('collection.articles')}`
 const seriesPath = getSeriesPath(series.id)
 const statusLabel = series.data.status === 'planned' ? t('collection.plannedSeries') : t('collection.activeSeries')
@@ -62,7 +65,7 @@ const exploreLabel = postCount > 0 ?
   {firstPost && (
     <Link data-series-card-start href={localizePath(getPostPath(firstPost.id), locale)} variant="inherit">
       <span data-series-card-start-label>{t('series.startFirstArticle')}</span>
-      <span data-series-card-start-title lang="en">{firstPost.data.title}</span>
+      <span data-series-card-start-title lang={firstPost.data.contentLocale}>{firstPost.data.title}</span>
       <ArrowExchange class="size-4.5 shrink-0" />
       <span data-series-card-start-meta>
         <span>{localizeCollectionSource(locale, firstPost.data.postType)}</span>
@@ -90,7 +93,7 @@ const exploreLabel = postCount > 0 ?
     box-shadow: -0.375rem 0.375rem 0 hsl(var(--brand-soft));
     overflow: visible;
   }
-  :global([data-theme='dark']) [data-series-card] { --series-card-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  :global([data-theme='santi020k-dark']) [data-series-card] { --series-card-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
   [data-series-card][data-slot='card']::before {
     display: block;
     position: absolute;

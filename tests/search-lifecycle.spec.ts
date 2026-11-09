@@ -216,11 +216,9 @@ test('a bare slash from the page or a focused link leaves search closed and the 
 
   await page.keyboard.press('/')
   await expect(page.locator('#site-search-dialog')).not.toHaveAttribute('open')
-  // Firefox can open its native Quick Find bar for a bare slash.
-  await page.keyboard.press('Escape')
   await link.focus()
-  await expect(link).toBeFocused()
   await page.keyboard.press('/')
+  await expect(link).toBeFocused()
   await expect(page.locator('#site-search-dialog')).not.toHaveAttribute('open')
   await expect(page.locator('[data-site-search-trigger]')).toHaveAttribute('aria-expanded', 'false')
   expect(new URL(page.url()).searchParams.has('q')).toBe(false)

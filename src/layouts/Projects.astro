@@ -27,13 +27,15 @@ import {
 } from '@/utils/project-meta'
 import { addProjectReadingBrief } from '@/utils/project-reading-brief'
 import { getSocialImageURL } from '@/utils/social-image'
+import { preserveHeadingIds } from '@/utils/translated-headings'
 
 import '@/styles/prose.css'
 
-import { RevealGroup, ScrollProgress } from '@santi020k/lumen-astro'
+import RevealGroup from '@santi020k/lumen-astro/components/RevealGroup'
+import ScrollProgress from '@santi020k/lumen-astro/components/ScrollProgress'
 
 import { ogManifest } from '@/data/og-manifest'
-import { getLocale, localizePath, stripLocale } from '@/i18n'
+import { getLocale, localeLanguage, localizePath } from '@/i18n'
 import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
 
@@ -41,22 +43,24 @@ const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
 
 interface Props {
+  translated: boolean
+  headingIds: ReadonlyMap<string, string>
   headings: MarkdownHeading[]
   project: CollectionEntry<'project'>
   relatedProjects?: CollectionEntry<'project'>[]
 }
 
-const { headings, project, relatedProjects = [] } = Astro.props
-const narrative = addProjectReadingBrief(await Astro.slots.render('default') ?? '')
+const { translated, headingIds, headings, project, relatedProjects = [] } = Astro.props
+const narrative = addProjectReadingBrief(preserveHeadingIds(await Astro.slots.render('default') ?? '', headingIds), locale)
 const relatedWriting = await getProjectWriting(project.data.relatedWriting)
-const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? t('shared.project')}`
+const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ? localizeCollectionSource(locale, project.data.role) : t('shared.project')}`
 const metaDescription = project.data.seoDescription ?? project.data.description
 
-// Case studies are written in English, so every locale shares the English card.
+// Translated case studies have their own social metadata and artwork.
 const socialImage = getSocialImageURL(
-  stripLocale(Astro.url.pathname),
+  Astro.url.pathname,
   Astro.site,
-  `/og/portfolio/${project.id}-logo.webp`,
+  project.data.contentLocale === 'es' ? undefined : `/og/portfolio/${project.id}-logo.webp`,
   ogManifest
 )
 
@@ -84,6 +88,7 @@ const projectSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': hasLiveDemo ? ['CreativeWork', 'SoftwareApplication'] : 'CreativeWork',
   name: project.data.title,
+  inLanguage: localeLanguage(project.data.contentLocale),
   description: metaDescription,
   dateCreated: project.data.startingDate.toISOString(),
   ...(project.data.updatedDate ? { dateModified: project.data.updatedDate.toISOString() } : {}),
@@ -119,10 +124,10 @@ const breadcrumbs = [
 mainClass="remaining-pages remaining-pages--reading"
   meta={{
     breadcrumbs,
-    contentLocale: 'en',
+    contentLocale: translated ? undefined : project.data.contentLocale,
     description: metaDescription,
     ogImage: socialImage,
-    ogImageAlt: `${metaTitle} — ${projectTypeLabel.toLowerCase()} by Santiago Molina`,
+    ogImageAlt: t('project.socialAlt', { title: metaTitle, type: localizeCollectionSource(locale, projectTypeLabel).toLowerCase() }),
     structuredData: projectSchema,
     title: metaTitle
   }}
@@ -161,9 +166,13 @@ mainClass="remaining-pages remaining-pages--reading"
             />
           )}
 
-          <ProjectCaseStudy rows={caseStudyRows} />
+          <ProjectCaseStudy contentLocale={project.data.contentLocale} rows={caseStudyRows} />
 
-          <div lang="en" class="prose-santi prose-project max-w-none" data-pagefind-body>
+          <div
+lang={project.data.contentLocale}
+class="prose-santi prose-project max-w-none"
+data-pagefind-body={locale === project.data.contentLocale ? '' : undefined}
+          >
             <Fragment set:html={narrative} />
           </div>
         </div>

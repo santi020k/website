@@ -4,77 +4,86 @@ import { getImage } from 'astro:assets'
 
 import type { SearchIndexEntry } from '@/types/search'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
+import { localizePost, localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 
 import type { APIRoute, ImageMetadata } from 'astro'
 
-const corePageEntries: SearchIndexEntry[] = [
-  {
-    description: 'Engineering story, leadership philosophy, and personal background of Santiago Molina.',
-    keywords: ['Sobre mí', 'Biografía', 'Perfil', 'Biography', 'Santiago Molina'],
-    path: '/about/',
-    tags: [],
-    title: 'About',
-    type: 'page'
-  },
-  {
-    description: 'Career timeline, engineering leadership roles, and production systems delivered since 2014.',
-    keywords: ['Experiencia', 'Trayectoria', 'Carrera', 'Career', 'Timeline', 'Experience'],
-    path: '/work/',
-    tags: [],
-    title: 'Work',
-    type: 'page'
-  },
-  {
-    description: 'Selected engineering case studies, open-source packages, and community initiatives.',
-    keywords: ['Proyectos', 'Portafolio', 'Casos de estudio', 'Portfolio', 'Case studies'],
-    path: '/projects/',
-    tags: [],
-    title: 'Projects',
-    type: 'page'
-  },
-  {
-    description: 'Conference talks, workshops, community organizing, and open-source mentorship.',
-    keywords: ['Charlas', 'Conferencias', 'Talleres', 'Comunidad', 'Talks', 'Workshops'],
-    path: '/speaking/',
-    tags: [],
-    title: 'Speaking & Community',
-    type: 'page'
-  },
-  {
-    description: 'Interactive atlas and field notes from countries and cities visited around the world.',
-    keywords: ['Viajes', 'Mapa', 'Países', 'Countries', 'Atlas'],
-    path: '/travel/',
-    tags: [],
-    title: 'Travel',
-    type: 'page'
-  },
-  {
-    description: 'Printable curriculum vitae, career highlights, and downloadable PDF resume.',
-    keywords: ['Currículum', 'CV', 'Hoja de vida', 'Curriculum Vitae', 'PDF'],
-    path: '/resume/',
-    tags: [],
-    title: 'Resume',
-    type: 'page'
-  },
-  {
-    description: 'Get in touch about engineering leadership roles, architecture consulting, or speaking invitations.',
-    keywords: ['Trabajemos juntos', 'Contacto', 'Contratar', 'Contact', 'Hire', 'Consulting'],
-    path: '/work-with-me/',
-    tags: [],
-    title: 'Work with me',
-    type: 'page'
-  },
-  {
-    description: 'Interactive archive of every major version of santi020k.com from v1 to v5.',
-    keywords: ['Historia del sitio', 'Archivo', 'Versiones', 'Archive', 'History'],
-    path: '/history/',
-    tags: [],
-    title: 'Website history',
-    type: 'page'
-  }
-]
+import type { Locale } from '@/i18n'
+import { localizePath, sharedTranslator } from '@/i18n'
+import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
+
+const corePageEntries = (locale: Locale): SearchIndexEntry[] => {
+  const t = pageTranslator(locale)
+
+  return [
+    {
+      description: t('search.page.about'),
+      keywords: ['Sobre mí', 'Biografía', 'Perfil', 'Biography', 'Santiago Molina'],
+      path: '/about/',
+      tags: [],
+      title: 'About',
+      type: 'page'
+    },
+    {
+      description: t('search.page.work'),
+      keywords: ['Experiencia', 'Trayectoria', 'Carrera', 'Career', 'Timeline', 'Experience'],
+      path: '/work/',
+      tags: [],
+      title: 'Work',
+      type: 'page'
+    },
+    {
+      description: t('search.page.projects'),
+      keywords: ['Proyectos', 'Portafolio', 'Casos de estudio', 'Portfolio', 'Case studies'],
+      path: '/projects/',
+      tags: [],
+      title: sharedTranslator(locale)('nav.projects'),
+      type: 'page'
+    },
+    {
+      description: t('search.page.speaking'),
+      keywords: ['Charlas', 'Conferencias', 'Talleres', 'Comunidad', 'Talks', 'Workshops'],
+      path: '/speaking/',
+      tags: [],
+      title: 'Speaking & Community',
+      type: 'page'
+    },
+    {
+      description: t('search.page.travel'),
+      keywords: ['Viajes', 'Mapa', 'Países', 'Countries', 'Atlas'],
+      path: '/travel/',
+      tags: [],
+      title: 'Travel',
+      type: 'page'
+    },
+    {
+      description: t('search.page.resume'),
+      keywords: ['Currículum', 'CV', 'Hoja de vida', 'Curriculum Vitae', 'PDF'],
+      path: '/resume/',
+      tags: [],
+      title: 'Resume',
+      type: 'page'
+    },
+    {
+      description: t('search.page.workWithMe'),
+      keywords: ['Trabajemos juntos', 'Contacto', 'Contratar', 'Contact', 'Hire', 'Consulting'],
+      path: '/work-with-me/',
+      tags: [],
+      title: 'Work with me',
+      type: 'page'
+    },
+    {
+      description: t('search.page.history'),
+      keywords: ['Historia del sitio', 'Archivo', 'Versiones', 'Archive', 'History'],
+      path: '/history/',
+      tags: [],
+      title: 'Website history',
+      type: 'page'
+    }
+  ]
+}
 
 type SearchThumbFields = Partial<Pick<SearchIndexEntry, 'coverAvifUrl' | 'coverUrl'>>
 
@@ -94,13 +103,15 @@ const searchThumb = async (
   }
 }
 
-export const GET: APIRoute = async () => {
-  const [posts, projects] = await Promise.all([getCachedPosts(), getCachedProjects()])
+export const createSearchIndex = async (locale: Locale) => {
+  const [originalPosts, originalProjects] = await Promise.all([getCachedPosts(), getCachedProjects()])
+  const posts = await Promise.all(originalPosts.map(post => localizePost(post, locale)))
+  const projects = await Promise.all(originalProjects.map(project => localizeProject(project, locale)))
 
   const postEntries = await Promise.all(
     posts.map(async (post): Promise<SearchIndexEntry> => ({
       description: post.data.description,
-      path: getPostPath(post.id),
+      path: localizePath(getPostPath(post.id), locale),
       tags: post.data.tags,
       title: post.data.title,
       type: 'post',
@@ -114,7 +125,7 @@ export const GET: APIRoute = async () => {
 
       return {
         description: project.data.description,
-        path: getPortfolioPath(project.id),
+        path: localizePath(getPortfolioPath(project.id), locale),
         tags: project.data.technologies,
         title: project.data.title,
         type: project.data.typesId === 'community' ? 'community' : 'project',
@@ -123,7 +134,13 @@ export const GET: APIRoute = async () => {
     })
   )
 
-  const entries = [...postEntries, ...projectEntries, ...corePageEntries]
+  const pageEntries = corePageEntries(locale).map(entry => ({
+    ...entry,
+    path: localizePath(entry.path, locale),
+    title: localizePageSource(locale, entry.title)
+  }))
+
+  const entries = [...postEntries, ...projectEntries, ...pageEntries]
 
   return new Response(JSON.stringify(entries), {
     headers: {
@@ -131,3 +148,5 @@ export const GET: APIRoute = async () => {
     }
   })
 }
+
+export const GET: APIRoute = () => createSearchIndex('en')

@@ -5,7 +5,9 @@ import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { getSeriesFocusAreas } from '@/utils/series'
 
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getLocale, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
@@ -65,7 +67,7 @@ class="size-4 shrink-0"
     color: hsl(var(--ink));
     overflow-wrap: break-word;
   }
-  :global(:root[data-theme='dark']) [data-series-focus] { --focus-accent: var(--accent); }
+  :global(:root[data-theme='santi020k-dark']) [data-series-focus] { --focus-accent: var(--accent); }
   [data-series-focus] h2 { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0; color: hsl(var(--focus-accent)); font-size: 0.875rem; line-height: 1.571; font-weight: 500; letter-spacing: normal; }
   [data-focus-guidance] { margin: 0.75rem 0 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
   [data-series-focus] ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.5rem; margin: 0.875rem 0 0; padding: 0; list-style: none; }

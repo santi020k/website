@@ -1,0 +1,95 @@
+---
+title: "Verificaciones de accesibilidad con Playwright que los equipos siguen ejecutando"
+seoTitle: "Accesibilidad con Playwright: axe y pruebas de teclado"
+description: "Ejecuta ejemplos probados de Playwright y axe para páginas, foco en diálogos y enlaces de salto; revisa con teclado lo que la automatización no puede demostrar."
+coverImage:
+  alt: "Un flujo de navegador pasa por controles de teclado, estructura, contraste y auditoría"
+---
+
+import ArticleCode from '@/components/atoms/ArticleCode.astro'
+import scanExample from '../../../../../tests/accessibility-guide/scan.spec.ts?raw'
+import dialogExample from '../../../../../tests/accessibility-guide/dialog.spec.ts?raw'
+import skipLinkExample from '../../../../../tests/accessibility-guide/skip-link.spec.ts?raw'
+
+Una página puede pasar un análisis automático de accesibilidad mientras su diálogo pierde el foco del teclado. Un enlace para saltar al contenido puede verse correcto y dejar el foco en el encabezado. Quiero pruebas que me digan si una persona puede completar el siguiente paso.
+
+Esta guía combina análisis de axe con aserciones explícitas de teclado sobre este sitio web. Los bloques de código de abajo muestran los mismos archivos de prueba que se ejecutan en su suite de Playwright. Puedes reproducirlos localmente y luego adaptar las rutas, los nombres accesibles y el orden de foco esperado a tu propia aplicación.
+
+## Ejecuta los ejemplos localmente
+
+Usa Node.js 24 o posterior y la versión fijada de pnpm 11.25.0 del repositorio. Clona el [repositorio del sitio web](https://github.com/santi020k/website) o usa una copia local que ya contenga esta guía:
+
+```bash title="terminal"
+git clone https://github.com/santi020k/website.git
+cd website
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm run build
+SKIP_BUILD=1 pnpm run test:e2e tests/accessibility-guide --project=chromium --workers=1 --retries=0
+```
+
+En una copia local existente, omite los comandos de clonado y cambio de directorio. El repositorio ya incluye Playwright y `@axe-core/playwright`. Su configuración inicia la vista previa de producción y proporciona `baseURL`; las pruebas usan rutas locales, no el sitio público. Las pruebas de búsqueda interceptan únicamente la respuesta del índice de búsqueda para que los estados vacíos y de fallo sean repetibles.
+
+En un proyecto de Playwright existente, instala `@axe-core/playwright` como dependencia de desarrollo con tu gestor de paquetes. Copia un ejemplo al directorio de pruebas y adapta su contrato con la aplicación. Estos selectores describen la interfaz de búsqueda de este sitio; no son selectores universales de diálogos.
+
+## Analiza una página estable en ambos temas
+
+Este ejemplo espera un encabezado visible y las fuentes cargadas, y luego comprueba el artículo en los temas claro y oscuro. Solicita las etiquetas de reglas WCAG 2.0, 2.1 y 2.2 A/AA de axe. Una aserción aprobada significa que esas reglas activadas no encontraron infracciones en el estado analizado; no establece conformidad con WCAG.
+
+<ArticleCode code={scanExample} language="typescript" label="tests/accessibility-guide/scan.spec.ts" codeLabel="Ejemplo de análisis de accesibilidad de una página" />
+
+Conserva los resultados `incomplete` para revisión humana: son verificaciones que axe no pudo resolver automáticamente. El archivo adjunto también conserva los detalles de las infracciones para el diagnóstico. Usa cuentas y datos sintéticos en las pruebas autenticadas, porque los reportes y las trazas pueden contener contenido de la página.
+
+La reducción de movimiento hace determinista este análisis concreto. Prueba por separado el recorrido con movimiento habitual, sobre todo cuando las transiciones afectan el foco o muestran controles. Espera estados significativos de la interfaz en lugar de añadir una pausa fija. Un estado de carga con el que se puede interactuar también merece sus propias verificaciones.
+
+La [guía de accesibilidad de Playwright](https://playwright.dev/docs/accessibility-testing) explica la integración con axe y el alcance del análisis. Los diagnósticos estáticos, como las [comprobaciones de código de Astro Doctor](/es/blog/astro-doctor-announcement/), complementan esta cobertura del navegador al detectar antes algunas omisiones.
+
+## Prueba el ciclo completo del foco del diálogo
+
+La primera prueba de abajo usa un índice de búsqueda vacío, que deja dos controles accesibles con Tab: Cerrar y el campo de búsqueda. Comprueba ambos retornos en los límites, el movimiento dentro del diálogo, Escape, el retorno del foco y la activación por teclado del botón Cerrar después de volver a abrirlo.
+
+La llamada a `focus()` aísla deliberadamente esta prueba de componente. No demuestra que un visitante pueda llegar al control que abre el diálogo desde la primera parada de Tab de la página. El ejemplo de enlace de salto de la siguiente sección comienza desde una página nueva sin ese atajo.
+
+<ArticleCode code={dialogExample} language="typescript" label="tests/accessibility-guide/dialog.spec.ts" codeLabel="Ejemplos de foco del diálogo y estados de fallo" />
+
+La segunda prueba analiza el estado visible de fallo, incluido el control de reintento. Su `include()` limita la auditoría al diálogo; conserva también el análisis de página completa. Comprobar que existe una acción de reintento no demuestra la recuperación ni su anuncio: eso necesita sus propias pruebas de interacción y tecnología de asistencia.
+
+WebKit en macOS usa Option-Tab en esta suite para incluir enlaces y botones. Ajusta la configuración de navegación por teclado al navegador y sistema operativo que admites, y regístrala durante las pruebas manuales.
+
+El foco inicial es una decisión de producto. Un diálogo de búsqueda puede comenzar en su campo; un diálogo informativo largo puede necesitar el foco en el encabezado, y una confirmación destructiva puede comenzar en su acción más segura. El [patrón de diálogo de WAI-ARIA](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/) describe esas decisiones y el ciclo de teclado esperado.
+
+Este es el contrato de interacción detrás de las [bases compartidas de accesibilidad de Lumen](/es/blog/lumen-ui-one-system-three-frameworks/#accessibility-belongs-in-the-primitive). Una biblioteca de componentes ayuda a establecer el comportamiento; cada aplicación todavía debe verificar su composición, contenido y destino de retorno del foco.
+
+## Demuestra que el enlace de salto mueve el foco
+
+Este ejemplo usa solo el teclado después de navegar. Comprueba la primera parada, activa el enlace de salto, verifica el foco en la región principal y continúa hasta el primer enlace de esa región. Un cambio en el fragmento de la URL por sí solo no demostraría este comportamiento.
+
+<ArticleCode code={skipLinkExample} language="typescript" label="tests/accessibility-guide/skip-link.spec.ts" codeLabel="Ejemplo de enlace de salto usando solo el teclado" />
+
+La expectativa del enlace final es específica de esta página de inicio. En otra aplicación, identifica el primer control significativo después del destino del salto. Para un recorrido de compra, inicio de sesión o publicación, extiende la secuencia hasta la finalización y recuperación sin usar `click()`, `focus()` ni `fill()` para eludir el acceso por teclado.
+
+## Lista de verificación de pruebas de teclado
+
+Ejecuta esto en las rutas y los estados importantes de tus navegadores de escritorio compatibles. Empieza con una página nueva y deja el puntero a un lado. Registra el navegador, el sistema operativo, la configuración de teclado, el tema, el nivel de zoom y los pasos para reproducir cualquier fallo.
+
+1. **Entrada:** El primer Tab revela un enlace de salto utilizable. Enter mueve el foco al contenido previsto y el siguiente Tab continúa allí.
+1. **Orden:** Tab y Shift+Tab siguen una secuencia lógica. Los controles ocultos o inertes no reciben foco, y el contenido habitual de la página no lo atrapa.
+1. **Visibilidad:** El foco se mantiene claramente visible, incluso debajo de encabezados fijos, dentro de regiones desplazables y con texto o zoom ampliados. Comprueba ambos temas.
+1. **Activación:** Enter activa los enlaces. Enter y Espacio activan los botones. Usa las flechas para widgets compuestos cuando su patrón documentado lo requiera.
+1. **Diálogos:** Abrirlos mueve el foco a un destino útil. Ambos retornos en los límites permanecen dentro del modal. Escape y la acción visible de cierre funcionan, y cerrar devuelve el foco al control de apertura o a un sucesor lógico si ya no existe.
+1. **Formularios:** Completa el flujo con el teclado. Provoca errores de validación, llega a los campos inválidos, corrígelos y vuelve a enviar sin perder progreso ni foco.
+1. **Estados dinámicos:** Ejercita carga, ausencia de resultados, fallo de red y reintento. El foco sigue siendo útil cuando los controles aparecen, desaparecen o se deshabilitan.
+1. **Navegación:** Después de cambiar de ruta, el destino del foco y el título de la página ayudan a orientar al visitante. El botón Atrás del navegador deja la página operable.
+1. **Acceso al contenido:** Desplaza los ejemplos largos de código y otras regiones con desbordamiento usando el teclado y sal de ellas normalmente. Inspecciona la página al 200 % de zoom y en un área de visualización estrecha para detectar controles recortados.
+
+Esta es una ayuda de revisión enfocada, no una lista completa de conformidad. Combínala con pruebas manuales de lectores de pantalla para nombres, roles, orden de lectura, errores y anuncios en vivo, además de pruebas con personas con discapacidad cuando sea posible. Las aserciones del DOM y las capturas no pueden demostrar lo que escucha una persona que usa tecnología de asistencia. Las [comprobaciones preliminares de accesibilidad del W3C](https://www.w3.org/WAI/test-evaluate/preliminary/) ofrecen otro punto de partida para la evaluación manual.
+
+## Mantén útiles las verificaciones en CI
+
+Ejecuta estas pruebas con la suite de navegadores existente y conserva reportes que permitan actuar cuando fallen. En un flujo crítico compatible, una infracción inesperada o un paso de teclado roto debería hacer fallar la verificación. No filtres fallos por gravedad solo para conseguir una compilación verde.
+
+Empieza con un conjunto pequeño de recorridos completos, corrige sus hallazgos y amplía la cobertura. Si un problema heredado necesita una excepción, registra la regla exacta y el elemento afectado, la persona responsable y la condición para eliminarla. Evita excluir una página entera o desactivar una regla en toda la aplicación.
+
+Mantén precisa la evidencia: esta suite ejercita comportamiento del navegador y reglas automatizadas. La verificación manual con lectores de pantalla y una auditoría WCAG completa siguen siendo trabajos separados.
+
+Para comportamiento a nivel de componente, continúa con [Vitest y React Testing Library](/es/blog/testing-react-components-with-vitest-and-react-testing-library/). Para el control de publicación que rodea estas verificaciones, consulta [un proceso de publicación que reduce el drama](/es/blog/a-release-process-that-reduces-drama/).

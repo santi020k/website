@@ -2,7 +2,12 @@
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import LinkRecovery from '@/components/molecules/LinkRecovery.astro'
 
-import { Button, Card, FieldError, Icon, Input, Link } from '@santi020k/lumen-astro'
+import Button from '@santi020k/lumen-astro/components/Button'
+import Card from '@santi020k/lumen-astro/components/Card'
+import FieldError from '@santi020k/lumen-astro/components/FieldError'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Input from '@santi020k/lumen-astro/components/Input'
+import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getLocale, localizePath, sharedTranslator } from '@/i18n'
 
@@ -144,7 +149,7 @@ const t = sharedTranslator(locale)
     color: hsl(var(--ink));
     overflow-wrap: anywhere;
   }
-  :global(:root[data-theme='dark']) [data-newsletter] { --newsletter-accent: var(--accent); }
+  :global(:root[data-theme='santi020k-dark']) [data-newsletter] { --newsletter-accent: var(--accent); }
   [data-newsletter-header] { padding: 1.75rem; border-radius: 0.3125rem 1.6875rem 0 0; background: hsl(var(--brand-soft)); }
   [data-newsletter-masthead] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-width: 0; margin-bottom: 1rem; }
   [data-newsletter-eyebrow] { margin: 0; color: color-mix(in srgb, hsl(var(--newsletter-accent)) 80%, hsl(var(--ink))); font-size: 0.625rem; line-height: 1.8; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; }

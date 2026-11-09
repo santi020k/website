@@ -1,33 +1,83 @@
+import type { DefaultTreeAdapterTypes } from 'parse5'
+import { parseFragment } from 'parse5'
+
+import type { Locale } from '@/i18n'
+
 import { getReadingTime } from './reading-time'
 
 const blockTags = new Set(['blockquote', 'br', 'dd', 'div', 'dl', 'dt', 'figcaption', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'li', 'ol', 'p', 'section', 'td', 'th', 'tr', 'ul'])
-const tags = /<\/?([\w-]+)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gu
+const excludedTags = new Set(['script', 'style', 'pre', 'button', 'dialog', 'template'])
 
-/** Accepts the site's trusted rendered narrative, not raw user HTML or MDX source. */
-export const addProjectReadingBrief = (html: string): string => {
-  const opening = html.indexOf('data-project-context-lead')
+/** Read trusted rendered narrative without rewriting the authored markup. */
+export const addProjectReadingBrief = (html: string, locale: Locale = 'en'): string => {
+  if (!html.includes('data-project-context-lead')) return html
 
-  if (opening < 0 || html.includes('data-project-reading-brief')) return html
+  const text: string[] = []
 
-  const headingEnd = html.indexOf('</h2>', opening)
-  const sectionEnd = html.indexOf('</section>', opening)
+  const summary: { insertion: number | undefined, headings: number, hasBrief: boolean } = {
+    insertion: undefined,
+    headings: 0,
+    hasBrief: false
+  }
 
-  if (headingEnd < 0 || sectionEnd < 0 || headingEnd > sectionEnd) return html
+  const visit = (node: DefaultTreeAdapterTypes.Node, insideOpening = false): void => {
+    if ('value' in node) {
+      text.push(node.value)
 
-  const narrative = html
-    .replace(/<!--[\s\S]*?-->/gu, '')
-    .replace(/<(script|style|pre|button|dialog|template)\b[^>]*>[\s\S]*?<\/\1>/giu, '')
+      return
+    }
 
-  const text = narrative
-    .replace(tags, (_match: string, tag: string) => blockTags.has(tag.toLowerCase()) ? ' ' : '')
-    .replace(/&(?:nbsp|#160|#32|#x20|#xa0);/giu, ' ')
+    if ('tagName' in node) {
+      const { tagName } = node
 
-  const minutes = getReadingTime(text)
-  const sections = Math.max(0, [...narrative.matchAll(/<h[23]\b/gu)].length - 1)
-  const time = `About ${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`
-  const outline = sections ? `<div><dt>In this project story</dt><dd>${sections} ${sections === 1 ? 'section' : 'sections'}</dd></div>` : ''
-  const brief = `<dl data-project-reading-brief><div><dt>Estimated reading time</dt><dd>${time}</dd></div>${outline}</dl>`
-  const insertion = headingEnd + '</h2>'.length
+      if (excludedTags.has(tagName)) {
+        text.push(' ')
+
+        return
+      }
+
+      summary.hasBrief ||= node.attrs.some(attribute => attribute.name === 'data-project-reading-brief')
+
+      const isOpening = tagName === 'section' && node.sourceCodeLocation?.endTag !== undefined &&
+        node.attrs.some(attribute => attribute.name === 'data-project-context-lead')
+
+      const inOpening = insideOpening || isOpening
+
+      if (tagName === 'h2' || tagName === 'h3') {
+        summary.headings += 1
+
+        if (inOpening && tagName === 'h2') summary.insertion ??= node.sourceCodeLocation?.endTag?.endOffset
+      }
+
+      if (blockTags.has(tagName)) text.push(' ')
+
+      for (const child of node.childNodes) visit(child, inOpening)
+
+      if (blockTags.has(tagName)) text.push(' ')
+
+      return
+    }
+
+    if ('childNodes' in node) {
+      for (const child of node.childNodes) visit(child, insideOpening)
+    }
+  }
+
+  visit(parseFragment(html, { sourceCodeLocationInfo: true }))
+
+  const { insertion, hasBrief, headings } = summary
+
+  if (insertion === undefined || hasBrief) return html
+
+  const minutes = getReadingTime(text.join('').replace(/\u00a0/gu, ' '))
+  const sections = Math.max(0, headings - 1)
+  const time = locale === 'es' ? `Aproximadamente ${minutes} ${minutes === 1 ? 'minuto' : 'minutos'}` : `About ${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`
+  const outlineLabel = locale === 'es' ? 'En este caso de estudio' : 'In this project story'
+  const sectionLabels = locale === 'es' ? ['sección', 'secciones'] as const : ['section', 'sections'] as const
+  const sectionLabel = sectionLabels[sections === 1 ? 0 : 1]
+  const timeLabel = locale === 'es' ? 'Tiempo de lectura estimado' : 'Estimated reading time'
+  const outline = sections ? `<div><dt>${outlineLabel}</dt><dd>${sections} ${sectionLabel}</dd></div>` : ''
+  const brief = `<dl data-project-reading-brief><div><dt>${timeLabel}</dt><dd>${time}</dd></div>${outline}</dl>`
 
   return html.slice(0, insertion) + brief + html.slice(insertion)
 }

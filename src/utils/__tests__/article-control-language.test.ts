@@ -10,6 +10,18 @@ describe('article control language', () => {
     expect(localizeArticleControls(copyButton, 'en')).toBe(copyButton)
   })
 
+  test('uses the authoritative article format when translation metadata omits it', () => {
+    const opening = '<p data-article-format="">Article</p><p>Texto traducido.</p>'
+    const sample = '<script>const sample = \'<p data-article-format="">Article</p>\';</script>'
+
+    expect(localizeArticleControls(opening + sample, 'es', 'Guide')).toBe(
+      '<p data-article-format="">Guía</p><p>Texto traducido.</p>' + sample
+    )
+    expect(localizeArticleControls(opening, 'en', 'Guide')).toBe(
+      '<p data-article-format="">Guide</p><p>Texto traducido.</p>'
+    )
+  })
+
   test('localizes idle, copied, and error behavior without changing copied code', () => {
     const spanish = localizeArticleControls(copyButton, 'es')
 
@@ -44,6 +56,26 @@ describe('article control language', () => {
     expect(spanish).toContain('Desplázate horizontalmente para leer más')
     expect((/data-copy-value="[^"]*"/u.exec(spanish))?.[0]).toBe((/data-copy-value="[^"]*"/u.exec(english))?.[0])
     expect(spanish).toContain('literal-example.ts')
+  })
+
+  test('localizes short code regions without requiring a folded example', async () => {
+    const english = await renderArticleCode({
+      code: 'const value = 1', codeLabel: 'Code example 1: example.ts', label: 'example.ts', language: 'ts'
+    })
+    const spanish = localizeArticleControls(english, 'es')
+
+    expect(spanish).toContain('aria-label="Ejemplo de código 1: example.ts"')
+    expect(spanish).not.toContain('data-example-fold')
+    expect((/data-copy-value="[^"]*"/u.exec(spanish))?.[0]).toBe((/data-copy-value="[^"]*"/u.exec(english))?.[0])
+  })
+
+  test('localizes generated package-manager and generic code labels', () => {
+    const html = '<div data-package-manager-tablist="" role="tablist" aria-label="Package manager"></div><span data-prose-code-language="">Code</span>'
+    const spanish = localizeArticleControls(html, 'es')
+
+    expect(spanish).toContain('aria-label="Gestor de paquetes"')
+    expect(spanish).toContain('>Código</span>')
+    expect(localizeArticleControls(html, 'en')).toBe(html)
   })
 
   test('translates table controls while retaining authored headings', () => {

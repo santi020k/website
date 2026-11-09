@@ -7,13 +7,14 @@ const secondId = 'keep-the-checks-useful-in-ci'
 
 test.use({ reducedMotion: 'reduce' })
 
-for (const { locale, prefix, navigationLabel, backLabel, markerLabel, language } of [
+for (const { locale, prefix, navigationLabel, backLabel, markerLabel, firstHeading, language } of [
   {
     locale: 'en',
     prefix: '',
     navigationLabel: 'Page-end navigation',
     backLabel: 'Back to top',
     markerLabel: 'Linked section',
+    firstHeading: 'Keyboard-testing checklist',
     language: 'en-US'
   },
   {
@@ -22,6 +23,7 @@ for (const { locale, prefix, navigationLabel, backLabel, markerLabel, language }
     navigationLabel: 'Navegación al final de la página',
     backLabel: 'Volver arriba',
     markerLabel: 'Sección enlazada',
+    firstHeading: 'Lista de verificación de pruebas de teclado',
     language: 'es-419'
   }
 ]) {
@@ -49,7 +51,7 @@ for (const { locale, prefix, navigationLabel, backLabel, markerLabel, language }
     await expect(markers).toHaveCount(1)
     await expect(first.locator('[data-section-arrival]')).toHaveText(markerLabel)
     await expect(first.locator('[data-section-arrival]')).toHaveAttribute('lang', language)
-    await expect(first.getByRole('heading')).toHaveAccessibleName('Keyboard-testing checklist')
+    await expect(first.getByRole('heading')).toHaveAccessibleName(firstHeading)
     await first.getByRole('button').click()
     expect(await page.evaluate(() => sessionStorage.getItem('arrival-copy'))).toBe(`https://santi020k.com${article}#${firstId}`)
     await expect(first.locator('[data-section-arrival]')).toBeVisible()
@@ -134,7 +136,7 @@ for (const { locale, prefix, navigationLabel, backLabel, markerLabel, language }
 
     test('keeps native destinations without exposing inactive markers or controls', async ({ page }) => {
       await page.goto(`${article}#${firstId}`)
-      await expect(page.locator(`#${firstId}`)).toHaveAccessibleName('Keyboard-testing checklist')
+      await expect(page.locator(`#${firstId}`)).toHaveAccessibleName(firstHeading)
       await expect(page.locator(`#${firstId}`)).toBeInViewport()
       await expect(page.locator('[data-section-arrival]:visible')).toHaveCount(0)
       await expect(page.locator('[data-section-copy]:visible')).toHaveCount(0)

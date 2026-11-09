@@ -67,6 +67,45 @@ describe('fresh related writing', () => {
       ] })).map(p => p.id)).toEqual(['remaining'])
   })
 
+  test.each([
+    '/es/blog/guide/',
+    '/es/blog/guide?source=ledger#context',
+    'https://santi020k.com/es/blog/guide/',
+    'https://santi020k.com/%65s/blog/%67uide/?source=ledger#context'
+  ])('deduplicates same-origin Spanish recommendations before limiting: %s', async href => {
+    getCollectionMock.mockResolvedValue([
+      post('guide', { tags: ['typescript', 'auth'] }),
+      post('remaining')
+    ])
+
+    const { getRelatedPosts } = await import('../content')
+
+    expect((await getRelatedPosts({ currentPostId: 'current', tags: ['typescript', 'auth'], limit: 1, excludeUrls: [href] }))
+      .map(p => p.id)).toEqual(['remaining'])
+  })
+
+  test('keeps foreign locale paths distinct while matching their exact canonical destination', async () => {
+    getCollectionMock.mockResolvedValue([
+      post('foreign', { canonicalUrl: 'https://example.com/blog/guide/' }),
+      post('foreign-spanish', { canonicalUrl: 'https://example.com/es/blog/translated/' }),
+      post('local')
+    ])
+    const { getRelatedPosts } = await import('../content')
+    const options = { currentPostId: 'current', tags: ['typescript'], limit: 3 }
+
+    expect((await getRelatedPosts({ ...options,
+      excludeUrls: [
+        'https://example.com/es/blog/guide/',
+        'https://example.com/blog/translated/',
+        'https://example.com/es/blog/local/',
+        '/estate/blog/local/'
+      ] })).map(p => p.id)).toEqual(['foreign', 'foreign-spanish', 'local'])
+    expect((await getRelatedPosts({ ...options,
+      excludeUrls: [
+        'https://example.com/es/blog/translated/?source=ledger#context'
+      ] })).map(p => p.id)).toEqual(['foreign', 'local'])
+  })
+
   test('does not confuse foreign URLs, archives, topic indexes, or malformed URLs with article destinations', async () => {
     getCollectionMock.mockResolvedValue([post('guide')])
     const { getRelatedPosts } = await import('../content')

@@ -4,8 +4,18 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import { getCachedProjects } from '@/utils/content'
 import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
 
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import Card from '@santi020k/lumen-astro/components/Card'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+import Link from '@santi020k/lumen-astro/components/Link'
 import type { LumenIconName } from '@santi020k/lumen-core'
+
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+import { projectStoryTranslator } from '@/i18n/project-story'
+
+const locale = getLocale(Astro.url.pathname)
+const t = projectStoryTranslator(locale)
+const collection = collectionTranslator(locale)
 
 interface Props {
   client: string
@@ -31,7 +41,7 @@ const connectedGroups = groups.map(group => ({
 
     if (count === 0) throw new Error(`Technical highlight "${technology}" has no project technology destination.`)
 
-    return { label, count, href: getTechnologyPath(technology) }
+    return { label, count, href: localizePath(getTechnologyPath(technology), locale) }
   })
 }))
 ---
@@ -40,7 +50,7 @@ const connectedGroups = groups.map(group => ({
   <header data-technical-header>
     <p data-technical-client><Icon name="git-branch" size="sm" />{client}</p>
     <slot />
-    <p data-technical-intro>Explore the projects and case studies connected by these technologies.</p>
+    <p data-technical-intro>{t('technical.exploreProjects')}</p>
   </header>
   <div data-technical-body>
     {connectedGroups.map((group, index) => (
@@ -51,7 +61,7 @@ const connectedGroups = groups.map(group => ({
             <li>
               <Link data-technical-link href={technology.href} variant="inherit">
                 <span data-technical-name>{technology.label}</span>
-                <span data-technical-count>{technology.count} {technology.count === 1 ? 'project' : 'projects'}</span>
+                <span data-technical-count>{technology.count} {collection(technology.count === 1 ? 'collection.project' : 'collection.projects')}</span>
                 <ArrowExchange direction="up-right" size="sm" />
               </Link>
             </li>
@@ -61,8 +71,8 @@ const connectedGroups = groups.map(group => ({
     ))}
   </div>
   <footer data-technical-footer>
-    <span>Projects using each technology</span>
-    <Link href="/technologies/" variant="inherit">All technologies <ArrowExchange direction="right" size="sm" /></Link>
+    <span>{t('technical.projectsUsing')}</span>
+    <Link href={localizePath('/technologies/', locale)} variant="inherit">{collection('collection.allTechnologies')}{' '}<ArrowExchange direction="right" size="sm" /></Link>
   </footer>
 </Card>
 
@@ -77,7 +87,7 @@ const connectedGroups = groups.map(group => ({
     background: hsl(var(--surface));
     padding: 0;
   }
-  :global([data-theme='dark']) [data-technical-highlights] { --technical-accent: var(--accent); }
+  :global([data-theme='santi020k-dark']) [data-technical-highlights] { --technical-accent: var(--accent); }
   [data-technical-header] { display: grid; gap: 0.75rem; background: hsl(var(--brand-soft) / 0.5); padding: 1.75rem; }
   [data-technical-highlights] :is(p, h4, ul, li) { margin: 0; }
   [data-technical-client] { display: flex; align-items: center; gap: 0.5rem; color: hsl(var(--technical-accent)); font-size: 0.75rem; line-height: 1.5; font-weight: 500; }
