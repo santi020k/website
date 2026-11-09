@@ -36,7 +36,7 @@ const { headingId, introduction, perspectives, takeaway } = Astro.props
   [data-project-synthesis] { container: project-synthesis / inline-size; margin-block: 3rem; color: hsl(var(--ink)); }
   [data-synthesis-label] { display: flex; align-items: center; gap: 1rem; margin: 0 0 1.125rem; color: hsl(var(--brand)); font: 500 0.6875rem/1.7 var(--font-sans); }
   [data-synthesis-label]::after { content: ''; flex: 1; height: 1px; background: hsl(var(--line)); }
-  :global([data-theme='dark']) [data-synthesis-label] { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-synthesis-label] { color: hsl(var(--accent)); }
   [data-project-synthesis] :global(h2) { margin: 0; border: 0; padding: 0; color: hsl(var(--ink)); font: 500 2rem/1.25 var(--font-sans); letter-spacing: -0.035em; overflow-wrap: anywhere; }
   [data-project-synthesis] :global(h2::after) { content: none; }
   [data-synthesis-introduction] { margin: 1.5rem 0 0; color: hsl(var(--ink-soft)); font-size: 1.125rem; line-height: 1.8; }

@@ -27,7 +27,7 @@ test('release states stay distinct, readable and linked at mobile and desktop wi
       await expect(external).not.toHaveCSS('outline-style', 'none')
       for (const theme of ['light', 'dark']) {
         await page.evaluate(value => {
-          document.documentElement.dataset.theme = value
+          document.documentElement.dataset.theme = `santi020k-${value}`
         }, theme)
         const accessibility = await new AxeBuilder({ page }).include('[data-project-release-note]').analyze()
 

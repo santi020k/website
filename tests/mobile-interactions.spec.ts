@@ -35,7 +35,7 @@ for (const theme of ['light', 'dark']) {
       await page.evaluate(({ fontSize, theme }) => {
         document.documentElement.style.fontSize = `${fontSize}px`
 
-        document.documentElement.dataset.theme = theme
+        document.documentElement.dataset.theme = `santi020k-${theme}`
       }, { fontSize, theme })
       await page.locator('[data-mobile-nav-toggle]').click()
       await page.locator('[data-site-search-trigger]').click()
@@ -89,7 +89,7 @@ for (const theme of ['light', 'dark']) {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
     await page.evaluate(theme => {
-      document.documentElement.dataset.theme = theme
+      document.documentElement.dataset.theme = `santi020k-${theme}`
     }, theme)
     await page.locator('[data-mobile-nav-toggle]').click()
 
@@ -116,7 +116,7 @@ for (const theme of ['light', 'dark']) {
       await page.emulateMedia({ forcedColors })
       await page.goto('/')
       await page.evaluate(theme => {
-        document.documentElement.dataset.theme = theme
+        document.documentElement.dataset.theme = `santi020k-${theme}`
       }, theme)
       await page.locator('[data-mobile-nav-toggle]').focus()
 
@@ -141,7 +141,7 @@ for (const theme of ['light', 'dark']) {
     await page.evaluate(theme => {
       document.documentElement.style.fontSize = '200%'
 
-      document.documentElement.dataset.theme = theme
+      document.documentElement.dataset.theme = `santi020k-${theme}`
     }, theme)
     await page.locator('[data-site-search-trigger]').click()
     await page.locator('#site-search-input').fill('Astro')

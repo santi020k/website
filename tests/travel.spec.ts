@@ -80,7 +80,7 @@ for (const theme of ['light', 'dark']) {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.goto('/travel/')
       await page.evaluate(value => {
-        document.documentElement.dataset.theme = value
+        document.documentElement.dataset.theme = `santi020k-${value}`
       }, theme)
       await expect(page.locator('[data-ui-world-map-viewport]')).toBeVisible()
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
@@ -516,7 +516,10 @@ test('a pointer choice in the travel picker reveals the phone card without movin
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/travel/')
   const chooser = page.locator('[data-ui-world-map-select]')
+  // V5 enables the native chooser after its asynchronous map enhancement.
+  await expect(chooser).toBeEnabled()
   await chooser.focus()
+  await expect(chooser).toBeFocused()
   await chooser.dispatchEvent('pointerdown', { pointerType: 'touch' })
   await chooser.selectOption('PY')
   await expect(page.locator('[data-travel-selection]')).toBeInViewport({ ratio: 1 })
@@ -563,7 +566,7 @@ for (const theme of ['light', 'dark']) {
     const folio = page.locator('[data-travel-controls]')
     await expect(folio).toBeVisible()
     await page.evaluate(value => {
-      document.documentElement.dataset.theme = value
+      document.documentElement.dataset.theme = `santi020k-${value}`
       document.documentElement.style.fontSize = '200%'
     }, theme)
     const chooser = folio.getByRole('combobox', { name: 'Explore a country', exact: true })
@@ -592,7 +595,7 @@ for (const theme of ['light', 'dark']) {
     await page.goto('/travel/')
     const regularHeadingSize = await page.locator('[data-travel-country]').evaluate(element => Number.parseFloat(getComputedStyle(element).fontSize))
     await page.evaluate(value => {
-      document.documentElement.dataset.theme = value
+      document.documentElement.dataset.theme = `santi020k-${value}`
       document.documentElement.style.fontSize = '200%'
     }, theme)
     const chooser = page.getByRole('combobox', { name: 'Explore a country', exact: true })

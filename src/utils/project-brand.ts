@@ -20,7 +20,8 @@ const HEX_COLOR_PATTERN = /^#[\da-f]{6}$/iu
 const GRADIENT_CONTRAST_SAMPLES = 20
 
 export const MINIMUM_PROJECT_TEXT_CONTRAST = 4.5
-export const PROJECT_LIGHT_CANVAS = '#faf9fb'
+// Hex equivalents of Lumen's named santi020k canvas tokens for contrast calculations.
+export const PROJECT_LIGHT_CANVAS = '#f8f7fd'
 export const PROJECT_DARK_CANVAS = '#110c1d'
 export const PROJECT_DARK_SURFACE = '#1c1528'
 

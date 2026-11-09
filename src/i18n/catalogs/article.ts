@@ -4,6 +4,9 @@ import { sharedMessages } from './shared.ts'
 
 /** Stable IDs; edit English wording without changing its key. */
 export const articleMessages = {
+  'article.code': { en: 'Code', es: 'Código' },
+  'article.packageManager': { en: 'Package manager', es: 'Gestor de paquetes' },
+  'article.figure': { en: 'Figure', es: 'Figura' },
   'article.references.withGuide': { en: 'With this guide', es: 'Con esta guía' },
   'article.references.ariaLabel': { en: 'References for this article', es: 'Referencias de este artículo' },
   'article.references.relatedReading': { en: 'Related reading', es: 'Lecturas relacionadas' },

@@ -32,8 +32,8 @@
   text-underline-offset: 0.25rem;
 }
 
-:root[data-theme="dark"] .maker-hero-project:hover strong,
-:root[data-theme="dark"] .maker-hero-index:hover { color: hsl(var(--accent)); }
+:root[data-theme="santi020k-dark"] .maker-hero-project:hover strong,
+:root[data-theme="santi020k-dark"] .maker-hero-index:hover { color: hsl(var(--accent)); }
 
 .maker-hero-project > span { min-width: 0; }
 
@@ -190,7 +190,7 @@
 
 .home-page + .maker-footer[data-variant="default"] { margin-top: 0; }
 
-:root[data-theme="dark"] .studio-home {
+:root[data-theme="santi020k-dark"] .studio-home {
   --studio-emphasis: hsl(var(--accent));
 }
 

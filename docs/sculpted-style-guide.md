@@ -891,6 +891,18 @@ the content and cap titles at 18.5cqi. Keep complete words at enlarged text size
 colors, native keyboard disclosure behavior, and all content without JavaScript.
 The notebook adds no new client controller or animation.
 
+### Country travel notebooks
+
+Each country has a shared PageHero and a 72rem content grid. Confirmed places sit
+beside one Lumen surface containing the personal score, return choice, and visit
+period. Use the Travel notebook's thin rules, numbered place rows, and soft brand
+cover. Stack the columns below 48rem of available width and reduce surface insets
+for narrow or enlarged-text layouts. Keep the home, residence, partial-list, and
+region context visible. Missing scores remain explicitly unrated; authored notes
+and highlights appear only when supplied. Country names in the main notebook are
+native links, with a separate personal-score line beneath each entry. No additional
+client controller is needed.
+
 ### Origin spread Travel story
 
 Frame Roots & returns in one opaque Lumen surface with alternating .375rem/2rem
@@ -2519,10 +2531,11 @@ Keep both groups beside each other on phones; below 16rem of available width, st
 them so enlarged text remains readable. The shared Reading utility provides the
 progressively enhanced print action beside the word count.
 
-Spanish article shells add Language imprint below these utilities: a decorative
+Spanish articles without a translated body add Language imprint below these utilities: a decorative
 Lumen Languages icon and “Artículo en inglés” in the existing 0.75rem secondary
 scale, with the brand/accent color and natural wrapping. Keep the note within the
-reading group, omit it on English routes, and retain the authored English prose.
+reading group and retain the English fallback prose. Omit it on English routes and
+fully translated Spanish articles.
 The shared language switch names the destination's site interface explicitly.
 
 ### Margin topics article links

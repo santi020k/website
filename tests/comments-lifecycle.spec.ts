@@ -92,7 +92,7 @@ test('comments wait for disclosure activation, then load once with the current t
   await expect(page.locator('#comments')).toBeAttached()
   await expect(page.locator('#comments script')).toHaveCount(0)
   await page.locator('[data-theme-toggle-btn]').click()
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'santi020k-dark')
   await expect(page.locator('#comments script')).toHaveCount(0)
   expect(requests).toBe(0)
 
@@ -259,7 +259,7 @@ for (const { delayedResource, beforeToggle } of delayedResources) {
       await beforeToggle(page)
 
       await page.locator('[data-theme-toggle-btn]').click()
-      await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'santi020k-dark')
       await expect(page.locator('#comments script')).toHaveAttribute('data-theme', 'transparent_dark')
 
       await page.evaluate(() => {

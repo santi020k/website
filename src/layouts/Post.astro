@@ -70,7 +70,7 @@ const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } =
 const ogImage = getSocialImageURL(
   Astro.url.pathname,
   Astro.site,
-  `/og/blog/${getPostSlug(post.id)}.webp`,
+  post.data.contentLocale === 'es' ? undefined : `/og/blog/${getPostSlug(post.id)}.webp`,
   ogManifest
 )
 
@@ -163,7 +163,7 @@ data-article-skip
           </div>
         )}
         <div class="e-content max-w-none">
-          <div lang={post.data.contentLocale} class="prose-santi max-w-none" data-article-prose data-pagefind-body id="article-content" tabindex="-1">
+          <div lang={post.data.contentLocale} class="prose-santi max-w-none" data-article-prose data-pagefind-body={locale === post.data.contentLocale ? '' : undefined} id="article-content" tabindex="-1">
             <Fragment set:html={articleHtml} />
           </div>
           {publicationImprint && <ArticlePublicationImprint imprint={publicationImprint} />}
@@ -268,7 +268,7 @@ data-article-skip
     color: hsl(var(--ink));
     font: 400 1rem/1.65 var(--font-sans);
   }
-  :global([data-theme='dark']) [data-article-prose] :global([data-article-references]) {
+  :global([data-theme='santi020k-dark']) [data-article-prose] :global([data-article-references]) {
     --reference-accent: hsl(var(--accent));
   }
   [data-article-prose] :global([data-series-connection]) { margin-block-end: 0; }

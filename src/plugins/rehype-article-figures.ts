@@ -1,6 +1,8 @@
 import type { Element, ElementContent, Root } from 'hast'
 import type { Plugin } from 'unified'
 
+import { articleTranslator } from '../i18n/article-copy'
+
 const element = (tagName: string, properties: Element['properties'], children: ElementContent[]): Element => ({
   type: 'element', tagName, properties, children
 })
@@ -13,6 +15,7 @@ export const rehypeArticleFigures: Plugin<[], Root> = () => (tree, file) => {
 
   if (!sourcePath || !/(?:^|\/)src\/content\/post\//u.test(sourcePath) || /(?:^|\/)apps\//u.test(sourcePath)) return
 
+  const t = articleTranslator(/\.es\.mdx?$/u.test(sourcePath) ? 'es' : 'en')
   const captions: string[] = []
 
   tree.children = tree.children.map(node => {
@@ -31,7 +34,7 @@ export const rehypeArticleFigures: Plugin<[], Root> = () => (tree, file) => {
       node,
       element('figcaption', {}, [
         element('div', { dataFigureCopy: '' }, [
-          element('span', { dataFigureLabel: '' }, [text('Figure'), element('span', { className: ['sr-only'] }, [text(` ${number}`)])]),
+          element('span', { dataFigureLabel: '' }, [text(t('article.figure')), element('span', { className: ['sr-only'] }, [text(` ${number}`)])]),
           element('p', { dataFigureCaption: '' }, [text(caption)])
         ]),
         element('span', { dataFigureNumber: '', ariaHidden: 'true' }, [text(String(number).padStart(2, '0'))])

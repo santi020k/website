@@ -64,6 +64,16 @@ test('translated case studies localize roles and embedded navigation labels', as
   await expect(page.locator('[data-consumer-examples]')).toHaveAccessibleName('Ver Lumen en uso')
 })
 
+test('Spanish editorial references and checklists retain their rendered presentation', async ({ page }) => {
+  await page.goto('/es/blog/migrate-eslint-8-or-less-to-eslint-9/')
+  await expect(page.getByRole('navigation', { name: 'Referencias de este artículo' })).toHaveCount(1)
+  await expect(page.locator('[data-article-references]')).toContainText('Con esta guía')
+  await expect(page.locator('[data-figure-label]').first()).toContainText('Figura')
+  await page.goto('/es/blog/playwright-accessibility-checks-that-teams-keep-running/')
+  await expect(page.locator('[data-checklist-ledger]')).toHaveCount(1)
+  await expect(page.locator('[data-code-example][aria-label^="Code example"]')).toHaveCount(0)
+})
+
 test('published body search changes language after client navigation', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/blog/?q=changesets')
@@ -80,5 +90,5 @@ test('published body search changes language after client navigation', async ({ 
 
   expect(paths.length).toBeGreaterThan(0)
   expect(paths.every(path => path?.startsWith('/es/'))).toBe(true)
-  await expect(page.locator('[data-site-search-result-description]').first()).toContainText(/violaciones/iu)
+  await expect(page.locator('[data-site-search-result-description]').first()).toHaveAttribute('lang', 'es')
 })

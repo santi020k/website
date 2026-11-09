@@ -59,7 +59,7 @@ const metaDescription = project.data.seoDescription ?? project.data.description
 const socialImage = getSocialImageURL(
   Astro.url.pathname,
   Astro.site,
-  `/og/portfolio/${project.id}-logo.webp`,
+  project.data.contentLocale === 'es' ? undefined : `/og/portfolio/${project.id}-logo.webp`,
   ogManifest
 )
 
@@ -170,7 +170,7 @@ mainClass="remaining-pages remaining-pages--reading"
           <div
 lang={project.data.contentLocale}
 class="prose-santi prose-project max-w-none"
-data-pagefind-body
+data-pagefind-body={locale === project.data.contentLocale ? '' : undefined}
           >
             <Fragment set:html={narrative} />
           </div>

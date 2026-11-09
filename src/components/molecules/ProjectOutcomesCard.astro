@@ -111,10 +111,10 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
   [data-outcome-link] :global([data-outcome-arrow]) { flex-shrink: 0; }
   [data-outcome-link]:hover { text-decoration: underline; text-underline-offset: 0.25rem; }
   [data-outcome-link]:focus-visible { outline: 2px solid currentColor; outline-offset: 0.25rem; border-radius: 0.25rem; }
-  :global(:root[data-theme='dark']) [data-project-outcomes] [data-outcome-value],
-  :global(:root[data-theme='dark']) [data-project-outcomes] [data-outcome-link],
-  :global(:root[data-theme='dark']) [data-outcome-heading] :global(h3),
-  :global(:root[data-theme='dark']) [data-project-outcomes] :global(svg) { color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) [data-project-outcomes] [data-outcome-value],
+  :global(:root[data-theme='santi020k-dark']) [data-project-outcomes] [data-outcome-link],
+  :global(:root[data-theme='santi020k-dark']) [data-outcome-heading] :global(h3),
+  :global(:root[data-theme='santi020k-dark']) [data-project-outcomes] :global(svg) { color: hsl(var(--accent)); }
   @container project-evidence (width < 35rem) {
     [data-outcome-trail] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
     [data-outcome-link][data-slot='link'] { justify-content: space-between; }

@@ -6,11 +6,17 @@ import { localizeCollectionSource } from '@/i18n/collection-copy'
 
 type ArticleFormat = CollectionEntry<'post'>['data']['postType']
 
-const generatedControl = /\bdata-(?:ui-code-copy|code-complete|code-preview|prose-table|scroll-cue-viewport)(?:[\s=>])/u
+const generatedControl = new RegExp(
+  String.raw`\bdata-(?:ui-code-copy|code-example|code-complete|code-preview|` +
+  String.raw`package-manager-tablist|prose-table|scroll-cue-viewport)(?:[\s=>])`,
+  'u'
+)
+
 const controlAttribute = /\b(aria-label|title|data-copy-label|data-copy-copied-label|data-copy-error-label)="([^"]*)"/gu
 
 const controlText = new RegExp(
-  String.raw`(<span\b[^>]*\b(?:data-fold-(?:expand|collapse|count)|` +
+  String.raw`(<span\b[^>]*\b(?:data-prose-code-language|` +
+  String.raw`data-fold-(?:expand|collapse|count)|` +
   String.raw`data-slot="copy-(?:idle|copied|error)")[^>]*>)([^<]*)(<\/span>)`,
   'gu'
 )

@@ -21,6 +21,14 @@ const roleTranslations = {
 } satisfies Record<NonNullable<CollectionEntry<'project'>['data']['role']>, string>
 
 describe('Spanish collection UI', () => {
+  test('keeps the visible chapter overview label in its accessible name', () => {
+    for (const locale of ['en', 'es'] as const) {
+      const t = collectionTranslator(locale)
+
+      expect(t('reading.chapterOverview', { title: 'Lumen UI' })).toBe(`${t('collection.chapterOverview')}: Lumen UI`)
+    }
+  })
+
   test.each(Object.entries(roleTranslations))('localizes the %s role while preserving its English source', (source, translation) => {
     expect(localizeCollectionSource('es', source)).toBe(translation)
     expect(localizeCollectionSource('en', source)).toBe(source)

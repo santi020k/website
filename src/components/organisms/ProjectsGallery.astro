@@ -158,10 +158,10 @@ const projectItems = projects.map(project => {
     color: color-mix(in srgb, hsl(var(--project-primary-readable)) 80%, hsl(var(--ink)));
   }
   :global([data-product-first]):focus-within h3 { color: hsl(var(--project-primary-readable)); }
-  :global([data-theme='dark']) [data-project-destinations] :global(a:is(:hover, :focus-visible)) {
+  :global([data-theme='santi020k-dark']) [data-project-destinations] :global(a:is(:hover, :focus-visible)) {
     color: color-mix(in srgb, hsl(var(--project-primary-readable-dark)) 80%, hsl(var(--ink)));
   }
-  :global([data-theme='dark'] [data-product-first]):focus-within h3 { color: hsl(var(--project-primary-readable-dark)); }
+  :global([data-theme='santi020k-dark'] [data-product-first]):focus-within h3 { color: hsl(var(--project-primary-readable-dark)); }
   [data-project-destinations] :global(a:focus-visible) {
     outline: 2px solid hsl(var(--accent));
     outline-offset: 4px;
@@ -192,5 +192,5 @@ const projectItems = projects.map(project => {
   }
   [data-technology-match] :global([data-slot='icon']) { flex-shrink: 0; }
   [data-technology-match] > span:last-child { min-width: 0; overflow-wrap: anywhere; }
-  :global([data-theme='dark']) [data-technology-match] { color: hsl(var(--ink)); }
+  :global([data-theme='santi020k-dark']) [data-technology-match] { color: hsl(var(--ink)); }
 </style>

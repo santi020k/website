@@ -1,12 +1,14 @@
-# Theming: Shared Santi020k Tokens
+# Theming: Lumen santi020k appearance
 
-The website uses the public `@santi020k/theme` package as the source for core brand color and font tokens. Tailwind CSS v4 still reads everything from `src/styles/global.css`, but the shared token values now enter through:
+The current website uses Lumen 5's named `santi020k-light` and `santi020k-dark`
+appearances. The full `@santi020k/lumen-astro/styles.css` import includes this palette
+and its editorial component styling. Lumen generates the colors from the shared
+`@santi020k/theme/site.css` source; do not import a second color palette over it.
 
-```css
-@import "@santi020k/theme/tokens.css";
-```
-
-Local website-only extensions live in `src/styles/partials/tokens.css`.
+`src/styles/global.css` loads the adapter's `tailwind.css` bridge and
+`@santi020k/theme/typography.css`. The Theme package still owns fonts, brand assets,
+syntax highlighting, and product URLs. Website-only extensions live in
+`src/styles/partials/tokens.css`.
 
 ## Shared sculpted design
 
@@ -18,9 +20,12 @@ The [remaining-page checklist](remaining-page-designs.md) records coverage and v
 
 ## Token Layers
 
-1. **Package tokens**: `@santi020k/theme/tokens.css` defines the core Santi020k HSL variables, font variables, `data-theme` dark variant, and Tailwind `@theme` color mappings.
-2. **Website extensions**: `src/styles/partials/tokens.css` defines status colors (`success`, `warning`, `danger`) and animation shorthands used by local components.
-3. **Base and utilities**: the remaining style partials consume those tokens through semantic custom properties and Tailwind utilities.
+1. **Lumen appearance**: the named root theme supplies semantic colors, contrast preferences,
+   and editorial primitive styles. The adapter's Tailwind bridge maps semantic color utilities.
+2. **Typography**: the Theme package supplies the Montserrat stacks; the site loads its fonts.
+3. **Website extensions**: local font mappings, shapes, shadows, and animation shorthands.
+   `--theme-bg` aliases Lumen's `--canvas`; `--glow` aliases its `--accent`.
+4. **Base and utilities**: site styles consume those tokens without a duplicate color palette.
 
 ## Key CSS Variables
 
@@ -34,9 +39,13 @@ The [remaining-page checklist](remaining-page-designs.md) records coverage and v
 
 An explicit light or dark selection stays active during client navigation even when browser
 storage is unavailable. Persistence across full reloads still requires storage access. The system
-color preference applies until the visitor chooses a theme.
+color preference applies until the visitor chooses a theme. Existing `theme` storage values
+`light` and `dark` still resolve to the corresponding named appearance; new selections save
+`santi020k-light` or `santi020k-dark`. The provider resynchronizes controls after Lumen's
+asynchronous `ui:ready` event. Giscus continues receiving its own light/dark theme names.
+The server renders `santi020k-light` as the no-JavaScript fallback.
 
-Dark mode is controlled with `data-theme="dark"` on `<html>`. Do not use `class="dark"` for theme switching; the Tailwind custom variant is defined against the data attribute.
+Dark mode is controlled with `data-theme="santi020k-dark"` on `<html>`. Do not use `class="dark"` for theme switching; the Tailwind custom variant is defined against the data attribute.
 
 Article comments (`src/components/molecules/CommentsSection.astro`) follow the site theme. The
 Giscus client loads when the comments section is within 400 pixels of the viewport or receives
@@ -71,7 +80,7 @@ import { fontFamily, staticAssets } from '@santi020k/theme'
 - Direct `@santi020k/theme/assets/...` imports are preferred for Vite/Astro-managed image URLs.
 - `import.meta.resolve('@santi020k/theme/assets/...')` is preferred in Node scripts that need filesystem paths for Sharp or Satori.
 
-Do not duplicate core brand values or package-owned assets in this repo. If the Santi020k palette or shared assets change, update and publish `@santi020k/theme`, then bump the dependency here.
+Do not duplicate core brand values or package-owned assets in this repo. If the Santi020k palette or shared assets change, update and publish the owning package, regenerate the Lumen appearance when colors change, then update the consumer dependencies.
 
 ## Site navigation
 

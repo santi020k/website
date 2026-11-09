@@ -167,7 +167,7 @@ test.describe('About page', () => {
           localStorage.setItem('theme', selectedTheme)
         }, theme)
         await page.reload()
-        await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+        await expect(page.locator('html')).toHaveAttribute('data-theme', `santi020k-${theme}`)
 
         const portrait = page.getByRole('img', { name: 'Santiago Molina outdoors with his brown-and-white dog.' })
         await expect(portrait).toBeVisible()

@@ -102,7 +102,7 @@ export const collectionMessages = {
   'collection.caseStudy8': { en: 'case study', es: 'caso de estudio' },
   'collection.caseStudySummary': { en: 'Case study summary', es: 'Resumen del caso de estudio' },
   'collection.chapter': { en: 'chapter', es: 'capítulo' },
-  'collection.chapterOverview': { en: 'Chapter overview', es: 'Resumen de capítulos' },
+  'collection.chapterOverview': { en: 'Chapter overview', es: 'Resumen del capítulo' },
   'collection.chapters': { en: 'chapters', es: 'capítulos' },
   'collection.chooseACaseStudyCollection': { en: 'Choose a case study collection', es: 'Elegir una colección de casos de estudio' },
   'collection.chooseHowToRead': { en: 'Choose how to read', es: 'Elige cómo leer' },

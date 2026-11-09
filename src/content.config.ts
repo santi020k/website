@@ -4,6 +4,7 @@ import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
 import { projectPurposeIds } from './data/project-purposes'
+import { travelNotesSchema } from './data/travel-notes-schema'
 import { parseContentDate } from './utils/content-date'
 import { postTranslationSchema, projectTranslationSchema } from './content-translations'
 
@@ -224,4 +225,9 @@ const translationLoader = (collection: 'post' | 'project') => glob({
 const postTranslation = defineCollection({ loader: translationLoader('post'), schema: postTranslationSchema })
 const projectTranslation = defineCollection({ loader: translationLoader('project'), schema: projectTranslationSchema })
 
-export const collections = { post, postTranslation, project, projectTranslation, series, talk }
+const country = defineCollection({
+  loader: glob({ base: './src/content/country', pattern: '*.md' }),
+  schema: travelNotesSchema
+})
+
+export const collections = { country, post, postTranslation, project, projectTranslation, series, talk }

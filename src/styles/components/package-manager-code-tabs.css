@@ -86,7 +86,7 @@
   outline-offset: 1px;
 }
 
-:root[data-theme="dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] {
+:root[data-theme="santi020k-dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] {
   --tab-folio-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
 }
 
@@ -162,7 +162,7 @@
   font: inherit;
 }
 
-:root[data-theme="dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] pre {
+:root[data-theme="santi020k-dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] pre {
   background: var(--shiki-dark-bg, var(--ui-code-bg));
 }
 

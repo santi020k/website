@@ -4,7 +4,10 @@ import path from 'node:path'
 import { load as loadYaml } from 'js-yaml'
 import sharp from 'sharp'
 
+import { travelNotesSchema } from '../../src/data/travel-notes-schema.ts'
+
 const CONTENT_ROOT = path.resolve('src/content')
+const COUNTRY_ROOT = path.resolve(CONTENT_ROOT, 'country')
 const POST_ROOT = path.resolve(CONTENT_ROOT, 'post')
 const SERIES_ROOT = path.resolve(CONTENT_ROOT, 'series')
 const POST_COVER_HEIGHT = 900
@@ -92,6 +95,14 @@ const validateFile = async filePath => {
 
   if (!frontmatter || typeof frontmatter !== 'object') {
     return { errors: [`${filePath}: missing or invalid frontmatter`] }
+  }
+
+  if (filePath.startsWith(`${COUNTRY_ROOT}${path.sep}`)) {
+    const result = travelNotesSchema.safeParse(frontmatter)
+
+    return {
+      errors: result.success ? [] : result.error.issues.map(issue => `${filePath}: ${issue.path.join('.')}: ${issue.message}`)
+    }
   }
 
   const errors = []

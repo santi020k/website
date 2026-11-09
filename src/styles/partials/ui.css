@@ -16,11 +16,11 @@
  * strings darken toward ink; the dark keyword reuses the inline-code color,
  * which also colors the language badge. Other syntax colors are unchanged.
  */
-:root:not([data-theme="dark"]) [data-ui-code][data-code-theme="santi020k"] {
+:root:not([data-theme="santi020k-dark"]) [data-ui-code][data-code-theme="santi020k"] {
   --ui-code-token-string: color-mix(in srgb, hsl(var(--success)) 70%, hsl(var(--ink)) 30%);
 }
 
-:root[data-theme="dark"] [data-ui-code][data-code-theme="santi020k"] {
+:root[data-theme="santi020k-dark"] [data-ui-code][data-code-theme="santi020k"] {
   --ui-code-token-keyword: var(--ui-code-inline-fg);
 }
 
@@ -60,6 +60,6 @@
 }
 
 /* Keep branded site pills readable over muted surfaces in the dark theme. */
-:root[data-theme="dark"] [data-site-pill][data-variant="brand"] {
+:root[data-theme="santi020k-dark"] [data-site-pill][data-variant="brand"] {
   color: hsl(var(--ink));
 }

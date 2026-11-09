@@ -58,6 +58,26 @@ describe('article control language', () => {
     expect(spanish).toContain('literal-example.ts')
   })
 
+  test('localizes short code regions without requiring a folded example', async () => {
+    const english = await renderArticleCode({
+      code: 'const value = 1', codeLabel: 'Code example 1: example.ts', label: 'example.ts', language: 'ts'
+    })
+    const spanish = localizeArticleControls(english, 'es')
+
+    expect(spanish).toContain('aria-label="Ejemplo de código 1: example.ts"')
+    expect(spanish).not.toContain('data-example-fold')
+    expect((/data-copy-value="[^"]*"/u.exec(spanish))?.[0]).toBe((/data-copy-value="[^"]*"/u.exec(english))?.[0])
+  })
+
+  test('localizes generated package-manager and generic code labels', () => {
+    const html = '<div data-package-manager-tablist="" role="tablist" aria-label="Package manager"></div><span data-prose-code-language="">Code</span>'
+    const spanish = localizeArticleControls(html, 'es')
+
+    expect(spanish).toContain('aria-label="Gestor de paquetes"')
+    expect(spanish).toContain('>Código</span>')
+    expect(localizeArticleControls(html, 'en')).toBe(html)
+  })
+
   test('translates table controls while retaining authored headings', () => {
     const english = '<div data-article-table-folio=""><div data-scroll-cue-message="" hidden><svg></svg><span>Scroll horizontally to compare</span></div><div data-prose-table="" aria-label="Table 2: Deployment options"><table><tr><td>Copy</td></tr></table></div></div>'
     const spanish = localizeArticleControls(english, 'es')

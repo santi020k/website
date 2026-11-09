@@ -63,8 +63,8 @@
   color: hsl(var(--brand));
 }
 
-:root[data-theme="dark"] body:has([data-home-hero]) .section-label.text-brand,
-:root[data-theme="dark"] .maker-hero-emphasis {
+:root[data-theme="santi020k-dark"] body:has([data-home-hero]) .section-label.text-brand,
+:root[data-theme="santi020k-dark"] .maker-hero-emphasis {
   color: hsl(var(--accent));
 }
 

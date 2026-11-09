@@ -91,14 +91,15 @@ article prose (`src/styles/prose.css`) loads only with the `Post` and `Projects`
 - **Search:** the header searches posts and projects; open it with ⌘K or Ctrl+K.
   If the index request stalls for 10 seconds, search offers a retry and preserves the current query.
   Its typed controller is bundled once and keeps a successfully fetched index, even an empty one,
-  across page transitions until a full reload; a failed request retries on the next open.
+  across same-language page transitions; switching languages reloads the localized index,
+  and a failed request retries on the next open.
   Recent searches keep up to five searchable queries, deduplicated case-insensitively, and saved
   history is validated on read and write. Validation, relevance, and history rules live in
   `src/utils/search.ts`. Production builds also create a lazy Pagefind index of current,
-  published English article and case-study bodies. Body matches fill the remaining slots
+  published English and Spanish article and case-study bodies. Body matches fill the remaining slots
   below title/tag matches, keeping at most eight results. The optional module, search, and
   result fetches each time out after five seconds; failures settle without removing primary
-  results. Archives, drafts, and translated UI shells stay outside that index. Pagefind is
+  results. Archives, drafts, and untranslated fallback bodies stay outside the translated index. Pagefind is
   absent in `astro dev`, where title/tag search remains usable. Safe response handling lives
   in `src/utils/full-text-search.ts`; `pagefind.yml` defines the indexed scope. Pagefind files
   bypass the service-worker cache and revalidate through HTTP across deployments.
