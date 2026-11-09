@@ -1,5 +1,40 @@
 # Changelog
 
+## 5.2.0
+
+### Minor Changes
+
+- [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Add individual country notebooks with confirmed places and visit counts, optional personal scores,
+  highlights, and return plans. Create editable Markdown entries for all 15 countries, link them from
+  the travel notebook in both languages, and keep unfinished notes out of search-engine indexing.
+
+- [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Use Lumen's upstream reading progress, code and table cues, and cover image fallback APIs.
+
+- [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Upgrade the current site to Lumen 5.0.0 and its named santi020k light/dark themes.
+  Preserve saved theme choices, comments, and client navigation while keeping archived
+  websites on their existing Lumen version and palette.
+  
+  Adopt selective component CSS, public travel-map hooks, recoverable product-film playback,
+  and incremental image zoom and pan with localized retry controls.
+
+- [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Translate article and case-study content into Latin American Spanish, with localized metadata,
+  social cards, search, stable section links, and indexable Spanish URLs. Publication state and
+  shared discussions remain owned by the original entries; missing translations stay noindex.
+
+### Patch Changes
+
+- [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Refine historical-site notices with clearer archive metadata, a prominent return
+  link, and responsive secondary navigation.
+
+- [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Move the v1–v4 archive notice above navigation, with links to the current page,
+  homepage, and website history. Keep archived content excluded from search indexes.
+
+- [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Scope homepage hero and article gallery styles to the pages that use them, preload the blog's featured cover, and preserve language alternates in the combined sitemap.
+
+- [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Keep article contents links in the expected keyboard order, and keep career dates and History labels readable on narrow screens with enlarged text.
+
+- [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Update the browser theme color without forcing the page to recalculate styles during startup.
+
 ## 5.1.0
 
 ### Minor Changes
