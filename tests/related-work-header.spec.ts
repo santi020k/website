@@ -20,7 +20,7 @@ for (const theme of ['light', 'dark'] as const) {
       // Default sizing exercises the normal-text contrast threshold.
       test(`${header.route} keeps normal-size chapter emphasis readable`, async ({ page }) => {
         await page.goto(header.route)
-        await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+        await expect(page.locator('html')).toHaveAttribute('data-theme', `santi020k-${theme}`)
         const tab = page.getByRole('region', { name: header.title }).locator('[data-chapter-tab]')
         await expect(tab).toHaveText('Related work')
         await expect(tab).toHaveCSS('font-size', '11px')

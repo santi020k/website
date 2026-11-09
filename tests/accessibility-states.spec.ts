@@ -23,10 +23,10 @@ test.describe('Accessibility states', () => {
 
     await toggle.click()
 
-    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(root).toHaveAttribute('data-theme', 'santi020k-dark')
     await expect(toggle).toHaveAttribute('aria-pressed', 'true')
     await page.reload()
-    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(root).toHaveAttribute('data-theme', 'santi020k-dark')
     await expect(toggle).toHaveAttribute('aria-pressed', 'true')
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
@@ -45,19 +45,19 @@ test.describe('Accessibility states', () => {
     const root = page.locator('html')
     const toggle = page.getByRole('button', { name: 'Switch theme' })
 
-    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(root).toHaveAttribute('data-theme', 'santi020k-dark')
     await expect(root).toHaveClass(/dark/)
     await expect(toggle).toHaveAttribute('aria-pressed', 'true')
 
     await toggle.click()
 
-    await expect(root).toHaveAttribute('data-theme', 'light')
+    await expect(root).toHaveAttribute('data-theme', 'santi020k-light')
     await expect(root).not.toHaveClass(/dark/)
     await expect(toggle).toHaveAttribute('aria-pressed', 'false')
 
     await page.reload()
 
-    await expect(root).toHaveAttribute('data-theme', 'light')
+    await expect(root).toHaveAttribute('data-theme', 'santi020k-light')
     await expect(root).not.toHaveClass(/dark/)
     await expect(toggle).toHaveAttribute('aria-pressed', 'false')
   })

@@ -16,7 +16,7 @@
 
 [data-series-introduction] { --preface-accent: hsl(var(--brand)); min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
 
-[data-theme='dark'] [data-series-introduction] { --preface-accent: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] [data-series-introduction] { --preface-accent: hsl(var(--accent)); }
 
 [data-series-introduction] h2 { max-width: 24ch; margin: 0 0 1.25rem; color: hsl(var(--ink)); font-size: 1.75rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.045em; text-wrap: balance; }
 
@@ -42,7 +42,7 @@
 
 [data-post-gallery-grid='chapters'] [data-post-gallery-part] { order: -1; color: hsl(var(--brand)); font-weight: 500; }
 
-[data-theme='dark'] [data-post-gallery-grid='chapters'] [data-post-gallery-part] { color: hsl(var(--accent)); }
+[data-theme='santi020k-dark'] [data-post-gallery-grid='chapters'] [data-post-gallery-part] { color: hsl(var(--accent)); }
 
 /* Series chapters sit in individual sleeves; article recommendations stay open. */
 .series-detail-page [data-post-gallery-grid='chapters'] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }

@@ -94,7 +94,7 @@ test.describe('View transitions', () => {
         await expect(root).toHaveAttribute('data-transition-content-animated', 'true')
         await expect(root).toHaveAttribute('data-transition-content-resized', 'false')
         await expect(root).toHaveAttribute('data-transition-header-name', 'site-header')
-        await expect(root).toHaveAttribute('data-theme', theme)
+        await expect(root).toHaveAttribute('data-theme', `santi020k-${theme}`)
         await expect(page.locator('#main')).toBeFocused()
         await expect(page.locator('.site-desktop-nav [aria-current="page"]')).toHaveText('About')
         await expect(root).not.toHaveAttribute('data-astro-transition')

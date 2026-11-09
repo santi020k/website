@@ -56,7 +56,7 @@ validates both the Astro `country` collection and `pnpm run lint:content`.
 | `language` | `en` or `es`, matching the language of your summary, highlights, visit context, and narrative. |
 
 Write longer notes in Markdown after the closing `---`, replacing the authoring comment. Use
-second-level headings for sections. Scores describe your own experience of the visits; they are
+third-level headings for sections beneath the page’s notes heading. Scores describe your own experience of the visits; they are
 not an objective assessment of an entire country. Keep unanswered details blank instead of
 creating sample experiences, dates, photographs, or a return preference.
 
@@ -143,9 +143,9 @@ published posts still require a valid cover.
 
 ## Map dependency and release boundary
 
-The page uses Lumen 4's public `WorldMap` component and
+The page uses Lumen 5's public `WorldMap` component and
 `@santi020k/lumen-core/world-map-data` export. The coordinated Astro, core, and umbrella
-catalog entries and registry lockfile pin `lumen` 4.2.0 and the Astro/core 4.1.0 packages. Normal development
+catalog entries and registry lockfile pin the three current-site packages to 5.0.0. Normal development
 and validation use the committed registry dependencies; local tarball paths must never
 enter a deployment or commit. Regenerate the CV PDFs and rerun the website gates whenever
 the coordinated packages change.

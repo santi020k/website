@@ -163,7 +163,7 @@ for (const id of ['v1', 'v2', 'v3', 'v4']) {
     await expect(page.getByRole('complementary', { name: 'Website archive' })).toBeVisible()
     await page.getByRole('link', { name: 'View current page', exact: true }).click()
     await expect(page).toHaveURL(/\/portfolio\/$/)
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'santi020k-dark')
   })
 }
 
@@ -198,7 +198,7 @@ test('v4 production wordmark leaves the archive with a full document load', asyn
   await expect(page).toHaveURL('/')
   expect(await page.evaluate(() => 'websiteArchiveDocument' in window), 'A full load discards the archive document').toBe(false)
   await expect(page.locator('.website-archive-banner')).toHaveCount(0)
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'santi020k-dark')
   expect(await page.evaluate(() => [localStorage.getItem('theme'), localStorage.getItem('website-v4-theme')])).toEqual(['dark', 'light'])
   expect(errors).toEqual([])
 })

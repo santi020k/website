@@ -146,7 +146,7 @@ const labels = pageLocale === 'es' ?
   [data-travel-counts] > div:last-child { padding-bottom: 0; }
   [data-travel-counts] dt { min-width: 0; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.7; }
   [data-travel-counts] dd { flex-shrink: 0; margin: 0; color: hsl(var(--ink)); font-size: 2.125rem; font-weight: 500; line-height: 1.15; letter-spacing: -.06em; }
-  :global([data-theme='dark']) [data-travel-counts] { border-color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-travel-counts] { border-color: hsl(var(--accent)); }
   @container travel-totals (width < 12rem) {
     [data-travel-counts] > div { gap: .375rem; }
   }
@@ -178,7 +178,7 @@ const labels = pageLocale === 'es' ?
     --ui-world-map-highlight: hsl(var(--brand));
   }
 
-  :global([data-theme="dark"]) [data-travel-explorer] :global(.ui-world-map) {
+  :global([data-theme="santi020k-dark"]) [data-travel-explorer] :global(.ui-world-map) {
     --ui-world-map-highlight: hsl(var(--accent));
   }
 
@@ -342,8 +342,8 @@ const labels = pageLocale === 'es' ?
   [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) { color: hsl(var(--travel-navigation-accent)); }
   [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-country] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
   [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-arrow] { color: hsl(var(--on-brand)); background: hsl(var(--brand-solid)); }
-  :global([data-theme="dark"]) [data-travel-explorer] { --travel-navigation-accent: var(--accent); }
-  :global([data-theme="dark"]) [data-travel-code] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme="santi020k-dark"]) [data-travel-explorer] { --travel-navigation-accent: var(--accent); }
+  :global([data-theme="santi020k-dark"]) [data-travel-code] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
 
   @media (prefers-reduced-motion: reduce) {
     [data-travel-explorer] :global([data-travel-next]), [data-travel-next-arrow] { transition: none; }

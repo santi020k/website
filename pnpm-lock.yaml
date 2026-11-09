@@ -234,6 +234,16 @@ catalogs:
     wawoff2:
       specifier: ^2.0.1
       version: 2.0.1
+  lumen5:
+    '@santi020k/lumen':
+      specifier: 5.0.0
+      version: 5.0.0
+    '@santi020k/lumen-astro':
+      specifier: 5.0.0
+      version: 5.0.0
+    '@santi020k/lumen-core':
+      specifier: 5.0.0
+      version: 5.0.0
 
 overrides:
   '@lhci/cli>lighthouse': 13.5.0
@@ -292,15 +302,12 @@ importers:
       '@astrojs/sitemap':
         specifier: 'catalog:'
         version: 3.7.4
-      '@santi020k/lumen':
-        specifier: 'catalog:'
-        version: 4.4.0
       '@santi020k/lumen-astro':
-        specifier: 'catalog:'
-        version: 4.4.0(patch_hash=ea0370e7893a566055e487a46302fece0a866c99703ba39cb6a0a48d854a26f9)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: catalog:lumen5
+        version: 5.0.0(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
       '@santi020k/lumen-core':
-        specifier: 'catalog:'
-        version: 4.4.0
+        specifier: catalog:lumen5
+        version: 5.0.0
       '@santi020k/theme':
         specifier: 'catalog:'
         version: 2.0.1
@@ -416,6 +423,9 @@ importers:
       '@santi020k/eslint-config-tools':
         specifier: 'catalog:'
         version: 3.1.4(@types/estree@1.0.9)(@typescript-eslint/eslint-plugin@8.71.1(@typescript-eslint/parser@8.71.1(eslint@10.12.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3))(eslint@10.12.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3))(@typescript-eslint/parser@8.71.1(eslint@10.12.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3))(@typescript-eslint/typescript-estree@8.71.1(supports-color@9.4.0)(typescript@6.0.3))(class-validator@0.15.1)(eslint@10.12.0(jiti@2.7.0)(supports-color@9.4.0))(graphql@16.14.2)(jsonc-eslint-parser@3.3.0)(supports-color@9.4.0)(typescript@6.0.3)
+      '@santi020k/lumen':
+        specifier: catalog:lumen5
+        version: 5.0.0(vite@8.3.3(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
       '@santi020k/og':
         specifier: 'catalog:'
         version: 1.2.0(patch_hash=adefa3153db9a28e5bf35d4abdcb3387bd87b4a984e6f488f798fda46c7bf004)(@types/node@26.6.4)
@@ -2344,6 +2354,9 @@ packages:
   '@lucide/icons@1.52.0':
     resolution: {integrity: sha512-nO0tVQ0mzkLAI3PrB1uErtE8o+5wvmJTPTYYOp6GZ2tzunQa+VoauqYCVL0mIbHhJ3MBz7FiDObz6kViMl9nrA==}
 
+  '@lucide/icons@1.70.0':
+    resolution: {integrity: sha512-qCVaQ3RXAbObNs3Yk0PK+RQD8zDcAcIj+DFeBh7AR3NNMswtY6scsqbdxwrP88O6D7t4V4An3WNzJFcuIzilXA==}
+
   '@manypkg/find-root@3.1.0':
     resolution: {integrity: sha512-BcSqCyKhBVZ5YkSzOiheMCV41kqAFptW6xGqYSTjkVTl9XQpr+pqHhwgGCOHQtjDCv7Is6EFyA14Sm5GVbVABA==}
     engines: {node: '>=20.0.0'}
@@ -3090,8 +3103,23 @@ packages:
     peerDependencies:
       astro: '>=5'
 
+  '@santi020k/lumen-astro@5.0.0':
+    resolution: {integrity: sha512-5dQ6fjxbTxAhgCd/S9lU3BW+4/Q9I5Qxl0HURr5kmVovCkW5UuHzBf6EsHvrhDekfDJ5F4yWcuZe7GRXn0NgAg==}
+    engines: {node: '>=22.12.0'}
+    peerDependencies:
+      astro: '>=5'
+
   '@santi020k/lumen-core@4.4.0':
     resolution: {integrity: sha512-z0SkzDCktTgm3W4ff60TDiBCItdiPRTfg56mhkLjWFWid7UnsUpr1uZTxl6deQtrKEUhiobacEhvX1UXKLOyOg==}
+    engines: {node: '>=22.12.0'}
+    peerDependencies:
+      '@rive-app/canvas': ^2.44.0
+    peerDependenciesMeta:
+      '@rive-app/canvas':
+        optional: true
+
+  '@santi020k/lumen-core@5.0.0':
+    resolution: {integrity: sha512-jE/1WvLPYr3IuxoMax9XTPrU00xOaI1RLOT2gC7CEwtq+SpKS9DeQneLKHzkurtwvRFBvejzHrmdqYsWdce3IA==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
       '@rive-app/canvas': ^2.44.0
@@ -3107,6 +3135,19 @@ packages:
       react: '>=19'
     peerDependenciesMeta:
       react:
+        optional: true
+
+  '@santi020k/lumen@5.0.0':
+    resolution: {integrity: sha512-JErpHD7ULZh8s7TuWXqTTGxFXlViqN90e0qlHc5MjTHXyX6lOv7IGaGE08QffKPKNE4+8PVVCK2kqGOGRQ+qDw==}
+    engines: {node: '>=22.12.0'}
+    hasBin: true
+    peerDependencies:
+      react: '>=19'
+      vite: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      vite:
         optional: true
 
   '@santi020k/og@1.2.0':
@@ -6027,6 +6068,9 @@ packages:
   libphonenumber-js@1.13.14:
     resolution: {integrity: sha512-llihgCcx0BFLksecLP+x1J+6JDE1GsXS1RN/LoPF6qcwpeQcnjj0lcvZxY8AzbEpYwyZWPZW/nDuqkqzm3amiw==}
 
+  libphonenumber-js@1.13.15:
+    resolution: {integrity: sha512-AHdhEQeDFEJ4GKDAQ9AwxChy+v2kUILUB3TGQRpkXMkWePjXTU/WQEzWVQoIx/Gz8fE73Wr5SEuZCy2vk8jrMQ==}
+
   lighthouse-logger@1.2.0:
     resolution: {integrity: sha512-wzUvdIeJZhRsG6gpZfmSCfysaxNEr43i+QT+Hie94wvHDKFLi4n7C2GqZ4sTC+PH5b5iktmXJvU87rWvhP3lHw==}
 
@@ -7274,6 +7318,11 @@ packages:
 
   semver@7.8.5:
     resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.8.6:
+    resolution: {integrity: sha512-9lpSSU4Mly3mrtruwLs1eLK6+gzbzqeBFwRNjIjE+9LuDpWdYctrQlQ3ej1Ilgi7gknpsTRnPoLP8DpCHqHIJw==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -9863,6 +9912,8 @@ snapshots:
 
   '@lucide/icons@1.52.0': {}
 
+  '@lucide/icons@1.70.0': {}
+
   '@manypkg/find-root@3.1.0':
     dependencies:
       '@manypkg/tools': 2.1.2
@@ -10562,16 +10613,39 @@ snapshots:
       - '@rive-app/canvas'
       - react
 
+  '@santi020k/lumen-astro@5.0.0(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))':
+    dependencies:
+      '@santi020k/lumen-core': 5.0.0
+      astro: 7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1)
+      uqr: 0.1.3
+    transitivePeerDependencies:
+      - '@rive-app/canvas'
+
   '@santi020k/lumen-core@4.4.0':
     dependencies:
       '@lucide/icons': 1.52.0
       libphonenumber-js: 1.13.14
+
+  '@santi020k/lumen-core@5.0.0':
+    dependencies:
+      '@lucide/icons': 1.70.0
+      libphonenumber-js: 1.13.15
 
   '@santi020k/lumen@4.4.0':
     dependencies:
       '@santi020k/lumen-core': 4.4.0
       semver: 7.8.5
       typescript: 6.0.3
+    transitivePeerDependencies:
+      - '@rive-app/canvas'
+
+  '@santi020k/lumen@5.0.0(vite@8.3.3(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))':
+    dependencies:
+      '@santi020k/lumen-core': 5.0.0
+      semver: 7.8.6
+      typescript: 6.0.3
+    optionalDependencies:
+      vite: 8.3.3(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)
     transitivePeerDependencies:
       - '@rive-app/canvas'
 
@@ -13946,6 +14020,8 @@ snapshots:
 
   libphonenumber-js@1.13.14: {}
 
+  libphonenumber-js@1.13.15: {}
+
   lighthouse-logger@1.2.0(supports-color@9.4.0):
     dependencies:
       debug: 2.6.9(supports-color@9.4.0)
@@ -15667,6 +15743,8 @@ snapshots:
       regexp-ast-analysis: 0.7.1
 
   semver@7.8.5: {}
+
+  semver@7.8.6: {}
 
   send@0.19.2(supports-color@9.4.0):
     dependencies:

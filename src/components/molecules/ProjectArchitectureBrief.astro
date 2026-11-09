@@ -38,7 +38,7 @@ const { label, introduction, adapters = [] } = Astro.props
     margin-block: 1.5rem;
     color: hsl(var(--ink));
   }
-  :global([data-theme='dark']) [data-project-architecture] { --architecture-accent: var(--accent); }
+  :global([data-theme='santi020k-dark']) [data-project-architecture] { --architecture-accent: var(--accent); }
   [data-architecture-lead] { border-top: 1px solid hsl(var(--architecture-accent)); padding-block: 1.5rem; }
   [data-architecture-label] { margin: 0 0 0.75rem; color: hsl(var(--architecture-accent)); font-size: 0.8125rem; font-weight: 500; line-height: 1.75; }
   [data-architecture-introduction] { max-width: 26em; margin: 0; color: hsl(var(--ink)); font-size: 1.3125rem; line-height: 1.5; letter-spacing: -0.02em; overflow-wrap: anywhere; }

@@ -114,7 +114,7 @@
   color: hsl(var(--project-primary-readable));
 }
 
-[data-theme='dark'] .projects-editorial-link:is(:hover, :focus-visible) h3 {
+[data-theme='santi020k-dark'] .projects-editorial-link:is(:hover, :focus-visible) h3 {
   color: hsl(var(--project-primary-readable-dark));
 }
 

@@ -63,8 +63,8 @@
 [data-country-narrative] .prose-santi { margin-top: 1.5rem; }
 [data-country-empty] > p { margin-top: .75rem; }
 
-[data-theme="dark"] [data-country-places] li > span,
-[data-theme="dark"] [data-country-score][data-rated="true"] { color: hsl(var(--accent)); }
+[data-theme="santi020k-dark"] [data-country-places] li > span,
+[data-theme="santi020k-dark"] [data-country-score][data-rated="true"] { color: hsl(var(--accent)); }
 
 @container country-notebook (width < 48rem) {
   [data-country-notebook] [data-country-spread] { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; margin-top: 2rem; padding-top: 2rem; }

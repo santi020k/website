@@ -132,7 +132,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme })
       await page.goto('/travel/united-states/')
       await page.evaluate(value => {
-        document.documentElement.dataset.theme = value
+        document.documentElement.dataset.theme = `santi020k-${value}`
       }, theme)
       await waitForFonts(page)
       await expect(page.getByRole('heading', { level: 1 })).toHaveText('United States')
@@ -146,7 +146,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme })
     await page.goto('/es/travel/united-states/')
     await page.evaluate(value => {
-      document.documentElement.dataset.theme = value
+      document.documentElement.dataset.theme = `santi020k-${value}`
       document.documentElement.style.fontSize = '200%'
     }, theme)
     await waitForFonts(page)

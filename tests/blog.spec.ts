@@ -337,7 +337,7 @@ test.describe('Blog page', () => {
     await page.setViewportSize({ width: 375, height: 812 })
     await page.goto('/blog/')
 
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'santi020k-dark')
     await expectNoUnexpectedAccessibilityViolations(page)
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(375)
   })

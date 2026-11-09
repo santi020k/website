@@ -136,7 +136,7 @@ const extraTechnologies = sortTechnologiesByInterest(technologies.slice(6))
   [data-project-stack-content] summary::after { inset-inline-end: 0.125rem; top: 1.125rem; border-color: currentColor; }
   [data-project-stack-content] summary:hover { background: transparent; color: hsl(var(--brand)); }
   [data-project-stack-content] :global(details[open]) > summary { margin-bottom: 0.5rem; }
-  :global(:root[data-theme='dark']) [data-project-stack-content] summary:hover { color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) [data-project-stack-content] summary:hover { color: hsl(var(--accent)); }
 
   :global([data-project-stack-link]) {
     display: flex;
@@ -176,9 +176,9 @@ const extraTechnologies = sortTechnologiesByInterest(technologies.slice(6))
     outline-offset: 3px;
   }
 
-  :global(:root[data-theme='dark'] [data-project-stack-link])::before { background: hsl(var(--accent)); }
-  :global(:root[data-theme='dark'] [data-project-stack-link]:focus-visible) { outline-color: hsl(var(--accent)); }
-  :global(:root[data-theme='dark'] [data-project-stack-link]:is(:hover, :focus-visible)) {
+  :global(:root[data-theme='santi020k-dark'] [data-project-stack-link])::before { background: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark'] [data-project-stack-link]:focus-visible) { outline-color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark'] [data-project-stack-link]:is(:hover, :focus-visible)) {
     border-color: hsl(var(--project-primary-readable-dark));
     color: hsl(var(--project-primary-readable-dark));
   }

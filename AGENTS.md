@@ -5,7 +5,7 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 ## Active release
 
 The current integration target is `release/v5.2.0`, selected on November 5, 2026.
-It carries the Lumen 4.4.0 upgrade and product-film playback validation fixes from
+It carries the Lumen 5 upgrade, santi020k theme migration, and product-film playback fixes from
 the published v5.1.0 base. Base new approved work on this release and serialize
 integration in its clean, idle worktree. Preserve the published v4.0.0 design in
 `apps/v4`; current-site changes belong at the repository root.
@@ -66,7 +66,7 @@ in `docs/archive/v5-release-readiness.md`.
 ## Styling Rules
 
 - Define all design tokens (colors, fonts, shadows) in `src/styles/global.css` under `@theme`
-- Dark mode uses `data-theme="dark"` on `<html>` (not `class="dark"`)
+- Dark mode uses `data-theme="santi020k-dark"` on `<html>` (not `class="dark"`)
 - Custom repeated utilities go in `@utility` blocks in `global.css`
 - `src/styles/partials/` holds styles every page may need; `global.css` loads them on every route.
   CSS for a single route goes in `src/styles/pages/<route>.css` (starting with

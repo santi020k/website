@@ -44,7 +44,7 @@ for (const theme of ['light', 'dark'] as const) {
       await expect(page.locator('[data-code-complete]').first()).toBeHidden()
       await expect(page.locator('[data-code-preview]').first()).toBeVisible()
       await expect(page.locator('[data-ui-code-copy]').first()).toBeVisible()
-      await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+      await expect(page.locator('html')).toHaveAttribute('data-theme', `santi020k-${theme}`)
     })
   }
 }

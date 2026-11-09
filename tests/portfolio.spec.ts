@@ -57,11 +57,11 @@ const expectImageAspectRatio = async (image: Locator, ratio: number, renderedRat
 const expectReadableProjectTitleGradient = async (page: Page) => {
   const root = page.locator('html')
 
-  await expect(root).toHaveAttribute('data-theme', /^(?:dark|light)$/)
+  await expect(root).toHaveAttribute('data-theme', /^santi020k-(?:dark|light)$/)
 
   const theme = await root.getAttribute('data-theme')
 
-  if (theme !== 'dark' && theme !== 'light') {
+  if (theme !== 'santi020k-dark' && theme !== 'santi020k-light') {
     throw new TypeError(`Expected a resolved color theme, received: ${String(theme)}`)
   }
 
@@ -77,7 +77,7 @@ const expectReadableProjectTitleGradient = async (page: Page) => {
     }
 
     const projectStyle = getComputedStyle(project)
-    const suffix = activeTheme === 'dark' ? '-dark' : ''
+    const suffix = activeTheme === 'santi020k-dark' ? '-dark' : ''
 
     return {
       backgroundImage: getComputedStyle(element).backgroundImage,
@@ -94,7 +94,7 @@ const expectReadableProjectTitleGradient = async (page: Page) => {
   expect(renderedGradient.primary).toMatch(/^#[\da-f]{6}$/iu)
   expect(renderedGradient.secondary).toMatch(/^#[\da-f]{6}$/iu)
 
-  const canvas = theme === 'dark' ? PROJECT_DARK_CANVAS : PROJECT_LIGHT_CANVAS
+  const canvas = theme === 'santi020k-dark' ? PROJECT_DARK_CANVAS : PROJECT_LIGHT_CANVAS
 
   expect(getProjectGradientMinimumContrast(
     renderedGradient.primary,
@@ -235,7 +235,7 @@ test.describe('Portfolio page', () => {
       await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
       await page.goto('/work/')
       await page.evaluate(value => {
-        document.documentElement.dataset.theme = value
+        document.documentElement.dataset.theme = `santi020k-${value}`
       }, theme)
 
       for (const width of [375, 768, 1440]) {
@@ -261,7 +261,7 @@ test.describe('Portfolio page', () => {
     const root = page.locator('html')
     const themeToggle = page.getByRole('button', { name: 'Switch theme' })
 
-    await expect(root).toHaveAttribute('data-theme', 'light')
+    await expect(root).toHaveAttribute('data-theme', 'santi020k-light')
     await expectReadableProjectTitleGradient(page)
     await expect(page.locator('h1 .blur-sm')).toHaveCount(0)
     await expect(page.locator('[data-project-title-glow]')).toHaveCount(0)
@@ -269,7 +269,7 @@ test.describe('Portfolio page', () => {
 
     await themeToggle.click()
 
-    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(root).toHaveAttribute('data-theme', 'santi020k-dark')
     await expectReadableProjectTitleGradient(page)
     await expectNoUnexpectedAccessibilityViolations(page)
   })

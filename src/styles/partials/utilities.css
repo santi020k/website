@@ -217,7 +217,7 @@
   line-height: 1.6;
   text-align: start;
 
-  :root[data-theme='dark'] & { --copy-action-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  :root[data-theme='santi020k-dark'] & { --copy-action-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
 
   &:is(:hover, :focus-visible), &.copied {
     border-color: var(--copy-action-accent);
@@ -332,7 +332,7 @@ a[data-text-link] {
   text-decoration: none;
   transition: color 480ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-:root[data-theme='dark'] a[data-text-link] { --text-link-emphasis: hsl(var(--accent)); }
+:root[data-theme='santi020k-dark'] a[data-text-link] { --text-link-emphasis: hsl(var(--accent)); }
 a[data-text-link] > [data-text-link-label] {
   min-width: 0;
   box-decoration-break: clone;

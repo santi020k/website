@@ -85,7 +85,7 @@ test('email recovery has no detected card accessibility violations and keeps the
   const button = page.locator('[data-newsletter-submit]')
   for (const theme of ['light', 'dark']) {
     await page.evaluate(value => {
-      document.documentElement.dataset.theme = value
+      document.documentElement.dataset.theme = `santi020k-${value}`
     }, theme)
     for (const width of [320, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 })

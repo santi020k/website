@@ -22,7 +22,7 @@ for (const theme of ['light', 'dark']) {
       await page.setViewportSize(viewport)
       await page.goto('/about/')
       await page.evaluate(async value => {
-        document.documentElement.dataset.theme = value
+        document.documentElement.dataset.theme = `santi020k-${value}`
         await document.fonts.ready
       }, theme)
 
@@ -66,7 +66,7 @@ for (const theme of ['light', 'dark']) {
       await page.setViewportSize({ width, height: 900 })
       await page.goto('/about/')
       await page.evaluate(value => {
-        document.documentElement.dataset.theme = value
+        document.documentElement.dataset.theme = `santi020k-${value}`
         window.scrollTo(0, 600)
       }, theme)
       await expect(page.locator('[data-header-shell]')).toHaveAttribute('data-scrolled', 'true')

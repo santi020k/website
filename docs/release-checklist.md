@@ -6,8 +6,9 @@ pull request rather than growing a log here.
 
 ## Current release: v5.2.0
 
-`release/v5.2.0` carries the published Lumen 4.4.0 upgrade, the remaining tab-scroll
-compatibility patch, and deterministic product-film playback validation.
+`release/v5.2.0` carries the published Lumen 5.0.0 upgrade, its named santi020k
+theme, and deterministic product-film playback validation. Historical apps retain
+Lumen 4.4.0 and their tab-scroll compatibility patch.
 The minor Changeset requests 5.2.0 from the published 5.1.0 base. The normal GitHub
 Release workflow generates the version bump and changelog after integration into main.
 Public URLs stay compatible and visitors need no migration.

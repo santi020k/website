@@ -84,7 +84,15 @@ catalog:
   vfile: ^6.0.3
   vitest: ^5.0.5
   wawoff2: ^2.0.1
+catalogs:
+  lumen5:
+    "@santi020k/lumen": 5.0.0
+    "@santi020k/lumen-astro": 5.0.0
+    "@santi020k/lumen-core": 5.0.0
 minimumReleaseAgeExclude:
+  - "@santi020k/lumen@5.0.0"
+  - "@santi020k/lumen-astro@5.0.0"
+  - "@santi020k/lumen-core@5.0.0"
   - "@santi020k/og@1.2.0"
   - "@santi020k/lumen-astro@4.4.0"
   - "@santi020k/lumen-core@4.4.0"

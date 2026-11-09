@@ -30,7 +30,7 @@ for (const locale of ['en', 'es'] as const) {
 
       for (const theme of ['light', 'dark'] as const) {
         await page.evaluate(value => {
-          document.documentElement.dataset.theme = value
+          document.documentElement.dataset.theme = `santi020k-${value}`
         }, theme)
         for (const [width, size] of [[1440, 100], [768, 100], [390, 100], [320, 200]] as const) {
           await page.setViewportSize({ width, height: 1100 })

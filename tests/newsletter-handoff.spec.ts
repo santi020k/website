@@ -123,7 +123,7 @@ test('handoff remains readable in both themes at narrow and enlarged text sizes'
   await page.goto('/es/blog/')
   for (const theme of ['light', 'dark']) {
     await page.evaluate(value => {
-      document.documentElement.dataset.theme = value
+      document.documentElement.dataset.theme = `santi020k-${value}`
     }, theme)
     for (const width of [320, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 })
