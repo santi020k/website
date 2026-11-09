@@ -40,6 +40,8 @@ Los controles de rendimiento buscan patrones como el uso excesivo de `client:loa
 
 Los controles de accesibilidad detectan atributos `alt` y `lang` ausentes e islas exclusivas del cliente que no ofrecen contenido alternativo.
 
+Para ver un caso práctico, consulta [cómo detectar y corregir la falta de texto alternativo en Astro](/es/blog/a-successful-astro-build-can-still-miss-alt-text/).
+
 Las comprobaciones del código fuente cubren solo una parte de la experiencia. Mi [guía de accesibilidad con Playwright](/es/blog/playwright-accessibility-checks-that-teams-keep-running/) añade análisis de axe sobre páginas renderizadas, aserciones del foco de los diálogos y una lista de pruebas con teclado para comportamientos que necesitan un navegador.
 
 Los controles de seguridad advierten sobre usos de `set:html` que parecen inseguros y nombres de variables de entorno `PUBLIC_` que podrían exponer secretos.

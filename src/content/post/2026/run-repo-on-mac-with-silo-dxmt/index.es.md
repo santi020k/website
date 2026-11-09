@@ -1,11 +1,16 @@
 ---
 title: "Cómo logré ejecutar R.E.P.O. en Mac sin Whisky"
+seoTitle: "Cómo jugar R.E.P.O. en Mac con Silo y DXMT"
 description: "Una configuración probada en Apple silicon para ejecutar R.E.P.O. con Silo, Wine y DXMT, incluido el fallo gráfico de DirectX y su solución exacta."
 coverImage:
   alt: "Un objeto de videojuego atraviesa un puente de traducción preciso desde los gráficos de Windows hasta un entorno renderizado con Metal"
 ---
 
 <!-- cspell:words appmanifest CodeWeavers D3DMetal dxgi DXMT GPTK inspectable libraryfolders redistributables Sandboxed Steamworks userspace winemetal winetricks -->
+
+Logré ejecutar la versión de Steam para Windows de R.E.P.O. en Apple silicon con **Silo, Wine y DXMT**. Instala
+Steam dentro de Silo, descarga el juego ahí y elige DXMT en sus ajustes gráficos. Si ya instalaste el juego y
+aparece el error de DirectX 11, ve a la sección sobre cómo fijar DXMT y verificar la ruta de 64 bits.
 
 R.E.P.O. no tiene una versión nativa para Mac. Su página de Steam indica Windows 10 u 11, DirectX y una GPU dedicada para Windows.
 Eso suele dejar a quienes juegan en Mac entre tres opciones: un PC con Windows, un producto de compatibilidad de pago o una guía antigua de la comunidad
