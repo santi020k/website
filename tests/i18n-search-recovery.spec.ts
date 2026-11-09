@@ -1,19 +1,43 @@
+// cspell:words Guía Guías Mención adicional separado
 import { expect, test } from '@playwright/test'
 
 import { createOfflinePreview } from './helpers/offline-preview'
 
-const entries = [
-  { title: 'Primary guide', path: '/about/', description: 'A primary match.', tags: [], type: 'post' },
-  { title: 'Body guide', path: '/work/', description: 'Separate details.', tags: [], type: 'project' }
-]
+const entries = {
+  en: [
+    { title: 'Primary guide', path: '/about/', description: 'A primary match.', tags: [], type: 'post' },
+    { title: 'Body guide', path: '/work/', description: 'Separate details.', tags: [], type: 'project' }
+  ],
+  es: [
+    { title: 'Guía principal', path: '/es/about/', description: 'Guías del sitio.', tags: [], type: 'post' },
+    { title: 'Detalle adicional', path: '/es/work/', description: 'Contenido separado.', tags: [], type: 'project' }
+  ]
+}
 
 test('search switches languages without reloading and keeps body destinations in the selected locale', async ({ page }) => {
+  const indexRequests: string[] = []
+
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.route('**/search-index.json', route => route.fulfill({ json: entries }))
+  await page.route('**/search-index.json', route => {
+    const path = new URL(route.request().url()).pathname
+
+    indexRequests.push(path)
+
+    return route.fulfill({ json: entries[path === '/es/search-index.json' ? 'es' : 'en'] })
+  })
   await page.route('**/pagefind/pagefind.js', route => route.fulfill({
     contentType: 'application/javascript',
-    body: 'export async function debouncedSearch() { return { results: [{ data: async () => ({ url: "/work/", plain_excerpt: "A body mention." }) }] } }'
+    body: `
+      export async function debouncedSearch() {
+        const spanish = document.documentElement.lang === 'es-419'
+
+        return { results: [{ data: async () => ({
+          url: spanish ? '/es/work/' : '/work/',
+          plain_excerpt: spanish ? 'Mención en el texto.' : 'A body mention.'
+        }) }] }
+      }
+    `
   }))
   await page.goto('/')
   const initialDocument = await page.evaluateHandle(() => document)
@@ -21,13 +45,19 @@ test('search switches languages without reloading and keeps body destinations in
   await page.locator('[data-language-switch="header"]').click()
   await expect(page).toHaveURL(/\/es\/$/u)
   expect(await page.evaluate(original => original === document, initialDocument)).toBe(true)
+  const results = page.locator('[data-site-search-result]')
+
   await page.locator('[data-site-search-trigger]').click()
-  await page.locator('#site-search-input').fill('primary')
+  await page.locator('#site-search-input').fill('principal')
   await expect(page.locator('#site-search-results')).toHaveAttribute('data-site-search-state', 'settled')
+  expect(indexRequests).toEqual(['/es/search-index.json'])
   await expect(page.locator('[data-site-search-full-text]')).toHaveText('Mencionado en')
-  await expect(page.locator('[data-site-search-result]').first()).toHaveAttribute('href', '/es/about/')
-  await expect(page.locator('[data-site-search-result-type]').first()).toHaveText('Artículo')
-  await expect(page.locator('[data-site-search-result-title]').first()).toHaveAttribute('lang', 'en')
+  await expect(results.first()).toHaveAttribute('href', '/es/about/')
+  await expect(results.first().locator('[data-site-search-result-type]')).toHaveText('Artículo')
+  await expect(results.first().locator('[data-site-search-result-title]')).toHaveText('Guía principal')
+  await expect(results.first().locator('[data-site-search-result-title]')).toHaveAttribute('lang', 'es')
+  await expect(results.last()).toHaveAttribute('href', '/es/work/')
+  await expect(results.last().locator('[data-site-search-result-description]')).toHaveText('Mención en el texto.')
   await expect(page.locator('#site-search-status')).toHaveText('2 resultados disponibles. Usa las flechas para navegar.')
   await page.locator('#site-search-input').press('ArrowDown')
   await page.locator('#site-search-input').press('Enter')
@@ -37,8 +67,12 @@ test('search switches languages without reloading and keeps body destinations in
   await page.locator('[data-site-search-trigger]').click()
   await page.locator('#site-search-input').fill('primary')
   await expect(page.locator('#site-search-results')).toHaveAttribute('data-site-search-state', 'settled')
+  expect(indexRequests).toEqual(['/es/search-index.json', '/search-index.json'])
   await expect(page.locator('#site-search-status')).toHaveText('2 results available. Use arrow keys to navigate.')
-  await expect(page.locator('[data-site-search-result]').first()).toHaveAttribute('href', '/about/')
+  await expect(results.first()).toHaveAttribute('href', '/about/')
+  await expect(results.first().locator('[data-site-search-result-title]')).toHaveAttribute('lang', 'en')
+  await expect(results.last()).toHaveAttribute('href', '/work/')
+  await expect(results.last().locator('[data-site-search-result-description]')).toHaveText('A body mention.')
 })
 
 test('Spanish article link recovery keeps a selectable address and translated retry feedback', async ({ page }) => {

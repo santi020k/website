@@ -123,3 +123,21 @@ test('reinitializes body search when client navigation changes language', async 
   await search('two', [], new Set(), origin, 'en')
   expect(destroy).toHaveBeenCalledTimes(2)
 })
+
+test('bounds a stalled language reset and lets the next query retry', async () => {
+  vi.useFakeTimers()
+  const destroy = vi.fn<() => Promise<void>>()
+    .mockImplementationOnce(() => new Promise<void>(() => {}))
+    .mockResolvedValue(undefined)
+  const debouncedSearch = vi.fn(() => Promise.resolve({ results: [] }))
+  const search = createFullTextSearch(() => Promise.resolve({ destroy, debouncedSearch }), 100)
+
+  await search('one', [], new Set(), origin, 'en')
+  const pending = search('uno', [], new Set(), origin, 'es')
+
+  await vi.advanceTimersByTimeAsync(101)
+  expect(await pending).toEqual({ hits: [], unavailable: true })
+  expect(debouncedSearch).toHaveBeenCalledTimes(1)
+  expect(await search('dos', [], new Set(), origin, 'es')).toEqual({ hits: [], unavailable: false })
+  expect(destroy).toHaveBeenCalledTimes(2)
+})

@@ -91,7 +91,9 @@ export const createFullTextSearch = (loader = loadModule, timeout = 5_000) => {
 
       if (!isSearchModule(module)) throw new TypeError('Invalid full-text search module')
 
-      if (activeLanguage !== undefined && activeLanguage !== language) await module.destroy?.()
+      if (activeLanguage !== undefined && activeLanguage !== language && module.destroy) {
+        await withTimeout(Promise.resolve(module.destroy()), timeout)
+      }
 
       activeLanguage = language
 

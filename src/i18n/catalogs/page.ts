@@ -4,6 +4,14 @@ import { sharedMessages } from './shared.ts'
 
 /** Stable IDs; edit English wording without changing its key. */
 export const pageMessages = {
+  'search.page.about': { en: 'Engineering story, leadership philosophy, and personal background of Santiago Molina.', es: 'Trayectoria en ingeniería, filosofía de liderazgo e historia personal de Santiago Molina.' },
+  'search.page.work': { en: 'Career timeline, engineering leadership roles, and production systems delivered since 2014.', es: 'Trayectoria profesional, roles de liderazgo en ingeniería y sistemas puestos en producción desde 2014.' },
+  'search.page.projects': { en: 'Selected engineering case studies, open-source packages, and community initiatives.', es: 'Una selección de casos de estudio de ingeniería, paquetes de código abierto e iniciativas comunitarias.' },
+  'search.page.speaking': { en: 'Conference talks, workshops, community organizing, and open-source mentorship.', es: 'Charlas en conferencias, talleres, organización de comunidades y mentoría en proyectos de código abierto.' },
+  'search.page.travel': { en: 'Interactive atlas and field notes from countries and cities visited around the world.', es: 'Atlas interactivo y notas de viaje sobre los países y ciudades que he visitado.' },
+  'search.page.resume': { en: 'Printable curriculum vitae, career highlights, and downloadable PDF resume.', es: 'Hoja de vida para imprimir, logros profesionales y descarga en PDF.' },
+  'search.page.workWithMe': { en: 'Get in touch about engineering leadership roles, architecture consulting, or speaking invitations.', es: 'Ponte en contacto para conversar sobre roles de liderazgo en ingeniería, consultoría en arquitectura de software o invitaciones a dar charlas.' },
+  'search.page.history': { en: 'Interactive archive of every major version of santi020k.com from v1 to v5.', es: 'Archivo interactivo de todas las versiones principales de santi020k.com, de la v1 a la v5.' },
   'about.hero.craft': { en: 'Engineer. Maker.', es: 'Ingeniero. Creador.' },
   'about.hero.curiosity': { en: 'Always curious.', es: 'Siempre curioso.' },
   'about.hero.introduction': { en: 'I’m Santiago Molina, an engineering leader and full-stack architect based in Medellín. I build products, improve the systems behind them, and help teams do their best work.', es: 'Soy Santiago Molina, líder de ingeniería y arquitecto full-stack en Medellín. Creo productos, mejoro los sistemas que los hacen posibles y ayudo a los equipos a hacer su mejor trabajo.' },

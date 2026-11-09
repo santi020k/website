@@ -12,11 +12,11 @@ import type { APIRoute, ImageMetadata } from 'astro'
 
 import type { Locale } from '@/i18n'
 import { localizePath } from '@/i18n'
-import { localizePageSource } from '@/i18n/page-copy'
+import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
 
-const corePageEntries: SearchIndexEntry[] = [
+const corePageEntries = (t: ReturnType<typeof pageTranslator>): SearchIndexEntry[] => [
   {
-    description: 'Engineering story, leadership philosophy, and personal background of Santiago Molina.',
+    description: t('search.page.about'),
     keywords: ['Sobre mí', 'Biografía', 'Perfil', 'Biography', 'Santiago Molina'],
     path: '/about/',
     tags: [],
@@ -24,7 +24,7 @@ const corePageEntries: SearchIndexEntry[] = [
     type: 'page'
   },
   {
-    description: 'Career timeline, engineering leadership roles, and production systems delivered since 2014.',
+    description: t('search.page.work'),
     keywords: ['Experiencia', 'Trayectoria', 'Carrera', 'Career', 'Timeline', 'Experience'],
     path: '/work/',
     tags: [],
@@ -32,7 +32,7 @@ const corePageEntries: SearchIndexEntry[] = [
     type: 'page'
   },
   {
-    description: 'Selected engineering case studies, open-source packages, and community initiatives.',
+    description: t('search.page.projects'),
     keywords: ['Proyectos', 'Portafolio', 'Casos de estudio', 'Portfolio', 'Case studies'],
     path: '/projects/',
     tags: [],
@@ -40,7 +40,7 @@ const corePageEntries: SearchIndexEntry[] = [
     type: 'page'
   },
   {
-    description: 'Conference talks, workshops, community organizing, and open-source mentorship.',
+    description: t('search.page.speaking'),
     keywords: ['Charlas', 'Conferencias', 'Talleres', 'Comunidad', 'Talks', 'Workshops'],
     path: '/speaking/',
     tags: [],
@@ -48,7 +48,7 @@ const corePageEntries: SearchIndexEntry[] = [
     type: 'page'
   },
   {
-    description: 'Interactive atlas and field notes from countries and cities visited around the world.',
+    description: t('search.page.travel'),
     keywords: ['Viajes', 'Mapa', 'Países', 'Countries', 'Atlas'],
     path: '/travel/',
     tags: [],
@@ -56,7 +56,7 @@ const corePageEntries: SearchIndexEntry[] = [
     type: 'page'
   },
   {
-    description: 'Printable curriculum vitae, career highlights, and downloadable PDF resume.',
+    description: t('search.page.resume'),
     keywords: ['Currículum', 'CV', 'Hoja de vida', 'Curriculum Vitae', 'PDF'],
     path: '/resume/',
     tags: [],
@@ -64,7 +64,7 @@ const corePageEntries: SearchIndexEntry[] = [
     type: 'page'
   },
   {
-    description: 'Get in touch about engineering leadership roles, architecture consulting, or speaking invitations.',
+    description: t('search.page.workWithMe'),
     keywords: ['Trabajemos juntos', 'Contacto', 'Contratar', 'Contact', 'Hire', 'Consulting'],
     path: '/work-with-me/',
     tags: [],
@@ -72,7 +72,7 @@ const corePageEntries: SearchIndexEntry[] = [
     type: 'page'
   },
   {
-    description: 'Interactive archive of every major version of santi020k.com from v1 to v5.',
+    description: t('search.page.history'),
     keywords: ['Historia del sitio', 'Archivo', 'Versiones', 'Archive', 'History'],
     path: '/history/',
     tags: [],
@@ -130,11 +130,10 @@ export const createSearchIndex = async (locale: Locale) => {
     })
   )
 
-  const pageEntries = corePageEntries.map(entry => ({
+  const pageEntries = corePageEntries(pageTranslator(locale)).map(entry => ({
     ...entry,
     path: localizePath(entry.path, locale),
-    title: localizePageSource(locale, entry.title),
-    description: localizePageSource(locale, entry.description)
+    title: localizePageSource(locale, entry.title)
   }))
 
   const entries = [...postEntries, ...projectEntries, ...pageEntries]
