@@ -236,7 +236,12 @@ test.describe('Without JavaScript', () => {
   }
 })
 
-test('archive notice reflows after resize and client navigation', async ({ page }) => {
+// macOS WebKit uses Option+Tab to include links in keyboard navigation.
+const archiveTabKey = (browserName: string) => browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab'
+
+test('archive notice reflows after resize and client navigation', async ({ page, browserName }) => {
+  const tab = archiveTabKey(browserName)
+
   await readingPreferences(page, 200)
   await page.setViewportSize({ width: 390, height: 844 })
   await openArchive(page, '/v2/offline/')
@@ -255,8 +260,10 @@ test('archive notice reflows after resize and client navigation', async ({ page 
     await expectNoticeAboveNavigation(page, notice)
     await expectTextFits(notice)
     await expect(notice.getByRole('link', { name: 'View current page', exact: true })).toHaveAttribute('href', '/portfolio/')
+    await page.getByRole('link', { name: 'Skip to content', exact: true }).focus()
     for (const link of await notice.getByRole('link').all()) {
-      await link.focus()
+      await page.keyboard.press(tab)
+      await expect(link).toBeFocused()
       await expectClickable(link)
     }
   }

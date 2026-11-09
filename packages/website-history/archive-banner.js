@@ -7,10 +7,22 @@ const keepFocusVisible = () => {
   const target = document.activeElement
   const banner = document.querySelector('.website-archive-banner')
 
-  if (pointerFocus || !(target instanceof HTMLElement) || !banner ||
-    !target.matches(':focus-visible') || getComputedStyle(target).position === 'fixed' ||
+  if (pointerFocus || !(target instanceof HTMLElement) || !banner) return
+
+  // Native focus can leave a link partly offscreen when the notice wraps in a short viewport.
+  if (banner.contains(target)) {
+    const bounds = target.getBoundingClientRect()
+
+    if (bounds.top < 0 || bounds.bottom > innerHeight) {
+      target.scrollIntoView({ block: 'center', behavior: 'instant' })
+    }
+
+    return
+  }
+
+  if (!target.matches(':focus-visible') || getComputedStyle(target).position === 'fixed' ||
     !target.matches('a[href], button, input, select, textarea, [tabindex="0"]') ||
-    target.closest('.website-archive-banner, header, dialog, [role="dialog"], #drawer, #back-to-top')) return
+    target.closest('header, dialog, [role="dialog"], #drawer, #back-to-top')) return
 
   const header = document.querySelector('header')
   const top = Math.max(0, header?.getBoundingClientRect().bottom ?? 0) + 8
