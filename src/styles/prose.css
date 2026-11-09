@@ -1,6 +1,6 @@
 /* Astro may link this file before the Base bundle. Declaring Lumen's layer order first keeps
  * the `utilities.prose` sublayer below from creating `utilities` ahead of the base layers. */
-@import "@santi020k/lumen/layers.css";
+@import "@santi020k/lumen-astro/layers.css";
 
 @reference "./global.css";
 

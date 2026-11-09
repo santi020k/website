@@ -102,9 +102,9 @@ name="list"
   [data-chapter-sections] a[aria-current='location']::before { content: ''; position: absolute; inset-inline-start: -1px; inset-block: 0.625rem; width: 3px; border-inline-start: 3px solid currentColor; border-radius: 2px; }
   [data-chapter-standalone][aria-current='location']::before { content: ''; position: absolute; inset-inline-start: -0.75rem; inset-block: 0.625rem; width: 3px; border-inline-start: 3px solid currentColor; border-radius: 2px; }
   [data-reading-contents] a:is(:hover, [aria-current='location']), [data-chapter-group][open] > summary { color: hsl(var(--brand)); }
-  :global(:root[data-theme='dark']) [data-chapters-title],
-  :global(:root[data-theme='dark']) [data-reading-contents] a:is(:hover, [aria-current='location']),
-  :global(:root[data-theme='dark']) [data-chapter-group][open] > summary { color: hsl(var(--accent)); }
+  :global(:root[data-theme='santi020k-dark']) [data-chapters-title],
+  :global(:root[data-theme='santi020k-dark']) [data-reading-contents] a:is(:hover, [aria-current='location']),
+  :global(:root[data-theme='santi020k-dark']) [data-chapter-group][open] > summary { color: hsl(var(--accent)); }
   @container chapter-groups (width < 16rem) {
     [data-reading-contents] { padding-inline: 0.75rem; }
     [data-chapter-summary], [data-chapter-standalone] { font-size: 0.8125rem; }

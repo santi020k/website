@@ -51,7 +51,7 @@
 
 .work-stats [data-work-stat-source]:focus-visible { outline: 2px solid var(--work-accent); outline-offset: 4px; border-radius: 0.125rem; }
 
-:root[data-theme="dark"] .work-page { --work-accent: hsl(var(--accent)); }
+:root[data-theme="santi020k-dark"] .work-page { --work-accent: hsl(var(--accent)); }
 
 @container work-intro (width < 53.125rem) {
   .work-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -100,11 +100,11 @@
 
 .work-close [data-work-close-card="resume"] { background: hsl(var(--brand-soft)); }
 
-:root[data-theme="dark"] .work-close [data-work-close-card="resume"] { background: color-mix(in srgb, hsl(var(--brand-soft)) 55%, hsl(var(--surface))); }
+:root[data-theme="santi020k-dark"] .work-close [data-work-close-card="resume"] { background: color-mix(in srgb, hsl(var(--brand-soft)) 55%, hsl(var(--surface))); }
 
 .work-close [data-work-close-category] { color: var(--work-accent); font-size: 0.75rem; font-weight: 500; line-height: 1.7; }
 
-:root[data-theme="dark"] .work-close [data-work-close-category] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+:root[data-theme="santi020k-dark"] .work-close [data-work-close-category] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
 
 .work-close h3 { margin-top: 0.875rem; color: hsl(var(--ink)); font-size: 2rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.045em; overflow-wrap: break-word; }
 
@@ -120,7 +120,7 @@
 
 @container work-page (width < 20rem) { .work-close [data-work-close-card] { min-height: 13rem; padding: 1.25rem; } }
 
-:root[data-theme="dark"] [data-work-page] .maker-hero-emphasis {
+:root[data-theme="santi020k-dark"] [data-work-page] .maker-hero-emphasis {
   color: hsl(var(--accent));
 }
 

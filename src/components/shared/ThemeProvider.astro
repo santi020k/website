@@ -4,11 +4,19 @@ const lightModePref = window.matchMedia('(prefers-color-scheme: light)')
 // Keep an explicit choice for this document even when browser storage is blocked.
 let selectedTheme = null
 
+const normalizeTheme = theme => {
+  if (theme === 'light' || theme === 'santi020k-light') return 'santi020k-light'
+
+  if (theme === 'dark' || theme === 'santi020k-dark') return 'santi020k-dark'
+
+  return null
+}
+
 const getStoredTheme = () => {
   try {
     const storedTheme = typeof localStorage !== 'undefined' && localStorage.getItem('theme')
 
-    return storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : null
+    return normalizeTheme(storedTheme)
   } catch {
     return null
   }
@@ -17,11 +25,11 @@ const getStoredTheme = () => {
 const getUserPref = () => {
   const storedTheme = getStoredTheme()
 
-  return selectedTheme || storedTheme || (lightModePref.matches ? 'light' : 'dark')
+  return selectedTheme || storedTheme || (lightModePref.matches ? 'santi020k-light' : 'santi020k-dark')
 }
 
 const setTheme = newTheme => {
-  if (newTheme !== 'light' && newTheme !== 'dark') {
+  if (newTheme !== 'santi020k-light' && newTheme !== 'santi020k-dark') {
     return
   }
 
@@ -32,10 +40,10 @@ const setTheme = newTheme => {
     root.setAttribute('data-theme', newTheme)
   }
 
-  root.classList.toggle('dark', newTheme === 'dark')
+  root.classList.toggle('dark', newTheme === 'santi020k-dark')
 
   document.querySelectorAll('[data-ui-theme-toggle]').forEach(control => {
-    control.setAttribute('aria-pressed', String(newTheme === 'dark'))
+    control.setAttribute('aria-pressed', String(newTheme === 'santi020k-dark'))
 
     control.setAttribute('data-ui-theme', newTheme)
   })
@@ -71,7 +79,7 @@ document.addEventListener('astro:before-swap', event => {
 
   nextRoot.setAttribute('data-theme', theme)
 
-  nextRoot.classList.toggle('dark', theme === 'dark')
+  nextRoot.classList.toggle('dark', theme === 'santi020k-dark')
 })
 
 // View Transitions hook to restore theme
@@ -80,12 +88,15 @@ document.addEventListener('astro:after-swap', () => setTheme(getUserPref()))
 // Newly mounted controls can read an older stored value if saving was denied.
 document.addEventListener('astro:page-load', () => setTheme(getUserPref()))
 
+// V5 enhancement is asynchronous and may read a legacy stored choice when saving is blocked.
+document.addEventListener('ui:ready', () => setTheme(getUserPref()))
+
 // Keep browser chrome metadata in sync after Lumen applies a user-selected theme.
 document.addEventListener('ui:theme-change', e => {
   if (!(e instanceof CustomEvent) || !e.detail ||
-    (e.detail.theme !== 'light' && e.detail.theme !== 'dark')) return
+    !normalizeTheme(e.detail.theme)) return
 
-  selectedTheme = e.detail.theme
+  selectedTheme = normalizeTheme(e.detail.theme)
 
   setTheme(selectedTheme)
 })
@@ -96,6 +107,6 @@ document.addEventListener('ui:theme-change', e => {
 lightModePref.addEventListener('change', e => {
   if (selectedTheme || getStoredTheme()) return
 
-  setTheme(e.matches ? 'light' : 'dark')
+  setTheme(e.matches ? 'santi020k-light' : 'santi020k-dark')
 })
 </script>

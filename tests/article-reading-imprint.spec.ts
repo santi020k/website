@@ -18,7 +18,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.route('https://giscus.app/**', route => route.abort())
     await page.goto(updatedArticle)
     await page.evaluate(scheme => {
-      document.documentElement.dataset.theme = scheme
+      document.documentElement.dataset.theme = `santi020k-${scheme}`
     }, theme)
     await page.evaluate(() => document.fonts.ready)
 

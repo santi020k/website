@@ -133,7 +133,7 @@ for (const theme of ['light', 'dark']) {
       localStorage.setItem('theme', selectedTheme)
     }, theme)
     await page.goto('/about/')
-    await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+    await expect(page.locator('html')).toHaveAttribute('data-theme', `santi020k-${theme}`)
 
     const navigation = page.locator('.site-desktop-nav')
 

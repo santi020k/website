@@ -42,7 +42,7 @@ test('reading briefs remain readable in both themes at mobile and desktop sizes'
       expect(overflow).toBe(false)
       for (const theme of ['light', 'dark']) {
         await page.evaluate(value => {
-          document.documentElement.dataset.theme = value
+          document.documentElement.dataset.theme = `santi020k-${value}`
         }, theme)
         const result = await new AxeBuilder({ page }).include('[data-project-context-lead]').analyze()
         expect(result.violations).toEqual([])

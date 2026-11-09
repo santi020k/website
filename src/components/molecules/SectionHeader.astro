@@ -141,7 +141,7 @@ const headingId = id ? `${id}-heading` : undefined
     align-items: start;
   }
   [data-section-header-margin]:not(:has(> [data-margin-header-label])) { grid-template-columns: minmax(0, 1fr); }
-  :global([data-theme='dark']) [data-section-header-margin] { --margin-emphasis: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-section-header-margin] { --margin-emphasis: hsl(var(--accent)); }
   [data-margin-header-label] {
     max-width: 100%;
     margin: 0;
@@ -220,7 +220,7 @@ const headingId = id ? `${id}-heading` : undefined
     background: transparent;
     color: hsl(var(--ink));
   }
-  :global([data-theme='dark']) [data-section-header-shelf] { --chapter-emphasis: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  :global([data-theme='santi020k-dark']) [data-section-header-shelf] { --chapter-emphasis: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
   [data-chapter-tab] {
     margin: 0;
     color: var(--chapter-emphasis);

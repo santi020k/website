@@ -73,7 +73,7 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
     box-shadow: var(--shadow-quote-sleeve);
   }
   /* Outside the About page, follow the site's dark accent so initials keep AA contrast. */
-  :global(:root[data-theme='dark']) [data-testimonial][data-slot='card'] { --testimonial-accent: var(--about-accent, hsl(var(--accent))); }
+  :global(:root[data-theme='santi020k-dark']) [data-testimonial][data-slot='card'] { --testimonial-accent: var(--about-accent, hsl(var(--accent))); }
   [data-testimonial-body] { display: grid; grid-template-columns: 2.875rem minmax(0, 1fr); gap: 1.375rem; min-width: 0; padding: 2.125rem; }
   [data-testimonial-quote] { color: var(--testimonial-accent); }
   [data-testimonial-quote] :global(svg) { width: 2.5rem; height: 2.5rem; }

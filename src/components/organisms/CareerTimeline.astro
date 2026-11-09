@@ -99,8 +99,8 @@ class="size-4"
     padding: 0;
     list-style: none;
   }
-  :global(:root[data-theme='dark']) [data-career-timeline] { --career-emphasis: var(--accent); }
-  :global(:root[data-theme='dark']) [data-career-action] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global(:root[data-theme='santi020k-dark']) [data-career-timeline] { --career-emphasis: var(--accent); }
+  :global(:root[data-theme='santi020k-dark']) [data-career-action] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
   [data-career-row] {
     --career-project-ink: var(--project-primary-readable);
     --career-rail-x: 7.125rem;
@@ -111,7 +111,7 @@ class="size-4"
     --career-next-node-y: calc(var(--career-full-year-size) * 0.6);
   }
   [data-career-row]:has(+ [data-career-density='compact']) { --career-next-node-y: calc(var(--career-compact-year-size) * 0.6); }
-  :global(:root[data-theme='dark']) [data-career-row] { --career-project-ink: var(--project-primary-readable-dark); }
+  :global(:root[data-theme='santi020k-dark']) [data-career-row] { --career-project-ink: var(--project-primary-readable-dark); }
   [data-career-link] {
     position: relative;
     display: grid;

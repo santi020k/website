@@ -2,4 +2,4 @@
 "website": minor
 ---
 
-Update the site's Lumen dependencies to 4.4.0 and use the upstream reading progress, code and table cues, and cover image fallback APIs.
+Use Lumen's upstream reading progress, code and table cues, and cover image fallback APIs.

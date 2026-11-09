@@ -308,7 +308,7 @@
   color: hsl(var(--brand));
 }
 
-:root[data-theme="dark"] .site-mobile-nav-toggle { color: hsl(var(--accent)); }
+:root[data-theme="santi020k-dark"] .site-mobile-nav-toggle { color: hsl(var(--accent)); }
 
 @utility site-menu-symbol {
   display: grid;

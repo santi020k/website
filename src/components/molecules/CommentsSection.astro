@@ -83,7 +83,7 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
     color: hsl(var(--ink));
   }
 
-  :global(:root[data-theme="dark"]) #comments {
+  :global(:root[data-theme="santi020k-dark"]) #comments {
     --discussion-accent: hsl(var(--accent));
   }
 
@@ -220,7 +220,7 @@ const t = sharedTranslator(getLocale(Astro.url.pathname))
   const FALLBACK_THEMES = { dark: 'transparent_dark', light: 'light' } as const
 
   const getSiteTheme = function (): keyof typeof FALLBACK_THEMES {
-    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+    return document.documentElement.getAttribute('data-theme') === 'santi020k-dark' ? 'dark' : 'light'
   }
 
   const getGiscusTheme = (): string => {

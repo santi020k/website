@@ -171,10 +171,10 @@ const meta = {
   :global([data-travel-index-chevron]) { justify-self: center; color: hsl(var(--brand)); font-size: 1.125rem; }
   :global(#travel-notebook[open] [data-travel-index-chevron]) { transform: rotate(180deg); }
   :global(#travel-notebook > summary:hover) [data-travel-index-title] { text-decoration: underline; text-underline-offset: .2em; }
-  :global([data-theme='dark']) [data-travel-index-count],
-  :global([data-theme='dark'] [data-travel-index-chevron]) { color: hsl(var(--accent)); }
-  :global([data-theme='dark']) [data-travel-index-copy] { border-color: hsl(var(--accent)); }
-  :global([data-theme='dark'] #travel-notebook > summary:focus-visible) { outline-color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-travel-index-count],
+  :global([data-theme='santi020k-dark'] [data-travel-index-chevron]) { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-travel-index-copy] { border-color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark'] #travel-notebook > summary:focus-visible) { outline-color: hsl(var(--accent)); }
 
   @container travel-index (width < 29rem) {
     :global(#travel-notebook > summary) { grid-template-columns: 2.875rem minmax(0, 1fr) 1.875rem; gap: 1rem; }
@@ -205,8 +205,8 @@ const meta = {
   [data-travel-place-list] li::before { content: ''; width: .1875rem; height: .1875rem; flex-shrink: 0; align-self: center; border-radius: 50%; background: hsl(var(--brand)); }
   [data-travel-home-copy], [data-travel-country-note] { color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.85; }
   [data-travel-country-note] { margin-top: .75rem; }
-  :global([data-theme='dark']) [data-travel-notebook-code] { color: hsl(var(--accent)); }
-  :global([data-theme='dark']) [data-travel-place-list] li::before { background: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-travel-notebook-code] { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-travel-place-list] li::before { background: hsl(var(--accent)); }
 
   @container travel-notebook (width < 28rem) {
     [data-travel-country-list] article { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 1rem; }
@@ -237,8 +237,8 @@ const meta = {
   [data-travel-roots-lead] { min-width: 0; color: hsl(var(--ink)); font-size: 1.1875rem; line-height: 1.65; letter-spacing: -.025em; }
   [data-travel-roots-copy] { min-width: 0; padding-left: 1.5rem; border-left: 1px solid hsl(var(--brand)); color: hsl(var(--ink-soft)); font-size: .875rem; line-height: 1.9; }
   [data-travel-roots-copy] p + p { margin-top: 1.25rem; }
-  :global([data-theme='dark']) [data-travel-roots-eyebrow] { color: hsl(var(--accent)); }
-  :global([data-theme='dark']) [data-travel-roots-copy] { border-color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-travel-roots-eyebrow] { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-travel-roots-copy] { border-color: hsl(var(--accent)); }
 
   @container travel-roots (width < 36rem) {
     :global([data-travel-origin-spread]) { padding: 1.5rem; }
@@ -272,10 +272,10 @@ const meta = {
   :global([data-travel-stories-link]:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; }
   [data-travel-stories-arrow] { display: grid; width: 2.5rem; height: 2.5rem; flex-shrink: 0; place-items: center; border-radius: .75rem .1875rem .75rem .1875rem; background: hsl(var(--brand-soft)); color: hsl(var(--brand)); }
   :global([data-travel-stories-arrow-icon]) { font-size: 1.25rem; }
-  :global([data-theme='dark']) [data-travel-stories-eyebrow] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
-  :global([data-theme='dark']) [data-travel-stories-arrow],
-  :global([data-theme='dark'] [data-travel-stories-link]:hover) { color: hsl(var(--accent)); }
-  :global([data-theme='dark'] [data-travel-stories-link]:focus-visible) { outline-color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-travel-stories-eyebrow] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme='santi020k-dark']) [data-travel-stories-arrow],
+  :global([data-theme='santi020k-dark'] [data-travel-stories-link]:hover) { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark'] [data-travel-stories-link]:focus-visible) { outline-color: hsl(var(--accent)); }
 
   @container travel-stories (width < 34rem) {
     [data-travel-stories-cover] { padding: 1.5rem; }

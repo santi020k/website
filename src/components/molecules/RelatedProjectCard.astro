@@ -77,7 +77,7 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
     border-radius: 0;
     background: transparent;
   }
-  :global(:root[data-theme='dark']) [data-related-project] { --related-emphasis: var(--accent); --related-project-ink: var(--project-primary-readable-dark); }
+  :global(:root[data-theme='santi020k-dark']) [data-related-project] { --related-emphasis: var(--accent); --related-project-ink: var(--project-primary-readable-dark); }
   [data-related-project][data-slot='card']:last-child { border-bottom: 1px solid hsl(var(--line) / 0.65); }
   [data-related-number] { padding-top: 0.25rem; color: hsl(var(--related-project-ink)); font-family: var(--font-code); font-size: 0.875rem; font-weight: 500; line-height: 1.5; font-variant-numeric: tabular-nums; }
   [data-related-artwork] { position: relative; display: grid; align-self: start; place-items: center; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 0.75rem; background: hsl(var(--brand-soft)); color: hsl(var(--related-emphasis)); }

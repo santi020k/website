@@ -59,7 +59,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme })
     await page.goto(route)
     await page.evaluate(value => {
-      document.documentElement.dataset.theme = value
+      document.documentElement.dataset.theme = `santi020k-${value}`
     }, theme)
     const ledger = page.getByRole('navigation', { name: 'References for this article' })
     const links = ledger.getByRole('link')

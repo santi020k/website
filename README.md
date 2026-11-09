@@ -23,7 +23,7 @@
 <p align="center">
   <a href="https://github.com/santi020k/website/actions/workflows/build.yml"><img src="https://github.com/santi020k/website/actions/workflows/build.yml/badge.svg" alt="Website quality gate"></a>
   <a href="https://github.com/santi020k/website/actions/workflows/codeql.yml"><img src="https://github.com/santi020k/website/actions/workflows/codeql.yml/badge.svg" alt="CodeQL security analysis"></a>
-  <a href="./docs/lumen-integration.md"><img src="https://img.shields.io/badge/Lumen-4-620AE6?style=flat-square" alt="Built with Lumen 4"></a>
+  <a href="./docs/lumen-integration.md"><img src="https://img.shields.io/badge/Lumen-5-620AE6?style=flat-square" alt="Built with Lumen 5"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-source--available-orange?style=flat-square" alt="Source-available license"></a>
 </p>
 
@@ -83,7 +83,7 @@ through the site. Browser tests cover the interactions; the accessibility statem
 | Foundation | What it does here |
 | --- | --- |
 | **Astro 7 + TypeScript** | Static pages, typed content collections, Markdown/MDX, and View Transitions. |
-| **Lumen 4 + Tailwind CSS v4** | Accessible Astro primitives, shared semantic tokens, and site-owned editorial composition. |
+| **Lumen 5 + Tailwind CSS v4** | Accessible Astro primitives, shared semantic tokens, and site-owned editorial composition. |
 | **Native JavaScript** | Search, filtering, sharing, and progressive enhancement without a frontend framework runtime. |
 | **Owned tooling** | Theme tokens, OG generation, ESLint configs, Commitprompt, Quality hooks, and Astro Doctor diagnostics. |
 | **Cloudflare Pages** | Production deployment from reviewed `main`, with versioned redirects, caching, and security headers. |
@@ -141,7 +141,7 @@ Lighthouse audits; [CONTRIBUTING.md](CONTRIBUTING.md) covers review evidence.
 | --- | --- |
 | [Contributing](CONTRIBUTING.md) | Setup, validation, contribution scope, and review evidence. |
 | [Developer guide](docs/development.md) | Architecture notes, content rules, source map, checks, and generated assets. |
-| [Lumen integration](docs/lumen-integration.md) | Components, stable styling hooks, and v4 upgrade checks. |
+| [Lumen integration](docs/lumen-integration.md) | Components, stable styling hooks, and v5 upgrade checks. |
 | [Theming](docs/theming.md) / [Brand](docs/brand-guidelines.md) | Theme behavior and visual standards. |
 | [Sitemaps](docs/sitemaps.md) | Canonical routes and cross-site search discovery. |
 | [Deployment](docs/deployment.md) | Release automation, environment setup, smoke checks, and rollback. |

@@ -10,7 +10,7 @@ for (const theme of ['light', 'dark']) {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.goto('/')
       await page.evaluate(selectedTheme => {
-        document.documentElement.dataset.theme = selectedTheme
+        document.documentElement.dataset.theme = `santi020k-${selectedTheme}`
       }, theme)
 
       const hero = requireValue(await page.locator('[data-home-hero]').boundingBox())

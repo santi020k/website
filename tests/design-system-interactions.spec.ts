@@ -5,7 +5,7 @@ for (const theme of ['light', 'dark']) {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/about/')
     await page.evaluate(theme => {
-      document.documentElement.dataset.theme = theme
+      document.documentElement.dataset.theme = `santi020k-${theme}`
     }, theme)
     const card = page.locator('[data-carousel-item] a').first()
 
@@ -30,7 +30,7 @@ for (const theme of ['light', 'dark']) {
       await page.emulateMedia({ forcedColors: 'active', reducedMotion: 'reduce' })
       await page.goto(path)
       await page.evaluate(theme => {
-        document.documentElement.dataset.theme = theme
+        document.documentElement.dataset.theme = `santi020k-${theme}`
       }, theme)
       const target = page.locator(selector).first()
 

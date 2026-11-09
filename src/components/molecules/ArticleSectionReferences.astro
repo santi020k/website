@@ -193,7 +193,7 @@ const sections = headings.filter(heading => heading.depth === 2 || heading.depth
     outline-offset: 4px;
   }
 
-  :global([data-theme='dark']) [data-section-reference-for] :global([data-section-copy]) { color: hsl(var(--accent)); }
+  :global([data-theme='santi020k-dark']) [data-section-reference-for] :global([data-section-copy]) { color: hsl(var(--accent)); }
   [data-section-reference-for] :global(svg) { width: 1rem; height: 1rem; }
 
   [data-section-copy-feedback] {
@@ -216,7 +216,7 @@ const sections = headings.filter(heading => heading.depth === 2 || heading.depth
       --section-arrival-accent: hsl(var(--brand));
     }
 
-    :global(:root[data-theme='dark'] :is([data-section-reference-row], [data-subsection-arrival])[data-section-arrived]) {
+    :global(:root[data-theme='santi020k-dark'] :is([data-section-reference-row], [data-subsection-arrival])[data-section-arrived]) {
       --section-arrival-accent: hsl(var(--accent));
     }
 

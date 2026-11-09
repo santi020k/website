@@ -33,7 +33,7 @@ const { lead, emphasis, perspectives = [] } = Astro.props
     margin-block: 1.5rem;
     color: hsl(var(--ink));
   }
-  :global([data-theme='dark']) [data-project-principle-close] { --principle-accent: var(--accent); }
+  :global([data-theme='santi020k-dark']) [data-project-principle-close] { --principle-accent: var(--accent); }
   [data-principle-lead] { max-width: 23em; margin: 0; font-size: 1.6875rem; line-height: 1.5; letter-spacing: -0.025em; overflow-wrap: anywhere; }
   [data-principle-lead] strong { color: hsl(var(--principle-accent)); font-weight: 500; }
   [data-principle-copy] :global(p) { margin: 1.25rem 0 0; color: hsl(var(--ink-soft)); font-size: 1.0625rem; line-height: 1.8; overflow-wrap: anywhere; }
