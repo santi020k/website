@@ -30,7 +30,7 @@ const chapters = getReadingChapters(headings).map(chapter => {
 ---
 
 {chapters.length > 0 && (
-  <reading-contents>
+  <reading-contents tabindex="-1">
     <Anchor activationOffset={120} aria-label={t('collection.tableOfContents')} data-reading-contents data-contents-embedded={embedded || undefined}>
       {!embedded && (
         <p data-chapters-title>{t('collection.onThisPage')}<Icon

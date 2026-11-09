@@ -10,6 +10,9 @@ languageSettings:
     locale: en,es,es_ES
     caseSensitive: false
 words:
+  # Firefox preference names used by Playwright.
+  - prefs
+  - typeaheadfind
   # Spanish technical prose and regional vocabulary used in authored translations.
   - accionables
   - activadores

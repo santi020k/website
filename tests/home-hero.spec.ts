@@ -323,6 +323,7 @@ test('the opening stays opaque during its finite entrance and rests on return na
   await expect.poll(() => hero.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0)
   await hero.getByRole('link', { name: 'See selected work', exact: true }).click()
   await expect(page).toHaveURL(/\/portfolio\/$/u)
+  await page.mouse.move(0, 0)
   await page.goBack()
   await expect(page.locator('body')).toHaveAttribute('data-client-navigation')
   await expect(hero.locator('h1')).toBeVisible()

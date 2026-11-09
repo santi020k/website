@@ -35,7 +35,8 @@
 
 @container history-exhibit (width < 17.5rem) {
   .history-hero-print-label { display: block; }
-  .history-hero-print-label > span:first-child { display: block; margin-bottom: .125rem; }
+  .history-hero-print-label > span { display: block; }
+  .history-hero-print-label > span:first-child { margin-bottom: .125rem; }
 }
 
 @container history-exhibit (width < 13rem) {

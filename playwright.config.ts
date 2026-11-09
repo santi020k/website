@@ -45,7 +45,16 @@ const fullBrowserProjects = [
   chromiumProject,
   {
     name: 'firefox',
-    use: { ...devices['Desktop Firefox'] }
+    use: {
+      ...devices['Desktop Firefox'],
+      launchOptions: {
+        firefoxUserPrefs: {
+          'accessibility.typeaheadfind': false,
+          'accessibility.typeaheadfind.autostart': false,
+          'accessibility.typeaheadfind.manual': false
+        }
+      }
+    }
   },
   {
     name: 'webkit',
