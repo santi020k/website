@@ -51,7 +51,7 @@ interface Props {
 
 const { allTagsData, page } = Astro.props
 const isFirstPage = page.currentPage === 1
-const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
+const activeSeries = (await getSeriesSummaries(locale)).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const topTags = getBlogBrowseTags(allTagsData)
 const firstPost = page.data[0]
 const latestPost = isFirstPage && firstPost ? await localizePost(firstPost, locale) : null

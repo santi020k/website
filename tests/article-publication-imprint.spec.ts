@@ -25,6 +25,8 @@ test.use({ reducedMotion: 'reduce' })
 
 for (const article of articles) {
   for (const layout of layouts) {
+    const canonical = layout.locale === 'es' ? `https://santi020k.com/es${article.path}` : article.destination
+
     test(`${article.name} imprint fits ${layout.width}px at ${layout.size}% in ${layout.theme}/${layout.locale}`, async ({ page, browserName }) => {
       await page.setViewportSize({ width: layout.width, height: 1000 })
       await page.addInitScript(theme => {
@@ -44,7 +46,7 @@ for (const article of articles) {
       await expect(credit.locator('[data-publication-platform]')).toHaveText(layout.locale === 'es' ? 'En Medium' : 'On Medium')
       await expect(publisher).toHaveAttribute('href', 'https://towardsdev.com')
       await expect(original).toHaveAttribute('href', article.destination)
-      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', article.destination)
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', canonical)
       await expect(page.locator('[data-article-prose]')).not.toContainText('was originally published in')
       await expect(page.locator('[data-article-prose]')).not.toContainText('where people are continuing the conversation')
       await credit.scrollIntoViewIfNeeded()

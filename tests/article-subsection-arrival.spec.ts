@@ -8,9 +8,23 @@ const parentId = 'why-this-works-so-well'
 
 test.use({ reducedMotion: 'reduce' })
 
-for (const { locale, prefix, markerLabel, language } of [
-  { locale: 'en', prefix: '', markerLabel: 'Linked section', language: 'en-US' },
-  { locale: 'es', prefix: '/es', markerLabel: 'Sección enlazada', language: 'es-419' }
+for (const { locale, prefix, markerLabel, language, firstHeading, secondHeading } of [
+  {
+    locale: 'en',
+    prefix: '',
+    markerLabel: 'Linked section',
+    language: 'en-US',
+    firstHeading: 'They lower social friction',
+    secondHeading: 'They make review easier to scan'
+  },
+  {
+    locale: 'es',
+    prefix: '/es',
+    markerLabel: 'Sección enlazada',
+    language: 'es-419',
+    firstHeading: 'Reduce la fricción social',
+    secondHeading: 'Facilita recorrer la revisión'
+  }
 ]) {
   const article = `${prefix}${articlePath}`
 
@@ -24,7 +38,7 @@ for (const { locale, prefix, markerLabel, language } of [
 
     await expect(first.getByText(markerLabel, { exact: true })).toBeVisible()
     await expect(first.locator('[data-section-arrival]')).toHaveAttribute('lang', language)
-    await expect(first).toHaveAccessibleName('They lower social friction')
+    await expect(first).toHaveAccessibleName(firstHeading)
     await expect(first.locator('button')).toHaveCount(0)
     await expect(markers).toHaveCount(1)
 
@@ -54,7 +68,7 @@ for (const { locale, prefix, markerLabel, language } of [
     await expect(page).toHaveURL(`${article}#${secondId}`)
     await expect(second.locator('[data-section-arrival]')).toHaveCount(1)
     await expect(second.locator('[data-section-arrival]')).toBeVisible()
-    await expect(second).toHaveAccessibleName('They make review easier to scan')
+    await expect(second).toHaveAccessibleName(secondHeading)
   })
 
   for (const theme of ['light', 'dark'] as const) {
@@ -85,7 +99,7 @@ for (const { locale, prefix, markerLabel, language } of [
           window.location.hash = id
         }, firstId)
         await expect(marker).toBeVisible()
-        await expect(heading).toHaveAccessibleName('They lower social friction')
+        await expect(heading).toHaveAccessibleName(firstHeading)
         await expect.poll(() => heading.evaluate(element => {
           const label = element.querySelector('[data-section-arrival]')?.getBoundingClientRect()
           const header = document.querySelector('.site-header')?.getBoundingClientRect()
@@ -121,7 +135,7 @@ for (const { locale, prefix, markerLabel, language } of [
 
     test('retains native headings and fragment navigation', async ({ page }) => {
       await page.goto(`${article}#${firstId}`)
-      const heading = page.getByRole('heading', { level: 3, name: 'They lower social friction', exact: true })
+      const heading = page.getByRole('heading', { level: 3, name: firstHeading, exact: true })
 
       await expect(heading).toBeInViewport()
       await expect(page.locator('[data-section-arrival]:visible')).toHaveCount(0)

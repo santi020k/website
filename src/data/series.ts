@@ -1,8 +1,11 @@
 import type { CollectionEntry } from 'astro:content'
 
 import { getCachedPosts, getCachedSeries } from '@/utils/content'
+import { localizePost } from '@/utils/content-translations'
 import { getReadingTime } from '@/utils/reading-time'
 import { getAdjacentSeriesPosts, sortSeriesPosts } from '@/utils/series'
+
+import type { Locale } from '@/i18n'
 
 export const getAllSeries = async (): Promise<CollectionEntry<'series'>[]> => {
   const series = await getCachedSeries()
@@ -16,24 +19,28 @@ export const getSeriesPosts = async (seriesId: string): Promise<CollectionEntry<
   return sortSeriesPosts(posts.filter(p => p.data.seriesId === seriesId))
 }
 
-export const getSeriesSummaries = async () => {
+export const getSeriesSummaries = async (locale: Locale = 'en') => {
   const [seriesEntries, posts] = await Promise.all([
     getAllSeries(),
     getCachedPosts()
   ])
 
-  return seriesEntries.flatMap(series => {
+  const summaries = await Promise.all(seriesEntries.map(async series => {
     const seriesPosts = sortSeriesPosts(posts.filter(post => post.data.seriesId === series.id))
 
-    if (import.meta.env.PROD && seriesPosts.length === 0) return []
+    if (import.meta.env.PROD && seriesPosts.length === 0) return undefined
 
-    return [{
+    const readingPosts = locale === 'en' ? seriesPosts : await Promise.all(seriesPosts.map(post => localizePost(post, locale)))
+
+    return {
       postCount: seriesPosts.length,
       posts: seriesPosts,
-      readingMinutes: seriesPosts.reduce((minutes, post) => minutes + getReadingTime(post.body), 0),
+      readingMinutes: readingPosts.reduce((minutes, post) => minutes + getReadingTime(post.body), 0),
       series
-    }]
-  })
+    }
+  }))
+
+  return summaries.filter(summary => summary !== undefined)
 }
 
 export const getSeriesContext = async (post: CollectionEntry<'post'>) => {

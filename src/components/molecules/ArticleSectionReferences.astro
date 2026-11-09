@@ -138,7 +138,65 @@ const sections = headings.filter(heading => heading.depth === 2 || heading.depth
     followSectionArrival()
   }
 
+  const keepInitialSectionInView = () => {
+    const [navigation] = performance.getEntriesByType('navigation')
+    const originalUrl = window.location.href
+
+    if (
+      !window.location.hash || !(navigation instanceof PerformanceNavigationTiming) ||
+      navigation.type !== 'navigate' || document.body.hasAttribute('data-client-navigation')
+    ) return
+
+    const arrival = document.querySelector<HTMLElement>('[data-section-arrived]')
+    const heading = arrival?.matches('h3') ? arrival : arrival?.querySelector<HTMLElement>('h2')
+    const prose = heading?.closest('[data-article-prose]')
+
+    if (!heading || !prose) return
+
+    const pending = new AbortController()
+    const { signal } = pending
+    const cancel = () => pending.abort()
+
+    for (const event of ['pointerdown', 'keydown', 'wheel', 'touchstart', 'hashchange', 'pagehide']) {
+      window.addEventListener(event, cancel, { capture: true, passive: true, signal })
+    }
+
+    document.addEventListener('astro:before-preparation', cancel, { signal })
+
+    const settle = async () => {
+      const lumenWindow = window as Window & { LumenInitUiPrimitives?: (scope: ParentNode) => Promise<void> }
+
+      // Lumen can load article table and code enhancements after the window load.
+      // Its scoped initializer also waits for controllers already loading.
+      await lumenWindow.LumenInitUiPrimitives?.(prose).catch(() => undefined)
+
+      await document.fonts.ready
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (signal.aborted) return
+
+        cancel()
+
+        if (window.location.href !== originalUrl || !heading.isConnected) return
+
+        // Late layout changes can leave the heading visible but past the
+        // table of contents' activation line. Restore the native landing point.
+        heading.scrollIntoView({ behavior: 'instant', block: 'start' })
+      }))
+    }
+
+    if (document.readyState === 'complete') {
+      void settle()
+    } else {
+      window.addEventListener('load', () => {
+        void settle()
+      }, { once: true, signal })
+    }
+  }
+
   placeSectionReferences()
+
+  keepInitialSectionInView()
 
   document.addEventListener('astro:page-load', placeSectionReferences)
 

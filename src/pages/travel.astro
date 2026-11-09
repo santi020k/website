@@ -85,7 +85,7 @@ const meta = {
             <span data-travel-notebook-code aria-hidden="true">{country.code}</span>
             <div data-travel-country-content>
               <header data-travel-country-heading>
-                <h3 id={`country-name-${country.code.toLowerCase()}`}><Link variant="inherit" href={localizePath(`/travel/${notebook.id}/`, pageLocale)} data-travel-country-link>{country.name}<Icon name="arrow-up-right" /></Link></h3>
+                <h3 id={`country-name-${country.code.toLowerCase()}`}><Link variant="inherit" href={localizePath(`/travel/${notebook.id}/`, pageLocale)} data-travel-country-link>{country.name}<ArrowExchange direction="up-right" /></Link></h3>
                 <span data-travel-visit-label>{getLocalizedVisitLabel(country, pageLocale)}</span>
               </header>
               {country.places.length > 0 ?
@@ -124,8 +124,8 @@ const meta = {
 
 <style>
   :global([data-travel-country-link]) { display: inline-flex; align-items: baseline; gap: .5rem; min-height: 2.75rem; padding-block: .25rem; }
-  :global([data-travel-country-link] svg) { flex: none; width: 1rem; height: 1rem; color: hsl(var(--brand)); }
-  :global([data-theme="santi020k-dark"] [data-travel-country-link] svg) { color: hsl(var(--accent)); }
+  :global([data-travel-country-link] [data-arrow-exchange]) { flex: none; width: 1rem; height: 1rem; color: hsl(var(--brand)); }
+  :global([data-theme="santi020k-dark"] [data-travel-country-link] [data-arrow-exchange]) { color: hsl(var(--accent)); }
   [data-travel-experience] { margin-top: 1rem; color: hsl(var(--ink-soft)); font-size: .8125rem; line-height: 1.8; }
 
   [data-travel-section] {
@@ -239,7 +239,7 @@ const meta = {
   }
 
   @container travel-notebook (width < 14rem) {
-    :global([data-travel-country-link] svg) { display: none; }
+    :global([data-travel-country-link] [data-arrow-exchange]) { display: none; }
     [data-travel-country-list] article { grid-template-columns: minmax(0, 1fr); gap: .75rem; padding-block: 1.5rem; }
     [data-travel-notebook-code] { font-size: 1.0625rem; }
     /* At a fixed 1.4375rem, "Guatemala" filled the column to within 2px and could break. */
