@@ -39,7 +39,7 @@ const topTechnologies = getTechnologiesByUsage(allProjects).slice(0, 12)
         <span
           data-hero="1"
           class="
-            inline-flex w-fit items-center gap-2 rounded-full border
+            inline-flex w-fit max-w-full items-center gap-2 rounded-full border
             border-color-200 px-3 py-1 text-sm font-medium text-zinc-500
             dark:border-color-250 dark:text-zinc-400
           "
@@ -47,7 +47,7 @@ const topTechnologies = getTechnologiesByUsage(allProjects).slice(0, 12)
           <span
             aria-hidden="true"
             class="
-              size-2 animate-pulse rounded-full bg-green-500
+              size-2 shrink-0 animate-pulse rounded-full bg-green-500
               motion-reduce:animate-none
             "
           >
@@ -209,7 +209,7 @@ const topTechnologies = getTechnologiesByUsage(allProjects).slice(0, 12)
 
   <!-- ─── Featured Work ──────────────────────────────────────────── -->
   <section aria-label="Featured work" class="mt-20">
-    <div class="mb-8 flex items-center justify-between">
+    <div class="mb-8 flex flex-wrap items-center justify-between gap-3">
       <h2 class="
         font-bold text-zinc-900
         dark:text-zinc-100

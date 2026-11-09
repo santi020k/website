@@ -1,4 +1,5 @@
 export const archiveOrigin: string
+export function addArchiveNotice(html: string, notice: string): string
 export function archiveFiles(directory: string): Promise<string[]>
 export function archiveUrl(value: string, id: string): string
 export function isArchiveExit(value: string, id: string): boolean

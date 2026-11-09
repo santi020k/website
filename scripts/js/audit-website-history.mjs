@@ -26,7 +26,13 @@ for (const { id } of versions) {
 
     if (document.querySelector('meta[name="robots"]')?.getAttribute('content') !== 'noindex, follow') issues.push(`${file}: noindex missing`)
 
-    if (!document.querySelector('.website-archive-banner a[data-astro-reload]')) issues.push(`${file}: archive exit missing`)
+    const notice = document.querySelector('.website-archive-banner')
+
+    if (!notice?.previousElementSibling?.matches('a[href="#main"]')) issues.push(`${file}: archive notice must follow the skip link`)
+
+    for (const destination of ['/', '/history/']) {
+      if (!notice?.querySelector(`a[href="${destination}"][data-astro-reload]`)) issues.push(`${file}: archive exit missing ${destination}`)
+    }
 
     if (document.querySelector('link[rel="sitemap"], link[rel="manifest"]')) issues.push(`${file}: archive sitemap or manifest present`)
 
