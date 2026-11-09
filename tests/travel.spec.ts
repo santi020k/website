@@ -230,7 +230,7 @@ for (const theme of ['light', 'dark'] as const) {
         [country.note].filter((note): note is string => typeof note === 'string')
       )
     }
-    await expect(page.locator('#country-co')).toContainText('I’m from Colombia. This is where my story begins.')
+    await expect(page.locator('#country-co')).toContainText('Medellín is where I live.')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
     const splitWords = await page.locator('#travel-notebook').evaluate(element => {
       const problems: string[] = []
@@ -437,10 +437,11 @@ test('country notebook preserves partial lists, home copy, and matching silhouet
   await chooser.selectOption('AR')
   await expect(details.locator('[data-travel-note]')).toContainText('Patagonia is a region')
   await chooser.selectOption('CO')
-  await expect(details.locator('li')).toHaveCount(0)
-  await expect(details.locator('[data-travel-places-heading]')).toBeHidden()
-  await expect(details.locator('[data-travel-note]')).toBeHidden()
-  await expect(details.locator('[data-travel-empty]')).toContainText('I’m from Colombia')
+  const colombia = requireValue(travelCountries.find(country => country.code === 'CO'))
+  await expect(details.locator('[data-travel-place-name]')).toHaveText([...colombia.places])
+  await expect(details.locator('[data-travel-places-heading]')).toBeVisible()
+  await expect(details.locator('[data-travel-note]')).toContainText('Medellín is where I live.')
+  await expect(details.locator('[data-travel-empty]')).toBeHidden()
   await expect(details.locator('[data-travel-visits]')).toHaveText('Home country')
   await chooser.selectOption('CA')
   await expect(details.locator('[data-travel-empty]')).toContainText('Choose a highlighted country')

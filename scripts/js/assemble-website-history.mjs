@@ -2,7 +2,7 @@ import { constants } from 'node:fs'
 import { cp, readFile, rm, writeFile } from 'node:fs/promises'
 import { relative, resolve, sep } from 'node:path'
 
-import { archiveFiles, archiveHeaderRules } from '../../packages/website-history/finalize-archive.mjs'
+import { addArchiveNotice, archiveFiles, archiveHeaderRules } from '../../packages/website-history/finalize-archive.mjs'
 import versions from '../../packages/website-history/versions.json' with { type: 'json' }
 
 const root = resolve(import.meta.dirname, '../..')
@@ -16,8 +16,7 @@ const currentPages = new Set((await archiveFiles(currentDirectory))
   .map(path => relative(currentDirectory, path).split(sep).join('/'))
   .filter(page => !utilityPages.has(page)))
 
-// Rendered independently of each era's styles. The notice stays in normal flow until
-// the archive runtime measures it, then it is pinned and its real height is reserved.
+// Rendered independently of each era's styles, in document flow above its navigation.
 const bannerStyle = `<style data-website-archive>
   .website-archive-banner {
     box-sizing: border-box;
@@ -25,8 +24,8 @@ const bannerStyle = `<style data-website-archive>
     max-width: 100%;
     background: Canvas;
     color: CanvasText;
-    border-top: 1px solid GrayText;
-    padding: .8rem max(1rem, env(safe-area-inset-right)) max(.8rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+    border-bottom: 1px solid GrayText;
+    padding: max(.8rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) .8rem max(1rem, env(safe-area-inset-left));
     font: 400 .875rem/1.5 system-ui, sans-serif;
     display: flex;
     align-items: center;
@@ -35,7 +34,6 @@ const bannerStyle = `<style data-website-archive>
     flex-wrap: wrap;
     text-align: left;
     overflow-wrap: anywhere;
-    box-shadow: 0 -2px 12px #0001;
   }
   @media (max-width: 600px) {
     .website-archive-banner { gap: .2rem; text-align: center; }
@@ -61,23 +59,12 @@ const bannerStyle = `<style data-website-archive>
     font-weight: 600;
   }
   .website-archive-banner a:focus-visible { outline: 2px solid Highlight; outline-offset: 4px; }
-  html[data-website-archive-ready] {
-    scroll-padding-bottom: var(--website-archive-banner-height, 0px);
-  }
-  html[data-website-archive-ready] body {
-    padding-bottom: var(--website-archive-banner-height, 0px) !important;
-  }
-  html[data-website-archive-ready] .website-archive-banner {
-    position: fixed;
-    inset: auto 0 0;
-    z-index: 2147483647;
-    max-height: 45vh;
-    max-height: 45dvh;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-  html[data-website-archive-ready] #back-to-top {
-    bottom: calc(var(--website-archive-banner-height, 0px) + 1rem) !important;
+  body > a[href="#main"]:focus { z-index: 100; }
+  /* V1 alone fixes its mobile header to the viewport. Keep it below the notice,
+     with its original content spacing, before it sticks on scroll. */
+  @media (width < 48rem) {
+    #main-header { position: sticky; width: calc(100% + 2rem); margin-inline: -1rem; margin-bottom: -4rem; }
+    #main-header:has(#toggle-nav-menu-mobile[aria-expanded="true"]) { position: fixed; width: 100%; margin-inline: 0; }
   }
 </style>`
 
@@ -97,11 +84,11 @@ for (const version of versions) {
 
     const page = relative(destination, path).split(sep).join('/')
     const current = currentPages.has(page) ? `/${page.replace(/index\.html$/, '')}` : '/'
-    const currentLabel = current === '/' ? 'Visit current website' : 'View current page'
-    const banner = `<aside class="website-archive-banner" aria-label="Website archive"><p><strong>${version.id.toUpperCase()} · ${version.date}</strong> — Archived website<small>Historical content. Forms and comments are disabled.</small></p><nav aria-label="Leave this archive"><a href="/history/" data-astro-reload>Website history</a><a href="${current}" data-astro-reload>${currentLabel}</a></nav></aside>`
+    const currentLink = current === '/' ? '' : `<a href="${current}" data-astro-reload>View current page</a>`
+    const banner = `<aside class="website-archive-banner" aria-label="Website archive"><p><strong>${version.id.toUpperCase()} · ${version.date}</strong> — Archived website<small>Historical content. Forms and comments are disabled.</small></p><nav aria-label="Leave this archive">${currentLink}<a href="/" data-astro-reload>Current homepage</a><a href="/history/" data-astro-reload>Website history</a></nav></aside>`
     const html = await readFile(path, 'utf8')
 
-    await writeFile(path, html.replace('</head>', `${bannerStyle}${bannerScript}</head>`).replace('</body>', `${banner}</body>`))
+    await writeFile(path, addArchiveNotice(html.replace('</head>', `${bannerStyle}${bannerScript}</head>`), banner))
   }
 }
 

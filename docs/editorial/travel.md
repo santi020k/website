@@ -1,12 +1,14 @@
 # Travel notebook
 
 The `/travel/` page uses the destinations and country visit counts supplied by Santiago on
-October 6, 2026. Edit `src/data/travel.ts` for country names, places, visits, and residence labels.
+October 6, 2026, with Colombia's places and personal notes added from his answers on November 9, 2026.
+Edit `src/data/travel.ts` for country names, places, visits, and residence labels.
 Edit `src/components/pages/travel/TravelMap.astro` for the hero copy and
 `src/pages/travel.astro` for the personal story.
 
 There are 14 countries visited outside Colombia and 29 country visits. Colombia is the home
-country, with no invented visit count. Paraguay has seven visits and a separate residence label.
+country, with no invented visit count. Medellín is where Santiago lives; Colombia's place list is
+explicitly partial. Paraguay has seven visits and a separate residence label.
 Mexico's list is explicitly partial. Patagonia remains a region. Columbus and Iguazu retain the
 names supplied without inferring a state, exact city, or coordinates. The map highlights countries;
 it does not imply that a country-level count applies to each city.
@@ -26,7 +28,7 @@ Edit the Markdown source files to fill the notebook. There is no browser form or
 changes. Use this checklist to open a country's file, add the details you remember, and preview
 the result with `pnpm run dev`:
 
-- [ ] [Colombia](../../src/content/country/colombia.md)
+- [x] [Colombia](../../src/content/country/colombia.md)
 - [ ] [United States](../../src/content/country/united-states.md)
 - [ ] [Mexico](../../src/content/country/mexico.md)
 - [ ] [Guatemala](../../src/content/country/guatemala.md)
@@ -42,7 +44,7 @@ the result with `pnpm run dev`:
 - [ ] [France](../../src/content/country/france.md)
 - [ ] [Japan](../../src/content/country/japan.md)
 
-All personal fields start unanswered. The shared schema in `src/data/travel-notes-schema.ts`
+Personal fields start unanswered and are filled from Santiago's own answers. The shared schema in `src/data/travel-notes-schema.ts`
 validates both the Astro `country` collection and `pnpm run lint:content`.
 
 | Field | What to fill in |
@@ -66,6 +68,8 @@ Pages without a personal summary remain reachable from the notebook but use `noi
 and stay outside the sitemap. Once the summary is written, only the route matching `language`
 becomes indexable; its other-language interface remains `noindex, follow`. Country notes do not
 enter the blog feeds, the article body search index, or the existing title-only travel drafts.
+Run `pnpm run generate:og` after adding a summary or changing its language to refresh the country's
+share image and route metadata. The normal build also runs this generator automatically.
 These files are public-site source, not private drafts: `noindex` controls search discovery,
 not access. Changes appear on the deployed site only through its normal release workflow.
 

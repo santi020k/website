@@ -1,8 +1,8 @@
-import type { TravelCountry } from '@/data/travel'
-import { travelCountries } from '@/data/travel'
-import type { Locale } from '@/i18n'
+import type { TravelCountry } from '../data/travel.ts'
+import { travelCountries } from '../data/travel.ts'
 
-import { sharedTranslator } from './shared-copy'
+import type { Locale } from './locale.ts'
+import { sharedTranslator } from './shared-copy.ts'
 
 const placesEs: Readonly<Record<string, string>> = {
   'Mexico City (DF)': 'Ciudad de México (DF)',
@@ -16,6 +16,7 @@ const placesEs: Readonly<Record<string, string>> = {
 }
 
 const notesEs: Readonly<Record<string, string>> = {
+  CO: 'Vivo en Medellín. Estos son algunos de los lugares que he recorrido en Colombia; todavía quedan muchos por añadir.',
   MX: 'Estos son algunos de los lugares que he visitado en México; aún faltan otros por añadir.',
   AR: 'La Patagonia es una región; añadiré las paradas concretas cuando escriba sobre ese viaje.'
 }
