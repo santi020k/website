@@ -100,20 +100,23 @@ const expectNoticeAboveNavigation = async (page: Page, notice: Locator) => {
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 }
 
-for (const width of [390, 1440]) {
+for (const width of [320, 390, 1440]) {
   for (const scale of [100, 200]) {
     for (const theme of ['light', 'dark'] as const) {
-      test.describe(`Archive utilities ${width}px / ${scale}% / ${theme}`, () => {
-        test.use({ viewport: { width, height: width === 390 ? 844 : 900 }, colorScheme: theme, reducedMotion: 'reduce' })
+      test.describe(`Archive notice ${width}px / ${scale}% / ${theme}`, () => {
+        test.use({ viewport: { width, height: width < 1440 ? 844 : 900 }, colorScheme: theme, reducedMotion: 'reduce' })
 
         test.beforeEach(async ({ page }) => readingPreferences(page, scale))
 
         for (const era of ['v1', 'v2', 'v3', 'v4']) {
           test(`${era} notice grows with text and leaves its links reachable`, async ({ page }) => {
-            await openArchive(page, `/${era}/${era === 'v1' ? 'portfolio/optic-power' : 'offline'}/`)
+            await openArchive(page, `/${era}/portfolio/`)
             const notice = page.getByRole('complementary', { name: 'Website archive' })
+            const links = notice.getByRole('link')
 
+            await expect(links).toHaveText(['View current page', 'Current homepage', 'Website history'])
             await expectTextFits(notice)
+            await expectTextFits(links)
             await expect.poll(() => notice.evaluate(element => {
               const root = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
               const font = Number.parseFloat(getComputedStyle(element).fontSize)
@@ -124,7 +127,8 @@ for (const width of [390, 1440]) {
             const scan = await new AxeBuilder({ page }).include('.website-archive-banner').analyze()
 
             expect(scan.violations).toEqual([])
-            for (const link of await notice.getByRole('link').all()) {
+            for (const link of await links.all()) {
+              expect(await link.evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44)
               await link.focus()
               await expect(link).toBeFocused()
               await expectClickable(link)
@@ -132,6 +136,18 @@ for (const width of [390, 1440]) {
             }
           })
         }
+      })
+    }
+  }
+}
+
+for (const width of [390, 1440]) {
+  for (const scale of [100, 200]) {
+    for (const theme of ['light', 'dark'] as const) {
+      test.describe(`Archive utilities ${width}px / ${scale}% / ${theme}`, () => {
+        test.use({ viewport: { width, height: width === 390 ? 844 : 900 }, colorScheme: theme, reducedMotion: 'reduce' })
+
+        test.beforeEach(async ({ page }) => readingPreferences(page, scale))
 
         for (const era of ['v2', 'v3', 'v4']) {
           test(`${era} back-to-top remains reachable after the notice scrolls away`, async ({ page }) => {

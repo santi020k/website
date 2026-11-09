@@ -84,6 +84,12 @@ wrapping links in normal document flow, after the skip link and above archived
 navigation. It scrolls away with the page and works without JavaScript. It always
 links to the current homepage and website history, and adds a current-page link
 when an equivalent route exists. Home and utility pages omit that redundant link.
+The neutral toolbar separates its archive label, version badge, date, and muted
+supporting copy. The current-page link is the primary action, or the homepage when
+there is no distinct current route. Secondary links remain quieter. On phones,
+three-action notices place the primary link above the secondary links; enlarged
+text can stack them further. System colors keep this shared wrapper independent
+of each era's palette, with visible focus and at least 44px action targets.
 V1's mobile header uses sticky positioning below the notice while retaining its
 original content spacing. While its full-screen menu is open, the header returns
 to the viewport top so it cannot cover the centered menu links. On archive pages only,
