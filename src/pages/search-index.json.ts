@@ -11,75 +11,79 @@ import { getProjectCoverForUsage } from '@/utils/project-cover'
 import type { APIRoute, ImageMetadata } from 'astro'
 
 import type { Locale } from '@/i18n'
-import { localizePath } from '@/i18n'
+import { localizePath, sharedTranslator } from '@/i18n'
 import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
 
-const corePageEntries = (t: ReturnType<typeof pageTranslator>): SearchIndexEntry[] => [
-  {
-    description: t('search.page.about'),
-    keywords: ['Sobre mí', 'Biografía', 'Perfil', 'Biography', 'Santiago Molina'],
-    path: '/about/',
-    tags: [],
-    title: 'About',
-    type: 'page'
-  },
-  {
-    description: t('search.page.work'),
-    keywords: ['Experiencia', 'Trayectoria', 'Carrera', 'Career', 'Timeline', 'Experience'],
-    path: '/work/',
-    tags: [],
-    title: 'Work',
-    type: 'page'
-  },
-  {
-    description: t('search.page.projects'),
-    keywords: ['Proyectos', 'Portafolio', 'Casos de estudio', 'Portfolio', 'Case studies'],
-    path: '/projects/',
-    tags: [],
-    title: 'Projects',
-    type: 'page'
-  },
-  {
-    description: t('search.page.speaking'),
-    keywords: ['Charlas', 'Conferencias', 'Talleres', 'Comunidad', 'Talks', 'Workshops'],
-    path: '/speaking/',
-    tags: [],
-    title: 'Speaking & Community',
-    type: 'page'
-  },
-  {
-    description: t('search.page.travel'),
-    keywords: ['Viajes', 'Mapa', 'Países', 'Countries', 'Atlas'],
-    path: '/travel/',
-    tags: [],
-    title: 'Travel',
-    type: 'page'
-  },
-  {
-    description: t('search.page.resume'),
-    keywords: ['Currículum', 'CV', 'Hoja de vida', 'Curriculum Vitae', 'PDF'],
-    path: '/resume/',
-    tags: [],
-    title: 'Resume',
-    type: 'page'
-  },
-  {
-    description: t('search.page.workWithMe'),
-    keywords: ['Trabajemos juntos', 'Contacto', 'Contratar', 'Contact', 'Hire', 'Consulting'],
-    path: '/work-with-me/',
-    tags: [],
-    title: 'Work with me',
-    type: 'page'
-  },
-  {
-    description: t('search.page.history'),
-    keywords: ['Historia del sitio', 'Archivo', 'Versiones', 'Archive', 'History'],
-    path: '/history/',
-    tags: [],
-    title: 'Website history',
-    type: 'page'
-  }
-]
+const corePageEntries = (locale: Locale): SearchIndexEntry[] => {
+  const t = pageTranslator(locale)
+
+  return [
+    {
+      description: t('search.page.about'),
+      keywords: ['Sobre mí', 'Biografía', 'Perfil', 'Biography', 'Santiago Molina'],
+      path: '/about/',
+      tags: [],
+      title: 'About',
+      type: 'page'
+    },
+    {
+      description: t('search.page.work'),
+      keywords: ['Experiencia', 'Trayectoria', 'Carrera', 'Career', 'Timeline', 'Experience'],
+      path: '/work/',
+      tags: [],
+      title: 'Work',
+      type: 'page'
+    },
+    {
+      description: t('search.page.projects'),
+      keywords: ['Proyectos', 'Portafolio', 'Casos de estudio', 'Portfolio', 'Case studies'],
+      path: '/projects/',
+      tags: [],
+      title: sharedTranslator(locale)('nav.projects'),
+      type: 'page'
+    },
+    {
+      description: t('search.page.speaking'),
+      keywords: ['Charlas', 'Conferencias', 'Talleres', 'Comunidad', 'Talks', 'Workshops'],
+      path: '/speaking/',
+      tags: [],
+      title: 'Speaking & Community',
+      type: 'page'
+    },
+    {
+      description: t('search.page.travel'),
+      keywords: ['Viajes', 'Mapa', 'Países', 'Countries', 'Atlas'],
+      path: '/travel/',
+      tags: [],
+      title: 'Travel',
+      type: 'page'
+    },
+    {
+      description: t('search.page.resume'),
+      keywords: ['Currículum', 'CV', 'Hoja de vida', 'Curriculum Vitae', 'PDF'],
+      path: '/resume/',
+      tags: [],
+      title: 'Resume',
+      type: 'page'
+    },
+    {
+      description: t('search.page.workWithMe'),
+      keywords: ['Trabajemos juntos', 'Contacto', 'Contratar', 'Contact', 'Hire', 'Consulting'],
+      path: '/work-with-me/',
+      tags: [],
+      title: 'Work with me',
+      type: 'page'
+    },
+    {
+      description: t('search.page.history'),
+      keywords: ['Historia del sitio', 'Archivo', 'Versiones', 'Archive', 'History'],
+      path: '/history/',
+      tags: [],
+      title: 'Website history',
+      type: 'page'
+    }
+  ]
+}
 
 type SearchThumbFields = Partial<Pick<SearchIndexEntry, 'coverAvifUrl' | 'coverUrl'>>
 
@@ -130,7 +134,7 @@ export const createSearchIndex = async (locale: Locale) => {
     })
   )
 
-  const pageEntries = corePageEntries(pageTranslator(locale)).map(entry => ({
+  const pageEntries = corePageEntries(locale).map(entry => ({
     ...entry,
     path: localizePath(entry.path, locale),
     title: localizePageSource(locale, entry.title)
