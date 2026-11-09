@@ -7,87 +7,91 @@ class GalleryViewerElement extends HTMLElement {
   #binding: MutationObserver | undefined
   #image: HTMLImageElement | null = null
 
-  #setZoom = (zoomed: boolean) => {
-    const canvas = this.querySelector<HTMLElement>('[data-gallery-canvas]')
-    const label = this.querySelector('[data-gallery-zoom-label]')
-    const status = this.querySelector('[data-gallery-status]')
+  #resetViewport = () => {
+    const viewport = this.querySelector<HTMLElement>('[data-gallery-viewport]')
 
-    if (!canvas || !label || !status) return
+    if (!viewport) return
 
-    canvas.dataset.zoomed = String(zoomed)
+    // The public viewport controller observes these values and owns the transform,
+    // action availability, pointer capture, keyboard panning, and zoom announcements.
+    viewport.dataset.zoom = '1'
 
-    // The label names the next action, so it is not also a pressed toggle.
-    label.textContent = t(zoomed ? 'shared.fitImage' : 'shared.inspectDetail')
+    viewport.dataset.panX = '0'
 
-    status.textContent = t(zoomed ? 'shared.fullDetailScrollOrUseArrow' : 'shared.completeImage')
-
-    canvas.scrollTo({ left: 0, top: 0, behavior: 'instant' })
+    viewport.dataset.panY = '0'
   }
 
-  #imageState = (failed: boolean) => {
-    const button = this.querySelector<HTMLButtonElement>('[data-gallery-zoom]')
-    const recovery = this.querySelector<HTMLElement>('[data-gallery-error-link]')
+  #imageState = (state: 'loading' | 'failed' | 'ready') => {
+    const viewport = this.querySelector<HTMLElement>('[data-gallery-viewport]')
+    const retry = this.querySelector<HTMLButtonElement>('[data-gallery-retry]')
+    const help = this.querySelector<HTMLElement>('[data-gallery-help]')
     const status = this.querySelector('[data-gallery-status]')
 
-    if (!button || !recovery || !status) return
+    if (!viewport || !retry || !help || !status) return
 
-    if (!failed && this.#image?.naturalWidth) {
-      this.style.setProperty('--viewer-image-width', `${this.#image.naturalWidth}px`)
+    const ready = state === 'ready'
+    const stage = viewport.querySelector<HTMLElement>('[data-ui-media-viewport-stage]')
+
+    if (ready && stage && this.#image?.naturalWidth && this.#image.naturalHeight) {
+      // Keep each image's fitted proportions; CSS caps tall captures to the dialog.
+      stage.style.aspectRatio = `${this.#image.naturalWidth} / ${this.#image.naturalHeight}`
     }
 
-    button.disabled = failed
+    viewport.dataset.disabled = String(!ready)
 
-    button.hidden = failed
+    viewport.hidden = !ready
 
-    recovery.hidden = !failed
+    help.hidden = !ready
 
-    status.textContent = t(failed ? 'shared.thePreviewCouldNotLoadOpen' : 'shared.completeImage')
+    retry.hidden = state !== 'failed'
+
+    const messages = {
+      failed: t('shared.imagePreviewFailed'),
+      loading: t('shared.loadingImage'),
+      ready: t('shared.completeImage')
+    }
+
+    status.textContent = messages[state]
   }
 
   #prepareImage = () => {
     const assetSource = this.dataset.galleryImageSrc
-    const canvas = this.querySelector('[data-gallery-canvas]')
-    const status = this.querySelector('[data-gallery-status]')
-    const button = this.querySelector<HTMLButtonElement>('[data-gallery-zoom]')
+    const mount = this.querySelector('[data-gallery-image-mount]')
     // Firefox can speculatively fetch an image's src even inside an inert template.
-    const content = assetSource ? new Image() : this.closest('figure')?.querySelector(':scope > img')?.cloneNode(true)
+    const image = assetSource ? new Image() : this.closest('figure')?.querySelector(':scope > img')?.cloneNode(true)
 
-    if (!content || !canvas || !status || !button) return
+    if (!mount || !(image instanceof HTMLImageElement)) return
 
-    if (content instanceof HTMLImageElement) {
-      content.loading = 'eager'
+    image.loading = 'eager'
 
-      content.removeAttribute('id')
+    image.draggable = false
 
-      if (assetSource) {
-        content.alt = this.dataset.galleryImageAlt ?? ''
+    image.removeAttribute('id')
 
-        content.decoding = 'async'
-      } else {
-        // Preserve Astro's optimized source; use the intrinsic size for detail inspection.
-        content.sizes = `${content.width}px`
-      }
+    if (assetSource) {
+      image.alt = this.dataset.galleryImageAlt ?? ''
+
+      image.decoding = 'async'
+    } else {
+      // Preserve Astro's optimized sources while requesting the intrinsic detail size.
+      image.sizes = `${image.width}px`
     }
 
-    this.#setZoom(false)
+    this.#resetViewport()
 
-    this.#imageState(false)
+    this.#imageState('loading')
 
-    button.disabled = true
+    this.#image = image
 
-    status.textContent = t('shared.loadingImage')
+    mount.replaceChildren(image)
 
-    canvas.replaceChildren(content)
+    if (assetSource) image.src = assetSource
 
-    this.#image = canvas.querySelector('img')
+    const original = this.querySelector<HTMLAnchorElement>('[data-gallery-error-link]')
 
-    if (assetSource && this.#image) this.#image.src = assetSource
+    if (!assetSource && original) original.href = image.src
 
-    const recovery = this.querySelector<HTMLAnchorElement>('[data-gallery-error-link]')
-
-    if (!assetSource && recovery && this.#image) recovery.href = this.#image.src
-
-    if (this.#image?.complete) this.#imageState(this.#image.naturalWidth === 0)
+    if (image.complete) this.#imageState(image.naturalWidth === 0 ? 'failed' : 'ready')
   }
 
   connectedCallback() {
@@ -98,10 +102,9 @@ class GalleryViewerElement extends HTMLElement {
     const opener = this.querySelector<HTMLButtonElement>('[data-gallery-open]')
     const fallback = this.querySelector<HTMLElement>('[data-gallery-fallback]')
     const dialog = this.querySelector('dialog')
-    const zoom = this.querySelector<HTMLButtonElement>('[data-gallery-zoom]')
-    const canvas = this.querySelector<HTMLElement>('[data-gallery-canvas]')
+    const retry = this.querySelector<HTMLButtonElement>('[data-gallery-retry]')
 
-    if (!opener || !dialog || !zoom || !canvas) return
+    if (!opener || !dialog || !retry) return
 
     this.#events = new AbortController()
 
@@ -126,16 +129,19 @@ class GalleryViewerElement extends HTMLElement {
     // Prepare before Lumen's trigger opens the native dialog and moves focus.
     opener.addEventListener('click', this.#prepareImage, { capture: true, signal })
 
-    zoom.addEventListener('click', () => {
-      this.#setZoom(canvas.dataset.zoomed !== 'true')
+    retry.addEventListener('click', () => {
+      // Retry disappears while loading; keep focus on a stable modal control.
+      dialog.querySelector<HTMLButtonElement>('[data-ui-dialog-close]')?.focus()
+
+      this.#prepareImage()
     }, { signal })
 
     this.addEventListener('load', event => {
-      if (event.target === this.#image) this.#imageState(false)
+      if (event.target === this.#image) this.#imageState('ready')
     }, { capture: true, signal })
 
     this.addEventListener('error', event => {
-      if (event.target === this.#image) this.#imageState(true)
+      if (event.target === this.#image) this.#imageState('failed')
     }, { capture: true, signal })
 
     dialog.addEventListener('keydown', event => {
@@ -145,28 +151,9 @@ class GalleryViewerElement extends HTMLElement {
 
         event.stopPropagation()
       }
-
-      if (event.altKey || event.metaKey || event.ctrlKey || canvas.dataset.zoomed !== 'true') return
-
-      const directions: Record<string, [number, number]> = {
-        ArrowLeft: [-100, 0],
-        ArrowRight: [100, 0],
-        ArrowUp: [0, -100],
-        ArrowDown: [0, 100]
-      }
-
-      const direction = directions[event.key]
-
-      if (!direction) return
-
-      event.preventDefault()
-
-      canvas.scrollBy({ left: direction[0], top: direction[1], behavior: 'instant' })
     }, { signal })
 
-    dialog.addEventListener('close', () => {
-      this.#setZoom(false)
-    }, { signal })
+    dialog.addEventListener('close', this.#resetViewport, { signal })
   }
 
   disconnectedCallback() {

@@ -114,7 +114,7 @@ The logo is a custom WebP wordmark with a stylised "S2K" letterform representing
 ## 3. Color System
 
 The palette follows Lumen 5's `santi020k-light` and `santi020k-dark` appearances on
-`<html>`, generated from the shared Theme website palette. The full Astro stylesheet owns
+`<html>`, generated from the shared Theme website palette. The selective Astro foundation and santi020k theme styles own
 colors; `@santi020k/theme/typography.css` supplies fonts. Site-only shapes, shadows, and
 animation tokens live in `src/styles/partials/tokens.css`. See [theming](theming.md).
 
@@ -1031,7 +1031,7 @@ All internal links use trailing slashes.
 
 | File | Purpose |
 | :----------------------------------- | :---------- |
-| `@santi020k/lumen-astro/styles.css` | Shared colors and named santi020k appearance |
+| `@santi020k/lumen-astro/styles/themes/santi020k.css` | Shared colors and named santi020k appearance |
 | `@santi020k/theme/typography.css` | Shared font stacks |
 | `src/styles/partials/tokens.css` | Site-only status colors and animation shorthands |
 | `src/styles/global.css` | Entry stylesheet: imports shared tokens, partials, utilities, and plugins |

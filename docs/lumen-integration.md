@@ -18,7 +18,8 @@ shared stylesheet so Tailwind utilities can override component defaults:
 ```css
 @import "@santi020k/lumen-astro/layers.css";
 @import "tailwindcss";
-@import "@santi020k/lumen-astro/styles.css";
+@import "@santi020k/lumen-astro/styles/foundation.css";
+@import "@santi020k/lumen-astro/styles/themes/santi020k.css";
 @import "@santi020k/lumen-core/styles/motion.css";
 @import "@santi020k/lumen-astro/tailwind.css";
 @import "@santi020k/theme/typography.css";
@@ -28,8 +29,12 @@ shared stylesheet so Tailwind utilities can override component defaults:
 components import their public primitives from `@santi020k/lumen-astro`; they do not add a
 second adapter or mount a second runtime. The named santi020k appearance owns colors; Theme supplies typography without overriding the palette.
 
-The current site imports the adapter's full public stylesheet, including the santi020k appearance. Historical sites
-retain their own stylesheet entries.
+The current site loads the foundation and named santi020k appearance. Astro primitives import
+their component styles automatically. `src/styles/prose.css` explicitly imports the public
+`styles/components/code-tabs.css` and `styles/components/table.css` entries because rehype
+generates those controls without mounting Astro components. The code-tabs entry includes
+Code, Tabs, Icon, and Textarea dependencies; `UIPrimitives` supplies scroll-cue styles.
+Historical sites retain their own stylesheet entries.
 
 | Contract | Website usage |
 | --- | --- |
@@ -398,9 +403,9 @@ enlarged text sizes. No new client controller is introduced.
   slot so Astro collects its actual navigation position. The component reads validated
   collection preview data and preserves the legacy gallery fragment.
   `ProjectPreviewViewer` adapts project assets to the shared `GalleryViewer`, built with Lumen
-  `Dialog`, `DialogTitle`, `DialogClose`, `Button`, and `ButtonLink`. Lumen owns native modal controls and focus
-  return. The site custom element inserts an optimized full-size `Image` from an inert
-  template, handles load/error states and keyboard detail panning, and aborts listeners
+  `Dialog`, `DialogTitle`, `DialogClose`, `MediaViewport`, `Button`, and `ButtonLink`. Lumen owns native modal controls and focus
+  return. The site custom element loads the full-size asset on demand, handles loading
+  and retry, and aborts listeners
   on disconnection. The original-image link stays available until the public trigger
   binding is ready, preserving a useful no-JavaScript path. Modal shortcuts stay inside
   the viewer rather than opening site search above it.
@@ -903,11 +908,11 @@ The same transform supplies ordered `articleFigureCaptions` in Astro's render me
 route validates that list and `ArticleFigureViewers` renders shared `GalleryViewer` instances outside
 the prose, then places their existing controls below each caption. This lets the single Lumen runtime
 bind before or after placement, without cloned controls or a second modal implementation. Gallery
-viewer uses the same dialog, fit/detail controls, keyboard handling, load/error states, and focus
+viewer uses the same dialog, incremental zoom/pan controls, keyboard handling, load/error states, and focus
 return as project previews. On demand it clones the already optimized article image, preserving its
 source and alternative text; it does not request a separate image rendition or replace the inline asset.
 Without JavaScript, the complete Caption spread illustration remains readable and inactive controls
-stay hidden. Project viewers retain their direct-image fallback links and full-size inert templates.
+stay hidden. Project viewers retain their direct-image fallback links and defer the full-size asset until opening.
 
 ## Article and project cover composition
 
@@ -1056,13 +1061,25 @@ without sharing Lumen's internal Label class. Card spacing and Work metrics use 
 `data-slot` hooks. About descriptions, testimonial authors, homepage icons, project
 section eyebrows, and branded Work pills use consumer-owned attributes.
 
-The installed `lumen-astro` contracts do not expose styling parts for TimelineItem's connector,
-dot frame, and content wrapper, or for every WorldMap frame/control part. Those scoped
-internal selectors remain necessary to preserve the approved timeline and travel layouts.
-ThemeToggle's icon-position override also remains until the adapter exposes icon parts.
-Track their replacement in this section after Lumen publishes matching public parts;
-do not replace them with child-index selectors or remove them solely to silence an audit.
-The two Timeline part advisories from `lumen doctor src` therefore remain reviewed limitations.
+ThemeToggle uses the public sun and moon slots. TravelMap uses `world-map`,
+`world-map-frame`, and `world-map-zoom-controls` slots, plus public `data-ui-world-map-*`
+hooks for the viewport, countries, selection control, inspection, and highlights. Its plot,
+selection overlay, and select-label wrapper still require scoped internal selectors because
+5.0.0 does not expose matching public parts. Career and speaking timelines use consumer-owned
+rows inside `Timeline`; they no longer depend on `TimelineItem` internals.
+
+The product film adopts v5's deferred caption tracks, loading feedback, explicit retry, and
+page lifecycle cleanup while retaining responsive sources, native controls, the transcript,
+and the direct-file fallback. GalleryViewer uses `MediaViewport` for incremental zoom,
+keyboard and pointer panning, and fit controls; the website owns optimized image loading,
+retry, captions, and dialog focus. Both surfaces keep English and Spanish parity.
+In 5.0.0, viewport actions retain their initial disabled styling after the runtime enables
+them. A scoped `[data-ui-media-viewport-action]:enabled` rule restores opacity and pointer
+events using native state; recheck this workaround when upgrading Lumen.
+
+Reading, search, code-copy recovery, sharing, and sticky table columns retain their tested
+local compositions. Editorial Code/Prose appearances are optional consolidation opportunities;
+do not enable them over the approved styles without checking the resulting layout.
 
 ## Upgrade checks
 

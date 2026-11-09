@@ -9,7 +9,7 @@ const t = pageTranslator(locale)
 const videoUrl = '/media/products/santi020k-products.mp4'
 ---
 
-<home-product-film>
+<home-product-film data-loading-label={t('home.film.loading')} data-error-label={t('home.film.error')}>
   <div data-film-stage>
     <div data-film-artwork><slot /></div>
     <ButtonLink data-film-fallback data-film-trigger href={videoUrl} variant="unstyled">
@@ -32,6 +32,10 @@ const videoUrl = '/media/products/santi020k-products.mp4'
     </Button>
   </div>
   <noscript><details><summary>{t('home.film.transcriptLabel')}</summary><p>{t('home.film.transcript')}</p></details></noscript>
+  <template data-film-tracks>
+    <track kind="captions" src="/media/products/captions-en.vtt" srclang="en" label="English" />
+    <track kind="captions" src="/media/products/captions-es.vtt" srclang="es" label="Español" default={locale === 'es'} />
+  </template>
   <Dialog id="home-product-film" data-film-dialog aria-labelledby="home-product-film-title">
     <div data-film-heading>
       <div data-film-heading-copy>
@@ -43,12 +47,12 @@ const videoUrl = '/media/products/santi020k-products.mp4'
       </DialogClose>
     </div>
     <div data-film-screen>
-      <video data-film-video data-src={videoUrl} data-portrait-src="/media/products/santi020k-products-portrait.mp4" controls playsinline preload="none" data-poster="/media/products/poster.webp" data-portrait-poster="/media/products/poster-portrait.webp" width="1920" height="1080" aria-label={t('home.film.title')}>
-        <track kind="captions" src="/media/products/captions-en.vtt" srclang="en" label="English" />
-        <track kind="captions" src="/media/products/captions-es.vtt" srclang="es" label="Español" default={locale === 'es'} />
-      </video>
+      <video data-film-video data-src={videoUrl} data-portrait-src="/media/products/santi020k-products-portrait.mp4" controls playsinline preload="none" data-poster="/media/products/poster.webp" data-portrait-poster="/media/products/poster-portrait.webp" width="1920" height="1080" tabindex="0" aria-label={t('home.film.title')} />
     </div>
-    <p data-film-error role="status" hidden>{t('home.film.error')}</p>
+    <div data-film-feedback>
+      <p data-film-error role="status" aria-atomic="true"></p>
+      <Button data-film-retry hidden variant="outline">{t('home.film.retry')}</Button>
+    </div>
     <div data-film-footer>
       <details>
         <summary>{t('home.film.transcriptLabel')}</summary>
@@ -88,7 +92,7 @@ const videoUrl = '/media/products/santi020k-products.mp4'
   }
   [data-film-stage] > [data-film-trigger]:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 0.25rem; }
   [data-film-trigger] :global(.ui-button__content) { display: block; min-width: 0; max-width: 100%; }
-  [data-film-stage] > [data-film-trigger][hidden], [data-film-error][hidden] { display: none; }
+  [data-film-stage] > [data-film-trigger][hidden], [data-film-retry][hidden] { display: none; }
   [data-film-control] {
     display: flex;
     align-items: center;
@@ -162,7 +166,10 @@ const videoUrl = '/media/products/santi020k-products.mp4'
   [data-film-footer] p { max-width: 65ch; margin: 0 0 0.75rem; }
   [data-film-footer] a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; color: hsl(var(--ink)); text-decoration: underline; text-underline-offset: 0.2em; }
   [data-film-footer] a :global(svg) { flex: none; }
-  [data-film-error] { margin: 0; padding: 0.75rem clamp(0.75rem, 2.5vw, 1.375rem) 0; font-size: 0.8125rem; }
+  [data-film-feedback] { display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem 1rem; padding: 0.75rem clamp(0.75rem, 2.5vw, 1.375rem) 0; }
+  [data-film-feedback]:has([data-film-error]:empty) { display: none; }
+  [data-film-error] { flex: 1 1 15rem; margin: 0; font-size: 0.8125rem; }
+  [data-film-retry] { min-height: 2.75rem; max-width: 100%; white-space: normal; }
   @media (height < 32rem) { [data-film-heading] { position: relative; } }
   @media (prefers-reduced-motion: reduce) { [data-film-control] { transition: none; } }
   @media (forced-colors: active) {

@@ -33,7 +33,8 @@ the title and close control from a dark
 video stage and keeps the transcript and file link in a footer. The
 Lumen dialog loads the video only after an explicit play request, with native
 controls, English and Spanish captions, a visual transcript, and a direct-file
-fallback. Closing or navigating away pauses playback. Reduced motion keeps the
+fallback. Announce loading, offer an inline retry after failure, and load caption tracks
+only when playback is requested. Closing or leaving the page pauses playback. Reduced motion keeps the
 static preview until the visitor requests the film. The native product links
 below name the projects and provide their case studies. At very narrow text measures, place the phone below
 the workspace so both remain legible. Selected work is the primary action;
@@ -1859,19 +1860,18 @@ View larger control below the screenshot, aligned to the right. Its outlined sur
 uses 0.75rem corners with a 0.25rem lower-right corner and a 2.75rem minimum target.
 
 The native Lumen Dialog retains the screenshot title, complete caption, and a visible
-Close control. Fit the whole image initially; Inspect detail shows its full pixel width
-inside a scrollable canvas. The zoom button's name switches between Inspect detail and Fit image,
-so it names the next action and carries no `aria-pressed`; the canvas `data-zoomed` state gates
-arrow-key panning and resets on close. Keep the canvas keyboard reachable, support arrow-key panning,
-and announce loading, complete-image, detail, and error states. Escape and backdrop
+Close control. Fit the whole image initially. Lumen `MediaViewport` owns incremental zoom,
+arrow-key and pointer panning, and Fit image controls. Keep its viewport keyboard reachable,
+provide localized control names and instructions, and reset the transform on close. Announce
+loading, complete-image, zoom, and error states. Escape and backdrop
 activation close the viewer and return focus. Keep the close row visible when enlarged
 text or a short viewport requires scrolling. Both themes use opaque semantic surfaces.
 
-Full-resolution images live in inert templates until requested. View larger remains a
+Full-resolution project image sources stay in data attributes until requested. View larger remains a
 direct image link without JavaScript; replace it with the dialog trigger only after
-Lumen binds the trigger. Failed images offer an original-image link. Native Lumen
+Lumen binds the trigger. Failed images offer retry and an original-image link. Native Lumen
 controls own modal opening, closing, and focus return; a small custom element manages
-image insertion, detail inspection, and listener cleanup on page transitions.
+image insertion, loading recovery, and listener cleanup on page transitions.
 
 ### Comparison spread project screenshots
 
@@ -3408,7 +3408,7 @@ historical sites use their existing image treatment.
 Gallery viewer adds the approved outlined View larger action beneath the caption, aligned to the
 right across both caption columns. Preserve the artwork, caption typography, and numbered mount.
 Reuse the project viewer's native Lumen dialog: the authored caption names the dialog, the entire
-image fits initially, and Inspect detail reveals its intrinsic size in a scrollable canvas. Keep Close
+image fits initially, and the shared zoom and pan controls reveal its details. Keep Close
 visible, support Escape and keyboard panning, and return focus to the same illustration's control.
 Do not duplicate the caption inside the dialog or make the artwork itself a hidden interaction target.
 Only captioned standalone illustrations opt in; without JavaScript they retain the complete passive
