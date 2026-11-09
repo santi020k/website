@@ -234,10 +234,6 @@
   text-decoration: none;
 }
 
-@container home-hero (width < 14rem) {
-  .maker-hero-actions .maker-hero-arrow { display: none; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .maker-hero a { transition: none; }
 }
@@ -274,22 +270,6 @@
   .maker-hero-caption { margin: 0; }
 }
 
-/* Viewport breakpoints ignore root text scaling. When enlarged text leaves the
-   Home frame too narrow to share a row with the portrait, adopt the phone
-   composition's layout while keeping the viewport's type scale. The frame's own
-   padding still follows the viewport because a container cannot query itself. */
-@container home-hero (width < 41rem) {
-  .maker-hero h1 { max-width: 100%; }
-  .maker-hero-visual { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: center; gap: 1rem; width: 100%; margin: 0; }
-  .maker-hero-portrait-frame { border-radius: 0.75rem; }
-  .maker-hero-caption { margin: 0; }
-}
-
-@container home-hero (width < 18rem) {
-  .maker-hero-visual { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
-  .maker-hero-portrait-frame { width: 4.5rem; max-width: 100%; }
-}
-
 /* Phones lead with the maker's identity, then the work and its destinations. */
 @media (max-width: 47.999rem) {
   .maker-hero-visual { order: -1; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 0.875rem; }
@@ -300,27 +280,3 @@
     .maker-hero-visual { grid-template-columns: minmax(0, 1fr); }
   }
 }
-
-/* Keep complete heading words when enlarged text narrows the reading column. */
-
-@keyframes home-plate-settle {
-  from { transform: translateY(1.25rem) scale(0.985); }
-  to { transform: none; }
-}
-@keyframes home-phone-rise {
-  from { transform: translateY(2rem); }
-  to { transform: none; }
-}
-@keyframes home-tool-mark {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-@keyframes home-sheet-settle {
-  from { transform: translate(0, 0); }
-  to { transform: translate(0.4375rem, -0.4375rem); }
-}
-
-[data-client-navigation] [data-home-hero] h1 > span,
-[data-client-navigation] [data-home-hero] [data-hero-plate],
-[data-client-navigation] [data-home-hero] [data-hero-plate]::before,
-[data-client-navigation] [data-home-hero] .maker-hero-emphasis::after { animation: none; }

@@ -176,4 +176,45 @@ describe('cross-site sitemap', () => {
     expect(entries[0]?.lastmod).toBe('2026-10-06')
     expect(renderSitemap(entries)).toContain('<loc>https://santi020k.com/search/?a=1&amp;b=2</loc>')
   })
+
+  test('keeps localized links and dates across duplicate URL entries', async () => {
+    const entries = await collectSitemapEntries(source, () => Promise.resolve(`
+      <urlset xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        <url><loc>${origin}/</loc>
+          <xhtml:link rel="alternate" hreflang="en" href="${origin}/"/>
+          <xhtml:link rel="alternate" hreflang="es" href="${origin}/es/"/>
+        </url>
+        <url><loc>${origin}/</loc><lastmod>2026-10-06</lastmod>
+          <xhtml:link rel="alternate" hreflang="x-default" href="${origin}/?a=1&amp;b=2"/>
+          <xhtml:link rel="alternate" hreflang="es" href="${origin}/es/"/>
+        </url>
+        <url><loc>${origin}/</loc></url>
+      </urlset>
+    `))
+
+    expect(entries).toEqual([{
+      url: `${origin}/`,
+      lastmod: '2026-10-06',
+      alternates: [
+        { hreflang: 'en', href: `${origin}/` },
+        { hreflang: 'es', href: `${origin}/es/` },
+        { hreflang: 'x-default', href: `${origin}/?a=1&b=2` }
+      ]
+    }])
+
+    const xml = renderSitemap(entries)
+
+    expect(xml).toContain('xmlns:xhtml="http://www.w3.org/1999/xhtml"')
+    expect(xml).toContain(`<xhtml:link rel="alternate" hreflang="x-default" href="${origin}/?a=1&amp;b=2"/>`)
+    await expect(collectSitemapEntries(source, () => Promise.resolve(xml))).resolves.toEqual(entries)
+  })
+
+  test.each([
+    [`<xhtml:link rel="alternate" hreflang="invalid locale" href="${origin}/es/"/>`, 'valid hreflang'],
+    ['<xhtml:link rel="alternate" hreflang="es" href="https://example.com/es/"/>', 'expected HTTPS origin']
+  ])('rejects invalid alternate metadata: %s', async (link, error) => {
+    const xml = `<urlset xmlns:xhtml="http://www.w3.org/1999/xhtml"><url><loc>${origin}/</loc>${link}</url></urlset>`
+
+    await expect(collectSitemapEntries(source, () => Promise.resolve(xml))).rejects.toThrow(error)
+  })
 })

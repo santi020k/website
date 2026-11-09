@@ -1,9 +1,10 @@
 import { XMLParser } from 'fast-xml-parser'
 import { SyntaxValidator } from 'fast-xml-validator'
 
-/** @typedef {{ url: string, lastmod?: string }} SitemapEntry */
+/** @typedef {{ hreflang: string, href: string }} SitemapAlternate */
+/** @typedef {{ url: string, lastmod?: string, alternates?: SitemapAlternate[] }} SitemapEntry */
 
-const parser = new XMLParser()
+const parser = new XMLParser({ ignoreAttributes: false })
 
 /** Fetch a sitemap with bounded delays for transient network and HTTP failures.
  * @param {string} url
@@ -137,7 +138,30 @@ const validateLastmod = value => {
 }
 
 /**
- * Flatten nested sitemaps while keeping each page's actual modification date.
+ * @param {unknown} links
+ * @param {string} origin
+ * @returns {SitemapAlternate[]}
+ */
+const readAlternates = (links, origin) => {
+  const alternates = []
+
+  for (const link of asArray(links)) {
+    const { '@_rel': rel, '@_hreflang': hreflang, '@_href': href } = asRecord(link)
+
+    if (rel !== 'alternate') continue
+
+    if (typeof hreflang !== 'string' || !/^(?:x-default|[a-z]{2,8}(?:-[a-z\d]{1,8})*)$/iu.test(hreflang)) {
+      throw new Error('Sitemap alternate must have a valid hreflang attribute')
+    }
+
+    alternates.push({ hreflang, href: validateUrl(href, origin) })
+  }
+
+  return alternates
+}
+
+/**
+ * Flatten nested sitemaps while keeping modification dates and language alternates.
  * @param {{ origin: string, sitemap: string }} source
  * @param {(url: string) => Promise<string>} loadSitemap
  * @returns {Promise<SitemapEntry[]>}
@@ -174,11 +198,17 @@ export const collectSitemapEntries = async ({ origin, sitemap }, loadSitemap) =>
     for (const page of pages) {
       const record = asRecord(page)
       const url = validateUrl(record.loc, origin)
-      const lastmod = validateLastmod(record.lastmod)
       const previous = entries.get(url)
+      const lastmod = validateLastmod(record.lastmod) ?? previous?.lastmod
+      const alternateLinks = [...(previous?.alternates ?? []), ...readAlternates(record['xhtml:link'], origin)]
+      const alternates = new Map(alternateLinks.map(alternate => [alternate.hreflang.toLowerCase(), alternate]))
 
-      // A duplicate without metadata must not erase a date already discovered.
-      entries.set(url, lastmod ? { url, lastmod } : previous ?? { url })
+      // Repeated URLs in nested sitemaps may supply different pieces of metadata.
+      entries.set(url, {
+        url,
+        ...(lastmod ? { lastmod } : {}),
+        ...(alternates.size ? { alternates: [...alternates.values()] } : {})
+      })
     }
   }
 
@@ -188,8 +218,14 @@ export const collectSitemapEntries = async ({ origin, sitemap }, loadSitemap) =>
 /** @param {SitemapEntry[]} entries */
 export const renderSitemap = entries => [
   '<?xml version="1.0" encoding="UTF-8"?>',
-  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-  ...entries.toSorted((left, right) => left.url.localeCompare(right.url)).map(({ url, lastmod }) => `  <url><loc>${escapeXml(url)}</loc>${lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : ''}</url>`),
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+  ...entries.toSorted((left, right) => left.url.localeCompare(right.url)).map(({ url, lastmod, alternates = [] }) => {
+    const alternateLinks = alternates
+      .map(({ hreflang, href }) => `<xhtml:link rel="alternate" hreflang="${escapeXml(hreflang)}" href="${escapeXml(href)}"/>`)
+      .join('')
+
+    return `  <url><loc>${escapeXml(url)}</loc>${lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : ''}${alternateLinks}</url>`
+  }),
   '</urlset>',
   ''
 ].join('\n')

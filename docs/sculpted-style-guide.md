@@ -3457,7 +3457,8 @@ format props through its wrapper. Keep source artwork and archived-site assets.
 
 - `src/components/pages/home/`: homepage compositions.
 - `src/styles/partials/home-hero.css`: hero styling.
-- `src/styles/partials/home-content.css`: homepage content styling.
+- `src/styles/partials/home-content.css`: homepage content utilities.
+- `src/styles/pages/home.css`: homepage-only styles, including the hero container queries and animations.
 - `src/styles/partials/nav.css`: navbar styling, developed independently.
 - `src/styles/partials/tokens.css`: website extensions to the shared theme.
 - `src/components/organisms/SiteFooter.astro`: shared footer, developed independently.
@@ -3468,6 +3469,7 @@ Use Astro `Image` for optimized assets. Keep home-specific rules scoped to their
 ## Supporting pages and reading templates
 
 The Blog landing and supporting routes opt into `remaining-pages` through the Base layout's `mainClass`.
+The first blog page preloads its featured cover using the same responsive AVIF candidates as the picture. Paginated archives omit this preload. The PostsGallery component loads its own stylesheet on reading routes.
 The Blog keeps its image-led latest-post composition with the same editorial typography
 and solid surfaces. The other primary landing pages retain their integrated compositions. Shared `PageHero`
 uses a plain eyebrow, a Montserrat 500 headline, a solid purple emphasis, a short introduction,

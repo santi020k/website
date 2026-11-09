@@ -953,9 +953,11 @@ before navigation swaps and after asynchronous Lumen enhancement. Dark CSS selec
 Tailwind's dark variant, controls, and Giscus synchronization follow this boundary.
 See [theming](theming.md) for palette ownership and storage compatibility.
 
-Keep the full adapter stylesheet while relying on automatic component CSS for runtime-created
-controls. No application code calls `LumenInitUiPrimitives` or synchronously queries a toast.
-If either is added, follow the [v5 migration contract](https://github.com/santi020k/lumen/blob/main/docs/migrating-v4-to-v5.md).
+Keep the single public root runtime. It loads behavior chunks for matching page markup and
+initializes them again after Astro navigation. Components carry their own styles, and the
+runtime loads styles for controls it creates on demand. No application code calls
+`LumenInitUiPrimitives` or synchronously queries a toast. If either is added, follow the
+[v5 migration contract](https://github.com/santi020k/lumen/blob/main/docs/migrating-v4-to-v5.md).
 Restore the root manifest, named catalog, lockfile, and theme migration together to roll back.
 
 ## Cover image fallback

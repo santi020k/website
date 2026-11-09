@@ -1,16 +1,13 @@
 ---
-import { Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
-import { localizePost } from '@/utils/content-translations'
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 import { getReadingTime } from '@/utils/reading-time'
-import { getResponsiveImageDimensions } from '@/utils/responsive-image'
 
 import Card from '@santi020k/lumen-astro/components/Card'
 import Link from '@santi020k/lumen-astro/components/Link'
@@ -27,10 +24,7 @@ interface Props {
   topicCount: number
 }
 
-const { latestPost: originalEntry, postCount, topicCount } = Astro.props
-const latestPost = originalEntry ? await localizePost(originalEntry, getLocale(Astro.url.pathname)) : originalEntry
-const cover = latestPost?.data.coverImage?.src
-const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 480, 640, 800]) : undefined
+const { latestPost, postCount, topicCount } = Astro.props
 ---
 
 <section
@@ -85,23 +79,9 @@ const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 4
           href={localizePath(getPostPath(latestPost.id), locale)}
         >
           <div data-latest-cover>
-            {cover ?
-              (
-                <Picture
-                  alt=""
-                  class="size-full object-cover"
-                  fetchpriority="high"
-                  fallbackFormat="webp"
-                  formats={['avif']}
-                  {...coverDimensions}
-                  loading="eager"
-                  sizes="(min-width: 1280px) 480px, (min-width: 1024px) 40vw, (min-width: 640px) 90vw, 100vw"
-                  src={cover}
-                />
-              ) :
-              (
-                <div aria-hidden="true" class="absolute inset-0 grid-fade" />
-              )}
+            <slot name="cover">
+              <div aria-hidden="true" class="absolute inset-0 grid-fade" />
+            </slot>
           </div>
           <div data-latest-sheet>
             <p data-latest-label>{t('collection.latestPost')}</p>

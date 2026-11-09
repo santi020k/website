@@ -16,10 +16,11 @@ The child sites keep their own sitemap and `robots.txt` declarations. Those
 files are useful for independent diagnostics and other crawlers, while the
 cross-site sitemap provides one Google submission point.
 
-The combined sitemap preserves source `lastmod` dates when supplied. It never
-substitutes the build time for a content modification date. Nested indexes are
-deduplicated, and URLs outside each source's HTTPS origin or invalid dates fail
-validation. Optional unavailable sources remain non-blocking.
+The combined sitemap preserves source `lastmod` dates and `hreflang` links when
+supplied. It never substitutes the build time for a content modification date.
+Nested indexes are deduplicated. Invalid dates, malformed language tags, and URLs
+outside each source's HTTPS origin fail validation. Optional unavailable sources
+remain non-blocking.
 Remote loads retain a 15-second deadline per attempt. Network errors, request
 timeouts, rate limits, and server errors receive up to three attempts, waiting
 one second and then two seconds between attempts. Other HTTP errors fail

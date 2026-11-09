@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test('combined sitemap advertises canonical pages and preserves content dates', async ({ page }) => {
+test('combined sitemap advertises canonical pages, content dates, and language alternates', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('link[rel="sitemap"]')).toHaveAttribute('href', '/sitemap.xml')
 
@@ -18,7 +18,12 @@ test('combined sitemap advertises canonical pages and preserves content dates', 
 
       return [...document.querySelectorAll('url')].map(entry => ({
         url: entry.querySelector('loc')?.textContent ?? '',
-        lastmod: entry.querySelector('lastmod')?.textContent ?? null
+        lastmod: entry.querySelector('lastmod')?.textContent ?? null,
+        alternates: Array.from(entry.getElementsByTagNameNS('http://www.w3.org/1999/xhtml', 'link'), link => ({
+          rel: link.getAttribute('rel'),
+          hreflang: link.getAttribute('hreflang'),
+          href: link.getAttribute('href')
+        }))
       }))
     }
 
@@ -28,7 +33,10 @@ test('combined sitemap advertises canonical pages and preserves content dates', 
   const combinedByUrl = new Map(combined.map(entry => [entry.url, entry]))
 
   expect(combinedByUrl.size).toBe(combined.length)
-  expect(combinedByUrl.has('https://santi020k.com/')).toBe(true)
+  expect(combinedByUrl.get('https://santi020k.com/')?.alternates).toEqual(expect.arrayContaining([
+    { rel: 'alternate', hreflang: 'en', href: 'https://santi020k.com/' },
+    { rel: 'alternate', hreflang: 'es', href: 'https://santi020k.com/es/' }
+  ]))
   expect(root.some(entry => entry.url.includes('/blog/') && entry.lastmod !== null)).toBe(true)
 
   // Refreshed case studies expose their verified editorial date.
@@ -38,14 +46,14 @@ test('combined sitemap advertises canonical pages and preserves content dates', 
     ['between-contractions', '2026-10-20T00:00:00.000Z'],
     ['roadscore', '2026-10-20T00:00:00.000Z']
   ] as const) {
-    expect(combinedByUrl.get(`https://santi020k.com/portfolio/${slug}/`)).toEqual({
+    expect(combinedByUrl.get(`https://santi020k.com/portfolio/${slug}/`)).toMatchObject({
       url: `https://santi020k.com/portfolio/${slug}/`,
       lastmod
     })
   }
 
   // Project dates alone must not invent a page modification date.
-  expect(combinedByUrl.get('https://santi020k.com/portfolio/xgames/')).toEqual({
+  expect(combinedByUrl.get('https://santi020k.com/portfolio/xgames/')).toMatchObject({
     url: 'https://santi020k.com/portfolio/xgames/',
     lastmod: null
   })

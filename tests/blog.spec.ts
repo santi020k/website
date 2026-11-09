@@ -75,6 +75,22 @@ test.describe('Blog page', () => {
     await expect(postLinks.first()).toBeVisible()
   })
 
+  test('preloads the same responsive cover that the featured post uses', async ({ page }) => {
+    for (const path of ['/blog/', '/es/blog/']) {
+      await page.goto(path)
+
+      const preload = page.locator('head link[rel="preload"][as="image"][type="image/avif"]')
+      const cover = page.locator('[data-latest-cover] source[type="image/avif"]')
+      await expect(cover).toHaveAttribute('srcset', requireValue(await preload.getAttribute('imagesrcset')))
+      await expect(cover).toHaveAttribute('sizes', requireValue(await preload.getAttribute('imagesizes')))
+    }
+
+    await page.goto('/blog/')
+    const next = page.getByRole('navigation', { name: 'Pagination' }).locator('a[rel="next"]')
+    await page.goto(requireValue(await next.getAttribute('href')))
+    await expect(page.locator('head link[rel="preload"][as="image"]')).toHaveCount(0)
+  })
+
   test('latest preview and writing shortcut lead into the chronological feed', async ({ page }) => {
     await page.goto('/blog/')
 
