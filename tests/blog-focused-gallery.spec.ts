@@ -66,7 +66,7 @@ for (const locale of ['en', 'es'] as const) {
   }
 
   test(`${locale} two-post topics fill a balanced shelf and stack on phones`, async ({ page }) => {
-    await page.goto(`${prefix}/blog/tags/developer-tools/`)
+    await page.goto(`${prefix}/blog/tags/ios/`)
     const cards = page.locator('[data-post-gallery-card]')
     await expect(cards).toHaveCount(2)
     await page.setViewportSize({ width: 1440, height: 1100 })
@@ -97,16 +97,21 @@ for (const locale of ['en', 'es'] as const) {
     await expect(page.locator('[data-post-gallery-grid]')).toHaveAttribute('data-post-gallery-grid', 'chapters')
   })
 
+  const captionExamples = [
+    { route: '/blog/', post: 'postlens-2-is-live', labels: ['iOS', 'SwiftUI'] },
+    { route: '/blog/tags/developer-tools/', post: 'building-santi020k-developer-tool-ecosystem', labels: ['Developer experience', 'Developer tools'] },
+    { route: '/blog/series/eslint-in-practice/', labels: ['ESLint', 'TypeScript'] },
+    { route: '/developer-experience/', labels: ['Developer experience', 'Engineering culture'] },
+    { route: '/blog/run-repo-on-mac-with-silo-dxmt/', labels: ['macOS', 'Swift'] }
+  ].map(example => ({
+    ...example,
+    selector: example.post ? `[data-post-gallery-card]:has(a[href="${prefix}/blog/${example.post}/"])` : '[data-post-gallery-card]'
+  }))
+
   test(`${locale} shared article cards use named captions without nested links`, async ({ page }) => {
-    for (const example of [
-      { route: '/blog/', labels: ['iOS', 'SwiftUI'] },
-      { route: '/blog/tags/developer-tools/', labels: ['Developer experience', 'Developer tools'] },
-      { route: '/blog/series/eslint-in-practice/', labels: ['ESLint', 'TypeScript'] },
-      { route: '/developer-experience/', labels: ['Developer experience', 'Engineering culture'] },
-      { route: '/blog/run-repo-on-mac-with-silo-dxmt/', labels: ['macOS', 'Swift'] }
-    ]) {
+    for (const example of captionExamples) {
       await page.goto(`${prefix}${example.route}`)
-      const card = page.locator('[data-post-gallery-card]').first()
+      const card = page.locator(example.selector).first()
       const topics = card.getByRole('list', { name: locale === 'es' ? 'Temas' : 'Topics', exact: true })
       await expect(topics.locator('li > [lang="en"]')).toHaveText(example.labels)
       await expect(topics.getByRole('link')).toHaveCount(0)
@@ -123,6 +128,10 @@ for (const locale of ['en', 'es'] as const) {
     }
   })
 
+  const nativeReadingTitle = locale === 'es' ?
+    'Cómo logré ejecutar R.E.P.O. en Mac sin Whisky' :
+    'How I Got R.E.P.O. Running on Mac Without Whisky'
+
   test.describe(`${locale} focused gallery without JavaScript`, () => {
     test.use({ javaScriptEnabled: false })
 
@@ -133,7 +142,7 @@ for (const locale of ['en', 'es'] as const) {
       await expect(link).not.toHaveAttribute('target', '_blank')
       await link.press('Enter')
       await expect(page).toHaveURL(`${prefix}/blog/run-repo-on-mac-with-silo-dxmt/`)
-      await expect(page.getByRole('heading', { level: 1 })).toHaveText('How I Got R.E.P.O. Running on Mac Without Whisky')
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(nativeReadingTitle)
     })
   })
 }
