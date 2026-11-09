@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { expect, test } from '@playwright/test'
 import { load } from 'js-yaml'
 
+import { ogManifest } from '../src/data/og-manifest'
 import { travelCountries } from '../src/data/travel'
 import { travelNotesSchema } from '../src/data/travel-notes-schema'
 import { getLocalizedTravelCountries, getLocalizedVisitLabel } from '../src/i18n/travel'
@@ -80,22 +81,29 @@ for (const { locale, prefix, japan, notRated, allCountries } of locales) {
     await expect(page).toHaveURL(new RegExp(`${prefix}/travel/#travel-countries$`, 'u'))
   })
 
-  test(`${locale} country pages preserve scores and honest indexing metadata`, async ({ page }) => {
-    const notes = readNotes('japan')
-    const score = formatScore(notes.score, locale, notRated)
-    const noindex = !notes.summary || notes.language !== locale
-    await page.goto(`${prefix}/travel/japan/`)
-    await expect(page.locator('[data-country-score]')).toHaveText(score)
-    await expect(page.locator('[data-country-score]')).toHaveAttribute('data-rated', String(notes.score !== null))
-    await expect(page.locator('h1')).toHaveCount(1)
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://santi020k.com${prefix}/travel/japan/`)
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', noindex ? 'noindex, follow' : /^index, follow/u)
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /\/og\/pages\/travel\.webp(?:\?v=[a-f0-9]{12})?$/u)
-    const sitemapResponse = await page.request.get('/sitemap-0.xml')
-    expect(sitemapResponse.status()).toBe(200)
-    const sitemap = await sitemapResponse.text()
-    expect(sitemap.includes(`https://santi020k.com${prefix}/travel/japan/`)).toBe(!noindex)
-  })
+  for (const slug of ['japan', 'colombia']) {
+    test(`${locale} ${slug} page preserves scores and honest indexing metadata`, async ({ page }) => {
+      const notes = readNotes(slug)
+      const score = formatScore(notes.score, locale, notRated)
+      const noindex = !notes.summary || notes.language !== locale
+      const pathname = `${prefix}/travel/${slug}/`
+      const card = ogManifest.routes[pathname]?.images.find(image => image.primary)
+      await page.goto(pathname)
+      await expect(page.locator('[data-country-score]')).toHaveText(score)
+      await expect(page.locator('[data-country-score]')).toHaveAttribute('data-rated', String(notes.score !== null))
+      await expect(page.locator('h1')).toHaveCount(1)
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://santi020k.com${pathname}`)
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', noindex ? 'noindex, follow' : /^index, follow/u)
+      expect(Boolean(card)).toBe(!noindex)
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', new URL(card?.url ?? '/og/pages/travel.webp', 'https://santi020k.com').href)
+      await expect(page.locator('[data-country-summary]')).toHaveText(notes.summary ? [notes.summary] : [])
+      await expect(page.locator('[data-country-highlights] li')).toHaveText(notes.highlights)
+      const sitemapResponse = await page.request.get('/sitemap-0.xml')
+      expect(sitemapResponse.status()).toBe(200)
+      const sitemap = await sitemapResponse.text()
+      expect(sitemap.includes(`https://santi020k.com${pathname}`)).toBe(!noindex)
+    })
+  }
 
   test(`${locale} country facts and navigation work without JavaScript`, async ({ browser }) => {
     const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce' })

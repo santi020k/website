@@ -1,5 +1,5 @@
-import type { MessageCatalog } from './messages'
-import { createTranslator } from './messages'
+import type { MessageCatalog } from './messages.ts'
+import { createTranslator } from './messages.ts'
 
 const countryMessages = {
   notebook: { en: 'Travel notebook', es: 'Cuaderno de viajes' },

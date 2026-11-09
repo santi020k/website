@@ -28,8 +28,11 @@ import {
 import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
 
+import { travelNotesSchema } from '../../src/data/travel-notes-schema.ts'
 import { localizeCollectionSource } from '../../src/i18n/collection-copy.ts'
+import { countryTranslator } from '../../src/i18n/country-copy.ts'
 import { localizePageSource } from '../../src/i18n/page-copy.ts'
+import { getLocalizedTravelCountries } from '../../src/i18n/travel.ts'
 import { isIndexedArchive } from '../../src/utils/archive-indexing.ts'
 import { parseContentDate } from '../../src/utils/content-date.ts'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
@@ -294,6 +297,38 @@ const archiveCard = (pathname, title, description, badge) => ({
   route: { description, pathname, title }
 })
 
+/** Country notes get one card in their authored language once their summary is written. */
+export const collectCountryCards = (root = ROOT) => collectContentCards({
+  directory: 'src/content/country',
+  map: entry => {
+    const notes = travelNotesSchema.parse(entry.frontmatter)
+
+    if (!notes.summary) return null
+
+    const country = getLocalizedTravelCountries(notes.language).find(item => item.code === notes.code)
+
+    if (!country) throw new Error(`Unknown country notebook: ${notes.code}`)
+
+    const t = countryTranslator(notes.language)
+
+    return {
+      badge: t('notebook'),
+      description: notes.summary,
+      domain: `${notes.language === 'es' ? '/es' : ''}/travel/${entry.slug}/`,
+      title: t('title', { country: country.name }),
+      variant: 'simple'
+    }
+  },
+  output: (_entry, data) => `pages/${getSocialImageFileName(data.domain)}`,
+  root,
+  route: (_entry, data) => ({
+    alt: `${data.title} — Santiago Molina`,
+    description: data.description,
+    pathname: data.domain,
+    title: data.title
+  })
+})
+
 export const collectCards = async () => {
   const staticPages = staticSocialPages.map(page => definePageMetadata({
     badge: page.badge,
@@ -527,7 +562,7 @@ export const collectCards = async () => {
     }
   })
 
-  return [...englishCards, ...localizedCards]
+  return [...englishCards, ...localizedCards, ...await collectCountryCards()]
 }
 
 export const collectSpecs = async () => (await collectCards()).map(card => ({
