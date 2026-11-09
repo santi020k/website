@@ -79,9 +79,7 @@ const { latestPost, postCount, topicCount } = Astro.props
           href={localizePath(getPostPath(latestPost.id), locale)}
         >
           <div data-latest-cover>
-            <slot name="cover">
-              <div aria-hidden="true" class="absolute inset-0 grid-fade" />
-            </slot>
+            <slot name="cover" />
           </div>
           <div data-latest-sheet>
             <p data-latest-label>{t('collection.latestPost')}</p>

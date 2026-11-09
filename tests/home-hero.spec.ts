@@ -294,6 +294,23 @@ for (const route of ['/', '/es/']) {
   })
 }
 
+test('the mobile portrait keeps its layout after client navigation to Home', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+
+  const portrait = page.locator('[data-home-hero-identity] .maker-hero-portrait')
+  const identity = page.locator('[data-home-hero-identity]')
+  const width = await portrait.evaluate(element => getComputedStyle(element).width)
+  const gap = await identity.evaluate(element => getComputedStyle(element).gap)
+
+  await expect(portrait).toHaveCSS('width', '64px')
+  await page.goto('/portfolio/')
+  await page.getByRole('link', { name: 'santi020k — Santiago Molina home' }).click()
+  await expect(page.locator('body')).toHaveAttribute('data-client-navigation')
+  await expect(portrait).toHaveCSS('width', width)
+  await expect(identity).toHaveCSS('gap', gap)
+})
+
 test('the opening stays opaque during its finite entrance and rests on return navigation', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.goto('/', { waitUntil: 'domcontentloaded' })

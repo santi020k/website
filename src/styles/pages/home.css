@@ -186,6 +186,12 @@
   .maker-hero-actions .maker-hero-arrow { display: none; }
 }
 
+@media (max-width: 47.999rem) {
+  .maker-hero-visual { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); align-items: center; gap: 1rem; width: 100%; margin: 0; }
+  .maker-hero-portrait-frame { border-radius: 0.75rem; }
+  .maker-hero-caption { margin: 0; }
+}
+
 /* Viewport breakpoints ignore root text scaling. When enlarged text leaves the
    Home frame too narrow to share a row with the portrait, adopt the phone
    composition's layout while keeping the viewport's type scale. The frame's own
@@ -200,6 +206,17 @@
 @container home-hero (width < 18rem) {
   .maker-hero-visual { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
   .maker-hero-portrait-frame { width: 4.5rem; max-width: 100%; }
+}
+
+/* Phones lead with the maker's identity, then the work and its destinations. */
+@media (max-width: 47.999rem) {
+  .maker-hero-visual { order: -1; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 0.875rem; }
+  .maker-hero-portrait-frame { width: 3.5rem; }
+  .maker-hero-caption [data-home-portrait-name] { font-size: 0.875rem; font-weight: 600; }
+
+  @container home-hero (width < 14rem) {
+    .maker-hero-visual { grid-template-columns: minmax(0, 1fr); }
+  }
 }
 
 @keyframes home-plate-settle {

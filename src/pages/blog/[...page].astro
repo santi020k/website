@@ -119,18 +119,21 @@ const blogListSchema = {
   {isFirstPage ?
 (
     <BlogHero latestPost={latestPost} postCount={page.total} topicCount={allTagsData.length}>
-      {cover && (
-        <Picture
-          slot="cover"
-          alt=""
-          class="size-full object-cover"
-          fallbackFormat="webp"
-          fetchpriority="high"
-          formats={['avif']}
-          loading="eager"
-          {...cover}
-        />
-      )}
+      <Fragment slot="cover">
+        {cover ?
+          (
+            <Picture
+              alt=""
+              class="size-full object-cover"
+              fallbackFormat="webp"
+              fetchpriority="high"
+              formats={['avif']}
+              loading="eager"
+              {...cover}
+            />
+          ) :
+          <div aria-hidden="true" class="absolute inset-0 grid-fade" />}
+      </Fragment>
     </BlogHero>
   ) :
 (
