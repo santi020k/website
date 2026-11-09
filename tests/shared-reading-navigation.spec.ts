@@ -22,7 +22,15 @@ const openContents = async (page: Page) => {
 }
 
 const openChapter = async (chapter: Locator) => {
-  if (await chapter.getAttribute('open') === null) await chapter.locator('summary').click()
+  // The incoming fragment can open the chapter while the test is setting up.
+  await chapter.evaluate(element => {
+    if (!(element instanceof HTMLDetailsElement)) return
+
+    const summary = element.querySelector('summary')
+
+    summary?.focus({ preventScroll: true })
+    if (!element.open) summary?.click()
+  })
 }
 
 test.use({ reducedMotion: 'reduce' })
