@@ -179,15 +179,9 @@ const sections = headings.filter(heading => heading.depth === 2 || heading.depth
 
         if (window.location.href !== originalUrl || !heading.isConnected) return
 
-        // Enhancing an earlier table or code block can move a native deep link
-        // out of view. Restore it once without changing history or focus.
-        const headerBottom = document.querySelector('[data-header-shell]')?.getBoundingClientRect().bottom ?? 0
-        const { top, bottom, height } = heading.getBoundingClientRect()
-        const clipped = height <= innerHeight - headerBottom && bottom > innerHeight
-
-        if (top < headerBottom || top >= innerHeight || clipped) {
-          heading.scrollIntoView({ behavior: 'instant', block: 'start' })
-        }
+        // Late layout changes can leave the heading visible but past the
+        // table of contents' activation line. Restore the native landing point.
+        heading.scrollIntoView({ behavior: 'instant', block: 'start' })
       }))
     }
 

@@ -147,8 +147,8 @@ test('crawler policies preserve discovery and exclude only the duplicate search 
   expect(policies).toHaveLength(5)
 
   for (const [index, userAgent] of ['OAI-SearchBot', 'PerplexityBot', 'Claude-SearchBot', 'Claude-User', '*'].entries()) {
-    // The title index and the Pagefind full-text index both duplicate public pages.
-    expect(policies[index]).toBe(`User-agent: ${userAgent}\nDisallow: /search-index.json\nDisallow: /pagefind/\nAllow: /`)
+    // Both localized title indexes and the Pagefind full-text index duplicate public pages.
+    expect(policies[index]).toBe(`User-agent: ${userAgent}\nDisallow: /search-index.json\nDisallow: /es/search-index.json\nDisallow: /pagefind/\nAllow: /`)
   }
 
   expect(robots).toContain('Sitemap: https://santi020k.com/sitemap.xml')

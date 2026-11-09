@@ -71,7 +71,7 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(links.nth(0)).toHaveAttribute('target', '_blank')
     await expect(links.nth(0)).toHaveAttribute('rel', /noopener.*noreferrer/u)
     await expect(links.nth(2)).not.toHaveAttribute('target')
-    await expect(page.locator('[data-article-lead]')).toContainText('I shared the ESLint base')
+    await expect(page.locator('[data-article-lead]')).toContainText('To migrate from ESLint 8 to 9')
     await expect(page.locator('[data-article-lead]')).not.toContainText('Previous Post')
     await expect(ledger.locator('[data-reference-kind]')).toHaveText(['Related guide', 'Repository', 'Earlier article'])
 

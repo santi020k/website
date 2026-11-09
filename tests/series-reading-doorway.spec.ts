@@ -68,13 +68,16 @@ for (const locale of ['en', 'es'] as const) {
         const first = cards.first().locator('[data-series-card-start]')
         const seriesPath = requireValue(await main.getAttribute('href'))
         const firstPath = requireValue(await first.getAttribute('href'))
-        const firstTitle = await first.locator('[data-series-card-start-title]').innerText()
+        const firstTitleLabel = first.locator('[data-series-card-start-title]')
+        const firstTitle = await firstTitleLabel.innerText()
+        const firstLanguage = requireValue(await firstTitleLabel.getAttribute('lang'))
         const estimate = Number.parseInt(requireValue(/\d+/u.exec(await cards.first().locator('[data-series-card-estimate]').innerText())?.[0]), 10)
 
         await main.click()
         await expect(page).toHaveURL(seriesPath)
         await expect(page.locator('[data-series-entry-first]')).toHaveAttribute('href', firstPath)
         await expect(page.locator('[data-series-entry-first] h2')).toHaveText(firstTitle)
+        await expect(page.locator('[data-series-entry-first] h2')).toHaveAttribute('lang', firstLanguage)
         const durations = await page.locator('[data-post-gallery-footer] > span:last-child').allTextContents()
 
         expect(durations.reduce((sum, duration) => sum + Number.parseInt(duration, 10), 0)).toBe(estimate)

@@ -13,7 +13,7 @@ import { collectionTranslator } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
-const seriesSummaries = await getSeriesSummaries()
+const seriesSummaries = await getSeriesSummaries(locale)
 const activeSeries = seriesSummaries.filter(item => item.postCount > 0 && item.series.data.status === 'active')
 const postsGroupedIntoSeries = activeSeries.reduce((count, item) => count + item.postCount, 0)
 

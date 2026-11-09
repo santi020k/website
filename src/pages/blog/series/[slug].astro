@@ -7,6 +7,7 @@ import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import PageLayout from '@/layouts/Base.astro'
 
+import { localizePost } from '@/utils/content-translations'
 import { getPostPath } from '@/utils/links'
 import { getReadingTime } from '@/utils/reading-time'
 
@@ -46,7 +47,8 @@ const { Content } = await render(series)
 const metaTitle = series.data.seoTitle ?? series.data.title
 const metaDescription = series.data.seoDescription ?? series.data.description
 const heroTitle = series.data.title.trimEnd()
-const firstPost = posts[0]
+const originalFirstPost = posts[0]
+const firstPost = originalFirstPost ? await localizePost(originalFirstPost, locale) : undefined
 
 const breadcrumbs = [
   { name: t('nav.home'), url: localizePath('/', locale) },
@@ -95,7 +97,7 @@ mainClass="remaining-pages series-detail-page"
         <Card as="article" data-series-entry-card variant="unstyled">
           <Link data-series-entry-first href={localizePath(getPostPath(firstPost.id), locale)} variant="inherit">
             <span data-series-entry-label>{t('series.beginFirstArticle')}</span>
-            <h2 lang="en">{firstPost.data.title}</h2>
+            <h2 lang={firstPost.data.contentLocale}>{firstPost.data.title}</h2>
             <p data-series-entry-meta>
               <span>{localizeCollectionSource(locale, firstPost.data.postType)}</span>
               <span aria-hidden="true">·</span>

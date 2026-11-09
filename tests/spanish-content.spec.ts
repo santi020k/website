@@ -1,9 +1,20 @@
-import { expect, test } from '@playwright/test'
+import { expect, type Page, test } from '@playwright/test'
 import { z } from 'astro/zod'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
 const indexSchema = z.array(z.object({ path: z.string(), title: z.string(), type: z.string() }))
+
+const switchToSpanish = async (page: Page) => {
+  const headerSwitch = page.locator('[data-language-switch="header"]')
+
+  if (await headerSwitch.isVisible()) {
+    await headerSwitch.click()
+  } else {
+    await page.locator('[data-mobile-nav-toggle]').click()
+    await page.locator('[data-language-switch="menu"]').click()
+  }
+}
 
 test('every published translation has a local canonical and is included in the sitemap', async ({ request }) => {
   const englishPayload: unknown = await (await request.get('/search-index.json')).json()
@@ -50,7 +61,7 @@ test('Spanish title search reloads after switching from English', async ({ page 
   await page.locator('#site-search-input').fill('Playwright')
   await expect(page.locator('[data-site-search-result]').first()).toBeVisible()
   await page.keyboard.press('Escape')
-  await page.locator('[data-language-switch="header"]').click()
+  await switchToSpanish(page)
   await expect(page).toHaveURL(/\/es\/blog\/$/u)
   await page.locator('[data-site-search-trigger]').click()
   await page.locator('#site-search-input').fill('Playwright')
@@ -80,7 +91,7 @@ test('published body search changes language after client navigation', async ({ 
   await expect(page.locator('#site-search-results')).toHaveAttribute('data-site-search-state', 'settled')
   await expect(page.locator('[data-site-search-full-text]')).toHaveCount(1)
   await page.keyboard.press('Escape')
-  await page.locator('[data-language-switch="header"]').click()
+  await switchToSpanish(page)
   await expect(page).toHaveURL(/\/es\/blog\//u)
   await page.locator('[data-site-search-trigger]').click()
   await page.locator('#site-search-input').fill('violaciones')
