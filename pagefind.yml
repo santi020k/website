@@ -1,5 +1,3 @@
-# Search published, current English article/case-study bodies only. Archives
-# and translated UI shells are deliberately excluded from the discovery glob.
+# Index published article and case-study bodies in their document language.
 site: dist
-glob: "{blog,portfolio}/**/*.html"
-force_language: en
+glob: "{blog,portfolio,es/blog,es/portfolio}/**/*.html"

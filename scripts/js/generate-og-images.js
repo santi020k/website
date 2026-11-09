@@ -23,6 +23,7 @@ import {
   getFrontmatterValue,
   groupArchive,
   paginateArchive,
+  readContent,
   resolveContentAsset
 } from '@santi020k/og/content'
 import { definePageMetadata } from '@santi020k/og/metadata'
@@ -368,6 +369,7 @@ export const collectCards = async () => {
     ],
     basePath: 'blog',
     directory: 'src/content/post',
+    exclude: ['**/index.es.md', '**/index.es.mdx'],
     filter: isPublishedPost,
     includeDrafts,
     map: async entry => {
@@ -422,6 +424,7 @@ export const collectCards = async () => {
       return []
     },
     directory: 'src/content/project',
+    exclude: ['**/index.es.md', '**/index.es.mdx'],
     basePath: 'portfolio',
     includeDrafts,
     map: async entry => {
@@ -509,22 +512,40 @@ export const collectCards = async () => {
       } :
       card)
 
-  // Articles and case studies are written in English. Their Spanish shells are kept out of
-  // search indexes and share the English card, so only translated pages get a localized card.
-  const isSingleLanguageCard = card => card.output.startsWith('blog/') || card.output.startsWith('portfolio/')
+  const translations = new Map()
 
-  const localizedCards = englishCards.filter(card => card.route && !isSingleLanguageCard(card)).map(card => {
+  for (const [collection, basePath] of [['post', '/blog/'], ['project', '/portfolio/']]) {
+    const entries = await readContent({ directory: `src/content/${collection}`, include: ['**/index.es.md', '**/index.es.mdx'], root: ROOT })
+
+    for (const entry of entries) {
+      const id = entry.id.replace(/\/index\.es\.mdx?$/u, '')
+      const slug = collection === 'post' ? id.split('/').at(-1) : id
+
+      translations.set(`${basePath}${slug}/`, entry)
+    }
+  }
+
+  const localizedCards = englishCards.flatMap(card => {
+    if (!card.route) return []
+
+    const translation = translations.get(card.route.pathname)
+    const isArticle = card.output.startsWith('blog/') || card.output.startsWith('portfolio/')
+
+    if (isArticle && !translation) return []
+
     const pathname = `/es${card.route.pathname}`
-    const title = `${localizeCollectionSource('es', localizePageSource('es', card.data.title))} · Español`
-    const description = localizeCollectionSource('es', localizePageSource('es', card.data.description))
+    const title = `${translation?.frontmatter.title ?? localizeCollectionSource('es', localizePageSource('es', card.data.title))} · Español`
+    const description = translation?.frontmatter.seoDescription ?? translation?.frontmatter.description ?? localizeCollectionSource('es', localizePageSource('es', card.data.description))
+    const badge = card.output.startsWith('blog/') ? 'Artículo' : localizeCollectionSource('es', card.data.badge ?? '')
 
-    return {
+    return [{
       ...card,
       aliases: [],
-      data: { ...card.data, title, description, domain: pathname },
+      sources: [...card.sources ?? [], ...translation ? [translation.filePath] : []],
+      data: { ...card.data, title, description, badge, domain: pathname },
       output: `pages/${getSocialImageFileName(pathname)}`,
       route: { ...card.route, pathname, title, description, alt: `${title} — Santiago Molina` }
-    }
+    }]
   })
 
   return [...englishCards, ...localizedCards]

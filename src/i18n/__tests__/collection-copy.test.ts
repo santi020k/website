@@ -1,8 +1,31 @@
+import type { CollectionEntry } from 'astro:content'
+
 import { describe, expect, test } from 'vitest'
 
 import { collectionTranslator, localizeCollectionSource } from '../collection-copy'
 
+const roleTranslations = {
+  'Technical Lead': 'Líder técnico',
+  'Full Stack': 'Desarrollo full stack',
+  'Front-End Lead': 'Líder de frontend',
+  'Front End Developer': 'Desarrollador de frontend',
+  'Technology Coordinator': 'Coordinador de tecnología',
+  'Volunteer Technology Coordinator': 'Coordinador voluntario de tecnología',
+  'Senior Front End Developer': 'Desarrollador sénior de frontend',
+  'Senior Full Stack Engineer': 'Ingeniero sénior full stack',
+  'Junior Full Stack Developer': 'Desarrollador júnior full stack',
+  'Full Stack Developer': 'Desarrollador full stack',
+  'CTO & Co-Founder': 'Director de tecnología y cofundador',
+  Creator: 'Creador',
+  'Co-Organizer': 'Coorganizador'
+} satisfies Record<NonNullable<CollectionEntry<'project'>['data']['role']>, string>
+
 describe('Spanish collection UI', () => {
+  test.each(Object.entries(roleTranslations))('localizes the %s role while preserving its English source', (source, translation) => {
+    expect(localizeCollectionSource('es', source)).toBe(translation)
+    expect(localizeCollectionSource('en', source)).toBe(source)
+  })
+
   test('uses complete singular and plural portfolio totals in each interface language', () => {
     const english = collectionTranslator()
     const spanish = collectionTranslator('es')

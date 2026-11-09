@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizePost } from '@/utils/content-translations'
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
@@ -26,7 +27,8 @@ interface Props {
   showSequence?: boolean
 }
 
-const { columns = 3, layout = 'grid', posts, showSequence = false } = Astro.props
+const { columns = 3, layout = 'grid', posts: originalEntries, showSequence = false } = Astro.props
+const posts = await Promise.all(originalEntries.map(entry => localizePost(entry, locale)))
 
 const gridImageSizes = columns === 2 ?
   'auto, (min-width: 1280px) 35.25rem, (min-width: 640px) 50vw, 100vw' :
@@ -110,8 +112,8 @@ const galleryItems = posts.map(createGalleryItem)
                 </time>
               </div>
 
-              <h3 lang="en">{item.data.title}</h3>
-              <p lang="en">{item.data.cardDescription ?? item.data.description}</p>
+              <h3 lang={item.data.contentLocale}>{item.data.title}</h3>
+              <p lang={item.data.contentLocale}>{item.data.cardDescription ?? item.data.description}</p>
 
               {!!item.data.tags.length && (
                 <ul aria-label={t('collection.topics')} data-post-gallery-topics>

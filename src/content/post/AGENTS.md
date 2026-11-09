@@ -7,6 +7,9 @@ These instructions apply to every post below this directory. Follow the reposito
 
 - Store each post at `YYYY/<kebab-case-slug>/index.md` or `index.mdx`.
 - Keep post-specific assets beside the post.
+- Spanish translations live beside the original as `index.es.md` or `index.es.mdx`;
+  see `docs/i18n.md` for the copy-only schema and inherited publication state.
+  Reuse original assets, preserve heading structure and code, and translate the complete body.
 - Published posts and drafts with body text must provide `coverImage.alt` and `coverImage.src`.
 - Title-only drafts (`draft: true` with an empty body) may omit the cover until writing begins.
 - Set `coverImage.src` to `./cover.webp`.

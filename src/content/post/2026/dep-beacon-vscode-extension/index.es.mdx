@@ -1,0 +1,103 @@
+---
+title: "Dep Beacon: señales sobre dependencias dentro de VS Code"
+description: "Por qué construí Dep Beacon, una extensión de VS Code que lleva a los manifiestos las rutas de actualización de npm, el contexto de catálogos de pnpm y las alertas de seguridad de OSV."
+coverImage:
+  alt: "Un manifiesto de paquetes recibe señales de actualización, workspace y seguridad dentro de un editor"
+---
+
+import ArticleUpdateNote from '@/components/molecules/ArticleUpdateNote.astro'
+
+<ArticleUpdateNote title="Actualización de septiembre de 2026">
+
+Dep Beacon también está disponible en el [registro de extensiones de Zed](https://zed.dev/extensions/dep-beacon-lsp). Consulta la [guía de configuración de Zed](https://beacon.santi020k.com/docs/zed-extension) y [por qué me cambié a Zed](/es/blog/why-i-moved-to-zed/). Este artículo describe el lanzamiento original para VS Code.
+
+</ArticleUpdateNote>
+
+El mantenimiento de dependencias tiene una forma extraña.
+
+La mayor parte del trabajo es diminuta. Revisar si una versión está al día. Decidir si el siguiente paso debería ser una versión de parche, menor, mayor o la más reciente. Confirmar si un catálogo del workspace administra un rango. Detectar cuándo un aviso convierte una actualización de rutina en un riesgo real.
+
+Pero esas pequeñas comprobaciones se repiten en muchos archivos, muchos proyectos y muchas interrupciones de la atención.
+
+Por eso construí [Dep Beacon](https://github.com/santi020k/dep-beacon): una extensión de VS Code que muestra señales de versiones, actualizaciones, workspaces de pnpm y seguridad de OSV directamente dentro de los manifiestos de npm.
+
+Ya está disponible en [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=santi020k.vscode-dep-beacon) y [Open VSX](https://open-vsx.org/extension/santi020k/vscode-dep-beacon), y la documentación está en [beacon.santi020k.com](https://beacon.santi020k.com/).
+
+## La línea de la dependencia es donde se toma la decisión
+
+Cuando abro `package.json`, no quiero salir del editor solo para responder preguntas básicas.
+
+¿Esta versión está al día? ¿El paquete no existe en npm? ¿Este es un rango de catálogo? ¿El siguiente paso seguro es una versión de parche, menor, mayor o la versión estable más reciente? ¿OSV informó algo serio sobre la versión resuelta?
+
+Esa información suele existir en algún lugar, pero está dispersa entre la salida del gestor de paquetes, páginas del registro, informes de auditoría, bots de pull requests y la memoria.
+
+Dep Beacon mantiene la señal junto a la línea que la necesita.
+
+Abre `package.json`, `pnpm-workspace.yaml` o `pnpm-workspace.yml`, y la extensión agrega indicadores de estado en línea, diagnósticos y acciones de CodeLens para las entradas de dependencias compatibles. El objetivo no es reemplazar una plataforma completa de dependencias. El objetivo es hacer que la revisión cotidiana de manifiestos sea más rápida y menos imprecisa.
+
+## Qué muestra la extensión
+
+Dep Beacon se concentra en un conjunto pequeño de señales útiles mientras editas.
+
+Muestra si un rango declarado ya acepta la versión estable más reciente, si existe un destino de actualización más nuevo, si el paquete o la versión son inválidos y si OSV informa riesgos de vulnerabilidad para la versión resuelta.
+
+Las acciones de actualización son deliberadamente concretas:
+
+- `patch` pasa al parche más reciente dentro de la versión menor actual.
+- `minor` pasa a la versión menor posterior más cercana dentro de la versión mayor actual.
+- `major` pasa a la versión mayor posterior más cercana.
+- `latest` pasa al dist-tag latest de npm o a la versión estable más reciente.
+
+Cuando Dep Beacon aplica una actualización, conserva prefijos de rango comunes como `^` y `~`. Ese detalle importa porque los archivos de dependencias no son solo listas de versiones. También expresan cómo entiende un equipo su tolerancia a las actualizaciones.
+
+## Los catálogos de pnpm necesitaban soporte de primera clase
+
+Una función que me importó desde el principio fue reconocer los catálogos de los workspaces de pnpm.
+
+En muchos monorepos, un rango de dependencia en `package.json` no es la verdadera fuente de verdad. El paquete puede apuntar a `catalog:` o `catalog:react19`, y la política de versiones vive en `pnpm-workspace.yaml`.
+
+Una herramienta que trate esa línea como un rango normal de npm dará una respuesta equivocada. La extensión necesita resolver primero el catálogo y luego informar el estado según la política de versiones real.
+
+Dep Beacon construye una instantánea de los catálogos del workspace y la usa al analizar los manifiestos. También entiende las sustituciones y las extensiones de paquetes, porque esos archivos son donde los equipos suelen centralizar sus decisiones sobre dependencias.
+
+Eso mantiene la utilidad de la extensión tanto en proyectos personales como en workspaces más grandes, donde los desajustes de dependencias son más difíciles de revisar manualmente.
+
+## Las advertencias de seguridad deben ser visibles, no teatrales
+
+También quería señales de OSV en el editor, pero con el tono adecuado.
+
+No todos los avisos significan lo mismo. Una advertencia de riesgo bajo o moderado no debería sentirse igual que una de riesgo alto o crítico. Una señal de vulnerabilidad tampoco debería pretender reemplazar un proceso de auditoría adecuado.
+
+Dep Beacon transforma los resultados de OSV en colores de estado y diagnósticos del editor para que el riesgo sea visible al revisar el manifiesto. Verde significa que el rango declarado ya acepta la versión estable más reciente. Amarillo significa que hay una actualización disponible. Naranja señala un riesgo de vulnerabilidad bajo o moderado. Rojo se reserva para situaciones inválidas, ausentes, de alto riesgo o críticas.
+
+Aquí hay una contrapartida de privacidad, así que la extensión la hace explícita: cuando las comprobaciones de vulnerabilidades están activadas, los nombres de los paquetes y las versiones resueltas se envían a OSV.dev. Los equipos pueden desactivarlas con `depBeacon.checkVulnerabilities` cuando trabajan sin conexión o no desean esas comprobaciones.
+
+## Es una herramienta para pequeñas decisiones repetidas
+
+Siempre vuelvo a la misma idea cuando trabajo en herramientas: las mejores mejoras de la experiencia de desarrollo suelen eliminar incertidumbres repetidas.
+
+Por eso también construí [Astro Doctor](/es/blog/astro-doctor-announcement/) y sigo invirtiendo en [`@santi020k/eslint-config-basic`](/es/blog/eslint-config-basic-version-2/). Son herramientas diferentes, pero comparten una forma de trabajar. Hacen visible el camino esperado y mantienen la retroalimentación cerca del trabajo.
+
+Dep Beacon hace eso con los manifiestos de dependencias.
+
+No te pide adoptar un nuevo panel antes de ayudarte. Se activa cuando abres el archivo relevante, muestra el estado, ofrece unas pocas acciones concretas y no estorba cuando la dependencia ya está en buen estado.
+
+## Qué incluye el primer lanzamiento
+
+El repositorio es un monorepo pequeño con tres paquetes principales:
+
+- `@santi020k/dep-beacon-core` analiza manifiestos, metadatos del registro, rangos semver, catálogos de pnpm y avisos de OSV.
+- `vscode-dep-beacon` ofrece la integración con VS Code: CodeLens, diagnósticos, indicadores de estado en línea, comandos, control de caché, ordenamiento y flujos de instalación al guardar.
+- `@santi020k/dep-beacon-docs` da vida al sitio de documentación de Astro.
+
+La extensión incluye comandos para actualizar las señales de dependencias, limpiar la caché del registro, activar o desactivar las versiones preliminares, ordenar el manifiesto actual, ejecutar instalaciones de paquetes, abrir la documentación y mostrar la salida de depuración.
+
+Ese último comando es importante. Si una herramienta va a intervenir en el flujo de trabajo de desarrollo, debería explicar qué está haciendo cuando algo parece extraño.
+
+## Pruébala
+
+Instala Dep Beacon desde [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=santi020k.vscode-dep-beacon) u [Open VSX](https://open-vsx.org/extension/santi020k/vscode-dep-beacon), y después abre un manifiesto de npm compatible en VS Code.
+
+El código fuente está en el [repositorio de Dep Beacon en GitHub](https://github.com/santi020k/dep-beacon), y la documentación vive en [beacon.santi020k.com](https://beacon.santi020k.com/).
+
+La construí para ese momento en el que ya estás mirando un rango de dependencia y quieres que la siguiente decisión sea evidente.

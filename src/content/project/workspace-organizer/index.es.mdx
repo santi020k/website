@@ -1,0 +1,196 @@
+---
+title: "Workspace Organizer"
+description: "Creé una aplicación nativa para macOS que agrupa ventanas individuales en espacios de trabajo enfocados, restaura distribuciones, cambia de contexto y mantiene privados los datos."
+coverImage:
+  alt: "Logotipo de Workspace Organizer sobre una portada geométrica índigo con acentos azules"
+impactMetrics: ["Organiza ventanas individuales sin obligar a que todas las ventanas de una aplicación compartan el mismo contexto", "Restaura distribuciones adaptables cuando cambia la disposición de las pantallas", "Ofrece flujos desde la barra de menús, el teclado, Atajos, un esquema de URL y una CLI que protege la privacidad"]
+focusAreas:
+  - label: "Grupos de ventanas"
+    description: "Espacios enfocados para ventanas individuales de las aplicaciones"
+  - label: "Recuperación de contexto"
+    description: "Distribuciones adaptadas a las pantallas y cambio rápido de espacio de trabajo"
+  - label: "Control local"
+    description: "Datos privados, sugerencias explicables y automatización"
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="workspace-organizer" headingId="organizing-contexts-at-the-window-level">
+
+## Organizar contextos a nivel de ventana
+
+Workspace Organizer es una aplicación nativa para macOS que agrupa ventanas individuales de las aplicaciones en espacios enfocados dentro de espacios de trabajo con nombre. Un espacio de trabajo puede representar lo personal, el trabajo o un proyecto específico, mientras que espacios como Navegador, Código e IA mantienen juntas las ventanas correspondientes.
+
+La distinción a nivel de ventana es la idea central. Una ventana de Safari para navegar por asuntos personales no debería tener que moverse junto con otra dedicada al trabajo de un cliente solo porque ambas pertenecen a la misma aplicación.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capacidades", href: "#what-i-built" },
+    { label: "Aspectos técnicos", href: "#technical-highlights" },
+    { label: "Resultados", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="workspace-organizer"
+>
+
+### Impacto
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Organizar ventanas individuales** sin depender de las API privadas de Spaces en macOS.
+
+</li>
+
+<li>
+
+**Restaurar la disposición, no solo la lista de aplicaciones**, con posiciones y tamaños que tengan en cuenta las pantallas.
+
+</li>
+
+<li>
+
+**Agilizar el cambio de contexto** desde la aplicación, la barra de menús, el teclado, el trackpad, Atajos, las URL o una CLI.
+
+</li>
+
+<li>
+
+**Mantener local el contexto sensible**, evitando títulos de ventanas y URL en los diagnósticos y la sincronización.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Lo que construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Una aplicación nativa con SwiftUI y AppKit"}>
+
+que descubre ventanas estándar mediante la API pública de accesibilidad de macOS.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Espacios de trabajo y espacios anidados"}>
+
+con asignaciones, distribuciones guardadas, elementos de inicio, reordenamiento, duplicación y atajos configurables.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Smart Assist"}>
+
+para sugerencias locales de asignación explicables, planes de organización editables, aprendizaje a partir de decisiones aceptadas y la posibilidad de deshacer.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Restauración adaptable de distribuciones"}>
+
+ante cambios de pantalla, con protecciones contra distribuciones de respaldo que se superponen.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Interfaces de automatización"}>
+
+mediante App Intents, Atajos de Apple, un esquema de URL validado, programaciones, eventos de pantalla y una CLI que protege la privacidad.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Distribución comercial"}>
+
+con prueba gratuita, licencias, versiones firmadas y notarizadas, actualizaciones mediante Sparkle, instalación con Homebrew y un sitio del producto hecho con Astro.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>API de plataforma compatibles</dt>
+  <dd>
+
+Accessibility, AppKit, SwiftUI, App Intents, iCloud Drive y automatización pública del navegador cuando está disponible.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Cambio de contexto</dt>
+  <dd>
+
+ocultar aplicaciones, traer ventanas al frente, restaurar distribuciones, delimitar pantallas y navegar por contexto.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Privacidad</dt>
+  <dd>
+
+datos de espacios de trabajo prioritariamente locales, exportación y sincronización filtradas, diagnósticos que protegen la privacidad y ningún almacenamiento de títulos completos de ventanas ni de URL.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Distribución</dt>
+  <dd>
+
+paquetes de aplicación firmados, appcasts de Sparkle, casks de Homebrew, licencias con Lemon Squeezy y contenido de marketing alojado en Cloudflare.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Resultados
+
+</ProjectSectionHeading>
+
+- **Una alternativa a nivel de ventana** al cambio de tareas a nivel de aplicación.
+- **Varias formas de retomar un contexto** sin imponer un único modelo de interacción.
+- **Un proceso completo de producto independiente**, desde la aplicación nativa y las pruebas hasta las licencias, las actualizaciones, la documentación y la distribución.
+
+<ProjectSectionHeading>
+
+### Por qué importa
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"El trabajo moderno ocurre en muchas ventanas de unas pocas aplicaciones."}>
+
+Workspace Organizer considera el contexto como la unidad importante y lo reconstruye sin usar API privadas del sistema ni subir los detalles de aquello en lo que estás trabajando.
+
+</ProjectPrincipleClose>

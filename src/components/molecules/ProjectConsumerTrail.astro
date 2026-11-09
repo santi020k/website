@@ -3,6 +3,11 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
 import { Link } from '@santi020k/lumen-astro'
 
+import { getLocale } from '@/i18n'
+import { projectStoryTranslator } from '@/i18n/project-story'
+
+const t = projectStoryTranslator(getLocale(Astro.url.pathname))
+
 interface Props {
   introduction: string
   responsibility: string
@@ -19,7 +24,7 @@ const { introduction, responsibility, examples } = Astro.props
 
 <div class="not-prose" data-project-consumer-trail>
   <p data-consumer-introduction>{introduction}</p>
-  <nav aria-label="See Lumen in use" data-consumer-examples>
+  <nav aria-label={t('consumer.seeLumenInUse')} data-consumer-examples>
     {examples.map(example => (
       <Link
         href={example.href}

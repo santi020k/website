@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath } from '@/utils/links'
 import { getPortfolioMetricDisplay } from '@/utils/portfolio-metric'
 import { getProjectBrandStyle } from '@/utils/project-brand'
@@ -25,7 +26,8 @@ interface Props {
   project: CollectionEntry<'project'>
 }
 
-const { featured = false, imagePriority = false, project } = Astro.props
+const { featured = false, imagePriority = false, project: originalEntry } = Astro.props
+const project = await localizeProject(originalEntry, getLocale(Astro.url.pathname))
 const projectLink = localizePath(getPortfolioPath(project.id), locale)
 const previewImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
 const timeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)

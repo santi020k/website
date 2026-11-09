@@ -32,6 +32,7 @@ const makePost = (id: string, seriesId: string, overrides: Partial<CollectionEnt
   collection: 'post',
   id,
   data: {
+    contentLocale: 'en',
     title: id,
     description: 'A series article.',
     publishDate: new Date('2026-01-01T00:00:00Z'),

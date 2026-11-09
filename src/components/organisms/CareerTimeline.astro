@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getFormattedDate } from '@/utils/date'
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
@@ -12,7 +13,7 @@ import { sortTechnologiesByInterest } from '@/utils/technologies'
 import { Card, Timeline } from '@santi020k/lumen-astro'
 
 import { getLocale, localizePath } from '@/i18n'
-import { collectionTranslator } from '@/i18n/collection-copy'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
 
 const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
@@ -21,7 +22,8 @@ interface Props {
   projects: CollectionEntry<'project'>[]
 }
 
-const { projects } = Astro.props
+const { projects: originalEntries } = Astro.props
+const projects = await Promise.all(originalEntries.map(entry => localizeProject(entry, locale)))
 
 const careerItems = projects.map((project, index) => ({
   brand: project.data.brand,
@@ -36,7 +38,7 @@ const careerItems = projects.map((project, index) => ({
   logo: project.data.coverImage?.logo,
   logoAspect: project.data.coverImage?.logoAspect ?? 'square',
   logoSurface: project.data.coverImage?.logoSurface ?? 'dark',
-  role: project.data.role ?? t('collection.engineer'),
+  role: project.data.role ? localizeCollectionSource(locale, project.data.role) : t('collection.engineer'),
   startDate: project.data.startingDate.toISOString().slice(0, 10),
   startMonth: getFormattedDate(project.data.startingDate, { day: undefined, month: 'short', year: undefined }, locale === 'es' ? 'es-419' : 'en-US'),
   startYear: getFormattedDate(project.data.startingDate, { day: undefined, month: undefined, year: 'numeric' }),

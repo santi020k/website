@@ -1,4 +1,10 @@
 ---
+import { getLocale } from '@/i18n'
+import { projectStoryTranslator } from '@/i18n/project-story'
+
+const locale = getLocale(Astro.url.pathname)
+const t = projectStoryTranslator(locale)
+
 interface Props {
   headingId: string
   introduction: string
@@ -11,7 +17,7 @@ const { headingId, introduction, perspectives, takeaway } = Astro.props
 
 <section aria-labelledby={headingId} class="not-prose" data-project-synthesis>
   <header>
-    <p data-synthesis-label>What carries forward</p>
+    <p data-synthesis-label>{t('synthesis.carriesForward')}</p>
     <slot />
   </header>
   <p data-synthesis-introduction>{introduction}</p>

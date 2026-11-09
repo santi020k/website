@@ -1,4 +1,9 @@
 ---
+import { getLocale } from '@/i18n'
+import { projectStoryTranslator } from '@/i18n/project-story'
+
+const t = projectStoryTranslator(getLocale(Astro.url.pathname))
+
 interface Props {
   sequence: string
 }
@@ -7,7 +12,7 @@ const { sequence } = Astro.props
 ---
 
 <header class="not-prose" data-client-masthead>
-  <p data-client-sequence>Client project {sequence}</p>
+  <p data-client-sequence>{t('client.projectSequence', { sequence })}</p>
   <slot />
 </header>
 

@@ -6,6 +6,7 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
+import { localizePost } from '@/utils/content-translations'
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 import { getReadingTime } from '@/utils/reading-time'
@@ -25,7 +26,8 @@ interface Props {
   topicCount: number
 }
 
-const { latestPost, postCount, topicCount } = Astro.props
+const { latestPost: originalEntry, postCount, topicCount } = Astro.props
+const latestPost = originalEntry ? await localizePost(originalEntry, getLocale(Astro.url.pathname)) : originalEntry
 const cover = latestPost?.data.coverImage?.src
 const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 480, 640, 800]) : undefined
 ---

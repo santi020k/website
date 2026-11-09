@@ -1,0 +1,194 @@
+---
+title: "Aaronmgz"
+description: "Creé una plataforma web familiar en crecimiento con un sitio de identidad náutica, un muro público de mensajes, una experiencia de baby shower, herramientas de administración y una API compartida en Cloudflare."
+cardDescription: "Un sitio familiar de identidad náutica, con un muro público de mensajes y una experiencia de baby shower sobre una API compartida."
+coverImage:
+  alt: "Logotipo náutico de Aaronmgz sobre una portada geométrica azul medianoche"
+impactMetrics: ["Unifiqué cuatro experiencias públicas y privadas bajo un mismo dominio", "Creé paquetes compartidos de contratos, contenido, utilidades de base de datos, localización, medios e interfaz", "Añadí verificaciones de migraciones, divergencias del esquema, accesibilidad, pruebas de extremo a extremo y despliegue"]
+focusAreas:
+  - label: "Sitio familiar"
+    description: "Un hogar náutico y un muro público de mensajes"
+  - label: "Experiencia del evento"
+    description: "Invitaciones, confirmaciones y herramientas para invitados"
+  - label: "Base compartida"
+    description: "API tipada, administración y contenido bilingüe"
+relatedWritingLabels: ["Historia del producto"]
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="aaronmgz" headingId="building-a-family-platform-that-can-grow">
+
+## Construir una plataforma familiar que pueda crecer
+
+Creé Aaronmgz como un rincón personal en la web para mi hijo, Aaron. Comenzó con un sitio de identidad náutica y creció hasta convertirse en un monorepo que reúne un muro público de mensajes, una experiencia de invitaciones al baby shower, un panel de administración y la API que los conecta.
+
+La decisión arquitectónica más importante fue tratar esas experiencias como una familia de productos. Comparten dominio, lenguaje visual, contratos de datos, localización y proceso de publicación, mientras cada aplicación se concentra en su propio público.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Funciones", href: "#what-i-built" },
+    { label: "Aspectos técnicos", href: "#technical-highlights" },
+    { label: "Resultados", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="aaronmgz"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Crear algo duradero** que pueda evolucionar desde un acontecimiento familiar hasta convertirse en el hogar de Aaron en la web a largo plazo.
+
+</li>
+
+<li>
+
+**Distinguir las áreas públicas de las privadas** y compartir los contratos y la infraestructura que deben mantenerse consistentes.
+
+</li>
+
+<li>
+
+**Acercar el contenido familiar** en inglés y español sin mantener dos productos separados.
+
+</li>
+
+<li>
+
+**Publicar con protecciones reales** para las migraciones de base de datos, la autenticación, la accesibilidad, el SEO y el despliegue.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Qué construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Un sitio personal en Astro"}>
+
+con identidad náutica, entrega estática, contenido compartido y la experiencia pública de mensajes “Para Aaron”.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Una aplicación de baby shower en Next.js"}>
+
+para invitaciones, confirmaciones de asistencia, regalos y paneles de invitados.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Un área de administración independiente"}>
+
+para gestionar el evento y su contenido.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Una API de Hono en Cloudflare Workers"}>
+
+con almacenamiento D1, esquemas de Drizzle, validación, sesiones y contratos tipados.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Paquetes compartidos del espacio de trabajo"}>
+
+para tipos de la API, utilidades de base de datos, contenido, localización, medios, modelos de mensajes e interfaz.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Interfaces</dt>
+  <dd>
+
+`Astro 6`, `Next.js 16`, `React 19`, `Tailwind CSS v4` e islas progresivas donde el sitio estático necesita interacción.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Backend</dt>
+  <dd>
+
+`Hono`, `Cloudflare Workers`, `Cloudflare D1`, `Drizzle ORM` y `Zod`.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Entrega</dt>
+  <dd>
+
+`Turborepo`, espacios de trabajo de `pnpm`, OpenNext, verificaciones de migraciones y divergencias del esquema, pruebas básicas, pruebas de accesibilidad y cobertura de extremo a extremo.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Lenguaje compartido del producto</dt>
+  <dd>
+
+Los paquetes de contenido tipado y localización mantienen alineada la familia de aplicaciones sin copiar registros entre ellas.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Resultados
+
+</ProjectSectionHeading>
+
+- **Un dominio coherente** para el sitio público, la aplicación del evento, los mensajes, la administración y la API.
+- **Una base reutilizable** que permite añadir nuevos capítulos sin reconstruir cada vez la identidad, el contenido o la infraestructura.
+- **Un proyecto con significado personal** que recibe el mismo cuidado arquitectónico que una plataforma comercial.
+
+<ProjectSectionHeading>
+
+### Por qué importa
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Los mejores proyectos personales no siempre son pequeños."}>
+
+A veces, la razón emocional para construir algo es precisamente lo que hace que valga la pena diseñarlo a largo plazo.
+
+</ProjectPrincipleClose>
+
+Esa historia familiar también dio origen a [Between Contractions](/es/portfolio/between-contractions/), un temporizador tranquilo que prioriza la privacidad y que creé mientras Alejandra y yo nos preparábamos para la llegada de Aarón. Aaronmgz guarda la historia de su espera; Between Contractions acompaña una parte práctica de ese camino.

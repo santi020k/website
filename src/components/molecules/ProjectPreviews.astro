@@ -1,16 +1,18 @@
 ---
-import { getEntry } from 'astro:content'
-
 import ProjectPreviewViewer from '@/components/molecules/ProjectPreviewViewer.astro'
 
+import { getLocalizedProject } from '@/utils/content-translations'
+
 import { Card, Image } from '@santi020k/lumen-astro'
+
+import { getLocale } from '@/i18n'
 
 interface Props {
   projectId: string
 }
 
 const { projectId } = Astro.props
-const project = await getEntry('project', projectId)
+const project = await getLocalizedProject(projectId, getLocale(Astro.url.pathname))
 const previews = project?.data.previews
 
 if (!previews) throw new Error(`Project ${projectId} must declare previews before rendering its gallery.`)

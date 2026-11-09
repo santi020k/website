@@ -65,14 +65,14 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(pathnames.has('/es/technologies/typescript/')).toBe(true)
   })
 
-  test('keeps English cards for single-language articles and case studies', async () => {
+  test('generates separate cards for translated articles and case studies', async () => {
     const cards = await collectCards()
     const pathnames = new Set(cards.map(card => card.route?.pathname))
 
     expect(pathnames.has('/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(true)
-    expect(pathnames.has('/es/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(false)
+    expect(pathnames.has('/es/blog/playwright-accessibility-checks-that-teams-keep-running/')).toBe(true)
     expect(pathnames.has('/portfolio/lumen-ui/')).toBe(true)
-    expect(pathnames.has('/es/portfolio/lumen-ui/')).toBe(false)
+    expect(pathnames.has('/es/portfolio/lumen-ui/')).toBe(true)
     expect(pathnames.has('/es/blog/')).toBe(true)
   })
 

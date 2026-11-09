@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath } from '@/utils/links'
 
 import { Link } from '@santi020k/lumen-astro'
@@ -17,7 +18,8 @@ interface Props {
 
 const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
-const { compact = false, project } = Astro.props
+const { compact = false, project: originalEntry } = Astro.props
+const project = await localizeProject(originalEntry, getLocale(Astro.url.pathname))
 ---
 
 <div class="print:hidden" data-resume-evidence-note data-compact={compact || undefined} data-print-hidden>

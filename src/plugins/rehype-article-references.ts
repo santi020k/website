@@ -2,6 +2,7 @@ import { getLumenIcon, type LumenIconName, type LumenIconNode } from '@santi020k
 import type { Element, ElementContent, Root } from 'hast'
 import type { Plugin } from 'unified'
 
+import { articleTranslator } from '../i18n/article-copy'
 import { arrowSymbolId } from '../utils/arrow-sprite'
 
 interface Reference {
@@ -11,6 +12,13 @@ interface Reference {
   title: string
   source?: string
 }
+
+const referenceLabels = {
+  'Related guide': 'article.references.relatedGuide',
+  Repository: 'article.references.repository',
+  'Earlier article': 'article.references.earlierArticle',
+  'Another series': 'article.references.anotherSeries'
+} as const
 
 const element = (tagName: string, properties: Element['properties'], children: ElementContent[]): Element => ({
   type: 'element', tagName, properties, children
@@ -64,9 +72,9 @@ const readReference = (paragraph: Element): Reference | undefined => {
 
   if (typeof href !== 'string' || !/^(?:\/(?!\/)|https?:\/\/)/u.test(href)) return
 
-  const related = /^Related post:\s*(\S.*)$/iu.exec(label)
-  const earlier = /^(?:Read the )?Previous post:\s*(\S.*)$/iu.exec(label)
-  const series = /^Related series:\s*(\S.*)$/iu.exec(label)
+  const related = /^(?:Related post|Artículo relacionado):\s*(\S.*)$/iu.exec(label)
+  const earlier = /^(?:(?:Read the )?Previous post|(?:Lee el )?artículo anterior):\s*(\S.*)$/iu.exec(label)
+  const series = /^(?:Related series|Serie relacionada):\s*(\S.*)$/iu.exec(label)
   const seriesTitle = link.properties.title
 
   if (series?.[1] && typeof seriesTitle === 'string' && seriesTitle.trim()) {
@@ -77,7 +85,7 @@ const readReference = (paragraph: Element): Reference | undefined => {
 
   if (earlier?.[1]) return { paragraph, link, kind: 'Earlier article', title: earlier[1] }
 
-  if (!/^GitHub Repository$/iu.test(label)) return
+  if (!/^(?:GitHub Repository|Repositorio de GitHub)$/iu.test(label)) return
 
   try {
     const url = new URL(href)
@@ -98,7 +106,9 @@ const readReference = (paragraph: Element): Reference | undefined => {
   }
 }
 
-const createLedger = (references: Reference[], label: string, ariaLabel: string): Element => {
+const createLedger = (
+  references: Reference[], label: string, ariaLabel: string, t: ReturnType<typeof articleTranslator>
+): Element => {
   const rows = references.map(({ link, kind, title, source }) => {
     const titleContent = [text(title)]
 
@@ -107,7 +117,7 @@ const createLedger = (references: Reference[], label: string, ariaLabel: string)
     link.properties.dataReferenceLink = ''
 
     link.children = [
-      element('span', { dataReferenceKind: '' }, [text(kind)]),
+      element('span', { dataReferenceKind: '' }, [text(t(referenceLabels[kind]))]),
       element('span', { dataReferenceTitle: '' }, titleContent),
       arrowExchange(link.properties.target === '_blank' ? 'up-right' : 'right')
     ]
@@ -135,11 +145,12 @@ export const rehypeArticleReferences: Plugin<[], Root> = () => (tree, file) => {
 
   if (tree.children.some(node => node.type === 'element' && node.properties.dataArticleReferences !== undefined)) return
 
+  const t = articleTranslator(/\.es\.mdx?$/u.test(path) ? 'es' : 'en')
   const last = tree.children.filter(node => node.type !== 'text' || node.value.trim()).at(-1)
   const closing = last?.type === 'element' ? readReference(last) : undefined
 
   if (closing?.kind === 'Another series') {
-    const connection = createLedger([closing], 'Related reading', 'Related reading')
+    const connection = createLedger([closing], t('article.references.relatedReading'), t('article.references.relatedReading'), t)
 
     connection.properties.dataSeriesConnection = ''
 
@@ -170,7 +181,7 @@ export const rehypeArticleReferences: Plugin<[], Root> = () => (tree, file) => {
 
   const order: Record<Reference['kind'], number> = { 'Related guide': 0, Repository: 1, 'Earlier article': 2, 'Another series': 3 }
   const paragraphs = new Set(references.map(reference => reference.paragraph))
-  const ledger = createLedger(references.sort((a, b) => order[a.kind] - order[b.kind]), 'With this guide', 'References for this article')
+  const ledger = createLedger(references.sort((a, b) => order[a.kind] - order[b.kind]), t('article.references.withGuide'), t('article.references.ariaLabel'), t)
 
   tree.children = tree.children.filter(node => node.type !== 'element' || !paragraphs.has(node))
 

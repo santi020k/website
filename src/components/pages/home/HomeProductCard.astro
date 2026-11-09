@@ -5,6 +5,7 @@ import type { CollectionEntry } from 'astro:content'
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import HomeProductPreview from '@/components/pages/home/HomeProductPreview.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
@@ -22,7 +23,8 @@ interface Props {
   project: CollectionEntry<'project'>
 }
 
-const { project } = Astro.props
+const { project: originalEntry } = Astro.props
+const project = await localizeProject(originalEntry, getLocale(Astro.url.pathname))
 const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
 ---
 

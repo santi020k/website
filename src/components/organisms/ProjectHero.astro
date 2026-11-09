@@ -84,13 +84,17 @@ const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : '
     "
   >
     <CoverSpread kind="project" hasCover={Boolean(heroImage)} wide={useWideCoverFrame}>
-      <h1 lang="en" slot="heading">
+      <h1 lang={project.data.contentLocale} slot="heading">
         {plainWords && <span>{plainWords} </span>}
         <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
       </h1>
       <ProjectHeroCover project={project} />
     </CoverSpread>
-    <p lang="en" data-editorial-summary class="text-ink-soft">{project.data.description}</p>
+    <p
+lang={project.data.contentLocale}
+data-editorial-summary
+class="text-ink-soft"
+    >{project.data.description}</p>
   </div>
 
   {/* ── Margin imprint ──────────────────────────────────────── */}
@@ -105,7 +109,7 @@ const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : '
     <dl data-project-imprint>
       <div data-project-meta="role">
         <dt>{t('collection.role')}</dt>
-        <dd>{project.data.role ?? t('collection.handsOnBuilder')}</dd>
+        <dd>{project.data.role ? localizeCollectionSource(locale, project.data.role) : t('collection.handsOnBuilder')}</dd>
       </div>
       <div data-project-meta="timeline">
         <dt>{t('collection.timeline')}</dt>

@@ -1,0 +1,216 @@
+---
+title: "Smith Commerce"
+description: "Construí experiencias de comercio para dos clientes de Smith: la tienda headless de Marcone y los flujos de compra, cuentas y descubrimiento de productos de F.W. Webb."
+previews:
+  linkLabel: "Ver las vistas previas de F.W. Webb"
+  description: "Vista previa de F.W. Webb en desarrollo, capturada con la tienda ejecutándose localmente y sin una sesión iniciada. El diseño y el contenido siguen evolucionando."
+  images:
+    - alt: "Tienda de F.W. Webb en escritorio con búsqueda de productos, promociones de temporada y tarjetas de las industrias que atiende."
+      title: "Una nueva tienda pensada para descubrir"
+      caption: "La experiencia de escritorio reúne búsqueda, campañas y navegación por industrias bajo un lenguaje visual compartido."
+    - alt: "Tienda móvil de F.W. Webb con navegación compacta, búsqueda de productos y promociones de temporada apiladas."
+      title: "La misma experiencia en el móvil"
+      caption: "La navegación, la búsqueda y el contenido promocional se adaptan a una pantalla más pequeña y mantienen coherente la identidad de la tienda."
+impactMetrics: ["Marcone: la puntuación de Lighthouse pasó de 35 a 98", "Marcone: el tiempo hasta la interacción se redujo un 75%", "Puntuación de accesibilidad del 100% en la tienda reconstruida de Marcone", "Marcone: First Contentful Paint mejoró un 60%"]
+coverImage:
+  alt: "Logotipo de Smith Commerce sobre una portada geométrica en ámbar y color carbón"
+focusAreas:
+  - label: "Marcone"
+    description: "Modernización de una tienda headless"
+  - label: "F.W. Webb"
+    description: "Flujos de compra y gestión de cuentas"
+  - label: "Bases compartidas"
+    description: "Componentes, API y entrega"
+---
+
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
+import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
+
+import ProjectComparison from '@/components/molecules/ProjectComparison.astro'
+
+import ProjectTechnicalHighlights from '@/components/molecules/ProjectTechnicalHighlights.astro'
+
+import ProjectContextExhibit from '@/components/molecules/ProjectContextExhibit.astro'
+
+import ProjectClientMasthead from '@/components/molecules/ProjectClientMasthead.astro'
+
+import ProjectSynthesis from '@/components/molecules/ProjectSynthesis.astro'
+
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+import contextImage from './cover-commerce-system.webp'
+
+import beforeImage from './before.webp'
+
+import afterImage from './after.webp'
+
+<ProjectContextLead projectId="smith-commerce" headingId="two-commerce-projects-at-smith">
+
+## Dos proyectos de comercio en Smith
+
+En [Smith Commerce](https://smithcommerce.com), mi trabajo como desarrollador senior de frontend ha abarcado dos proyectos de clientes: **Marcone** y **F.W. Webb**. En ambos he trabajado en los sistemas de frontend que conectan el descubrimiento de productos, las compras y los flujos de cuenta con las API de comercio.
+
+</ProjectContextLead>
+
+<ProjectClientMasthead sequence="01">
+
+## <span data-client-name>Marcone<span className="sr-only">:</span></span> <span data-client-subtitle>reconstruir para un futuro headless</span>
+
+</ProjectClientMasthead>
+
+Mi primer proyecto fue la reconstrucción del frontend de [Marcone](https://www.marcone.com/), una gran experiencia de comercio que estaba dejando atrás un monolito heredado. La tienda anterior era lenta, poco accesible y difícil de evolucionar. El objetivo era reemplazarla por un frontend headless moderno que pudiera avanzar más rápido sin esperar a que el backend estuviera listo.
+
+<ProjectOutcomesCard
+  attribution={{ client: 'Marcone', context: 'Reconstrucción de la tienda' }}
+  contextLinks={[
+    { label: 'Antes y después', href: '#before-and-after' },
+    { label: 'Aspectos técnicos', href: '#technical-highlights' }
+  ]}
+  headingId="outcomes"
+  id="key-outcomes"
+  legacyId="sidebar-outcomes"
+  projectId="smith-commerce"
+>
+
+### Resultados
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### El desafío principal
+
+</ProjectSectionHeading>
+
+<ProjectContextExhibit src={contextImage} alt="Ilustración conceptual de Smith Commerce con motivos de una tienda y sus sistemas." caption="Smith Commerce">
+
+No era un sitio de marketing creado desde cero. Era una migración de tienda con deuda real de rendimiento, problemas de accesibilidad y presión de entrega tanto en frontend como en backend. El trabajo solo tenía sentido si el equipo podía mejorar la experiencia de usuario de inmediato y, al mismo tiempo, abrir espacio para la entrega en paralelo y la mantenibilidad a largo plazo.
+
+</ProjectContextExhibit>
+
+<ProjectSectionHeading>
+
+### Mis responsabilidades
+
+</ProjectSectionHeading>
+
+- **La arquitectura de frontend, desde la configuración del monorepo hasta el lanzamiento**, ayudando a definir las bases de la tienda headless a medida que el proyecto llegaba a producción.
+- **La entrega en paralelo contra contratos OpenAPI simulados**, para que el frontend y el backend pudieran avanzar de forma independiente sin bloquearse entre sí.
+- **Los sistemas de interfaz, formularios y patrones de estado** con `Next.js 15`, `React 19`, `TypeScript`, `Radix UI`, `TanStack Query` y `Zod`.
+- **Las mejoras de experiencia de desarrollo** mediante un linting más sólido, automatización y estándares de equipo que hicieron la entrega más rápida y con menos ruido.
+
+<ProjectTechnicalHighlights
+  client="Marcone"
+  headingId="technical-highlights"
+  groups={[
+    { label: 'Frontend', icon: 'panels-top-left', technologies: ['Next.js', { label: 'React', technology: 'React.js' }, 'TypeScript', 'Tailwind CSS', 'Radix UI', 'Lucide React'] },
+    { label: 'Estado y datos', icon: 'database', technologies: ['TanStack Query', 'Zustand', 'Apollo Client', 'OpenAPI', 'React Hook Form', 'Zod'] },
+    { label: 'Entrega y calidad', icon: 'workflow', technologies: ['Turborepo', 'Storybook', 'ESLint', 'Prettier', 'Husky', 'Jest', 'Playwright', 'CI/CD'] }
+  ]}
+>
+
+### Aspectos técnicos
+
+</ProjectTechnicalHighlights>
+
+<ProjectSectionHeading>
+
+### Antes y después
+
+</ProjectSectionHeading>
+
+La diferencia era visible tanto en el rendimiento como en la experiencia:
+
+<ProjectComparison
+  id="marcone-comparison"
+  label="Marcone"
+  context="Evolución de la tienda"
+  before={{
+    src: beforeImage,
+    alt: 'Tienda heredada de Marcone con su barra lateral de categorías y catálogo de productos.',
+    title: 'Monolito heredado',
+    caption: 'Antes — Monolito heredado'
+  }}
+  after={{
+    src: afterImage,
+    alt: 'Tienda headless de Marcone con navegación actualizada y panel de cuenta.',
+    title: 'Tienda headless',
+    caption: 'Después — Tienda headless'
+  }}
+/>
+
+<ProjectClientMasthead sequence="02">
+
+## <span data-client-name>F.W. Webb<span className="sr-only">:</span></span> <span data-client-subtitle>construir la experiencia de compra</span>
+
+</ProjectClientMasthead>
+
+Mi segundo proyecto en Smith fue **F.W. Webb**, donde ayudé a dar vida a una nueva experiencia de comercio. Mi trabajo conectó un diseño moderno de tienda con las necesidades complejas de compra de clientes empresariales, desde el descubrimiento de productos y el proceso de pago hasta los servicios de cuenta.
+
+<ProjectPreviews projectId="smith-commerce">
+
+### Dentro del producto
+
+</ProjectPreviews>
+
+<ProjectSectionHeading>
+
+### El desafío de las compras
+
+</ProjectSectionHeading>
+
+El desafío era hacer que una plataforma B2B compleja se sintiera sencilla de usar. Los clientes necesitaban una experiencia consistente desde la exploración del catálogo hasta completar una compra, mientras que el negocio necesitaba margen para evolucionar su contenido, sus servicios y sus flujos de trabajo.
+
+<ProjectSectionHeading>
+
+### Mi contribución
+
+</ProjectSectionHeading>
+
+- **Dar vida a la nueva tienda**, traduciendo el diseño en experiencias adaptables para descubrir productos, comprar y administrar cuentas.
+- **Facilitar la navegación de un comercio complejo**, construyendo recorridos que conectan un catálogo amplio de productos con las necesidades de los compradores empresariales.
+- **Conectar el diseño con las operaciones del negocio**, convirtiendo las reglas de compra y los servicios de cuenta en interfaces claras y prácticas.
+- **Dar más flexibilidad a los equipos de contenido**, creando experiencias reutilizables controladas desde el CMS para apoyar campañas en evolución y contenido localizado.
+- **Fortalecer las bases para seguir entregando**, construyendo componentes compartidos y patrones de integración que ayudan a la tienda a crecer de manera consistente.
+
+<ProjectTechnicalHighlights
+  client="F.W. Webb"
+  headingId="webb-technical-highlights"
+  groups={[
+    { label: 'Frontend', icon: 'panels-top-left', technologies: ['Next.js', { label: 'React', technology: 'React.js' }, 'TypeScript', 'Tailwind CSS', 'Radix UI'] },
+    { label: 'Estado, formularios e integración', icon: 'database', technologies: ['TanStack Query', 'Zustand', 'React Hook Form', 'Zod', 'OpenAPI'] },
+    { label: 'Contenido y desarrollo', icon: 'workflow', technologies: ['Contentstack', 'i18next', 'Turborepo', 'Storybook', 'Vitest'] }
+  ]}
+>
+
+### Aspectos técnicos de Webb
+
+</ProjectTechnicalHighlights>
+
+<ProjectSectionHeading>
+
+### Mi enfoque
+
+</ProjectSectionHeading>
+
+Abordé la tienda como un producto conectado: el diseño, el recorrido del cliente y los servicios subyacentes debían funcionar juntos. Me concentré en mantener esa consistencia a lo largo de la experiencia y en darle al equipo bases reutilizables para el trabajo futuro.
+
+<ProjectSynthesis
+  headingId="why-this-experience-matters"
+  introduction="Estos dos proyectos ampliaron mi experiencia en comercio de formas complementarias."
+  perspectives={[
+    { name: 'Marcone', description: 'Se centró en modernizar una tienda y mejorar su rendimiento y accesibilidad.' },
+    { name: 'F.W. Webb', description: 'Añadió un trabajo más profundo en reglas de compra, permisos de cuenta, descubrimiento de productos e integración de contenido.' }
+  ]}
+  takeaway={{
+    lead: 'Juntos reflejan el trabajo de frontend que más disfruto:',
+    emphasis: 'hacer que los sistemas complejos sean comprensibles para los clientes y mantenibles para los equipos que los construyen.'
+  }}
+>
+
+## Por qué importa esta experiencia
+
+</ProjectSynthesis>

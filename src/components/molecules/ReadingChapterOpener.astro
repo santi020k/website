@@ -32,7 +32,7 @@ const sectionCount = tocHeadings.filter(heading => heading.depth <= 2).length ||
         <span>{t('collection.onThisPage')}</span>{' '}
         <span data-toc-count>{t(sectionCount === 1 ? 'reading.sectionCountOne' : 'reading.sectionCount', { count: sectionCount })}</span>
         <Icon class="size-4 shrink-0" data-toc-toggle-icon name="chevron-down" />
-        {companion && <span data-toc-current lang="en" hidden />}
+        {companion && <span data-toc-current lang={locale} hidden />}
       </summary>
       <ReadingContents embedded headings={tocHeadings} />
     </Collapsible>

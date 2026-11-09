@@ -108,3 +108,18 @@ describe('optional body search', () => {
     expect(decodeSearchExcerpt('&#0; &#xD800; &#x110000;')).toBe('&#0; &#xD800; &#x110000;')
   })
 })
+
+test('reinitializes body search when client navigation changes language', async () => {
+  const destroy = vi.fn()
+  const search = createFullTextSearch(() => Promise.resolve({
+    destroy,
+    debouncedSearch: () => Promise.resolve({ results: [] })
+  }))
+
+  await search('one', [], new Set(), origin, 'en')
+  await search('uno', [], new Set(), origin, 'es')
+  await search('dos', [], new Set(), origin, 'es')
+  expect(destroy).toHaveBeenCalledTimes(1)
+  await search('two', [], new Set(), origin, 'en')
+  expect(destroy).toHaveBeenCalledTimes(2)
+})

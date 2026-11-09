@@ -4,6 +4,14 @@ import { sharedMessages } from './shared.ts'
 
 /** Stable IDs; edit English wording without changing its key. */
 export const articleMessages = {
+  'article.references.withGuide': { en: 'With this guide', es: 'Con esta guía' },
+  'article.references.ariaLabel': { en: 'References for this article', es: 'Referencias de este artículo' },
+  'article.references.relatedReading': { en: 'Related reading', es: 'Lecturas relacionadas' },
+  'article.references.relatedGuide': { en: 'Related guide', es: 'Guía relacionada' },
+  'article.references.repository': { en: 'Repository', es: 'Repositorio' },
+  'article.references.earlierArticle': { en: 'Earlier article', es: 'Artículo anterior' },
+  'article.references.anotherSeries': { en: 'Another series', es: 'Otra serie' },
+  'article.printReference': { en: 'Reference {number}', es: 'Referencia {number}' },
   'article.anonymous': { en: 'Anonymous', es: 'Anónimo' },
   'article.codeCopiedToClipboard': { en: 'Code copied to clipboard', es: 'Código copiado al portapapeles' },
   'article.collapseExample': { en: 'Collapse example', es: 'Contraer ejemplo' },

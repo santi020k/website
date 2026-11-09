@@ -13,6 +13,7 @@ const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
 
 interface Props {
+  contentLocale?: 'en' | 'es'
   coverImage: CollectionEntry<'post'>['data']['coverImage']
   href: string
   label: string
@@ -21,7 +22,7 @@ interface Props {
   title: string
 }
 
-const { coverImage, href, label, position, reason, title } = Astro.props
+const { contentLocale = 'en', coverImage, href, label, position, reason, title } = Astro.props
 ---
 
 <Card as="article" data-start-here-card variant="unstyled">
@@ -42,11 +43,11 @@ const { coverImage, href, label, position, reason, title } = Astro.props
     )}
     <div data-reading-slip-body>
       <div data-reading-slip-header>
-        <p lang="en" data-reading-slip-label>{label}</p>
+        <p lang={contentLocale} data-reading-slip-label>{label}</p>
         <span aria-hidden="true" data-reading-slip-number>{String(position).padStart(2, '0')}</span>
       </div>
-      <h4 lang="en">{title}</h4>
-      <p lang="en" data-reading-slip-reason>{reason}</p>
+      <h4 lang={contentLocale}>{title}</h4>
+      <p lang={contentLocale} data-reading-slip-reason>{reason}</p>
       <span data-reading-slip-footer>
         <span>{t('collection.readTheArticle')} <ArrowExchange
 class="size-4.5 shrink-0"

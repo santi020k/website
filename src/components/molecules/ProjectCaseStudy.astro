@@ -10,12 +10,13 @@ interface CaseStudyRow {
 }
 
 interface Props {
+  contentLocale?: 'en' | 'es'
   rows: CaseStudyRow[]
 }
 
 const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
-const { rows } = Astro.props
+const { contentLocale = 'en', rows } = Astro.props
 ---
 
 {!!rows.length && (
@@ -27,7 +28,7 @@ const { rows } = Astro.props
           <span aria-hidden="true" data-project-case-number>{String(i + 1).padStart(2, '0')}</span>
           <div data-project-case-copy>
             <h3>{localizeCollectionSource(locale, row.label)}</h3>
-            <p lang="en">{row.body}</p>
+            <p lang={contentLocale}>{row.body}</p>
           </div>
         </li>
       ))}

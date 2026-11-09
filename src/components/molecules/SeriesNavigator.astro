@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
+import { localizePost } from '@/utils/content-translations'
 import { getPostPath, getSeriesPath } from '@/utils/links'
 
 import { Collapsible, Icon } from '@santi020k/lumen-astro'
@@ -24,7 +25,10 @@ interface Props {
   total: number
 }
 
-const { currentPostId, next, position, posts, previous, series, total } = Astro.props
+const { currentPostId, next: originalNext, position, posts: originalPosts, previous: originalPrevious, series, total } = Astro.props
+const posts = await Promise.all(originalPosts.map(post => localizePost(post, locale)))
+const next = originalNext ? await localizePost(originalNext, locale) : undefined
+const previous = originalPrevious ? await localizePost(originalPrevious, locale) : undefined
 const seriesPath = getSeriesPath(series.id)
 const isLatestChapter = !next
 ---

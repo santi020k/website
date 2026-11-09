@@ -11,6 +11,7 @@ export interface FullTextOutcome {
 }
 
 interface SearchModule {
+  destroy?: () => Promise<void> | void
   debouncedSearch: (query: string) => Promise<unknown>
 }
 
@@ -19,7 +20,8 @@ const isRecord = (value: unknown): value is Record<string, unknown> => (
 )
 
 const isSearchModule = (value: unknown): value is SearchModule => (
-  isRecord(value) && typeof value.debouncedSearch === 'function'
+  isRecord(value) && typeof value.debouncedSearch === 'function' &&
+  (value.destroy === undefined || typeof value.destroy === 'function')
 )
 
 const isResult = (value: unknown): value is { data: () => Promise<unknown> } => (
@@ -73,12 +75,14 @@ const loadModule = async (): Promise<unknown> => {
  */
 export const createFullTextSearch = (loader = loadModule, timeout = 5_000) => {
   let modulePromise: Promise<unknown> | undefined
+  let activeLanguage: string | undefined
 
   return async (
     query: string,
     entries: readonly SearchIndexEntry[],
     shownPaths: ReadonlySet<string>,
-    origin: string
+    origin: string,
+    language = 'en'
   ): Promise<FullTextOutcome> => {
     try {
       modulePromise ??= loader()
@@ -86,6 +90,10 @@ export const createFullTextSearch = (loader = loadModule, timeout = 5_000) => {
       const module = await withTimeout(modulePromise, timeout)
 
       if (!isSearchModule(module)) throw new TypeError('Invalid full-text search module')
+
+      if (activeLanguage !== undefined && activeLanguage !== language) await module.destroy?.()
+
+      activeLanguage = language
 
       const response = await withTimeout(module.debouncedSearch(query), timeout)
 

@@ -90,7 +90,7 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
   "
   >
     <CoverSpread kind="article" hasCover={Boolean(post.data.coverImage)} wide={useWideCoverFrame}>
-      <h1 lang="en" slot="heading" class="p-name">{title}</h1>
+      <h1 lang={post.data.contentLocale} slot="heading" class="p-name">{title}</h1>
       {post.data.coverImage && (
         <HoverableCover
           alt={post.data.coverImage.alt}
@@ -106,7 +106,11 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
       )}
     </CoverSpread>
     <div data-cover-lead>
-      <p lang="en" data-editorial-summary class="p-summary text-ink-soft">{description}</p>
+      <p
+lang={post.data.contentLocale}
+data-editorial-summary
+class="p-summary text-ink-soft"
+      >{description}</p>
       <p data-cover-byline class="text-sm/6 text-ink-muted">
         <span>{t('collection.writtenBy')}</span>
         <a
@@ -159,7 +163,7 @@ const eyebrowLabel = tags[0] ? getBlogTopicLabel(tags[0]) : t('collection.articl
           </dl>
           <ArticlePrintAction />
         </div>
-        {locale === 'es' && (
+        {locale === 'es' && post.data.contentLocale === 'en' && (
           <p data-article-language>
             <Icon name="languages" class="size-4 shrink-0" />
             <span>{t('reading.englishArticle')}</span>

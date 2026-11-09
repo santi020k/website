@@ -5,6 +5,7 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import ProjectGalleryBody from '@/components/molecules/ProjectGalleryBody.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath, getTechnologySlug } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
@@ -25,7 +26,8 @@ interface Props {
   projects: CollectionEntry<'project'>[]
 }
 
-const { matchedTechnology, productFirst = false, projects } = Astro.props
+const { matchedTechnology, productFirst = false, projects: originalEntries } = Astro.props
+const projects = await Promise.all(originalEntries.map(entry => localizeProject(entry, locale)))
 const matchedSlug = matchedTechnology ? getTechnologySlug(matchedTechnology) : undefined
 
 const projectItems = projects.map(project => {
@@ -45,6 +47,7 @@ const projectItems = projects.map(project => {
     href: localizePath(getPortfolioPath(project.id), locale),
     status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
     technologies,
+    contentLocale: project.data.contentLocale,
     title: project.data.title
   }
 })
@@ -77,8 +80,8 @@ const projectItems = projects.map(project => {
             <span>{String(index + 1).padStart(2, '0')} / {project.dateRange}</span>
             <Pill label={localizeCollectionSource(locale, project.status)} tone="outline" />
           </div>
-          <h3 lang="en">{project.title}</h3>
-          <p lang="en">{project.cardDescription}</p>
+          <h3 lang={project.contentLocale}>{project.title}</h3>
+          <p lang={project.contentLocale}>{project.cardDescription}</p>
           {project.technologies.length > 0 && (
             <ul aria-label={project.hasMatch ? undefined : t('collection.coreTechnologies')} data-matched-stack={project.hasMatch ? '' : undefined}>
               {project.technologies.map((technology, technologyIndex) => (

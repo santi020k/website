@@ -28,7 +28,7 @@ Draft posts, scheduled posts, draft series, series without published posts, util
 pages, and posts with an external canonical URL are excluded from the site's
 production sitemap. Draft and empty series remain available in development.
 The sitemap filter also reads each built page and drops every page marked `noindex`.
-That covers the Spanish shells of English articles and case studies (see
+That covers Spanish routes whose article or case-study translation is missing (see
 [the language guide](i18n.md)) and topic and technology archives with fewer than three
 published entries, which stay reachable from navigation. Change that threshold in
 `src/utils/archive-indexing.ts`; pages, the sitemap, and social cards follow it.

@@ -10,6 +10,18 @@ describe('article control language', () => {
     expect(localizeArticleControls(copyButton, 'en')).toBe(copyButton)
   })
 
+  test('uses the authoritative article format when translation metadata omits it', () => {
+    const opening = '<p data-article-format="">Article</p><p>Texto traducido.</p>'
+    const sample = '<script>const sample = \'<p data-article-format="">Article</p>\';</script>'
+
+    expect(localizeArticleControls(opening + sample, 'es', 'Guide')).toBe(
+      '<p data-article-format="">Guía</p><p>Texto traducido.</p>' + sample
+    )
+    expect(localizeArticleControls(opening, 'en', 'Guide')).toBe(
+      '<p data-article-format="">Guide</p><p>Texto traducido.</p>'
+    )
+  })
+
   test('localizes idle, copied, and error behavior without changing copied code', () => {
     const spanish = localizeArticleControls(copyButton, 'es')
 

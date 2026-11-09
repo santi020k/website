@@ -10,15 +10,16 @@ const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
 
 interface Props {
+  contentLocale?: 'en' | 'es'
   focusAreas: CollectionEntry<'project'>['data']['focusAreas']
 }
 
-const { focusAreas } = Astro.props
+const { contentLocale = 'en', focusAreas } = Astro.props
 ---
 
 <Card as="section" aria-labelledby="sidebar-focus" data-project-focus variant="unstyled">
   <h2 id="sidebar-focus">{t('collection.focus')}<Icon class="size-4 shrink-0" name="target" /></h2>
-  <dl lang="en">
+  <dl lang={contentLocale}>
     {focusAreas.map(({ label, description }) => (
       <div>
         <dt>{label}</dt>

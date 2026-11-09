@@ -1,0 +1,211 @@
+---
+title: "Astro Doctor"
+description: "Creé un conjunto determinista de herramientas de diagnóstico para Astro con CLI, complemento de ESLint, extensión de editor, GitHub Action, sitio de documentación y habilidades instalables para agentes."
+cardDescription: "Un diagnóstico para proyectos Astro. Encuentra problemas accionables en la terminal, el editor y CI con resultados consistentes."
+seoTitle: "Astro Doctor: herramientas de calidad para Astro"
+seoDescription: "Conoce Astro Doctor: CLI, complemento de ESLint, extensión de editor y GitHub Action para detectar problemas de rendimiento, accesibilidad y seguridad en Astro."
+coverImage:
+  alt: "Logotipo naranja de Astro Doctor sobre una portada geométrica oscura"
+impactMetrics: ["Detecta problemas de rendimiento, accesibilidad, seguridad y buenas prácticas específicos de Astro", "Presenta puntuaciones de salud en flujos locales, del editor y de CI", "Instala habilidades que enseñan estándares de Astro a los asistentes de programación"]
+focusAreas:
+  - label: "Diagnósticos de Astro"
+    description: "Verificaciones de rendimiento, accesibilidad y mantenibilidad"
+  - label: "Apoyo al flujo de trabajo"
+    description: "Hallazgos consistentes en CLI, editor y CI"
+  - label: "Adopción en equipos"
+    description: "Explicaciones de reglas, documentación y habilidades para agentes"
+relatedWritingLabels: ["Presentación del proyecto", "Ecosistema de herramientas"]
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="astro-doctor" headingId="building-a-health-check-for-astro-projects">
+
+## Crear un diagnóstico para proyectos Astro
+
+Creé Astro Doctor para hacer visible la calidad del código específico de Astro antes de que llegue a producción. El proyecto surgió de un problema sencillo: Astro puede compilar una página que aun así contradice las razones por las que elegiste Astro en primer lugar.
+
+La herramienta analiza archivos `.astro` y la configuración del proyecto en busca de patrones que afectan el rendimiento, la accesibilidad, la seguridad y la mantenibilidad. Después presenta diagnósticos accionables, una puntuación de salud del proyecto y resultados adaptados al desarrollo local, los editores, las solicitudes de cambios y la automatización.
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Funciones", href: "#what-i-built" },
+    { label: "Aspectos técnicos", href: "#technical-highlights" },
+    { label: "Resultados", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="astro-doctor"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Proteger el modelo de rendimiento de Astro** detectando hidratación anticipada, imágenes sin optimizar, scripts bloqueantes y dimensiones de imagen ausentes.
+
+</li>
+
+<li>
+
+**Mantener las verificaciones de accesibilidad cerca del código** con reglas para texto alternativo de imágenes, idioma del documento y contenido de respaldo de las islas.
+
+</li>
+
+<li>
+
+**Facilitar la adopción** con una CLI, un complemento de ESLint, una extensión de VS Code/Cursor y una GitHub Action, en lugar de un único flujo rígido.
+
+</li>
+
+<li>
+
+**Ayudar a los equipos que trabajan con IA** instalando habilidades para agentes que enseñan los mismos estándares de Astro que aplica el analizador.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Qué construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Un paquete de CLI"}>
+
+(`@santi020k/astro-doctor`) que analiza proyectos, filtra por categoría, genera informes JSON, explica hallazgos individuales y devuelve una puntuación de salud de 0 a 100.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Un complemento de ESLint"}>
+
+(`@santi020k/eslint-plugin-astro-doctor`) para equipos que quieren integrar las reglas en su configuración de lint existente.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Una extensión de VS Code y Cursor"}>
+
+con diagnósticos en tiempo real, explicaciones al pasar el cursor, correcciones rápidas, actualizaciones de estado y un panel lateral de salud.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Una GitHub Action"}>
+
+que puede comentar en solicitudes de cambios e informar únicamente de los problemas nuevos introducidos por un cambio.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Un sitio de documentación"}>
+
+en [doctor.santi020k.com](https://doctor.santi020k.com/), con guías de inicio rápido, documentación de reglas y ejemplos de configuración.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Habilidades instalables para agentes"}>
+
+para que los asistentes de programación con IA aprendan los patrones esperados de Astro directamente desde el repositorio.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Motor de reglas</dt>
+  <dd>
+
+`TypeScript`, `ESLint`, `astro-eslint-parser` y metadatos de reglas que entienden Astro.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Flujos de desarrollo</dt>
+  <dd>
+
+Análisis locales por CLI, `doctor.config.ts`, resultados JSON, umbrales de puntuación y configuraciones predefinidas para CI.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Integración con el editor</dt>
+  <dd>
+
+Una extensión de VS Code basada en un servidor de lenguaje, con diagnósticos, información al pasar el cursor, correcciones rápidas e interfaz lateral.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Integración con CI</dt>
+  <dd>
+
+Compatibilidad con GitHub Actions para analizar archivos modificados, mantener comentarios actualizados en las solicitudes de cambios y configurar cuándo bloquearlas.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Documentación</dt>
+  <dd>
+
+Un sitio en Astro con páginas de reglas, guías de instalación y recursos Open Graph generados.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Resultados
+
+</ProjectSectionHeading>
+
+- **Un sistema de reglas en múltiples entornos:** la CLI, ESLint, los diagnósticos del editor, los comentarios de CI y las guías para agentes se basan en los mismos estándares de Astro.
+- **Una adopción más sencilla en proyectos existentes:** los equipos pueden empezar analizando archivos modificados sin convertir cada solicitud de cambios en una limpieza de código heredado.
+- **Un flujo más sólido con asistencia de IA:** el código generado se puede analizar después y orientar antes de escribir el siguiente cambio.
+
+<ProjectSectionHeading>
+
+### Por qué importa
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Astro es rápido por defecto, pero esos valores solo ayudan si el código sigue respetándolos."}>
+
+Astro Doctor convierte los patrones que busco al revisar Astro en herramientas repetibles: retroalimentación rápida, explicaciones claras y estándares que pueden vivir en el repositorio y no solo en la cabeza de alguien.
+
+</ProjectPrincipleClose>
+
+Lee la [historia del lanzamiento de Astro Doctor](/es/blog/astro-doctor-announcement/) para conocer las razones detrás de las herramientas y los flujos que protegen.

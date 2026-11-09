@@ -44,6 +44,7 @@ Public URLs stay compatible and visitors need no migration.
 - [ ] Responses carry `Strict-Transport-Security`; pages carry one script-policy meta tag and the
   console shows no Content Security Policy violations while navigating, apart from the router's
   empty `data:` module (see [deployment](deployment.md#deployment-target)).
-- [ ] Spanish shells of English articles answer with `noindex` and stay out of the sitemap.
+- [ ] Translated Spanish articles and case studies are self-canonical, indexable, and in the
+  sitemap; missing translations remain `noindex`. Verify Spanish social cards and search.
 - [ ] Delete the merged release branch and prune retired worktree checkouts.
 - [ ] If a smoke check fails, follow [rollback](deployment.md#rollback).

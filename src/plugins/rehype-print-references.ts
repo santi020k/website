@@ -1,6 +1,8 @@
 import type { Element, ElementContent, Root } from 'hast'
 import type { Plugin } from 'unified'
 
+import { type Locale, localizePath } from '../i18n'
+import { articleTranslator } from '../i18n/article-copy'
 import { getPostSlug } from '../utils/posts'
 
 export interface PrintReference {
@@ -16,14 +18,14 @@ const textContent = (node: ElementContent): string => {
   return node.children.map(textContent).join('')
 }
 
-const marker = (number: number): Element => ({
+const marker = (number: number, locale: Locale): Element => ({
   type: 'element',
   tagName: 'sup',
   properties: { dataPrintReference: '' },
   children: [{
     type: 'element',
     tagName: 'a',
-    properties: { href: `#article-print-reference-${number}`, ariaLabel: `Reference ${number}` },
+    properties: { href: `#article-print-reference-${number}`, ariaLabel: articleTranslator(locale)('article.printReference', { number }) },
     children: [{ type: 'text', value: String(number) }]
   }]
 })
@@ -37,7 +39,9 @@ export const rehypePrintReferences: Plugin<[{ site: string }], Root> = ({ site }
 
   if (file.data.astro?.frontmatter?.articlePrintReferences !== undefined) return
 
-  const page = new URL(`/blog/${getPostSlug(source)}/`, site)
+  const locale = /\.es\.mdx?$/u.test(source) ? 'es' : 'en'
+  const originalSource = source.replace(/\.es(?=\.mdx?$)/u, '')
+  const page = new URL(localizePath(`/blog/${getPostSlug(originalSource)}/`, locale), site)
   const references: PrintReference[] = []
   const numbers = new Map<string, number>()
   const excluded = new Set(['pre', 'code', 'nav', 'button', 'script', 'style', 'svg', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
@@ -89,7 +93,7 @@ export const rehypePrintReferences: Plugin<[{ site: string }], Root> = ({ site }
           numbers.set(reference.href, number)
         }
 
-        parent.children.splice(index + 1, 0, marker(number))
+        parent.children.splice(index + 1, 0, marker(number, locale))
 
         index++
       } else walk(node)

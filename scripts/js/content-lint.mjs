@@ -123,7 +123,7 @@ const validateFile = async filePath => {
   const body = parsed.body
   const titleOnlyDraft = frontmatter.draft === true && body.length === 0 && coverImage === undefined
 
-  if (!titleOnlyDraft) errors.push(...await validatePostCover(filePath, coverImage))
+  if (!titleOnlyDraft && !/\.es\.mdx?$/u.test(filePath)) errors.push(...await validatePostCover(filePath, coverImage))
 
   const isPost = filePath.startsWith(`${POST_ROOT}${path.sep}`)
 

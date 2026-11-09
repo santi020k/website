@@ -1,0 +1,190 @@
+---
+title: "Between Contractions"
+description: "Creé un temporizador de contracciones tranquilo que prioriza la privacidad para web, iOS, Android, relojes, widgets y coordinación opcional con la pareja en tiempo real."
+cardDescription: "Un temporizador de contracciones tranquilo y privado. Registra cada contracción, revisa tu ritmo y comparte el momento con tu pareja."
+coverImage:
+  alt: "Logotipo de pulso de Between Contractions sobre una portada geométrica roja oscura"
+impactMetrics: ["Entregué un temporizador bilingüe para navegador, teléfono, reloj, widget y escritorio", "Mantuve el temporizador principal gratuito, sin anuncios, sin cuenta y con prioridad local", "Separé Partner Sync opcional del historial privado de contracciones del dispositivo"]
+focusAreas:
+  - label: "Medición tranquila"
+    description: "Una acción clara con historial privado y local"
+  - label: "Acceso nativo"
+    description: "Interfaces web, Apple y Android con aplicaciones para relojes"
+  - label: "Partner Sync"
+    description: "Coordinación opcional junto al núcleo sin conexión"
+relatedWritingLabels: ["Notas de ingeniería", "Historia del producto"]
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="between-contractions" headingId="a-calm-timer-for-a-moment-that-already-asks-enough">
+
+## Un temporizador tranquilo para un momento que ya exige bastante
+
+Creé Between Contractions mientras Alejandra y yo esperábamos a nuestro hijo, Aarón. El producto comienza con una acción deliberadamente sencilla: tocar cuando empieza una contracción y volver a tocar cuando termina.
+
+A partir de ahí calcula la duración, la frecuencia entre inicios y los patrones recientes sin convertir el trabajo de parto en un tablero de métricas. El temporizador está disponible en el navegador, en la [App Store](https://apps.apple.com/app/id6802499436) y en [Google Play](https://play.google.com/store/apps/details?id=com.santi020k.betweencontractions).
+
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Funciones", href: "#what-i-built" },
+    { label: "Aspectos técnicos", href: "#technical-highlights" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="between-contractions"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Reducir la carga cognitiva** con una única acción de medición, grande y evidente, y un historial reciente claro.
+
+</li>
+
+<li>
+
+**Mantener privado el núcleo** con almacenamiento que prioriza el dispositivo, sin anuncios, sin SDK de analítica y sin exigir una cuenta.
+
+</li>
+
+<li>
+
+**Acompañar a familias reales** con inglés y español, temas claro y oscuro, accesibilidad, widgets y aplicaciones para relojes.
+
+</li>
+
+<li>
+
+**Tratar la medición como orientación** presentando el patrón 5-1-1 como un recordatorio para seguir un plan de atención, nunca como diagnóstico.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Qué construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Un sitio bilingüe en Astro y un temporizador para navegador"}>
+
+que funciona sin instalación y mantiene su historial en el dispositivo actual.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Experiencias nativas para Apple"}>
+
+para iPhone y iPad, con SwiftUI, SwiftData, widgets, Live Activities, compatibilidad con Apple Watch, continuidad privada mediante iCloud y una aplicación complementaria para macOS.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Experiencias nativas para Android"}>
+
+con Kotlin, Jetpack Compose, Room, widgets de Glance y compatibilidad con Wear OS.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Partner Sync opcional"}>
+
+para familias que eligen coordinar un temporizador en tiempo real entre dispositivos y plataformas.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Un backend pequeño con Hono y Cloudflare"}>
+
+para las funciones compartidas explícitas, separado del temporizador principal que prioriza el almacenamiento local.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Web</dt>
+  <dd>
+
+`Astro`, `TypeScript`, `Lumen UI`, almacenamiento del navegador, contenido bilingüe y entrega estática.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Apple</dt>
+  <dd>
+
+`Swift`, `SwiftUI`, `SwiftData`, `WidgetKit`, `WatchConnectivity` e integraciones nativas del sistema.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Android</dt>
+  <dd>
+
+`Kotlin`, `Jetpack Compose`, `Room`, `Glance` y `Wear OS`.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Entrega compartida</dt>
+  <dd>
+
+`Turborepo`, `pnpm`, verificaciones automatizadas, controles previos a publicación, cobertura de accesibilidad y conjuntos de pruebas específicos de cada plataforma.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### La privacidad es una decisión de arquitectura
+
+</ProjectSectionHeading>
+
+El temporizador no necesita un backend para cumplir su función principal. El historial del navegador permanece en el dispositivo actual. El historial personal de Apple puede usar continuidad privada mediante iCloud entre los dispositivos de una misma persona, mientras Partner Sync opcional coordina un temporizador compartido mediante un servicio separado. El temporizador local sigue siendo útil sin conexión.
+
+Esa separación mantuvo clara la promesa del producto: el temporizador gratuito es útil por sí solo, mientras Partner Sync sigue siendo una elección explícita y no infraestructura oculta.
+
+<ProjectSectionHeading>
+
+### Una historia familiar, dos productos
+
+</ProjectSectionHeading>
+
+[Aaronmgz](/es/portfolio/aaronmgz/) es el espacio público y cercano que creé mientras nuestra familia espera a Aarón. Between Contractions nació del lado práctico del mismo capítulo: prepararnos para el trabajo de parto y proteger la atención cuando llegue el momento.
+
+Los dos proyectos ahora se enlazan porque ninguna de las dos historias está completa de forma aislada.
+
+[Prueba el temporizador en el navegador](https://between.santi020k.com/app/) o lee [por qué creé Between Contractions](/es/blog/why-i-built-between-contractions/).

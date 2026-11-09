@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 
+import { localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectOutcomeDisplay } from '@/utils/portfolio-metric'
 import { getProjectBrandStyle } from '@/utils/project-brand'
@@ -23,7 +24,8 @@ interface Props {
   project: CollectionEntry<'project'>
 }
 
-const { project } = Astro.props
+const { project: originalEntry } = Astro.props
+const project = await localizeProject(originalEntry, getLocale(Astro.url.pathname))
 const cover = project.id === 'smith-commerce' ? SmithArtwork : getProjectCoverForUsage(project.data.coverImage, 'hero')
 const summary = project.data.impactMetrics[0]
 const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined

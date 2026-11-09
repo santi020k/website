@@ -4,10 +4,15 @@ import { getImage } from 'astro:assets'
 
 import type { SearchIndexEntry } from '@/types/search'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
+import { localizePost, localizeProject } from '@/utils/content-translations'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 
 import type { APIRoute, ImageMetadata } from 'astro'
+
+import type { Locale } from '@/i18n'
+import { localizePath } from '@/i18n'
+import { localizePageSource } from '@/i18n/page-copy'
 
 const corePageEntries: SearchIndexEntry[] = [
   {
@@ -94,13 +99,15 @@ const searchThumb = async (
   }
 }
 
-export const GET: APIRoute = async () => {
-  const [posts, projects] = await Promise.all([getCachedPosts(), getCachedProjects()])
+export const createSearchIndex = async (locale: Locale) => {
+  const [originalPosts, originalProjects] = await Promise.all([getCachedPosts(), getCachedProjects()])
+  const posts = await Promise.all(originalPosts.map(post => localizePost(post, locale)))
+  const projects = await Promise.all(originalProjects.map(project => localizeProject(project, locale)))
 
   const postEntries = await Promise.all(
     posts.map(async (post): Promise<SearchIndexEntry> => ({
       description: post.data.description,
-      path: getPostPath(post.id),
+      path: localizePath(getPostPath(post.id), locale),
       tags: post.data.tags,
       title: post.data.title,
       type: 'post',
@@ -114,7 +121,7 @@ export const GET: APIRoute = async () => {
 
       return {
         description: project.data.description,
-        path: getPortfolioPath(project.id),
+        path: localizePath(getPortfolioPath(project.id), locale),
         tags: project.data.technologies,
         title: project.data.title,
         type: project.data.typesId === 'community' ? 'community' : 'project',
@@ -123,7 +130,14 @@ export const GET: APIRoute = async () => {
     })
   )
 
-  const entries = [...postEntries, ...projectEntries, ...corePageEntries]
+  const pageEntries = corePageEntries.map(entry => ({
+    ...entry,
+    path: localizePath(entry.path, locale),
+    title: localizePageSource(locale, entry.title),
+    description: localizePageSource(locale, entry.description)
+  }))
+
+  const entries = [...postEntries, ...projectEntries, ...pageEntries]
 
   return new Response(JSON.stringify(entries), {
     headers: {
@@ -131,3 +145,5 @@ export const GET: APIRoute = async () => {
     }
   })
 }
+
+export const GET: APIRoute = () => createSearchIndex('en')

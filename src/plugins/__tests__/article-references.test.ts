@@ -22,6 +22,77 @@ const contents = (node: Root | RootContent): string => {
 }
 
 describe('article Reference ledger', () => {
+  test.each([
+    '/repo/src/content/post/example/index.es.md',
+    '/repo/src/content/post/example/index.es.mdx',
+    'C:\\repo\\src\\content\\post\\example\\index.es.mdx'
+  ])('renders authored Spanish references with localized ledger labels: %s', sourcePath => {
+    const file = new VFile({ path: sourcePath, data: { astro: { frontmatter: { postType: 'Guide' } } } })
+    const relatedUrl = '/es/blog/contexto/?source=guide#chapter'
+    const repositoryUrl = 'https://github.com/santi020k/posts/tree/post-3?tab=readme-ov-file#usage'
+    const seriesUrl = '/es/blog/migracion/'
+    const tree: Root = { type: 'root',
+      children: [
+        reference('Lee el artículo anterior: Contexto', relatedUrl),
+        paragraph('La introducción.'),
+        reference('Artículo relacionado: Contexto', relatedUrl),
+        reference('Repositorio de GitHub', repositoryUrl),
+        element('h2', [text('Conclusión')]),
+        paragraph('El cierre.'),
+        element('p', [element('a', [text('Serie relacionada: Migración')], {
+          href: seriesUrl, title: 'ESLint en la práctica'
+        })])
+      ] }
+
+    unified().use(rehypeArticleReferences).runSync(tree, file)
+    const ledgers = tree.children.filter(node => node.type === 'element' && node.properties.dataArticleReferences !== undefined)
+
+    expect(ledgers.map(contents)).toEqual([
+      ['Con esta guía', 'Guía relacionada', 'Contexto', 'Repositorio', 'posts / tree / post-3', 'github.com / santi020k', 'Artículo anterior', 'Contexto'].join(''),
+      ['Lecturas relacionadas', 'Otra serie', 'Migración', 'ESLint en la práctica'].join('')
+    ])
+    expect(ledgers[0]).toMatchObject({ properties: { ariaLabel: 'Referencias de este artículo' } })
+    expect(ledgers[1]).toMatchObject({ properties: { ariaLabel: 'Lecturas relacionadas', dataSeriesConnection: '' } })
+    expect(file.data.astro?.frontmatter).toEqual({
+      postType: 'Guide', articleRecommendationUrls: [relatedUrl, seriesUrl]
+    })
+    expect(ledgers[0]).toMatchObject({ children: [{}, { children: [
+      { children: [{ properties: { href: relatedUrl } }] },
+      { children: [{ properties: { href: repositoryUrl } }] },
+      { children: [{ properties: { href: relatedUrl } }] }
+    ] }] })
+    const firstPass = structuredClone(tree)
+
+    unified().use(rehypeArticleReferences).runSync(tree, file)
+    expect(tree).toEqual(firstPass)
+  })
+
+  test('recognizes the short authored Spanish previous-article label', () => {
+    const tree: Root = { type: 'root', children: [reference('Artículo anterior: Estructura del proyecto')] }
+
+    unified().use(rehypeArticleReferences).runSync(tree, { path: '/repo/src/content/post/example/index.es.mdx' })
+    expect(contents(tree)).toBe('Con esta guíaArtículo anteriorEstructura del proyecto')
+  })
+
+  test('Spanish labels retain the standalone, destination, and series-context boundaries', () => {
+    const tree: Root = { type: 'root',
+      children: [
+        element('p', [text('Consulta '), element('a', [text('Artículo relacionado: Contexto')], { href: '/es/blog/contexto/' })]),
+        element('blockquote', [reference('Artículo anterior: Contexto')]),
+        reference('Repositorio de GitHub', 'https://example.com/repository'),
+        reference('Artículo relacionado: Sin destino', 'javascript:alert(1)'),
+        element('h2'),
+        reference('Artículo relacionado: Referencia del capítulo'),
+        reference('Serie relacionada: Sin nombre de serie')
+      ] }
+    const before = structuredClone(tree)
+    const file = new VFile({ path: '/repo/src/content/post/example/index.es.md' })
+
+    unified().use(rehypeArticleReferences).runSync(tree, file)
+    expect(tree).toEqual(before)
+    expect(file.data.astro?.frontmatter?.articleRecommendationUrls).toBeUndefined()
+  })
+
   test('exports only rendered article recommendations, preserving other plugin metadata', () => {
     const file = new VFile({ path, data: { astro: { frontmatter: { postType: 'Guide' } } } })
     const tree: Root = { type: 'root',

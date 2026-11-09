@@ -6,6 +6,7 @@ import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import StartHereCard from '@/components/molecules/StartHereCard.astro'
 import HomeSectionHeading from '@/components/pages/home/HomeSectionHeading.astro'
 
+import { localizePost } from '@/utils/content-translations'
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 import { getReadingTime } from '@/utils/reading-time'
@@ -26,7 +27,9 @@ interface Props {
   startHerePosts: CollectionEntry<'post'>[]
 }
 
-const { posts, startHerePosts } = Astro.props
+const { posts: originalPosts, startHerePosts: originalStartHere } = Astro.props
+const posts = await Promise.all(originalPosts.map(post => localizePost(post, getLocale(Astro.url.pathname))))
+const startHerePosts = await Promise.all(originalStartHere.map(post => localizePost(post, getLocale(Astro.url.pathname))))
 ---
 
 {posts.length > 0 && (
@@ -70,8 +73,8 @@ const { posts, startHerePosts } = Astro.props
                   <time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate, {}, localeLanguage(pageLocale))}</time>
                   <span>{getReadingTime(post.body)} {t('page.minRead')}</span>
                 </p>
-                <h4 lang="en">{post.data.title}</h4>
-                <p lang="en" data-writing-description>{post.data.description}</p>
+                <h4 lang={post.data.contentLocale}>{post.data.title}</h4>
+                <p lang={post.data.contentLocale} data-writing-description>{post.data.description}</p>
                 <span data-writing-action>
                   {t('page.readArticle')}
                   <ArrowExchange class="size-4.5 shrink-0" direction="up-right" />
@@ -92,6 +95,7 @@ const { posts, startHerePosts } = Astro.props
           {startHerePosts.map((post, index) => post.data.startHere && (
             <li>
               <StartHereCard
+contentLocale={post.data.contentLocale}
                 coverImage={post.data.coverImage}
                 href={localizePath(getPostPath(post.id), pageLocale)}
                 label={post.data.startHere.label}

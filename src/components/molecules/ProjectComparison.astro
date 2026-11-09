@@ -3,7 +3,11 @@ import ProjectPreviewViewer from '@/components/molecules/ProjectPreviewViewer.as
 
 import { Card, Image } from '@santi020k/lumen-astro'
 
+import { getLocale } from '@/i18n'
+import { projectStoryTranslator } from '@/i18n/project-story'
 import type { ProjectPreviewImage } from '@/types'
+
+const t = projectStoryTranslator(getLocale(Astro.url.pathname))
 
 interface Props {
   id: string
@@ -16,12 +20,19 @@ interface Props {
 const { id, label, context, before, after } = Astro.props
 
 const entries = [
-  { state: 'Before', key: 'before', preview: before },
-  { state: 'After', key: 'after', preview: after }
+  { state: t('comparison.before'), key: 'before', preview: before },
+  { state: t('comparison.after'), key: 'after', preview: after }
 ]
 ---
 
-<Card as="section" aria-label={`${label} before and after`} class="not-prose" data-project-comparison id={id} variant="unstyled">
+<Card
+as="section"
+aria-label={t('comparison.beforeAndAfter', { label })}
+class="not-prose"
+data-project-comparison
+id={id}
+variant="unstyled"
+>
   <div data-comparison-topline><span>{label}</span><span>{context}</span></div>
   <div data-comparison-pair>
     {entries.map(({ state, key, preview }) => (

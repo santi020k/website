@@ -1,0 +1,253 @@
+---
+title: "PostLens"
+seoTitle: "PostLens: edición privada de fotos para iPhone y iPad"
+description: "Creé un estudio privado de contenido visual para iPhone y iPad: elegir buenas fotos, aplicar mejoras transparentes en el dispositivo, componer diseños y preparar contenido para compartir."
+cardDescription: "Un estudio fotográfico privado para iPhone y iPad. Elige tus mejores fotos, ajústalas y compón diseños listos para compartir."
+previews:
+  description: "Vistas del flujo de PostLens 2 capturadas durante el desarrollo. Las fotos de muestra fueron generadas con IA y las puntuaciones son ilustrativas; la apariencia puede variar respecto a la aplicación publicada."
+  images:
+    - alt: "Galería de desarrollo de PostLens con fotos de muestra generadas, puntuaciones ilustrativas y controles de selección."
+      title: "Encuentra una foto en la que valga la pena trabajar"
+      caption: "La galería incorpora orientación local sobre las fotos a la selección, de modo que revisar un conjunto y abrir una imagen pertenecen al mismo flujo."
+    - alt: "Editor de desarrollo de PostLens con una muestra generada de un lago de montaña, comparación con el original, selección de formato y herramientas de edición."
+      title: "Mejórala en un editor enfocado"
+      caption: "El encuadre, los ajustes y la comparación con el original permanecen cerca de la foto. Esta captura muestra el flujo de edición desarrollado para PostLens 2."
+impactMetrics: ["Mantiene el análisis, la puntuación, la edición y la preparación de textos principales en el dispositivo", "Admite formatos reutilizables para Instagram, Pinterest, LinkedIn y exportaciones genéricas", "Ofrece la aplicación, textos de permisos, catálogo StoreKit, sitio y centro de soporte en inglés y español"]
+coverImage:
+  alt: "Logotipo de cámara de PostLens sobre una portada geométrica oscura con detalles coral"
+focusAreas:
+  - label: "Selección de fotos"
+    description: "Galería puntuada con análisis privado en el dispositivo"
+  - label: "Edición visual"
+    description: "Mejoras medidas, estilos a medida y composiciones"
+  - label: "Preparación de publicaciones"
+    description: "Carruseles, textos y planificación privada"
+relatedWritingLabels: ["Nota de lanzamiento", "Análisis a fondo"]
+---
+
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectReleaseNote from '@/components/molecules/ProjectReleaseNote.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+
+<ProjectContextLead projectId="postlens" headingId="building-a-private-visual-content-studio-for-iphone-and-ipad">
+
+## Crear un estudio privado de contenido visual para iPhone y iPad
+
+PostLens 2 está disponible para iPhone y iPad. Ayuda a elegir buenas fotos, mejorarlas con ediciones explicables, componer diseños para redes sociales y exportar el resultado. Su flujo es deliberadamente acotado: **Seleccionar → Mejorar → Componer → Exportar**.
+
+Las herramientas opcionales Supporter añaden planificación privada con recordatorios locales. Los planes permanecen en el dispositivo y no publican automáticamente. La conexión de cuentas de Instagram y la publicación directa siguen sin estar disponibles mientras esperamos la aprobación de Meta para producción. La analítica y el seguimiento de interacciones quedan fuera del producto.
+
+</ProjectContextLead>
+
+<ProjectPreviews projectId="postlens">
+
+### Dentro del producto
+
+</ProjectPreviews>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Funciones", href: "#what-i-built" },
+    { label: "Aspectos técnicos", href: "#technical-highlights" },
+    { label: "Resultados", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="postlens"
+>
+
+### Logros
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
+
+### Objetivos
+
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Facilitar la selección de fotos** con puntuaciones útiles que no suben la biblioteca a un servidor privado.
+
+</li>
+
+<li>
+
+**Mantener comprensibles las ediciones** mediante señales medidas y recetas de ajuste con límites.
+
+</li>
+
+<li>
+
+**Admitir formatos reales de publicación** sin atar una foto a un solo destino o recorte.
+
+</li>
+
+<li>
+
+**Tratar la privacidad, la accesibilidad y la localización como funciones del producto**, no solo como notas de publicación.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
+
+### Qué construí
+
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Una galería progresiva con puntuaciones"}>
+
+que prioriza las fotos visibles, analiza recursos locales en lotes que consideran el consumo de batería y reutiliza un índice privado en el dispositivo.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Un flujo de edición"}>
+
+que mide exposición, contraste, saturación, balance de color, recorte de luces y sombras y nitidez antes de aplicar estilos predecibles.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Un estilo de IA a medida"}>
+
+que explora candidatos limitados, valida el resultado, propone un recorte guiado por Vision y redacta un texto editable basado en la imagen.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Composiciones y carruseles"}>
+
+para formatos sociales reutilizables, conjuntos de publicación, cuadrículas de perfil y exportación de video con fotogramas estáticos.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Planificación privada"}>
+
+con calendario local y recordatorios para preparar trabajo sin conectar una cuenta social.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Integraciones opcionales de Apple"}>
+
+para orientación con Foundation Models y transferencia a Image Playground por uso en dispositivos compatibles.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={7} title={"Un sitio de presentación y soporte en Astro"}>
+
+en inglés y español.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
+
+### Aspectos técnicos
+
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Tecnologías nativas</dt>
+  <dd>
+
+`SwiftUI`, `PhotoKit`, `PhotosPicker`, `Vision`, `Core Image`, `StoreKit` y las funciones de compartir del sistema Apple.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Inteligencia en el dispositivo</dt>
+  <dd>
+
+Puntuación local, nuevo análisis limitado de vistas previas, encuadre según el sujeto y preparación de textos.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Límites de privacidad</dt>
+  <dd>
+
+El trabajo principal con fotos permanece en el dispositivo, las copias guardadas omiten metadatos y los flujos generativos opcionales de Apple comienzan con una explicación explícita.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Calidad de publicación</dt>
+  <dd>
+
+Manifiestos de privacidad, verificaciones del tamaño del código fuente, pruebas nativas, controles SEO y verificaciones previas a publicación.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
+
+### Resultados
+
+</ProjectSectionHeading>
+
+- **Un flujo gratuito completo para una foto**, desde revisar la biblioteca hasta exportar para un formato específico.
+- **Funciones opcionales Supporter** que añaden exportaciones de varias fotos y planificación privada sin restringir la privacidad, la accesibilidad, las puntuaciones ni la edición principal.
+- **Un límite de producto claro** que mantiene a PostLens como estudio visual, en lugar de otro panel de cuentas sociales.
+
+<ProjectSectionHeading>
+
+### Estado de publicación
+
+</ProjectSectionHeading>
+
+<span id="available-today-and-in-development" aria-hidden="true" />
+
+<ProjectReleaseNote
+  labelledBy="release-status"
+  states={[
+    {
+      label: "Disponible ahora",
+      title: "PostLens 2",
+      description: "El estudio fotográfico está disponible en iPhone y iPad: selecciona fotos, edita, compón y exporta. La planificación privada usa recordatorios locales y no publica automáticamente.",
+      link: { label: "Descargar PostLens en la App Store", href: "https://apps.apple.com/app/id6804601300" }
+    },
+    {
+      label: "A la espera de aprobación de Meta",
+      title: "Publicación en Instagram",
+      description: "La conexión con Instagram y la publicación directa no están disponibles en la aplicación de producción. Permanecen separadas del flujo v2 publicado mientras esperamos la aprobación de Meta.",
+      link: { label: "Leer la nota de lanzamiento de PostLens 2", href: "/es/blog/postlens-2-is-live/" }
+    }
+  ]}
+>
+
+La exportación y la publicación manual están disponibles ahora. La aprobación de Meta y una versión verificada por separado siguen siendo necesarias antes de habilitar la publicación directa en Instagram.
+
+</ProjectReleaseNote>
+
+<ProjectSectionHeading>
+
+### Por qué importa
+
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Las herramientas creativas pueden ser útiles sin volverse opacas."}>
+
+PostLens combina mediciones en el dispositivo, ajustes predecibles e inteligencia opcional del sistema, mientras mantiene al usuario a cargo de la imagen y el texto finales.
+
+</ProjectPrincipleClose>
