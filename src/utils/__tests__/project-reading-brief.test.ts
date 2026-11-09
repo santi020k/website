@@ -41,8 +41,22 @@ describe('project Reading brief', () => {
     expect(result).toContain('About 2 minutes')
   })
 
+  test('ignores fake opening markup in a comment and inserts after the actual heading', () => {
+    const comment = '<!-- <section data-project-context-lead><h2>Fake opening</h2></section> -->'
+    const result = addProjectReadingBrief(comment + opening() + '<h2>Chapter</h2>', 'es')
+
+    expect(result).toContain(comment)
+    expect(result).toContain('<h2 id="opening">Opening</h2><dl data-project-reading-brief>')
+    expect(result).toContain('1 sección')
+  })
+
   test('does not alter content without a complete context opening', () => {
-    for (const html of ['', '<h2>Article</h2>', '<section data-project-context-lead><p>Introduction</p></section><h2>Later chapter</h2>']) {
+    for (const html of [
+      '',
+      '<h2>Article</h2>',
+      '<section data-project-context-lead><h2>Unclosed opening section</h2>',
+      '<section data-project-context-lead><p>Introduction</p></section><h2>Later chapter</h2>'
+    ]) {
       expect(addProjectReadingBrief(html)).toBe(html)
     }
   })

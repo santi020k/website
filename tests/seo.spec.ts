@@ -212,7 +212,7 @@ test.describe('SEO — meta tags', () => {
       },
       {
         path: '/blog/flash-xteink-x4-international-firmware/',
-        title: 'Xteink X4: Flash International Firmware | santi020k'
+        title: 'Xteink X4: Install English Firmware via microSD | santi020k'
       },
       {
         path: '/blog/shipping-macos-tools-with-a-homebrew-tap/',

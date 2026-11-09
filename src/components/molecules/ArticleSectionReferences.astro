@@ -138,7 +138,71 @@ const sections = headings.filter(heading => heading.depth === 2 || heading.depth
     followSectionArrival()
   }
 
+  const keepInitialSectionInView = () => {
+    const [navigation] = performance.getEntriesByType('navigation')
+    const originalUrl = window.location.href
+
+    if (
+      !window.location.hash || !(navigation instanceof PerformanceNavigationTiming) ||
+      navigation.type !== 'navigate' || document.body.hasAttribute('data-client-navigation')
+    ) return
+
+    const arrival = document.querySelector<HTMLElement>('[data-section-arrived]')
+    const heading = arrival?.matches('h3') ? arrival : arrival?.querySelector<HTMLElement>('h2')
+    const prose = heading?.closest('[data-article-prose]')
+
+    if (!heading || !prose) return
+
+    const pending = new AbortController()
+    const { signal } = pending
+    const cancel = () => pending.abort()
+
+    for (const event of ['pointerdown', 'keydown', 'wheel', 'touchstart', 'hashchange', 'pagehide']) {
+      window.addEventListener(event, cancel, { capture: true, passive: true, signal })
+    }
+
+    document.addEventListener('astro:before-preparation', cancel, { signal })
+
+    const settle = async () => {
+      const lumenWindow = window as Window & { LumenInitUiPrimitives?: (scope: ParentNode) => Promise<void> }
+
+      // Lumen can load article table and code enhancements after the window load.
+      // Its scoped initializer also waits for controllers already loading.
+      await lumenWindow.LumenInitUiPrimitives?.(prose).catch(() => undefined)
+
+      await document.fonts.ready
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (signal.aborted) return
+
+        cancel()
+
+        if (window.location.href !== originalUrl || !heading.isConnected) return
+
+        // Enhancing an earlier table or code block can move a native deep link
+        // out of view. Restore it once without changing history or focus.
+        const headerBottom = document.querySelector('[data-header-shell]')?.getBoundingClientRect().bottom ?? 0
+        const { top, bottom, height } = heading.getBoundingClientRect()
+        const clipped = height <= innerHeight - headerBottom && bottom > innerHeight
+
+        if (top < headerBottom || top >= innerHeight || clipped) {
+          heading.scrollIntoView({ behavior: 'instant', block: 'start' })
+        }
+      }))
+    }
+
+    if (document.readyState === 'complete') {
+      void settle()
+    } else {
+      window.addEventListener('load', () => {
+        void settle()
+      }, { once: true, signal })
+    }
+  }
+
   placeSectionReferences()
+
+  keepInitialSectionInView()
 
   document.addEventListener('astro:page-load', placeSectionReferences)
 
