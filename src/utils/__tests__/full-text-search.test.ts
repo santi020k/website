@@ -124,11 +124,41 @@ test('reinitializes body search when client navigation changes language', async 
   expect(destroy).toHaveBeenCalledTimes(2)
 })
 
-test('bounds a stalled language reset and lets the next query retry', async () => {
+const deferredReset = () => {
+  let complete: (() => void) | undefined
+  const promise = new Promise<void>(resolve => {
+    complete = resolve
+  })
+
+  return { promise, resolve: () => complete?.() }
+}
+
+test('shares a pending language reset across concurrent queries', async () => {
   vi.useFakeTimers()
-  const destroy = vi.fn<() => Promise<void>>()
-    .mockImplementationOnce(() => new Promise<void>(() => {}))
-    .mockResolvedValue(undefined)
+  const reset = deferredReset()
+  const destroy = vi.fn(() => reset.promise)
+  const debouncedSearch = vi.fn((_query: string) => Promise.resolve({ results: [] }))
+  const search = createFullTextSearch(() => Promise.resolve({ destroy, debouncedSearch }), 100)
+
+  await search('one', [], new Set(), origin, 'en')
+  const first = search('uno', [], new Set(), origin, 'es')
+  const second = search('dos', [], new Set(), origin, 'es')
+
+  await vi.advanceTimersByTimeAsync(0)
+  expect(destroy).toHaveBeenCalledTimes(1)
+  expect(debouncedSearch).toHaveBeenCalledTimes(1)
+
+  reset.resolve()
+  expect(await Promise.all([first, second])).toEqual([
+    { hits: [], unavailable: false }, { hits: [], unavailable: false }
+  ])
+  expect(debouncedSearch.mock.calls).toEqual([['one'], ['uno'], ['dos']])
+})
+
+test('bounds the wait for a stalled reset and resumes search when it settles', async () => {
+  vi.useFakeTimers()
+  const reset = deferredReset()
+  const destroy = vi.fn(() => reset.promise)
   const debouncedSearch = vi.fn(() => Promise.resolve({ results: [] }))
   const search = createFullTextSearch(() => Promise.resolve({ destroy, debouncedSearch }), 100)
 
@@ -137,6 +167,29 @@ test('bounds a stalled language reset and lets the next query retry', async () =
 
   await vi.advanceTimersByTimeAsync(101)
   expect(await pending).toEqual({ hits: [], unavailable: true })
+
+  const retry = search('dos', [], new Set(), origin, 'es')
+
+  await vi.advanceTimersByTimeAsync(101)
+  expect(await retry).toEqual({ hits: [], unavailable: true })
+  expect(destroy).toHaveBeenCalledTimes(1)
+  expect(debouncedSearch).toHaveBeenCalledTimes(1)
+
+  reset.resolve()
+  await vi.advanceTimersByTimeAsync(0)
+  expect(await search('tres', [], new Set(), origin, 'es')).toEqual({ hits: [], unavailable: false })
+  expect(destroy).toHaveBeenCalledTimes(1)
+})
+
+test('retries a transient language reset failure', async () => {
+  const destroy = vi.fn<() => Promise<void>>()
+    .mockRejectedValueOnce(new Error('Reset failed'))
+    .mockResolvedValue(undefined)
+  const debouncedSearch = vi.fn(() => Promise.resolve({ results: [] }))
+  const search = createFullTextSearch(() => Promise.resolve({ destroy, debouncedSearch }))
+
+  await search('one', [], new Set(), origin, 'en')
+  expect(await search('uno', [], new Set(), origin, 'es')).toEqual({ hits: [], unavailable: true })
   expect(debouncedSearch).toHaveBeenCalledTimes(1)
   expect(await search('dos', [], new Set(), origin, 'es')).toEqual({ hits: [], unavailable: false })
   expect(destroy).toHaveBeenCalledTimes(2)

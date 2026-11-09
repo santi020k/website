@@ -7,17 +7,15 @@
 </p>
 
 <p align="center">
-  <strong>Thoughtful products. Clear systems. Useful writing.</strong><br>
-  Santiago Molina’s portfolio, writing, and life outside code.
+  <strong>I build products. And the tools behind them.</strong><br>
+  Santiago Molina’s engineering portfolio, writing, and travel notes.
 </p>
 
 <p align="center">
-  <a href="https://santi020k.com/">Website</a> ·
-  <a href="https://santi020k.com/work/">Experience</a> ·
-  <a href="https://santi020k.com/portfolio/">Case studies</a> ·
-  <a href="https://santi020k.com/blog/">Blog</a> ·
-  <a href="https://santi020k.com/travel/">Travel</a> ·
-  <a href="https://santi020k.com/resume/">Résumé</a>
+  <a href="https://santi020k.com/">Visit the site</a> ·
+  <a href="https://santi020k.com/portfolio/">Read the case studies</a> ·
+  <a href="https://santi020k.com/blog/">Browse the blog</a> ·
+  <a href="https://santi020k.com/es/" lang="es">Ver en español</a>
 </p>
 
 <p align="center">
@@ -27,17 +25,12 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-source--available-orange?style=flat-square" alt="Source-available license"></a>
 </p>
 
-I’m [Santiago Molina](https://github.com/santi020k), an engineering leader, full-stack architect,
-and product builder. Since 2014, I’ve worked across commerce, sports media, esports, developer
-tools, and native apps. This site connects that work with the decisions, experiments, and
-experiences behind it.
+I’m [Santiago Molina](https://github.com/santi020k), an engineering leader and full-stack
+architect. I build commerce platforms, native apps, and tools that help teams ship.
+This site documents the work and the decisions behind it.
 
-This repository is also a working consumer of my developer tools: Lumen provides the interface
-contracts, Theme supplies shared foundations, and OG generates social cards. The website keeps
-its own content, editorial layouts, and application behavior. Follow the source and verification
-commands below to see how those boundaries work together.
-
-**Explore:** [The site](#explore-the-site) · [Products](#products-and-the-systems-behind-them) · [How it works](#how-the-site-works) · [Local setup](#run-it-locally) · [Quality](#verify-a-change) · [Documentation](#find-your-next-step) · [Feedback](#feedback-and-contributions)
+**For developers:** [Architecture](#how-the-site-works) · [Local setup](#run-it-locally) ·
+[Checks](#verify-a-change) · [Release and deployment](docs/deployment.md)
 
 ## Explore the site
 
@@ -45,16 +38,17 @@ commands below to see how those boundaries work together.
 | --- | --- |
 | [Experience](https://santi020k.com/work/) / [Case studies](https://santi020k.com/portfolio/) | Engineering roles and the systems behind the work. |
 | [Projects](https://santi020k.com/projects/) | Developer tools and personal products, with their technology stacks. |
-| [Writing](https://santi020k.com/blog/) | Software decisions, books, games, and everyday experiences. |
+| [Writing](https://santi020k.com/blog/) · [RSS](https://santi020k.com/feed.xml) | Articles on engineering, developer tools, and life outside work. |
 | [Speaking](https://santi020k.com/speaking/) | Talks, workshops, and community work. |
 | [Travel](https://santi020k.com/travel/) | An interactive country map and personal travel notebook. |
-| [Résumé](https://santi020k.com/resume/) | A readable web résumé and concise or full PDF downloads. |
+| [Résumé](https://santi020k.com/resume/) | A web résumé and concise or full PDF downloads. |
+| [Website history](https://santi020k.com/history/) | Five design eras, with four archives you can explore. |
 
-Light and dark themes, keyboard search, responsive layouts, and reduced-motion support run
-through the site. Browser tests cover the interactions; the accessibility statement records the
-[accessibility scope and feedback path](https://santi020k.com/accessibility/).
+The site is available in English and Spanish, with keyboard search, light and dark themes, and
+reduced motion support. See the [accessibility statement](https://santi020k.com/accessibility/)
+for the scope of testing and how to report a problem.
 
-## Products and the systems behind them
+## Selected products
 
 <table>
   <tr>
@@ -75,8 +69,7 @@ through the site. Browser tests cover the interactions; the accessibility statem
   </tr>
 </table>
 
-*Generated project artwork from this repository, rather than application screenshots.*
-[Browse projects](https://santi020k.com/projects/) or [read professional case studies](https://santi020k.com/portfolio/).
+*Project artwork generated from this repository.*
 
 ## How the site works
 
@@ -85,13 +78,12 @@ through the site. Browser tests cover the interactions; the accessibility statem
 | **Astro 7 + TypeScript** | Static pages, typed content collections, Markdown/MDX, and View Transitions. |
 | **Lumen 5 + Tailwind CSS v4** | Accessible Astro primitives, shared semantic tokens, and site-owned editorial composition. |
 | **Native JavaScript** | Search, filtering, sharing, and progressive enhancement without a frontend framework runtime. |
-| **Owned tooling** | Theme tokens, OG generation, ESLint configs, Commitprompt, Quality hooks, and Astro Doctor diagnostics. |
 | **Cloudflare Pages** | Production deployment from reviewed `main`, with versioned redirects, caching, and security headers. |
 
 Architecture notes, content authoring rules, search, and date handling are collected in the
 [developer guide](docs/development.md).
 
-### The developer tools behind this repository
+### Developer tools used here
 
 | Project | Its boundary here |
 | --- | --- |
@@ -130,12 +122,12 @@ Contributors install the repository Git hooks as described in the
 
 ## Verify a change
 
-`pnpm run verify:fast` runs spelling, zero-warning lint, strict Astro checks, Markdown and content
-checks, CV consistency, unit tests, and the production build with its audits. The
+`pnpm run verify:fast` runs the static checks, unit and motion tests, and production build audits.
+The full `pnpm run ci:verify` gate adds coverage, Lighthouse, and stable Chromium. The
 [developer guide](docs/development.md#verify-a-change) lists every gate, focused browser runs, and
 Lighthouse audits; [CONTRIBUTING.md](CONTRIBUTING.md) covers review evidence.
 
-## Find your next step
+## Documentation
 
 | Resource | Use it for |
 | --- | --- |
@@ -151,6 +143,20 @@ Lighthouse audits; [CONTRIBUTING.md](CONTRIBUTING.md) covers review evidence.
 | [Observability](docs/observability.md) | Existing diagnostic boundaries and operational evidence. |
 | [Changelog](CHANGELOG.md) | Version history. |
 
+## Website history
+
+The [History page](https://santi020k.com/history/) presents five design eras. The current Astro app remains at the root;
+`apps/v1`, `apps/v2`, `apps/v3`, and `apps/v4` preserve usable historical websites. pnpm
+workspaces share one maintained dependency catalog and lockfile; Turborepo builds
+one combined static deployment. See [website history](docs/website-history.md)
+for snapshots, SEO, storage isolation, and screenshot capture commands.
+
+### Website history film
+
+The private [motion studio](apps/motion/README.md) uses the real website-history
+captures for a short film in portrait, square, and landscape formats. Run
+`pnpm --filter @santi020k/website-motion dev` to preview it locally.
+
 ## Feedback and contributions
 
 [Report a bug or accessibility problem](https://github.com/santi020k/website/issues/new?template=bug_report.yml),
@@ -163,24 +169,10 @@ This is a personal, **source-available** site. Issues, suggestions, and pull req
 under the contribution terms in [LICENSE](LICENSE); the code, content, images, and brand assets
 are not licensed for reuse in other products.
 
-## Connect with Santiago
+### Connect with Santiago
 
 [Website](https://santi020k.com/) · [GitHub](https://github.com/santi020k) ·
 [LinkedIn](https://linkedin.com/in/santi020k) · [Medium](https://medium.com/@santi020k) ·
 [Email](mailto:hi@santi020k.com)
 
 © 2026 [Santiago Molina](https://santi020k.com/). All rights reserved.
-
-## Website history
-
-`/history/` presents five design eras. The current Astro app remains at the root;
-`apps/v1`, `apps/v2`, `apps/v3`, and `apps/v4` preserve usable historical websites. pnpm
-workspaces share one maintained dependency catalog and lockfile; Turborepo builds
-one combined static deployment. See [website history](docs/website-history.md)
-for snapshots, SEO, storage isolation, and screenshot capture commands.
-
-### Website history film
-
-The private [motion studio](apps/motion/README.md) uses the real website-history
-captures for a short film in portrait, square, and landscape formats. Run
-`pnpm --filter @santi020k/website-motion dev` to preview it locally.

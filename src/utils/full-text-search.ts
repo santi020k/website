@@ -76,6 +76,7 @@ const loadModule = async (): Promise<unknown> => {
 export const createFullTextSearch = (loader = loadModule, timeout = 5_000) => {
   let modulePromise: Promise<unknown> | undefined
   let activeLanguage: string | undefined
+  let languageReset: Promise<void> | undefined
 
   return async (
     query: string,
@@ -91,9 +92,21 @@ export const createFullTextSearch = (loader = loadModule, timeout = 5_000) => {
 
       if (!isSearchModule(module)) throw new TypeError('Invalid full-text search module')
 
-      if (activeLanguage !== undefined && activeLanguage !== language && module.destroy) {
-        await withTimeout(Promise.resolve(module.destroy()), timeout)
+      if (!languageReset && activeLanguage !== undefined && activeLanguage !== language && module.destroy) {
+        // Keep the shared reset until Pagefind settles, even if a caller stops waiting.
+        languageReset = Promise.resolve()
+          .then(() => module.destroy?.())
+          .then(() => {
+            activeLanguage = undefined
+
+            return undefined
+          })
+          .finally(() => {
+            languageReset = undefined
+          })
       }
+
+      if (languageReset) await withTimeout(languageReset, timeout)
 
       activeLanguage = language
 
