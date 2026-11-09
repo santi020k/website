@@ -1,6 +1,9 @@
 /* Astro may link this file before the Base bundle. Declaring Lumen's layer order first keeps
  * the `utilities.prose` sublayer below from creating `utilities` ahead of the base layers. */
 @import "@santi020k/lumen-astro/layers.css";
+/* Rehype emits these controls without mounting their Astro components. */
+@import "@santi020k/lumen-astro/styles/components/code-tabs.css";
+@import "@santi020k/lumen-astro/styles/components/table.css";
 
 @reference "./global.css";
 

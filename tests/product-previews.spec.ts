@@ -12,7 +12,7 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.goto(`/portfolio/${slug}/`)
       const previews = page.getByRole('region', { name: 'Inside the product' })
-      await expect(previews.locator('figure')).toHaveCount(2)
+      await expect(previews.locator('[data-product-preview] > figure')).toHaveCount(2)
       await expect(page.getByRole('navigation', { name: 'Table of contents' }).locator('a[href="#inside-the-product"]')).toHaveCount(1)
 
       for (const width of [320, 390, 1440]) {
@@ -21,7 +21,7 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
           await page.evaluate(value => {
             document.documentElement.style.fontSize = value
           }, textSize)
-          for (const figure of await previews.locator('figure').all()) {
+          for (const figure of await previews.locator('[data-product-preview] > figure').all()) {
             await figure.scrollIntoViewIfNeeded()
             const image = figure.getByRole('img')
             await expect(image).toHaveAttribute('alt', /\S.{20}/u)
@@ -32,16 +32,16 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
 
               return element.complete && element.naturalWidth > 0
             })).toBe(true)
-            await expect(figure.locator('figcaption')).toBeVisible()
+            await expect(figure.locator(':scope > figcaption')).toBeVisible()
             const bounds = await figure.boundingBox()
             expect(bounds?.x).toBeGreaterThanOrEqual(0)
             expect((bounds?.x ?? width) + (bounds?.width ?? width)).toBeLessThanOrEqual(width)
             const imageBounds = await image.boundingBox()
-            const captionBounds = await figure.locator('figcaption').boundingBox()
+            const captionBounds = await figure.locator(':scope > figcaption').boundingBox()
             expect(imageBounds).not.toBeNull()
             expect(captionBounds).not.toBeNull()
             expect(captionBounds?.y).toBeGreaterThanOrEqual((imageBounds?.y ?? 0) + (imageBounds?.height ?? 0))
-            for (const copy of await figure.locator('figcaption h4, figcaption p').all()) {
+            for (const copy of await figure.locator(':scope > figcaption :is(h4, p)').all()) {
               const content = await copy.evaluate(element => ({
                 width: element.clientWidth,
                 contentWidth: element.scrollWidth,
@@ -143,8 +143,8 @@ test.describe('Product previews without client JavaScript', () => {
       await page.goto(`/portfolio/${slug}/#product-previews`)
       const previews = page.getByRole('region', { name: 'Inside the product' })
       await expect(previews.getByRole('heading', { level: 3 })).toBeInViewport()
-      await expect(previews.locator('figure')).toHaveCount(2)
-      for (const figure of await previews.locator('figure').all()) {
+      await expect(previews.locator('[data-product-preview] > figure')).toHaveCount(2)
+      for (const figure of await previews.locator('[data-product-preview] > figure').all()) {
         await figure.scrollIntoViewIfNeeded()
         await expect(figure.getByRole('img')).toBeVisible()
         await expect(figure.getByRole('heading', { level: 4 })).toBeVisible()
