@@ -9,7 +9,9 @@ import SiteSearch from '@/components/molecules/SiteSearch.astro'
 import type { SiteLink } from '@/types/site'
 import { getNavigationCurrent } from '@/utils/links'
 
-import { Button, ButtonLink as NavigationLink, Icon } from '@santi020k/lumen-astro'
+import Button from '@santi020k/lumen-astro/components/Button'
+import NavigationLink from '@santi020k/lumen-astro/components/ButtonLink'
+import Icon from '@santi020k/lumen-astro/components/Icon'
 
 import { getLocale, localizePath, sharedTranslator, stripLocale } from '@/i18n'
 import { getMenuLinks, siteConfig } from '@/site.config'

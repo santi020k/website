@@ -25,9 +25,13 @@ shared stylesheet so Tailwind utilities can override component defaults:
 @import "@santi020k/theme/typography.css";
 ```
 
-`Base.astro` imports that global stylesheet and mounts `UIPrimitives` once. Pages and content
-components import their public primitives from `@santi020k/lumen-astro`; they do not add a
-second adapter or mount a second runtime. The named santi020k appearance owns colors; Theme supplies typography without overriding the palette.
+`Base.astro` imports that global stylesheet and mounts `UIPrimitives` once. Import each
+primitive from its public component entry, for example
+`import Button from '@santi020k/lumen-astro/components/Button'`. The package root
+re-exports every component; Astro can follow that shared import when assigning
+component styles to pages, linking unrelated styles on routes that never render
+them. Direct imports keep the component styles with the routes that use them.
+The named santi020k appearance owns colors; Theme supplies typography without overriding the palette.
 
 The current site loads the foundation and named santi020k appearance. Astro primitives import
 their component styles automatically. `src/styles/prose.css` explicitly imports the public

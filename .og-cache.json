@@ -844,13 +844,13 @@
     "portfolio/void-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "974e56be895c677695d86fa328088439de4f669b7879fc291e6e3a7b44d36614",
-      "fingerprint": "1600ee4473333c5137958bf0cd079b452cc1634654e4ed5918bdd3801fa63790",
+      "fingerprint": "eabb552db101c7afb64d58b9f5ae0bf0c803c7680405f10282f275a516dff921",
       "output": "portfolio/void-logo.webp"
     },
     "portfolio/void.webp": {
       "baseDirectory": "public/og",
       "digest": "974e56be895c677695d86fa328088439de4f669b7879fc291e6e3a7b44d36614",
-      "fingerprint": "1600ee4473333c5137958bf0cd079b452cc1634654e4ed5918bdd3801fa63790",
+      "fingerprint": "eabb552db101c7afb64d58b9f5ae0bf0c803c7680405f10282f275a516dff921",
       "output": "portfolio/void.webp"
     },
     "portfolio/xgames-logo.webp": {
@@ -1942,7 +1942,7 @@
     "pages/es--portfolio--void.webp": {
       "baseDirectory": "public/og",
       "digest": "0106ed4599e137d07be560af0c1ed05b53d068d68ecc22623cd555026ef06347",
-      "fingerprint": "41247edafff35c4947b2d7dc7ba0a40abc9734eb8e1bc56cd7e0a71ed1cdecf9",
+      "fingerprint": "5e9388a8f9a5d310a4b0b03194af63b6bf2b3e82e170e18db56a63325e793c2b",
       "output": "pages/es--portfolio--void.webp"
     },
     "pages/es--portfolio--xgames.webp": {
