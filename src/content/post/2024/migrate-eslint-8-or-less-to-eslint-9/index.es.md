@@ -6,6 +6,14 @@ coverImage:
   alt: "Capas de configuración enredadas atraviesan controles de migración y se convierten en una configuración plana y ordenada"
 ---
 
+Para migrar de ESLint 8 a 9, traslada los ajustes de `.eslintrc` a una configuración plana en `eslint.config.js`.
+Importa los complementos y analizadores, mueve las exclusiones a la configuración y compara las reglas efectivas
+en varios archivos representativos antes de retirar la configuración anterior.
+
+Consulta las [notas de migración de ESLint 9](https://eslint.org/docs/latest/use/migrate-to-9.0.0) para revisar
+la versión de Node y la compatibilidad de los complementos. Si ESLint no encuentra `eslint.config.js`, comprueba
+que el comando se ejecute desde el proyecto con la nueva configuración y que CI use esa misma configuración.
+
 [Lee el artículo anterior: autenticación y autorización en aplicaciones Next.js con Supabase](/es/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)
 
 En [Una configuración de Next.js con TypeScript, Standard, Vitest y ESLint](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7) compartí la base de ESLint que me gustaba usar en proyectos frontend. Funcionaba bien en ESLint 8, pero ESLint 9 cambió algo importante: flat config dejó de ser «la forma nueva» y se convirtió en la predeterminada.

@@ -1,12 +1,15 @@
 ---
 title: "Cómo instalé el firmware internacional en un Xteink X4"
-seoTitle: "Xteink X4: instalar el firmware internacional"
+seoTitle: "Xteink X4: instalar el firmware en inglés por microSD"
 description: "Guía probada para reemplazar el firmware chino del Xteink X4 por la versión internacional mediante microSD cuando la instalación por USB no está disponible."
 coverImage:
   alt: "Una tarjeta microSD atraviesa tres controles de verificación hacia un lector compacto de tinta electrónica"
 ---
 
 <!-- cspell:words diskutil unbootable unlocker Xteink -->
+
+Si tu Xteink X4 original no aparece por USB, puedes instalar el firmware oficial en inglés con
+una tarjeta microSD. Confirma el modelo y haz una copia de seguridad de la tarjeta antes de seguir los pasos de la versión corta.
 
 Compré un Xteink X4 esperando recibir el modelo internacional. El equipo que llegó era la versión para el mercado chino.
 
@@ -26,7 +29,9 @@ Descargué la imagen internacional vigente del X4 desde el servicio de actualiza
 como `update.bin` en la raíz de la tarjeta microSD del X4 con formato FAT, expulsé la tarjeta de forma segura, la inserté en
 el lector, conecté la alimentación USB y encendí el dispositivo manteniendo presionados **Arriba + Encendido**.
 
-El X4 reconoció la actualización e instaló correctamente el firmware internacional.
+El X4 reconoció la actualización e instaló correctamente el firmware internacional. Si no inicia, revisa que el archivo
+se llame exactamente `update.bin` y esté en la raíz de la tarjeta. Confirma que la imagen corresponda al X4 original
+antes de volver a intentarlo.
 
 ## Lee esto antes de instalar el firmware
 

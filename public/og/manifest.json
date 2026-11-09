@@ -428,15 +428,15 @@
     },
     "/blog/migrate-eslint-8-or-less-to-eslint-9/": {
       "alt": "Migrate from ESLint 8 or Earlier to ESLint 9 — Santiago Molina",
-      "description": "A practical guide to moving from ESLint 8 to flat config in ESLint 9, with a cleaner setup for React, Next.js, and TypeScript projects.",
+      "description": "Migrate ESLint 8 to 9 by converting .eslintrc to eslint.config.js, moving ignore patterns, and checking the rules used by your files.",
       "images": [
         {
           "format": "webp",
           "height": 630,
           "output": "blog/migrate-eslint-8-or-less-to-eslint-9.webp",
           "primary": true,
-          "url": "/og/blog/migrate-eslint-8-or-less-to-eslint-9.webp?v=f66b15a87bae",
-          "version": "f66b15a87bae",
+          "url": "/og/blog/migrate-eslint-8-or-less-to-eslint-9.webp?v=7e2b0912838c",
+          "version": "7e2b0912838c",
           "width": 1200
         }
       ],
@@ -630,6 +630,23 @@
       "pathname": "/blog/write-better-review-feedback-with-conventional-comments/",
       "title": "Write Better Review Feedback with Conventional Comments"
     },
+    "/blog/a-successful-astro-build-can-still-miss-alt-text/": {
+      "alt": "How to Find and Fix Missing Alt Text in Astro — Santiago Molina",
+      "description": "Find images with missing alt text in Astro, choose the right text for diagrams and decorative images, and check the rendered page.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/a-successful-astro-build-can-still-miss-alt-text.webp",
+          "primary": true,
+          "url": "/og/blog/a-successful-astro-build-can-still-miss-alt-text.webp?v=6b51077e3c08",
+          "version": "6b51077e3c08",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/a-successful-astro-build-can-still-miss-alt-text/",
+      "title": "How to Find and Fix Missing Alt Text in Astro"
+    },
     "/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/": {
       "alt": "AI Coding Is Probabilistic. Your Delivery Process Should Not Be. — Santiago Molina",
       "description": "AI speeds up code changes, but ESLint, tests, snapshots, and end-to-end checks are what keep probabilistic output from turning into production risk.",
@@ -673,8 +690,8 @@
           "height": 630,
           "output": "blog/astro-doctor-announcement.webp",
           "primary": true,
-          "url": "/og/blog/astro-doctor-announcement.webp?v=9750aa647376",
-          "version": "9750aa647376",
+          "url": "/og/blog/astro-doctor-announcement.webp?v=29dc88ddd4d7",
+          "version": "29dc88ddd4d7",
           "width": 1200
         }
       ],
@@ -853,15 +870,15 @@
     },
     "/blog/flash-xteink-x4-international-firmware/": {
       "alt": "How I Flashed International Firmware on an Xteink X4 — Santiago Molina",
-      "description": "A tested guide to replacing Chinese Xteink X4 firmware with the international release by using its microSD updater when USB flashing is unavailable.",
+      "description": "Install stock English firmware on an original Xteink X4 using microSD. Includes the update.bin steps and what to check when USB flashing fails.",
       "images": [
         {
           "format": "webp",
           "height": 630,
           "output": "blog/flash-xteink-x4-international-firmware.webp",
           "primary": true,
-          "url": "/og/blog/flash-xteink-x4-international-firmware.webp?v=f397b3dcd739",
-          "version": "f397b3dcd739",
+          "url": "/og/blog/flash-xteink-x4-international-firmware.webp?v=eb01c530ebd8",
+          "version": "eb01c530ebd8",
           "width": 1200
         }
       ],
@@ -989,15 +1006,15 @@
     },
     "/blog/run-repo-on-mac-with-silo-dxmt/": {
       "alt": "How I Got R.E.P.O. Running on Mac Without Whisky — Santiago Molina",
-      "description": "A tested Apple silicon setup for running R.E.P.O. through Silo, Wine, and DXMT, including the DirectX graphics failure and its exact fix.",
+      "description": "Run the Steam version of R.E.P.O. on an Apple silicon Mac with Silo and DXMT. Follow the tested setup and fix the DirectX 11 graphics error.",
       "images": [
         {
           "format": "webp",
           "height": 630,
           "output": "blog/run-repo-on-mac-with-silo-dxmt.webp",
           "primary": true,
-          "url": "/og/blog/run-repo-on-mac-with-silo-dxmt.webp?v=5515444eac3a",
-          "version": "5515444eac3a",
+          "url": "/og/blog/run-repo-on-mac-with-silo-dxmt.webp?v=ed1cd8fd28e1",
+          "version": "ed1cd8fd28e1",
           "width": 1200
         }
       ],
@@ -1115,8 +1132,8 @@
           "height": 630,
           "output": "pages/blog--2.webp",
           "primary": true,
-          "url": "/og/pages/blog--2.webp?v=a64e2a673e62",
-          "version": "a64e2a673e62",
+          "url": "/og/pages/blog--2.webp?v=0b422771dcc1",
+          "version": "0b422771dcc1",
           "width": 1200
         }
       ],
@@ -1132,8 +1149,8 @@
           "height": 630,
           "output": "pages/blog--3.webp",
           "primary": true,
-          "url": "/og/pages/blog--3.webp?v=030f111f55aa",
-          "version": "030f111f55aa",
+          "url": "/og/pages/blog--3.webp?v=be1f09f8e9fb",
+          "version": "be1f09f8e9fb",
           "width": 1200
         }
       ],
@@ -1149,8 +1166,8 @@
           "height": 630,
           "output": "pages/blog--4.webp",
           "primary": true,
-          "url": "/og/pages/blog--4.webp?v=ff6129e79184",
-          "version": "ff6129e79184",
+          "url": "/og/pages/blog--4.webp?v=91a072df991f",
+          "version": "91a072df991f",
           "width": 1200
         }
       ],
@@ -1166,8 +1183,8 @@
           "height": 630,
           "output": "pages/blog--tags--react.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--react.webp?v=47d75492f88d",
-          "version": "47d75492f88d",
+          "url": "/og/pages/blog--tags--react.webp?v=039c401945d0",
+          "version": "039c401945d0",
           "width": 1200
         }
       ],
@@ -1183,8 +1200,8 @@
           "height": 630,
           "output": "pages/blog--tags--nextjs.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--nextjs.webp?v=377ffb680ab6",
-          "version": "377ffb680ab6",
+          "url": "/og/pages/blog--tags--nextjs.webp?v=8b831e848474",
+          "version": "8b831e848474",
           "width": 1200
         }
       ],
@@ -1200,8 +1217,8 @@
           "height": 630,
           "output": "pages/blog--tags--typescript.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--typescript.webp?v=756abdd9e04f",
-          "version": "756abdd9e04f",
+          "url": "/og/pages/blog--tags--typescript.webp?v=2bfcac1cbb17",
+          "version": "2bfcac1cbb17",
           "width": 1200
         }
       ],
@@ -1234,8 +1251,8 @@
           "height": 630,
           "output": "pages/blog--tags--eslint.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--eslint.webp?v=4f7003fcb3e4",
-          "version": "4f7003fcb3e4",
+          "url": "/og/pages/blog--tags--eslint.webp?v=d07b03619b93",
+          "version": "d07b03619b93",
           "width": 1200
         }
       ],
@@ -1387,8 +1404,8 @@
           "height": 630,
           "output": "pages/blog--tags--developer-experience.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--developer-experience.webp?v=912d28dda82a",
-          "version": "912d28dda82a",
+          "url": "/og/pages/blog--tags--developer-experience.webp?v=d725ffe5421a",
+          "version": "d725ffe5421a",
           "width": 1200
         }
       ],
@@ -1429,6 +1446,74 @@
       "pathname": "/blog/tags/design-systems/",
       "title": "Design systems posts"
     },
+    "/blog/tags/astro/": {
+      "alt": "Astro posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Astro.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--astro.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--astro.webp?v=be51f3ed8c50",
+          "version": "be51f3ed8c50",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/astro/",
+      "title": "Astro posts"
+    },
+    "/blog/tags/accessibility/": {
+      "alt": "Accessibility posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Accessibility.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--accessibility.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--accessibility.webp?v=f137cf2e1c2b",
+          "version": "f137cf2e1c2b",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/accessibility/",
+      "title": "Accessibility posts"
+    },
+    "/blog/tags/developer-tools/": {
+      "alt": "Developer tools posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Developer tools.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--developer-tools.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--developer-tools.webp?v=c0500e595555",
+          "version": "c0500e595555",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/developer-tools/",
+      "title": "Developer tools posts"
+    },
+    "/blog/tags/testing/": {
+      "alt": "Testing posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Testing.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--testing.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--testing.webp?v=80212bc4232f",
+          "version": "80212bc4232f",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/testing/",
+      "title": "Testing posts"
+    },
     "/blog/tags/ai/": {
       "alt": "AI posts — Santiago Molina",
       "description": "Explore articles, guides, and personal notes about AI.",
@@ -1446,57 +1531,6 @@
       "pathname": "/blog/tags/ai/",
       "title": "AI posts"
     },
-    "/blog/tags/testing/": {
-      "alt": "Testing posts — Santiago Molina",
-      "description": "Explore articles, guides, and personal notes about Testing.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--testing.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--testing.webp?v=c866a0ed00c2",
-          "version": "c866a0ed00c2",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/testing/",
-      "title": "Testing posts"
-    },
-    "/blog/tags/astro/": {
-      "alt": "Astro posts — Santiago Molina",
-      "description": "Explore articles, guides, and personal notes about Astro.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--astro.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--astro.webp?v=a44f56786e70",
-          "version": "a44f56786e70",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/astro/",
-      "title": "Astro posts"
-    },
-    "/blog/tags/accessibility/": {
-      "alt": "Accessibility posts — Santiago Molina",
-      "description": "Explore articles, guides, and personal notes about Accessibility.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--accessibility.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--accessibility.webp?v=628db70f0f47",
-          "version": "628db70f0f47",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/accessibility/",
-      "title": "Accessibility posts"
-    },
     "/blog/tags/open-source/": {
       "alt": "Open source posts — Santiago Molina",
       "description": "Explore articles, guides, and personal notes about Open source.",
@@ -1506,8 +1540,8 @@
           "height": 630,
           "output": "pages/blog--tags--open-source.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--open-source.webp?v=97ebf957785c",
-          "version": "97ebf957785c",
+          "url": "/og/pages/blog--tags--open-source.webp?v=18c0b009c0c4",
+          "version": "18c0b009c0c4",
           "width": 1200
         }
       ],
@@ -1540,8 +1574,8 @@
           "height": 630,
           "output": "pages/blog--tags--macos.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--macos.webp?v=8d6079ae7f11",
-          "version": "8d6079ae7f11",
+          "url": "/og/pages/blog--tags--macos.webp?v=f799ba5effb5",
+          "version": "f799ba5effb5",
           "width": 1200
         }
       ],
@@ -3728,8 +3762,8 @@
           "height": 630,
           "output": "pages/es--blog--migrate-eslint-8-or-less-to-eslint-9.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--migrate-eslint-8-or-less-to-eslint-9.webp?v=b581d05773b0",
-          "version": "b581d05773b0",
+          "url": "/og/pages/es--blog--migrate-eslint-8-or-less-to-eslint-9.webp?v=8762c23f944f",
+          "version": "8762c23f944f",
           "width": 1200
         }
       ],
@@ -3923,6 +3957,23 @@
       "pathname": "/es/blog/write-better-review-feedback-with-conventional-comments/",
       "title": "Mejora tus comentarios de revisión con Conventional Comments · Español"
     },
+    "/es/blog/a-successful-astro-build-can-still-miss-alt-text/": {
+      "alt": "Cómo detectar y corregir la falta de texto alternativo en Astro · Español — Santiago Molina",
+      "description": "Detecta imágenes sin texto alternativo en Astro, elige el texto adecuado para diagramas e imágenes decorativas y comprueba la página en el navegador.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/es--blog--a-successful-astro-build-can-still-miss-alt-text.webp",
+          "primary": true,
+          "url": "/og/pages/es--blog--a-successful-astro-build-can-still-miss-alt-text.webp?v=c63b18a12725",
+          "version": "c63b18a12725",
+          "width": 1200
+        }
+      ],
+      "pathname": "/es/blog/a-successful-astro-build-can-still-miss-alt-text/",
+      "title": "Cómo detectar y corregir la falta de texto alternativo en Astro · Español"
+    },
     "/es/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/": {
       "alt": "Programar con IA es probabilístico. Tu proceso de entrega no debería serlo. · Español — Santiago Molina",
       "description": "La IA acelera los cambios de código, pero ESLint, las pruebas, las instantáneas y los controles de extremo a extremo evitan que su resultado probabilístico se convierta en un riesgo para producción.",
@@ -3966,8 +4017,8 @@
           "height": 630,
           "output": "pages/es--blog--astro-doctor-announcement.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--astro-doctor-announcement.webp?v=14917d2adeb5",
-          "version": "14917d2adeb5",
+          "url": "/og/pages/es--blog--astro-doctor-announcement.webp?v=c5e00ebfb412",
+          "version": "c5e00ebfb412",
           "width": 1200
         }
       ],
@@ -4153,8 +4204,8 @@
           "height": 630,
           "output": "pages/es--blog--flash-xteink-x4-international-firmware.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--flash-xteink-x4-international-firmware.webp?v=d7417404861a",
-          "version": "d7417404861a",
+          "url": "/og/pages/es--blog--flash-xteink-x4-international-firmware.webp?v=ccd1b9c82799",
+          "version": "ccd1b9c82799",
           "width": 1200
         }
       ],
@@ -4289,8 +4340,8 @@
           "height": 630,
           "output": "pages/es--blog--run-repo-on-mac-with-silo-dxmt.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--run-repo-on-mac-with-silo-dxmt.webp?v=3aee3939a45c",
-          "version": "3aee3939a45c",
+          "url": "/og/pages/es--blog--run-repo-on-mac-with-silo-dxmt.webp?v=084cca221b26",
+          "version": "084cca221b26",
           "width": 1200
         }
       ],
@@ -4408,8 +4459,8 @@
           "height": 630,
           "output": "pages/es--blog--2.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--2.webp?v=712c7211f3b0",
-          "version": "712c7211f3b0",
+          "url": "/og/pages/es--blog--2.webp?v=efe8d15b174a",
+          "version": "efe8d15b174a",
           "width": 1200
         }
       ],
@@ -4425,8 +4476,8 @@
           "height": 630,
           "output": "pages/es--blog--3.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--3.webp?v=cc3d81b662d6",
-          "version": "cc3d81b662d6",
+          "url": "/og/pages/es--blog--3.webp?v=940e7fe54a7a",
+          "version": "940e7fe54a7a",
           "width": 1200
         }
       ],
@@ -4442,8 +4493,8 @@
           "height": 630,
           "output": "pages/es--blog--4.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--4.webp?v=ccb7f06e9396",
-          "version": "ccb7f06e9396",
+          "url": "/og/pages/es--blog--4.webp?v=22c65a45fb6f",
+          "version": "22c65a45fb6f",
           "width": 1200
         }
       ],
@@ -4459,8 +4510,8 @@
           "height": 630,
           "output": "pages/es--blog--tags--react.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--tags--react.webp?v=32ba31b575c7",
-          "version": "32ba31b575c7",
+          "url": "/og/pages/es--blog--tags--react.webp?v=926694e96713",
+          "version": "926694e96713",
           "width": 1200
         }
       ],
@@ -4476,8 +4527,8 @@
           "height": 630,
           "output": "pages/es--blog--tags--nextjs.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--tags--nextjs.webp?v=53e32d9f8f63",
-          "version": "53e32d9f8f63",
+          "url": "/og/pages/es--blog--tags--nextjs.webp?v=600ceffc7b88",
+          "version": "600ceffc7b88",
           "width": 1200
         }
       ],
@@ -4493,8 +4544,8 @@
           "height": 630,
           "output": "pages/es--blog--tags--typescript.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--tags--typescript.webp?v=215667e995af",
-          "version": "215667e995af",
+          "url": "/og/pages/es--blog--tags--typescript.webp?v=945d1d5a3241",
+          "version": "945d1d5a3241",
           "width": 1200
         }
       ],
@@ -4527,8 +4578,8 @@
           "height": 630,
           "output": "pages/es--blog--tags--eslint.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--tags--eslint.webp?v=9870981b1554",
-          "version": "9870981b1554",
+          "url": "/og/pages/es--blog--tags--eslint.webp?v=b1e002b02e97",
+          "version": "b1e002b02e97",
           "width": 1200
         }
       ],
@@ -4680,8 +4731,8 @@
           "height": 630,
           "output": "pages/es--blog--tags--developer-experience.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--tags--developer-experience.webp?v=a9d76d8d388c",
-          "version": "a9d76d8d388c",
+          "url": "/og/pages/es--blog--tags--developer-experience.webp?v=a5d546998d23",
+          "version": "a5d546998d23",
           "width": 1200
         }
       ],
@@ -4722,6 +4773,74 @@
       "pathname": "/es/blog/tags/design-systems/",
       "title": "Artículos sobre Design systems · Español"
     },
+    "/es/blog/tags/astro/": {
+      "alt": "Artículos sobre Astro · Español — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Astro.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/es--blog--tags--astro.webp",
+          "primary": true,
+          "url": "/og/pages/es--blog--tags--astro.webp?v=0c22f9c1b0a9",
+          "version": "0c22f9c1b0a9",
+          "width": 1200
+        }
+      ],
+      "pathname": "/es/blog/tags/astro/",
+      "title": "Artículos sobre Astro · Español"
+    },
+    "/es/blog/tags/accessibility/": {
+      "alt": "Artículos sobre Accessibility · Español — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Accessibility.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/es--blog--tags--accessibility.webp",
+          "primary": true,
+          "url": "/og/pages/es--blog--tags--accessibility.webp?v=fcc939fea6bc",
+          "version": "fcc939fea6bc",
+          "width": 1200
+        }
+      ],
+      "pathname": "/es/blog/tags/accessibility/",
+      "title": "Artículos sobre Accessibility · Español"
+    },
+    "/es/blog/tags/developer-tools/": {
+      "alt": "Artículos sobre Developer tools · Español — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Developer tools.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/es--blog--tags--developer-tools.webp",
+          "primary": true,
+          "url": "/og/pages/es--blog--tags--developer-tools.webp?v=e4414154a16c",
+          "version": "e4414154a16c",
+          "width": 1200
+        }
+      ],
+      "pathname": "/es/blog/tags/developer-tools/",
+      "title": "Artículos sobre Developer tools · Español"
+    },
+    "/es/blog/tags/testing/": {
+      "alt": "Artículos sobre Testing · Español — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Testing.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/es--blog--tags--testing.webp",
+          "primary": true,
+          "url": "/og/pages/es--blog--tags--testing.webp?v=25637881042a",
+          "version": "25637881042a",
+          "width": 1200
+        }
+      ],
+      "pathname": "/es/blog/tags/testing/",
+      "title": "Artículos sobre Testing · Español"
+    },
     "/es/blog/tags/ai/": {
       "alt": "Artículos sobre AI · Español — Santiago Molina",
       "description": "Explore articles, guides, and personal notes about AI.",
@@ -4739,57 +4858,6 @@
       "pathname": "/es/blog/tags/ai/",
       "title": "Artículos sobre AI · Español"
     },
-    "/es/blog/tags/testing/": {
-      "alt": "Artículos sobre Testing · Español — Santiago Molina",
-      "description": "Explore articles, guides, and personal notes about Testing.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/es--blog--tags--testing.webp",
-          "primary": true,
-          "url": "/og/pages/es--blog--tags--testing.webp?v=f8af9e4202c9",
-          "version": "f8af9e4202c9",
-          "width": 1200
-        }
-      ],
-      "pathname": "/es/blog/tags/testing/",
-      "title": "Artículos sobre Testing · Español"
-    },
-    "/es/blog/tags/astro/": {
-      "alt": "Artículos sobre Astro · Español — Santiago Molina",
-      "description": "Explore articles, guides, and personal notes about Astro.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/es--blog--tags--astro.webp",
-          "primary": true,
-          "url": "/og/pages/es--blog--tags--astro.webp?v=1ac9997a53a4",
-          "version": "1ac9997a53a4",
-          "width": 1200
-        }
-      ],
-      "pathname": "/es/blog/tags/astro/",
-      "title": "Artículos sobre Astro · Español"
-    },
-    "/es/blog/tags/accessibility/": {
-      "alt": "Artículos sobre Accessibility · Español — Santiago Molina",
-      "description": "Explore articles, guides, and personal notes about Accessibility.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/es--blog--tags--accessibility.webp",
-          "primary": true,
-          "url": "/og/pages/es--blog--tags--accessibility.webp?v=6f3cc57c98b5",
-          "version": "6f3cc57c98b5",
-          "width": 1200
-        }
-      ],
-      "pathname": "/es/blog/tags/accessibility/",
-      "title": "Artículos sobre Accessibility · Español"
-    },
     "/es/blog/tags/open-source/": {
       "alt": "Artículos sobre Open source · Español — Santiago Molina",
       "description": "Explore articles, guides, and personal notes about Open source.",
@@ -4799,8 +4867,8 @@
           "height": 630,
           "output": "pages/es--blog--tags--open-source.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--tags--open-source.webp?v=ce78135637f9",
-          "version": "ce78135637f9",
+          "url": "/og/pages/es--blog--tags--open-source.webp?v=c77a9ef75948",
+          "version": "c77a9ef75948",
           "width": 1200
         }
       ],
@@ -4833,8 +4901,8 @@
           "height": 630,
           "output": "pages/es--blog--tags--macos.webp",
           "primary": true,
-          "url": "/og/pages/es--blog--tags--macos.webp?v=922dcecd88de",
-          "version": "922dcecd88de",
+          "url": "/og/pages/es--blog--tags--macos.webp?v=05f2757a0a8a",
+          "version": "05f2757a0a8a",
           "width": 1200
         }
       ],
