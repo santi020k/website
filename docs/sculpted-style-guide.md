@@ -891,6 +891,18 @@ the content and cap titles at 18.5cqi. Keep complete words at enlarged text size
 colors, native keyboard disclosure behavior, and all content without JavaScript.
 The notebook adds no new client controller or animation.
 
+### Country travel notebooks
+
+Each country has a shared PageHero and a 72rem content grid. Confirmed places sit
+beside one Lumen surface containing the personal score, return choice, and visit
+period. Use the Travel notebook's thin rules, numbered place rows, and soft brand
+cover. Stack the columns below 48rem of available width and reduce surface insets
+for narrow or enlarged-text layouts. Keep the home, residence, partial-list, and
+region context visible. Missing scores remain explicitly unrated; authored notes
+and highlights appear only when supplied. Country names in the main notebook are
+native links, with a separate personal-score line beneath each entry. No additional
+client controller is needed.
+
 ### Origin spread Travel story
 
 Frame Roots & returns in one opaque Lumen surface with alternating .375rem/2rem

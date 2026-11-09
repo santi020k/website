@@ -1,0 +1,127 @@
+---
+import type { GetStaticPaths } from 'astro'
+
+import type { CollectionEntry } from 'astro:content'
+import { render } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import '@/styles/pages/travel-country.css'
+import '@/styles/prose.css'
+
+import { Card } from '@santi020k/lumen-astro'
+
+import { getCountryNotebooks } from '@/data/country'
+import type { TravelCountry } from '@/data/travel'
+import { getLocale, localeLanguage, localizePath, sharedTranslator } from '@/i18n'
+import { countryTranslator } from '@/i18n/country-copy'
+import { getLocalizedTravelCountries, getLocalizedVisitLabel } from '@/i18n/travel'
+
+export const getStaticPaths = (async () => (await getCountryNotebooks()).map(({ country, entry }) => ({
+  params: { slug: entry.id },
+  props: { country, entry }
+}))) satisfies GetStaticPaths
+
+interface Props {
+  country: TravelCountry
+  entry: CollectionEntry<'country'>
+}
+
+const { country: sourceCountry, entry } = Astro.props
+const locale = getLocale(Astro.url.pathname)
+const t = countryTranslator(locale)
+const shared = sharedTranslator(locale)
+const country = getLocalizedTravelCountries(locale).find(item => item.code === sourceCountry.code)
+
+if (!country) throw new Error(`Unknown country notebook: ${sourceCountry.code}`)
+
+const notes = entry.data
+const { Content } = await render(entry)
+const hasNarrative = Boolean(entry.body?.replace(/<!--[\s\S]*?-->/gu, '').trim())
+const hasNotes = Boolean(notes.summary || hasNarrative || notes.highlights.length || notes.visitedWhen)
+const personalLanguage = localeLanguage(notes.language)
+const score = notes.score === null ? t('notRated') : t('scoreValue', { score: new Intl.NumberFormat(locale).format(notes.score) })
+
+const meta = {
+  title: t('title', { country: country.name }),
+  description: notes.summary && notes.language === locale ? notes.summary : t('description', { country: country.name }),
+  noindex: !notes.summary,
+  contentLocale: notes.language,
+  ogImage: '/og/pages/travel.webp',
+  ogImageAlt: shared('nav.travel'),
+  breadcrumbs: [
+    { name: shared('nav.home'), url: localizePath('/', locale) },
+    { name: shared('nav.travel'), url: localizePath('/travel/', locale) },
+    { name: country.name, url: localizePath(`/travel/${entry.id}/`, locale) }
+  ]
+}
+---
+
+<PageLayout backdrop="plain" meta={meta}>
+  <div data-country-notebook>
+    <PageHero
+      compact
+      eyebrow={`${t('notebook')} · ${country.code}`}
+      title={country.name}
+      gradientText=""
+      description={t('introduction')}
+      metaItems={[getLocalizedVisitLabel(country, locale)]}
+    >
+      <ButtonLink href="/travel/#travel-countries" variant="inline" showArrow>{t('allCountries')}</ButtonLink>
+    </PageHero>
+
+    <div class="section-container-wide" data-country-spread>
+      <section data-country-places aria-labelledby="country-places-heading">
+        <p class="editorial-eyebrow">{t('notebook')}</p>
+        <h2 id="country-places-heading">{t('places')}</h2>
+        {country.places.length > 0 ?
+(
+          <ul role="list">
+            {country.places.map((place, index) => (
+              <li><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{place}</li>
+            ))}
+          </ul>
+        ) :
+<p>{t('home')}</p>}
+        {country.note && <p data-country-place-note>{country.note}</p>}
+      </section>
+
+      <section data-country-experience aria-labelledby="country-experience-heading">
+        <Card variant="unstyled" data-country-scorecard>
+          <header>
+            <h2 id="country-experience-heading">{t('experience')}</h2>
+            <p>{t('perspective')}</p>
+          </header>
+          <dl>
+            <div><dt>{t('score')}</dt><dd data-country-score data-rated={notes.score !== null}>{score}</dd></div>
+            <div><dt>{t('return')}</dt><dd>{notes.wouldReturn === null ? t('missing') : t(`return.${notes.wouldReturn}`)}</dd></div>
+            <div><dt>{t('when')}</dt><dd lang={notes.visitedWhen ? personalLanguage : undefined}>{notes.visitedWhen || t('missing')}</dd></div>
+          </dl>
+        </Card>
+
+        {hasNotes && notes.language !== locale && <p data-country-language>{t(`written.${notes.language}`)}</p>}
+        {notes.summary && <p data-country-summary lang={personalLanguage}>{notes.summary}</p>}
+        {notes.highlights.length > 0 && (
+          <section data-country-highlights aria-labelledby="country-highlights-heading">
+            <h2 id="country-highlights-heading">{t('highlights')}</h2>
+            <ul lang={personalLanguage}>{notes.highlights.map(highlight => <li>{highlight}</li>)}</ul>
+          </section>
+        )}
+        {hasNarrative && (
+          <section data-country-narrative aria-labelledby="country-notes-heading">
+            <h2 id="country-notes-heading">{t('notes')}</h2>
+            <div class="prose-santi max-w-none" lang={personalLanguage}><Content /></div>
+          </section>
+        )}
+        {!hasNotes && (
+          <div data-country-empty>
+            <h2>{t('coming')}</h2>
+            <p>{t('empty')}</p>
+          </div>
+        )}
+      </section>
+    </div>
+  </div>
+</PageLayout>

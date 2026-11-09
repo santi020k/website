@@ -15,6 +15,60 @@ Dates, trip order, lengths of stay, photos, and claims about working in particul
 not been supplied. Add these only when confirmed. The current page is a geographic notebook rather
 than a chronological itinerary.
 
+## Country pages and personal scores
+
+Each notebook entry has a page at `/travel/<country>/` and the matching Spanish interface at
+`/es/travel/<country>/`. The country links in the travel notebook open these pages. Confirmed places,
+visit counts, and home or residence labels still come from `src/data/travel.ts`; do not copy those
+facts into the country files. The files below hold only Santiago's personal experience.
+
+Edit the Markdown source files to fill the notebook. There is no browser form or account to save
+changes. Use this checklist to open a country's file, add the details you remember, and preview
+the result with `pnpm run dev`:
+
+- [ ] [Colombia](../../src/content/country/colombia.md)
+- [ ] [United States](../../src/content/country/united-states.md)
+- [ ] [Mexico](../../src/content/country/mexico.md)
+- [ ] [Guatemala](../../src/content/country/guatemala.md)
+- [ ] [Panama](../../src/content/country/panama.md)
+- [ ] [Ecuador](../../src/content/country/ecuador.md)
+- [ ] [Peru](../../src/content/country/peru.md)
+- [ ] [Brazil](../../src/content/country/brazil.md)
+- [ ] [Chile](../../src/content/country/chile.md)
+- [ ] [Paraguay](../../src/content/country/paraguay.md)
+- [ ] [Uruguay](../../src/content/country/uruguay.md)
+- [ ] [Argentina](../../src/content/country/argentina.md)
+- [ ] [Spain](../../src/content/country/spain.md)
+- [ ] [France](../../src/content/country/france.md)
+- [ ] [Japan](../../src/content/country/japan.md)
+
+All personal fields start unanswered. The shared schema in `src/data/travel-notes-schema.ts`
+validates both the Astro `country` collection and `pnpm run lint:content`.
+
+| Field | What to fill in |
+| --- | --- |
+| `code` | Keep the existing country code. It must match an entry in `src/data/travel.ts`. |
+| `score` | Your experience, from `0` to `10`; decimals such as `8.5` are allowed. Leave `null` until scored. Zero is a real score, not an empty answer. |
+| `summary` | A short personal explanation of the score or what stayed with you. Leave `''` until written. |
+| `visitedWhen` | Optional context in your own words, such as a remembered month or several trips. Leave `''` when unknown; do not infer dates from visit counts. |
+| `highlights` | A YAML list of your highlights. Keep `[]` until you have something to add; each item must contain text. |
+| `wouldReturn` | `yes`, `maybe`, or `no`; leave `null` when unanswered. These display as a personal return preference. |
+| `language` | `en` or `es`, matching the language of your summary, highlights, visit context, and narrative. |
+
+Write longer notes in Markdown after the closing `---`, replacing the authoring comment. Use
+second-level headings for sections. Scores describe your own experience of the visits; they are
+not an objective assessment of an entire country. Keep unanswered details blank instead of
+creating sample experiences, dates, photographs, or a return preference.
+
+The page controls and country facts follow the selected interface language. Your authored notes
+retain their declared language; changing the interface does not translate or duplicate them.
+Pages without a personal summary remain reachable from the notebook but use `noindex, follow`
+and stay outside the sitemap. Once the summary is written, only the route matching `language`
+becomes indexable; its other-language interface remains `noindex, follow`. Country notes do not
+enter the blog feeds, the article body search index, or the existing title-only travel drafts.
+These files are public-site source, not private drafts: `noindex` controls search discovery,
+not access. Changes appear on the deployed site only through its normal release workflow.
+
 ## Map hero interaction
 
 The dotted Lumen map spans the full viewport width as the page hero, with the same quiet canvas,
