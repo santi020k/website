@@ -48,19 +48,11 @@ const setTheme = newTheme => {
     control.setAttribute('data-ui-theme', newTheme)
   })
 
-  // Defer both the querySelector and getComputedStyle reads to avoid a forced
-  // synchronous style recalculation immediately after the DOM write above.
-  requestAnimationFrame(() => {
-    const colorThemeMetaTags = document.querySelectorAll('meta[name="theme-color"]')
-    const bgColor = getComputedStyle(document.body).getPropertyValue('--theme-bg').trim()
+  // Select the canvas color from the head without forcing style recalculation.
+  document.head.querySelectorAll('meta[name="theme-color"][data-site-theme]').forEach(meta => {
+    const media = meta.dataset.siteTheme === newTheme ? 'all' : 'not all'
 
-    if (bgColor) {
-      colorThemeMetaTags.forEach(metaTag => {
-        metaTag.setAttribute('content', `hsl(${bgColor})`)
-
-        metaTag.removeAttribute('media')
-      })
-    }
+    if (meta.media !== media) meta.media = media
   })
 }
 

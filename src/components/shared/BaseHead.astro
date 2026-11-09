@@ -188,8 +188,9 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 {/* Primary Meta */}
 <meta name="title" content={siteTitle} />
 <meta name="color-scheme" content="light dark" />
-<meta name="theme-color" content="#FAF9FB" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#1B141F" media="(prefers-color-scheme: dark)" />
+{/* Keep the browser chrome colors aligned with the santi020k canvas tokens. */}
+<meta name="theme-color" content="hsl(257 64% 98%)" media="(prefers-color-scheme: light)" data-site-theme="santi020k-light" />
+<meta name="theme-color" content="hsl(258 41% 8%)" media="(prefers-color-scheme: dark)" data-site-theme="santi020k-dark" />
 
 {/* SEO Improvements */}
 <meta name="twitter:url" content={canonicalURL} />

@@ -16,17 +16,21 @@ for (const blockedMethod of ['getItem', 'setItem'] as const) {
 
     const root = page.locator('html')
     const toggle = page.locator('[data-theme-toggle-btn]')
+    const chromeColor = page.locator('meta[name="theme-color"][media="all"]')
 
+    await expect(chromeColor).toHaveAttribute('content', 'hsl(257 64% 98%)')
     await expect(root).toHaveAttribute('data-theme', 'santi020k-light')
     await toggle.click()
     await expect(root).toHaveAttribute('data-theme', 'santi020k-dark')
     await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+    await expect(chromeColor).toHaveAttribute('content', 'hsl(258 41% 8%)')
 
     await page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'About', exact: true }).click()
     await expect(page).toHaveURL(/\/about\/$/)
     await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/)
     await expect(root).toHaveAttribute('data-theme', 'santi020k-dark')
     await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+    await expect(chromeColor).toHaveAttribute('content', 'hsl(258 41% 8%)')
 
     await page.emulateMedia({ colorScheme: 'dark' })
     await page.emulateMedia({ colorScheme: 'light' })
@@ -35,6 +39,7 @@ for (const blockedMethod of ['getItem', 'setItem'] as const) {
     await toggle.click()
     await expect(root).toHaveAttribute('data-theme', 'santi020k-light')
     await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+    await expect(chromeColor).toHaveAttribute('content', 'hsl(257 64% 98%)')
     await page.goBack()
     await expect(page).toHaveURL('/')
     await expect(root).toHaveAttribute('data-theme', 'santi020k-light')
