@@ -185,7 +185,7 @@ test.describe('Work with me', () => {
 
   test('initializes the intake after ClientRouter navigation', async ({ page }) => {
     await page.goto('/')
-    await page.locator('[data-home-hero]').getByRole('link', { name: 'Work with me', exact: true }).click()
+    await page.locator('[data-home-hero]').getByRole('link', { name: 'Let’s talk', exact: true }).click()
     await expect(page.locator('form[data-whatsapp-intake]')).toBeVisible()
     await expect(page.locator('[data-intake-fallback]')).toBeHidden()
     await page.locator('input[data-intake-name]').fill('Ana')
