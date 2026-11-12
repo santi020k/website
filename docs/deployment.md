@@ -172,7 +172,7 @@ browser dependency installation, with a 40-minute limit on the test step.
 
 ## Current release integration
 
-`release/v5.2.0` builds on v5.1.0. The current site uses published Lumen 5 packages
+`release/v5.2.1` builds on v5.2.0. The current site uses published Lumen 5 packages
 and the santi020k theme. The historical sites retain their pinned Lumen versions,
 including Lumen 4.4.0 where applicable. Install from the committed lockfile using
 Node 24 and the pnpm version in `package.json`. Regenerate social cards and résumé
@@ -250,7 +250,7 @@ mix another run's results.
 If a production regression is detected:
 
 1. Promote the previous healthy Cloudflare Pages production deployment. For a
-   regression in v5.2.0, use the verified v5.1.0 deployment.
+   regression in v5.2.1, use the verified v5.2.0 deployment.
 2. Re-run the release smoke checks against the restored deployment.
 3. Prepare a revert or fix through a reviewed pull request and validate the
    resulting production deployment. Preserve any published version tag and use a

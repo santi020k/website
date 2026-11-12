@@ -4,9 +4,10 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 
 ## Active release
 
-The current integration target is `release/v5.2.0`, selected on November 5, 2026.
-It carries the Lumen 5 upgrade, santi020k theme migration, and product-film playback fixes from
-the published v5.1.0 base. Base new approved work on this release and serialize
+The current integration target is `release/v5.2.1`, opened on November 11, 2026
+from the published `v5.2.0` baseline (`#162`). It carries the `5.2.0` version bump,
+homepage search title and contact label alignment, refreshed résumé artifacts, and
+workflow dependency updates. Base new approved work on this release and serialize
 integration in its clean, idle worktree. Preserve the published v4.0.0 design in
 `apps/v4`; current-site changes belong at the repository root.
 `docs/release-checklist.md` lists the remaining gates; earlier evidence is archived
