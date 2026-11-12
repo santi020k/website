@@ -23,5 +23,6 @@ const heroImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
     loading="eager"
     preserveAspectRatio={true}
     sizes="(min-width: 1280px) 1152px, calc(100vw - 3rem)"
+    transitionName={`project-cover-${project.id}`}
   />
 )}

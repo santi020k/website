@@ -29,7 +29,7 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
 
 <Card as="article" variant="unstyled" data-related-project data-arrow-owner style={getProjectBrandStyle(project.data.brand)}>
   <span data-related-number aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-  <div data-related-artwork>
+  <div data-related-artwork transition:name={`project-cover-${project.id}`}>
     {cover ?
 (
       <Picture
