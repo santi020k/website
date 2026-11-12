@@ -16,6 +16,15 @@ integration in its clean, idle worktree. Preserve the published v4.0.0 design in
 `docs/release-checklist.md` lists the remaining gates; earlier evidence is archived
 in `docs/archive/v5-release-readiness.md`.
 
+## Authorship and agent files
+
+- Santiago Molina is the only author of every commit and pull request. Never add an AI tool
+  as author, committer, or co-author, and never add `Co-Authored-By`, "Generated with", or
+  session-link lines to commit messages or pull request descriptions.
+- Keep agent configuration tool-neutral: `AGENTS.md` and `.agents/` are the only agent
+  instruction files. Do not add tool-specific files or folders such as `.claude/` or
+  `CLAUDE.md`, and do not name scratch, cache, or branch names after a tool.
+
 ## Tech Stack
 
 - **Framework**: Astro 7 (file-based routing, content collections, View Transitions)
