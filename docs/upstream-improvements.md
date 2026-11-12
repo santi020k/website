@@ -1,7 +1,8 @@
-# Package improvement opportunities
+# Upstream package improvements
 
 These findings came from integrating `@santi020k/og` 1.0.0 and Quality CLI 0.3.1 into the
-`santi020k.com` production image pipeline. They are upstream opportunities, not local blockers.
+`santi020k.com` production image pipeline. They are upstream opportunities, not local blockers. Each item is written to be filed as one
+issue in the package's repository.
 
 ## `@santi020k/og`
 
@@ -45,6 +46,17 @@ These findings came from integrating `@santi020k/og` 1.0.0 and Quality CLI 0.3.1
   it and every consumer pays for components it never renders (this site ships `ui-phone-input`
   rules without a phone input anywhere). `styles/critical.css` helps, but there is no documented
   way to opt into "critical plus the components I actually import".
+
+- Load the phone input only where a phone input exists. The site renders no `PhoneInput`, yet the
+  build emits `phone-input.*.js` (304 KB) and `phone-formatting.*.js` (214 KB): 518 KB of the
+  802 KB of JavaScript in `dist/_astro`. `UIPrimitives` imports them on demand, so no page pays
+  for them, but every consumer deploys and caches the metadata tables. A separate entry point
+  (for example `@santi020k/lumen-astro/phone`) would let the bundler leave them out.
+- Simplify the `WorldMap` geometry or ship a lower-detail variant. `/travel/` is 371 KB of HTML,
+  286 KB of it the inline map paths; it is the page with the slowest first paint.
+- Offer a sprite mode in `Icon`. Each inline icon costs about 270 bytes and three elements. The
+  site already shares one arrow symbol through `<use>` (`src/utils/arrow-sprite.ts`), which could
+  be a library feature: one `<symbol>` per icon name per page, referenced by every instance.
 
 ## Quality CLI
 
