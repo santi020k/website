@@ -4,15 +4,16 @@ One page for the release in flight. The [deployment runbook](deployment.md) expl
 evidence from earlier releases lives in [`docs/archive/`](archive/README.md). Record new evidence in the
 pull request rather than growing a log here.
 
-## Current release: v5.2.0
+## Current release: v5.2.1
 
-`release/v5.2.0` upgrades the current site to Lumen 5 and its named santi020k
-theme. It adds translated Spanish articles and case studies, country notebooks,
-and improvements to product-film playback, image zoom and pan, and archive
-navigation. The historical sites retain their pinned Lumen versions and
-compatibility patches. Public URLs stay compatible and visitors need no migration.
+`release/v5.2.1` builds on the `v5.2.0` integration (`#162`) and carries the
+`5.2.0` version metadata and changelog, homepage `<title>` and contact CTA label
+alignment, refreshed résumé PDFs and locale-catalog fingerprint tracking, and
+GitHub Actions workflow dependency updates. The historical sites retain their
+pinned Lumen versions and compatibility patches. Public URLs stay compatible and
+visitors need no migration.
 
-The minor Changesets request v5.2.0 from v5.1.0. The GitHub Release workflow
+The patch Changeset requests v5.2.1 from v5.2.0. The GitHub Release workflow
 generates the version bump and changelog after integration into `main`.
 
 ### Before the pull request
@@ -30,7 +31,7 @@ generates the version bump and changelog after integration into `main`.
 
 ### Pull request
 
-- [ ] Push `release/v5.2.0` and open its draft pull request into `main`.
+- [ ] Push `release/v5.2.1` and open its pull request into `main`.
   The **Quality gate** check covers static checks, the production build, six
   Chromium browser shards and Lighthouse.
 - [ ] Run **E2E Matrix (Weekly/Manual)** once for Firefox, WebKit and the mobile projects.
@@ -40,7 +41,7 @@ generates the version bump and changelog after integration into `main`.
 
 - [ ] Merge once into `main`; Cloudflare Pages deploys it. Follow [reviewed deployment](deployment.md#reviewed-deployment).
 - [ ] Merge the **Release** workflow's `chore(release): version website` pull request if one opens,
-  then confirm the `v5.2.0` tag and GitHub Release point to the merged version commit.
+  then confirm the `v5.2.1` tag and GitHub Release point to the merged version commit.
 
 ### After deploy
 
