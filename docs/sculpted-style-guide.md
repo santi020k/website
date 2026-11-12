@@ -1346,6 +1346,9 @@ Photos and recommendations use the existing Lumen RevealGroup with a slow,
 one-time slide-up entrance, 90ms stagger, and explicit zero threshold for tall
 groups. Content stays visible without JavaScript and with reduced motion; changing
 the system preference reveals pending content. No custom motion controller is added.
+Where CSS scroll timelines are supported, each photo drifts 3% inside its fixed frame
+at 1.08 scale as it crosses the viewport, as on the homepage; reduced motion keeps
+the photos still.
 
 ### Sculpted statistics cards
 
