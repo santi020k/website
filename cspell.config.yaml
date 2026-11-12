@@ -10,6 +10,8 @@ languageSettings:
     locale: en,es,es_ES
     caseSensitive: false
 words:
+  # Native-binding runtime named in docs/dependency-security.md.
+  - emnapi
   # Firefox preference names used by Playwright.
   - prefs
   - typeaheadfind

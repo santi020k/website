@@ -27,6 +27,19 @@ preserving their exact peer-version alignment. This stable patch restores the
 file-denial rules and supports the repository's Node 24 runtime. Keep these
 packages coordinated when updating them; do not suppress the advisory.
 
+## Version updates
+
+[`renovate.json`](../renovate.json) configures Renovate for the pnpm catalogs: one monthly pull
+request for minor and patch releases that are at least seven days old, with Astro, Vitest and
+Playwright grouped separately, TypeScript held below 7, and the per-generation Lumen pins left to
+manual updates. It takes effect once the Renovate GitHub app is installed for the repository.
+Dependabot continues to open security updates and GitHub Actions updates.
+
+The November 12, 2026 review raised Pagefind to 1.6.0, Turbo to 2.11.10, and Vitest with its UI
+and V8 coverage to 5.1.0. Astro stays on 7.3.6: 7.4.5 resolves Vite 8.3.8 and Rolldown 1.3.2,
+whose `@emnapi/runtime` 2.0.0-beta.2 fallback made `@astrojs/check` fail to load on Linux arm64
+in that review. Retry it once a stable `@emnapi/runtime` 2 is resolved.
+
 ## Previous dependency review
 
 The 2026-10-07 dependency review upgraded 17 direct packages to their latest
