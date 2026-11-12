@@ -127,3 +127,50 @@ test.describe('JSON Feed', () => {
     await expect(link).toHaveAttribute('href', /^\/feed\.json$/)
   })
 })
+
+test.describe('Spanish feeds', () => {
+  test('/es/feed.xml lists only translated articles at their Spanish addresses', async ({ request }) => {
+    const response = await request.get('/es/feed.xml')
+
+    expect(response.status()).toBe(200)
+
+    const body = await response.text()
+    const links = [...body.matchAll(/<item>.*?<link>([^<]+)<\/link>/gsu)].map(match => match[1])
+
+    expect(body).toContain('<language>es-419</language>')
+    expect(links.length).toBeGreaterThan(0)
+
+    for (const link of links) expect(link).toMatch(/^https:\/\/santi020k\.com\/es\/blog\/[^/]+\/$/u)
+  })
+
+  test('/es/feed.json mirrors the Spanish RSS feed', async ({ request }) => {
+    const response = await request.get('/es/feed.json')
+
+    expect(response.status()).toBe(200)
+    expect(response.headers()['content-type'] ?? '').toMatch(/(feed\+)?json/u)
+
+    const feed = await response.json() as {
+      feed_url: string
+      home_page_url: string
+      items: { url: string }[]
+      language: string
+    }
+
+    const rss = await (await request.get('/es/feed.xml')).text()
+
+    expect(feed.language).toBe('es-419')
+    expect(feed.feed_url).toBe('https://santi020k.com/es/feed.json')
+    expect(feed.home_page_url).toBe('https://santi020k.com/es/')
+    expect(feed.items).toHaveLength(rss.match(/<item>/gu)?.length ?? 0)
+    expect(feed.items.every(item => item.url.startsWith('https://santi020k.com/es/blog/'))).toBe(true)
+  })
+
+  test('Spanish pages advertise the Spanish feeds and English pages keep theirs', async ({ page }) => {
+    await page.goto('/es/')
+    await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute('href', '/es/feed.xml')
+    await expect(page.locator('link[rel="alternate"][type="application/feed+json"]')).toHaveAttribute('href', '/es/feed.json')
+
+    await page.goto('/blog/')
+    await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute('href', '/feed.xml')
+  })
+})

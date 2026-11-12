@@ -1,10 +1,15 @@
 import type { APIContext } from 'astro'
 
+import type { Locale } from '@/i18n'
+import { localeLanguage, localizePath } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+
 import { ogManifest } from '../data/og-manifest'
 import { siteConfig } from '../site.config'
-import { getCachedPosts } from '../utils/content'
 import { getPostPath } from '../utils/links'
 import { getSocialImageURL } from '../utils/social-image'
+
+import { getFeedPosts } from './feed.xml'
 
 const jsonFeedKeys = {
   contentText: 'content_text',
@@ -19,20 +24,20 @@ const jsonFeedKeys = {
  * JSON Feed 1.1 endpoint mirroring the RSS feed for reader apps that prefer
  * JSON (NetNewsWire, Feedbin, Inoreader, etc.). Spec: https://jsonfeed.org/version/1.1
  */
-export const GET = async (context: APIContext) => {
-  const posts = await getCachedPosts()
+export const createJsonFeed = async (context: APIContext, locale: Locale) => {
+  const t = collectionTranslator(locale)
+  const posts = await getFeedPosts(locale)
   const site = (context.site ?? new URL('https://santi020k.com/')).toString()
 
   const feed = {
     version: 'https://jsonfeed.org/version/1.1',
-    title: `${siteConfig.title} JSON Feed`,
-    description:
-      'Writing on software, reading, gaming, and everyday discoveries.',
-    [jsonFeedKeys.homePageUrl]: site,
-    [jsonFeedKeys.feedUrl]: new URL('/feed.json', site).toString(),
+    title: t('feed.jsonTitle', { title: siteConfig.title }),
+    description: t('feed.description'),
+    [jsonFeedKeys.homePageUrl]: new URL(localizePath('/', locale), site).toString(),
+    [jsonFeedKeys.feedUrl]: new URL(locale === 'es' ? '/es/feed.json' : '/feed.json', site).toString(),
     icon: new URL('/icons/icon-512.webp', site).toString(),
     favicon: new URL('/favicon.webp', site).toString(),
-    language: siteConfig.lang,
+    language: localeLanguage(locale),
     authors: [
       {
         name: siteConfig.author,
@@ -40,7 +45,7 @@ export const GET = async (context: APIContext) => {
       }
     ],
     items: posts.map(post => {
-      const postPath = getPostPath(post.id)
+      const postPath = localizePath(getPostPath(post.id), locale)
       const postUrl = new URL(postPath, site).toString()
 
       return {
@@ -67,3 +72,5 @@ export const GET = async (context: APIContext) => {
     }
   })
 }
+
+export const GET = (context: APIContext) => createJsonFeed(context, 'en')
