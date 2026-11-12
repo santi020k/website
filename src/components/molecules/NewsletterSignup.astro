@@ -9,7 +9,7 @@ import Icon from '@santi020k/lumen-astro/components/Icon'
 import Input from '@santi020k/lumen-astro/components/Input'
 import Link from '@santi020k/lumen-astro/components/Link'
 
-import { getLocale, localizePath, sharedTranslator } from '@/i18n'
+import { getFeedPath, getLocale, localizePath, sharedTranslator } from '@/i18n'
 
 interface Props {
   formAction: string
@@ -24,8 +24,9 @@ const headingId = `newsletter-heading-${idSuffix}`
 const handoffId = `newsletter-handoff-${idSuffix}`
 const errorId = `newsletter-error-${idSuffix}`
 const feedCopyId = `newsletter-feed-copy-${idSuffix}`
-const feedUrl = new URL('/feed.xml', Astro.site).href
 const locale = getLocale(Astro.url.pathname)
+const feedPath = getFeedPath(locale)
+const feedUrl = new URL(feedPath, Astro.site).href
 const t = sharedTranslator(locale)
 ---
 
@@ -105,7 +106,7 @@ const t = sharedTranslator(locale)
       <Link className="privacy-inline-link" href={localizePath('/privacy/', locale)} variant="inherit">{t('shared.privacy')}</Link>
     </p>
     <div data-newsletter-feed>
-      <a data-newsletter-rss data-text-link href="/feed.xml">
+      <a data-newsletter-rss data-text-link href={feedPath}>
         <Icon class="size-4" name="rss" />
         <span data-text-link-label>{t('newsletter.rssFeed')}</span>
       </a>

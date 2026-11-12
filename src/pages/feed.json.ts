@@ -1,7 +1,7 @@
 import type { APIContext } from 'astro'
 
 import type { Locale } from '@/i18n'
-import { localeLanguage, localizePath } from '@/i18n'
+import { getFeedPath, localeLanguage, localizePath } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
 
 import { ogManifest } from '../data/og-manifest'
@@ -34,7 +34,7 @@ export const createJsonFeed = async (context: APIContext, locale: Locale) => {
     title: t('feed.jsonTitle', { title: siteConfig.title }),
     description: t('feed.description'),
     [jsonFeedKeys.homePageUrl]: new URL(localizePath('/', locale), site).toString(),
-    [jsonFeedKeys.feedUrl]: new URL(locale === 'es' ? '/es/feed.json' : '/feed.json', site).toString(),
+    [jsonFeedKeys.feedUrl]: new URL(getFeedPath(locale, 'json'), site).toString(),
     icon: new URL('/icons/icon-512.webp', site).toString(),
     favicon: new URL('/favicon.webp', site).toString(),
     language: localeLanguage(locale),

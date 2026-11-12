@@ -65,8 +65,8 @@ for (const locale of ['en', 'es']) {
       })
       await expect(note).toHaveText(idle)
       await expect(field).toBeEmpty()
-      await expect(page.locator('[data-newsletter-rss]')).toHaveAttribute('href', '/feed.xml')
-      await expect(page.locator('[data-newsletter-copy]')).toHaveAttribute('data-share-url', 'https://santi020k.com/feed.xml')
+      await expect(page.locator('[data-newsletter-rss]')).toHaveAttribute('href', `${prefix}/feed.xml`)
+      await expect(page.locator('[data-newsletter-copy]')).toHaveAttribute('data-share-url', `https://santi020k.com${prefix}/feed.xml`)
     })
   }
 

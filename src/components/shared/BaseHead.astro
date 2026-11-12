@@ -19,7 +19,7 @@ import { defineSite } from '@santi020k/og/site'
 import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
 
 import { ogManifest } from '@/data/og-manifest'
-import { getLocale, hasTranslation, localeLanguage, localeOg, localizePath, stripLocale } from '@/i18n'
+import { getFeedPath, getLocale, hasTranslation, localeLanguage, localeOg, localizePath, stripLocale } from '@/i18n'
 import { collectionTranslator } from '@/i18n/collection-copy'
 import { pageTranslator } from '@/i18n/page-copy'
 import {
@@ -175,13 +175,13 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   rel="alternate"
   type="application/rss+xml"
   title={tCollection('feed.rssLink', { title: siteConfig.title })}
-  href={locale === 'es' ? '/es/feed.xml' : '/feed.xml'}
+  href={getFeedPath(locale)}
 />
 <link
   rel="alternate"
   type="application/feed+json"
   title={tCollection('feed.jsonLink', { title: siteConfig.title })}
-  href={locale === 'es' ? '/es/feed.json' : '/feed.json'}
+  href={getFeedPath(locale, 'json')}
 />
 
 <!-- Sitemap -->

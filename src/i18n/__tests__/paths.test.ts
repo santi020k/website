@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 
 import { localizePageSource } from '../page-copy'
-import { getDiscussionTerm, getLocale, hasTranslation, localeLanguage, localizePath, sharedTranslator, stripLocale } from '..'
+import { getDiscussionTerm, getFeedPath, getLocale, hasTranslation, localeLanguage, localizePath, sharedTranslator, stripLocale } from '..'
 
 describe('current-site locales', () => {
   test('recognizes complete locale segments without confusing English paths', () => {
@@ -18,6 +18,14 @@ describe('current-site locales', () => {
     expect(localizePath('/es/blog/2/?tag=astro#results', 'en')).toBe('/blog/2/?tag=astro#results')
     expect(localizePath('/', 'es')).toBe('/es/')
     expect(localizePath('/portfolio/lumen-ui/', 'es')).toBe('/es/portfolio/lumen-ui/')
+  })
+
+  test('gives each language its own feeds without localizing the endpoint paths themselves', () => {
+    expect(getFeedPath('en')).toBe('/feed.xml')
+    expect(getFeedPath('es')).toBe('/es/feed.xml')
+    expect(getFeedPath('en', 'json')).toBe('/feed.json')
+    expect(getFeedPath('es', 'json')).toBe('/es/feed.json')
+    expect(localizePath('/feed.xml', 'es')).toBe('/feed.xml')
   })
 
   test('leaves archives, external links, downloads and endpoints unchanged', () => {

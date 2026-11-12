@@ -172,5 +172,8 @@ test.describe('Spanish feeds', () => {
 
     await page.goto('/blog/')
     await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute('href', '/feed.xml')
+
+    await page.goto('/es/')
+    await expect(page.getByRole('link', { name: 'Sígueme por RSS' })).toHaveAttribute('href', '/es/feed.xml')
   })
 })

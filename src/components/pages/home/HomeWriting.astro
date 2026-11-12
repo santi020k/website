@@ -15,7 +15,7 @@ import ButtonLink from '@santi020k/lumen-astro/components/ButtonLink'
 import Card from '@santi020k/lumen-astro/components/Card'
 import Icon from '@santi020k/lumen-astro/components/Icon'
 
-import { getLocale, localeLanguage, localizePath } from '@/i18n'
+import { getFeedPath, getLocale, localeLanguage, localizePath } from '@/i18n'
 import { localizeCollectionSource } from '@/i18n/collection-copy'
 import { pageTranslator } from '@/i18n/page-copy'
 
@@ -112,7 +112,7 @@ contentLocale={post.data.contentLocale}
     )}
     <div class="studio-writing-follow">
       <p>{t('page.preferAQuieterWayToKeep')}</p>
-      <ButtonLink class="studio-text-link" data-text-link href={localizePath('/feed.xml', pageLocale)} variant="unstyled"><span data-text-link-label>{t('page.followViaRss')}</span> <Icon name="rss" /></ButtonLink>
+      <ButtonLink class="studio-text-link" data-text-link href={getFeedPath(pageLocale)} variant="unstyled"><span data-text-link-label>{t('page.followViaRss')}</span> <Icon name="rss" /></ButtonLink>
     </div>
   </section>
 )}
