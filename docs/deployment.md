@@ -88,13 +88,19 @@ a 404 or a loop. Local Astro preview does not execute Cloudflare's redirect file
 
 ### Future-dated content
 
-`publishDate` is evaluated during the static build. Reaching that date does not
-change the deployed site by itself, and this repository does not configure a
-scheduled production rebuild. A future-dated post becomes eligible for the next
-authorized deployment after its publication time; it is not a publishing timer.
-Plan that deployment through the release flow below, then verify the article,
-its feed entry, and sitemap entry in production. Adding automatic deployment
-triggers or shared deploy-hook secrets requires separate authorization.
+`publishDate` is evaluated during the static build, so reaching that date does not change the
+deployed site by itself. [`scheduled-publish.yml`](../.github/workflows/scheduled-publish.yml)
+closes that gap: twice a day it lists the posts on `main` that are not drafts and whose
+`publishDate` has passed, compares them with the production `/feed.json`, and requests a
+Cloudflare Pages deployment only when one is missing. It deploys `main` as it is, so a post
+must be merged, reviewed, and have `draft: false` before its date; the workflow never changes
+content. A post kept as `draft: true` is never published by the schedule.
+
+Setup, once: create a deploy hook for the production branch in the Cloudflare Pages project
+(Settings → Builds → Deploy hooks) and store its URL as the `CLOUDFLARE_DEPLOY_HOOK_URL`
+repository secret. Without the secret the workflow reports due posts and deploys nothing.
+Anyone holding the hook URL can trigger a deployment, so rotate it if it leaks. After a
+scheduled deployment, verify the article, its feed entry, and its sitemap entry in production.
 
 ### Reviewed deployment
 
