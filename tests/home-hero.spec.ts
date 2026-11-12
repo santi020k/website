@@ -17,7 +17,7 @@ test('the hero connects products, personal background, and the full portfolio', 
   await expect(hero.locator('img[alt="Portrait of Santiago Molina, smiling"]')).toBeVisible()
   await expect(hero.locator('img[alt="Portrait of Santiago Molina, smiling"]')).toHaveJSProperty('complete', true)
 
-  await expect(hero.locator('a[href="/work-with-me/"]')).toHaveAccessibleName('Work with me')
+  await expect(hero.locator('a[href="/work-with-me/"]')).toHaveAccessibleName('Let’s talk')
   await hero.locator('a[href="/work-with-me/"]').click()
   await expect(page).toHaveURL(/\/work-with-me\/$/)
   await expect(page.locator('h1')).toContainText('Let’s work')
@@ -63,7 +63,7 @@ for (const theme of ['light', 'dark'] as const) {
     const portrait = hero.getByRole('img', { name: 'Portrait of Santiago Molina, smiling' })
 
     await expect(hero.getByRole('link', { name: 'See selected work', exact: true })).toBeInViewport({ ratio: 1 })
-    await expect(hero.getByRole('link', { name: 'Work with me', exact: true })).toBeInViewport({ ratio: 1 })
+    await expect(hero.getByRole('link', { name: 'Let’s talk', exact: true })).toBeInViewport({ ratio: 1 })
     await expect(hero.getByText('Medellín, Colombia', { exact: true })).toBeInViewport({ ratio: 1 })
     await expect(hero.getByRole('link', { name: 'Lumen UI Web and native components' })).toBeVisible()
     await expect(hero.getByRole('link', { name: 'PostLens Private photo editing for iPhone' })).toBeVisible()
@@ -389,7 +389,7 @@ test('product previews and primary destinations work without JavaScript', async 
         element instanceof HTMLImageElement && element.complete && element.naturalWidth > 0
       ))).toBe(true)
     }
-    await hero.getByRole('link', { name: 'Work with me', exact: true }).click()
+    await hero.getByRole('link', { name: 'Let’s talk', exact: true }).click()
     await expect(page).toHaveURL(/\/work-with-me\/$/u)
   } finally {
     await context.close()

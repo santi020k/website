@@ -167,7 +167,7 @@ test('keyboard focus exchanges the arrow and keeps native link navigation', asyn
   await primary.focus()
   await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
   await expect(secondary).toBeFocused()
-  await expect(secondary).toHaveAccessibleName('Work with me')
+  await expect(secondary).toHaveAccessibleName('Let’s talk')
   await expect(secondary).toHaveCSS('outline-style', 'solid')
   await expect(secondary.locator('[data-arrow-track]')).toHaveCSS('animation-duration', '0.48s')
   await page.keyboard.press('Enter')

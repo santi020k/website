@@ -185,7 +185,7 @@ test.describe('SEO — meta tags', () => {
     const title = await page.title()
 
     expect(title.length).toBeLessThanOrEqual(60)
-    await expect(page).toHaveTitle('Santiago Molina — Full-Stack Engineer | santi020k')
+    await expect(page).toHaveTitle('Santiago Molina — Engineering Leader & Architect | santi020k')
     await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
       'content', 'Engineering Leader & Full-Stack Architect'
     )
@@ -208,7 +208,7 @@ test.describe('SEO — meta tags', () => {
     const priorityPages = [
       {
         path: '/',
-        title: 'Santiago Molina — Full-Stack Engineer | santi020k'
+        title: 'Santiago Molina — Engineering Leader & Architect | santi020k'
       },
       {
         path: '/blog/flash-xteink-x4-international-firmware/',
