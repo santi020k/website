@@ -4,10 +4,13 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 
 ## Active release
 
-The current integration target is `release/v5.2.1`, opened on November 11, 2026
-from the published `v5.2.0` baseline (`#162`). It carries the `5.2.0` version bump,
-homepage search title and contact label alignment, refreshed résumé artifacts, and
-workflow dependency updates. Base new approved work on this release and serialize
+The current integration target is `release/v5.3.0`, opened on November 12, 2026
+from `release/v5.2.1`, which it supersedes. It builds on the published `v5.2.0`
+baseline (`#162`) and carries the `5.2.0` version bump, homepage search title and
+contact label alignment, refreshed résumé artifacts, and workflow dependency updates
+from that branch. It adds Spanish feeds, a lighter technologies index, the hashed
+header script policy, scheduled publishing, Renovate, and connected cover and
+scroll-driven motion. Base new approved work on this release and serialize
 integration in its clean, idle worktree. Preserve the published v4.0.0 design in
 `apps/v4`; current-site changes belong at the repository root.
 `docs/release-checklist.md` lists the remaining gates; earlier evidence is archived

@@ -197,7 +197,7 @@ projects index and technology archives share the editorial gallery.
 `pnpm run generate:cv` builds the site and regenerates résumé downloads after UI or dependency
 changes. Do not edit generated files by hand.
 
-The next release is consolidated on `release/v5.2.1`. Production publishing follows the reviewed
+The next release is consolidated on `release/v5.3.0`. Production publishing follows the reviewed
 GitHub workflow from `main`; local validation and integration are separate from remote merge,
 Cloudflare deployment, and production smoke checks. See the
 [deployment runbook](deployment.md) for Changesets, protected checks, and rollback.
