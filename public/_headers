@@ -37,6 +37,14 @@
   CDN-Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400
   Cache-Control: public, max-age=0, must-revalidate
 
+/es/feed.xml
+  CDN-Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=0, must-revalidate
+
+/es/feed.json
+  CDN-Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=0, must-revalidate
+
 /search-index.json
   CDN-Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400
   Cache-Control: public, max-age=0, must-revalidate
@@ -67,9 +75,10 @@
 
 # ─── Security & privacy headers (applied globally) ───────────────────────────
 /*
-  Strict-Transport-Security: max-age=31536000
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
+  Cross-Origin-Opener-Policy: same-origin
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://giscus.app https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://webmention.io https://buttondown.com https://cloudflareinsights.com; frame-src https://giscus.app; frame-ancestors 'none'; form-action 'self' https://buttondown.com; upgrade-insecure-requests

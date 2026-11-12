@@ -16,11 +16,15 @@ Redirects, cache headers, and security headers are versioned in the repo:
 Cloudflare Pages picks both files up at the edge automatically. The header defaults include:
 
 - **Content-Security-Policy**: allows the configured Giscus, Webmention, Buttondown, and optional Cloudflare Web Analytics integrations. The analytics beacon is emitted only in production with `CLOUDFLARE_WEB_ANALYTICS_TOKEN` set at build time.
-  The header still lists `'unsafe-inline'` for scripts because the archived sites (`/v1/`–`/v4/`)
-  use inline event handlers. Current-site pages add a second, stricter policy: after `astro build`,
-  [`scripts/js/apply-script-policy.mjs`](../scripts/js/apply-script-policy.mjs) hashes every inline
-  script and writes one `<meta http-equiv="Content-Security-Policy">` with the header's script
-  origins plus those hashes and without `'unsafe-inline'`. Browsers enforce both policies, so only
+  [`public/_headers`](../public/_headers) lists `'unsafe-inline'` for scripts only as the source
+  policy for the archived sites (`/v1/`–`/v4/`), which use inline event handlers. After
+  `astro build`, [`scripts/js/apply-script-policy.mjs`](../scripts/js/apply-script-policy.mjs)
+  hashes every inline script of the current site and writes the same `script-src` (the header's
+  script origins plus those hashes, without `'unsafe-inline'`) in two places: one
+  `<meta http-equiv="Content-Security-Policy">` per page and the `/*` rule of `dist/_headers`.
+  Archive assembly then gives each `/vN/*` rule `! Content-Security-Policy` followed by the source
+  policy, so archived pages keep working. Cloudflare ignores `_headers` lines over 2,000
+  characters; the build fails before the policy line grows past that. Only
   hashed inline scripts run. Every page gets the same list because `<ClientRouter />` swaps pages into
   the first document; when the next page carries a different policy (a new deployment or an
   archive), the router loads it as a full document instead. The build fails if a current page uses
@@ -31,9 +35,12 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
   empty and the router treats its error like a load, so pages keep working.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
-- **Strict-Transport-Security**: `max-age=31536000`, so browsers keep using HTTPS for a year after
-  a visit. Add `includeSubDomains` (and later `preload`) only after every `*.santi020k.com` host is
-  confirmed HTTPS-only; preload is hard to undo.
+- **Strict-Transport-Security**: `max-age=31536000; includeSubDomains; preload`, so browsers keep
+  using HTTPS for a year on `santi020k.com` and every subdomain. On November 12, 2026 the project
+  hosts in the cross-site sitemap all redirected HTTP to HTTPS. Every future `*.santi020k.com`
+  host must serve HTTPS from its first day. The header only makes the domain eligible: submit it
+  at <https://hstspreload.org/> to enter browser preload lists, which is slow to undo.
+- **Cross-Origin-Opener-Policy**: `same-origin`, so pages opened from the site get no handle on it.
 - **X-Content-Type-Options**: `nosniff`
 - **`/_astro/*`** → 1 year `immutable`.
 - **`/v1/_astro/*` through `/v4/_astro/*`** → 1 year `immutable`, added by archive assembly.
