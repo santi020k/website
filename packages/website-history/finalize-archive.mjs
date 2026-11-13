@@ -79,7 +79,12 @@ export const archiveHeaderRules = (id, policy) => [
  * Reads the Content-Security-Policy value from a _headers file.
  * @param {string} headers
  */
-export const readHeaderPolicy = headers => /^\s*Content-Security-Policy:\s*(.+)$/imu.exec(headers)?.[1]?.trim()
+export const readHeaderPolicy = headers => {
+  const prefix = 'content-security-policy:'
+  const line = headers.split('\n').map(value => value.trim()).find(value => value.toLowerCase().startsWith(prefix))
+
+  return line?.slice(prefix.length).trim() || undefined
+}
 
 /** @param {string} html @param {string} id */
 export const archiveHtml = (html, id) => markArchiveExits(html, id)
