@@ -194,3 +194,37 @@ export const rankSearchEntry = (entry: SearchIndexEntry, query: string): number 
 
   return score
 }
+
+const resultTypeOrder: Record<SearchIndexEntry['type'], number> = { community: 0, project: 1, post: 2, page: 3 }
+
+/** Ranked title, tag and description matches: best score first, then community, projects, posts and pages, then title. */
+export const rankSearchEntries = (
+  entries: readonly SearchIndexEntry[],
+  query: string,
+  limit = 8
+): SearchIndexEntry[] => entries
+  .map(entry => ({ entry, score: rankSearchEntry(entry, query) }))
+  .filter(item => item.score > 0)
+  .sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score
+
+    const typeDiff = resultTypeOrder[a.entry.type] - resultTypeOrder[b.entry.type]
+
+    if (typeDiff !== 0) return typeDiff
+
+    return a.entry.title.localeCompare(b.entry.title)
+  })
+  .slice(0, limit)
+  .map(item => item.entry)
+
+/**
+ * Arrow-key step through `length` results, wrapping at both ends. With nothing
+ * selected (`-1`), Down starts at the first result and Up at the last.
+ */
+export const stepResultIndex = (current: number, length: number, direction: 1 | -1): number => {
+  if (length <= 0) return -1
+
+  if (current < 0) return direction === 1 ? 0 : length - 1
+
+  return (current + direction + length) % length
+}

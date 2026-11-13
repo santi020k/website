@@ -33,6 +33,11 @@ issue in the package's repository.
 - Refine `santi-og migrate --report` so it recognizes existing `createCards()` usage. The current
   report recommends moving a large catalog through `createCards()` even when the config already
   does so for its static catalog.
+- Let consumers extend card data with their own fields from JSDoc. `collectContentCards()` infers
+  `T` from `map()`, but `frontmatter` is `Record<string, unknown>`, so mapped fields widen to `{}`,
+  and extra fields such as `coverImagePath` are rejected against `PresetCardData`. A
+  `defineContentCards<T>()` helper, or typing `frontmatter` through a schema argument, would let
+  `scripts/js/generate-og-images.js` join the repository's `checkJs` pass.
 
 ## `@santi020k/lumen-astro`
 

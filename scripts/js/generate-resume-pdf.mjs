@@ -61,7 +61,7 @@ const server = createServer(async (request, response) => {
 await new Promise((resolve, reject) => {
   server.once('error', reject)
 
-  server.listen(0, '127.0.0.1', resolve)
+  server.listen(0, '127.0.0.1', () => resolve(undefined))
 })
 
 const address = server.address()

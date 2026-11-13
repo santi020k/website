@@ -4,7 +4,7 @@ Project entries can add `previews.description` and up to four `previews.images`,
 with a relative `src`, descriptive `alt`, `title`, and `caption`. Use MDX to place
 the gallery after the relevant chapter introduction and before its technical
 subsections. Import `ProjectPreviews` from
-`@/components/molecules/ProjectPreviews.astro` and render it with the collection ID:
+`@/components/project/ProjectPreviews.astro` and render it with the collection ID:
 
 ```mdx
 <ProjectPreviews projectId="smith-commerce">

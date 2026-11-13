@@ -1,10 +1,11 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
-import { load as loadYaml } from 'js-yaml'
 import sharp from 'sharp'
 
 import { travelNotesSchema } from '../../src/data/travel-notes-schema.ts'
+
+import { contentId, findMarkdownFiles, parseFrontmatter } from './utils/frontmatter.mjs'
 
 const CONTENT_ROOT = path.resolve('src/content')
 const COUNTRY_ROOT = path.resolve(CONTENT_ROOT, 'country')
@@ -13,39 +14,6 @@ const SERIES_ROOT = path.resolve(CONTENT_ROOT, 'series')
 const POST_COVER_HEIGHT = 900
 const POST_COVER_WIDTH = 1600
 const isContentFile = filePath => filePath.endsWith('.md') || filePath.endsWith('.mdx')
-
-/**
- * Mirrors the collection id that `glob()` derives for a content file: the path
- * relative to the collection base, without extension and without `/index`.
- */
-const collectionId = (root, filePath) => path
-  .relative(root, filePath)
-  .split(path.sep)
-  .join('/')
-  .replace(/\.mdx?$/, '')
-  .replace(/\/index$/, '')
-
-const walkFiles = async directory => {
-  const entries = await fs.readdir(directory, { withFileTypes: true })
-
-  const files = await Promise.all(entries.map(async entry => {
-    const resolved = path.join(directory, entry.name)
-
-    if (entry.isDirectory()) return walkFiles(resolved)
-
-    return resolved
-  }))
-
-  return files.flat()
-}
-
-const parseFrontmatter = raw => {
-  const match = /^---\r?\n([\s\S]*?)\r?\n---[\t ]*(?:\r?\n|$)/u.exec(raw)
-
-  if (!match) return null
-
-  return { frontmatter: loadYaml(match[1]), body: raw.slice(match[0].length).trim() }
-}
 
 const validatePostCover = async (filePath, coverImage) => {
   if (!filePath.startsWith(`${POST_ROOT}${path.sep}`)) return []
@@ -90,12 +58,19 @@ const validateFile = async filePath => {
   if (!isContentFile(filePath)) return { errors: [] }
 
   const raw = await fs.readFile(filePath, 'utf8')
-  const parsed = parseFrontmatter(raw)
-  const frontmatter = parsed?.frontmatter
+  let parsed
 
-  if (!frontmatter || typeof frontmatter !== 'object') {
+  try {
+    parsed = parseFrontmatter(raw)
+  } catch {
+    parsed = undefined
+  }
+
+  if (!parsed) {
     return { errors: [`${filePath}: missing or invalid frontmatter`] }
   }
+
+  const { frontmatter } = parsed
 
   if (filePath.startsWith(`${COUNTRY_ROOT}${path.sep}`)) {
     const result = travelNotesSchema.safeParse(frontmatter)
@@ -124,7 +99,7 @@ const validateFile = async filePath => {
   }
 
   if (coverImage && typeof coverImage === 'object') {
-    const alt = String(coverImage.alt ?? '')
+    const alt = String(/** @type {Record<string, unknown>} */ (coverImage).alt ?? '')
 
     if (alt.length < 12) {
       errors.push(`${filePath}: coverImage.alt must be at least 12 characters`)
@@ -151,9 +126,9 @@ const validateFile = async filePath => {
 
 /** Collects the ids declared by the `series` collection. */
 const readSeriesIds = async () => {
-  const files = await walkFiles(SERIES_ROOT)
+  const files = await findMarkdownFiles(SERIES_ROOT)
 
-  return new Set(files.filter(isContentFile).map(file => collectionId(SERIES_ROOT, file)))
+  return new Set(files.filter(isContentFile).map(file => contentId(SERIES_ROOT, file)))
 }
 
 /**
@@ -196,7 +171,7 @@ const validateSeriesMembership = (memberships, seriesIds) => {
 }
 
 const run = async () => {
-  const [files, seriesIds] = await Promise.all([walkFiles(CONTENT_ROOT), readSeriesIds()])
+  const [files, seriesIds] = await Promise.all([findMarkdownFiles(CONTENT_ROOT), readSeriesIds()])
   const results = await Promise.all(files.map(validateFile))
 
   const errors = [

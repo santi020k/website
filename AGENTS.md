@@ -48,11 +48,13 @@ in `docs/archive/v5-release-readiness.md`.
 | `src/content.config.ts` | Content collection schemas (Zod) |
 | `src/content/` | Markdown/MDX content (blog posts, projects) |
 | `src/layouts/` | Page layout components |
-| `src/components/` | Reusable Astro components |
+| `src/components/` | Astro components: feature folders (`article/`, `project/`, `search/`, `technology/`, `layout/`) and shared `atoms/`, `molecules/`, `organisms/` |
+| `src/loaders/` | Page data loading and shaping, kept out of page frontmatter so it can be unit-tested |
 | `src/pages/` | File-based routes (`.astro`, `.ts` for API) |
 | `src/i18n/` | Bilingual (`en` / `es`) message catalogs and locale helpers |
 | `src/utils/` | Shared TypeScript utilities |
 | `src/types/` | Shared TypeScript type modules (`src/types.ts` re-exports) |
+| `tests/<area>/` | Playwright specs grouped by area (`article/`, `project/`, `search/`, `site/`, …) |
 | `apps/v1`–`apps/v4` | Frozen historical site archives assembled under `/v1/`–`/v4/` |
 | `public/` | Static assets served as-is |
 

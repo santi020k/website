@@ -3468,7 +3468,7 @@ format props through its wrapper. Keep source artwork and archived-site assets.
 - `src/styles/pages/home.css`: homepage-only styles, including the hero container queries and animations.
 - `src/styles/partials/nav.css`: navbar styling, developed independently.
 - `src/styles/partials/tokens.css`: website extensions to the shared theme.
-- `src/components/organisms/SiteFooter.astro`: shared footer, developed independently.
+- `src/components/layout/SiteFooter.astro`: shared footer, developed independently.
 
 Use Lumen `Stat`, `Card`, `ButtonLink`, and `Icon` rather than duplicating their component contracts.
 Use Astro `Image` for optimized assets. Keep home-specific rules scoped to their compositions.

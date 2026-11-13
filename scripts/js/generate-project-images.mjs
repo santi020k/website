@@ -2,8 +2,9 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { load } from 'js-yaml'
 import sharp from 'sharp'
+
+import { isFrontmatter, parseFrontmatter } from './utils/frontmatter.mjs'
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url)
 const ROOT = path.resolve(path.dirname(SCRIPT_PATH), '..', '..')
@@ -40,7 +41,7 @@ const escapeXml = value => value
   .replaceAll('"', '&quot;')
   .replaceAll('\'', '&apos;')
 
-const isRecord = value => typeof value === 'object' && value !== null && !Array.isArray(value)
+const isRecord = isFrontmatter
 
 const hashText = value => {
   let hash = 2166136261
@@ -66,9 +67,9 @@ const hexToRgb = hex => {
   if (!match) throw new TypeError(`Invalid accent color: ${hex}`)
 
   return {
-    blue: Number.parseInt(match[3], 16),
-    green: Number.parseInt(match[2], 16),
-    red: Number.parseInt(match[1], 16)
+    blue: Number.parseInt(match[3] ?? '', 16),
+    green: Number.parseInt(match[2] ?? '', 16),
+    red: Number.parseInt(match[1] ?? '', 16)
   }
 }
 
@@ -79,7 +80,9 @@ const getRelativeLuminance = color => {
     return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4
   })
 
-  return (0.2126 * channels[0]) + (0.7152 * channels[1]) + (0.0722 * channels[2])
+  const [red = 0, green = 0, blue = 0] = channels
+
+  return (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
 }
 
 const getContrastRatio = (first, second) => {
@@ -127,11 +130,12 @@ const hslToRgb = ({ hue, lightness, saturation }) => {
   ][Math.floor(hueSegment) % 6] ?? [0, 0, 0]
 
   const match = lightness - (chroma / 2)
+  const [red = 0, green = 0, blue = 0] = channels
 
   return {
-    blue: Math.round((channels[2] + match) * 255),
-    green: Math.round((channels[1] + match) * 255),
-    red: Math.round((channels[0] + match) * 255)
+    blue: Math.round((blue + match) * 255),
+    green: Math.round((green + match) * 255),
+    red: Math.round((red + match) * 255)
   }
 }
 
@@ -204,16 +208,12 @@ const getLogoAccent = async (logoPath, fallback) => {
   return selectAccentFromPixels(data, fallback)
 }
 
-const parseFrontmatter = source => {
-  const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/u)
+const readProjectFrontmatter = source => {
+  const parsed = parseFrontmatter(source)
 
-  if (!match?.[1]) throw new Error('Missing YAML frontmatter')
+  if (!parsed) throw new Error('Missing YAML frontmatter')
 
-  const data = load(match[1])
-
-  if (!isRecord(data)) throw new TypeError('Project frontmatter must be an object')
-
-  return data
+  return parsed.frontmatter
 }
 
 const getString = (record, key) => {
@@ -283,7 +283,7 @@ export const getLogoBounds = async logoPath => {
 
   for (let index = 0; index < data.length; index += 1) {
     // Ignore nearly invisible fringe pixels when measuring the artwork.
-    if (data[index] <= 16) continue
+    if ((data[index] ?? 0) <= 16) continue
 
     const x = index % info.width
     const y = Math.floor(index / info.width)
@@ -318,7 +318,7 @@ export const discoverProjects = async (projectsRoot = PROJECTS_ROOT) => {
     if (!entry) throw new Error(`${slug}: index.md or index.mdx is required`)
 
     const source = await fs.readFile(path.join(directory, entry), 'utf8')
-    const frontmatter = parseFrontmatter(source)
+    const frontmatter = readProjectFrontmatter(source)
     const title = getString(frontmatter, 'title')
     const description = getString(frontmatter, 'description')
     const coverImage = frontmatter.coverImage

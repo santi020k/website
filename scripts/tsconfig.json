@@ -1,0 +1,29 @@
+{
+  // Type-checks the build scripts' JSDoc with `tsc -p scripts` (run by `check:current`).
+  // Implicit `any` stays allowed until the remaining parameters carry JSDoc types;
+  // everything else matches the site's strictest settings.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "checkJs": true,
+    "noImplicitAny": false,
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ],
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "js/**/*.mjs",
+    "js/**/*.js",
+    "../src/env.d.ts"
+  ],
+  "exclude": [
+    "js/__tests__",
+    // Its card data extends @santi020k/og's PresetCardData, which the package's generics
+    // can't express from JSDoc yet (see docs/upstream-improvements.md).
+    "js/generate-og-images.js"
+  ]
+}

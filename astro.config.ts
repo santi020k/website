@@ -1,4 +1,3 @@
-import fs from 'node:fs'
 import path from 'node:path'
 
 import { unified } from '@astrojs/markdown-remark'
@@ -7,7 +6,6 @@ import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
 import icon from 'astro-icon'
-import { load as loadYaml } from 'js-yaml'
 // Rehype plugins
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypePrettyCode from 'rehype-pretty-code'
@@ -15,6 +13,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 // Remark plugins
 import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
+import { buildContentSitemapMetadata } from './src/config/content-sitemap'
 import { defaultLocale, locales, stripLocale } from './src/i18n'
 import { codeHighlightingOptions } from './src/plugins/code-highlighting'
 import { externalLinkRel } from './src/plugins/external-link-rel'
@@ -31,8 +30,6 @@ import { rehypeProjectLedger } from './src/plugins/rehype-project-ledger'
 import { rehypeReadableTables } from './src/plugins/rehype-readable-tables'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
 import { isNoindexBuiltPage } from './src/utils/built-page'
-import { parseContentDate } from './src/utils/content-date'
-import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
 const siteOrigin = 'https://santi020k.com'
@@ -46,186 +43,10 @@ const canonicalContentURL = (value: string): string => {
   return url.href
 }
 
-/**
- * Builds sitemap metadata for content-collection routes from frontmatter.
- * Last-modified dates let entries advertise real content changes, while pages
- * that declare another canonical URL are omitted to avoid conflicting signals.
- */
-const buildContentSitemapMetadata = () => {
-  const lastmodMap = new Map<string, string>()
-  const nonCanonicalPageUrls = new Set<string>()
-  const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---/
-
-  const walk = (dir: string): string[] => {
-    const out: string[] = []
-    let entries: fs.Dirent[]
-
-    try {
-      entries = fs.readdirSync(dir, { withFileTypes: true })
-    } catch {
-      return []
-    }
-
-    for (const entry of entries) {
-      const full = path.join(dir, entry.name)
-
-      if (entry.isDirectory()) {
-        out.push(...walk(full))
-      } else if (entry.isFile() && /\.mdx?$/.test(entry.name)) {
-        out.push(full)
-      }
-    }
-
-    return out
-  }
-
-  // Matches the content schema so sitemap dates and scheduling agree in every build timezone.
-  const toIso = (value: unknown): string | undefined => {
-    if (!(value instanceof Date) && typeof value !== 'string') return undefined
-
-    const date = parseContentDate(value)
-
-    return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
-  }
-
-  type FrontmatterDateKey = 'date' | 'endingDate' | 'pubDate' | 'publishDate' | 'startingDate' | 'updatedDate'
-
-  const frontmatterDate = (frontmatter: Record<string, unknown>, key: FrontmatterDateKey) => {
-    switch (key) {
-      case 'date':
-        return frontmatter.date
-
-      case 'endingDate':
-        return frontmatter.endingDate
-
-      case 'pubDate':
-        return frontmatter.pubDate
-
-      case 'publishDate':
-        return frontmatter.publishDate
-
-      case 'startingDate':
-        return frontmatter.startingDate
-
-      case 'updatedDate':
-        return frontmatter.updatedDate
-    }
-  }
-
-  const updateLatestLastmod = (url: string, iso: string | undefined) => {
-    if (!iso) return
-
-    const existing = lastmodMap.get(url)
-
-    if (!existing || iso > existing) {
-      lastmodMap.set(url, iso)
-    }
-  }
-
-  const register = (
-    url: string,
-    frontmatter: Record<string, unknown>,
-    prefer: FrontmatterDateKey[]
-  ): string | undefined => {
-    for (const key of prefer) {
-      const iso = toIso(frontmatterDate(frontmatter, key))
-
-      if (iso) {
-        lastmodMap.set(url, iso)
-
-        return iso
-      }
-    }
-
-    return undefined
-  }
-
-  // Posts: src/content/post/**/<slug>(/index)?.md(x) -> /blog/<slug>/
-  for (const file of walk(path.resolve('src/content/post'))) {
-    if (/\.es\.mdx?$/u.test(file)) continue
-
-    try {
-      const raw = fs.readFileSync(file, 'utf8')
-      const match = frontmatterRegex.exec(raw)
-
-      if (!match) continue
-
-      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
-
-      if (!data || data.draft === true) continue
-
-      const publishDate = toIso(data.publishDate)
-
-      if (publishDate && new Date(publishDate) > new Date()) continue
-
-      const relative = path.relative(path.resolve('src/content/post'), file).replace(/\\/g, '/')
-      const id = relative.replace(/\.mdx?$/, '')
-      const slug = getPostSlug(id)
-      const pageUrl = `${siteOrigin}/blog/${slug}/`
-
-      if (typeof data.canonicalUrl === 'string' && data.canonicalUrl !== pageUrl) {
-        nonCanonicalPageUrls.add(pageUrl)
-      }
-
-      const postLastmod = register(pageUrl, data, ['updatedDate', 'publishDate'])
-
-      updateLatestLastmod(`${siteOrigin}/blog/`, postLastmod)
-
-      if (Array.isArray(data.tags)) {
-        for (const rawTag of data.tags) {
-          if (typeof rawTag === 'string' && rawTag.trim()) {
-            const normalizedTag = rawTag.trim().toLowerCase()
-
-            updateLatestLastmod(`${siteOrigin}/blog/tags/`, postLastmod)
-
-            updateLatestLastmod(`${siteOrigin}/blog/tags/${encodeURIComponent(normalizedTag)}/`, postLastmod)
-          }
-        }
-      }
-
-      if (typeof data.seriesId === 'string' && data.seriesId.trim()) {
-        updateLatestLastmod(`${siteOrigin}/blog/series/`, postLastmod)
-
-        updateLatestLastmod(`${siteOrigin}/blog/series/${data.seriesId.trim()}/`, postLastmod)
-      }
-    } catch {
-      /* ignore unreadable files */
-    }
-  }
-
-  // Projects: src/content/project/<slug>(/index)?.md(x) -> /portfolio/<slug>/
-  for (const file of walk(path.resolve('src/content/project'))) {
-    if (/\.es\.mdx?$/u.test(file)) continue
-
-    try {
-      const raw = fs.readFileSync(file, 'utf8')
-      const match = frontmatterRegex.exec(raw)
-
-      if (!match) continue
-
-      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
-
-      if (!data || data.draft === true) continue
-
-      const relative = path.relative(path.resolve('src/content/project'), file).replace(/\\/g, '/')
-      const id = relative.replace(/\.mdx?$/, '').replace(/\/index$/, '')
-      const slug = id.split('/').pop() ?? id
-      // Project start/end dates describe the work, not this case study's latest edit.
-      const projectLastmod = register(`${siteOrigin}/portfolio/${slug}/`, data, ['updatedDate'])
-
-      updateLatestLastmod(`${siteOrigin}/projects/`, projectLastmod)
-    } catch {
-      /* ignore unreadable files */
-    }
-  }
-
-  return { lastmodMap, nonCanonicalPageUrls }
-}
-
 const {
   lastmodMap: contentLastmodMap,
   nonCanonicalPageUrls
-} = buildContentSitemapMetadata()
+} = await buildContentSitemapMetadata({ siteOrigin })
 
 // Keep only redirects that must work in Astro's local preview. The larger set
 // of legacy technology URLs is emitted as real HTTP 301 rules for production

@@ -149,9 +149,9 @@ const checkDiscovery = async () => {
       const tag = m[0]
       const hrefM = /href=["']([^"']+)["']/i.exec(tag)
 
-      return hrefM ? hrefM[1] : null
+      return hrefM?.[1] ?? null
     })
-    .filter(Boolean)
+    .filter(/** @returns {href is string} */ href => Boolean(href))
 
   const expected = endpoint.replace(/\/$/, '')
   const ok = hrefs.some(h => h.replace(/\/$/, '') === expected)

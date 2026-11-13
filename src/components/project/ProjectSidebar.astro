@@ -1,0 +1,31 @@
+---
+import type { MarkdownHeading } from 'astro'
+
+import type { CollectionEntry } from 'astro:content'
+
+import ReadingContents from '@/components/article/ReadingContents.astro'
+import ProjectFocusCard from '@/components/project/ProjectFocusCard.astro'
+
+import { getLocale } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
+
+interface Props {
+  headings: MarkdownHeading[]
+  project: CollectionEntry<'project'>
+}
+
+const { headings, project } = Astro.props
+---
+
+<aside aria-label={t('collection.projectDetails')} class="min-w-0 space-y-5" data-project-sidebar data-reading-rail>
+  {headings.some(heading => heading.depth <= 3) && (
+    <div data-project-desktop-toc>
+      <ReadingContents headings={headings} />
+    </div>
+  )}
+
+  <ProjectFocusCard contentLocale={project.data.contentLocale} focusAreas={project.data.focusAreas} />
+</aside>

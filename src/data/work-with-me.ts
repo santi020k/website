@@ -5,6 +5,9 @@ import { defaultLocale, localizePath } from '@/i18n'
 import { pageTranslator } from '@/i18n/page-copy'
 import { siteConfig } from '@/site.config'
 
+/** Projects whose first impact metric is quoted as a result on the contact page. */
+export const contactResultProjectIds = ['void', 'smith-commerce', 'optic-power'] as const
+
 export type WorkTopicId = 'ai' | 'other' | 'quality' | 'role' | 'talk' | 'team'
 
 export interface WorkWithMeService {

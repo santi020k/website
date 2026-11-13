@@ -24,7 +24,7 @@ export const readPublication = source => {
 
 /**
  * Posts the next build would publish that production does not list yet.
- * @param {{ slug: string, draft: boolean, publishDate?: Date }[]} posts
+ * @param {{ slug: string, draft: boolean, publishDate?: Date | undefined }[]} posts
  * @param {Iterable<string>} publishedUrls
  * @param {Date} [now]
  */
@@ -40,7 +40,7 @@ export const findUnpublished = (posts, publishedUrls, now = new Date()) => {
 
 /**
  * @param {string} [root]
- * @returns {Promise<{ slug: string, draft: boolean, publishDate?: Date }[]>}
+ * @returns {Promise<{ slug: string, draft: boolean, publishDate?: Date | undefined }[]>}
  */
 export const readPosts = async (root = projectRoot) => {
   const directory = join(root, 'src/content/post')

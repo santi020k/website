@@ -17,6 +17,21 @@
         "dist/**"
       ],
       "cache": false
+    },
+    "lint": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/eslint.shared.js"
+      ],
+      "outputs": [],
+      "cache": true
+    },
+    "check": {
+      "inputs": [
+        "$TURBO_DEFAULT$"
+      ],
+      "outputs": [],
+      "cache": true
     }
   },
   "globalEnv": [

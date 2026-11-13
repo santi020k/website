@@ -46,7 +46,7 @@ the English and Spanish pages from Between Contractions.
 case studies, projects, published series, and articles with their descriptions. It
 reads the same published collections as the feeds, so drafts, scheduled posts, and
 empty series never appear. The SEO audit fails when the built file is missing, and
-`tests/llms.spec.ts` checks that every listed page returns 200. Routes do not
+`tests/site/llms.spec.ts` checks that every listed page returns 200. Routes do not
 publish separate Markdown copies.
 
 ## Content modification dates
