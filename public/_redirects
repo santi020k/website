@@ -31,6 +31,24 @@
 /newsletter/  /blog/  301
 /newsletter/* /blog/  301
 
+# Addresses visitors and feed readers guess
+/contact   /work-with-me/  301
+/contact/  /work-with-me/  301
+/hire   /work-with-me/  301
+/hire/  /work-with-me/  301
+/es/contact   /es/work-with-me/  301
+/es/contact/  /es/work-with-me/  301
+/es/contacto   /es/work-with-me/  301
+/es/contacto/  /es/work-with-me/  301
+
+/rss.xml   /feed.xml  301
+/atom.xml  /feed.xml  301
+/rss   /feed.xml  301
+/rss/  /feed.xml  301
+/feed   /feed.xml  301
+/feed/  /feed.xml  301
+/es/rss.xml  /es/feed.xml  301
+
 # Consolidated project case studies
 /portfolio/santi020k-chrome-theme   /portfolio/santi020k-theme/  301
 /portfolio/santi020k-chrome-theme/  /portfolio/santi020k-theme/  301
