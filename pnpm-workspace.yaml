@@ -51,7 +51,7 @@ catalog:
   "@types/unist": ^3.0.3
   "@vitest/coverage-v8": ^5.1.0
   "@vitest/ui": ^5.1.0
-  astro: 7.3.6
+  astro: 7.4.7
   astro-icon: ^1.2.0
   cspell: ^10.3.6
   eslint: ^10.12.0
@@ -135,6 +135,8 @@ overrides:
   fast-uri@>=3.0.0 <3.1.9: 3.1.9
   fflate@>=0.7.0 <0.7.5: 0.7.5
   "@hono/node-server@>=2.0.0 <2.1.6": 2.1.6
+  # astro check loads the Astro compiler through this WASM runtime; the 2.0 beta Vite pulls in crashes it.
+  "@napi-rs/wasm-runtime@1.2.4>@emnapi/runtime": 1.11.3
   hono@<4.13.16: 4.13.16
   glob@>=9.0.0 <14.0.2: 14.0.3
   http-cache-semantics@>=4.0.0 <4.3.0: 4.3.0

@@ -36,9 +36,16 @@ manual updates. It takes effect once the Renovate GitHub app is installed for th
 Dependabot continues to open security updates and GitHub Actions updates.
 
 The November 12, 2026 review raised Pagefind to 1.6.0, Turbo to 2.11.10, and Vitest with its UI
-and V8 coverage to 5.1.0. Astro stays on 7.3.6: 7.4.5 resolves Vite 8.3.8 and Rolldown 1.3.2,
-whose `@emnapi/runtime` 2.0.0-beta.2 fallback made `@astrojs/check` fail to load on Linux arm64
-in that review. Retry it once a stable `@emnapi/runtime` 2 is resolved.
+and V8 coverage to 5.1.0.
+
+On November 13, 2026, Astro moved from 7.3.6 to 7.4.7 for
+[GHSA-r3h5-4585-7x3w](https://github.com/advisories/GHSA-r3h5-4585-7x3w). The site uses no
+`@astrojs/node` adapter, so the affected image endpoint was never deployed, but the advisory failed
+`pnpm audit`. Astro 7.4 resolves Vite 8.3.8, whose WASM fallback brings `@emnapi/runtime`
+2.0.0-beta.2; `@astrojs/check` loads the Astro compiler through a WASM runtime and
+crashes with that beta on any platform. An override pins that runtime to the stable 1.11.3. Remove
+it once `@emnapi/runtime` 2 is stable. The same review raised the `basic-ftp` override to 6.2.4
+and added `hono` 4.13.16 and `@hono/node-server` 2.1.6 overrides for the motion app.
 
 ## Previous dependency review
 
