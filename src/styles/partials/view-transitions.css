@@ -45,6 +45,22 @@ html[data-astro-transition] .site-header {
   z-index: 3;
 }
 
+/* A card crops its cover and the detail page shows it whole. Cropping both
+   snapshots to the moving frame keeps the image from stretching in between. */
+[data-post-gallery-cover],
+[data-portfolio-visual],
+[data-related-artwork],
+.projects-editorial-image > [data-astro-transition-scope],
+:is([data-post-cover], [data-project-cover]) [data-astro-transition-scope] {
+  view-transition-class: cover-art;
+}
+
+::view-transition-old(.cover-art),
+::view-transition-new(.cover-art) {
+  height: 100%;
+  object-fit: cover;
+}
+
 /* The root snapshots keep their viewport size and their original scroll crop.
    Clear the old headline quickly before bringing in the destination. */
 ::view-transition-old(root),

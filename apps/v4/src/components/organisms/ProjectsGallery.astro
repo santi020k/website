@@ -50,6 +50,7 @@ const projectItems = projects.map((project, index) => ({
                 alt=""
                 ariaHidden={true}
                 className="size-full rounded-none border-0 object-cover"
+                fallbackFormat="webp"
                 image={project.editorialImage}
                 loading="lazy"
                 mode="card"
@@ -110,6 +111,7 @@ const projectItems = projects.map((project, index) => ({
                     group-hover:scale-105
                     motion-reduce:transition-none
                   "
+                  fallbackFormat="webp"
                   image={projectItems[0].thumbnailImage}
                   loading="eager"
                   mode="card"
@@ -214,6 +216,7 @@ const projectItems = projects.map((project, index) => ({
                       group-hover:scale-105
                       motion-reduce:transition-none
                     "
+                    fallbackFormat="webp"
                     image={project.thumbnailImage}
                     loading="lazy"
                     mode="card"

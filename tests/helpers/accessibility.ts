@@ -30,7 +30,8 @@ export const waitForVisibleAnimations = async (page: Page) => {
   // brand purple with the page background would report false contrast failures).
   // Two rAF calls ensure at least one paint has occurred so animations have
   // started before we wait. Infinite animations (decorative loops) are excluded
-  // because their `finished` promise never resolves. Firefox can also keep
+  // because their `finished` promise never resolves, and so are scroll-driven
+  // animations, which only finish once the page is scrolled past them. Firefox can also keep
   // transitions pending inside closed details panels; unrendered targets do not
   // affect the colors axe measures and must not block the scan.
   await page.evaluate(async () => {
@@ -40,7 +41,8 @@ export const waitForVisibleAnimations = async (page: Page) => {
     const finiteAnimations = document.getAnimations().filter(
       animation => {
         const { effect } = animation
-        return effect?.getTiming().iterations !== Infinity &&
+        return animation.timeline instanceof DocumentTimeline &&
+          effect?.getTiming().iterations !== Infinity &&
           (!(effect instanceof KeyframeEffect) ||
             !(effect.target instanceof Element) || effect.target.checkVisibility())
       }

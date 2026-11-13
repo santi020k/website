@@ -2,7 +2,6 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page, test } from '@playwright/test'
 
 const article = '/blog/playwright-accessibility-checks-that-teams-keep-running/'
-const canonicalFeed = 'https://santi020k.com/feed.xml'
 const copy = '[data-newsletter-copy]'
 const stubClipboard = async (page: Page, outcome: 'success' | 'failure' | 'missing' = 'success') => {
   await page.addInitScript(result => {
@@ -29,16 +28,18 @@ for (const locale of ['en', 'es']) {
   const idle = locale === 'es' ? 'Copiar feed' : 'Copy feed'
   const success = locale === 'es' ? '¡Copiado! Dirección del feed RSS copiada' : 'Copied! RSS feed address copied'
   const rss = locale === 'es' ? 'Feed RSS' : 'RSS feed'
+  const feedPath = `${prefix}/feed.xml`
+  const canonicalFeed = `https://santi020k.com${feedPath}`
 
   for (const route of ['/blog/', article]) {
-    test(`${locale} ${route} copies the canonical feed and restores its localized label`, async ({ page }) => {
+    test(`${locale} ${route} copies its language's feed and restores its localized label`, async ({ page }) => {
       await stubClipboard(page)
       await page.clock.install()
       await page.goto(`${prefix}${route}?utm_source=feed-test#newsletter`)
       const button = page.locator(copy)
       const status = page.locator('[data-newsletter-footer] [role="status"]')
       await expect(button).toHaveAccessibleName(idle)
-      await expect(page.getByRole('link', { name: rss, exact: true })).toHaveAttribute('href', '/feed.xml')
+      await expect(page.getByRole('link', { name: rss, exact: true })).toHaveAttribute('href', feedPath)
       await button.scrollIntoViewIfNeeded()
       await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
       await button.focus()
@@ -154,7 +155,7 @@ test.describe('Newsletter feed without JavaScript', () => {
       const rss = page.locator('[data-newsletter-rss]')
       await expect(rss).toBeVisible()
       await rss.click()
-      await expect(page).toHaveURL('/feed.xml')
+      await expect(page).toHaveURL(`${prefix}/feed.xml`)
     })
   }
 })

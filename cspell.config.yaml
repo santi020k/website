@@ -10,6 +10,8 @@ languageSettings:
     locale: en,es,es_ES
     caseSensitive: false
 words:
+  # Native-binding runtime named in docs/dependency-security.md.
+  - emnapi
   # Firefox preference names used by Playwright.
   - prefs
   - typeaheadfind
@@ -238,6 +240,25 @@ words:
   - Customising
   - daher
   - Datagran
+  - consérvalas
+  - definirlo
+  - genéralo
+  - enrutador
+  - indexación
+  - indexarla
+  - manejador
+  - milisegundos
+  - minificado
+  - precarga
+  - precargados
+  - rasterizaba
+  - rasterizado
+  - recompilación
+  - redirección
+  - rediseños
+  - referenciarlo
+  - reintentadas
+  - resaltador
   # Existing heading fragments omit possessive apostrophes.
   - datagrans
   - colombias

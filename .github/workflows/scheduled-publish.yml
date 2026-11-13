@@ -1,0 +1,46 @@
+name: Scheduled publish
+
+# Future-dated posts are filtered during the static build, so reaching a publishDate changes
+# nothing until the site is rebuilt. This workflow compares the posts that are due with the
+# production feed and asks Cloudflare Pages for a deployment only when one is missing.
+'on':
+  # Scheduled runs use the default branch. Posts publish at 14:00 or 17:00 UTC.
+  schedule:
+    - cron: '17 14 * * *'
+    - cron: '17 17 * * *'
+  workflow_dispatch: {}
+
+concurrency:
+  group: scheduled-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Deploy due posts
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            scripts/js/check-scheduled-posts.mjs
+            src/content/post
+          sparse-checkout-cone-mode: false
+      - name: Find due posts missing from production
+        id: due
+        run: node scripts/js/check-scheduled-posts.mjs
+      - name: Request a production deployment
+        if: steps.due.outputs.deploy == 'true'
+        env:
+          CLOUDFLARE_DEPLOY_HOOK_URL: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$CLOUDFLARE_DEPLOY_HOOK_URL" ]; then
+            echo "::warning::Posts are due, but the CLOUDFLARE_DEPLOY_HOOK_URL secret is not set."
+            exit 0
+          fi
+          curl --fail --silent --show-error --max-time 30 -X POST "$CLOUDFLARE_DEPLOY_HOOK_URL" > /dev/null
+          echo "Requested a production deployment."

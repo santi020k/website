@@ -138,6 +138,8 @@ direction="right"
             <p>{t('collection.countsReflectPortfolioEntries')}</p>
           </header>
           <div aria-label={t('collection.matchingTechnologies')} data-technology-matches-list role="list"></div>
+          {/* The arrow only shows in this list, so one copy is cloned into a row when it first matches. */}
+          <template data-technology-arrow-template><ArrowExchange class="size-4" direction="up-right" /></template>
         </section>
         <div data-technology-groups>
           {technologyGroups.map((group, index) => (
@@ -179,10 +181,7 @@ data-technology-group-count
 class="sr-only"
 data-technology-entry-unit
                                                                  > {count === 1 ? t('collection.entry') : t('collection.entries')}</span></span>
-                      <span data-technology-match-arrow><ArrowExchange
-class="size-4"
-direction="up-right"
-                                                        /></span>
+                      <span data-technology-match-arrow></span>
                     </Link>
                   </span>
                 ))}
@@ -246,6 +245,7 @@ direction="up-right"
       const matches = document.querySelector<HTMLElement>('[data-technology-matches]')
       const matchesList = matches?.querySelector<HTMLElement>('[data-technology-matches-list]')
       const matchesQuery = matches?.querySelector<HTMLElement>('[data-technology-match-query]')
+      const arrowTemplate = matches?.querySelector<HTMLTemplateElement>('[data-technology-arrow-template]')
 
       if (!groups || !input || !statusPrefix || !statusCount || !statusUnit || !statusSuffix || !empty || !matches || !matchesList || !matchesQuery || groups.dataset.filterReady === 'true') return
 
@@ -272,8 +272,15 @@ direction="up-right"
 
             item.querySelector('[data-technology-entry-unit]')?.classList.toggle('sr-only', !searching)
 
-            if (searching && isMatch) resultItems.append(item)
-            else list.append(item)
+            if (searching && isMatch) {
+              const arrow = item.querySelector('[data-technology-match-arrow]')
+
+              if (arrow?.childElementCount === 0 && arrowTemplate) arrow.append(arrowTemplate.content.cloneNode(true))
+
+              resultItems.append(item)
+            } else {
+              list.append(item)
+            }
 
             if (isMatch) visibleTotal += 1
           }

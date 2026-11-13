@@ -27,6 +27,26 @@ preserving their exact peer-version alignment. This stable patch restores the
 file-denial rules and supports the repository's Node 24 runtime. Keep these
 packages coordinated when updating them; do not suppress the advisory.
 
+## Version updates
+
+[`renovate.json`](../renovate.json) configures Renovate for the pnpm catalogs: one monthly pull
+request for minor and patch releases that are at least seven days old, with Astro, Vitest and
+Playwright grouped separately, TypeScript held below 7, and the per-generation Lumen pins left to
+manual updates. It takes effect once the Renovate GitHub app is installed for the repository.
+Dependabot continues to open security updates and GitHub Actions updates.
+
+The November 12, 2026 review raised Pagefind to 1.6.0, Turbo to 2.11.10, and Vitest with its UI
+and V8 coverage to 5.1.0.
+
+On November 13, 2026, Astro moved from 7.3.6 to 7.4.7 for
+[GHSA-r3h5-4585-7x3w](https://github.com/advisories/GHSA-r3h5-4585-7x3w). The site uses no
+`@astrojs/node` adapter, so the affected image endpoint was never deployed, but the advisory failed
+`pnpm audit`. Astro 7.4 resolves Vite 8.3.8, whose WASM fallback brings `@emnapi/runtime`
+2.0.0-beta.2; `@astrojs/check` loads the Astro compiler through a WASM runtime and
+crashes with that beta on any platform. An override pins that runtime to the stable 1.11.3. Remove
+it once `@emnapi/runtime` 2 is stable. The same review raised the `basic-ftp` override to 6.2.4
+and added `hono` 4.13.16 and `@hono/node-server` 2.1.6 overrides for the motion app.
+
 ## Previous dependency review
 
 The 2026-10-07 dependency review upgraded 17 direct packages to their latest

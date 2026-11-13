@@ -113,12 +113,15 @@ test('article covers retain responsive AVIF and WebP with natural image dimensio
 })
 
 for (const route of ['/portfolio/smith-commerce/', '/portfolio/lumen-ui/']) {
-  test(`project covers keep unnamed transitions on ${route}`, async ({ page }) => {
+  test(`project covers carry one named transition on ${route}`, async ({ page }) => {
     await page.goto(route)
     const cover = page.locator('[data-project-cover]')
+    const transitionName = `project-cover-${requireValue(route.split('/').filter(Boolean).at(-1))}`
 
     await expect(cover).toHaveCount(1)
-    await expect(cover.locator('[data-astro-transition-scope]')).toHaveCount(0)
+    const names = await cover.locator('*').evaluateAll(elements => elements.map(element => getComputedStyle(element).viewTransitionName))
+
+    expect(names.filter(name => name === transitionName)).toHaveLength(1)
   })
 }
 

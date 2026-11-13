@@ -2,7 +2,7 @@ import { constants } from 'node:fs'
 import { cp, readFile, rm, writeFile } from 'node:fs/promises'
 import { relative, resolve, sep } from 'node:path'
 
-import { addArchiveNotice, archiveFiles, archiveHeaderRules } from '../../packages/website-history/finalize-archive.mjs'
+import { addArchiveNotice, archiveFiles, archiveHeaderRules, readHeaderPolicy } from '../../packages/website-history/finalize-archive.mjs'
 import versions from '../../packages/website-history/versions.json' with { type: 'json' }
 
 const root = resolve(import.meta.dirname, '../..')
@@ -159,7 +159,12 @@ for (const version of versions) {
 
 const headersPath = resolve(currentDirectory, '_headers')
 const headers = (await readFile(headersPath, 'utf8')).split('# Website archives')[0]
-const archiveHeaders = versions.map(({ id }) => archiveHeaderRules(id)).join('')
+// dist/_headers now carries the hashed script policy; archives get the source policy back.
+const archivePolicy = readHeaderPolicy(await readFile(resolve(root, 'public/_headers'), 'utf8'))
+
+if (!archivePolicy) throw new Error('public/_headers has no Content-Security-Policy for the archived sites.')
+
+const archiveHeaders = versions.map(({ id }) => archiveHeaderRules(id, archivePolicy)).join('')
 
 await writeFile(headersPath, headers + '# Website archives\n' + archiveHeaders)
 

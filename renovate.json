@@ -1,0 +1,52 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "Version updates for the pnpm catalogs in pnpm-workspace.yaml.",
+    "Dependabot keeps security updates and GitHub Actions; see .github/dependabot.yml."
+  ],
+  "extends": ["config:recommended"],
+  "enabledManagers": ["npm"],
+  "timezone": "America/Bogota",
+  "schedule": ["before 6am on the first day of the month"],
+  "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict",
+  "prConcurrentLimit": 3,
+  "rangeStrategy": "bump",
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "ignorePaths": ["apps/v1/**", "apps/v2/**", "apps/v3/**", "apps/v4/**"],
+  "packageRules": [
+    {
+      "description": "TypeScript 7 lacks the programmatic API Astro, MDX and typescript-eslint need (docs/dependency-security.md).",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7"
+    },
+    {
+      "description": "Each site generation pins its own Lumen release; these move by hand with a visual review.",
+      "matchPackageNames": ["@santi020k/lumen", "@santi020k/lumen-astro", "@santi020k/lumen-core"],
+      "enabled": false
+    },
+    {
+      "description": "A new browser build can shift screenshot baselines, so Playwright gets its own pull request.",
+      "matchPackageNames": ["@playwright/test", "@axe-core/playwright"],
+      "groupName": "playwright"
+    },
+    {
+      "description": "Vitest, its UI and V8 coverage must stay on one version.",
+      "matchPackageNames": ["vitest", "@vitest/**"],
+      "groupName": "vitest"
+    },
+    {
+      "description": "Astro and its integrations are reviewed together because the archived sites share the catalog.",
+      "matchPackageNames": ["astro", "@astrojs/**"],
+      "groupName": "astro"
+    },
+    {
+      "description": "Everything else arrives as one monthly pull request.",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["!astro", "!@astrojs/**", "!vitest", "!@vitest/**", "!@playwright/test", "!@axe-core/playwright"],
+      "groupName": "npm minor and patch"
+    }
+  ]
+}

@@ -924,12 +924,13 @@ stay hidden. Project viewers retain their direct-image fallback links and defer 
 Landscape article artwork and project covers opt into the local
 `HoverableCover` wrapper's `unstyled` prop, which removes only the wrapper's rounded frame
 and shadow; Astro still supplies native dimensions, AVIF/WebP sources, loading priority,
-and article view transitions. Project covers remain unnamed transition regions and preserve
-their native aspect ratio. Square and portrait articles retain Lumen's contained `CoverImage`.
+and article view transitions. Project covers share a `project-cover-<id>` transition name with
+their portfolio, project-index, and related-work cards, and preserve their native aspect ratio. Square and portrait articles retain Lumen's contained `CoverImage`.
 The default wrapper remains unchanged. No new client runtime is needed.
 
 Route snapshot styling lives in `view-transitions.css`. Astro keeps its existing
-navigation lifecycle and named article covers; the site uses Lumen's public
+navigation lifecycle and named article and project covers, cropping both cover snapshots to the
+moving frame through the `cover-art` transition class; the site uses Lumen's public
 `--ui-ease-emphasized` token for snapshot movement. Destination documents receive
 `data-client-navigation` before the swap to suppress duplicate hero entrances and
 the header logo's public draw/pop/reveal hooks. First-load animations remain intact.

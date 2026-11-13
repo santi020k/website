@@ -59,7 +59,10 @@ for (const theme of ['light', 'dark']) {
       await link.scrollIntoViewIfNeeded()
       await page.mouse.move(0, 0)
       await link.evaluate(async element => {
-        await Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished))
+        // The rail's scroll-driven draw only finishes once its row scrolls past.
+        await Promise.all(element.getAnimations({ subtree: true })
+          .filter(animation => animation.timeline instanceof DocumentTimeline)
+          .map(animation => animation.finished))
       })
       const restingColor = await title.evaluate(element => getComputedStyle(element).color)
       const restingSurface = await folio.evaluate(element => getComputedStyle(element).backgroundColor)
@@ -67,7 +70,10 @@ for (const theme of ['light', 'dark']) {
 
       await link.hover()
       await link.evaluate(async element => {
-        await Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished))
+        // The rail's scroll-driven draw only finishes once its row scrolls past.
+        await Promise.all(element.getAnimations({ subtree: true })
+          .filter(animation => animation.timeline instanceof DocumentTimeline)
+          .map(animation => animation.finished))
       })
       const hoverColor = await title.evaluate(element => getComputedStyle(element).color)
       const hoverSurface = await folio.evaluate(element => getComputedStyle(element).backgroundColor)

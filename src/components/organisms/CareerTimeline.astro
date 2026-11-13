@@ -237,6 +237,27 @@ class="size-4"
     [data-career-title], [data-career-role], [data-career-year], [data-career-action], [data-career-status] { transition: color 480ms ease; }
     [data-career-link]::after { transition: border-color 480ms ease, background-color 480ms ease, box-shadow 480ms ease; }
   }
+  /* The rail between two markers draws as its row scrolls into view. Markers,
+     cards, and copy stay put; without scroll timelines the rail is simply whole. */
+  @supports (animation-timeline: view()) {
+    @media screen and (prefers-reduced-motion: no-preference) {
+      [data-career-link] { view-timeline: --career-row block; }
+      [data-career-link]::before {
+        transform-origin: center top;
+        animation: career-rail-draw linear both;
+      }
+      /* Kept apart from the shorthand: the minifier folds a timeline declared
+         beside it into `animation`, which browsers then reject. */
+      [data-career-row] [data-career-link]::before {
+        animation-timeline: --career-row;
+        animation-range: entry 25% cover 50%;
+      }
+    }
+  }
+  @keyframes career-rail-draw {
+    from { transform: translateX(-50%) scaleY(0); }
+    to { transform: translateX(-50%) scaleY(1); }
+  }
   @container career-timeline (width < 48rem) {
     [data-career-folio] { grid-template-columns: minmax(0, 1fr) 7.5rem; gap: 0 1.5rem; padding-inline: 1.25rem; }
     [data-career-identity] { width: 7.5rem; }

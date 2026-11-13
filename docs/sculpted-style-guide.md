@@ -73,7 +73,9 @@ the city photo above the other two.
 The photo group and homepage recommendations use Lumen `RevealGroup` for a
 one-time slide-up entrance, the shared slow duration, a 90ms stagger, and an
 explicit zero threshold so tall groups reveal on entry. Keep content immediately
-visible without JavaScript and with reduced motion. The hero's separate, finite
+visible without JavaScript and with reduced motion. Where CSS scroll timelines are
+supported, each personal photo drifts 3% inside its fixed frame at 1.08 scale as it
+crosses the viewport; reduced motion keeps the photos still. The hero's separate, finite
 entrance keeps its content fully opaque and its primary actions immediately available.
 
 Featured work uses an open two-column story and artwork spread, with the story
@@ -1344,6 +1346,9 @@ Photos and recommendations use the existing Lumen RevealGroup with a slow,
 one-time slide-up entrance, 90ms stagger, and explicit zero threshold for tall
 groups. Content stays visible without JavaScript and with reduced motion; changing
 the system preference reveals pending content. No custom motion controller is added.
+Where CSS scroll timelines are supported, each photo drifts 3% inside its fixed frame
+at 1.08 scale as it crosses the viewport, as on the homepage; reduced motion keeps
+the photos still.
 
 ### Sculpted statistics cards
 
@@ -1465,7 +1470,9 @@ Keep 44px evidence-link targets, visible focus outlines, and complete attributio
 Use a Lumen Timeline and one unstyled Card inside each native case-study link.
 The open rows have a fine top rule, no resting shadow, and generous reading space.
 Keep the continuous date rail, semantic dates, chronological order, and the final
-marker endpoint. The three newest roles retain their status masthead and 2rem
+marker endpoint. Where CSS scroll timelines are supported and motion is allowed, each
+rail segment draws downward as its row enters the viewport; markers, cards, and copy
+do not move, and the rail is whole everywhere else. The three newest roles retain their status masthead and 2rem
 company headings; earlier completed roles use 1.75rem headings and tighter spacing.
 Keep every role, description, technology label, and case-study action visible.
 Render the linked Card as a div so its complete content contributes to the native

@@ -4,13 +4,26 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 
 ## Active release
 
-The current integration target is `release/v5.2.0`, selected on November 5, 2026.
-It carries the Lumen 5 upgrade, santi020k theme migration, and product-film playback fixes from
-the published v5.1.0 base. Base new approved work on this release and serialize
+The current integration target is `release/v5.3.0`, opened on November 12, 2026
+from `release/v5.2.1`, which it supersedes. It builds on the published `v5.2.0`
+baseline (`#162`) and carries the `5.2.0` version bump, homepage search title and
+contact label alignment, refreshed résumé artifacts, and workflow dependency updates
+from that branch. It adds Spanish feeds, a lighter technologies index, the hashed
+header script policy, scheduled publishing, Renovate, and connected cover and
+scroll-driven motion. Base new approved work on this release and serialize
 integration in its clean, idle worktree. Preserve the published v4.0.0 design in
 `apps/v4`; current-site changes belong at the repository root.
 `docs/release-checklist.md` lists the remaining gates; earlier evidence is archived
 in `docs/archive/v5-release-readiness.md`.
+
+## Authorship and agent files
+
+- Santiago Molina is the only author of every commit and pull request. Never add an AI tool
+  as author, committer, or co-author, and never add `Co-Authored-By`, "Generated with", or
+  session-link lines to commit messages or pull request descriptions.
+- Keep agent configuration tool-neutral: `AGENTS.md` and `.agents/` are the only agent
+  instruction files. Do not add tool-specific files or folders such as `.claude/` or
+  `CLAUDE.md`, and do not name scratch, cache, or branch names after a tool.
 
 ## Tech Stack
 

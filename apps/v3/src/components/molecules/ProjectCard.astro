@@ -75,6 +75,7 @@ const cardClass = ['group', className].filter(Boolean).join(' ')
           alt={project.data.coverImage.alt || project.data.title}
           ariaHidden={true}
           className="rounded-none border-0 shadow-none"
+          fallbackFormat="webp"
           featured={useCoverFeatured}
           image={thumbnailImage}
           loading={useCoverFeatured ? 'eager' : 'lazy'}

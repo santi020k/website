@@ -100,3 +100,28 @@ test('Search heading treats the query as text and retains empty-state recovery',
   await expect(page.locator('[data-technology-matches-list] a')).toHaveAttribute('href', '/technologies/ci-cd/')
   await expect(page.locator('[data-technologies-empty]')).toBeHidden()
 })
+
+test('Match arrows are created once per matched row instead of shipping with every catalog row', async ({ page }) => {
+  await page.goto('/technologies/')
+
+  const catalogArrows = page.locator('[data-technology-groups] [data-arrow-exchange]')
+  const input = page.locator('#technology-filter')
+
+  await expect(catalogArrows).toHaveCount(0)
+
+  await input.fill('react')
+
+  const rows = page.locator('[data-technology-matches-list] [data-technology-item]')
+
+  await expect(rows.first()).toBeVisible()
+
+  const matched = await rows.count()
+
+  await expect(page.locator('[data-technology-matches-list] [data-arrow-exchange]')).toHaveCount(matched)
+
+  // Clearing and repeating the search reuses each row's arrow.
+  await input.fill('')
+  await input.fill('react')
+  await expect(page.locator('[data-technology-matches-list] [data-arrow-exchange]')).toHaveCount(matched)
+  await expect(rows.first().locator('[data-arrow-exchange]')).toBeVisible()
+})

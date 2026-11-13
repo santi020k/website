@@ -65,13 +65,26 @@ const markArchiveExits = (html, id) => html.replace(/<a(?=[\s>])[^>]*>/gi, tag =
   return `<a data-astro-reload${tag.slice(2)}`
 })
 
-/** @param {string} id */
-export const archiveHeaderRules = id => [
+/** @param {string} id @param {string} [policy] Source header policy restored for the archive. */
+export const archiveHeaderRules = (id, policy) => [
   `/${id}\n  X-Robots-Tag: noindex, follow\n`,
-  `/${id}/*\n  X-Robots-Tag: noindex, follow\n`,
+  // The current site's header policy allows inline scripts only by hash. Archived pages use
+  // inline event handlers, so each archive detaches that policy and restores the source one.
+  `/${id}/*\n  X-Robots-Tag: noindex, follow\n${policy ? `  ! Content-Security-Policy\n  Content-Security-Policy: ${policy}\n` : ''}`,
   // Astro content-hashes every emitted file in _astro, so archive bundles never change in place.
   `/${id}/_astro/*\n  Cache-Control: public, max-age=31536000, immutable\n`
 ].map(rule => `\n${rule}`).join('')
+
+/**
+ * Reads the Content-Security-Policy value from a _headers file.
+ * @param {string} headers
+ */
+export const readHeaderPolicy = headers => {
+  const prefix = 'content-security-policy:'
+  const line = headers.split('\n').map(value => value.trim()).find(value => value.toLowerCase().startsWith(prefix))
+
+  return line?.slice(prefix.length).trim() || undefined
+}
 
 /** @param {string} html @param {string} id */
 export const archiveHtml = (html, id) => markArchiveExits(html, id)

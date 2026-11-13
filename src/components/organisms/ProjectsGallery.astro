@@ -52,7 +52,8 @@ const projectItems = projects.map(project => {
     status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
     technologies,
     contentLocale: project.data.contentLocale,
-    title: project.data.title
+    title: project.data.title,
+    transitionName: `project-cover-${project.id}`
   }
 })
 ---
@@ -73,6 +74,7 @@ const projectItems = projects.map(project => {
               loading="lazy"
               mode="card"
               sizes={index === 0 ? 'auto, (min-width: 80rem) 40rem, (min-width: 1024px) 60vw, 100vw' : 'auto, (min-width: 80rem) 35rem, (min-width: 768px) 50vw, 100vw'}
+              transitionName={project.transitionName}
             />
           ) :
 (

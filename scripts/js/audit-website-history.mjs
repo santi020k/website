@@ -3,12 +3,13 @@ import { resolve } from 'node:path'
 
 import { JSDOM } from 'jsdom'
 
-import { archiveFiles, archiveHeaderRules, archiveOrigin as origin, isArchiveExit } from '../../packages/website-history/finalize-archive.mjs'
+import { archiveFiles, archiveHeaderRules, archiveOrigin as origin, isArchiveExit, readHeaderPolicy } from '../../packages/website-history/finalize-archive.mjs'
 import versions from '../../packages/website-history/versions.json' with { type: 'json' }
 
 const directory = resolve(import.meta.dirname, '../../dist')
 const sitemap = await readFile(resolve(directory, 'sitemap-0.xml'), 'utf8')
 const headers = await readFile(resolve(directory, '_headers'), 'utf8')
+const archivePolicy = readHeaderPolicy(await readFile(resolve(import.meta.dirname, '../../public/_headers'), 'utf8'))
 /** @type {string[]} */
 const issues = []
 let count = 0
@@ -16,7 +17,7 @@ let count = 0
 for (const { id } of versions) {
   if (sitemap.includes(`${origin}/${id}/`)) issues.push(`${id} was included in the current sitemap`)
 
-  if (!headers.includes(archiveHeaderRules(id))) issues.push(`${id} is missing noindex or immutable asset headers`)
+  if (!headers.includes(archiveHeaderRules(id, archivePolicy))) issues.push(`${id} is missing noindex, script policy or immutable asset headers`)
 
   for (const file of await archiveFiles(resolve(directory, id))) {
     if (!file.endsWith('.html')) continue

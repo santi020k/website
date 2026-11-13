@@ -47,7 +47,7 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
 
 <Card as="article" variant="unstyled" data-portfolio-project={featured ? 'featured' : 'supporting'} data-arrow-owner style={getProjectBrandStyle(project.data.brand)}>
   <div data-portfolio-composition>
-    <div data-portfolio-visual>
+    <div data-portfolio-visual transition:name={`project-cover-${project.id}`}>
       {previewImage ?
 (
         <Picture

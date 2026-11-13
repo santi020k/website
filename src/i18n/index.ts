@@ -23,6 +23,9 @@ export const hasTranslation = (path: string): boolean => {
   return translatedRoots.has(first) && !/\.[a-z\d]+$/iu.test(pathname)
 }
 
+/** Each language has its own feeds; the Spanish ones list only translated articles. */
+export const getFeedPath = (locale: Locale, format: 'json' | 'xml' = 'xml') => `${locale === 'es' ? '/es' : ''}/feed.${format}`
+
 /** Match the existing Giscus pathname term so locales share the same discussion. */
 export const getDiscussionTerm = (pathname: string): string => {
   const canonical = stripLocale(pathname)
