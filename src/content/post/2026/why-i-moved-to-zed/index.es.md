@@ -39,7 +39,7 @@ Originalmente construí Dep Beacon para mantener las decisiones sobre dependenci
 
 La integración de Zed lleva esa idea al editor mediante un servidor de lenguaje. Ofrece diagnósticos de dependencias, información al pasar el cursor, enlaces a npm y acciones de actualización individuales o en grupo. El núcleo compartido de análisis sirve a ambos editores; cada integración presenta esa información mediante las funciones de su editor. El [repositorio del proyecto](https://github.com/santi020k/dep-beacon) documenta la arquitectura y los flujos admitidos.
 
-Para probarla, instala [Dep Beacon desde el registro de extensiones de Zed](https://zed.dev/extensions/dep-beacon-lsp) y luego abre `package.json`, `pnpm-workspace.yaml` o `pnpm-workspace.yml`. La [guía de configuración de Zed](https://beacon.santi020k.com/docs/zed-extension) explica las señales y acciones de actualización disponibles.
+Para probarla, instala [Dep Beacon desde el registro de extensiones de Zed](https://zed.dev/extensions/dep-beacon-lsp) y luego abre `package.json`, `pnpm-workspace.yaml` o `pnpm-workspace.yml`. La [guía de configuración de Zed](https://beacon.santi020k.com/docs/zed-extension/) explica las señales y acciones de actualización disponibles.
 
 Tener una herramienta que construí disponible en el editor que ahora prefiero hace que el cambio sea especialmente satisfactorio.
 

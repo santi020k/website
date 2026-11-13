@@ -43,7 +43,7 @@ I originally built Dep Beacon to keep dependency decisions close to the manifest
 
 The Zed integration carries that idea into the editor through a language server. It provides dependency diagnostics, hovers, npm links, and individual or bulk update actions. The shared analysis core supports both editors; each integration presents that information through its own editor features. The [project repository](https://github.com/santi020k/dep-beacon) documents the architecture and supported workflows.
 
-To try it, install [Dep Beacon from the Zed extension registry](https://zed.dev/extensions/dep-beacon-lsp), then open `package.json`, `pnpm-workspace.yaml`, or `pnpm-workspace.yml`. The [Zed setup guide](https://beacon.santi020k.com/docs/zed-extension) covers the available signals and update actions.
+To try it, install [Dep Beacon from the Zed extension registry](https://zed.dev/extensions/dep-beacon-lsp), then open `package.json`, `pnpm-workspace.yaml`, or `pnpm-workspace.yml`. The [Zed setup guide](https://beacon.santi020k.com/docs/zed-extension/) covers the available signals and update actions.
 
 Having a tool I built available in the editor I now prefer makes the move especially satisfying.
 

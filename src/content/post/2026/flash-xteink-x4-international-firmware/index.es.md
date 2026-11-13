@@ -187,7 +187,7 @@ verifica después el hardware y la imagen exactos, y escribe solo cuando ambos c
 
 ## Referencias
 
-- [Actualizaciones del sistema Xteink X4](https://www.xteink.com/pages/xteink-x4-system-update)
+- [Actualizaciones del sistema Xteink X4 (archivada en mayo de 2026)](https://web.archive.org/web/20260511155150/https://www.xteink.com/pages/xteink-x4-system-update)
 - [Herramientas de navegador y firmware original de CrossPoint](https://github.com/crosspoint-reader/crosspoint-tools)
 - [Advertencia de CrossPoint para dispositivos Xteink con USB bloqueado](https://github.com/crosspoint-reader/crosspoint-reader#usb-locked-devices-xteink-unlocker)
 

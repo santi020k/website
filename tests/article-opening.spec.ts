@@ -70,7 +70,7 @@ test('an MDX update stays before its original opening without JavaScript', async
     return note !== null && Boolean(note.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING)
   })).toBe(true)
   await expect(page.locator('.e-content aside').getByRole('link', { name: 'Zed setup guide' })).toHaveAttribute(
-    'href', 'https://beacon.santi020k.com/docs/zed-extension'
+    'href', 'https://beacon.santi020k.com/docs/zed-extension/'
   )
   await context.close()
 })

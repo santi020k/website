@@ -19,7 +19,7 @@ Este primer artículo trata sobre un proyecto base y cómo organizo su estructur
 
 [Diseño atómico](https://bradfrost.com/blog/post/atomic-web-design/)
 
-[Repositorio de GitHub](https://github.com/santi020k/posts/tree/post-1)
+[Repositorio de GitHub](https://github.com/santi020k/medium-posts/tree/post-1)
 
 ## La tecnología inicial incluye
 

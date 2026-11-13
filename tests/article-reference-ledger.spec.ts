@@ -124,7 +124,7 @@ test.describe('without JavaScript', () => {
     await page.goto('/blog/atomic-module-component-structure-for-react/')
     await expect(page.locator('[data-article-references]')).toHaveCount(0)
     await expect(page.locator('[data-article-prose]').getByRole('link', { name: 'GitHub Repository', exact: true })).toHaveAttribute(
-      'href', 'https://github.com/santi020k/posts/tree/post-1'
+      'href', 'https://github.com/santi020k/medium-posts/tree/post-1'
     )
   })
 })

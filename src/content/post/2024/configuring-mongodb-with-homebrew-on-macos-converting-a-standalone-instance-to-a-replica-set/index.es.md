@@ -16,7 +16,7 @@ Abre el archivo **mongod.conf** y agrega la clave **replication** para habilitar
 
 - Ubicación de **mongod.conf**:
 - **/usr/local/etc/mongod.conf** (en procesadores Intel)
-- **/opt/homebrew/etc/mongod.conf** (en [procesadores Apple M1](https://support.apple.com/en-us/HT211814))
+- **/opt/homebrew/etc/mongod.conf** (en [procesadores Apple M1](https://support.apple.com/en-us/116943))
 
 Agrega la replicación:
 

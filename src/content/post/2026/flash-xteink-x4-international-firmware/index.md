@@ -189,7 +189,7 @@ and write only after both agree.
 
 ## References
 
-- [Xteink X4 system updates](https://www.xteink.com/pages/xteink-x4-system-update)
+- [Xteink X4 system updates (archived May 2026)](https://web.archive.org/web/20260511155150/https://www.xteink.com/pages/xteink-x4-system-update)
 - [CrossPoint browser and stock-firmware tools](https://github.com/crosspoint-reader/crosspoint-tools)
 - [CrossPoint's warning for USB-locked Xteink devices](https://github.com/crosspoint-reader/crosspoint-reader#usb-locked-devices-xteink-unlocker)
 
