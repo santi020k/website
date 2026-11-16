@@ -110,7 +110,7 @@ const projectItems = projects.map(project => {
                 </ButtonLink>
               )}
               <Link
-                aria-label={`Read the case study: ${project.title}`}
+                aria-label={`${t('collection.readTheCaseStudy')}: ${project.title}`}
                 data-project-case-study
                 href={localizePath(project.href, locale)}
                 variant="inherit"

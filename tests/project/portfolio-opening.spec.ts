@@ -66,6 +66,22 @@ for (const width of [320, 390, 768, 1440]) {
 test.describe('Portfolio paths without JavaScript', () => {
   test.use({ javaScriptEnabled: false })
 
+  for (const { prefix, label } of [
+    { prefix: '', label: 'View work history' },
+    { prefix: '/es', label: 'Ver trayectoria laboral' }
+  ]) {
+    test(`work history action preserves the visible language and destination at ${prefix || '/'}`, async ({ page }) => {
+      await page.goto(`${prefix}/portfolio/`)
+      const link = page.locator('[data-portfolio-history-link]')
+      await expect(link).toHaveText(label)
+      await expect(link).toHaveAccessibleName(label)
+      await expect(link).toHaveAttribute('href', `${prefix}/work/`)
+      await link.focus()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(`${prefix}/work/`)
+    })
+  }
+
   test('opens both collections with native keyboard navigation at narrow enlarged text', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })

@@ -44,18 +44,26 @@ for (const theme of ['light', 'dark'] as const) {
   })
 }
 
-test('Reference notes are static and readable without JavaScript', async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
-  const page = await context.newPage()
+for (const { prefix, heading } of [
+  { prefix: '', heading: 'References' },
+  { prefix: '/es', heading: 'Referencias' }
+]) {
+  test(`Reference notes are localized, static and readable without JavaScript at ${prefix || '/'}`, async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
+    const page = await context.newPage()
 
-  await page.goto(guide)
-  await expect(page.locator('[data-article-print-references]')).toBeHidden()
-  await page.emulateMedia({ media: 'print' })
-  await expect(page.locator('[data-article-print-references]')).toBeVisible()
-  await expect(page.locator('[data-print-reference]').first()).toBeVisible()
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-  await context.close()
-})
+    await page.goto(`${prefix}${guide}`)
+    const notes = page.locator('[data-article-print-references]')
+    await expect(notes).toBeHidden()
+    await page.emulateMedia({ media: 'print' })
+    await expect(notes).toBeVisible()
+    await expect(notes.getByRole('heading', { name: heading, exact: true })).toBeVisible()
+    await expect(notes).toHaveAccessibleName(heading)
+    await expect(page.locator('[data-print-reference]').first()).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await context.close()
+  })
+}
 
 test('Reference notes leave no extra heading or markers after client navigation', async ({ page }) => {
   await page.goto(guide)

@@ -208,7 +208,7 @@ data-article-skip
     </section>
     {articlePrintReferences.length > 0 && (
       <section data-article-print-references aria-labelledby="article-print-references-heading">
-        <h2 id="article-print-references-heading">References</h2>
+        <h2 id="article-print-references-heading">{articleTranslator(locale)('article.printReferences')}</h2>
         <ol>
           {articlePrintReferences.map(({ href, label }, index) => (
             <li id={`article-print-reference-${index + 1}`}>
