@@ -72,7 +72,10 @@ test('switching managers clears recovery in both synchronized groups and retains
   await expect(groups).toHaveCount(2)
   await groups.first().getByRole('tab', { name: 'pnpm', exact: true }).click()
   for (const group of await groups.all()) {
-    await group.getByRole('tabpanel').locator('[data-ui-code-copy]').click()
+    await expect(group.getByRole('tab', { name: 'pnpm', exact: true })).toHaveAttribute('aria-selected', 'true')
+    const panel = group.getByRole('tabpanel', { name: 'pnpm', exact: true })
+    await expect(panel).toBeVisible()
+    await panel.locator('[data-ui-code-copy]').click()
     await expect(group.locator('[data-code-recovery]')).toBeVisible()
   }
   const tab = groups.last().getByRole('tab', { name: 'pnpm', exact: true })

@@ -1,6 +1,7 @@
 import { expect, type Locator, type Page, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from '../helpers/accessibility'
+import { waitForReadingRuntime } from '../helpers/rendering'
 
 const article = '/blog/write-better-review-feedback-with-conventional-comments/'
 const chapterName = 'Why this works so well'
@@ -46,6 +47,7 @@ for (const width of [320, 1440]) {
           document.documentElement.style.fontSize = `${size}%`
           await document.fonts.ready
         }, textSize)
+        await waitForReadingRuntime(page)
         const navigation = await openContents(page)
         const chapter = navigation.locator('[data-chapter-group]')
 

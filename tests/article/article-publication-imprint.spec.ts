@@ -1,6 +1,8 @@
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { waitForFonts, waitForReadingRuntime } from '../helpers/rendering'
+
 const articles = [
   {
     name: 'series',
@@ -118,6 +120,8 @@ test.describe('Publication imprint pointer feedback', () => {
         localStorage.setItem('theme', value)
       }, theme)
       await page.goto(articles[0].path)
+      await waitForReadingRuntime(page)
+      await waitForFonts(page)
       const credit = page.locator('[data-article-publication]')
 
       await credit.scrollIntoViewIfNeeded()
