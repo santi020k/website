@@ -15,6 +15,8 @@ test('technology pages resolve artwork by canonical route across label variants 
   const prefixes = ['', 'es/'] as const
 
   try {
+    for (const collection of ['post', 'project']) mkdirSync(join(root, 'src/content', collection), { recursive: true })
+
     for (const prefix of prefixes) {
       for (const pageNumber of [1, 2]) {
         const directory = join(root, `src/pages/${prefix}technologies/typescript`, pageNumber === 1 ? '' : '2')

@@ -1,0 +1,681 @@
+---
+import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
+import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
+import LanguageSwitcher from '@/components/molecules/LanguageSwitcher.astro'
+import SiteSearch from '@/components/search/SiteSearch.astro'
+
+import type { SiteLink } from '@/types/site'
+import { getNavigationCurrent } from '@/utils/links'
+
+import Button from '@santi020k/lumen-astro/components/Button'
+import NavigationLink from '@santi020k/lumen-astro/components/ButtonLink'
+import Icon from '@santi020k/lumen-astro/components/Icon'
+
+import { getLocale, localizePath, sharedTranslator, stripLocale } from '@/i18n'
+import { getMenuLinks, siteConfig } from '@/site.config'
+
+interface Props {
+  variant?: 'dock' | 'signature'
+}
+
+const { variant = 'dock' } = Astro.props
+
+const isAvailableForBanner =
+  siteConfig.availability.trim().toLowerCase().startsWith('open') &&
+  siteConfig.showAvailabilityBanner !== false
+
+const locale = getLocale(Astro.url.pathname)
+const t = sharedTranslator(locale)
+const navigationLinks = getMenuLinks(locale).filter(({ path }) => path !== '/speaking/').map(link => ({ ...link, path: localizePath(link.path, locale) }))
+const getAriaCurrent = (path: string) => getNavigationCurrent(stripLocale(Astro.url.pathname), stripLocale(path))
+
+---
+
+<header class="site-header">
+  {isAvailableForBanner && (
+    <div
+      class="
+        mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col gap-3 rounded-2xl
+        border border-line/48 bg-surface/62 px-4 py-3
+        shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),0_4px_16px_hsl(230_30%_8%/0.04)]
+        backdrop-blur-sm
+        min-[2200px]:max-w-368
+        sm:max-w-7xl sm:flex-row sm:items-center sm:justify-between sm:px-5
+        2xl:max-w-336 2xl:px-6
+      "
+      data-availability-strip
+    >
+      <p class="
+        flex min-w-0 items-start gap-2.5 text-sm text-ink
+        sm:items-center
+      "
+      >
+        <span
+          class="
+            relative mt-1.5 inline-flex size-2 shrink-0
+            sm:mt-0
+          "
+          aria-hidden="true"
+        >
+          <span
+            class="
+              absolute inline-flex size-full animate-ping rounded-full
+              bg-green-400/80 opacity-75
+              motion-reduce:animate-none
+            "
+          />
+          <span class="relative inline-flex size-2 rounded-full bg-green-500" />
+        </span>
+        <span class="min-w-0 leading-snug">
+          <span class="sr-only">Availability: </span>
+          <span class="font-medium text-ink">{siteConfig.availability}</span>
+        </span>
+      </p>
+      <div class="
+        flex shrink-0 flex-wrap gap-2
+        sm:justify-end
+      "
+      >
+        <ButtonLink
+          className="
+            text-xs
+            sm:text-sm
+          "
+          href={siteConfig.contact.linkedin}
+          newTab
+          showArrow
+          variant="secondary"
+        >
+          {t('shared.discussARole')}
+        </ButtonLink>
+        <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={localizePath(siteConfig.contact.workWithMe, locale)}
+variant="unstyled"
+        >
+          <span class="site-nav-contact-label">{t('shared.letSTalk7')}</span>
+          <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
+        </NavigationLink>
+      </div>
+    </div>
+  )}
+  <site-header-mobile-nav class="contents" data-close-label={t('shared.close')} data-menu-label={t('shared.menu')}>
+    <div class="contents" data-mobile-nav>
+      <div class="site-header-shell" data-header-frame={variant === 'signature' ? '' : undefined} data-header-shell data-scrolled="false">
+        <a
+aria-label="santi020k — Santiago Molina home"
+class="site-header-brand"
+href={localizePath('/', locale)}
+        >
+          <span class="
+            site-header-mark
+            dark:hidden
+          "
+          >
+            <AnimatedLogo variant="light" iconOnly class="h-full w-auto" />
+          </span>
+          <span class="
+            hidden site-header-mark
+            dark:block
+          "
+          >
+            <AnimatedLogo variant="dark" iconOnly class="h-full w-auto" />
+          </span>
+          <span class="site-header-wordmark" aria-hidden="true">santi<span>020k</span><span class="
+            site-header-period
+          "
+                                                                                      >.</span></span>
+        </a>
+
+        <nav aria-label={t('shared.mainMenu')} class="site-desktop-nav">
+          {navigationLinks.map((link: SiteLink) => (
+            <a
+              aria-current={getAriaCurrent(link.path)}
+              class="site-desktop-nav-link"
+              href={link.path}
+            >
+              {link.title}
+            </a>
+          ))}
+        </nav>
+
+        <div class="site-header-actions">
+          <SiteSearch />
+          <ThemeToggle />
+          <LanguageSwitcher />
+          <div class="site-header-contact">
+            <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={localizePath(siteConfig.contact.workWithMe, locale)}
+variant="unstyled"
+            >
+              <span class="site-nav-contact-label">{t('shared.letSTalk7')}</span>
+              <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
+            </NavigationLink>
+          </div>
+          <Button
+            aria-controls="mobile-nav"
+            aria-expanded="false"
+            class="site-mobile-nav-toggle"
+            data-mobile-nav-toggle
+            type="button"
+            variant="ghost"
+          >
+            <span class="site-menu-symbol" aria-hidden="true">
+              <span data-mobile-nav-menu-icon><Icon class="size-5" name="menu" /></span>
+              <span data-mobile-nav-close-icon hidden><Icon class="size-5" name="x" /></span>
+            </span>
+            <span class="site-menu-label" data-mobile-nav-toggle-label>{t('shared.menu')}</span>
+            <span class="sr-only">{t('shared.navigation')}</span>
+          </Button>
+        </div>
+      </div>
+
+      <div class="site-nav-backdrop" data-mobile-nav-backdrop hidden />
+
+      <nav
+        id="mobile-nav"
+        aria-hidden="true"
+        aria-label={t('shared.mainMenu')}
+        class="site-mobile-nav"
+        data-mobile-nav-panel
+        hidden
+      >
+        <div class="site-mobile-nav-surface" data-mobile-nav-surface>
+          <div class="grid" data-mobile-nav-links>
+            {navigationLinks.map((link: SiteLink, index: number) => {
+              const current = getAriaCurrent(link.path)
+
+              return (
+                <a
+                  aria-current={current}
+                  class="site-mobile-nav-link"
+                  data-mobile-nav-link
+                  href={link.path}
+                  style={`--nav-item-index: ${index}`}
+                >
+                  <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <span>{link.title}</span>
+                  {current === 'page' ?
+                    <span class="site-mobile-nav-current" aria-hidden="true">{t('shared.current')}</span> :
+                    <ArrowExchange class="site-mobile-nav-arrow" direction="right" />}
+                </a>
+              )
+            })}
+          </div>
+          <div data-mobile-nav-actions>
+            <LanguageSwitcher variant="menu" />
+            <NavigationLink
+aria-current={getAriaCurrent(siteConfig.contact.workWithMe)}
+class="site-nav-contact"
+href={localizePath(siteConfig.contact.workWithMe, locale)}
+variant="unstyled"
+            >
+              <span class="site-nav-contact-label">{t('shared.letSTalk7')}</span>
+              <span class="site-nav-contact-arrow"><ArrowExchange class="size-5" /></span>
+            </NavigationLink>
+            <NavigationLink class="site-nav-resume" href={localizePath(siteConfig.contact.resume, locale)} variant="unstyled">
+              <span>{t('shared.viewResume')}</span>
+              <ArrowExchange class="size-4" direction="right" />
+            </NavigationLink>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </site-header-mobile-nav>
+</header>
+
+<script>
+const prefersReducedMotion = (): boolean => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+class SiteHeaderMobileNav extends HTMLElement {
+  isOpen = false
+  root: HTMLElement | null = null
+  toggle: HTMLButtonElement | null = null
+  toggleLabel: HTMLElement | null = null
+  menuIcon: HTMLElement | null = null
+  closeIcon: HTMLElement | null = null
+  backdrop: HTMLElement | null = null
+  panel: HTMLElement | null = null
+  closeTimer: number | null = null
+  closeAnimationHandler: ((event: AnimationEvent) => void) | null = null
+  actionCloseTimer: number | null = null
+  headerObserver: ResizeObserver | null = null
+
+  connectedCallback() {
+    this.root = this.querySelector('[data-mobile-nav]')
+
+    this.toggle = this.querySelector('[data-mobile-nav-toggle]')
+
+    this.toggleLabel = this.querySelector('[data-mobile-nav-toggle-label]')
+
+    this.menuIcon = this.querySelector('[data-mobile-nav-menu-icon]')
+
+    this.closeIcon = this.querySelector('[data-mobile-nav-close-icon]')
+
+    this.backdrop = this.querySelector('[data-mobile-nav-backdrop]')
+
+    this.panel = this.querySelector('[data-mobile-nav-panel]')
+
+    if (
+      !(this.root instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement) ||
+      !(this.panel instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    this.toggle.addEventListener('click', this.handleToggleClick)
+
+    this.backdrop.addEventListener('click', this.handleBackdropClick)
+
+    this.panel.addEventListener('click', this.handlePanelClick)
+
+    this.panel.addEventListener('focusin', this.handlePanelFocus)
+
+    window.addEventListener('keydown', this.handleWindowKeydown)
+
+    window.addEventListener('resize', this.handleWindowResize, { passive: true })
+
+    // Root text-size changes move the header without resizing the window.
+    this.headerObserver = new ResizeObserver(this.handleWindowResize)
+
+    for (const element of [this.querySelector('[data-header-shell]'), this.closest('header')]) {
+      if (element instanceof HTMLElement) this.headerObserver.observe(element)
+    }
+
+    window.addEventListener('pageshow', this.handlePageShow)
+
+    document.addEventListener('astro:before-preparation', this.handleAstroPreparation)
+
+    document.addEventListener('astro:page-load', this.handleAstroPreparation)
+
+    this.sync()
+  }
+
+  disconnectedCallback() {
+    this.cancelPendingClose()
+
+    this.cancelActionClose()
+
+    this.headerObserver?.disconnect()
+
+    this.headerObserver = null
+
+    this.toggle?.removeEventListener('click', this.handleToggleClick)
+
+    this.backdrop?.removeEventListener('click', this.handleBackdropClick)
+
+    this.panel?.removeEventListener('click', this.handlePanelClick)
+
+    this.panel?.removeEventListener('focusin', this.handlePanelFocus)
+
+    window.removeEventListener('keydown', this.handleWindowKeydown)
+
+    window.removeEventListener('resize', this.handleWindowResize)
+
+    window.removeEventListener('pageshow', this.handlePageShow)
+
+    document.removeEventListener('astro:before-preparation', this.handleAstroPreparation)
+
+    document.removeEventListener('astro:page-load', this.handleAstroPreparation)
+
+    this.toggleScrollLock(false)
+  }
+
+  handleToggleClick = () => {
+    if (this.isOpen) {
+      this.closeMenu()
+
+      return
+    }
+
+    this.openMenu()
+  }
+
+  handleBackdropClick = () => {
+    this.closeMenu()
+  }
+
+  handlePanelFocus = (event: FocusEvent) => {
+    if (this.isOpen && event.target instanceof HTMLElement) {
+      event.target.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' })
+    }
+  }
+
+  handlePanelClick = (event: MouseEvent) => {
+    const target = event.target
+
+    if (!(target instanceof Element)) {
+      return
+    }
+
+    const link = target.closest<HTMLAnchorElement>('a[href]')
+
+    if (!(link instanceof HTMLAnchorElement)) {
+      return
+    }
+
+    const staysOnPage =
+      link.target === '_blank' ||
+      link.hasAttribute('download') ||
+      (link.protocol !== 'http:' && link.protocol !== 'https:') ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey
+
+    if (!staysOnPage && link.origin === window.location.origin) {
+      // Let Astro/navigation lifecycle events close the panel after navigation starts.
+      // Closing during the same click can suppress navigation in WebKit under CI.
+      return
+    }
+
+    // Close after the click has been handed off to the browser, so listeners that
+    // run later in the dispatch can still cancel the action.
+    this.cancelActionClose()
+
+    this.actionCloseTimer = window.setTimeout(() => {
+      this.actionCloseTimer = null
+
+      if (event.defaultPrevented || !this.isOpen) return
+
+      // New-tab and download actions leave this page in place, so keep keyboard
+      // users on the toggle; a same-tab external link is leaving the page.
+      this.closeMenu({ restoreFocus: staysOnPage })
+    }, 0)
+  }
+
+  cancelActionClose() {
+    if (this.actionCloseTimer !== null) {
+      window.clearTimeout(this.actionCloseTimer)
+
+      this.actionCloseTimer = null
+    }
+  }
+
+  // Never pull focus out of a modal (such as search) or away from an unrelated target.
+  canRestoreFocus(): boolean {
+    if (document.querySelector('dialog[open]') !== null) return false
+
+    const activeElement = document.activeElement
+
+    return activeElement === null ||
+      activeElement === document.body ||
+      (this.root?.contains(activeElement) ?? false)
+  }
+
+  handleWindowKeydown = (event: KeyboardEvent) => {
+    // A modal dialog owns keyboard navigation until its top layer closes.
+    const hasOpenDialog = document.querySelector('dialog[open]') !== null
+
+    if (event.key === 'Escape') {
+      if (hasOpenDialog) return
+
+      this.closeMenu()
+
+      return
+    }
+
+    if (event.key === 'Tab' && this.isOpen && !hasOpenDialog) {
+      this.trapFocus(event)
+    }
+  }
+
+  handleWindowResize = () => {
+    this.updatePanelPosition()
+
+    // CSS decides when the full nav fits, including with enlarged text, so close
+    // only once the menu toggle has actually been hidden by the layout.
+    if (this.isOpen && this.toggle?.getClientRects().length === 0) {
+      const activeElement = document.activeElement
+
+      const shouldRestoreFocus = document.querySelector('dialog[open]') === null &&
+        (activeElement === this.toggle || (this.panel?.contains(activeElement) ?? false))
+
+      const destination = activeElement instanceof HTMLAnchorElement ? activeElement.href : null
+
+      this.closeMenu({ restoreFocus: false })
+
+      if (shouldRestoreFocus) {
+        const matchingLink = [...this.querySelectorAll<HTMLAnchorElement>('.site-desktop-nav a[href]')]
+          .find(link => link.href === destination)
+
+        const fallback = this.querySelector<HTMLElement>('.site-header-brand')
+
+        ;(matchingLink ?? fallback)?.focus({ preventScroll: true })
+      }
+    }
+  }
+
+  handlePageShow = () => {
+    this.closeMenu({ restoreFocus: false })
+  }
+
+  handleAstroPreparation = () => {
+    this.closeMenu({ restoreFocus: false })
+  }
+
+  updatePanelPosition() {
+    const shell = this.querySelector<HTMLElement>('[data-header-shell]')
+
+    if (shell && this.panel) {
+      const bounds = shell.getBoundingClientRect()
+
+      this.panel.style.setProperty('--mobile-nav-top', `${bounds.bottom - 1}px`)
+
+      this.panel.style.setProperty('--mobile-nav-left', `${bounds.left}px`)
+
+      this.panel.style.setProperty('--mobile-nav-width', `${bounds.width}px`)
+    }
+  }
+
+  openMenu() {
+    this.updatePanelPosition()
+
+    this.cancelPendingClose()
+
+    if (this.isOpen) {
+      return
+    }
+
+    this.isOpen = true
+
+    // Remove any stale closing state before showing
+    this.panel?.removeAttribute('data-nav-closing')
+
+    this.sync()
+
+    // sync() has made the panel visible. Focus now so a deferred frame cannot
+    // steal focus back after the user moves to another control.
+    const firstLink = this.panel?.querySelector('a[href]')
+
+    if (firstLink instanceof HTMLElement) {
+      firstLink.focus()
+    }
+  }
+
+  cancelPendingClose() {
+    if (this.closeTimer !== null) {
+      window.clearTimeout(this.closeTimer)
+
+      this.closeTimer = null
+    }
+
+    if (this.closeAnimationHandler) {
+      this.panel?.removeEventListener('animationend', this.closeAnimationHandler)
+
+      this.closeAnimationHandler = null
+    }
+
+    this.panel?.removeAttribute('data-nav-closing')
+
+    this.root?.removeAttribute('data-nav-closing')
+  }
+
+  closeMenu({ restoreFocus = true } = {}) {
+    this.cancelPendingClose()
+
+    const wasOpen = this.isOpen
+
+    this.isOpen = false
+
+    if (wasOpen && this.panel instanceof HTMLElement && !this.panel.hidden && !prefersReducedMotion()) {
+      // Animate panel out, then hide after animation
+      this.panel.setAttribute('data-nav-closing', '')
+
+      this.panel.inert = true
+
+      this.root?.setAttribute('data-nav-closing', '')
+
+      const finishClose = (event?: AnimationEvent) => {
+        if (event && (event.target !== this.panel || event.animationName !== 'mobile-nav-panel-out')) return
+
+        this.cancelPendingClose()
+
+        this.sync()
+      }
+
+      this.closeAnimationHandler = finishClose
+
+      this.panel.addEventListener('animationend', finishClose)
+
+      this.closeTimer = window.setTimeout(() => finishClose(), 250)
+
+      // Keep the joined surface, backdrop, and scroll lock until the exit ends.
+      this.#syncControls(false)
+    } else {
+      this.sync()
+    }
+
+    if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement && this.canRestoreFocus()) {
+      this.toggle.focus({ preventScroll: true })
+    }
+  }
+
+  #syncControls(isOpen: boolean) {
+    if (
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    this.toggle.setAttribute('aria-expanded', String(isOpen))
+
+    this.toggleLabel.textContent = isOpen ? (this.dataset.closeLabel ?? 'Close') : (this.dataset.menuLabel ?? 'Menu')
+
+    this.menuIcon.hidden = isOpen
+
+    this.closeIcon.hidden = !isOpen
+  }
+
+  sync() {
+    if (
+      !(this.root instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement) ||
+      !(this.panel instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    const isOpen = this.isOpen
+
+    this.#syncControls(isOpen)
+
+    this.backdrop.hidden = !isOpen
+
+    this.panel.hidden = !isOpen
+
+    this.panel.inert = !isOpen
+
+    this.panel.setAttribute('aria-hidden', String(!isOpen))
+
+    this.root.toggleAttribute('data-nav-visible', isOpen)
+
+    this.toggleScrollLock(isOpen)
+  }
+
+  trapFocus(event: KeyboardEvent) {
+    if (!(this.root instanceof HTMLElement)) {
+      return
+    }
+
+    const focusableElements = [
+      ...this.root.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ].filter(el => el.getClientRects().length > 0 && el.getAttribute('aria-hidden') !== 'true')
+
+    const firstElement = focusableElements.at(0)
+    const lastElement = focusableElements.at(-1)
+
+    if (!(firstElement instanceof HTMLElement) || !(lastElement instanceof HTMLElement)) {
+      return
+    }
+
+    const activeElement = document.activeElement
+
+    if (!(activeElement instanceof HTMLElement) || !this.root.contains(activeElement)) {
+      event.preventDefault()
+
+      firstElement.focus()
+
+      return
+    }
+
+    if (event.shiftKey && activeElement === firstElement) {
+      event.preventDefault()
+
+      lastElement.focus()
+
+      return
+    }
+
+    if (!event.shiftKey && activeElement === lastElement) {
+      event.preventDefault()
+
+      firstElement.focus()
+    }
+  }
+
+  toggleScrollLock(locked: boolean) {
+    document.documentElement.classList.toggle('mobile-nav-open', locked)
+
+    document.body.classList.toggle('mobile-nav-open', locked)
+  }
+}
+
+if (!customElements.get('site-header-mobile-nav')) {
+  customElements.define('site-header-mobile-nav', SiteHeaderMobileNav)
+}
+
+const updateHeaderScrollState = () => {
+  const shell = document.querySelector<HTMLElement>('[data-header-shell]')
+  const scrolled = String(window.scrollY > 10)
+
+  if (shell && shell.dataset.scrolled !== scrolled) {
+    shell.dataset.scrolled = scrolled
+  }
+}
+
+window.addEventListener('scroll', updateHeaderScrollState, { passive: true })
+
+document.addEventListener('astro:page-load', updateHeaderScrollState)
+
+updateHeaderScrollState()
+</script>

@@ -4,7 +4,7 @@ seoTitle: "Xteink X4: instalar el firmware en inglés por microSD"
 description: "Guía probada para reemplazar el firmware chino del Xteink X4 por la versión internacional mediante microSD cuando la instalación por USB no está disponible."
 coverImage:
   alt: "Una tarjeta microSD atraviesa tres controles de verificación hacia un lector compacto de tinta electrónica"
-sourceHash: "a4b8e642add9"
+sourceHash: "02149cf9a4a6"
 ---
 
 <!-- cspell:words diskutil unbootable unlocker Xteink -->

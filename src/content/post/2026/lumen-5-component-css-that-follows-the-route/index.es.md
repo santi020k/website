@@ -3,7 +3,7 @@ title: "Lumen 5: CSS de componentes que sigue a la ruta"
 description: "Qué cambió cuando este sitio pasó a Lumen 5: estilos por componente, un runtime asíncrono, puntos de estilo públicos y las comprobaciones que hice antes de quitar la hoja de estilos completa."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
-sourceHash: "58613c29a71b"
+sourceHash: "3cef5f13ecbc"
 ---
 
 Una biblioteca de componentes suele distribuir una sola hoja de estilos. La importas una vez y cada página recibe los estilos de todos los componentes, incluidos los que nunca muestra.

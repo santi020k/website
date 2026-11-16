@@ -16,7 +16,7 @@ import Icon from '@santi020k/lumen-astro/components/Icon'
 import Link from '@santi020k/lumen-astro/components/Link'
 import RevealGroup from '@santi020k/lumen-astro/components/RevealGroup'
 
-import { createFaqSchema } from '@/data/work-with-me'
+import { contactResultProjectIds, createFaqSchema } from '@/data/work-with-me'
 import { getLocale, localizePath } from '@/i18n'
 import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
 import { getLocalizedProfile } from '@/i18n/profile'
@@ -31,9 +31,7 @@ const { workProcess, workWithMeFaq, workWithMeServices } = getLocalizedWorkWithM
 const description =
   t('page.inviteSantiagoMolinaToSpeakTalk')
 
-const resultProjectIds = ['void', 'smith-commerce', 'optic-power'] as const
-
-const results = await Promise.all(resultProjectIds.map(async id => {
+const results = await Promise.all(contactResultProjectIds.map(async id => {
   const project = await getEntry('project', id)
   const metric = project?.data.impactMetrics[0]
 

@@ -3,7 +3,7 @@ title: "Buenas prácticas de Git para colaborar con tranquilidad"
 description: "Hábitos sencillos para commits y pull requests que reducen la fricción en las revisiones y facilitan una colaboración más tranquila."
 coverImage:
   alt: "Cuatro rutas de desarrollo ordenadas que atraviesan controles de revisión y se unen en una línea protegida"
-sourceHash: "6122749ada41"
+sourceHash: "3b10e3e6df27"
 ---
 
 Git no suele frenar a los equipos por sí solo. La verdadera demora viene de los hábitos inconsistentes a su alrededor: historiales de commits vagos, pull requests demasiado grandes, responsabilidades poco claras y pasos de publicación que viven principalmente en la memoria de alguien.

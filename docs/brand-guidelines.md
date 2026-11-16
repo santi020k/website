@@ -1041,8 +1041,8 @@ All internal links use trailing slashes.
 | `src/types.ts` | Shared TypeScript types including `Badge` variants |
 | `src/components/atoms/Pill.astro` | Project status label |
 | `src/components/atoms/ThemeToggle.astro` | Dark mode toggle |
-| `src/components/organisms/SiteHeader.astro` | Responsive header with mobile navigation |
-| `src/components/organisms/SiteFooter.astro` | Footer with social links and version |
+| `src/components/layout/SiteHeader.astro` | Responsive header with mobile navigation |
+| `src/components/layout/SiteFooter.astro` | Footer with social links and version |
 | `scripts/js/generate-og-images.js` | Open Graph catalog, metadata routes, and preset configuration |
 | `scripts/js/generate-project-images.mjs` | Project-palette cover generation and logo staging |
 | `scripts/js/render-og-atmosphere.mjs` | Diffuse brand-light treatment for image-free Open Graph cards |

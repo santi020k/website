@@ -3,7 +3,7 @@ title: "Diseñar paquetes de ESLint que los equipos sí adopten"
 description: "Qué separa a las configuraciones de ESLint que se extienden por una base de código de las que se eliminan después del primer sprint."
 coverImage:
   alt: "Un núcleo compacto de lint conectado a módulos opcionales de frameworks, documentación y comprobaciones"
-sourceHash: "d2e917d46fed"
+sourceHash: "63f9f5502831"
 ---
 
 La mayoría de las configuraciones compartidas de ESLint fracasan de la misma manera.

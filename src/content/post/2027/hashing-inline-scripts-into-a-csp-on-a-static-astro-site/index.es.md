@@ -3,7 +3,7 @@ title: "Cómo incluir hashes de scripts en línea en una CSP para un sitio está
 description: "Un paso posterior a la compilación que lee cada página generada, calcula el hash de sus scripts en línea y agrega una Content-Security-Policy más estricta sin 'unsafe-inline', con los límites que aún quedan."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
-sourceHash: "8950b14e7b71"
+sourceHash: "8ff52c54d41f"
 ---
 
 Durante mucho tiempo, la Content-Security-Policy de este sitio tuvo `'unsafe-inline'` en `script-src`. Es la debilidad más común de una CSP: la política enumera orígenes de confianza y luego permite cualquier script en línea de todos modos.

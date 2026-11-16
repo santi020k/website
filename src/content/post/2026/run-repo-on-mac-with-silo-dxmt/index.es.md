@@ -4,7 +4,7 @@ seoTitle: "Cómo jugar R.E.P.O. en Mac con Silo y DXMT"
 description: "Una configuración probada en Apple silicon para ejecutar R.E.P.O. con Silo, Wine y DXMT, incluido el fallo gráfico de DirectX y su solución exacta."
 coverImage:
   alt: "Un objeto de videojuego atraviesa un puente de traducción preciso desde los gráficos de Windows hasta un entorno renderizado con Metal"
-sourceHash: "befd44c64fb8"
+sourceHash: "4324554990f2"
 ---
 
 <!-- cspell:words appmanifest CodeWeavers D3DMetal dxgi DXMT GPTK inspectable libraryfolders redistributables Sandboxed Steamworks userspace winemetal winetricks -->

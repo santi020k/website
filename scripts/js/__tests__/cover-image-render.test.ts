@@ -14,6 +14,7 @@ test('cover images support responsive WebP fallbacks without changing the defaul
   try {
     symlinkSync(join(projectRoot, 'node_modules'), join(root, 'node_modules'), 'dir')
     mkdirSync(join(root, 'src/pages'), { recursive: true })
+    for (const collection of ['post', 'project']) mkdirSync(join(root, 'src/content', collection), { recursive: true })
     await sharp({ create: { width: 1280, height: 800, channels: 3, background: '#663399' } })
       .png().toFile(join(root, 'src/cover.png'))
     writeFileSync(join(root, 'src/pages/index.astro'), [

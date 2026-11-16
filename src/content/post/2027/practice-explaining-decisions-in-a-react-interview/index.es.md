@@ -3,7 +3,7 @@ title: "Practica cómo explicar tus decisiones en una entrevista de React"
 description: "Un pequeño ejercicio de búsqueda para practicar requisitos, estado, casos de falla y decisiones con ventajas y costos antes de una entrevista técnica de React."
 coverImage:
   alt: "Piezas de rompecabezas lilas sueltas forman un puente sencillo con una unión cian entre dos soportes blanco hueso"
-sourceHash: "0120061b78e8"
+sourceHash: "8c711edba0d9"
 ---
 
 En enero de 2024 di la charla «Surviving Technical Interviews in React» en ReactJS Medellín. Pensar en voz alta era parte de su enfoque: hacer que otra persona pudiera entender el razonamiento detrás de una implementación.

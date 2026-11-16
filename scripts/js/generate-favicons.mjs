@@ -9,12 +9,18 @@ import { encodePngIco } from './favicon-ico.mjs'
 const publicDir = new URL('../../public/', import.meta.url)
 const publicDirPath = fileURLToPath(publicDir)
 
+/** @param {string} assetPath */
 const resolveThemeAssetPath = assetPath => fileURLToPath(
   import.meta.resolve(`@santi020k/theme/${assetPath}`)
 )
 
+/** @param {string} pathname */
 const getPublicAssetPath = pathname => fileURLToPath(new URL(pathname, publicDir))
-const markPath = resolveThemeAssetPath(staticAssets['logos/logo-square.webp'])
+const squareLogo = staticAssets['logos/logo-square.webp']
+
+if (!squareLogo) throw new Error('The theme must export logos/logo-square.webp')
+
+const markPath = resolveThemeAssetPath(squareLogo)
 const markSvgPath = resolveThemeAssetPath('assets/logos/logo-square.svg')
 const faviconSvgPath = getPublicAssetPath('favicon.svg')
 
@@ -26,6 +32,7 @@ const renderSourceIcon = async () => sharp(markPath)
   .png()
   .toBuffer()
 
+/** @param {string} pathname @param {Buffer} sourceBuffer @param {number} size */
 const writeWebp = async (pathname, sourceBuffer, size) => {
   await sharp(sourceBuffer)
     .resize(size, size, { fit: 'cover' })
@@ -33,7 +40,12 @@ const writeWebp = async (pathname, sourceBuffer, size) => {
     .toFile(getPublicAssetPath(pathname))
 }
 
-/** PNG fallback for environments that ignore WebP for `apple-touch-icon` (older iOS / some auditors). */
+/**
+ * PNG fallback for environments that ignore WebP for `apple-touch-icon` (older iOS / some auditors).
+ * @param {string} pathname
+ * @param {Buffer} sourceBuffer
+ * @param {number} size
+ */
 const writePng = async (pathname, sourceBuffer, size) => {
   await sharp(sourceBuffer)
     .resize(size, size, { fit: 'cover' })
@@ -41,6 +53,7 @@ const writePng = async (pathname, sourceBuffer, size) => {
     .toFile(getPublicAssetPath(pathname))
 }
 
+/** @param {string} pathname @param {Buffer} sourceBuffer @param {number} size */
 const writeIco = async (pathname, sourceBuffer, size) => {
   const png = await sharp(sourceBuffer)
     .resize(size, size, { fit: 'cover' })

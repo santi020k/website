@@ -3,7 +3,7 @@ title: "Cómo facilitar los traspasos de trabajo entre equipos"
 description: "Una estructura práctica para traspasar trabajo entre frontend, backend, diseño y lanzamientos, basada en mi experiencia de liderazgo técnico en Void."
 coverImage:
   alt: "Tres carriles de trabajo violetas se encuentran en una puerta blanco hueso y continúan hacia una pequeña pieza verde"
-sourceHash: "70983691b56b"
+sourceHash: "1bc917267247"
 ---
 
 En [Void](/es/portfolio/void/), lideré trabajo técnico en web, móvil, backend y sistemas en tiempo real, con un equipo que abarcaba ingeniería, diseño y producto. Ese alcance hace especialmente concreto un problema de liderazgo: el trabajo puede avanzar en todas las disciplinas mientras sigue siendo difícil terminar una funcionalidad completa.

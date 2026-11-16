@@ -3,7 +3,7 @@ title: "Cómo los contratos de API mantienen en marcha el desarrollo del fronten
 description: "Usa contratos de API y simulaciones realistas para desarrollar frontend y backend en paralelo, detectar comportamientos poco claros a tiempo y verificar la integración."
 coverImage:
   alt: "Piezas de interfaz blanco hueso y bloques de servicio violetas conectados mediante una plantilla translúcida compartida"
-sourceHash: "62e130c2a988"
+sourceHash: "3ddd8d631c8e"
 ---
 
 Un equipo de frontend puede terminar una pantalla y todavía estar a semanas de saber si funciona. La distribución se ve bien, la simulación devuelve una respuesta exitosa y la demostración resulta convincente. Entonces llega el servicio real con una idea distinta de lo que significan un resultado vacío, un artículo no disponible o una solicitud fallida.

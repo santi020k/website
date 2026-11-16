@@ -3,7 +3,7 @@ title: "Cómo publicar un llms.txt generado a partir de tu contenido"
 description: "Cómo genero /llms.txt en Astro a partir de las mismas colecciones publicadas que usan los feeds, y las dos comprobaciones que evitan que quede desactualizado."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
-sourceHash: "664df23af2f9"
+sourceHash: "21c8f88169b9"
 ---
 
 Este repositorio tuvo durante un tiempo un archivo llamado `llms.txt`. Describía el código, y nunca se desplegó. La dirección pública devolvía un 404.

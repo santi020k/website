@@ -52,18 +52,12 @@ export const parseFrontmatter = source => {
 
 /**
  * Every `.md` and `.mdx` file below a directory, sorted for stable output.
+ * Missing or unreadable collection directories fail the caller instead of hiding content.
  * @param {string} directory
  * @returns {Promise<string[]>}
  */
 export const findMarkdownFiles = async directory => {
-  /** @type {import('node:fs').Dirent[]} */
-  let entries
-
-  try {
-    entries = await readdir(directory, { withFileTypes: true })
-  } catch {
-    return []
-  }
+  const entries = await readdir(directory, { withFileTypes: true })
 
   const nested = await Promise.all(entries.map(async entry => {
     const entryPath = path.join(directory, entry.name)

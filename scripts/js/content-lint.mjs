@@ -1,11 +1,11 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
-import { load as loadYaml } from 'js-yaml'
 import sharp from 'sharp'
 
 import { travelNotesSchema } from '../../src/data/travel-notes-schema.ts'
 
+import { contentId, findMarkdownFiles, isFrontmatter, parseFrontmatter } from './utils/frontmatter.mjs'
 import { checkTranslationSource } from './translation-source.mjs'
 
 const CONTENT_ROOT = path.resolve('src/content')
@@ -16,45 +16,14 @@ const POST_COVER_HEIGHT = 900
 const POST_COVER_WIDTH = 1600
 /** Matches the shared placeholder cover's alt text in English and Spanish. */
 const PLACEHOLDER_COVER = /^(?:Placeholder cover|Portada provisional)\b/u
+/** @param {string} filePath */
 const isContentFile = filePath => filePath.endsWith('.md') || filePath.endsWith('.mdx')
 
-/**
- * Mirrors the collection id that `glob()` derives for a content file: the path
- * relative to the collection base, without extension and without `/index`.
- */
-const collectionId = (root, filePath) => path
-  .relative(root, filePath)
-  .split(path.sep)
-  .join('/')
-  .replace(/\.mdx?$/, '')
-  .replace(/\/index$/, '')
-
-const walkFiles = async directory => {
-  const entries = await fs.readdir(directory, { withFileTypes: true })
-
-  const files = await Promise.all(entries.map(async entry => {
-    const resolved = path.join(directory, entry.name)
-
-    if (entry.isDirectory()) return walkFiles(resolved)
-
-    return resolved
-  }))
-
-  return files.flat()
-}
-
-const parseFrontmatter = raw => {
-  const match = /^---\r?\n([\s\S]*?)\r?\n---[\t ]*(?:\r?\n|$)/u.exec(raw)
-
-  if (!match) return null
-
-  return { frontmatter: loadYaml(match[1]), body: raw.slice(match[0].length).trim() }
-}
-
+/** @param {string} filePath @param {unknown} coverImage */
 const validatePostCover = async (filePath, coverImage) => {
   if (!filePath.startsWith(`${POST_ROOT}${path.sep}`)) return []
 
-  if (!coverImage || typeof coverImage !== 'object') {
+  if (!isFrontmatter(coverImage)) {
     return [`${filePath}: posts must provide coverImage`]
   }
 
@@ -88,7 +57,10 @@ const validatePostCover = async (filePath, coverImage) => {
   return []
 }
 
-/** Translations inherit publication from the English entry beside them. */
+/** Translations inherit publication from the English entry beside them.
+ * @param {string} filePath
+ * @param {import('./utils/frontmatter.mjs').Frontmatter} frontmatter
+ */
 const isDraft = async (filePath, frontmatter) => {
   const match = /\.es(\.mdx?)$/u.exec(filePath)
 
@@ -100,18 +72,31 @@ const isDraft = async (filePath, frontmatter) => {
   return original?.draft === true
 }
 
+/**
+ * @typedef {{ filePath: string, seriesId: string, seriesOrder: unknown }} SeriesMembership
+ * @typedef {{ errors: string[], warnings?: string[], seriesMembership?: SeriesMembership }} ValidationResult
+ */
+
+/** @param {string} filePath @returns {Promise<ValidationResult>} */
 const validateFile = async filePath => {
   if (path.basename(filePath) === 'AGENTS.md') return { errors: [] }
 
   if (!isContentFile(filePath)) return { errors: [] }
 
   const raw = await fs.readFile(filePath, 'utf8')
-  const parsed = parseFrontmatter(raw)
-  const frontmatter = parsed?.frontmatter
+  let parsed
 
-  if (!frontmatter || typeof frontmatter !== 'object') {
+  try {
+    parsed = parseFrontmatter(raw)
+  } catch {
+    parsed = undefined
+  }
+
+  if (!parsed) {
     return { errors: [`${filePath}: missing or invalid frontmatter`] }
   }
+
+  const { frontmatter } = parsed
 
   if (filePath.startsWith(`${COUNTRY_ROOT}${path.sep}`)) {
     const result = travelNotesSchema.safeParse(frontmatter)
@@ -139,7 +124,7 @@ const validateFile = async filePath => {
     errors.push(`${filePath}: canonicalUrl must be an absolute https URL`)
   }
 
-  if (coverImage && typeof coverImage === 'object') {
+  if (isFrontmatter(coverImage)) {
     const alt = String(coverImage.alt ?? '')
 
     if (alt.length < 12) {
@@ -188,9 +173,9 @@ const validateFile = async filePath => {
 
 /** Collects the ids declared by the `series` collection. */
 const readSeriesIds = async () => {
-  const files = await walkFiles(SERIES_ROOT)
+  const files = await findMarkdownFiles(SERIES_ROOT)
 
-  return new Set(files.filter(isContentFile).map(file => collectionId(SERIES_ROOT, file)))
+  return new Set(files.filter(isContentFile).map(file => contentId(SERIES_ROOT, file)))
 }
 
 /**
@@ -198,9 +183,12 @@ const readSeriesIds = async () => {
  * a real series silently drops the post out of its reading track, and duplicate
  * `seriesOrder` values make that track's order depend on tie-breaking instead of
  * intent — neither is visible from a single file, so the schema cannot catch them.
+ * @param {SeriesMembership[]} memberships
+ * @param {Set<string>} seriesIds
  */
 const validateSeriesMembership = (memberships, seriesIds) => {
   const errors = []
+  /** @type {Map<string, Map<number, string>>} */
   const ordersBySeries = new Map()
 
   for (const { filePath, seriesId, seriesOrder } of memberships) {
@@ -233,7 +221,7 @@ const validateSeriesMembership = (memberships, seriesIds) => {
 }
 
 const run = async () => {
-  const [files, seriesIds] = await Promise.all([walkFiles(CONTENT_ROOT), readSeriesIds()])
+  const [files, seriesIds] = await Promise.all([findMarkdownFiles(CONTENT_ROOT), readSeriesIds()])
   const results = await Promise.all(files.map(validateFile))
 
   const errors = [

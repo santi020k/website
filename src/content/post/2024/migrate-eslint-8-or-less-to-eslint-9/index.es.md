@@ -4,7 +4,7 @@ description: "Guía práctica para pasar de ESLint 8 a flat config en ESLint 9, 
 seoTitle: "Migración de ESLint 8 a 9: guía de flat config"
 coverImage:
   alt: "Capas de configuración enredadas atraviesan controles de migración y se convierten en una configuración plana y ordenada"
-sourceHash: "55b2bd27d24e"
+sourceHash: "eff282b32832"
 ---
 
 Para migrar de ESLint 8 a 9, traslada los ajustes de `.eslintrc` a una configuración plana en `eslint.config.js`.

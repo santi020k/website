@@ -9,7 +9,7 @@ import { classifyPaths, gitEnvironment, planScope, validationSteps } from './ci-
 
 // The explicit test:ci command owns this Node suite; Vitest handles *.test files.
 test('only proven isolated paths select fewer checks', () => {
-  for (const path of ['src/pages/index.astro', 'tests/seo.spec.ts', '.changeset/v5-note.md']) {
+  for (const path of ['src/pages/index.astro', 'tests/site/seo.spec.ts', '.changeset/v5-note.md']) {
     assert.equal(classifyPaths([path]).mode, 'current')
   }
 
@@ -39,6 +39,7 @@ test('release, push, manual and missing history always select full validation', 
 test('real Git comparison includes rename sources, local files and merge-base history', () => {
   const cwd = mkdtempSync(join(tmpdir(), 'website-ci-test-'))
   const env = { ...gitEnvironment(process.env), GITHUB_EVENT_NAME: 'pull_request', GITHUB_HEAD_REF: 'ci/fixture' }
+  /** @param {...string} args */
   const git = (...args) => execFileSync('git', args, { cwd, env, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
 
   try {

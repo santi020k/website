@@ -3,7 +3,7 @@ title: "Crear RoadScore: un juego de viaje sin conexión para compartir un telé
 description: "Cómo diseñé RoadScore alrededor del copiloto, un catálogo sin conexión, sesiones de viaje flexibles y límites de privacidad que mantienen los datos del juego en el dispositivo."
 coverImage:
   alt: "Un teléfono abstracto y tres cartas conectadas se organizan alrededor de una ruta naranja que atraviesa un paisaje morado"
-sourceHash: "0545ef2fbf21"
+sourceHash: "41dc1867db95"
 ---
 
 Los viajes por carretera tienen una clase particular de tiempo vacío. Todos están juntos, pero la experiencia habitual del teléfono lleva a cada persona a una pantalla distinta. Quería construir algo que fuera en la dirección contraria: un teléfono, un juego compartido y más motivos para mirar por la ventana o hablar con quienes van en el carro.

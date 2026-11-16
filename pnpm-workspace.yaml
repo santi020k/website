@@ -46,8 +46,12 @@ catalog:
   "@tailwindcss/typography": ^0.5.20
   "@tailwindcss/vite": ^4.3.3
   "@types/js-yaml": ^4.0.9
+  "@types/jsdom": ^30.0.0
+  "@types/subset-font": ^2.3.0
+  "@types/wawoff2": ^1.0.2
   "@types/hast": ^3.0.5
   "@types/mdast": ^4.0.4
+  "@types/node": ^24.19.2
   "@types/unist": ^3.0.3
   "@vitest/coverage-v8": ^5.1.0
   "@vitest/ui": ^5.1.0

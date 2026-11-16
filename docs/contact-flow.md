@@ -16,7 +16,7 @@ reloading the document does not provide a saved-draft guarantee. The retained
 `/work-with-me/sent/` URL offers contact options without claiming a successful
 handoff. It remains excluded from indexing and the sitemap.
 
-`tests/work-with-me.spec.ts` covers composition, edits and retries, blocked
+`tests/pages/work-with-me.spec.ts` covers composition, edits and retries, blocked
 popups, missing JavaScript, ClientRouter navigation, direct visits to the retained
 URL, and light/dark accessibility. The homepage hero tests cover the contact
 entry point and the product-specific introduction.

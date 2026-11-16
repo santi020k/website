@@ -22,7 +22,7 @@ Use this skill when adding new features or fixing bugs to ensure regression test
 
 ### 2. E2E Tests (Playwright)
 
-- **Location**: `tests/*.spec.ts`
+- **Location**: `tests/**/*.spec.ts`, grouped by feature
 - **Purpose**: Test user flows, navigation, and cross-browser compatibility.
 - **Commands**:
   - `pnpm run test:e2e`: Run Playwright tests.

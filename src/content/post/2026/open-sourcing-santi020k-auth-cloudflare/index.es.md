@@ -4,7 +4,7 @@ description: "Por qué hice público @santi020k/auth-cloudflare, cómo reutiliza
 cardDescription: "Una base reutilizable de autenticación para aplicaciones Cloudflare, con códigos por correo, passkeys y cuentas separadas para cada producto."
 coverImage:
   alt: "Tres entradas violetas, marfil y de cristal sobre plataformas separadas, unidas por una estructura fina que traza su forma compartida"
-sourceHash: "4be7edfbac78"
+sourceHash: "d8c88c6fb4e8"
 ---
 
 Hoy hice público el repositorio [`santi020k/auth`](https://github.com/santi020k/auth) y publiqué [`@santi020k/auth-cloudflare`](https://www.npmjs.com/package/@santi020k/auth-cloudflare) como paquete experimental `0.x`.

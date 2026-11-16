@@ -154,10 +154,10 @@ are intentional product assets. Rebuild after updating them. Do not replace them
 with fabricated previews.
 
 Changes to archive plumbing require unit coverage of URL, storage, and submission
-boundaries, plus `tests/website-history.spec.ts` against combined production output.
-`tests/archive-keyboard.spec.ts` covers mobile menu activation, focus order,
+boundaries, plus `tests/archive/website-history.spec.ts` against combined production output.
+`tests/archive/archive-keyboard.spec.ts` covers mobile menu activation, focus order,
 interrupted closing animations, desktop resizing, and client navigation.
-`tests/legacy-project-reflow.spec.ts` covers project readability and header
+`tests/archive/legacy-project-reflow.spec.ts` covers project readability and header
 controls at normal and doubled text sizes in light and dark themes.
 Inspect mobile/desktop and light/dark behavior, keyboard controls, search results,
 archive notices, and current-page return links. Run the repository completion gate.

@@ -91,7 +91,7 @@ export const auditBuiltPages = async directory => {
 
     throw error
   })).split('\n').map(line => line.trim().split(/\s+/u))
-    .filter(parts => parts.length >= 2 && !parts[0].startsWith('#'))
+    .filter(/** @returns {parts is [string, string, ...string[]]} */ parts => parts.length >= 2 && !parts[0]?.startsWith('#'))
 
   for (const file of files) {
     const route = getRoute(path.relative(directory, file))
@@ -183,7 +183,7 @@ export const auditBuiltPages = async directory => {
     visited.add(pathname)
 
     const redirect = redirects.find(([from]) => from === pathname ||
-      (from.includes('*') && pathname.startsWith(from.split('*')[0])))
+      (from.includes('*') && pathname.startsWith(from.split('*')[0] ?? from)))
 
     if (!redirect) {
       const local = await getLocalTarget(pathname)
@@ -194,7 +194,7 @@ export const auditBuiltPages = async directory => {
     }
 
     const [from, destination, status] = redirect
-    const prefix = from.split('*')[0]
+    const prefix = from.split('*')[0] ?? from
     const url = new URL(destination.replace(':splat', pathname.slice(prefix.length)), origin)
 
     if (url.origin !== origin) return /^https?:$/u.test(url.protocol) ? url.href : null
@@ -221,7 +221,7 @@ export const auditBuiltPages = async directory => {
       issues.push({ route: reference.route, kind: 'missing-target', target: pathname })
     } else if (reference.hash && anchors.has(resolved)) {
       const fragment = reference.hash.slice(1)
-      const ids = anchors.get(resolved)
+      const ids = anchors.get(resolved) ?? new Set()
       // HTML checks the literal fragment before forgiving UTF-8 percent decoding.
       // Unlike form parsing, querystring.unescape preserves literal plus signs.
       const id = ids.has(fragment) ? fragment : decodeFragment(fragment)

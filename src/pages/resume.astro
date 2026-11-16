@@ -6,7 +6,6 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getGitLastModified } from '@/utils/git'
-import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
 
 import '@/styles/pages/resume.css'
 
@@ -15,8 +14,11 @@ import Icon from '@santi020k/lumen-astro/components/Icon'
 import Link from '@santi020k/lumen-astro/components/Link'
 
 import { getUniqueTechnologies } from '@/data/project'
+import { resumeProjectIds } from '@/data/resume'
 import { getLocale, localizePath } from '@/i18n'
 import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
+import { selectProjects } from '@/loaders/projects'
+import { getResumeSkillGroups, getResumeSummary, resumeHistoryPaths } from '@/loaders/resume'
 import {
   AUTHOR_JOB_TITLE,
   CAREER_START_YEAR,
@@ -27,31 +29,9 @@ import {
 const pageLocale = getLocale(Astro.url.pathname)
 const t = pageTranslator(pageLocale)
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
-const projectsById = new Map(allProjects.map(project => [project.id.replace(/\/index$/u, ''), project]))
-
-const selectResumeProjects = (ids: readonly string[]) => ids.map(id => {
-  const project = projectsById.get(id)
-
-  if (!project) throw new Error(`Missing resume project: ${id}`)
-
-  return project
-})
-
-const workProjects = selectResumeProjects([
-  'smith-commerce',
-  'xgames',
-  'void',
-  'optic-power'
-])
-
-const earlierWork = selectResumeProjects([
-  'pads',
-  'datagran',
-  'justbit',
-  'nebular'
-])
-
-const communityWork = selectResumeProjects(['react-js-colombia'])
+const workProjects = selectProjects(allProjects, resumeProjectIds.work, 'résumé')
+const earlierWork = selectProjects(allProjects, resumeProjectIds.earlier, 'résumé')
+const communityWork = selectProjects(allProjects, resumeProjectIds.community, 'résumé')
 
 const resumeSections = [
   { id: 'resume-experience', label: t('shared.experience') },
@@ -60,38 +40,15 @@ const resumeSections = [
   { id: 'resume-skills', label: t('page.skillsAndExpertise7') }
 ]
 
-const technologySlugs = new Set(getUniqueTechnologies(allProjects).map(getTechnologySlug))
-
-const resumeSkillGroups = [
-  { title: t('page.frontEnd'), skills: ['React.js', 'Next.js', 'React Native', 'Astro', 'TypeScript', 'Tailwind CSS', 'Redux', 'TanStack Query', 'Radix UI'] },
-  { title: t('page.backEnd'), skills: ['Node.js', 'Express.js', 'NestJS', 'REST', 'GraphQL', 'PostgreSQL', 'MongoDB', 'PHP', 'Ruby on Rails'] },
-  { title: t('page.devopsAndArchitecture'), skills: ['AWS', 'Docker', 'CI/CD', 'GitHub Actions', t('page.systemDesign'), 'Microservices', 'Turborepo'] }
-].map(group => ({
-  title: group.title,
-  skills: group.skills.map(label => {
-    const technology = label === 'REST' ? 'REST APIs' : label
-
-    return { label, href: technologySlugs.has(getTechnologySlug(technology)) ? getTechnologyPath(technology) : undefined }
-  })
-}))
-
+const resumeSkillGroups = getResumeSkillGroups(t, getUniqueTechnologies(allProjects))
 const resumeTechnologyLimit = 8
 // Keep one crawlable PDF URL across deployments. The response revalidates at
 // the edge, so cache busting does not need to create a new query URL per build.
 const resumePdfPath = '/pdf/cv.pdf'
 const fullResumePdfPath = '/pdf/cv-full.pdf'
 const resumeDateCreated = '2024-01-01T00:00:00.000Z'
-
-const resumeDescription =
-  (pageLocale === 'es' ? `Líder de ingeniería y arquitecto full-stack con más de ${new Date().getFullYear() - CAREER_START_YEAR} años construyendo productos sólidos, ` : `Engineering leader and full-stack architect with ${new Date().getFullYear() - CAREER_START_YEAR}+ years building resilient products, `) +
-  t('page.modernizingFrontendSystemsAndHelpingTeams')
-
-const resumeDateModified = getGitLastModified([
-  'scripts/py/cv.md',
-  'src/content/project',
-  'src/pages/resume.astro',
-  'src/site.config.ts'
-], resumeDateCreated)
+const resumeDescription = getResumeSummary(pageLocale, t, new Date().getFullYear() - CAREER_START_YEAR)
+const resumeDateModified = getGitLastModified(resumeHistoryPaths, resumeDateCreated)
 
 const resumePageSchema = {
   '@context': 'https://schema.org',

@@ -114,7 +114,7 @@ The crawler allow/disallow rules, sitemap URL, app identity, launch scope, color
 and icon paths and dimensions remain unchanged. The old plugin's second image
 encoding pass is no longer needed.
 
-`tests/site-resources.spec.ts` verifies the built endpoints and decodes all
+`tests/site/site-resources.spec.ts` verifies the built endpoints and decodes all
 manifest icons. Keep Markdown parsers, Lumen, and shared archive dependencies:
 their active consumers justify them, and local replacements would duplicate
 substantial behavior.

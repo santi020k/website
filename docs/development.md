@@ -7,8 +7,9 @@ in [AGENTS.md](../AGENTS.md).
 ## Architecture notes
 
 The [Lumen integration guide](lumen-integration.md) maps the components in use, application-owned
-controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile use
-`@santi020k/lumen`, `@santi020k/lumen-astro`, and `@santi020k/lumen-core` 4.4.0 from the npm registry.
+controllers, public styling contracts, and upgrade checks. The current site uses the `lumen5` catalog:
+`@santi020k/lumen`, `@santi020k/lumen-astro`, and `@santi020k/lumen-core` 5.0.0.
+The historical sites and motion studio retain the default 4.4.0 catalog.
 The integration guide records the upstream contracts and any remaining compatibility patch.
 
 Current pages share their components across English and Spanish (`/es/`). English remains the
@@ -124,12 +125,19 @@ article prose (`src/styles/prose.css`) loads only with the `Post` and `Projects`
 | --- | --- |
 | `src/site.config.ts` | Metadata, navigation, and social links. |
 | `src/content.config.ts` / `src/content/` | Schemas, posts, projects, and editorial data. |
-| `src/layouts/` / `src/components/` | Page composition and reusable Astro UI. |
+| `src/layouts/` | Page shells. |
+| `src/components/{article,project,search,technology,layout}/` | UI for one feature: articles and series, project case studies, site search, technology archives, and the site header and footer. |
+| `src/components/{atoms,molecules,organisms,shared}/` | Shared UI used across features. New feature-specific components go in a feature folder. |
+| `src/components/pages/` | Sections used by a single page. |
+| `src/loaders/` | Data a page needs, loaded and shaped outside its template so it can be unit-tested. |
+| `src/data/` | Static data and the ids pages select, such as the résumé's projects. |
+| `src/config/` | Build-time helpers for `astro.config.ts`, such as sitemap dates. |
 | `src/styles/global.css` / `src/styles/partials/` | Shared style boundary, tokens, and styles every page loads. |
 | `src/styles/pages/` / `src/styles/prose.css` | Route-only styles and article prose, loaded only where they are used. |
-| `scripts/` | Assets, content checks, CV generation, sitemap, script policy, and deployment helpers. |
+| `scripts/` | Assets, content checks, CV generation, sitemap, script policy, and deployment helpers. `scripts/js/utils/frontmatter.mjs` is the one frontmatter reader for scripts and the Astro config. |
 | `markdownlint.config.json` | Markdown rules and file scope, checked through the engine and native file discovery. |
-| `src/**/__tests__/` / `tests/` | Unit and rendered browser regression coverage. |
+| `src/**/__tests__/` | Unit tests beside the code they cover. |
+| `tests/<area>/` | Browser tests against the built site, grouped by area: `about`, `accessibility`, `archive`, `article`, `blog`, `home`, `i18n`, `pages`, `project`, `search`, `site`, `technology`. Run one area with `pnpm exec playwright test tests/search`. |
 | `docs/` | Editorial, UI, security, SEO, and deployment guidance. |
 
 ## Git hooks
@@ -154,6 +162,8 @@ future library changes without committing tarballs.
 | Command | Evidence |
 | --- | --- |
 | `pnpm run verify:fast` | Spellcheck, zero-warning lint, strict Astro checks, Markdown/content checks, CV consistency, unit tests, and build. |
+| `pnpm run check:current` | Strict Astro checks for the current site, then `tsc -p scripts` over the build scripts' JSDoc. |
+| `pnpm run lint:apps` / `pnpm run check:apps` | Lint or type-check the archive apps and the motion workspace through Turbo. Unchanged apps are cache hits, so these take seconds after the first run. |
 | `pnpm run audit` | Moderate-and-higher dependency vulnerability audit, including development dependencies. |
 | `pnpm run ci:verify` | Coverage, production build, Lighthouse assertions, and stable Chromium E2E alongside quality checks. |
 | `pnpm run audit:seo` | Built-page metadata, canonical, and social-image audit. |
@@ -163,7 +173,7 @@ future library changes without committing tarballs.
 For a focused browser run against an existing build:
 
 ```bash
-SKIP_BUILD=1 pnpm run test:e2e:ci:stable tests/lumen-interactions.spec.ts --retries=0
+SKIP_BUILD=1 pnpm run test:e2e:ci:stable tests/site/lumen-interactions.spec.ts --retries=0
 ```
 
 `pnpm run test:e2e:fast` reuses an existing build; browser-test scripts install Chromium when

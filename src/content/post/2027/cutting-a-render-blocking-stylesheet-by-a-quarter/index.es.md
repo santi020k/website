@@ -3,7 +3,7 @@ title: "Cómo reduje una cuarta parte de una hoja de estilos que bloqueaba el re
 description: "El archivo CSS compartido de este sitio pesaba 79 KB comprimido en cada página. Mover las reglas de una sola ruta a su ruta lo redujo a 62 KB, con dos efectos secundarios que conviene conocer."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
-sourceHash: "40a44453e2ef"
+sourceHash: "74e8e2653ccc"
 ---
 
 Cada página de este sitio cargaba una hoja de estilos antes de poder mostrarse: 490 KB sin comprimir, 79 KB comprimida.

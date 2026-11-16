@@ -76,7 +76,7 @@ export const deduplicateSitemapSources = sources => {
 const asRecord = value => {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return {}
 
-  return value
+  return /** @type {Record<string, unknown>} */ (value)
 }
 
 /** @param {unknown} value @returns {unknown[]} */

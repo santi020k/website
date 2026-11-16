@@ -1,10 +1,12 @@
 import sharp from 'sharp'
 
+/** @type {Map<string, Promise<string>>} */
 const preparedImages = new Map()
 
 /**
  * Normalize local artwork to a PNG data URL that the preset's nested SVG image
  * element renders consistently. The 2x visual-slot size keeps raster output crisp.
+ * @param {string} filePath
  */
 export const prepareOgImage = filePath => {
   const cached = preparedImages.get(filePath)

@@ -15,8 +15,12 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
+/** @param {unknown} value @returns {value is Record<string, unknown>} */
+const isRecord = value => typeof value === 'object' && value !== null && !Array.isArray(value)
 
+/** @param {string} filePath */
 const parseEnvFile = filePath => {
+  /** @type {Record<string, string>} */
   const out = {}
   let raw
 
@@ -149,9 +153,9 @@ const checkDiscovery = async () => {
       const tag = m[0]
       const hrefM = /href=["']([^"']+)["']/i.exec(tag)
 
-      return hrefM ? hrefM[1] : null
+      return hrefM?.[1] ?? null
     })
-    .filter(Boolean)
+    .filter(/** @returns {href is string} */ href => Boolean(href))
 
   const expected = endpoint.replace(/\/$/, '')
   const ok = hrefs.some(h => h.replace(/\/$/, '') === expected)
@@ -195,6 +199,7 @@ const checkJf2 = async () => {
     return
   }
 
+  /** @type {unknown} */
   let data
 
   try {
@@ -205,10 +210,12 @@ const checkJf2 = async () => {
     return
   }
 
-  const children = Array.isArray(data?.children) ? data.children : []
+  /** @type {unknown[]} */
+  const children = isRecord(data) && Array.isArray(data.children) ? data.children : []
 
   const publicRows = children.filter(
-    row => row && !row['wm-private'] && typeof row['wm-property'] === 'string'
+    /** @returns {row is Record<string, unknown> & {'wm-property': string}} */
+    row => isRecord(row) && !row['wm-private'] && typeof row['wm-property'] === 'string'
   )
 
   console.log(`\nAPI: target ${targetUrl}`)
@@ -217,7 +224,9 @@ const checkJf2 = async () => {
 
   for (const row of publicRows.slice(0, 8)) {
     const prop = row['wm-property']
-    const src = row['wm-source'] || row.url || '(no source)'
+
+    const src = [row['wm-source'], row.url]
+      .find(value => typeof value === 'string' && value.length > 0) ?? '(no source)'
 
     console.log(`  - ${prop}: ${src}`)
   }

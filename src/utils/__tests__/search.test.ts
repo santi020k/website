@@ -1,6 +1,14 @@
 // cspell:words cancion canción cuna curriculum currículum diseno diseño hoja किताब कताब كَتَبَ كتب
 import type { SearchIndexEntry } from '@/types/search'
-import { getPopularTopics, isSearchableQuery, isSearchEntry, normalizeRecentSearches, rankSearchEntry } from '@/utils/search'
+import {
+  getPopularTopics,
+  isSearchableQuery,
+  isSearchEntry,
+  normalizeRecentSearches,
+  rankSearchEntries,
+  rankSearchEntry,
+  stepResultIndex
+} from '@/utils/search'
 
 import { describe, expect, test } from 'vitest'
 
@@ -194,5 +202,52 @@ describe('search relevance', () => {
     expect(topics[0]).toBe('TypeScript')
     expect(topics).not.toContain('typescript')
     expect(getPopularTopics([])).toEqual([])
+  })
+})
+
+describe('search result ordering', () => {
+  const make = (title: string, type: SearchIndexEntry['type'], tags: string[] = []): SearchIndexEntry => ({
+    description: '', path: `/${type}/${title.toLowerCase().replaceAll(' ', '-')}/`, tags, title, type
+  })
+
+  test('orders by score, then community, project, post and page, then title', () => {
+    const results = rankSearchEntries([
+      make('Astro notes', 'page'),
+      make('Astro notes', 'post'),
+      make('Astro', 'post'),
+      make('Astro notes', 'community'),
+      make('Astro kit', 'project'),
+      make('React', 'post')
+    ], 'astro')
+
+    expect(results.map(result => `${result.type}:${result.title}`)).toEqual([
+      'post:Astro',
+      'community:Astro notes',
+      'project:Astro kit',
+      'post:Astro notes',
+      'page:Astro notes'
+    ])
+  })
+
+  test('keeps at most the limit and drops non-matches', () => {
+    const entries = Array.from({ length: 12 }, (_, index) => make(`Astro ${String(index).padStart(2, '0')}`, 'post'))
+
+    expect(rankSearchEntries(entries, 'astro')).toHaveLength(8)
+    expect(rankSearchEntries(entries, 'astro', 3).map(result => result.title)).toEqual(['Astro 00', 'Astro 01', 'Astro 02'])
+    expect(rankSearchEntries(entries, 'svelte')).toEqual([])
+  })
+})
+
+describe('result keyboard stepping', () => {
+  test.each([
+    [-1, 4, 1, 0],
+    [-1, 4, -1, 3],
+    [0, 4, 1, 1],
+    [3, 4, 1, 0],
+    [0, 4, -1, 3],
+    [2, 4, -1, 1],
+    [0, 0, 1, -1]
+  ] as const)('from %i of %i stepping %i lands on %i', (current, length, direction, expected) => {
+    expect(stepResultIndex(current, length, direction)).toBe(expected)
   })
 })

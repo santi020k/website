@@ -2,22 +2,33 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { load } from 'js-yaml'
 import sharp from 'sharp'
+
+import { isFrontmatter, parseFrontmatter } from './utils/frontmatter.mjs'
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url)
 const ROOT = path.resolve(path.dirname(SCRIPT_PATH), '..', '..')
 const PROJECTS_ROOT = path.join(ROOT, 'src', 'content', 'project')
 const FONT_PATH = path.join(ROOT, 'public', 'fonts', 'Montserrat-Bold.ttf')
 
-export const IMAGE_VARIANTS = [
+/**
+ * @typedef {{blue: number, green: number, red: number}} RgbColor
+ * @typedef {{hue: number, lightness: number, saturation: number}} HslColor
+ * @typedef {{fileName: string, height: number, kind: 'thumbnail' | 'hero' | 'portrait' | 'background', width: number}} ImageVariant
+ * @typedef {Awaited<ReturnType<typeof discoverProjects>>[number]} Project
+ * @typedef {Pick<Project, 'brand' | 'logoAspect' | 'logoSurface' | 'role' | 'technologies' | 'title' | 'type'> & Partial<Pick<Project, 'logoScale'>>} ProjectArtwork
+ * @typedef {ReturnType<typeof getLogoBox>} LogoBox
+ */
+
+/** @satisfies {readonly ImageVariant[]} */
+export const IMAGE_VARIANTS = /** @type {const} */ ([
   { fileName: 'cover.webp', height: 1000, kind: 'thumbnail', width: 1600 },
   { fileName: 'cover-horizontal.webp', height: 1350, kind: 'hero', width: 2400 },
   { fileName: 'cover-vertical.webp', height: 1600, kind: 'portrait', width: 1200 },
   { fileName: 'cover-background.webp', height: 1350, kind: 'background', width: 2400 }
-]
+])
 
-const FALLBACK_ACCENTS = [
+const FALLBACK_ACCENTS = /** @type {const} */ ([
   '#8b5cf6',
   '#a855f7',
   '#d946ef',
@@ -26,13 +37,14 @@ const FALLBACK_ACCENTS = [
   '#06b6d4',
   '#14b8a6',
   '#f59e0b'
-]
+])
 
 const DEFAULT_BRAND = {
   secondary: '#b78cff',
   surface: '#10091c'
 }
 
+/** @param {string} value */
 const escapeXml = value => value
   .replaceAll('&', '&amp;')
   .replaceAll('<', '&lt;')
@@ -40,8 +52,9 @@ const escapeXml = value => value
   .replaceAll('"', '&quot;')
   .replaceAll('\'', '&apos;')
 
-const isRecord = value => typeof value === 'object' && value !== null && !Array.isArray(value)
+const isRecord = isFrontmatter
 
+/** @param {string} value */
 const hashText = value => {
   let hash = 2166136261
 
@@ -54,24 +67,32 @@ const hashText = value => {
   return hash >>> 0
 }
 
-export const getFallbackAccent = slug => FALLBACK_ACCENTS[hashText(slug) % FALLBACK_ACCENTS.length]
+/** @param {string} slug */
+export const getFallbackAccent = slug => {
+  const index = hashText(slug) % FALLBACK_ACCENTS.length
 
+  return FALLBACK_ACCENTS[index] ?? FALLBACK_ACCENTS[0]
+}
+
+/** @param {RgbColor} color */
 const rgbToHex = ({ blue, green, red }) => `#${[red, green, blue]
   .map(channel => channel.toString(16).padStart(2, '0'))
   .join('')}`
 
+/** @param {string} hex */
 const hexToRgb = hex => {
   const match = /^#([\da-f]{2})([\da-f]{2})([\da-f]{2})$/iu.exec(hex)
 
   if (!match) throw new TypeError(`Invalid accent color: ${hex}`)
 
   return {
-    blue: Number.parseInt(match[3], 16),
-    green: Number.parseInt(match[2], 16),
-    red: Number.parseInt(match[1], 16)
+    blue: Number.parseInt(match[3] ?? '', 16),
+    green: Number.parseInt(match[2] ?? '', 16),
+    red: Number.parseInt(match[1] ?? '', 16)
   }
 }
 
+/** @param {RgbColor} color */
 const getRelativeLuminance = color => {
   const channels = [color.red, color.green, color.blue].map(channel => {
     const normalized = channel / 255
@@ -79,9 +100,12 @@ const getRelativeLuminance = color => {
     return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4
   })
 
-  return (0.2126 * channels[0]) + (0.7152 * channels[1]) + (0.0722 * channels[2])
+  const [red = 0, green = 0, blue = 0] = channels
+
+  return (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
 }
 
+/** @param {RgbColor} first @param {RgbColor} second */
 const getContrastRatio = (first, second) => {
   const lighter = Math.max(getRelativeLuminance(first), getRelativeLuminance(second))
   const darker = Math.min(getRelativeLuminance(first), getRelativeLuminance(second))
@@ -89,6 +113,7 @@ const getContrastRatio = (first, second) => {
   return (lighter + 0.05) / (darker + 0.05)
 }
 
+/** @param {RgbColor} color */
 const rgbToHsl = ({ blue, green, red }) => {
   const r = red / 255
   const g = green / 255
@@ -112,6 +137,7 @@ const rgbToHsl = ({ blue, green, red }) => {
   return { hue, lightness, saturation }
 }
 
+/** @param {HslColor} color */
 const hslToRgb = ({ hue, lightness, saturation }) => {
   const chroma = (1 - Math.abs((2 * lightness) - 1)) * saturation
   const hueSegment = hue / 60
@@ -127,14 +153,16 @@ const hslToRgb = ({ hue, lightness, saturation }) => {
   ][Math.floor(hueSegment) % 6] ?? [0, 0, 0]
 
   const match = lightness - (chroma / 2)
+  const [red = 0, green = 0, blue = 0] = channels
 
   return {
-    blue: Math.round((channels[2] + match) * 255),
-    green: Math.round((channels[1] + match) * 255),
-    red: Math.round((channels[0] + match) * 255)
+    blue: Math.round((blue + match) * 255),
+    green: Math.round((green + match) * 255),
+    red: Math.round((red + match) * 255)
   }
 }
 
+/** @param {string} accent */
 export const getReadableAccent = (accent, backgroundColor = '#10091c') => {
   const color = hexToRgb(accent)
   const background = hexToRgb(backgroundColor)
@@ -157,7 +185,9 @@ export const getReadableAccent = (accent, backgroundColor = '#10091c') => {
   return '#fbf8ff'
 }
 
+/** @param {Uint8Array} pixels @param {string} fallback */
 export const selectAccentFromPixels = (pixels, fallback) => {
+  /** @type {Map<string, {color: RgbColor, count: number, score: number}>} */
   const buckets = new Map()
 
   for (let index = 0; index < pixels.length; index += 4) {
@@ -194,6 +224,7 @@ export const selectAccentFromPixels = (pixels, fallback) => {
   return selected ? rgbToHex(selected.color) : fallback
 }
 
+/** @param {string} logoPath @param {string} fallback */
 const getLogoAccent = async (logoPath, fallback) => {
   const { data } = await sharp(logoPath)
     .ensureAlpha()
@@ -204,24 +235,23 @@ const getLogoAccent = async (logoPath, fallback) => {
   return selectAccentFromPixels(data, fallback)
 }
 
-const parseFrontmatter = source => {
-  const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/u)
+/** @param {string} source */
+const readProjectFrontmatter = source => {
+  const parsed = parseFrontmatter(source)
 
-  if (!match?.[1]) throw new Error('Missing YAML frontmatter')
+  if (!parsed) throw new Error('Missing YAML frontmatter')
 
-  const data = load(match[1])
-
-  if (!isRecord(data)) throw new TypeError('Project frontmatter must be an object')
-
-  return data
+  return parsed.frontmatter
 }
 
+/** @param {Record<string, unknown>} record @param {string} key */
 const getString = (record, key) => {
   const value = record[key]
 
   return typeof value === 'string' ? value : undefined
 }
 
+/** @param {Record<string, unknown>} record @param {string} key @returns {string[]} */
 const getStringArray = (record, key) => {
   const value = record[key]
 
@@ -230,6 +260,7 @@ const getStringArray = (record, key) => {
   return value.filter(item => typeof item === 'string')
 }
 
+/** @param {Record<string, unknown>} frontmatter @param {string} logoPath @param {string} slug */
 const getBrandPalette = async (frontmatter, logoPath, slug) => {
   const configuredBrand = frontmatter.brand
   const extractedPrimary = await getLogoAccent(logoPath, getFallbackAccent(slug))
@@ -249,6 +280,7 @@ const getBrandPalette = async (frontmatter, logoPath, slug) => {
   }
 }
 
+/** @param {string} projectDirectory @param {Record<string, unknown>} coverImage */
 const resolveLogoPath = (projectDirectory, coverImage) => {
   const configuredLogo = getString(coverImage, 'logo')
 
@@ -283,7 +315,7 @@ export const getLogoBounds = async logoPath => {
 
   for (let index = 0; index < data.length; index += 1) {
     // Ignore nearly invisible fringe pixels when measuring the artwork.
-    if (data[index] <= 16) continue
+    if ((data[index] ?? 0) <= 16) continue
 
     const x = index % info.width
     const y = Math.floor(index / info.width)
@@ -318,7 +350,7 @@ export const discoverProjects = async (projectsRoot = PROJECTS_ROOT) => {
     if (!entry) throw new Error(`${slug}: index.md or index.mdx is required`)
 
     const source = await fs.readFile(path.join(directory, entry), 'utf8')
-    const frontmatter = parseFrontmatter(source)
+    const frontmatter = readProjectFrontmatter(source)
     const title = getString(frontmatter, 'title')
     const description = getString(frontmatter, 'description')
     const coverImage = frontmatter.coverImage
@@ -358,6 +390,7 @@ export const discoverProjects = async (projectsRoot = PROJECTS_ROOT) => {
   }))
 }
 
+/** @param {string} title @param {boolean} portrait */
 export const splitTitle = (title, portrait) => {
   let limit = 20
 
@@ -386,6 +419,7 @@ export const splitTitle = (title, portrait) => {
   return lines.slice(0, portrait ? 3 : 2)
 }
 
+/** @param {string} type */
 const getTypeLabel = type => {
   if (type === 'professional') return 'Selected work'
 
@@ -396,6 +430,7 @@ const getTypeLabel = type => {
   return 'Independent project'
 }
 
+/** @param {ProjectArtwork} project @param {ImageVariant} variant */
 const getLogoBox = (project, variant) => {
   let box
 
@@ -427,8 +462,10 @@ const getLogoBox = (project, variant) => {
   return { ...box, padding: Math.round(Math.min(box.width, box.height) * paddingRatio) }
 }
 
+/** @param {ProjectArtwork} project */
 const getLogoSurface = project => project.logoSurface === 'light' ? '#f8f5ff' : project.brand.surface
 
+/** @param {string[]} technologies @param {number} x @param {number} y @param {number} fontSize @param {string} accent */
 const buildTechnologyMarkup = (technologies, x, y, fontSize, accent) => technologies
   .map((technology, index) => {
     const width = Math.max(150, (technology.length * fontSize * 0.64) + 58)
@@ -447,6 +484,7 @@ const buildTechnologyMarkup = (technologies, x, y, fontSize, accent) => technolo
   .join('')
 
 // A quiet, solid center keeps logos sharp; color and geometry stay at the edges.
+/** @param {ProjectArtwork} project @param {ImageVariant} variant */
 const buildSceneSvg = (project, variant) => {
   const { height, width } = variant
   const surface = getLogoSurface(project)
@@ -473,6 +511,7 @@ const buildSceneSvg = (project, variant) => {
   `
 }
 
+/** @param {ProjectArtwork} project @param {ImageVariant} variant @param {LogoBox} logoBox */
 const buildThumbnailSvg = (project, variant, logoBox) => {
   const scale = variant.width / 1600
   const readableAccent = getReadableAccent(project.brand.primary, project.brand.surface)
@@ -524,10 +563,12 @@ const buildThumbnailSvg = (project, variant, logoBox) => {
   `
 }
 
+/** @param {ProjectArtwork} project @param {ImageVariant} variant */
 export const buildProjectSvg = (project, variant) => variant.kind === 'thumbnail' ?
   buildThumbnailSvg(project, variant, getLogoBox(project, variant)) :
   buildSceneSvg(project, variant)
 
+/** @param {Project} project @param {LogoBox} logoBox */
 const buildLogoComposite = async (project, logoBox) => {
   const width = logoBox.width - (logoBox.padding * 2)
   const height = logoBox.height - (logoBox.padding * 2)
@@ -550,6 +591,7 @@ const buildLogoComposite = async (project, logoBox) => {
   }
 }
 
+/** @param {Project} project @param {ImageVariant} variant */
 export const renderProjectImage = async (project, variant) => {
   const logoBox = getLogoBox(project, variant)
   const background = Buffer.from(buildProjectSvg(project, variant))
@@ -566,6 +608,7 @@ export const renderProjectImage = async (project, variant) => {
   return outputPath
 }
 
+/** @param {Pick<Project, "background">} project */
 export const getProjectImageVariants = project => IMAGE_VARIANTS
   .filter(variant => variant.kind !== 'background' || project.background)
 

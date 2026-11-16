@@ -3,7 +3,7 @@ title: "Una estrategia sólida de ramas Git para equipos de ingeniería en creci
 description: "Cómo superar las ramas de funcionalidad básicas e implementar un modelo que permita entregas estables, entornos UAT y correcciones urgentes sin interrumpir el desarrollo."
 coverImage:
   alt: "Rutas estructuradas de funcionalidades, versiones, pruebas, producción y correcciones urgentes que convergen de forma segura"
-sourceHash: "4ce1be2fd1b4"
+sourceHash: "352d0537cbe8"
 ---
 
 Cuando los equipos de ingeniería son pequeños y avanzan rápido, un flujo de Git básico suele parecer la opción adecuada. Creas una rama desde `develop` (o `main`), construyes la funcionalidad, abres un Pull Request y lo integras. La canalización de CI/CD toma el cambio, lo despliega en un entorno de desarrollo o preproducción y pasas a la siguiente tarea.

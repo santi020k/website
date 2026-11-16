@@ -3,7 +3,7 @@ title: "Por qué quité 600 URL de mi sitemap"
 description: "Un sitemap debería incluir páginas que tengan algo propio que decir. Cómo encontré archivos escasos y copias sin traducir, los marqué con noindex y los mantuve disponibles para quienes leen."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
-sourceHash: "871ae48e857e"
+sourceHash: "be8e36a2145e"
 ---
 
 El sitemap de este sitio incluía 886 URL. Después de un cambio incluía 285.

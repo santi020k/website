@@ -3,7 +3,7 @@ title: "Cómo repartí 2973 pruebas de Playwright detrás de una sola puerta de 
 description: "Cómo reestructuré el CI de un sitio estático en Astro: una compilación de producción, seis fragmentos de pruebas de navegador, Lighthouse desde el mismo artefacto y una única comprobación que los resume."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
-sourceHash: "e6c2ba4ae948"
+sourceHash: "cb5c65eca684"
 ---
 
 El CI de este sitio solía ser un solo job. Instalaba dependencias, ejecutaba las comprobaciones, compilaba el sitio y ejecutaba Playwright en un solo worker con un límite de 30 minutos.

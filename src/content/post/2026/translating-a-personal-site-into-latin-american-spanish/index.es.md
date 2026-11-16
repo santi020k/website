@@ -3,7 +3,7 @@ title: "Cómo traduje un sitio personal al español latinoamericano"
 description: "Cómo agregué español a un sitio estático en Astro: archivos de traducción adyacentes, un solo dueño del estado de publicación y un respaldo seguro para las páginas que aún no están traducidas."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
-sourceHash: "b5a047a711d0"
+sourceHash: "515ec359b685"
 ---
 
 Escribo en inglés y vivo en Medellín. Durante años este sitio solo habló uno de esos idiomas.

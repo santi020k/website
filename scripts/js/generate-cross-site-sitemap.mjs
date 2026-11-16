@@ -82,6 +82,7 @@ const sitemapSources = [
   }
 ]
 
+/** @param {string} sitemapUrl */
 const readLocalSitemap = async sitemapUrl => {
   const url = new URL(sitemapUrl)
 

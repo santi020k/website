@@ -1,0 +1,24 @@
+{
+  // Type-checks the build scripts' JSDoc with `tsc -p scripts` (run by `check:current`).
+  // Matches the site's strictest settings.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "checkJs": true,
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ],
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "js/**/*.mjs",
+    "js/**/*.js",
+    "../src/env.d.ts"
+  ],
+  "exclude": [
+    "js/__tests__"
+  ]
+}
