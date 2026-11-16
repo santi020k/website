@@ -479,18 +479,21 @@ describe('Service worker fetch handling', () => {
     await Promise.all(event.lifetime)
   })
 
-  test.each([false, true])('preserves a fresh 404 page response instead of a cached page (navigation: %s)', async navigation => {
+  test.each([
+    [401, false], [403, true], [404, false], [404, true], [410, true]
+  ])('preserves a fresh %s page response instead of a cached page (navigation: %s)', async (status, navigation) => {
     const worker = setupWorker()
 
-    worker.fetch.mockResolvedValue(new Response('Not Found', { status: 404 }))
+    worker.fetch.mockResolvedValue(new Response('Client error', { status }))
     worker.cache.match.mockResolvedValue(new Response('cached page'))
 
     const event = worker.dispatch(makeRequest('/posts/one/', navigation))
     const response = await event.response
 
-    expect(response?.status).toBe(404)
-    expect(await response?.text()).toBe('Not Found')
+    expect(response?.status).toBe(status)
+    expect(await response?.text()).toBe('Client error')
     await Promise.all(event.lifetime)
+    expect(worker.cache.match).not.toHaveBeenCalled()
     expect(worker.cache.put).not.toHaveBeenCalled()
   })
 
@@ -639,6 +642,132 @@ describe('Service worker fetch handling', () => {
     worker.fetch.mockResolvedValue(new Response('fresh data'))
 
     expect(await (await worker.dispatch(makeRequest('/search-index.json')).response)?.text()).toBe('fresh data')
+  })
+})
+
+describe('Service worker server-error recovery', () => {
+  test.each([
+    [500, false],
+    [500, true],
+    [502, false],
+    [502, true],
+    [503, false],
+    [503, true],
+    [504, false],
+    [504, true]
+  ])('serves the cached page for HTTP %s (navigation: %s)', async (status, navigation) => {
+    const worker = setupWorker()
+    const request = makeRequest('/posts/one/', navigation)
+
+    worker.fetch.mockResolvedValue(new Response('Server unavailable', { status }))
+    serveFromCache(worker, { [`${origin}/posts/one/`]: 'cached page' })
+
+    const event = worker.dispatch(request)
+    const response = await event.response
+
+    expect(response?.status).toBe(200)
+    expect(await response?.text()).toBe('cached page')
+    await Promise.all(event.lifetime)
+    expect(worker.fetch).toHaveBeenCalledExactlyOnceWith(request)
+    expect(matchedKeys(worker)).toEqual([[request.url, undefined]])
+    expect(worker.cache.put).not.toHaveBeenCalled()
+  })
+
+  test('keeps the query-free page key and Vary headers during a server error', async () => {
+    const worker = setupWorker()
+    const request = new Request(`${origin}/es/?q=Astro`, {
+      headers: { Accept: 'text/html', 'Accept-Language': 'es' }
+    })
+
+    worker.fetch.mockResolvedValue(new Response('Server unavailable', { status: 503 }))
+    serveFromCache(worker, { [`${origin}/es/`]: 'cached Spanish page' })
+
+    const event = worker.dispatch(request)
+
+    expect(await (await event.response)?.text()).toBe('cached Spanish page')
+    await Promise.all(event.lifetime)
+    expect(worker.fetch).toHaveBeenCalledExactlyOnceWith(request)
+    expect(matchedKeys(worker)).toEqual([[`${origin}/es/`, undefined]])
+
+    const key = worker.cache.match.mock.calls[0]?.[0]
+
+    if (!(key instanceof Request)) throw new Error('Missing canonical page lookup')
+
+    expect(key.headers.get('Accept')).toBe('text/html')
+    expect(key.headers.get('Accept-Language')).toBe('es')
+  })
+
+  test('uses the permitted slash alias after a failed exact lookup during a server error', async () => {
+    const worker = setupWorker()
+    const request = makeRequest('/about?ref=newsletter', true)
+
+    worker.fetch.mockResolvedValue(new Response('Server unavailable', { status: 503 }))
+    serveFromCache(worker, { [`${origin}/about/`]: 'cached about page' }, request.url)
+
+    const event = worker.dispatch(request)
+
+    expect(await (await event.response)?.text()).toBe('cached about page')
+    await Promise.all(event.lifetime)
+    expect(matchedKeys(worker)).toEqual([[request.url, undefined], [`${origin}/about/`, undefined]])
+    expect(worker.cache.put).not.toHaveBeenCalled()
+  })
+
+  test.each(['/never-visited/', '/about', '/es/missing/'])(
+    'preserves the original server error for uncached %s without reading the offline shell', async path => {
+      const worker = setupWorker()
+      const serverError = new Response('Retry later', { status: 503, headers: { 'Retry-After': '60' } })
+
+      worker.fetch.mockResolvedValue(serverError)
+      serveFromCache(worker, { '/offline/': 'Offline page', '/es/offline/': 'Spanish offline page' })
+
+      const event = worker.dispatch(makeRequest(path, true))
+
+      expect(await event.response).toBe(serverError)
+      expect(serverError.headers.get('Retry-After')).toBe('60')
+      expect(await serverError.text()).toBe('Retry later')
+      await Promise.all(event.lifetime)
+      expect(worker.cache.match).not.toHaveBeenCalledWith('/offline/')
+      expect(worker.cache.match).not.toHaveBeenCalledWith('/es/offline/')
+      expect(worker.cache.put).not.toHaveBeenCalled()
+    }
+  )
+
+  test.each(['open', 'match'] as const)('preserves the server error when cache %s fails', async operation => {
+    const worker = setupWorker()
+    const serverError = new Response('Server unavailable', { status: 502 })
+
+    worker.fetch.mockResolvedValue(serverError)
+    if (operation === 'open') worker.open.mockRejectedValue(new Error('Storage unavailable'))
+    else worker.cache.match.mockRejectedValue(new Error('Cache read failed'))
+
+    const event = worker.dispatch(makeRequest('/posts/one/', true))
+
+    expect(await event.response).toBe(serverError)
+    await Promise.all(event.lifetime)
+    expect(worker.cache.put).not.toHaveBeenCalled()
+  })
+
+  test.each([
+    ['/search-index.json', false],
+    ['/pdf/cv.pdf', false],
+    ['/feed.xml', true],
+    ['/manifest.webmanifest', true],
+    ['/robots.txt', true],
+    ['/favicon.svg', true],
+    ['/_astro/preview.webp', true]
+  ])('preserves the server error for non-page %s (navigation: %s)', async (path, navigation) => {
+    const worker = setupWorker()
+    const serverError = new Response('Server unavailable', { status: 503 })
+
+    worker.fetch.mockResolvedValue(serverError)
+    worker.cache.match.mockResolvedValue(new Response('cached resource'))
+
+    const event = worker.dispatch(makeRequest(path, navigation))
+
+    expect(await event.response).toBe(serverError)
+    await Promise.all(event.lifetime)
+    expect(worker.cache.match).not.toHaveBeenCalled()
+    expect(worker.cache.put).not.toHaveBeenCalled()
   })
 })
 
