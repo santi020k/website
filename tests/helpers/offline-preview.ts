@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { createServer, type ServerResponse } from 'node:http'
+import { createServer, request as requestUpstream, type ServerResponse } from 'node:http'
 
 interface OfflinePreviewOptions {
   hostname?: 'website.localhost' | 'localhost' | '127.0.0.1' | '[::1]'
@@ -14,7 +14,9 @@ export const createOfflinePreview = async (
 ) => {
   if (!baseURL) throw new Error('Missing test preview URL')
 
-  const previewOrigin = new URL(baseURL).origin
+  const preview = new URL(baseURL)
+
+  if (preview.protocol !== 'http:') throw new Error('The offline preview proxies a local http preview only')
 
   let online = true
   let stalled = false
@@ -60,24 +62,58 @@ export const createOfflinePreview = async (
       return
     }
 
-    // Forward only the path and query: an absolute request URL must never choose the upstream host.
+    // Forward only the path and query to the fixed preview host: a request URL never chooses the upstream.
     const { pathname, search } = new URL(request.url ?? '/', 'http://offline-preview.invalid')
-    const upstreamURL = `${previewOrigin}/${pathname.slice(1)}${search}`
+    const fail = () => {
+      if (!response.headersSent) response.writeHead(502)
 
-    void fetch(upstreamURL, { signal: AbortSignal.timeout(10_000) })
-      .then(async upstream => {
-        const body = Buffer.from(await upstream.arrayBuffer())
+      response.end('Preview unavailable')
+    }
 
-        response.writeHead(upstream.status, {
-          'Content-Type': upstream.headers.get('content-type') ?? 'application/octet-stream',
-          ...(vary ? { Vary: vary } : {})
+    const forward = (path: string, redirectsLeft: number) => {
+      const upstreamRequest = requestUpstream({
+        hostname: preview.hostname.replace(/^\[|\]$/gu, ''),
+        method: 'GET',
+        path,
+        port: preview.port || 80,
+        timeout: 10_000
+      }, upstream => {
+        const location = upstream.headers.location
+        const status = upstream.statusCode ?? 502
+
+        // Follow same-origin redirects like fetch() did, so tests keep seeing the final document.
+        if (location && status >= 300 && status < 400 && redirectsLeft > 0) {
+          const next = new URL(location, preview)
+
+          upstream.resume()
+
+          if (next.origin === preview.origin) {
+            forward(`${next.pathname}${next.search}`, redirectsLeft - 1)
+
+            return
+          }
+        }
+
+        const chunks: Buffer[] = []
+
+        upstream.on('data', (chunk: Buffer) => chunks.push(chunk))
+        upstream.on('error', fail)
+        upstream.on('end', () => {
+          response.writeHead(status, {
+            'Content-Type': upstream.headers['content-type'] ?? 'application/octet-stream',
+            ...(vary ? { Vary: vary } : {})
+          })
+
+          response.end(Buffer.concat(chunks))
         })
+      })
 
-        return response.end(body)
-      })
-      .catch(() => {
-        response.writeHead(502).end('Preview unavailable')
-      })
+      upstreamRequest.on('timeout', () => upstreamRequest.destroy())
+      upstreamRequest.on('error', fail)
+      upstreamRequest.end()
+    }
+
+    forward(`${pathname}${search}`, 5)
   })
 
   await new Promise<void>((resolve, reject) => {
