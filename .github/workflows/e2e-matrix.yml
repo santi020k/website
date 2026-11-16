@@ -55,10 +55,10 @@ jobs:
           include-hidden-files: true
           retention-days: 1
 
-  # Each browser project runs in six file-level shards against the same build. With four,
-  # WebKit shards took 33-41 minutes and Mobile Safari ones passed the 45-minute limit.
+  # Each browser project runs in eight file-level shards against the same build.
+  # Six shards left Mobile Safari with unfinished tests at the 40-minute step limit.
   e2e-matrix:
-    name: ${{ matrix.project }} (${{ matrix.shard }}/6)
+    name: ${{ matrix.project }} (${{ matrix.shard }}/8)
     needs: build
     runs-on: ubuntu-latest
     # Slow Ubuntu mirrors can take over 20 minutes to install WebKit dependencies.
@@ -67,7 +67,7 @@ jobs:
       fail-fast: false
       matrix:
         project: [chromium, firefox, webkit, Mobile Chrome, Mobile Safari]
-        shard: [1, 2, 3, 4, 5, 6]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
         include:
           - project: chromium
             browser: chromium
@@ -98,7 +98,7 @@ jobs:
           BROWSER: ${{ matrix.browser }}
       - name: Run the browser project shard
         timeout-minutes: 40
-        run: pnpm exec playwright test --project="$PROJECT" --shard="$SHARD/6" --reporter=line
+        run: pnpm exec playwright test --project="$PROJECT" --shard="$SHARD/8" --reporter=line
         env:
           PROJECT: ${{ matrix.project }}
           SHARD: ${{ matrix.shard }}
