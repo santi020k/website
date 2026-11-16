@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { keyboardNavigationKeys } from './helpers/keyboard'
+
 test('Search presents one evidence list and restores every catalog row on clear', async ({ page }) => {
   await page.goto('/technologies/')
   const input = page.getByRole('searchbox', { name: 'Find a technology' })
@@ -41,7 +43,7 @@ test('Search presents one evidence list and restores every catalog row on clear'
 })
 
 for (const theme of ['light', 'dark'] as const) {
-  test(`Match ledger remains readable and keyboard accessible in ${theme}`, async ({ page }) => {
+  test(`Match ledger remains readable and keyboard accessible in ${theme}`, async ({ page, browserName }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto('/technologies/')
     const input = page.getByRole('searchbox', { name: 'Find a technology' })
@@ -69,11 +71,13 @@ for (const theme of ['light', 'dark'] as const) {
         expect(overflow, `${width}px at ${size}% text`).toEqual([])
       }
     }
+    const keys = keyboardNavigationKeys(browserName)
+
     await input.focus()
-    await page.keyboard.press('Tab')
+    await page.keyboard.press(keys.next)
     await expect(page.locator('[data-technology-opening-actions]').getByRole('link', { name: 'Browse work' })).toBeFocused()
-    await page.keyboard.press('Tab')
-    await page.keyboard.press('Tab')
+    await page.keyboard.press(keys.next)
+    await page.keyboard.press(keys.next)
     const firstResult = results.getByRole('link').first()
 
     await expect(firstResult).toBeFocused()

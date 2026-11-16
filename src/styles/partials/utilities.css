@@ -172,6 +172,8 @@
       overflow-y: auto;
       overscroll-behavior: contain;
       scrollbar-width: thin;
+      /* Leave a reading line clear when native focus scrolling reveals a control. */
+      scroll-padding-block: 2rem;
     }
 
     /* On short viewports the rail scrolls. Fade whichever edge still hides content so a card
@@ -190,6 +192,10 @@
 
       /* A separate rule: minifiers fold the timeline into the shorthand, which browsers reject. */
       html aside[data-reading-rail] { animation-timeline: scroll(self block); }
+
+      /* Native keyboard scrolling may place a focused link against either edge.
+         Keep its text and focus outline fully visible throughout rail navigation. */
+      aside[data-reading-rail]:focus-within { mask-image: none; }
     }
 
     [data-reading-rail-divider] {

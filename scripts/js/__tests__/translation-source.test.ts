@@ -32,4 +32,32 @@ describe('translation source hashes', () => {
 
     expect(results.every(({ recorded }) => recorded !== undefined)).toBe(true)
   })
+
+  test.each([
+    ['closingLinkLabels', 'closingLinks'],
+    ['relatedWritingLabels', 'relatedWriting']
+  ])('tracks English labels behind the %s translation field', (field, source) => {
+    const original = english(`${source}: [{ label: "Original label", href: "/original/" }]`)
+    const base = computeSourceHash(original, [field])
+
+    expect(computeSourceHash(original.replace('Original label', 'Revised label'), [field])).not.toBe(base)
+    expect(computeSourceHash(original.replace('/original/', '/new-destination/'), [field])).toBe(base)
+  })
+
+  test('tracks nested translated copy without asset paths or ordering metadata', () => {
+    const original = english(`coverImage: { src: "./cover.webp", alt: "Cover description" }
+startHere: { order: 1, label: "Start here", reason: "Useful guide" }
+previews:
+  description: "Product previews"
+  linkLabel: "View previews"
+  images: [{ src: "./preview.webp", alt: "Preview description", title: "Desktop", caption: "Product screen" }]`)
+    const fields = ['coverImage', 'startHere', 'previews']
+    const base = computeSourceHash(original, fields)
+
+    for (const text of ['Cover description', 'Start here', 'Useful guide', 'Product previews', 'View previews', 'Preview description', 'Desktop', 'Product screen']) {
+      expect(computeSourceHash(original.replace(text, `${text} revised`), fields)).not.toBe(base)
+    }
+
+    expect(computeSourceHash(original.replaceAll('.webp', '.png').replace('order: 1', 'order: 2'), fields)).toBe(base)
+  })
 })

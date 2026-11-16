@@ -3,7 +3,7 @@ import { glob, readFile, writeFile } from 'node:fs/promises'
 import { join, resolve as resolvePath } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { parseFrontmatter } from './utils/frontmatter.mjs'
+import { isFrontmatter, parseFrontmatter } from './utils/frontmatter.mjs'
 
 /**
  * Spanish translations record which version of the English entry they were written from.
@@ -39,6 +39,39 @@ export const splitFrontmatter = raw => {
 /** @param {string} translationPath */
 export const sourcePathFor = translationPath => translationPath.replace(TRANSLATION, '$1')
 
+/** @param {unknown} value @param {string[]} fields */
+const copyFields = (value, fields) => isFrontmatter(value) ?
+  Object.fromEntries(fields.map(field => [field, value[field] ?? null])) :
+  null
+
+/** Match the copy-only projection used by the translation schemas and merge helpers.
+ * @param {import('./utils/frontmatter.mjs').Frontmatter} data
+ * @param {string} field
+ * @returns {unknown}
+ */
+const sourceCopy = (data, field) => {
+  if (field === 'closingLinkLabels' || field === 'relatedWritingLabels') {
+    const links = data[field === 'closingLinkLabels' ? 'closingLinks' : 'relatedWriting']
+
+    return Array.isArray(links) ? links.map(link => isFrontmatter(link) ? link.label ?? null : null) : null
+  }
+
+  if (field === 'coverImage') return copyFields(data.coverImage, ['alt'])
+
+  if (field === 'startHere') return copyFields(data.startHere, ['label', 'reason'])
+
+  if (field === 'previews' && isFrontmatter(data.previews)) {
+    const { images } = data.previews
+
+    return {
+      ...copyFields(data.previews, ['description', 'linkLabel']),
+      images: Array.isArray(images) ? images.map(image => copyFields(image, ['alt', 'title', 'caption'])) : null
+    }
+  }
+
+  return data[field] ?? null
+}
+
 /**
  * @param {string} englishRaw The English entry's file contents.
  * @param {Iterable<string>} fields Frontmatter fields the translation owns.
@@ -51,7 +84,7 @@ export const computeSourceHash = (englishRaw, fields) => {
   const owned = Object.fromEntries([...new Set(fields)]
     .filter(field => field !== 'sourceHash')
     .sort()
-    .map(field => [field, english.data[field] ?? null]))
+    .map(field => [field, sourceCopy(english.data, field)]))
 
   // Trailing spaces and blank-line runs are formatting, not content.
   const body = english.body.replace(/[\t ]+$/gmu, '').replace(/\n{3,}/gu, '\n\n').trim()
