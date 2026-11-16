@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from '../helpers/accessibility'
+import { waitForFonts } from '../helpers/rendering'
 
 test.describe('Work with me', () => {
   test.beforeEach(async ({ page }) => {
@@ -146,11 +147,29 @@ test.describe('Work with me', () => {
       await expect(page.locator('form[data-whatsapp-intake]')).toBeHidden()
       await expect(page.getByRole('button', { name: 'Open WhatsApp' })).toHaveCount(0)
 
-      const popupPromise = context.waitForEvent('page')
+      const link = page.getByRole('link', { name: 'Open WhatsApp directly', exact: true })
 
-      await page.getByRole('link', { name: 'Open WhatsApp directly', exact: true }).click()
+      await waitForFonts(page)
+      await link.scrollIntoViewIfNeeded()
+      await expect(link).toBeInViewport({ ratio: 1 })
 
-      const popup = await popupPromise
+      // WebKit can finish its scroll command before native smooth scrolling settles.
+      // Poll from the runner: page animation callbacks cannot be relied on with scripts disabled.
+      let previousTop: number | undefined
+
+      await expect.poll(async () => {
+        const top = (await link.boundingBox())?.y
+        const settled = top !== undefined && top === previousTop
+
+        previousTop = top
+
+        return settled
+      }).toBe(true)
+
+      const [popup] = await Promise.all([
+        context.waitForEvent('page'),
+        link.click()
+      ])
 
       await popup.waitForLoadState()
       expect(new URL(popup.url()).origin).toBe('https://wa.me')

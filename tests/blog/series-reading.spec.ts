@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from '../helpers/accessibility'
 import { requireValue } from '../helpers/assertions'
+import { waitForFonts } from '../helpers/rendering'
 
 const ARTICLE = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
 const ESLINT_ARTICLE = '/blog/designing-eslint-packages-teams-actually-adopt/'
@@ -174,8 +175,32 @@ test.describe('Reading index without JavaScript', () => {
   test.use({ javaScriptEnabled: false })
 
   test('opens the first and last chapters with the correct current status', async ({ page }) => {
+    const openReadingIndex = async () => {
+      await page.waitForLoadState('load')
+      await waitForFonts(page)
+      const summary = page.locator('[data-series-fold-summary]')
+
+      await summary.scrollIntoViewIfNeeded()
+      await expect(summary).toBeInViewport({ ratio: 1 })
+
+      // Native smooth scrolling can outlive WebKit's scroll command after navigation.
+      // Observe settled geometry from the runner without scheduling scripts in the page.
+      let previousTop: number | undefined
+
+      await expect.poll(async () => {
+        const top = (await summary.boundingBox())?.y
+        const settled = top !== undefined && top === previousTop
+
+        previousTop = top
+
+        return settled
+      }).toBe(true)
+      await summary.click()
+      await expect(page.locator('[data-series-fold]')).toHaveAttribute('open', '')
+    }
+
     await page.goto(ESLINT_ARTICLE)
-    await page.locator('[data-series-fold-summary]').click()
+    await openReadingIndex()
     const chapters = page.getByRole('navigation', { name: 'Chapters in ESLint in Practice' })
     const links = chapters.getByRole('link')
 
@@ -186,7 +211,7 @@ test.describe('Reading index without JavaScript', () => {
       await link.focus()
       await link.press('Enter')
       await expect(page).toHaveURL(destination)
-      await page.locator('[data-series-fold-summary]').click()
+      await openReadingIndex()
       await expect(links.nth(endpoint)).toHaveAttribute('aria-current', 'step')
       await expect(links.nth(endpoint)).toContainText('Reading now')
       await expect(chapters.locator('[aria-current="step"]')).toHaveCount(1)

@@ -1,8 +1,10 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { keyboardNavigationKeys } from '../helpers/keyboard'
+
 for (const theme of ['light', 'dark'] as const) {
-  test(`Catalog first reflows with an accessible search and shortcuts in ${theme}`, async ({ page }) => {
+  test(`Catalog first reflows with an accessible search and shortcuts in ${theme}`, async ({ page, browserName }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto('/technologies/')
     const opening = page.locator('[data-technology-opening]')
@@ -41,7 +43,7 @@ for (const theme of ['light', 'dark'] as const) {
     })
     await input.focus()
     await expect(input).toHaveCSS('outline-style', 'solid')
-    await page.keyboard.press('Tab')
+    await page.keyboard.press(keyboardNavigationKeys(browserName).next)
     await expect(navigation.getByRole('link').first()).toBeFocused()
     await expect(navigation.getByRole('link').first()).toHaveCSS('outline-style', 'solid')
     const audit = await new AxeBuilder({ page }).include('[data-technology-opening]')

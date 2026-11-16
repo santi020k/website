@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page, test } from '@playwright/test'
 
+import { expectIdleShareAction } from '../helpers/sharing'
+
 const article = '/blog/playwright-accessibility-checks-that-teams-keep-running/'
 const copy = '[data-newsletter-copy]'
 const stubClipboard = async (page: Page, outcome: 'success' | 'failure' | 'missing' = 'success') => {
@@ -104,7 +106,7 @@ test('feed copying survives route swaps without changing article sharing', async
   await stubClipboard(page)
   await page.goto(article)
   await page.locator(copy).click()
-  await expect(page.locator('#copy-link-btn')).toHaveAccessibleName('Copy link')
+  await expectIdleShareAction(page, page.locator('#copy-link-btn'))
   await expect(page.locator('#article-copy-link')).toHaveCount(0)
   await expect(page.locator('#copy-status')).toBeEmpty()
   await page.locator('[data-return-link]').click()

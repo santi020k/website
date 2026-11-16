@@ -1,5 +1,7 @@
 import { expect, type Locator, type Page, test } from '@playwright/test'
 
+import { expectIdleShareAction } from '../helpers/sharing'
+
 const ARTICLE_PATH = '/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/'
 const CODE_COPY_LABEL = 'Copy code to clipboard'
 // The article's one copy action closes the article in its share section.
@@ -154,11 +156,12 @@ for (const viewport of viewports) {
         await expect(tabs.getByRole('button', { name: CODE_COPY_LABEL, exact: true })).toBeVisible()
       }
 
-      await expect(page.getByRole('button', { name: /^(?:Copy|Share) link$/u })).toBeVisible()
+      await expectIdleShareAction(page, page.locator('#copy-link-btn'))
     })
 
     test('keeps the article copy control usable', async ({ page }) => {
       await page.addInitScript(storageKey => {
+        Object.defineProperty(navigator, 'share', { configurable: true, value: undefined })
         const clipboard: Pick<Clipboard, 'writeText'> = {
           writeText: (value: string) => {
             sessionStorage.setItem(storageKey, value)

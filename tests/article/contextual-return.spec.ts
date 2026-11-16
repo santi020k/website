@@ -1,8 +1,12 @@
 import { expect, type Page, test } from '@playwright/test'
 
+import { waitForFonts, waitForReadingRuntime } from '../helpers/rendering'
+
 const article = '/blog/playwright-accessibility-checks-that-teams-keep-running/'
 
 const showClosingReturn = async (page: Page) => {
+  await waitForReadingRuntime(page)
+  await waitForFonts(page)
   await page.locator('[data-return-top]').evaluate(element => {
     scrollTo({ top: element.getBoundingClientRect().bottom + scrollY - innerHeight + 10, behavior: 'instant' })
   })

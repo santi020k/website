@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from '../helpers/accessibility'
+import { waitForReadingRuntime } from '../helpers/rendering'
 
 const article = '/blog/playwright-accessibility-checks-that-teams-keep-running/'
 const section = '#test-the-whole-dialog-focus-cycle'
@@ -28,6 +29,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.emulateMedia({ colorScheme: theme })
     await page.goto(article)
+    await waitForReadingRuntime(page)
     await page.evaluate(() => document.fonts.ready)
     const holder = page.locator('[data-post-mobile-toc]')
     const opener = holder.locator('[data-toc-opener]')

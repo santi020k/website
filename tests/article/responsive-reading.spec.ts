@@ -1,6 +1,8 @@
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, type Locator, type Page, test } from '@playwright/test'
 
+import { waitForReadingRuntime } from '../helpers/rendering'
+
 const LONG_ARTICLE = '/blog/run-repo-on-mac-with-silo-dxmt/'
 const LONG_TITLE_ARTICLE = '/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/'
 
@@ -67,9 +69,7 @@ const openWithEnlargedText = async (page: Page, route: string, fontSize = '200%'
 const settleLayout = async (page: Page) => {
   const progress = page.locator('[data-ui-scroll-progress]')
 
-  // Lumen initializes code scroll cues before the progress controller. Its bound
-  // marker confirms late-loaded cues have entered layout before measuring it.
-  if (await progress.count()) await expect(progress).toHaveAttribute('data-ui-bound', 'true')
+  if (await progress.count()) await waitForReadingRuntime(page)
 
   await page.evaluate(async () => {
     await document.fonts.ready

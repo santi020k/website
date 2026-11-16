@@ -77,6 +77,7 @@ test('search switches languages without reloading and keeps body destinations in
 
 test('Spanish article link recovery keeps a selectable address and translated retry feedback', async ({ page }) => {
   await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'share', { configurable: true, value: undefined })
     Object.defineProperty(navigator, 'clipboard', {
       configurable: true,
       value: { writeText: () => Promise.reject(new DOMException('Blocked', 'NotAllowedError')) }

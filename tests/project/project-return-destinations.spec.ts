@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 import { waitForFonts } from '../helpers/rendering'
+import { expectIdleShareAction } from '../helpers/sharing'
 
 for (const theme of ['light', 'dark']) {
   test(`named return wraps and remains accessible in ${theme}`, async ({ page }) => {
@@ -81,7 +82,10 @@ test('Lumen collects its closing resources once after sharing', async ({ page })
   await expect(page.locator('.prose-project a[href="https://lumen.santi020k.com/"]')).toHaveCount(0)
   await expect(page.locator('.prose-project a[href="https://lumen.santi020k.com/#playgrounds"]')).toHaveCount(0)
   await expect(page.locator('.prose-project a[href="https://github.com/santi020k/lumen"]')).toHaveCount(0)
-  await expect(closing.getByRole('button', { name: 'Copy link', exact: true })).toHaveCount(1)
+  const sharing = closing.locator('#copy-link-btn')
+
+  await expect(sharing).toHaveCount(1)
+  await expectIdleShareAction(page, sharing)
   await expect(page.locator('[data-return-unified]')).toHaveCount(1)
   await page.goto('/portfolio/smith-commerce/')
   await expect(page.locator('[data-return-unified]')).toHaveCount(0)

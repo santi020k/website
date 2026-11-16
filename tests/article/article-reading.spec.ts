@@ -1,6 +1,8 @@
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { expectIdleShareAction } from '../helpers/sharing'
+
 const TABLE_ARTICLE = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
 const CODE_ARTICLE = '/blog/avoid-magic-strings-in-typescript-and-javascript/'
 const UPDATE_ARTICLE = '/blog/dep-beacon-vscode-extension/'
@@ -84,11 +86,10 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto(CODE_ARTICLE)
 
-    // Article sharing has one copy action, in the closing share section.
+    // The closing sharing action follows the browser capability and pointer type.
     const copy = page.locator('#copy-link-btn')
 
-    await expect(copy).toHaveAccessibleName('Copy link')
-    await expect(copy).toContainText('Copy link')
+    await expectIdleShareAction(page, copy)
     await page.locator('[data-ui-code]').first().scrollIntoViewIfNeeded()
 
     const scan = await new AxeBuilder({ page }).include('main').options({
@@ -133,6 +134,7 @@ const clipboardCases = [
 for (const { outcome, label, visible, value, settled } of clipboardCases) {
   test(`article copy feedback includes its visible label when clipboard ${outcome}s`, async ({ page }) => {
     await page.addInitScript(result => {
+      Object.defineProperty(navigator, 'share', { configurable: true, value: undefined })
       Object.defineProperty(navigator, 'clipboard', {
         configurable: true,
         value: {

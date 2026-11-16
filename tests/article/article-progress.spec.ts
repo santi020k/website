@@ -1,14 +1,14 @@
 import { expect, type Page, test } from '@playwright/test'
 
+import { waitForReadingRuntime } from '../helpers/rendering'
+
 const article = '/blog/responsive-design-standards-that-scale-across-components/'
 const nextArticle = '/blog/code-standards-that-scale-with-a-team/'
 
 test.use({ reducedMotion: 'reduce' })
 
 const scrollThroughArticle = async (page: Page, fraction: number) => {
-  // SSR starts at zero before the runtime adds overflow cues and changes the article height.
-  await expect(page.getByRole('progressbar', { name: 'Reading progress', exact: true }))
-    .toHaveAttribute('data-ui-bound', 'true')
+  await waitForReadingRuntime(page)
   await expect.poll(() => page.locator('#article-content').evaluate(async element => {
     await document.fonts.ready
     const before = element.getBoundingClientRect()
@@ -157,7 +157,7 @@ const expectDocumentProgress = async (page: Page) => {
   await page.evaluate(() => document.fonts.ready)
   const progress = page.getByRole('progressbar', { name: 'Reading progress', exact: true })
 
-  await expect(progress).toHaveAttribute('data-ui-bound', 'true')
+  await waitForReadingRuntime(page)
 
   await page.evaluate(() => {
     scrollTo({ top: (document.documentElement.scrollHeight - innerHeight) / 2, behavior: 'instant' })

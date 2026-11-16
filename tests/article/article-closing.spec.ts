@@ -1,6 +1,8 @@
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { expectIdleShareAction } from '../helpers/sharing'
+
 const article = '/blog/responsive-design-standards-that-scale-across-components/'
 const nextKeys = {
   chromium: 'Tab',
@@ -26,7 +28,7 @@ for (const width of [320, 1440]) {
         }, textSize)
         const closing = page.locator('[data-article-closing]')
         const reply = closing.getByRole('link', { name: 'Browse GitHub discussions' })
-        const copy = closing.getByRole('button', { name: 'Copy link', exact: true })
+        const copy = closing.locator('#copy-link-btn')
         const finalReturn = page.locator('[data-post-final-return]')
         const navigation = page.getByRole('navigation', { name: 'Page-end navigation', exact: true })
 
@@ -72,6 +74,7 @@ for (const width of [320, 1440]) {
                 control.scrollWidth <= control.clientWidth + 1
             })
         })).toBe(true)
+        await expectIdleShareAction(page, copy)
         await copy.focus()
         await expect(copy).toBeFocused()
         await expect(copy).toHaveCSS('outline-style', 'solid')

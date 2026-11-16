@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, type Locator, type Page, test } from '@playwright/test'
 
+import { waitForVisibleAnimations } from '../helpers/accessibility'
+
 const setTextSize = async (page: Page, textSize: number) => {
   await page.addInitScript(size => {
     const apply = () => {
@@ -191,6 +193,8 @@ for (const width of [390, 1440]) {
           await expectNewsletterLayout(newsletter, width === 390)
           expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
           await page.emulateMedia({ forcedColors: 'none' })
+          // Restoring authored colors can resume the submit button's transition.
+          await waitForVisibleAnimations(page)
           expect((await new AxeBuilder({ page }).include('[data-newsletter]').analyze()).violations).toEqual([])
         })
       }

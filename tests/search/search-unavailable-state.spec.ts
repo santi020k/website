@@ -26,16 +26,46 @@ for (const theme of ['light', 'dark'] as const) {
         }, size)
         const clipped = await card.evaluate(element => {
           const bounds = element.getBoundingClientRect()
+          let previousTextBottom = bounds.top
 
           return [...element.querySelectorAll('h3, p, button')].some(copy => {
             const range = document.createRange()
 
             range.selectNodeContents(copy)
-            const box = copy.getBoundingClientRect()
+            const rects = [...range.getClientRects()].filter(rect => rect.width > 0)
+            const clipping = {
+              left: Math.max(0, bounds.left),
+              right: Math.min(innerWidth, bounds.right),
+              top: bounds.top,
+              bottom: bounds.bottom
+            }
 
-            return [...range.getClientRects()].some(rect => rect.width > 0 && (
-              rect.left < Math.max(0, bounds.left) - 1 || rect.right > Math.min(innerWidth, bounds.right) + 1 ||
-              rect.top < box.top - 1 || rect.bottom > box.bottom + 1
+            // Visible font metrics may exceed a heading's line box without clipping.
+            for (
+              let ancestor: Element | null = copy;
+              ancestor && ancestor !== element;
+              ancestor = ancestor.parentElement
+            ) {
+              const style = getComputedStyle(ancestor)
+              const box = ancestor.getBoundingClientRect()
+              const isButton = ancestor === copy && copy.matches('button')
+
+              if (isButton || ['hidden', 'clip', 'auto', 'scroll'].includes(style.overflowX)) {
+                clipping.left = Math.max(clipping.left, box.left)
+                clipping.right = Math.min(clipping.right, box.right)
+              }
+              if (isButton || ['hidden', 'clip', 'auto', 'scroll'].includes(style.overflowY)) {
+                clipping.top = Math.max(clipping.top, box.top)
+                clipping.bottom = Math.min(clipping.bottom, box.bottom)
+              }
+            }
+            const overlaps = Math.min(...rects.map(rect => rect.top)) < previousTextBottom - 1
+
+            previousTextBottom = Math.max(...rects.map(rect => rect.bottom))
+
+            return rects.length === 0 || overlaps || rects.some(rect => (
+              rect.left < clipping.left - 1 || rect.right > clipping.right + 1 ||
+              rect.top < clipping.top - 1 || rect.bottom > clipping.bottom + 1
             ))
           })
         })
