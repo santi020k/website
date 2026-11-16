@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 interface JsonFeedItem {
+  content_html?: unknown
   date_published?: unknown
   external_url?: unknown
   id?: unknown
@@ -95,6 +96,35 @@ test.describe('RSS feed', () => {
       expect(item).toMatch(/<dc:creator>(?:Santiago Molina|<!\[CDATA\[Santiago Molina\]\]>)<\/dc:creator>/u)
     }
   })
+
+  test('/feed.xml carries every article in full, as portable HTML', async ({ page }) => {
+    await page.goto('/')
+
+    const items = await page.evaluate(async () => {
+      const feed = new DOMParser().parseFromString(await (await fetch('/feed.xml')).text(), 'application/xml')
+
+      return [...feed.querySelectorAll('item')].map(item => {
+        const encoded = item.getElementsByTagNameNS('http://purl.org/rss/1.0/modules/content/', 'encoded')[0]?.textContent ?? ''
+        const body = new DOMParser().parseFromString(encoded, 'text/html').body
+        const elements = [...body.querySelectorAll('*')]
+
+        return {
+          controls: body.querySelectorAll('button, input, script, style, svg, template').length,
+          relativeUrls: elements.flatMap(element => [element.getAttribute('href'), element.getAttribute('src')])
+            .filter(url => url !== null && !/^(?:https:|mailto:)/u.test(url)),
+          styled: elements.filter(element => [...element.attributes].some(({ name }) => name === 'class' || name === 'style' || name.startsWith('data-'))).length,
+          textLength: body.textContent.trim().length
+        }
+      })
+    })
+
+    expect(items.length).toBeGreaterThan(0)
+
+    for (const item of items) {
+      expect(item).toMatchObject({ controls: 0, relativeUrls: [], styled: 0 })
+      expect(item.textLength).toBeGreaterThan(500)
+    }
+  })
 })
 
 test.describe('JSON Feed', () => {
@@ -119,6 +149,8 @@ test.describe('JSON Feed', () => {
     expect(feed.items[0]).toHaveProperty('image')
     expect(feed.items[0]).toHaveProperty('date_published')
     expect(feed.items.some(item => typeof item.external_url === 'string')).toBe(true)
+    // The full article, the same HTML as the RSS feed's content:encoded.
+    expect(feed.items.every(item => typeof item.content_html === 'string' && item.content_html.length > 500)).toBe(true)
   })
 
   test('home page advertises the JSON feed via <link rel="alternate">', async ({ page }) => {

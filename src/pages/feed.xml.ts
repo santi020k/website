@@ -8,6 +8,7 @@ import { collectionTranslator } from '@/i18n/collection-copy'
 import { siteConfig } from '../site.config'
 import { getCachedPosts } from '../utils/content'
 import { localizePost } from '../utils/content-translations'
+import { renderFeedContent } from '../utils/feed-content'
 import { getPostPath } from '../utils/links'
 
 /**
@@ -37,14 +38,21 @@ export const createRssFeed = async (context: APIContext, locale: Locale) => {
     site: context.site ?? 'https://santi020k.com/',
     xmlns: { dc: 'http://purl.org/dc/elements/1.1/' },
     customData: `<language>${localeLanguage(locale)}</language>`,
-    items: posts.map(post => ({
-      title: post.data.title,
-      description: post.data.description,
-      pubDate: post.data.publishDate,
-      link: localizePath(getPostPath(post.id), locale),
-      categories: post.data.tags,
-      // RSS 2.0 <author> must be an email address; dc:creator carries the name.
-      customData: `<dc:creator><![CDATA[${escapeCdata(siteConfig.author)}]]></dc:creator>`
+    items: await Promise.all(posts.map(async post => {
+      const link = localizePath(getPostPath(post.id), locale)
+      // The whole article, so readers and the newsletter's RSS-to-email do not stop at the summary.
+      const content = await renderFeedContent(post, locale, new URL(link, context.site ?? 'https://santi020k.com/'))
+
+      return {
+        title: post.data.title,
+        description: post.data.description,
+        ...(content ? { content } : {}),
+        pubDate: post.data.publishDate,
+        link,
+        categories: post.data.tags,
+        // RSS 2.0 <author> must be an email address; dc:creator carries the name.
+        customData: `<dc:creator><![CDATA[${escapeCdata(siteConfig.author)}]]></dc:creator>`
+      }
     }))
   })
 }

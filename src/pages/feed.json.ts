@@ -6,12 +6,14 @@ import { collectionTranslator } from '@/i18n/collection-copy'
 
 import { ogManifest } from '../data/og-manifest'
 import { siteConfig } from '../site.config'
+import { renderFeedContent } from '../utils/feed-content'
 import { getPostPath } from '../utils/links'
 import { getSocialImageURL } from '../utils/social-image'
 
 import { getFeedPosts } from './feed.xml'
 
 const jsonFeedKeys = {
+  contentHtml: 'content_html',
   contentText: 'content_text',
   dateModified: 'date_modified',
   datePublished: 'date_published',
@@ -44,9 +46,10 @@ export const createJsonFeed = async (context: APIContext, locale: Locale) => {
         url: site
       }
     ],
-    items: posts.map(post => {
+    items: await Promise.all(posts.map(async post => {
       const postPath = localizePath(getPostPath(post.id), locale)
       const postUrl = new URL(postPath, site).toString()
+      const content = await renderFeedContent(post, locale, new URL(postUrl))
 
       return {
         id: postUrl,
@@ -56,14 +59,14 @@ export const createJsonFeed = async (context: APIContext, locale: Locale) => {
           {}),
         title: post.data.title,
         summary: post.data.description,
-        [jsonFeedKeys.contentText]: post.data.description,
+        ...(content ? { [jsonFeedKeys.contentHtml]: content } : { [jsonFeedKeys.contentText]: post.data.description }),
         image: getSocialImageURL(postPath, site, undefined, ogManifest),
         [jsonFeedKeys.datePublished]: post.data.publishDate.toISOString(),
         ...(post.data.updatedDate ? { [jsonFeedKeys.dateModified]: post.data.updatedDate.toISOString() } : {}),
         tags: post.data.tags,
         authors: [{ name: siteConfig.author }]
       }
-    })
+    }))
   }
 
   return new Response(JSON.stringify(feed, null, 2), {
