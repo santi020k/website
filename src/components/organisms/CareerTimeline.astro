@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from 'astro'
+
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
@@ -45,6 +47,28 @@ const careerItems = projects.map((project, index) => ({
   startYear: getFormattedDate(project.data.startingDate, { day: undefined, month: undefined, year: 'numeric' }),
   technologies: sortTechnologiesByInterest(project.data.technologies).slice(0, 3)
 }))
+
+const getLogoSources = (logo: ImageMetadata, companyId: string, isTall: boolean) => {
+  // Match the contained mark, including the existing optical corrections, rather
+  // than the wider image box. The 9rem panel becomes 7.5rem below 48rem of content.
+  const imageWidth = companyId === 'tedx-medellin' ? 0.78 : 0.82
+  const imageHeight = isTall ? 0.66 : 0.68
+  let opticalScale = 1
+
+  if (companyId === 'tedx-medellin') opticalScale = 1.2
+
+  if (companyId === 'nebular') opticalScale = 1.35
+
+  const wideWidth = Math.min(9 * imageWidth, 6 * imageHeight * logo.width / logo.height) * opticalScale
+  const compactWidth = wideWidth * 7.5 / 9
+  const widths = [...new Set([compactWidth, wideWidth].flatMap(width => [1, 2, 3].map(density => Math.min(logo.width, Math.ceil(width * 16 * density)))))].sort((first, second) => first - second)
+
+  return {
+    // /work/ adds 3rem of page gutters at the timeline's 48rem breakpoint.
+    sizes: `(min-width: 51rem) ${wideWidth.toFixed(4)}rem, ${compactWidth.toFixed(4)}rem`,
+    widths
+  }
+}
 ---
 
 <Timeline data-career-timeline aria-label={t('collection.professionalExperienceNewestFirst')}>
@@ -63,7 +87,7 @@ style={getProjectBrandStyle(item.brand)}
         <Card as="div" variant="unstyled" data-career-folio>
           {item.logo && (
             <div data-career-identity data-company={item.companyId} data-logo-aspect={item.logoAspect} data-logo-surface={item.logoSurface}>
-              <Image alt="" src={item.logo} width={Math.min(item.logo.width, 320)} loading="lazy" format="webp" sizes="(min-width: 768px) 116px, 100px" />
+              <Image alt="" src={item.logo} width={Math.min(item.logo.width, 320)} loading="lazy" format="webp" {...getLogoSources(item.logo, item.companyId, item.logoAspect === 'tall')} />
             </div>
           )}
           <div data-career-content>
