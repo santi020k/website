@@ -53,11 +53,10 @@ test('the launched PostLens state connects to the new article and preserves the 
   const cover = page.locator('[data-post-cover] img')
 
   await expect(cover).toBeVisible()
-  const loaded = await cover.evaluate(image => (
+  await expect.poll(() => cover.evaluate(image => (
     image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0
-  ))
+  ))).toBe(true)
 
-  expect(loaded).toBe(true)
   await page.goto('/blog/postlens-private-on-device-content-studio/')
   await expect(page.locator('[data-article-update-note]')).toContainText('PostLens 2 is now live')
   await expect(page.locator('[data-article-update-note] a')).toHaveAttribute('href', launchPath)
