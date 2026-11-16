@@ -14,6 +14,8 @@ export const createOfflinePreview = async (
 ) => {
   if (!baseURL) throw new Error('Missing test preview URL')
 
+  const previewOrigin = new URL(baseURL).origin
+
   let online = true
   let stalled = false
   let responseStatus: number | undefined
@@ -58,7 +60,16 @@ export const createOfflinePreview = async (
       return
     }
 
-    void fetch(new URL(request.url ?? '/', baseURL), { signal: AbortSignal.timeout(10_000) })
+    // Only forward paths on the preview origin; an absolute request URL would otherwise replace it.
+    const upstreamURL = new URL(request.url ?? '/', previewOrigin)
+
+    if (upstreamURL.origin !== previewOrigin) {
+      response.writeHead(400).end('Preview only proxies its own origin')
+
+      return
+    }
+
+    void fetch(upstreamURL, { signal: AbortSignal.timeout(10_000) })
       .then(async upstream => {
         const body = Buffer.from(await upstream.arrayBuffer())
 
