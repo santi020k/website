@@ -14,6 +14,7 @@ export const createOfflinePreview = async (
 ) => {
   if (!baseURL) throw new Error('Missing test preview URL')
 
+  const previewURL = new URL(baseURL)
   let online = true
   let stalled = false
   let responseStatus: number | undefined
@@ -50,7 +51,16 @@ export const createOfflinePreview = async (
       return
     }
 
-    const destination = redirects[request.url ?? '/']
+    const requestTarget = request.url ?? '/'
+
+    // Accept origin-form targets only; a request must never select the proxy's host.
+    if (!requestTarget.startsWith('/') || requestTarget.startsWith('//') || requestTarget.includes('\\')) {
+      response.writeHead(400).end('Invalid preview path')
+
+      return
+    }
+
+    const destination = redirects[requestTarget]
 
     if (destination) {
       response.writeHead(302, { Location: destination }).end()
@@ -58,7 +68,13 @@ export const createOfflinePreview = async (
       return
     }
 
-    void fetch(new URL(request.url ?? '/', baseURL), { signal: AbortSignal.timeout(10_000) })
+    const upstreamURL = new URL(previewURL)
+    const queryIndex = requestTarget.indexOf('?')
+
+    upstreamURL.pathname = queryIndex < 0 ? requestTarget : requestTarget.slice(0, queryIndex)
+    upstreamURL.search = queryIndex < 0 ? '' : requestTarget.slice(queryIndex)
+
+    void fetch(upstreamURL, { redirect: 'error', signal: AbortSignal.timeout(10_000) })
       .then(async upstream => {
         const body = Buffer.from(await upstream.arrayBuffer())
 
