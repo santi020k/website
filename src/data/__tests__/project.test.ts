@@ -5,6 +5,7 @@ import { getTechnologySlug } from '@/utils/links'
 import { describe, expect, test } from 'vitest'
 
 import {
+  createProjectCollectionSchema,
   getAllTechnologies,
   getTechnologyConnections,
   getTechnologyEntryCounts,
@@ -58,6 +59,58 @@ const makeProjects = (technologies: string[][]) => technologies.map((projectTech
   id: `project-${index + 1}`,
   technologies: projectTechnologies
 }))
+
+describe('createProjectCollectionSchema', () => {
+  for (const locale of ['en', 'es'] as const) {
+    test.each(['/projects/', '/work/', '/technologies/typescript/2/'])('uses the %s collection path in ' + locale, path => {
+      const prefix = locale === 'es' ? '/es' : ''
+      const project = makeProject({ id: 'project-example', title: 'Project example' })
+
+      expect(createProjectCollectionSchema('Projects', path, [project], new URL('https://santi020k.com'), locale)).toEqual({
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Projects',
+        url: `https://santi020k.com${prefix}${path}`,
+        mainEntity: {
+          '@type': 'ItemList',
+          numberOfItems: 1,
+          itemListElement: [{
+            '@type': 'ListItem',
+            name: 'Project example',
+            position: 1,
+            url: `https://santi020k.com${prefix}/portfolio/project-example/`
+          }]
+        }
+      })
+    })
+  }
+
+  test('preserves localized and fallback titles while localizing every item destination', () => {
+    const projects = [
+      makeProject({ id: 'translated', title: 'Proyecto traducido', contentLocale: 'es' }),
+      makeProject({ id: 'fallback', title: 'English fallback' })
+    ]
+    const original = structuredClone(projects)
+
+    expect(createProjectCollectionSchema('Proyectos', '/es/technologies/typescript/2/', projects, new URL('https://santi020k.com'), 'es')).toMatchObject({
+      url: 'https://santi020k.com/es/technologies/typescript/2/',
+      mainEntity: {
+        numberOfItems: 2,
+        itemListElement: [
+          { name: 'Proyecto traducido', position: 1, url: 'https://santi020k.com/es/portfolio/translated/' },
+          { name: 'English fallback', position: 2, url: 'https://santi020k.com/es/portfolio/fallback/' }
+        ]
+      }
+    })
+    expect(projects).toEqual(original)
+  })
+
+  test('represents an empty collection without inventing items', () => {
+    expect(createProjectCollectionSchema('Projects', '/projects/', [], new URL('https://santi020k.com'), 'en')).toMatchObject({
+      mainEntity: { numberOfItems: 0, itemListElement: [] }
+    })
+  })
+})
 
 describe('getTechnologyConnections', () => {
   test('counts shared entries, deduplicates aliases, excludes the archive itself and sorts ties by slug', () => {

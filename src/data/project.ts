@@ -2,6 +2,8 @@ import type { CollectionEntry } from 'astro:content'
 
 import { getPortfolioPath, getTechnologySlug } from '@/utils/links'
 
+import { type Locale, localizePath } from '@/i18n'
+
 /** returns all technologies created from projects (inc duplicate technologies)
  *  Note: This function doesn't filter draft projects, pass published entries from getCachedProjects.
  *  */
@@ -37,17 +39,18 @@ const getPreferredTechnologyLabel = (labels: string[], slug?: string) => {
 export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) => [...groupTechnologyLabels(getAllTechnologies(projects))]
   .map(([slug, labels]) => getPreferredTechnologyLabel(labels, slug))
 
-/** Builds the schema.org CollectionPage + ItemList structured data for a project list page. */
+/** Build a localized collection schema from the same entries used by the visible cards. */
 export const createProjectCollectionSchema = (
   name: string,
   path: string,
   projects: CollectionEntry<'project'>[],
-  site: URL | undefined
+  site: URL | undefined,
+  locale: Locale
 ): Record<string, unknown> => ({
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   name,
-  url: new URL(path, site).href,
+  url: new URL(localizePath(path, locale), site).href,
   mainEntity: {
     '@type': 'ItemList',
     numberOfItems: projects.length,
@@ -55,7 +58,7 @@ export const createProjectCollectionSchema = (
       '@type': 'ListItem',
       name: project.data.title,
       position: index + 1,
-      url: new URL(getPortfolioPath(project.id), site).href
+      url: new URL(localizePath(getPortfolioPath(project.id), locale), site).href
     }))
   }
 })

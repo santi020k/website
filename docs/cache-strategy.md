@@ -76,6 +76,12 @@ use `/offline/`. Dotted technology aliases read only their exact cached copy bef
 never a slash alias. A file opened in a tab, such as `/robots.txt`, `/favicon.svg`, or an `/_astro/`
 image, falls back only to its exact cached response, then a network error; at the header deadline it
 keeps waiting when uncached.
+
+For an HTTP 5xx page response, the worker serves the matching cached document when available,
+including the same slash alias described below. Without that document, it returns the original
+server response; it never substitutes the offline shell for a resolved server error. HTTP 4xx
+responses, including fresh 404 pages, and non-page downloads or data retain their network responses.
+
 Only successful, non-redirected responses
 are stored: browsers reject a cached followed redirect for a navigation, so caching one would turn
 an offline visit to that URL into a network error instead of the offline document.
@@ -85,12 +91,13 @@ follow directly. Native navigations, cross-origin destinations, and other browse
 original responses.
 
 Internal links end in `/`, but a typed or externally shared `/about` still arrives as a document
-navigation to the bare path. Only on that offline fallback (network failure or the header
+navigation to the bare path. During recovery (network failure, HTTP 5xx, or the header
 deadline), a navigation to a path with no file extension or trailing slash first reads its exact
 cache key, then the query-free `/about/` page with the original request headers for `Vary`
-matching, and only then `/offline/`. The cached document is returned directly, so the address bar
-keeps the original path and query; the worker does not synthesize a redirect, which on a slow
-connection would wait on another network request. Online behavior is unchanged: the original
+matching. Network failure or the header deadline can then use `/offline/`; HTTP 5xx keeps the
+original error response when both document keys miss. The cached document is returned directly, so
+the address bar keeps the original path and query; the worker does not synthesize a redirect, which on a slow
+connection would wait on another network request. Successful online behavior is unchanged: the original
 request goes to the network as before, and a redirected response is still never stored. Ordinary
 `fetch()` requests, paths with a file extension (including `.html`, PDFs, data, and assets),
 `Range` requests, historical apps, and APIs never use this alias.

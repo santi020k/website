@@ -16,6 +16,7 @@ export const createOfflinePreview = async (
 
   let online = true
   let stalled = false
+  let responseStatus: number | undefined
   let heldRequests = 0
   const stalledResponses = new Set<ServerResponse>()
 
@@ -28,6 +29,12 @@ export const createOfflinePreview = async (
   const server = createServer((request, response) => {
     if (!online) {
       request.socket.destroy()
+
+      return
+    }
+
+    if (responseStatus !== undefined) {
+      response.writeHead(responseStatus, { 'Content-Type': 'text/plain' }).end(`Preview response ${responseStatus}`)
 
       return
     }
@@ -86,6 +93,9 @@ export const createOfflinePreview = async (
     url: `http://${hostname}:${address.port}`,
     setOnline: (value: boolean) => {
       online = value
+    },
+    setResponseStatus: (value: number | undefined) => {
+      responseStatus = value
     },
     // Held requests are dropped when stalling ends or the preview closes.
     setStalled: (value: boolean) => {

@@ -20,6 +20,13 @@ const blogSchema = z.object({
   url: z.url(),
   blogPost: z.array(blogPostSchema).min(1)
 })
+const projectCollectionSchema = z.object({
+  url: z.url(),
+  mainEntity: z.object({
+    numberOfItems: z.number().int().positive(),
+    itemListElement: z.array(listItemSchema).min(1)
+  })
+})
 
 const readSchemas = async (page: Page, type: string) => {
   const contents = await page.locator('script[type="application/ld+json"]').allTextContents()
@@ -38,6 +45,36 @@ test.describe('localized collection structured data', () => {
 
   for (const prefix of ['', '/es']) {
     const articlePath = prefix ? /^\/es\/blog\//u : /^\/blog\//u
+
+    for (const { route, cards, link } of [
+      { route: '/projects/', cards: '[data-project-gallery-card]', link: '[data-project-case-study]' },
+      { route: '/work/', cards: '[data-career-row]', link: '[data-career-link]' },
+      { route: '/technologies/typescript/', cards: '[data-project-gallery-card]', link: 'a.projects-editorial-link' }
+    ]) {
+      test(`${prefix || 'English'} ${route} schema matches its visible project destinations`, async ({ page }) => {
+        const path = `${prefix}${route}`
+
+        await page.goto(path)
+
+        const [collection] = z.tuple([projectCollectionSchema]).parse(await readSchemas(page, 'CollectionPage'))
+        const visibleEntries = await page.locator(cards).evaluateAll((elements, options) => elements.map(card => ({
+          name: card.querySelector('h3')?.textContent.trim(),
+          url: new URL(card.querySelector(options.link)?.getAttribute('href') ?? '', options.origin).href
+        })), { link, origin })
+
+        expect(collection.url).toBe(`${origin}${path}`)
+        expect(collection.mainEntity.numberOfItems).toBe(visibleEntries.length)
+        expect(collection.mainEntity.itemListElement).toHaveLength(visibleEntries.length)
+        expect(collection.mainEntity.itemListElement.map(({ name, url }) => ({ name, url })))
+          .toEqual(expect.arrayContaining(visibleEntries))
+        expect(collection.mainEntity.itemListElement.map(item => item.position))
+          .toEqual(Array.from({ length: visibleEntries.length }, (_, index) => index + 1))
+
+        for (const item of collection.mainEntity.itemListElement) {
+          expect(new URL(item.url).pathname.startsWith('/es/')).toBe(prefix === '/es')
+        }
+      })
+    }
 
     for (const archive of ['', '2/']) {
       test(`${prefix || 'English'} blog ${archive || 'first page'} schema matches its article cards`, async ({ page }) => {

@@ -104,9 +104,9 @@ const isPagePath = url => !isFilePath(url) || url.pathname.endsWith('.html') ||
   url.pathname.startsWith('/technologies/')
 
 // A typed or externally shared `/about` still reaches the worker as a document
-// navigation, while the site caches its trailing-slash route. On network failure
-// or the header deadline, a path without a file extension may read the query-free
-// `/about/` copy after its exact key misses. The address bar keeps
+// navigation, while the site caches its trailing-slash route. On network failure,
+// a server error, or the header deadline, a path without a file extension may read
+// the query-free `/about/` copy after its exact key misses. The address bar keeps
 // the original URL; a synthesized redirect would wait on the network again.
 /**
  * @param {Request} request
@@ -204,14 +204,14 @@ const fetchAndCache = (request, cacheKey = request) => {
 const networkFirst = (request, pageFallback = false, cacheKey = request) => {
   const network = fetchAndCache(request, cacheKey)
 
-  const matchFallback = async () => {
+  const matchFallback = async (includeOfflinePage = true) => {
     const cache = await network.cache
     // Read only after the exact key misses, and never stored.
     const aliasKey = pageFallback ? slashPageAlias(request, new URL(request.url)) : undefined
 
     return (await matchCached(cache, cacheKey)) ??
       (aliasKey ? await matchCached(cache, aliasKey) : undefined) ??
-      (pageFallback ?
+      (pageFallback && includeOfflinePage ?
         await matchCached(cache, /^\/es(?:\/|$)/.test(new URL(request.url).pathname) ?
           '/es/offline/' :
           '/offline/') :
@@ -245,6 +245,12 @@ const networkFirst = (request, pageFallback = false, cacheKey = request) => {
         if (needsFollowedRedirectWorkaround && pageFallback && request.redirect === 'follow' && result.redirected &&
           result.url && new URL(result.url).origin === self.location.origin) {
           return Response.redirect(result.url)
+        }
+
+        // A temporary server failure can reuse the requested page, but a cache
+        // miss must retain the server response rather than an offline document.
+        if (pageFallback && result.status >= 500) {
+          return matchFallback(false).then(cached => cached ?? result)
         }
 
         return result
