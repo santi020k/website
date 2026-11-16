@@ -12,4 +12,5 @@ const { code, codeLabel, label, language } = Astro.props
 const html = await renderArticleCode({ code, codeLabel, label, language })
 ---
 
+{/* astro-doctor-ignore-next-line astro/no-unsafe-set-html -- markup from the site's own code highlighter; source text enters as an escaped Markdown code node */}
 <Fragment set:html={html} />
