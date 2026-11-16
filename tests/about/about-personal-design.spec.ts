@@ -161,7 +161,12 @@ test.describe('About personal chapter without JavaScript', () => {
       await page.goto(route)
       for (const group of await page.locator(motionGroups).all()) await expectPainted(group)
       await expect(page.locator('#about-recommendations blockquote')).toHaveText(getTestimonials(locale).map(({ quote }) => `“${quote}”`))
-      await page.locator('#about-guide').getByRole('link', { name: lifeLabel, exact: true }).focus()
+      const chapterLink = page.locator('#about-guide').getByRole('link', { name: lifeLabel, exact: true })
+
+      // Complete the setup scroll before native activation starts its own smooth scroll.
+      await chapterLink.scrollIntoViewIfNeeded()
+      await chapterLink.focus()
+      await expect(chapterLink).toBeFocused()
       await page.keyboard.press('Enter')
       await expect(page).toHaveURL(`${route}#about-life`)
       await expect(page.locator('#about-life-heading')).toBeInViewport()

@@ -56,6 +56,34 @@ const setTheme = newTheme => {
   })
 }
 
+// Preserve the displayed theme until Lumen handles this click. Its lazy binding can
+// restore an older or legacy stored preference before replaying the interaction.
+/** @type {WeakMap<HTMLButtonElement, 'santi020k-light' | 'santi020k-dark'>} */
+const pendingThemeClicks = new WeakMap()
+
+document.addEventListener('click', event => {
+  if (!(event.target instanceof Element)) return
+
+  const control = event.target.closest('[data-theme-toggle-btn]')
+  const theme = normalizeTheme(document.documentElement.getAttribute('data-theme'))
+
+  if (!(control instanceof HTMLButtonElement) || !theme) return
+
+  if (pendingThemeClicks.has(control)) {
+    if (event.isTrusted) pendingThemeClicks.set(control, theme)
+
+    return
+  }
+
+  pendingThemeClicks.set(control, theme)
+
+  control.addEventListener('click', () => {
+    setTheme(pendingThemeClicks.get(control))
+
+    pendingThemeClicks.delete(control)
+  }, { capture: true, once: true })
+}, true)
+
 // initial setup
 setTheme(getUserPref())
 
