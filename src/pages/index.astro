@@ -10,6 +10,7 @@ import HomeWriting from '@/components/pages/home/HomeWriting.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
+import { localizePost, localizeProject } from '@/utils/content-translations'
 import { collectionRelevanceSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 import { getStartHerePosts } from '@/utils/start-here'
@@ -32,23 +33,26 @@ const t = pageTranslator(pageLocale)
 const { workWithMeFaq } = getLocalizedWorkWithMe(pageLocale)
 const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
 
-const workProjects = allProjects
+const workProjects = await Promise.all(allProjects
   .filter(project => project.data.typesId === 'professional')
   .sort(collectionRelevanceSortProjects)
   .slice(0, 4)
+  .map(project => localizeProject(project, pageLocale)))
 
-const personalProjects = allProjects
+const personalProjects = await Promise.all(allProjects
   .filter(project => project.data.typesId === 'personal')
   .sort(collectionRelevanceSortProjects)
   .slice(0, 4)
+  .map(project => localizeProject(project, pageLocale)))
 
 const startHerePosts = getStartHerePosts(allPosts)
 const startHerePostIds = new Set(startHerePosts.map(post => post.id))
 
-const latestPosts = allPosts
+const latestPosts = await Promise.all(allPosts
   .filter(post => !startHerePostIds.has(post.id))
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 4)
+  .map(post => localizePost(post, pageLocale)))
 
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 

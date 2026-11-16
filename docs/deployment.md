@@ -55,6 +55,23 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
 
 Editing those defaults: update [`public/_headers`](../public/_headers) and [`public/_redirects`](../public/_redirects) directly. Do not maintain a separate `vercel.json` — the project no longer targets Vercel.
 
+### Localized missing pages
+
+Cloudflare Pages serves the nearest parent directory's `404.html` for a missing path.
+Astro emits the English fallback at `dist/404.html`, but treats `/es/404/` as a regular
+page at `dist/es/404/index.html`. The [localized error-page generator](../scripts/js/generate-localized-error-pages.mjs)
+copies that Spanish document to `dist/es/404.html`, preserving both the direct route and English fallback.
+The step runs before the script policy so the copied HTML receives the same CSP and
+passes the normal build audits. Both Spanish error documents retain `noindex`; neither
+is added to the sitemap or Pagefind search index.
+
+Astro's local preview always uses the root `404.html` for missing paths and does not
+implement Cloudflare's directory fallback. On a Cloudflare preview deployment or after
+an authorized production deployment, request `/es/missing-page-check/` and
+`/es/blog/missing-page-check/`: both must return HTTP 404, Spanish recovery copy, and
+links to Spanish destinations. `/missing-page-check/` must retain the English recovery
+page and HTTP 404. Visiting `/es/404/` directly alone does not verify this behavior.
+
 ### Redirect validation and canonical hosts
 
 The redirect generator places all exact paths before wildcard and placeholder rules,

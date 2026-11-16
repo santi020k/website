@@ -50,11 +50,11 @@ interface Props {
 }
 
 const { allTagsData, page } = Astro.props
+const posts = await Promise.all(page.data.map(post => localizePost(post, locale)))
 const isFirstPage = page.currentPage === 1
 const activeSeries = (await getSeriesSummaries(locale)).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const topTags = getBlogBrowseTags(allTagsData)
-const firstPost = page.data[0]
-const latestPost = isFirstPage && firstPost ? await localizePost(firstPost, locale) : null
+const latestPost = isFirstPage ? posts[0] ?? null : null
 const coverSource = latestPost?.data.coverImage?.src
 
 const cover = coverSource ?
@@ -78,15 +78,15 @@ const blogListSchema = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
   name: t('collection.personalBlogSantiagoMolina'),
-  url: new URL('/blog/', Astro.site).href,
-  blogPost: page.data.map((post, index) => ({
+  url: new URL(localizePath('/blog/', locale), Astro.site).href,
+  blogPost: posts.map((post, index) => ({
     '@type': 'BlogPosting',
     position: index + 1,
     headline: post.data.title,
     description: post.data.description,
     datePublished: post.data.publishDate.toISOString(),
     ...(post.data.updatedDate ? { dateModified: post.data.updatedDate.toISOString() } : {}),
-    url: new URL(getPostPath(post.id), Astro.site).href,
+    url: new URL(localizePath(getPostPath(post.id), locale), Astro.site).href,
     author: createAuthorSchema(Astro.site)
   }))
 }
@@ -175,7 +175,7 @@ const blogListSchema = {
     >
       <TagFilter tags={topTags} totalTopics={allTagsData.length} />
 
-      <PostsGallery posts={page.data} />
+      <PostsGallery posts={posts} />
 
       <div class="pt-2">
         <Pagination page={page} />

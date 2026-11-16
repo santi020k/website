@@ -84,16 +84,28 @@ test('purpose links support keyboard navigation and retain all projects', async 
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false, reducedMotion: 'reduce' })
 
-  test('purpose links and every project remain available', async ({ page }) => {
-    await page.goto('/projects/')
-    const navigation = page.locator('[data-projects-page]').getByRole('navigation', { name: 'Browse projects by purpose' })
-    await navigation.getByRole('link', { name: /Experiments/u }).click()
-    await expect(page).toHaveURL(/\/projects\/#experiments$/u)
-    const experiment = page.getByRole('region', { name: 'Experiments', exact: true })
-    await expect(experiment.getByRole('heading', { name: 'santi020k auth', level: 3 })).toBeVisible()
-    await expect(page.locator('[data-project-gallery-card]')).toHaveCount(14)
-    await experiment.getByRole('link', { name: 'Read the case study: santi020k auth', exact: true }).click()
-    await expect(page).toHaveURL(/\/portfolio\/auth\/$/u)
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('santi020k auth')
-  })
+  for (const { prefix, navigationLabel, experimentLabel, caseStudyLabel } of [
+    { prefix: '', navigationLabel: 'Browse projects by purpose', experimentLabel: 'Experiments', caseStudyLabel: 'Read the case study' },
+    { prefix: '/es', navigationLabel: 'Explorar proyectos por propósito', experimentLabel: 'Experimentos', caseStudyLabel: 'Leer el caso de estudio' }
+  ]) {
+    test(`purpose links and every project remain available with localized accessible names at ${prefix || '/'}`, async ({ page }) => {
+      await page.goto(`${prefix}/projects/`)
+      const navigation = page.locator('[data-projects-page]').getByRole('navigation', { name: navigationLabel })
+      await navigation.getByRole('link', { name: new RegExp(experimentLabel, 'u') }).click()
+      await expect(page).toHaveURL(`${prefix}/projects/#experiments`)
+      const experiment = page.getByRole('region', { name: experimentLabel, exact: true })
+      await expect(experiment.getByRole('heading', { name: 'santi020k auth', level: 3 })).toBeVisible()
+      const cards = page.locator('[data-project-gallery-card]')
+      await expect(cards).toHaveCount(14)
+      for (const card of await cards.all()) {
+        const title = await card.getByRole('heading', { level: 3 }).innerText()
+        const link = card.locator('[data-project-case-study]')
+        await expect(link).toHaveText(caseStudyLabel)
+        await expect(link).toHaveAccessibleName(`${caseStudyLabel}: ${title}`)
+      }
+      await experiment.getByRole('link', { name: `${caseStudyLabel}: santi020k auth`, exact: true }).click()
+      await expect(page).toHaveURL(`${prefix}/portfolio/auth/`)
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText('santi020k auth')
+    })
+  }
 })

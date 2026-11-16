@@ -14,6 +14,7 @@ export const articleMessages = {
   'article.references.repository': { en: 'Repository', es: 'Repositorio' },
   'article.references.earlierArticle': { en: 'Earlier article', es: 'Artículo anterior' },
   'article.references.anotherSeries': { en: 'Another series', es: 'Otra serie' },
+  'article.printReferences': { en: 'References', es: 'Referencias' },
   'article.printReference': { en: 'Reference {number}', es: 'Referencia {number}' },
   'article.anonymous': { en: 'Anonymous', es: 'Anónimo' },
   'article.codeCopiedToClipboard': { en: 'Code copied to clipboard', es: 'Código copiado al portapapeles' },

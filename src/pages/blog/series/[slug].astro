@@ -42,13 +42,13 @@ export interface Props {
   series: CollectionEntry<'series'>
 }
 
-const { postCount, posts, series } = Astro.props
+const { postCount, posts: originalPosts, series } = Astro.props
+const posts = await Promise.all(originalPosts.map(post => localizePost(post, locale)))
 const { Content } = await render(series)
 const metaTitle = series.data.seoTitle ?? series.data.title
 const metaDescription = series.data.seoDescription ?? series.data.description
 const heroTitle = series.data.title.trimEnd()
-const originalFirstPost = posts[0]
-const firstPost = originalFirstPost ? await localizePost(originalFirstPost, locale) : undefined
+const firstPost = posts[0]
 
 const breadcrumbs = [
   { name: t('nav.home'), url: localizePath('/', locale) },
@@ -64,7 +64,7 @@ const structuredData: Record<string, unknown> = {
     '@type': 'BlogPosting',
     name: post.data.title,
     position: index + 1,
-    url: new URL(getPostPath(post.id), Astro.site).href
+    url: new URL(localizePath(getPostPath(post.id), locale), Astro.site).href
   })),
   name: metaTitle,
   url: new URL(Astro.url.pathname, Astro.site).href

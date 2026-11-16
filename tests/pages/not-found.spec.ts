@@ -97,3 +97,22 @@ test.describe('404 page', () => {
     })
   }
 })
+
+// Astro preview serves these files directly; Cloudflare deployment smoke checks
+// verify that missing Spanish paths select the localized directory fallback.
+for (const route of ['/es/404/', '/es/404.html']) {
+  test(`Spanish recovery document preserves its locale at ${route}`, async ({ page }) => {
+    await page.goto(route)
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'es-419')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Esta página se salió de órbita.')
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/u)
+    await expect(page.getByRole('link', { name: 'Volver al inicio', exact: true })).toHaveAttribute('href', '/es/')
+
+    const suggestions = page.getByRole('navigation', { name: 'Prueba estas opciones', exact: true })
+
+    for (const destination of ['portfolio', 'blog', 'about']) {
+      await expect(suggestions.locator(`a[href="/es/${destination}/"]`)).toBeVisible()
+    }
+  })
+}
