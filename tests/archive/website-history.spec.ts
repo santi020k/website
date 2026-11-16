@@ -91,7 +91,8 @@ test('phone widths use touch-sized chapter rows and a stacked current exhibit', 
   const exhibit = page.locator('#v5 .history-captures')
   const desktopBottom = await exhibit.locator('.history-desktop').evaluate(figure => figure.getBoundingClientRect().bottom)
   const mobileTop = await exhibit.locator('.history-mobile').evaluate(figure => figure.getBoundingClientRect().top)
-  expect(mobileTop - desktopBottom).toBeGreaterThanOrEqual(24)
+  // Fractional document coordinates can subtract to just below a whole CSS pixel.
+  expect(Math.round(mobileTop - desktopBottom)).toBeGreaterThanOrEqual(24)
 
   const actionHeight = await page.locator('#v5 [data-history-era-action]').evaluate(action => action.getBoundingClientRect().height)
   expect(actionHeight).toBeGreaterThanOrEqual(44)

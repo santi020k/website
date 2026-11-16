@@ -43,7 +43,7 @@ test('search switches languages without reloading and keeps body destinations in
   const initialDocument = await page.evaluateHandle(() => document)
 
   await page.locator('[data-language-switch="header"]').click()
-  await expect(page).toHaveURL(/\/es\/$/u)
+  await expect(page).toHaveURL(url => url.pathname === '/es/')
   expect(await page.evaluate(original => original === document, initialDocument)).toBe(true)
   const results = page.locator('[data-site-search-result]')
 
@@ -61,9 +61,9 @@ test('search switches languages without reloading and keeps body destinations in
   await expect(page.locator('#site-search-status')).toHaveText('2 resultados disponibles. Usa las flechas para navegar.')
   await page.locator('#site-search-input').press('ArrowDown')
   await page.locator('#site-search-input').press('Enter')
-  await expect(page).toHaveURL(/\/es\/work\/$/u)
+  await expect(page).toHaveURL(url => url.pathname === '/es/work/')
   await page.locator('[data-language-switch="header"]').click()
-  await expect(page).toHaveURL(/\/work\/$/u)
+  await expect(page).toHaveURL(url => url.pathname === '/work/')
   await page.locator('[data-site-search-trigger]').click()
   await page.locator('#site-search-input').fill('primary')
   await expect(page.locator('#site-search-results')).toHaveAttribute('data-site-search-state', 'settled')

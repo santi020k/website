@@ -562,6 +562,7 @@ test('passport folio preserves all notebook counts and places when changing coun
 for (const theme of ['light', 'dark']) {
   test(`map folio keeps controls usable at 200% text in ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 900 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/travel/')
     const folio = page.locator('[data-travel-controls]')
     await expect(folio).toBeVisible()

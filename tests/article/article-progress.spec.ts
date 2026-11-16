@@ -6,6 +6,25 @@ const nextArticle = '/blog/code-standards-that-scale-with-a-team/'
 test.use({ reducedMotion: 'reduce' })
 
 const scrollThroughArticle = async (page: Page, fraction: number) => {
+  // SSR starts at zero before the runtime adds overflow cues and changes the article height.
+  await expect(page.getByRole('progressbar', { name: 'Reading progress', exact: true }))
+    .toHaveAttribute('data-ui-bound', 'true')
+  await expect.poll(() => page.locator('#article-content').evaluate(async element => {
+    await document.fonts.ready
+    const before = element.getBoundingClientRect()
+    const top = before.top + scrollY
+
+    // Let resize observers and their queued layout updates finish before measuring the fraction.
+    await new Promise<void>(resolve => {
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        resolve()
+      }))
+    })
+    const after = element.getBoundingClientRect()
+
+    return after.height === before.height && after.top + scrollY === top
+  })).toBe(true)
+
   await page.locator('#article-content').evaluate((element, position) => {
     const bounds = element.getBoundingClientRect()
     const end = bounds.bottom + scrollY - innerHeight
@@ -137,6 +156,8 @@ test('article targets reconnect after client navigation and restored history', a
 const expectDocumentProgress = async (page: Page) => {
   await page.evaluate(() => document.fonts.ready)
   const progress = page.getByRole('progressbar', { name: 'Reading progress', exact: true })
+
+  await expect(progress).toHaveAttribute('data-ui-bound', 'true')
 
   await page.evaluate(() => {
     scrollTo({ top: (document.documentElement.scrollHeight - innerHeight) / 2, behavior: 'instant' })

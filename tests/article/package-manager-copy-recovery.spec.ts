@@ -28,8 +28,12 @@ for (const locale of ['en', 'es']) {
   test(`${locale} selects the complete active command after denial and clears recovery on retry`, async ({ page, browserName }) => {
     await page.goto(`${locale === 'es' ? '/es' : ''}${article}`)
     const group = page.locator('[data-package-manager-code-tabs]').first()
-    await group.getByRole('tab', { name: 'pnpm', exact: true }).click()
-    const panel = group.getByRole('tabpanel')
+    const selectedTab = group.getByRole('tab', { name: 'pnpm', exact: true })
+    await selectedTab.click()
+    // Lazy runtime activation can replay the click after Playwright's click has returned.
+    await expect(selectedTab).toHaveAttribute('aria-selected', 'true')
+    const panel = group.getByRole('tabpanel', { name: 'pnpm', exact: true })
+    await expect(panel).toBeVisible()
     const copy = panel.locator('[data-ui-code-copy]')
     const pre = panel.locator('pre')
     const source = await pre.innerText()

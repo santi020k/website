@@ -65,6 +65,12 @@ const openWithEnlargedText = async (page: Page, route: string, fontSize = '200%'
 }
 
 const settleLayout = async (page: Page) => {
+  const progress = page.locator('[data-ui-scroll-progress]')
+
+  // Lumen initializes code scroll cues before the progress controller. Its bound
+  // marker confirms late-loaded cues have entered layout before measuring it.
+  if (await progress.count()) await expect(progress).toHaveAttribute('data-ui-bound', 'true')
+
   await page.evaluate(async () => {
     await document.fonts.ready
     await Promise.all([...document.images].filter(image => image.loading === 'eager').map(image => image.decode()))

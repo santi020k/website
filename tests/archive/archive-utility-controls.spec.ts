@@ -414,15 +414,24 @@ test('pointer activation near the fixed header keeps the link reachable', async 
 for (const era of ['v1', 'v2', 'v3', 'v4']) {
   test(`${era} focusing the fixed skip link does not scroll the document`, async ({ page }) => {
     await openArchive(page, `/${era}/`)
+    const skipLink = page.locator('a[href="#main"]').first()
+
     await page.keyboard.press('Tab')
     await page.keyboard.press('Tab')
-    await expect(page.locator('a[href="#main"]').first()).not.toBeFocused()
+    await expect(skipLink).not.toBeFocused()
+    // Let the archive notice's queued focus adjustment finish before moving
+    // away from its focused link and recording the skip-link scroll baseline.
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => {
+      resolve()
+    }))))
     await page.evaluate(() => {
       window.scrollTo({ top: 1000, behavior: 'instant' })
     })
     const before = await page.evaluate(() => scrollY)
 
-    await page.locator('a[href="#main"]').first().focus()
+    await skipLink.focus()
+    await expect(skipLink).toBeFocused()
+    await expect(skipLink).toHaveCSS('position', 'fixed')
     await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => {
       resolve()
     }))))

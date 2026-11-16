@@ -177,7 +177,10 @@ test('separate section failures retain their own address and announce repeated a
 
     await expect(row.getByRole('textbox')).toHaveValue(`https://santi020k.com${article}#${slug}`)
   }
-  await first.getByRole('button').click()
+  await first.getByRole('button').focus()
+  // Keep the brief empty announcement window deterministic while the runner is busy.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
+  await page.keyboard.press('Enter')
   await expect(first.getByRole('status')).toBeEmpty()
   await page.clock.fastForward(100)
   await expect(first.getByRole('status')).not.toBeEmpty()
