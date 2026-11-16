@@ -23,12 +23,13 @@ const maxTargetsPerPost = 25
 /** Hosts that are part of the site family; mentions between them add nothing. */
 export const isOwnHost = (/** @type {string} */ hostname) => hostname === host || hostname.endsWith(`.${host}`)
 
+// `&amp;` goes last so an escaped entity such as `&amp;lt;` decodes to `&lt;`, not `<`.
 const decodeEntities = (/** @type {string} */ value) => value
-  .replaceAll('&amp;', '&')
   .replaceAll('&quot;', '"')
   .replaceAll('&#39;', '\'')
   .replaceAll('&lt;', '<')
   .replaceAll('&gt;', '>')
+  .replaceAll('&amp;', '&')
 
 /**
  * Returns the markup inside `#article-content`, the article prose rendered by the Post layout.

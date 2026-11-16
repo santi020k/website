@@ -52,6 +52,29 @@ describe('announcing published posts', () => {
     expect(discoverEndpoint(target, '<https://example.com/>; rel="canonical"', '<p>none</p>')).toBeUndefined()
   })
 
+  test.each([
+    ['&amp;', '&'],
+    ['&quot;', '"'],
+    ['&#39;', '\''],
+    ['&lt;', '<'],
+    ['&gt;', '>'],
+    ['&amp;amp;', '&amp;'],
+    ['&amp;quot;', '&quot;'],
+    ['&amp;#39;', '&#39;'],
+    ['&amp;lt;', '&lt;'],
+    ['&amp;gt;', '&gt;']
+  ])('decodes %s only once in HTML links and leaves HTTP Link values unchanged', (encoded, decoded) => {
+    const base = 'https://example.com/'
+    const href = `${base}mention?value=before${encoded}after`
+    const expected = new URL(`${base}mention?value=before${decoded}after`)
+
+    expect(discoverEndpoint(base, null, `<link rel="webmention" href="${href}">`)).toBe(expected.href)
+    // Article targets intentionally omit fragments, including literal # characters.
+    expected.hash = ''
+    expect(findOutboundLinks(`<a href="${href}">link</a>`, base)).toEqual([expected.href])
+    expect(discoverEndpoint(base, `<${href}>; rel="webmention"`, '')).toBe(new URL(href).href)
+  })
+
   test('builds an IndexNow submission that points at the hosted key file', () => {
     expect(createIndexNowPayload('abc123', ['https://santi020k.com/blog/post/'])).toEqual({
       host: 'santi020k.com',

@@ -1,3 +1,4 @@
+// Astro Doctor (`@santi020k/astro-doctor`) reads this file in CI.
 export default {
   overrides: [
     {

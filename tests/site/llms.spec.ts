@@ -15,7 +15,7 @@ test('llms.txt indexes the published site with working local links', async ({ re
     expect(body).toContain(`\n## ${section}\n`)
   }
 
-  const links = [...body.matchAll(/^- \[(?<title>(?:\\.|[^\]])+)\]\((?<url>[^)\s]+)\)(?::\s(?<description>.+))?$/gmu)]
+  const links = [...body.matchAll(/^- \[(?<title>(?:\\.|[^\]\\])+)\]\((?<url>[^)\s]+)\)(?::\s(?<description>.+))?$/gmu)]
     .map(match => ({ description: match.groups?.description, title: match.groups?.title, url: new URL(match.groups?.url ?? '') }))
 
   expect(links.length).toBeGreaterThan(40)

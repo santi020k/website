@@ -334,7 +334,8 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
       await page.goto('/speaking/')
       await expect(progress(page)).toHaveClass(/is-complete/u)
       await armNavigation(page)
-      const fragment = 'experience-heading'.replace('e', '%65')
+      // Percent-encode only the first letter so the browser has to decode the fragment.
+      const fragment = `%65${'experience-heading'.slice(1)}`
 
       await followInjectedLink(page, `/work/#${fragment}`)
       await expect(page.locator('html')).toHaveAttribute('data-recovery-loaded', '')
