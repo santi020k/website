@@ -6,6 +6,21 @@ import { shouldRunVisualSnapshots } from '../helpers/visual-regression'
 
 const SLEEVED_CARD = '.series-detail-page [data-post-gallery-grid="chapters"] [data-post-gallery-card]'
 
+const revealSeriesForAccessibility = async (page: Page) => {
+  const group = page.locator('[data-ui-reveal-group]:has([data-series-card])')
+  const cards = group.locator('[data-series-card]')
+
+  // The lazy motion controller can bind after the initial animation check.
+  // Reveal every card so the audit measures its painted text, not a hidden state.
+  await expect(group).toHaveAttribute('data-ui-scroll-reveal-bound', 'true')
+  await cards.first().scrollIntoViewIfNeeded()
+  await expect(group).toHaveClass(/\bis-revealed\b/u)
+  for (const card of await cards.all()) await expect(card).toHaveCSS('opacity', '1')
+  await page.evaluate(() => {
+    scrollTo({ top: 0, behavior: 'instant' })
+  })
+}
+
 interface ArchivePage {
   canonical: string | null
   description: string | null
@@ -343,6 +358,7 @@ test.describe('Blog page', () => {
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/blog/')
     await expect(page.locator('body')).toBeVisible()
+    await revealSeriesForAccessibility(page)
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
@@ -354,6 +370,7 @@ test.describe('Blog page', () => {
     await page.goto('/blog/')
 
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'santi020k-dark')
+    await revealSeriesForAccessibility(page)
     await expectNoUnexpectedAccessibilityViolations(page)
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(375)
   })
