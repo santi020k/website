@@ -60,14 +60,9 @@ export const createOfflinePreview = async (
       return
     }
 
-    // Only forward paths on the preview origin; an absolute request URL would otherwise replace it.
-    const upstreamURL = new URL(request.url ?? '/', previewOrigin)
-
-    if (upstreamURL.origin !== previewOrigin) {
-      response.writeHead(400).end('Preview only proxies its own origin')
-
-      return
-    }
+    // Forward only the path and query: an absolute request URL must never choose the upstream host.
+    const { pathname, search } = new URL(request.url ?? '/', 'http://offline-preview.invalid')
+    const upstreamURL = `${previewOrigin}/${pathname.slice(1)}${search}`
 
     void fetch(upstreamURL, { signal: AbortSignal.timeout(10_000) })
       .then(async upstream => {
