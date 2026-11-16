@@ -223,6 +223,13 @@ test.describe('Without JavaScript', () => {
         await page.evaluate(() => {
           document.documentElement.style.fontSize = `${Number.parseFloat(getComputedStyle(document.documentElement).fontSize) * 2}px`
         })
+        // Legacy reduced-motion styles still transition inherited font sizes for 1ms.
+        // Poll externally: animation-frame promises can stall in no-JavaScript WebKit.
+        await expect.poll(() => page.evaluate(() => {
+          const activeAnimations = document.getAnimations().filter(animation => animation.pending || animation.playState === 'running')
+
+          return activeAnimations.length
+        })).toBe(0)
         const notice = page.getByRole('complementary', { name: 'Website archive' })
 
         await expectNoticeAboveNavigation(page, notice)
