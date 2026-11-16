@@ -3,6 +3,7 @@ title: "Lo que Firefox y WebKit encontraron y Chromium no"
 description: "Defectos reales y supuestos erróneos en las pruebas que aparecieron cuando una suite de Playwright que solo usaba Chromium se ejecutó por primera vez en Firefox, WebKit y navegadores móviles."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
+sourceHash: "ab28b3d2f82b"
 ---
 
 Durante la mayor parte del rediseño de la v5, las pruebas de navegador de este sitio se ejecutaron en Chromium. La configuración incluía Firefox, WebKit y dos proyectos móviles, y nada los ejecutaba de forma programada.

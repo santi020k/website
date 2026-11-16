@@ -1,0 +1,274 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import ShippedSystemCard from '@/components/molecules/ShippedSystemCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { getFormattedDate } from '@/utils/date'
+
+import RevealGroup from '@santi020k/lumen-astro/components/RevealGroup'
+import type { LumenIconName } from '@santi020k/lumen-core'
+
+import { getLocale, localeLanguage, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
+import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
+
+/** Change this whenever an item below changes; the hero and structured data both read it. */
+const USES_UPDATED = '2026-11-13'
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
+const path = (target: string) => localizePath(target, pageLocale)
+
+interface UsesItem {
+  body: string
+  category: string
+  href: string
+  icon: LumenIconName
+  linkLabel: string
+  title: string
+}
+
+interface UsesGroup {
+  description: string
+  eyebrow: string
+  id: string
+  items: UsesItem[]
+  title: string
+}
+
+const groups: UsesGroup[] = [
+  {
+    id: 'hardware',
+    eyebrow: t('uses.hardware.eyebrow'),
+    title: t('uses.hardware.title'),
+    description: t('uses.hardware.description'),
+    items: [
+      {
+        title: 'MacBook Pro',
+        category: t('uses.mac.category'),
+        icon: 'laptop',
+        body: t('uses.mac.body'),
+        href: path('/blog/run-repo-on-mac-with-silo-dxmt/'),
+        linkLabel: t('uses.mac.link')
+      },
+      {
+        title: 'Xteink X4',
+        category: t('uses.reader.category'),
+        icon: 'book-open',
+        body: t('uses.reader.body'),
+        href: path('/blog/flash-xteink-x4-international-firmware/'),
+        linkLabel: t('uses.reader.link')
+      }
+    ]
+  },
+  {
+    id: 'workspace',
+    eyebrow: t('uses.workspace.eyebrow'),
+    title: t('uses.workspace.title'),
+    description: t('uses.workspace.description'),
+    items: [
+      {
+        title: 'Zed',
+        category: t('uses.zed.category'),
+        icon: 'code-xml',
+        body: t('uses.zed.body'),
+        href: path('/blog/why-i-moved-to-zed/'),
+        linkLabel: t('uses.zed.link')
+      },
+      {
+        title: 'Santi020k Theme',
+        category: t('uses.theme.category'),
+        icon: 'palette',
+        body: t('uses.theme.body'),
+        href: path('/portfolio/santi020k-theme/'),
+        linkLabel: t('uses.theme.link')
+      },
+      {
+        title: 'Santi020k Terminal',
+        category: t('uses.terminal.category'),
+        icon: 'terminal',
+        body: t('uses.terminal.body'),
+        href: path('/blog/expanding-santi020k-theme-to-the-terminal/'),
+        linkLabel: t('uses.terminal.link')
+      },
+      {
+        title: 'Dep Beacon',
+        category: t('uses.depBeacon.category'),
+        icon: 'package-search',
+        body: t('uses.depBeacon.body'),
+        href: path('/portfolio/dep-beacon/'),
+        linkLabel: t('uses.depBeacon.link')
+      }
+    ]
+  },
+  {
+    id: 'built',
+    eyebrow: t('uses.built.eyebrow'),
+    title: t('uses.built.title'),
+    description: t('uses.built.description'),
+    items: [
+      {
+        title: 'Coolstead',
+        category: t('uses.coolstead.category'),
+        icon: 'fan',
+        body: t('uses.coolstead.body'),
+        href: path('/portfolio/coolstead/'),
+        linkLabel: t('uses.coolstead.link')
+      },
+      {
+        title: 'quality',
+        category: t('uses.quality.category'),
+        icon: 'shield-check',
+        body: t('uses.quality.body'),
+        href: path('/portfolio/quality/'),
+        linkLabel: t('uses.quality.link')
+      },
+      {
+        title: 'ESLint Config Basic',
+        category: t('uses.eslint.category'),
+        icon: 'list-checks',
+        body: t('uses.eslint.body'),
+        href: path('/portfolio/eslint-config-basic/'),
+        linkLabel: t('page.exploreTheEslintToolkit')
+      },
+      {
+        title: '@santi020k/og',
+        category: t('uses.og.category'),
+        icon: 'image',
+        body: t('uses.og.body'),
+        href: path('/portfolio/og/'),
+        linkLabel: t('uses.og.link')
+      },
+      {
+        title: 'Homebrew tap',
+        category: t('uses.tap.category'),
+        icon: 'package',
+        body: t('uses.tap.body'),
+        href: path('/blog/shipping-macos-tools-with-a-homebrew-tap/'),
+        linkLabel: t('uses.tap.link')
+      }
+    ]
+  },
+  {
+    id: 'this-site',
+    eyebrow: t('uses.site.eyebrow'),
+    title: t('uses.site.title'),
+    description: t('uses.site.description'),
+    items: [
+      {
+        title: 'Astro + Tailwind CSS',
+        category: t('uses.astro.category'),
+        icon: 'rocket',
+        body: t('uses.astro.body'),
+        href: path('/history/'),
+        linkLabel: t('uses.astro.link')
+      },
+      {
+        title: 'Lumen UI',
+        category: t('uses.lumen.category'),
+        icon: 'layers',
+        body: t('uses.lumen.body'),
+        href: path('/portfolio/lumen-ui/'),
+        linkLabel: t('page.exploreLumenUi')
+      },
+      {
+        title: 'Vitest, Playwright, Lighthouse',
+        category: t('uses.checks.category'),
+        icon: 'list-checks',
+        body: t('uses.checks.body'),
+        href: path('/developer-experience/'),
+        linkLabel: t('uses.checks.link')
+      }
+    ]
+  }
+]
+
+const updatedLabel = t('uses.updated', {
+  date: getFormattedDate(USES_UPDATED, { day: 'numeric', month: 'long', year: 'numeric' }, localeLanguage(pageLocale))
+})
+
+const canonicalUrl = new URL(path('/uses/'), Astro.site).href
+const description = t('uses.meta.description')
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${canonicalUrl}#page`,
+  name: t('uses.meta.seoTitle'),
+  description,
+  url: canonicalUrl,
+  dateModified: USES_UPDATED,
+  author: createAuthorSchema(Astro.site),
+  isPartOf: createWebsiteSchemaReference(Astro.site),
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: groups.flatMap(group => group.items).map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.title,
+      url: new URL(item.href, Astro.site).href
+    }))
+  }
+}
+
+const breadcrumbs = [
+  { name: t('nav.home'), url: path('/') },
+  { name: t('uses.meta.title'), url: path('/uses/') }
+]
+---
+
+<PageLayout
+  mainClass="remaining-pages"
+  meta={{
+    breadcrumbs,
+    description,
+    seoTitle: t('uses.meta.seoTitle'),
+    structuredData,
+    title: t('uses.meta.title')
+  }}
+>
+  <PageHero
+    description={t('uses.hero.description')}
+    eyebrow={t('uses.hero.eyebrow')}
+    gradientText={t('uses.hero.emphasis')}
+    metaItems={['macOS', 'Zed', updatedLabel]}
+    title={t('uses.hero.title')}
+  />
+
+  {groups.map(group => (
+    <PageSection layout="stacked">
+      <SectionHeader
+        id={group.id}
+        description={group.description}
+        eyebrow={group.eyebrow}
+        title={group.title}
+      />
+      <RevealGroup
+        class:list={[
+          `
+            grid grid-cols-1 gap-6
+            sm:card-grid-2
+          `,
+          // Two or four cards read as even pairs; three across would strand the last one.
+          { 'lg:card-grid-3': group.items.length % 2 !== 0 }
+        ]}
+        data-uses-group={group.id}
+        stagger={60}
+        threshold={0}
+      >
+        {group.items.map(item => <ShippedSystemCard {...item} />)}
+      </RevealGroup>
+    </PageSection>
+  ))}
+
+  <div class="section-container-wide section-actions">
+    <ButtonLink href={path('/now/')} showArrow variant="secondary">
+      {t('uses.action.now')}
+    </ButtonLink>
+    <ButtonLink href={path('/')} showArrow variant="ghost">
+      {t('page.backHome')}
+    </ButtonLink>
+  </div>
+</PageLayout>

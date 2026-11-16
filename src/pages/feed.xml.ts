@@ -35,7 +35,7 @@ export const createRssFeed = async (context: APIContext, locale: Locale) => {
   return rss({
     title: t('feed.rssTitle', { title: siteConfig.title }),
     description: t('feed.description'),
-    site: context.site ?? 'https://santi020k.com/',
+    site: new URL(localizePath('/', locale), context.site ?? 'https://santi020k.com/').toString(),
     xmlns: { dc: 'http://purl.org/dc/elements/1.1/' },
     customData: `<language>${localeLanguage(locale)}</language>`,
     items: await Promise.all(posts.map(async post => {

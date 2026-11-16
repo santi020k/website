@@ -3,44 +3,78 @@ import { glob, readFile } from 'node:fs/promises'
 import { basename, dirname, join, resolve as resolvePath, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { parseContentDate } from '../../src/utils/content-date.ts'
+
+import { parseFrontmatter } from './utils/frontmatter.mjs'
+
 const projectRoot = fileURLToPath(new URL('../..', import.meta.url))
 const origin = 'https://santi020k.com'
 
 /**
- * Reads the two frontmatter fields that decide publication. The content schema stays the
+ * Draft posts carry a shared placeholder cover until their artwork is ready. Its alt text,
+ * in either language, marks it; content lint rejects it on any post that is not a draft.
+ */
+export const PLACEHOLDER_COVER_ALT = /^\s*alt:\s*["']?(?:Placeholder cover|Portada provisional)\b/mu
+
+/**
+ * Reads the frontmatter fields that decide publication. The content schema stays the
  * source of truth during the build; this only answers whether a deployment is due.
  * @param {string} source
  */
 export const readPublication = source => {
-  const frontmatter = /^---\r?\n([\s\S]*?)\r?\n---/u.exec(source)?.[1] ?? ''
-  const date = /^publishDate:\s*["']?([^"'\r\n]+)["']?\s*$/mu.exec(frontmatter)?.[1]
-  const publishDate = date ? new Date(date.trim()) : undefined
+  const fields = parseFrontmatter(source)?.frontmatter
+  const date = fields?.publishDate
+  const publishDate = typeof date === 'string' || date instanceof Date ? parseContentDate(date) : undefined
+  const cover = fields?.coverImage
+  const alt = cover && typeof cover === 'object' && 'alt' in cover ? cover.alt : undefined
 
   return {
-    draft: /^draft:\s*true\s*$/mu.test(frontmatter),
+    draft: fields?.draft === true,
+    placeholderCover: typeof alt === 'string' && PLACEHOLDER_COVER_ALT.test(`alt: ${alt}`),
     publishDate: publishDate && !Number.isNaN(publishDate.getTime()) ? publishDate : undefined
+  }
+}
+
+/** @typedef {{ slug: string, draft: boolean, placeholderCover?: boolean, publishDate?: Date | undefined }} ScheduledPost */
+
+/**
+ * Due posts that production does not list yet, split by whether they are ready. A post still
+ * on the placeholder cover is held back: lint should have caught it, so it is reported instead.
+ * @param {ScheduledPost[]} posts
+ * @param {Iterable<string>} publishedUrls
+ * @param {Date} [now]
+ */
+export const classifyDuePosts = (posts, publishedUrls, now = new Date()) => {
+  const published = new Set(publishedUrls)
+
+  const due = posts
+    .filter(({ draft, publishDate }) => !draft && publishDate !== undefined && publishDate <= now)
+    .filter(({ slug }) => !published.has(`${origin}/blog/${slug}/`))
+
+  /** @param {ScheduledPost[]} list */
+  const toUrls = list => list.map(({ slug }) => `${origin}/blog/${slug}/`).sort()
+
+  return {
+    blocked: toUrls(due.filter(({ placeholderCover }) => placeholderCover === true)),
+    ready: toUrls(due.filter(({ placeholderCover }) => placeholderCover !== true))
   }
 }
 
 /**
  * Posts the next build would publish that production does not list yet.
- * @param {{ slug: string, draft: boolean, publishDate?: Date }[]} posts
+ * @param {ScheduledPost[]} posts
  * @param {Iterable<string>} publishedUrls
  * @param {Date} [now]
  */
 export const findUnpublished = (posts, publishedUrls, now = new Date()) => {
-  const published = new Set(publishedUrls)
+  const { ready } = classifyDuePosts(posts, publishedUrls, now)
 
-  return posts
-    .filter(({ draft, publishDate }) => !draft && publishDate !== undefined && publishDate <= now)
-    .map(({ slug }) => `${origin}/blog/${slug}/`)
-    .filter(url => !published.has(url))
-    .sort()
+  return ready
 }
 
 /**
  * @param {string} [root]
- * @returns {Promise<{ slug: string, draft: boolean, publishDate?: Date }[]>}
+ * @returns {Promise<ScheduledPost[]>}
  */
 export const readPosts = async (root = projectRoot) => {
   const directory = join(root, 'src/content/post')
@@ -67,9 +101,11 @@ if (process.argv[1] && resolvePath(process.argv[1]) === fileURLToPath(import.met
   // An empty feed means the request reached something other than the site; never deploy on that.
   if (urls.length === 0) throw new Error(`${origin}/feed.json lists no posts.`)
 
-  const due = findUnpublished(await readPosts(), urls)
+  const { blocked, ready: due } = classifyDuePosts(await readPosts(), urls)
 
   console.log(due.length > 0 ? `Due for publication:\n${due.join('\n')}` : 'Every due post is already published.')
 
-  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `deploy=${due.length > 0}\n`)
+  for (const url of blocked) console.log(`::warning::${url} is due but still uses the placeholder cover; it was not deployed.`)
+
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `deploy=${due.length > 0}\nurls=${due.join(' ')}\n`)
 }

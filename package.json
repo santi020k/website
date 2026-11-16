@@ -55,6 +55,7 @@
     "lighthouse:full": "node -e \"require('node:fs').rmSync('.lighthouseci', { recursive: true, force: true })\" && LHCI_NUMBER_OF_RUNS=3 lhci autorun",
     "lint:content": "node scripts/js/content-lint.mjs",
     "lint:md": "node scripts/js/lint-markdown.mjs",
+    "translations:stamp": "node scripts/js/translation-source.mjs",
     "spellcheck": "cspell --quiet \"**/*.{md,mdx}\"",
     "verify:quality": "pnpm run test:ci && npm-run-all --silent --serial spellcheck lint check lint:md lint:content check:cv test test:motion",
     "verify:fast": "npm-run-all --silent --serial verify:quality build",

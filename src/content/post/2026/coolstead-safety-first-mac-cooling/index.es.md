@@ -3,6 +3,7 @@ title: "Coolstead: refrigeración para Mac con la seguridad primero"
 description: "Qué implica diseñar una utilidad nativa de control de ventiladores con solicitudes limitadas, sensores inválidos, comportamiento reversible y macOS como última capa de seguridad."
 coverImage:
   alt: "Señales de sensores térmicos atraviesan límites de seguridad mediante un ventilador central"
+sourceHash: "f72f4a37f9cf"
 ---
 
 La versión más simple de una aplicación de control de ventiladores también es la versión que no quiero construir.

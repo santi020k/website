@@ -10,6 +10,9 @@ const directory = resolve(import.meta.dirname, '../../dist')
 const sitemap = await readFile(resolve(directory, 'sitemap-0.xml'), 'utf8')
 const headers = await readFile(resolve(directory, '_headers'), 'utf8')
 const archivePolicy = readHeaderPolicy(await readFile(resolve(import.meta.dirname, '../../public/_headers'), 'utf8'))
+
+if (!archivePolicy) throw new Error('public/_headers has no Content-Security-Policy for the archived sites.')
+
 /** @type {string[]} */
 const issues = []
 let count = 0

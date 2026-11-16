@@ -3,6 +3,7 @@ title: "Programar con IA es probabilístico. Tu proceso de entrega no debería s
 description: "La IA acelera los cambios de código, pero ESLint, las pruebas, las instantáneas y los controles de extremo a extremo evitan que su resultado probabilístico se convierta en un riesgo para producción."
 coverImage:
   alt: "Fragmentos probabilísticos de código entran en carriles de verificación determinista y salen como un artefacto estable"
+sourceHash: "e6b8c975e1bd"
 ---
 
 La IA está haciendo que los desarrolladores sean más rápidos.

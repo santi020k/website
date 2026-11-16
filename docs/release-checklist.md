@@ -19,7 +19,7 @@ and connected project covers with scroll-driven motion. The historical sites ret
 their pinned Lumen versions and compatibility patches. Public URLs stay compatible and
 visitors need no migration.
 
-Two minor Changesets and one patch Changeset request v5.3.0 from v5.2.0. The GitHub
+The pending minor and patch Changesets request v5.3.0 from v5.2.0. The GitHub
 Release workflow generates the version bump and changelog after integration into `main`.
 
 ### Before the pull request
@@ -37,7 +37,7 @@ Release workflow generates the version bump and changelog after integration into
 
 ### Pull request
 
-- [ ] Push `release/v5.3.0` and open its pull request into `main`; close the
+- [ ] Push the completed `release/v5.3.0` revision to its existing pull request, #167, into `main`; close the
   `release/v5.2.1` pull request as superseded.
   The **Quality gate** check covers static checks, the production build, six
   Chromium browser shards and Lighthouse.

@@ -1,0 +1,204 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import ShippedSystemCard from '@/components/molecules/ShippedSystemCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import PostsGallery from '@/components/organisms/PostsGallery.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { getCachedPosts } from '@/utils/content'
+import { getFormattedDate } from '@/utils/date'
+
+import Link from '@santi020k/lumen-astro/components/Link'
+import RevealGroup from '@santi020k/lumen-astro/components/RevealGroup'
+import type { LumenIconName } from '@santi020k/lumen-core'
+
+import { getLocale, localeLanguage, localizePath } from '@/i18n'
+import { pageTranslator } from '@/i18n/page-copy'
+import { createAuthorSchema, createWebsiteSchemaReference, siteConfig } from '@/site.config'
+
+/** Change this whenever the focus below changes; the hero and structured data both read it. */
+const NOW_UPDATED = '2026-11-13'
+const pageLocale = getLocale(Astro.url.pathname)
+const t = pageTranslator(pageLocale)
+const path = (target: string) => localizePath(target, pageLocale)
+
+interface NowItem {
+  body: string
+  category: string
+  href: string
+  icon: LumenIconName
+  linkLabel: string
+  title: string
+}
+
+const building: NowItem[] = [
+  {
+    title: t('now.site.title'),
+    category: t('now.site.category'),
+    icon: 'globe',
+    body: t('now.site.body'),
+    href: path('/history/'),
+    linkLabel: t('now.site.link')
+  },
+  {
+    title: 'Lumen UI',
+    category: t('now.lumen.category'),
+    icon: 'layers',
+    body: t('now.lumen.body'),
+    href: path('/portfolio/lumen-ui/'),
+    linkLabel: t('page.exploreLumenUi')
+  },
+  {
+    title: 'PostLens 2',
+    category: t('now.postlens.category'),
+    icon: 'camera',
+    body: t('now.postlens.body'),
+    href: path('/blog/postlens-2-is-live/'),
+    linkLabel: t('now.postlens.link')
+  }
+]
+
+const openTo: NowItem[] = [
+  {
+    title: t('now.speaking.title'),
+    category: t('now.speaking.category'),
+    icon: 'mic',
+    body: t('now.speaking.body'),
+    href: path('/speaking/'),
+    linkLabel: t('now.speaking.link')
+  },
+  {
+    title: t('now.consulting.title'),
+    category: t('now.consulting.category'),
+    icon: 'briefcase-business',
+    body: t('now.consulting.body'),
+    href: path(`${siteConfig.contact.workWithMe}#start`),
+    linkLabel: t('page.startAConversation')
+  }
+]
+
+// Published posts only in production builds; the newest three follow every publish.
+const latestPosts = (await getCachedPosts()).slice(0, 3)
+
+const updatedLabel = t('uses.updated', {
+  date: getFormattedDate(NOW_UPDATED, { day: 'numeric', month: 'long', year: 'numeric' }, localeLanguage(pageLocale))
+})
+
+const canonicalUrl = new URL(path('/now/'), Astro.site).href
+const description = t('now.meta.description')
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${canonicalUrl}#page`,
+  name: t('now.meta.seoTitle'),
+  description,
+  url: canonicalUrl,
+  dateModified: NOW_UPDATED,
+  author: createAuthorSchema(Astro.site),
+  isPartOf: createWebsiteSchemaReference(Astro.site)
+}
+
+const breadcrumbs = [
+  { name: t('nav.home'), url: path('/') },
+  { name: t('now.meta.title'), url: path('/now/') }
+]
+---
+
+<PageLayout
+  mainClass="remaining-pages"
+  meta={{
+    breadcrumbs,
+    description,
+    seoTitle: t('now.meta.seoTitle'),
+    structuredData,
+    title: t('now.meta.title')
+  }}
+>
+  <PageHero
+    description={t('now.hero.description')}
+    eyebrow={t('now.hero.eyebrow')}
+    gradientText={t('now.hero.emphasis')}
+    metaItems={[t('now.location'), updatedLabel]}
+    title={t('now.hero.title')}
+  />
+
+  <PageSection layout="stacked">
+    <SectionHeader
+      id="building"
+      description={t('now.building.description')}
+      eyebrow={t('now.building.eyebrow')}
+      title={t('now.building.title')}
+    />
+    <RevealGroup
+      class="
+        grid grid-cols-1 gap-6
+        sm:card-grid-2
+        lg:card-grid-3
+      "
+      data-now-group="building"
+      stagger={60}
+      threshold={0}
+    >
+      {building.map(item => <ShippedSystemCard {...item} />)}
+    </RevealGroup>
+  </PageSection>
+
+  {latestPosts.length > 0 && (
+    <PageSection layout="stacked">
+      <SectionHeader
+        id="writing"
+        description={t('now.writing.description')}
+        eyebrow={t('now.writing.eyebrow')}
+        linkHref={path('/blog/')}
+        linkLabel={t('now.writing.link')}
+        title={t('now.writing.title')}
+      />
+      <PostsGallery columns={3} posts={latestPosts} />
+    </PageSection>
+  )}
+
+  <PageSection layout="stacked">
+    <SectionHeader
+      id="open-to"
+      description={t('now.open.description')}
+      eyebrow={t('now.open.eyebrow')}
+      title={t('now.open.title')}
+    />
+    <RevealGroup
+      class="
+        grid grid-cols-1 gap-6
+        sm:card-grid-2
+      "
+      data-now-group="open-to"
+      stagger={60}
+      threshold={0}
+    >
+      {openTo.map(item => <ShippedSystemCard {...item} />)}
+    </RevealGroup>
+    <p data-now-footnote>
+      {t('now.footnote')}{' '}
+      <Link href="https://nownownow.com/about" newTab>{t('now.footnote.link')}</Link>
+    </p>
+  </PageSection>
+
+  <div class="section-container-wide section-actions">
+    <ButtonLink href={path('/uses/')} showArrow variant="secondary">
+      {t('now.action.uses')}
+    </ButtonLink>
+    <ButtonLink href={path('/')} showArrow variant="ghost">
+      {t('page.backHome')}
+    </ButtonLink>
+  </div>
+</PageLayout>
+
+<style>
+  [data-now-footnote] {
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
+</style>

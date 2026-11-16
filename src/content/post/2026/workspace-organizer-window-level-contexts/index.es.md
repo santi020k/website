@@ -3,6 +3,7 @@ title: "Workspace Organizer: cambiar de contexto a nivel de ventana"
 description: "Por qué construí un gestor nativo de espacios de trabajo para macOS basado en ventanas individuales, API públicas, diseños adaptables y automatización que respeta la privacidad."
 coverImage:
   alt: "Ventanas de aplicaciones dispersas atraviesan un motor de distribución y forman tres espacios de trabajo organizados"
+sourceHash: "5f6c55279437"
 ---
 
 La mayor parte de mi trabajo ocurre dentro de un pequeño conjunto de aplicaciones.

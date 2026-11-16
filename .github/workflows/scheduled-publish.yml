@@ -3,10 +3,14 @@ name: Scheduled publish
 # Future-dated posts are filtered during the static build, so reaching a publishDate changes
 # nothing until the site is rebuilt. This workflow compares the posts that are due with the
 # production feed and asks Cloudflare Pages for a deployment only when one is missing.
+# Once production lists the new posts, the announce job pings IndexNow and sends Webmentions.
+# Posts still on the placeholder cover are reported and never deployed.
 'on':
-  # Scheduled runs use the default branch. Posts publish at 14:00 or 17:00 UTC.
+  # Scheduled runs use the default branch. Posts publish at 14:00, 15:00 or 17:00 UTC; each
+  # run starts 17 minutes after the hour so a due post is already in the past.
   schedule:
     - cron: '17 14 * * *'
+    - cron: '17 15 * * *'
     - cron: '17 17 * * *'
   workflow_dispatch: {}
 
@@ -21,19 +25,24 @@ jobs:
   publish:
     name: Deploy due posts
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
+    outputs:
+      deploy: ${{ steps.due.outputs.deploy }}
+      requested: ${{ steps.hook.outputs.requested }}
+      urls: ${{ steps.due.outputs.urls }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-          sparse-checkout: |
-            scripts/js/check-scheduled-posts.mjs
-            src/content/post
-          sparse-checkout-cone-mode: false
+      - name: Set up pnpm workspace
+        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
+        with:
+          node-version: "24.x"
       - name: Find due posts missing from production
         id: due
         run: node scripts/js/check-scheduled-posts.mjs
       - name: Request a production deployment
+        id: hook
         if: steps.due.outputs.deploy == 'true'
         env:
           CLOUDFLARE_DEPLOY_HOOK_URL: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}
@@ -43,4 +52,26 @@ jobs:
             exit 0
           fi
           curl --fail --silent --show-error --max-time 30 -X POST "$CLOUDFLARE_DEPLOY_HOOK_URL" > /dev/null
+          echo "requested=true" >> "$GITHUB_OUTPUT"
           echo "Requested a production deployment."
+
+  announce:
+    name: Announce published posts
+    needs: publish
+    # The production build takes about 25 minutes; the script waits until the feed lists every post.
+    if: needs.publish.outputs.requested == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            public/indexnow-key.txt
+            scripts/js/announce-published-posts.mjs
+          sparse-checkout-cone-mode: false
+      - name: Ping IndexNow and send Webmentions
+        env:
+          URLS: ${{ needs.publish.outputs.urls }}
+        # URLS is a space-separated list the check built from post slugs; word splitting is intended.
+        run: node scripts/js/announce-published-posts.mjs $URLS

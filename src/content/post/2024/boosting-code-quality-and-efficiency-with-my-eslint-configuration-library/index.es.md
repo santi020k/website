@@ -3,6 +3,7 @@ title: "Mejora la calidad y la eficiencia del código con mi biblioteca de confi
 description: "Biblioteca ESLint reutilizable para React, Next.js y TypeScript. Aplica estándares con flat config y simplifica la migración de ESLint 8 a 9."
 coverImage:
   alt: "Módulos de código inconsistentes entran en un motor compartido de análisis y salen como resultados verificados"
+sourceHash: "6bacfb34904f"
 ---
 
 En un artículo anterior, [«Cómo crear una configuración de Next.js con TypeScript, Standard, Vitest y ESLint»](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7), hablamos de una configuración potente de ESLint diseñada para mantener la calidad, la consistencia y las buenas prácticas en proyectos Next.js y TypeScript. Desde entonces, convertí esa configuración en una biblioteca de ESLint reutilizable y flexible: [@santi020k/eslint-config-santi020k](https://www.npmjs.com/package/@santi020k/eslint-config-santi020k).

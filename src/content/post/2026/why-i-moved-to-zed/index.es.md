@@ -3,6 +3,7 @@ title: "Por qué pasé de editores basados en VS Code a Zed"
 description: "Por qué Zed se convirtió en mi editor preferido: agilidad al trabajar en varios proyectos, integraciones flexibles de IA y Dep Beacon disponible como extensión."
 coverImage:
   alt: "Tres paneles flotantes en blanco cálido y lila conectados mediante caminos cian a un núcleo central morado"
+sourceHash: "152e099d2fdd"
 ---
 
 Pasé de editores basados en VS Code a Zed por dos razones: cómo se siente al tener varios proyectos abiertos y lo bien que integra distintas herramientas de IA.

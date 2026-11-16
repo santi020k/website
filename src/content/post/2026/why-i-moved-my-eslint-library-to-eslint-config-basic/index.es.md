@@ -3,6 +3,7 @@ title: "Por qué migré mi biblioteca de ESLint a @santi020k/eslint-config-basic
 description: "Por qué dejé obsoleto @santi020k/eslint-config-santi020k en favor de un monorepo componible, con paquetes más claros, mejor documentación y una DX más sólida."
 coverImage:
   alt: "Una configuración monolítica envejecida se descompone en un sistema modular de paquetes acompañado de documentación"
+sourceHash: "eb373da7f9a4"
 ---
 
 La versión 1.0 de [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic) ya está disponible y, con ella, dejo oficialmente atrás [`@santi020k/eslint-config-santi020k`](https://www.npmjs.com/package/@santi020k/eslint-config-santi020k).

@@ -4,6 +4,7 @@ description: "Explora @santi020k/eslint-config-basic v2: ESLint 10, instalación
 seoTitle: "ESLint Config Basic v2: ESLint 10 y frameworks"
 coverImage:
   alt: "Un conjunto modular de herramientas de lint conecta módulos de frameworks, documentación, monorepos y verificaciones"
+sourceHash: "a3686df4fc57"
 ---
 
 La versión 2.0.0 de [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic) ya está disponible en npm.

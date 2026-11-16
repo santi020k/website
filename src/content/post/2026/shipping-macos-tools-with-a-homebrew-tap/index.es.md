@@ -4,6 +4,7 @@ seoTitle: "Distribuir herramientas para macOS con un tap de Homebrew"
 description: "Cómo separé el código del producto de los metadatos de distribución y convertí versiones firmadas de la terminal en comandos conocidos de instalación y actualización con Homebrew."
 coverImage:
   alt: "Una versión firmada atraviesa los metadatos de distribución y la verificación hasta convertirse en un paquete instalable"
+sourceHash: "b1665ad1e7f3"
 ---
 
 Construir una herramienta de línea de comandos y hacer que instalarla sea agradable son dos trabajos distintos.

@@ -231,6 +231,20 @@ const staticSocialPages = [
   },
   {
     description:
+      'What Santiago Molina is focused on now: current projects, recent writing, and the kinds of work he is open to.',
+    pathname: '/now/',
+    title: 'Now',
+    badge: 'Now'
+  },
+  {
+    description:
+      'The hardware, editor, terminal, and self-built tools Santiago Molina uses every day, and the stack behind santi020k.com.',
+    pathname: '/uses/',
+    title: 'Uses',
+    badge: 'Uses'
+  },
+  {
+    description:
       'How santi020k.com handles data: no ad trackers, no profiling, just a static site with a theme preference.',
     pathname: '/privacy/',
     title: 'Privacy & analytics',

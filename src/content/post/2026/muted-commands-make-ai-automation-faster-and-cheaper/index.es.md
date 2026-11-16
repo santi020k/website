@@ -3,6 +3,7 @@ title: "Los comandos silenciosos hacen la automatización con IA más rápida y 
 description: "Los agentes de IA repiten verificaciones. Los registros concisos, los reportes compactos y la validación en paralelo reducen tokens sin bajar la calidad."
 coverImage:
   alt: "Una salida densa de comandos se comprime en una señal compacta y se divide en carriles paralelos de verificación"
+sourceHash: "2db5c1c70e4d"
 ---
 
 En [Programar con IA es probabilístico. Tu proceso de entrega no debería serlo.](/es/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/) defendí la necesidad de una automatización más sólida alrededor del desarrollo asistido por IA.

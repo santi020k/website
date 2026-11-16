@@ -92,7 +92,23 @@ const routes = [
   '/blog/tags/',
   '/blog/tags/typescript/',
   '/blog/series/',
-  '/blog/series/building-a-production-nextjs-app/'
+  '/blog/series/building-a-production-nextjs-app/',
+  '/uses/',
+  '/now/'
+]
+
+// Spanish copy runs longer than English, so its narrowest layouts get their own pass.
+const spanishRoutes = [
+  '/es/work/',
+  '/es/speaking/',
+  '/es/travel/',
+  '/es/blog/',
+  '/es/blog/why-i-moved-to-zed/',
+  '/es/developer-experience/',
+  '/es/resume/',
+  '/es/work-with-me/',
+  '/es/uses/',
+  '/es/now/'
 ]
 
 for (const theme of ['light', 'dark'] as const) {
@@ -103,6 +119,18 @@ for (const theme of ['light', 'dark'] as const) {
         test(`${route} retains visible copy at ${width}px with enlarged text`, async ({ page }) => {
           await page.setViewportSize({ width, height: 900 })
           await openWithTextSize(page, route)
+          await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
+          await expectVisibleCopyOnScreen(page.locator('main'))
+        })
+      }
+    }
+
+    for (const route of spanishRoutes) {
+      for (const width of [320, 375, 1440]) {
+        test(`${route} retains visible Spanish copy at ${width}px with enlarged text`, async ({ page }) => {
+          await page.setViewportSize({ width, height: 900 })
+          await openWithTextSize(page, route)
+          await expect(page.locator('html')).toHaveAttribute('lang', /^es/u)
           await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
           await expectVisibleCopyOnScreen(page.locator('main'))
         })

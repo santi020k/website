@@ -4,6 +4,7 @@ seoTitle: "Conjunto de réplicas MongoDB en macOS con Homebrew"
 description: "Convierte MongoDB en un conjunto de réplicas local en macOS con Homebrew: cambios en mongod.conf, configuración de replicación y verificación."
 coverImage:
   alt: "Un nodo de base de datos independiente se convierte en tres nodos sincronizados en un anillo de replicación"
+sourceHash: "804785846837"
 ---
 
 Configurar un conjunto de réplicas de MongoDB en tu entorno local puede ser esencial para las pruebas y el desarrollo, especialmente cuando necesitas reproducir una configuración similar a producción. En esta guía recorreremos los pasos para configurarlo en tu equipo.

@@ -3,6 +3,7 @@ title: "El fondo de página que costó un segundo de tiempo de bloqueo"
 description: "Un artículo largo obtenía cerca de 0,7 en Lighthouse casi sin JavaScript. La causa era una declaración de CSS que faltaba en el fondo de la página."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
+sourceHash: "56b14c915f99"
 ---
 
 Un artículo de este sitio seguía fallando su comprobación de rendimiento.

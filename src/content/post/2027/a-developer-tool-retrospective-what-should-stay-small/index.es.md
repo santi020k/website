@@ -3,6 +3,7 @@ title: "Retrospectiva de una herramienta de desarrollo: ¿qué debería seguir s
 description: "Una revisión de la expansión de Santi020k Theme del editor a la terminal: la fuente compartida, los límites que cambiaron y lo que revisaría después."
 coverImage:
   alt: "Un núcleo compacto de color lila se ramifica en tres marcos de blanco cálido con formas distintas e interiores violetas a juego"
+sourceHash: "88ca76e48a16"
 ---
 
 Santi020k Theme comenzó como una extensión de VS Code. Después creció para incluir superficies de navegador y terminal, tokens compartidos, recursos generados y rutas de distribución separadas.

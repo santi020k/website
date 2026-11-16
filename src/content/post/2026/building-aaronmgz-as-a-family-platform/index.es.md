@@ -3,6 +3,7 @@ title: "Construir Aaronmgz como plataforma familiar"
 description: "Cómo un sitio personal de inspiración náutica se convirtió en una plataforma familiar compartida para mensajes, invitaciones, administración y un hogar digital duradero."
 coverImage:
   alt: "Un barco de papel se acerca a un puerto digital acogedor con un faro y espacios familiares conectados"
+sourceHash: "d83e67813d36"
 ---
 
 Algunos proyectos comienzan con una oportunidad de mercado. Aaronmgz comenzó con una persona.

@@ -10,6 +10,10 @@ languageSettings:
     locale: en,es,es_ES
     caseSensitive: false
 words:
+  # Now page credit, IndexNow key file, and the testing stack named on the Uses page.
+  - Sivers
+  - indexnow
+  - Vitest
   # Native-binding runtime named in docs/dependency-security.md.
   - emnapi
   # Firefox preference names used by Playwright.

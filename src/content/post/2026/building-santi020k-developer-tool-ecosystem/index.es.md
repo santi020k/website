@@ -6,6 +6,7 @@ coverImage:
 startHere:
   label: "Cómo construyo"
   reason: "Las herramientas compartidas y los límites que conectan mis proyectos sin convertirlos en un solo sistema."
+sourceHash: "bcc955484f34"
 ---
 
 No me propuse construir un ecosistema.

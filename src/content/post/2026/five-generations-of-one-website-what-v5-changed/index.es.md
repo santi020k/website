@@ -3,6 +3,7 @@ title: "Cinco generaciones de un mismo sitio web: qué cambió en la v5"
 description: "Cómo se publicó el rediseño editorial de la v5 mientras cuatro versiones anteriores del sitio seguían en línea como archivos mantenidos y sin indexar."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
+sourceHash: "03758605734a"
 ---
 
 La mayoría de los rediseños eliminan el sitio anterior. El nuevo lo reemplaza, las capturas viejas terminan en una carpeta y un año después nadie recuerda cómo funcionaba la navegación.

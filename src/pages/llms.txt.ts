@@ -66,6 +66,8 @@ export const GET = async ({ site }: APIContext) => {
     ))),
     formatLlmsSection('Optional', [
       formatLlmsLink('Spanish home', absolute('/es/'), 'The same site with a Latin American Spanish interface.'),
+      formatLlmsLink('Now', absolute('/now/'), 'What Santiago is focused on at the moment, with the date it was last updated.'),
+      formatLlmsLink('Uses', absolute('/uses/'), 'The hardware, editor, terminal, and self-built tools he works with.'),
       formatLlmsLink('Accessibility statement', absolute('/accessibility/'), 'Accessibility scope and how to report a problem.'),
       formatLlmsLink('Sitemap', absolute('/sitemap.xml'), 'Every indexable page, including other santi020k.com sites.')
     ])

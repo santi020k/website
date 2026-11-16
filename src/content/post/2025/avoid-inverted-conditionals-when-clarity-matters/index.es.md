@@ -3,6 +3,7 @@ title: "Evita las condiciones invertidas cuando importa la claridad"
 description: "Las condiciones positivas suelen reducir la carga mental y facilitan la lectura, revisión y modificación de las ramas del código."
 coverImage:
   alt: "Un recorrido de decisiones enredado se transforma en dos ramas claras y directas"
+sourceHash: "5ea987debcc4"
 ---
 
 La mayoría de los consejos sobre legibilidad parecen abstractos hasta que se siente su costo en una base de código activa. Las condiciones invertidas son un buen ejemplo. No siempre están mal, pero a menudo hacen que una lógica sencilla tarde más de lo necesario en entenderse.

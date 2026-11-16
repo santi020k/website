@@ -6,6 +6,7 @@ coverImage:
 startHere:
   label: "Por qué creo cosas"
   reason: "Cómo la espera de mi hijo se convirtió en una herramienta tranquila y privada centrada en una interacción importante."
+sourceHash: "cfea596ea000"
 ---
 
 Algunos proyectos nacen de una oportunidad de mercado. Between Contractions nació mientras Alejandra y yo esperábamos a nuestro hijo, Aarón.

@@ -3,6 +3,7 @@ title: "Estándares de diseño adaptable que escalan entre componentes"
 description: "El trabajo adaptable se simplifica cuando los puntos de quiebre y las decisiones de distribución se tratan como un sistema compartido."
 coverImage:
   alt: "Un mismo sistema de interfaz que se adapta a marcos de distribución para móvil, tableta y escritorio"
+sourceHash: "2bef665223bb"
 ---
 
 El diseño adaptable se vuelve desordenado cuando los equipos lo tratan como un conjunto de correcciones aisladas. Un componente recibe un ajuste para móvil. Otro, un punto de quiebre exclusivo. Un tercero cambia sus espacios con una lógica totalmente distinta. Todo sigue apareciendo en pantalla, pero el sistema deja de sentirse predecible.

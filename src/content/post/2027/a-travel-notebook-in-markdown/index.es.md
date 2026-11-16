@@ -3,6 +3,7 @@ title: "Un cuaderno de viajes en Markdown: cómo modelar lo que aún no has escr
 description: "Cómo construí páginas por país para mi cuaderno de viajes con un esquema que distingue lo no respondido del cero, separa hechos y opiniones en archivos distintos y oculta las páginas vacías de los buscadores."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
+sourceHash: "345befd0ca05"
 ---
 
 La [página de viajes](/es/travel/) de este sitio tiene un mapa del mundo y un cuaderno con los países en los que he estado. Ahora cada país tiene su propia página.

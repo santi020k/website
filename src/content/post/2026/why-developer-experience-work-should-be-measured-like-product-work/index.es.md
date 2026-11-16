@@ -4,6 +4,7 @@ description: "Mide la experiencia de desarrollo con tiempo de ciclo, velocidad d
 seoTitle: "Cómo medir la experiencia de desarrollo"
 coverImage:
   alt: "Señales del flujo de desarrollo alimentan un ciclo de medición y resultados similar al de un producto"
+sourceHash: "82c4e3a5f049"
 ---
 
 El trabajo de experiencia de desarrollo tiende a desaparecer de la conversación.

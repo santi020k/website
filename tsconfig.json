@@ -29,7 +29,8 @@
   },
   "include": [
     ".astro/types.d.ts",
-    "**/*"
+    "**/*",
+    "src/pages/.well-known/*.ts"
   ],
   "exclude": [
     "apps",

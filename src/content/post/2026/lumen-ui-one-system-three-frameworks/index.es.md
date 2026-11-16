@@ -3,6 +3,7 @@ title: "Lumen UI: un sistema, tres frameworks"
 description: "Cómo construí 123 primitivas accesibles para Astro, React y Web Components compartiendo tokens y comportamiento, sin imponer un único modelo de ejecución."
 coverImage:
   alt: "Primitivas y tokens de interfaz compartidos fluyen hacia tres implementaciones distintas de frameworks"
+sourceHash: "371b1b2860a7"
 ---
 
 «Funciona con varios frameworks» puede significar cosas muy diferentes.

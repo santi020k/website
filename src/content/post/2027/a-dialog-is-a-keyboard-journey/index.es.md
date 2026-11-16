@@ -3,6 +3,7 @@ title: "Un diálogo es un recorrido con el teclado"
 description: "Abrir un diálogo es solo el primer paso. Una revisión práctica de la entrada, contención, salida y retorno del foco en un producto basado en componentes."
 coverImage:
   alt: "Un anillo de foco cian resalta una piedra dentro de un marco de vidrio conectado a otra piedra que representa el control de apertura"
+sourceHash: "386ed1496a59"
 ---
 
 Un diálogo puede parecer completo en una captura de pantalla antes de que se haya considerado su recorrido con el teclado.

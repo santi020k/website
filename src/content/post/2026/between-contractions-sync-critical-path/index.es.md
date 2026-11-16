@@ -3,6 +3,7 @@ title: "Between Contractions: sincronización en pareja con prioridad local"
 description: "Cómo diseñé Partner Sync opcional y multiplataforma sin hacer que un contador de contracciones dependa de la red, una cuenta o una base central de historiales."
 coverImage:
   alt: "Tres plataformas de dispositivos independientes conectadas mediante una capa opcional de sincronización en la nube alrededor de un contador local"
+sourceHash: "ab5c46284a33"
 ---
 
 El requisito más importante de un contador de contracciones no es la sincronización.

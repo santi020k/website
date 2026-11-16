@@ -29,6 +29,8 @@ const navLinks = [
 ].map(link => ({ ...link, path: localizePath(link.path, locale) }))
 
 const resourceLinks = [
+  { path: '/now/', title: t('shared.now') },
+  { path: '/uses/', title: t('shared.uses') },
   { path: '/history/', title: t('shared.websiteHistory') },
   { path: '/accessibility/', title: t('shared.accessibility') },
   { path: '/privacy/', title: t('shared.privacy') },

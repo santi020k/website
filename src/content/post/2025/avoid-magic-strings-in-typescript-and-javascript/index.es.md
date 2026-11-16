@@ -3,6 +3,7 @@ title: "Evita las cadenas de texto mágicas en TypeScript y JavaScript"
 description: "Reemplaza cadenas dispersas por un lenguaje de dominio más claro, tipos más sólidos y refactorizaciones más seguras."
 coverImage:
   alt: "Fragmentos de cadenas sueltos se convierten en valores de dominio tipados y conectados en un sistema estructurado"
+sourceHash: "05aadc2d2b74"
 ---
 
 Las cadenas de texto mágicas parecen inofensivas hasta que la base de código tiene mucha actividad. Una cadena aislada rara vez es el problema. La dificultad comienza cuando el mismo valor participa en el flujo de control, estados de interfaz, claves de analítica, mapeos de API o manejo de errores en varios lugares a la vez.

@@ -6455,6 +6455,74 @@
       ],
       "pathname": "/travel/colombia/",
       "title": "Colombia — Travel notebook"
+    },
+    "/now/": {
+      "alt": "Now — Santiago Molina",
+      "description": "What Santiago Molina is focused on now: current projects, recent writing, and the kinds of work he is open to.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/now.webp",
+          "primary": true,
+          "url": "/og/pages/now.webp?v=349e2af57cf7",
+          "version": "349e2af57cf7",
+          "width": 1200
+        }
+      ],
+      "pathname": "/now/",
+      "title": "Now"
+    },
+    "/uses/": {
+      "alt": "Uses — Santiago Molina",
+      "description": "The hardware, editor, terminal, and self-built tools Santiago Molina uses every day, and the stack behind santi020k.com.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/uses.webp",
+          "primary": true,
+          "url": "/og/pages/uses.webp?v=893c90007b7a",
+          "version": "893c90007b7a",
+          "width": 1200
+        }
+      ],
+      "pathname": "/uses/",
+      "title": "Uses"
+    },
+    "/es/now/": {
+      "alt": "Ahora · Español — Santiago Molina",
+      "description": "En qué se enfoca Santiago Molina ahora: proyectos actuales, publicaciones recientes y el tipo de trabajo al que está abierto.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/es--now.webp",
+          "primary": true,
+          "url": "/og/pages/es--now.webp?v=752e2dd5cb3d",
+          "version": "752e2dd5cb3d",
+          "width": 1200
+        }
+      ],
+      "pathname": "/es/now/",
+      "title": "Ahora · Español"
+    },
+    "/es/uses/": {
+      "alt": "Herramientas · Español — Santiago Molina",
+      "description": "El hardware, el editor, la terminal y las herramientas propias que Santiago Molina usa cada día, y el stack detrás de santi020k.com.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/es--uses.webp",
+          "primary": true,
+          "url": "/og/pages/es--uses.webp?v=138d2f377b61",
+          "version": "138d2f377b61",
+          "width": 1200
+        }
+      ],
+      "pathname": "/es/uses/",
+      "title": "Herramientas · Español"
     }
   },
   "version": 1

@@ -3,6 +3,7 @@ title: "Un solo AGENTS.md para todos los agentes de programación"
 description: "Dos archivos de instrucciones para dos agentes de programación se fueron separando en mi repositorio. Qué unifiqué, qué archivé y cómo mantengo las instrucciones lo bastante cortas para que se lean."
 coverImage:
   alt: "Portada provisional: un panel grafito con una sola franja violeta, a la espera de la ilustración final"
+sourceHash: "d2edf07ebe95"
 ---
 
 Trabajo en este sitio con más de un agente de programación. Durante un tiempo el repositorio tuvo un archivo de instrucciones para cada uno.

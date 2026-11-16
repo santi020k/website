@@ -3,6 +3,7 @@ title: "Lumen 2.0.0: un sistema para web y plataformas nativas"
 description: "Cómo Lumen 2.0.0 extiende un lenguaje de diseño accesible a Astro, React, Web Components, React Native, SwiftUI y Jetpack Compose."
 coverImage:
   alt: "Un núcleo luminoso de tokens compartidos conecta cuatro estructuras con formas propias de distintas plataformas"
+sourceHash: "f5b34ae4e322"
 ---
 
 Lumen comenzó con una pregunta sobre la web: ¿puede un sistema de diseño admitir distintos frameworks sin obligarlos a fingir que son el mismo?

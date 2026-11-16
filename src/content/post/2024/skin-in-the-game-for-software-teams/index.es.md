@@ -3,6 +3,7 @@ title: "Comprometerse con los resultados en los equipos de software"
 description: "Por qué los buenos ingenieros se preocupan por el producto, los usuarios y la salud del sistema, más allá de terminar tareas."
 coverImage:
   alt: "Producto, usuarios, ingeniería y confiabilidad conectados alrededor de un resultado compartido"
+sourceHash: "b9baa6c74c12"
 ---
 
 Asumir la responsabilidad es una de las expresiones más sobrecargadas del software. Mal utilizada, se convierte en una forma de pedir heroísmo, disponibilidad a toda hora o culpas silenciosas. Bien utilizada, significa algo mucho más sano: quienes construyen el producto actúan como si el resultado importara.

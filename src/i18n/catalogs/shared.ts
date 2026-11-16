@@ -26,6 +26,8 @@ export const sharedMessages = {
   'nav.work': { en: 'Work', es: 'Experiencia' },
   'search.title': { en: 'Search', es: 'Buscar' },
   'shared.accessibility': { en: 'Accessibility', es: 'Accesibilidad' },
+  'shared.now': { en: 'Now', es: 'Ahora' },
+  'shared.uses': { en: 'Uses', es: 'Herramientas' },
   'mentions.heading': { en: 'Across the IndieWeb', es: 'En la IndieWeb' },
   'shared.aLowVolumeEmailWithNew': { en: 'A low-volume email with new posts on software, reading, gaming, and everyday discoveries.', es: 'Un correo ocasional con nuevos artículos sobre software, lectura, videojuegos y descubrimientos cotidianos.' },
   'shared.arrowKeys': { en: 'Arrow keys', es: 'Flechas' },

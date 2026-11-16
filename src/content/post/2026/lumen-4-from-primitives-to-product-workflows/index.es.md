@@ -3,6 +3,7 @@ title: "Lumen 4: de primitivas a flujos de producto"
 description: "Dentro de la candidata de Lumen 4: gráficos más completos, espacios multimedia, movimiento, mejoras nativas y una migración deliberada desde v3."
 coverImage:
   alt: "Un núcleo modular luminoso conecta un gráfico de escritorio, un marco móvil y una pieza multimedia translúcida"
+sourceHash: "3e41d579e6c9"
 ---
 
 Cuando abrí la solicitud de cambios de la versión Lumen 4, su tamaño era difícil de ignorar: más de 6.500 archivos modificados y unas 343.000 líneas añadidas.

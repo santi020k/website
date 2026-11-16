@@ -3,6 +3,7 @@ title: "Imágenes Open Graph deterministas sin quedar atado a un diseño"
 description: "Por qué separé los mecanismos de generación de imágenes sociales del diseño de cada proyecto y construí caché, limpieza segura, concurrencia con workers y comprobaciones de CI alrededor de ese límite."
 coverImage:
   alt: "Un motor de generación determinista produce varias plantillas de tarjetas sociales propias de cada proyecto"
+sourceHash: "6dad06769748"
 ---
 
 Las imágenes Open Graph ocupan un lugar incómodo en un proyecto web.

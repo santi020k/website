@@ -3,6 +3,7 @@ title: "Mejora tus comentarios de revisión con Conventional Comments"
 description: "Un lenguaje ligero para revisar código con comentarios más claros, amables y fáciles de llevar a la práctica."
 coverImage:
   alt: "Señales diferenciadas de comentarios de revisión que fluyen desde un cambio de código hasta una corrección concreta"
+sourceHash: "20c3139d5990"
 ---
 
 La mayoría de los problemas de revisión no se deben a la mala intención. Se deben a la ambigüedad.
