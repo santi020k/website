@@ -67,7 +67,15 @@ for (const width of [320, 390, 768, 1024, 1440]) {
 
         test('project actions fit their controls and the related-work shelf', async ({ page }) => {
           await openWithTextSize(page, '/portfolio/lumen-ui/', textSize)
-          // Enhanced galleries hide their fallback anchors and expose dialog buttons.
+          // Wait for enhancement before selecting visible controls: a fallback can
+          // otherwise become hidden between selector resolution and measurement.
+          const galleries = page.locator('main gallery-viewer')
+
+          expect(await galleries.count()).toBeGreaterThan(0)
+          for (const gallery of await galleries.all()) {
+            await expect(gallery.locator('[data-gallery-open]')).toBeVisible()
+            await expect(gallery.locator('[data-gallery-fallback]')).toBeHidden()
+          }
           await expectControlsFit(page.locator('main [data-slot="button-link"]:visible, main [data-gallery-control]:visible'))
           const browse = page.getByRole('link', { name: 'Browse all projects', exact: true })
 
