@@ -178,24 +178,26 @@
 
     /* On short viewports the rail scrolls. Fade whichever edge still hides content so a card
        is never cut mid-line; the timeline is inactive (no fade) when everything fits. */
-    @supports (animation-timeline: scroll()) {
-      aside[data-reading-rail] {
-        mask-image: linear-gradient(
-          to bottom,
-          transparent,
-          #000 var(--reading-rail-fade-top),
-          #000 calc(100% - var(--reading-rail-fade-bottom)),
-          transparent
-        );
-        animation: reading-rail-fade linear both;
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: scroll()) {
+        aside[data-reading-rail] {
+          mask-image: linear-gradient(
+            to bottom,
+            transparent,
+            #000 var(--reading-rail-fade-top),
+            #000 calc(100% - var(--reading-rail-fade-bottom)),
+            transparent
+          );
+          animation: reading-rail-fade linear both;
+        }
+
+        /* A separate rule: minifiers fold the timeline into the shorthand, which browsers reject. */
+        html aside[data-reading-rail] { animation-timeline: scroll(self block); }
+
+        /* Native keyboard scrolling may place a focused link against either edge.
+           Keep its text and focus outline fully visible throughout rail navigation. */
+        aside[data-reading-rail]:focus-within { mask-image: none; }
       }
-
-      /* A separate rule: minifiers fold the timeline into the shorthand, which browsers reject. */
-      html aside[data-reading-rail] { animation-timeline: scroll(self block); }
-
-      /* Native keyboard scrolling may place a focused link against either edge.
-         Keep its text and focus outline fully visible throughout rail navigation. */
-      aside[data-reading-rail]:focus-within { mask-image: none; }
     }
 
     [data-reading-rail-divider] {

@@ -22,6 +22,23 @@ const expectUnobscuredFocus = async (control: Locator, rail: Locator) => {
   })).toBe(true)
 }
 
+test('reading rail fades stay disabled with reduced motion', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 600 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/portfolio/smith-commerce/')
+  const rail = page.locator('aside[data-reading-rail]')
+
+  await expect(rail).toBeVisible()
+  await expandChapters(rail)
+  for (const progress of [0, 0.5, 1]) {
+    await rail.evaluate((element, fraction) => {
+      element.scrollTop = (element.scrollHeight - element.clientHeight) * fraction
+    }, progress)
+    await expect(rail).toHaveCSS('animation-name', 'none')
+    await expect(rail).toHaveCSS('mask-image', 'none')
+  }
+})
+
 for (const width of [1280, 1440]) {
   for (const theme of ['light', 'dark']) {
     test(`short reading rails keep forward and reverse keyboard focus clear at ${width}px in ${theme}`, async ({ page, browserName }) => {
