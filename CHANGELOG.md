@@ -13,7 +13,7 @@
 - [#162](https://github.com/santi020k/website/pull/162) [`833a4c2`](https://github.com/santi020k/website/commit/833a4c250f9bbbc38df153c3356b547a3af1311f) Thanks [@santi020k](https://github.com/santi020k)! - Upgrade the current site to Lumen 5.0.0 and its named santi020k light/dark themes.
   Preserve saved theme choices, comments, and client navigation while keeping archived
   websites on their existing Lumen version and palette.
-  
+
   Adopt selective component CSS, public travel-map hooks, recoverable product-film playback,
   and incremental image zoom and pan with localized retry controls.
 
