@@ -221,9 +221,15 @@ test.describe('Without JavaScript', () => {
         await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
         await page.goto(`/${era}/`)
         await page.evaluate(() => {
+          // Legacy reduced-motion styles still give text properties 1ms transitions. Without
+          // JavaScript, WebKit replays them across the page for several seconds after the root
+          // size changes, so this layout check turns transitions off before enlarging the text.
+          const style = document.createElement('style')
+
+          style.textContent = '*, *::before, *::after { transition: none !important; }'
+          document.head.append(style)
           document.documentElement.style.fontSize = `${Number.parseFloat(getComputedStyle(document.documentElement).fontSize) * 2}px`
         })
-        // Legacy reduced-motion styles still transition inherited font sizes for 1ms.
         // Poll externally: animation-frame promises can stall in no-JavaScript WebKit.
         await expect.poll(() => page.evaluate(() => {
           const activeAnimations = document.getAnimations().filter(animation => animation.pending || animation.playState === 'running')
