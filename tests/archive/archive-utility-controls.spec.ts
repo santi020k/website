@@ -220,17 +220,37 @@ test.describe('Without JavaScript', () => {
       test(`${era} enlarged notice remains usable without JavaScript in ${theme}`, async ({ page, isMobile }) => {
         await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
         await page.goto(`/${era}/`)
+        const notice = page.getByRole('complementary', { name: 'Website archive' })
+        const enlargedFontSizes = await notice.evaluate(element => (
+          [document.documentElement, element, ...element.querySelectorAll('*')]
+            .map(node => Number.parseFloat(getComputedStyle(node).fontSize) * 2)
+        ))
+
         await page.evaluate(() => {
           document.documentElement.style.fontSize = `${Number.parseFloat(getComputedStyle(document.documentElement).fontSize) * 2}px`
         })
         // Legacy reduced-motion styles still transition inherited font sizes for 1ms.
-        // Poll externally: animation-frame promises can stall in no-JavaScript WebKit.
-        await expect.poll(() => page.evaluate(() => {
-          const activeAnimations = document.getAnimations().filter(animation => animation.pending || animation.playState === 'running')
+        // Check the notice itself: unrelated page transitions can continue in WebKit.
+        await expect.poll(() => notice.evaluate(element => (
+          [document.documentElement, element, ...element.querySelectorAll('*')]
+            .map(node => Number.parseFloat(getComputedStyle(node).fontSize))
+        ))).toEqual(enlargedFontSizes)
+        let previousBounds: number[] = []
 
-          return activeAnimations.length
-        })).toBe(0)
-        const notice = page.getByRole('complementary', { name: 'Website archive' })
+        await expect.poll(async () => {
+          const bounds = await notice.evaluate(element => (
+            [element, ...element.querySelectorAll('a')].flatMap(node => {
+              const { x, y, width, height } = node.getBoundingClientRect()
+
+              return [x, y, width, height]
+            })
+          ))
+          const stable = bounds.length === previousBounds.length &&
+            bounds.every((value, index) => value === previousBounds[index])
+
+          previousBounds = bounds
+          return stable
+        }).toBe(true)
 
         await expectNoticeAboveNavigation(page, notice)
         await expectTextFits(notice)
