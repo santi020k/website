@@ -3,7 +3,10 @@
   "agentGuidance": false,
   "globalDependencies": [
     "pnpm-workspace.yaml",
-    "packages/website-history/**"
+    "packages/website-history/**",
+    ".nvmrc",
+    "scripts/js/archive-cache-context.mjs",
+    "scripts/js/build-sites.mjs"
   ],
   "tasks": {
     "build:site": {
@@ -57,7 +60,9 @@
     "WEBMENTION_API_KEY",
     "WEBMENTION_PINGBACK",
     "WEBMENTION_URL",
-    "npm_lifecycle_event"
+    "npm_lifecycle_event",
+    "WEBSITE_ARCHIVE_BUILD_DATE",
+    "WEBSITE_ARCHIVE_CACHE_IDENTITY"
   ],
   "globalPassThroughEnv": [
     "CI_BASE_SHA",

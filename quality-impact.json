@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "global_inputs": [
+    "quality-impact.json",
+    ".quality-version",
+    "quality.yml",
+    "package.json",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    "turbo.json",
+    ".nvmrc",
+    ".github/",
+    "scripts/",
+    "packages/"
+  ],
+  "ignored_inputs": [],
+  "nodes": {
+    "documentation": {
+      "inputs": [
+        "docs/",
+        "README.md",
+        "AGENTS.md",
+        ".changeset/"
+      ],
+      "command": "pnpm",
+      "args": [
+        "run",
+        "lint:md"
+      ]
+    },
+    "current": {
+      "inputs": [
+        "src/",
+        "public/",
+        "tests/"
+      ],
+      "command": "pnpm",
+      "args": [
+        "run",
+        "verify:quality"
+      ]
+    },
+    "archives": {
+      "inputs": [
+        "apps/v1/",
+        "apps/v2/",
+        "apps/v3/",
+        "apps/v4/"
+      ],
+      "command": "pnpm",
+      "args": [
+        "run",
+        "check:apps"
+      ]
+    },
+    "motion": {
+      "inputs": [
+        "apps/motion/"
+      ],
+      "command": "pnpm",
+      "args": [
+        "run",
+        "test:motion"
+      ]
+    },
+    "production-build": {
+      "inputs": [],
+      "depends_on": [
+        "current",
+        "archives",
+        "motion"
+      ],
+      "command": "pnpm",
+      "args": [
+        "run",
+        "build"
+      ]
+    },
+    "browser": {
+      "inputs": [],
+      "depends_on": [
+        "production-build"
+      ],
+      "command": "pnpm",
+      "args": [
+        "run",
+        "test:e2e:ci:stable"
+      ]
+    },
+    "security": {
+      "inputs": [],
+      "always": true,
+      "command": "pnpm",
+      "args": [
+        "run",
+        "audit"
+      ]
+    },
+    "lighthouse": {
+      "inputs": [],
+      "depends_on": [
+        "production-build"
+      ],
+      "command": "pnpm",
+      "args": [
+        "run",
+        "lighthouse:full"
+      ]
+    }
+  }
+}

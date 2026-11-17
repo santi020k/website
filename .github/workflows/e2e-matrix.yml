@@ -27,9 +27,17 @@ jobs:
           filter: blob:none
           persist-credentials: false
       - name: Set up pnpm workspace
-        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
+        uses: santi020k/quality/actions/setup-pnpm@ff490e9efbd5fdfbdb1e6c404f1741d04c57f585 # v2.0.0
         with:
           node-version: "24.x"
+      - name: Restore archive task cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: .turbo/cache
+          key: archive-tasks-v1-${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            archive-tasks-v1-${{ runner.os }}-${{ runner.arch }}-
+
       # Tracked OG images and .og-cache.json come from the checkout, never a cache.
       - name: Cache Astro image transformations
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
@@ -84,7 +92,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm workspace
-        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
+        uses: santi020k/quality/actions/setup-pnpm@ff490e9efbd5fdfbdb1e6c404f1741d04c57f585 # v2.0.0
         with:
           node-version: "24.x"
       - name: Download the production build

@@ -15,6 +15,41 @@ permissions:
   contents: read
 
 jobs:
+  impact:
+    name: Quality v2 impact shadow
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out committed source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install pinned Quality CLI
+        run: |
+          curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/santi020k/quality/ff490e9efbd5fdfbdb1e6c404f1741d04c57f585/install.sh -o "$RUNNER_TEMP/install-quality.sh"
+          sh "$RUNNER_TEMP/install-quality.sh" santi020k/quality "v$(cat .quality-version)"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Test conservative impact selection
+        run: node --test scripts/js/quality-impact.node-test.mjs
+      - name: Plan committed revision without replacing required checks
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CI_HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if [[ -z "$CI_BASE_SHA" || "$CI_HEAD_REF" == release/* || "$CI_HEAD_REF" == changeset-release/* ]]; then
+            quality impact plan --full --format json > quality-impact-plan.json
+          else
+            quality impact plan --base "$CI_BASE_SHA" --head HEAD --comparison merge-base --format json > quality-impact-plan.json
+          fi
+      - name: Upload shadow plan
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: quality-impact-plan-${{ github.sha }}-${{ github.run_attempt }}
+          path: quality-impact-plan.json
+          if-no-files-found: error
+          retention-days: 7
+
   static:
     name: Static checks
     runs-on: ubuntu-latest
@@ -47,7 +82,7 @@ jobs:
 
       - name: Set up pnpm workspace
         if: steps.changes.outputs.checks == 'true'
-        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
+        uses: santi020k/quality/actions/setup-pnpm@ff490e9efbd5fdfbdb1e6c404f1741d04c57f585 # v2.0.0
         with:
           node-version: 24.x
 
@@ -94,9 +129,18 @@ jobs:
 
       - name: Set up pnpm workspace
         if: steps.changes.outputs.full == 'true'
-        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
+        uses: santi020k/quality/actions/setup-pnpm@ff490e9efbd5fdfbdb1e6c404f1741d04c57f585 # v2.0.0
         with:
           node-version: 24.x
+
+      - name: Restore archive task cache
+        if: steps.changes.outputs.full == 'true'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: .turbo/cache
+          key: archive-tasks-v1-${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            archive-tasks-v1-${{ runner.os }}-${{ runner.arch }}-
 
       # OG images and .og-cache.json are tracked, so builds use the checked-out
       # copies. Restoring an Actions cache would overwrite the pull request's files.
@@ -149,7 +193,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up pnpm workspace
-        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
+        uses: santi020k/quality/actions/setup-pnpm@ff490e9efbd5fdfbdb1e6c404f1741d04c57f585 # v2.0.0
         with:
           node-version: 24.x
 
@@ -203,7 +247,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up pnpm workspace
-        uses: santi020k/quality/actions/setup-pnpm@208015ed792b633a1455201ae2f3dd8d9b7eb96c # v1.4.0
+        uses: santi020k/quality/actions/setup-pnpm@ff490e9efbd5fdfbdb1e6c404f1741d04c57f585 # v2.0.0
         with:
           node-version: 24.x
 
@@ -230,20 +274,22 @@ jobs:
   # selected succeeded; documentation-only changes skip the build-dependent jobs.
   quality:
     name: Quality gate
-    needs: [static, build, browser, lighthouse]
+    needs: [impact, static, build, browser, lighthouse]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Require every selected check
         env:
+          IMPACT_RESULT: ${{ needs.impact.result }}
           STATIC_RESULT: ${{ needs.static.result }}
           BUILD_RESULT: ${{ needs.build.result }}
           BROWSER_RESULT: ${{ needs.browser.result }}
           LIGHTHOUSE_RESULT: ${{ needs.lighthouse.result }}
+          FULL_BUILD: ${{ needs.build.outputs.full }}
         run: |
           status=0
-          for job in "static:$STATIC_RESULT" "build:$BUILD_RESULT" "browser:$BROWSER_RESULT" "lighthouse:$LIGHTHOUSE_RESULT"; do
+          for job in "impact:$IMPACT_RESULT" "static:$STATIC_RESULT" "build:$BUILD_RESULT" "browser:$BROWSER_RESULT" "lighthouse:$LIGHTHOUSE_RESULT"; do
             result=${job#*:}
             echo "${job%%:*}: $result"
             if [[ "$result" != success && "$result" != skipped ]]; then
@@ -251,8 +297,15 @@ jobs:
               status=1
             fi
           done
-          if [[ "$STATIC_RESULT" != success || "$BUILD_RESULT" != success ]]; then
-            echo "::error::Static checks and the build must succeed."
+          if [[ "$IMPACT_RESULT" != success || "$STATIC_RESULT" != success || "$BUILD_RESULT" != success ]]; then
+            echo "::error::Impact planning, static checks and the build must succeed."
+            status=1
+          fi
+          if [[ "$FULL_BUILD" != true && "$FULL_BUILD" != false ]]; then
+            echo "::error::The build selection output is missing or invalid."
+            status=1
+          elif [[ "$FULL_BUILD" == true && ( "$BROWSER_RESULT" != success || "$LIGHTHOUSE_RESULT" != success ) ]]; then
+            echo "::error::Selected browser tests and Lighthouse must succeed."
             status=1
           fi
           exit "$status"

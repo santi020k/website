@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -92,4 +92,35 @@ test('current-site selection generates Astro types before strict lint', () => {
   const lint = steps.findIndex(args => args.join(' ') === 'run lint:current')
 
   assert.ok(sync >= 0 && sync < lint)
+})
+
+test('the required gate rejects missing selection evidence and skipped selected jobs', () => {
+  const workflow = readFileSync(new URL('../../.github/workflows/build.yml', import.meta.url), 'utf8')
+  const gate = workflow.split('  quality:\n')[1]?.split('        run: |\n')[1]
+
+  assert.ok(gate)
+
+  const success = {
+    IMPACT_RESULT: 'success',
+    STATIC_RESULT: 'success',
+    BUILD_RESULT: 'success',
+    BROWSER_RESULT: 'success',
+    LIGHTHOUSE_RESULT: 'success',
+    FULL_BUILD: 'true'
+  }
+
+  /** @param {Record<string, string>} overrides */
+  const run = overrides => spawnSync('bash', ['-c', gate], {
+    env: { PATH: process.env.PATH, ...success, ...overrides }, encoding: 'utf8'
+  }).status
+
+  assert.equal(run({}), 0)
+
+  for (const job of ['IMPACT_RESULT', 'STATIC_RESULT', 'BUILD_RESULT', 'BROWSER_RESULT', 'LIGHTHOUSE_RESULT']) {
+    for (const result of ['skipped', 'cancelled', 'failure', '']) assert.equal(run({ [job]: result }), 1)
+  }
+
+  for (const value of ['', 'unknown']) assert.equal(run({ FULL_BUILD: value }), 1)
+
+  assert.equal(run({ FULL_BUILD: 'false', BROWSER_RESULT: 'skipped', LIGHTHOUSE_RESULT: 'skipped' }), 0)
 })

@@ -112,8 +112,9 @@ metadata, and output transformations live in `packages/website-history`.
   caches its `dist/`, so a rebuild replays an unchanged era in under a second. The
   cache key covers the app's tracked files, its resolved dependencies,
   `pnpm-workspace.yaml`, `packages/website-history/`, and the variables in the root
-  `globalEnv`. The current site always rebuilds. Run `pnpm exec turbo run
-  build:site --force` to ignore cached archives.
+  `globalEnv`, plus the runtime, calendar day and archive Git metadata described in
+  [the cache contract](cache-strategy.md#archive-task-outputs). The current site always
+  rebuilds. Run `node scripts/js/build-sites.mjs --force` to ignore cached archives.
 - `pnpm run dev`: develop the current app and timeline.
 - `pnpm --filter @santi020k/website-v2 dev`: develop an individual archive.
 - `pnpm run preview`: serve the assembled production output. Use this for checking
