@@ -30,6 +30,11 @@ jobs:
           curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/santi020k/quality/ff490e9efbd5fdfbdb1e6c404f1741d04c57f585/install.sh -o "$RUNNER_TEMP/install-quality.sh"
           sh "$RUNNER_TEMP/install-quality.sh" santi020k/quality "v$(cat .quality-version)"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Set up Node.js for impact regression tests
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.x
+          package-manager-cache: false
       - name: Test conservative impact selection
         run: node --test scripts/js/quality-impact.node-test.mjs
       - name: Plan committed revision without replacing required checks

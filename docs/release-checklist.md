@@ -9,8 +9,9 @@ pull request rather than growing a log here.
 Published v5.3.0 is the base. `release/v5.4.0` adopts published Quality v2,
 committed-source shadow impact plans, and archive caching with explicit clock,
 runtime and Git-history inputs. Full release, security and deployment gates remain.
-The minor Changeset requests v5.4.0; the existing GitHub Release workflow generates
-version metadata and the changelog after integration into `main`.
+The minor Changeset has been consumed with `pnpm run version-packages`; package
+metadata and the generated changelog now declare v5.4.0. The GitHub Release
+workflow creates the tag and release from the merged `main` commit.
 
 ### Before the pull request
 
@@ -34,6 +35,9 @@ version metadata and the changelog after integration into `main`.
 - [ ] Resolve review findings and required checks on the pull request revision.
 
 ### Merge and deploy
+
+- [ ] Record the current healthy Cloudflare production deployment ID and its source
+  commit before merging, so v5.4.0 can be rolled back without moving published tags.
 
 - [ ] Add the `CLOUDFLARE_DEPLOY_HOOK_URL` repository secret so scheduled publishing can deploy
   due posts (see [deployment](deployment.md)), and install the Renovate GitHub app (see
