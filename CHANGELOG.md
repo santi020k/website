@@ -1,5 +1,35 @@
 # Changelog
 
+## 5.3.0
+
+### Minor Changes
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Connect project covers between portfolio cards and case studies during page transitions, draw the career timeline rail as each role scrolls into view, and let the homepage and About photos drift slightly inside their frames. All three stay still with reduced motion.
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - RSS and JSON feeds carry each article in full, in English and Spanish, so feed readers and the newsletter's RSS-to-email no longer stop at the summary. The article HTML is trimmed for readers and email: page controls, icons and print-only references are left out, highlighted code becomes plain preformatted text, folded code examples appear once in full, and links and images use absolute URLs. JSON Feed items use `content_html` and keep the description as `summary`.
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Add Now and Uses pages in English and Spanish, linked from the footer, search, `llms.txt`, and the sitemap. Publish a `security.txt` contact that renews with every deployment. Scheduled publishing now holds back posts that still use the placeholder cover, and announces new posts through IndexNow and Webmentions once production lists them. Spanish translations record the English version they match, so content lint reports translations that fall behind. The header policy can send violation reports to an optional collector Worker.
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Add Spanish RSS and JSON feeds at `/es/feed.xml` and `/es/feed.json` that list translated articles, and make the technologies index about half its previous size by creating each match arrow only when a search needs it.
+
+### Patch Changes
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Redirect addresses people guess: `/contact/` and `/hire/` (and `/es/contact/`, `/es/contacto/`) open Work with me, and `/rss`, `/feed`, `/rss.xml`, and `/atom.xml` open the RSS feed (`/es/rss.xml` the Spanish one).
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Align the homepage search title with the site's "Engineering Leader" positioning and use one label, "Let's talk", for the homepage links to the Work with me page.
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Align project, work, and technology collection structured data with the active language. Recover cached pages during server errors while preserving uncached error responses, fresh missing-page responses, and file downloads.
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Keep keyboard-focused reading links clear of the sidebar fade and disable that fade for reduced motion. Preserve the first theme click while enhancements load or a new page mounts, including when saving preferences is blocked. Interpret scheduled post metadata with the same YAML and date rules as the site, reject oversized security reports while streaming their bodies, and detect changes to English link labels in translation freshness checks.
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Repair outbound links that stopped working. The Quality case study links its public site instead of a demo behind a login; Aaronmgz and Between Contractions no longer link private repositories; Nebular, Justbit, and the TEDx Medellín mention of Justbit open Web Archive copies of sites that closed, labeled as archives; and the Xteink firmware guide links an archived copy of the vendor's update page. Older posts link the final addresses of moved pages.
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Serve career timeline logos at responsive sizes matched to their displayed shape and screen density.
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Complete Spanish project-link labels, portfolio navigation, and printed article references. Align blog, series, and homepage structured data with localized content and emit the Spanish error document required for Cloudflare Pages missing-route recovery.
+
+- [#167](https://github.com/santi020k/website/pull/167) [`32786c1`](https://github.com/santi020k/website/commit/32786c125832f7184beb6adc4cecf11098910c07) Thanks [@santi020k](https://github.com/santi020k)! - Send the same hashed script policy in the response header as in each page, so inline scripts run only when they match this build. Extend HTTPS enforcement to subdomains and isolate the site from cross-origin windows. Archived websites keep the policy they were built with.
+
 ## 5.2.0
 
 ### Minor Changes
