@@ -5,8 +5,8 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 ## Active release
 
 The current integration target is `release/v5.3.0`, opened on November 12, 2026
-from `release/v5.2.1`, which it supersedes. It builds on the published `v5.2.0`
-baseline (`#162`) and carries the `5.2.0` version bump, homepage search title and
+from `release/v5.2.1`, which it supersedes. It builds on the `v5.2.0` preparation
+(`#162`) and carries the `5.2.0` version bump, homepage search title and
 contact label alignment, refreshed résumé artifacts, and workflow dependency updates
 from that branch. It adds Spanish feeds, a lighter technologies index, the hashed
 header script policy, scheduled publishing, Renovate, and connected cover and

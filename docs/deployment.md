@@ -323,7 +323,13 @@ mix another run's results.
 If a production regression is detected:
 
 1. Promote the previous healthy Cloudflare Pages production deployment. For a
-   regression in v5.3.0, use the verified v5.2.0 deployment.
+   regression in v5.3.0, use deployment `876e2ca5-af20-488c-9136-3d049422e005`
+   from commit `833a4c250f9bbbc38df153c3356b547a3af1311f` (package version 5.1.0),
+   completed on November 9, 2026. Its immutable URL is
+   <https://876e2ca5.private-website-5zr.pages.dev>.
+   The `v5.2.0` tag was created when the carried version bump reached `main`
+   in #167; it already contains the v5.3.0 application changes and is not the
+   previous production build. Preserve that tag and select the deployment by ID.
 2. Re-run the release smoke checks against the restored deployment.
 3. Prepare a revert or fix through a reviewed pull request and validate the
    resulting production deployment. Preserve any published version tag and use a
