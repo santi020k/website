@@ -14,8 +14,10 @@ export const createOfflinePreview = async (
 ) => {
   if (!baseURL) throw new Error('Missing test preview URL')
 
+  const previewURL = new URL(baseURL)
   let online = true
   let stalled = false
+  let responseStatus: number | undefined
   let heldRequests = 0
   const stalledResponses = new Set<ServerResponse>()
 
@@ -32,6 +34,12 @@ export const createOfflinePreview = async (
       return
     }
 
+    if (responseStatus !== undefined) {
+      response.writeHead(responseStatus, { 'Content-Type': 'text/plain' }).end(`Preview response ${responseStatus}`)
+
+      return
+    }
+
     if (stalled) {
       // Accept the request but never send headers, like a connection that stops responding.
       heldRequests += 1
@@ -43,7 +51,16 @@ export const createOfflinePreview = async (
       return
     }
 
-    const destination = redirects[request.url ?? '/']
+    const requestTarget = request.url ?? '/'
+
+    // Accept origin-form targets only; a request must never select the proxy's host.
+    if (!requestTarget.startsWith('/') || requestTarget.startsWith('//') || requestTarget.includes('\\')) {
+      response.writeHead(400).end('Invalid preview path')
+
+      return
+    }
+
+    const destination = redirects[requestTarget]
 
     if (destination) {
       response.writeHead(302, { Location: destination }).end()
@@ -51,7 +68,13 @@ export const createOfflinePreview = async (
       return
     }
 
-    void fetch(new URL(request.url ?? '/', baseURL), { signal: AbortSignal.timeout(10_000) })
+    const upstreamURL = new URL(previewURL)
+    const queryIndex = requestTarget.indexOf('?')
+
+    upstreamURL.pathname = queryIndex < 0 ? requestTarget : requestTarget.slice(0, queryIndex)
+    upstreamURL.search = queryIndex < 0 ? '' : requestTarget.slice(queryIndex)
+
+    void fetch(upstreamURL, { redirect: 'error', signal: AbortSignal.timeout(10_000) })
       .then(async upstream => {
         const body = Buffer.from(await upstream.arrayBuffer())
 
@@ -86,6 +109,9 @@ export const createOfflinePreview = async (
     url: `http://${hostname}:${address.port}`,
     setOnline: (value: boolean) => {
       online = value
+    },
+    setResponseStatus: (value: number | undefined) => {
+      responseStatus = value
     },
     // Held requests are dropped when stalling ends or the preview closes.
     setStalled: (value: boolean) => {

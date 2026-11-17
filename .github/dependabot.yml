@@ -1,8 +1,8 @@
 version: 2
 
 updates:
-  # pnpm catalogs are maintained deliberately because Dependabot currently
-  # rewrites catalog references into lockfiles that fail frozen installs.
+  # Dependabot rewrites pnpm catalog references into lockfiles that fail frozen
+  # installs, so version updates come from Renovate (renovate.json) instead.
   # A zero version-PR limit keeps security update pull requests enabled.
   - package-ecosystem: npm
     directory: /

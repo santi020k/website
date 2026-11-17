@@ -172,6 +172,32 @@
       overflow-y: auto;
       overscroll-behavior: contain;
       scrollbar-width: thin;
+      /* Leave a reading line clear when native focus scrolling reveals a control. */
+      scroll-padding-block: 2rem;
+    }
+
+    /* On short viewports the rail scrolls. Fade whichever edge still hides content so a card
+       is never cut mid-line; the timeline is inactive (no fade) when everything fits. */
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: scroll()) {
+        aside[data-reading-rail] {
+          mask-image: linear-gradient(
+            to bottom,
+            transparent,
+            #000 var(--reading-rail-fade-top),
+            #000 calc(100% - var(--reading-rail-fade-bottom)),
+            transparent
+          );
+          animation: reading-rail-fade linear both;
+        }
+
+        /* A separate rule: minifiers fold the timeline into the shorthand, which browsers reject. */
+        html aside[data-reading-rail] { animation-timeline: scroll(self block); }
+
+        /* Native keyboard scrolling may place a focused link against either edge.
+           Keep its text and focus outline fully visible throughout rail navigation. */
+        aside[data-reading-rail]:focus-within { mask-image: none; }
+      }
     }
 
     [data-reading-rail-divider] {
@@ -418,4 +444,14 @@ a[data-text-link]:is([aria-current='page'], [aria-current='true']) > [data-text-
   @container card-hierarchy (width < 8rem) {
     & [data-card-subtitle] { font-size: min(0.875rem, 13cqi); line-height: 1.5; }
   }
+}
+
+@property --reading-rail-fade-top { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --reading-rail-fade-bottom { syntax: '<length>'; inherits: false; initial-value: 0px; }
+
+@keyframes reading-rail-fade {
+  0% { --reading-rail-fade-top: 0px; --reading-rail-fade-bottom: 3rem; }
+  10% { --reading-rail-fade-top: 1.5rem; }
+  90% { --reading-rail-fade-bottom: 3rem; }
+  100% { --reading-rail-fade-top: 1.5rem; --reading-rail-fade-bottom: 0px; }
 }

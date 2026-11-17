@@ -9,7 +9,9 @@ const copy = {
   description: text,
   cardDescription: text.max(160).optional(),
   seoTitle: text.optional(),
-  coverImage: z.strictObject({ alt: text }).optional()
+  coverImage: z.strictObject({ alt: text }).optional(),
+  // Which English version this copy was translated from; see scripts/js/translation-source.mjs.
+  sourceHash: z.string().regex(/^[\da-f]{12}$/u)
 }
 
 export const postTranslationSchema = z.strictObject({

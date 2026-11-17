@@ -41,6 +41,18 @@ import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
 import { prepareOgImage } from './prepare-og-image.mjs'
 import { renderOgAtmosphere } from './render-og-atmosphere.mjs'
 
+/**
+ * @typedef {import('@santi020k/og/content').ContentEntry} ContentEntry
+ * @typedef {import('@santi020k/og').PresetCardData & {
+ *   badge: string,
+ *   description: string,
+ *   domain: string,
+ *   coverImagePath?: string,
+ *   logoImagePath?: string
+ * }} SocialCardData
+ * @typedef {import('@santi020k/og').OgCard<SocialCardData>} SocialCard
+ */
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..')
 const OUT_DIR = path.join(ROOT, 'public', 'og')
@@ -60,9 +72,12 @@ const PROJECT_LOGO_SURFACES = {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+/** @param {string} filePath */
 const projectAssetPath = filePath => path.relative(ROOT, filePath).split(path.sep).join('/')
+/** @param {string} pathname */
 const getSocialImageFileName = pathname => pathnameOutput(pathname)
 
+/** @param {string} technology */
 const getTechnologySlug = technology => technology
   .normalize('NFKD')
   .replace(/[\u0300-\u036f]/g, '')
@@ -97,6 +112,7 @@ const topicNames = new Map([
   ['vscode', 'VS Code']
 ])
 
+/** @param {string} topic */
 export const formatTopicName = topic => {
   const knownName = topicNames.get(topic.toLowerCase())
 
@@ -113,6 +129,29 @@ export const formatTopicName = topic => {
 // ---------------------------------------------------------------------------
 // Collect image specs
 // ---------------------------------------------------------------------------
+/**
+ * Metadata accepts absent text, but authored values must be strings before rendering.
+ * @param {ContentEntry} entry
+ * @param {string} field
+ * @returns {string | undefined}
+ */
+const metadataText = (entry, field) => {
+  const value = getFrontmatterValue(entry, field)
+
+  if (value === null || value === undefined) return undefined
+
+  if (typeof value !== 'string') throw new TypeError(`${entry.filePath}: ${field} must be a string`)
+
+  return value
+}
+
+/** @param {unknown} value */
+const projectLogoSurface = value => {
+  if (value === 'light' || value === 'neutral' || value === 'dark') return PROJECT_LOGO_SURFACES[value]
+
+  return PROJECT_LOGO_SURFACES.dark
+}
+
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 
 /** Static page definitions (mirrors `src/data/social-pages.ts`). */
@@ -231,6 +270,20 @@ const staticSocialPages = [
   },
   {
     description:
+      'What Santiago Molina is focused on now: current projects, recent writing, and the kinds of work he is open to.',
+    pathname: '/now/',
+    title: 'Now',
+    badge: 'Now'
+  },
+  {
+    description:
+      'The hardware, editor, terminal, and self-built tools Santiago Molina uses every day, and the stack behind santi020k.com.',
+    pathname: '/uses/',
+    title: 'Uses',
+    badge: 'Uses'
+  },
+  {
+    description:
       'How santi020k.com handles data: no ad trackers, no profiling, just a static site with a theme preference.',
     pathname: '/privacy/',
     title: 'Privacy & analytics',
@@ -279,6 +332,7 @@ const nonIndexableStaticPathnames = new Set([
   '/work-with-me/sent/'
 ])
 
+/** @param {ContentEntry} entry */
 export const isPublishedPost = entry => {
   if (includeDrafts) return true
 
@@ -292,6 +346,13 @@ export const isPublishedPost = entry => {
   return Number.isFinite(publishTime) && publishTime <= Date.now()
 }
 
+/**
+ * @param {string} pathname
+ * @param {string} title
+ * @param {string} description
+ * @param {string} badge
+ * @returns {SocialCard}
+ */
 const archiveCard = (pathname, title, description, badge) => ({
   data: { badge, description, domain: pathname, title, variant: 'simple' },
   output: `pages/${getSocialImageFileName(pathname)}`,
@@ -301,7 +362,7 @@ const archiveCard = (pathname, title, description, badge) => ({
 /** Country notes get one card in their authored language once their summary is written. */
 export const collectCountryCards = (root = ROOT) => collectContentCards({
   directory: 'src/content/country',
-  map: entry => {
+  map: /** @returns {SocialCardData | null} */ entry => {
     const notes = travelNotesSchema.parse(entry.frontmatter)
 
     if (!notes.summary) return null
@@ -330,6 +391,7 @@ export const collectCountryCards = (root = ROOT) => collectContentCards({
   })
 })
 
+/** @returns {Promise<SocialCard[]>} */
 export const collectCards = async () => {
   const staticPages = staticSocialPages.map(page => definePageMetadata({
     badge: page.badge,
@@ -343,7 +405,7 @@ export const collectCards = async () => {
     type: page.pathname === '/about/' ? 'profile' : 'website'
   }))
 
-  const staticCards = createCards(staticPages, page => ({
+  const staticCards = createCards(staticPages, /** @returns {SocialCardData} */ page => ({
     badge: page.badge,
     description: page.description,
     domain: page.pathname,
@@ -364,13 +426,14 @@ export const collectCards = async () => {
   })
 
   // Thin archives are not indexed and share their parent index card, so they get no card of their own.
+  /** @type {Set<string>} */
   const thinArchivePathnames = new Set()
 
   const postCards = await collectContentCards({
     archives: [
       paginateArchive({
         basePath: '/blog/',
-        data: context => ({
+        data: /** @returns {SocialCardData} */ context => ({
           badge: 'Blog',
           description: 'Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.',
           domain: context.pathname,
@@ -383,7 +446,7 @@ export const collectCards = async () => {
       }),
       groupArchive({
         basePath: '/blog/tags/',
-        data: context => {
+        data: /** @returns {SocialCardData} */ context => {
           const topic = formatTopicName(context.group)
 
           if (!isIndexedArchive(context.totalItems)) thinArchivePathnames.add(context.pathname)
@@ -407,7 +470,7 @@ export const collectCards = async () => {
     exclude: ['**/index.es.md', '**/index.es.mdx'],
     filter: isPublishedPost,
     includeDrafts,
-    map: async entry => {
+    map: /** @returns {Promise<SocialCardData>} */ async entry => {
       const id = entry.slug.split('/').at(-1) ?? entry.slug
       const coverImagePath = await resolveContentAsset(entry, getFrontmatterValue(entry, 'coverImage.src'))
 
@@ -419,9 +482,9 @@ export const collectCards = async () => {
             image: await prepareOgImage(coverImagePath)
           } :
           {}),
-        description: entry.frontmatter.description ?? '',
+        description: metadataText(entry, 'description') ?? '',
         domain: `/blog/${id}/`,
-        title: entry.frontmatter.title ?? id,
+        title: metadataText(entry, 'title') ?? id,
         variant: coverImagePath ? 'article' : 'simple'
       }
     },
@@ -431,7 +494,9 @@ export const collectCards = async () => {
     sources: (entry, data) => data.coverImagePath ? [entry.filePath, data.coverImagePath] : [entry.filePath]
   })
 
+  /** @type {Map<string, string>} */
   const technologies = new Map()
+  /** @type {Map<string, Set<string>>} */
   const technologyProjects = new Map()
 
   const projectCards = await collectContentCards({
@@ -462,7 +527,7 @@ export const collectCards = async () => {
     exclude: ['**/index.es.md', '**/index.es.mdx'],
     basePath: 'portfolio',
     includeDrafts,
-    map: async entry => {
+    map: /** @returns {Promise<SocialCardData>} */ async entry => {
       const logoImagePath = await resolveContentAsset(
         entry,
         getFrontmatterValue(entry, 'coverImage.logo')
@@ -474,18 +539,16 @@ export const collectCards = async () => {
           {
             image: projectAssetPath(logoImagePath),
             imagePresentation: {
-              background: PROJECT_LOGO_SURFACES[
-                getFrontmatterValue(entry, 'coverImage.logoSurface')
-              ] ?? PROJECT_LOGO_SURFACES.dark,
+              background: projectLogoSurface(getFrontmatterValue(entry, 'coverImage.logoSurface')),
               fit: 'contain',
               padding: 50
             },
             logoImagePath: projectAssetPath(logoImagePath)
           } :
           {}),
-        description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
+        description: metadataText(entry, 'seoDescription') ?? metadataText(entry, 'description') ?? '',
         domain: `/portfolio/${entry.slug}/`,
-        title: entry.frontmatter.title ?? entry.slug,
+        title: metadataText(entry, 'title') ?? entry.slug,
         variant: logoImagePath ? 'product' : 'simple'
       }
     },
@@ -502,11 +565,11 @@ export const collectCards = async () => {
   const seriesCards = await collectContentCards({
     basePath: 'blog/series',
     directory: 'src/content/series',
-    map: entry => ({
+    map: /** @returns {SocialCardData} */ entry => ({
       badge: 'Blog Series',
-      description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
+      description: metadataText(entry, 'seoDescription') ?? metadataText(entry, 'description') ?? '',
       domain: `/blog/series/${entry.slug}/`,
-      title: entry.frontmatter.seoTitle ?? entry.frontmatter.title ?? entry.slug,
+      title: metadataText(entry, 'seoTitle') ?? metadataText(entry, 'title') ?? entry.slug,
       variant: 'simple'
     }),
     output: entry => `pages/${getSocialImageFileName(`/blog/series/${entry.slug}/`)}`,
@@ -547,6 +610,7 @@ export const collectCards = async () => {
       } :
       card)
 
+  /** @type {Map<string, ContentEntry>} */
   const translations = new Map()
 
   for (const [collection, basePath] of [['post', '/blog/'], ['project', '/portfolio/']]) {
@@ -569,14 +633,20 @@ export const collectCards = async () => {
     if (isArticle && !translation) return []
 
     const pathname = `/es${card.route.pathname}`
-    const title = `${translation?.frontmatter.title ?? localizeCollectionSource('es', localizePageSource('es', card.data.title))} · Español`
-    const description = translation?.frontmatter.seoDescription ?? translation?.frontmatter.description ?? localizeCollectionSource('es', localizePageSource('es', card.data.description))
+    const title = `${(translation && metadataText(translation, 'title')) ?? localizeCollectionSource('es', localizePageSource('es', card.data.title))} · Español`
+    const description = (translation && (metadataText(translation, 'seoDescription') ?? metadataText(translation, 'description'))) ?? localizeCollectionSource('es', localizePageSource('es', card.data.description))
     const badge = card.output.startsWith('blog/') ? 'Artículo' : localizeCollectionSource('es', card.data.badge ?? '')
+    const originalSources = card.sources
+    const translationSources = translation ? [translation.filePath] : []
+
+    const sources = typeof originalSources === 'function' ?
+      async () => [...await originalSources(), ...translationSources] :
+      [...originalSources ?? [], ...translationSources]
 
     return [{
       ...card,
       aliases: [],
-      sources: [...card.sources ?? [], ...translation ? [translation.filePath] : []],
+      sources,
       data: { ...card.data, title, description, badge, domain: pathname },
       output: `pages/${getSocialImageFileName(pathname)}`,
       route: { ...card.route, pathname, title, description, alt: `${title} — Santiago Molina` }

@@ -25,7 +25,7 @@ Open the **mongod.conf** file and add the **replication** key to enable replicat
 
 - Location of **mongod.conf**:
 - **/usr/local/etc/mongod.conf** (on Intel processors)
-- **/opt/homebrew/etc/mongod.conf** (on [Apple M1 processors](https://support.apple.com/en-us/HT211814))
+- **/opt/homebrew/etc/mongod.conf** (on [Apple M1 processors](https://support.apple.com/en-us/116943))
 
 Add replication:
 

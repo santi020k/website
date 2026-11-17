@@ -24,6 +24,7 @@ import Stat from '@santi020k/lumen-astro/components/Stat'
 import { getLocale, localizePath } from '@/i18n'
 import { pageTranslator } from '@/i18n/page-copy'
 import { getLocalizedProfile } from '@/i18n/profile'
+import { projectLookup } from '@/loaders/projects'
 import {
   AUTHOR_JOB_TITLE,
   createAuthorSchema,
@@ -37,17 +38,8 @@ const pageLocale = getLocale(Astro.url.pathname)
 const t = pageTranslator(pageLocale)
 const { collaborationLanes, engineeringPrinciples, selectedOrganizations, testimonials } = getLocalizedProfile(pageLocale)
 const yearsOfExperience = YEARS_OF_EXPERIENCE
-const projectsById = new Map((await getCachedProjects()).map(project => [project.id, project]))
-
-const organizationRailItems = selectedOrganizations.map(organization => {
-  const project = projectsById.get(organization.projectId)
-
-  if (!project) {
-    throw new Error(`Missing project for About page organization: ${organization.projectId}`)
-  }
-
-  return { ...organization, project }
-})
+const projectFor = projectLookup(await getCachedProjects(), 'About page organization')
+const organizationRailItems = selectedOrganizations.map(organization => ({ ...organization, project: projectFor(organization.projectId) }))
 
 const aboutPortraitImage = await getImage({
   format: 'avif',

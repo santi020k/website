@@ -3,6 +3,7 @@ title: "Santi020k Theme: del editor a la terminal"
 description: "Cómo una paleta de VS Code se convirtió en un sistema para terminales con seis formatos, tres estilos Starship, shells administradas, validación y Homebrew."
 coverImage:
   alt: "Una paleta violeta se ramifica en temas de terminal y estilos de prompt coordinados"
+sourceHash: "da27e9a693cb"
 ---
 
 El tema de mi editor terminaba en el borde del editor.

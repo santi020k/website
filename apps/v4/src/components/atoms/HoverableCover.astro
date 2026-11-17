@@ -78,6 +78,7 @@ const nativeTargetHeight = Math.round(nativeTargetWidth * image.height / image.w
           motion-reduce:transition-none
         "
         fetchpriority={fetchpriority}
+        fallbackFormat="webp"
         formats={['avif', 'webp']}
         height={nativeTargetHeight}
         loading={loading}
@@ -95,6 +96,7 @@ const nativeTargetHeight = Math.round(nativeTargetWidth * image.height / image.w
           w-full transition-transform duration-700
           group-hover:scale-105
         "
+        fallbackFormat="webp"
         fetchpriority={fetchpriority}
         image={image}
         loading={loading}

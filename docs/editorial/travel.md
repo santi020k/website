@@ -155,7 +155,7 @@ enter a deployment or commit. Regenerate the CV PDFs and rerun the website gates
 the coordinated packages change.
 
 Verify map selection, keyboard zoom, navigation away and back, narrow layouts, themes, and draft
-exclusion using `tests/travel.spec.ts`. Country details remain readable without JavaScript.
+exclusion using `tests/pages/travel.spec.ts`. Country details remain readable without JavaScript.
 
 Rollback the website release through the established deployment workflow, or revert the travel
 page, navigation, and metadata together. Draft source files can remain unpublished independently.

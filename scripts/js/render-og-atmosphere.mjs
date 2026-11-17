@@ -3,6 +3,9 @@
  *
  * Returning `undefined` for cards with cover art preserves the preset's real
  * image visual. Image-free cards receive only diffuse, non-semantic light.
+ * @param {Partial<Pick<import('@santi020k/og').PresetCardData, 'title' | 'image'>>} data
+ * @param {unknown} _context
+ * @param {Pick<import('@santi020k/og').PresetDecorationContext, 'accent'>} decoration
  */
 export const renderOgAtmosphere = (data, _context, { accent }) => {
   if (data.image) return undefined

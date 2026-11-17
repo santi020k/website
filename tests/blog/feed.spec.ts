@@ -1,0 +1,211 @@
+import { expect, test } from '@playwright/test'
+
+interface JsonFeedItem {
+  content_html?: unknown
+  date_published?: unknown
+  external_url?: unknown
+  id?: unknown
+  image?: unknown
+  url?: unknown
+}
+
+interface JsonFeed {
+  favicon?: unknown
+  icon?: unknown
+  items: JsonFeedItem[]
+  version: string
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
+
+const isJsonFeed = (value: unknown): value is JsonFeed => isRecord(value) &&
+  typeof value.version === 'string' &&
+  Array.isArray(value.items) &&
+  value.items.every(isRecord)
+
+const assertJsonFeed: (value: unknown) => asserts value is JsonFeed = value => {
+  if (!isJsonFeed(value)) {
+    throw new TypeError('Expected JSON Feed payload')
+  }
+}
+
+test.describe('RSS feed', () => {
+  test('/feed.xml responds with 200', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    expect(response.status()).toBe(200)
+  })
+
+  test('/feed.xml returns XML content', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const contentType = response.headers()['content-type'] ?? ''
+    expect(contentType).toMatch(/xml/)
+  })
+
+  test('/feed.xml contains a valid RSS channel element', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+
+    expect(body).toContain('<rss')
+    expect(body).toContain('<channel>')
+    expect(body).toContain('<title>')
+    expect(body).toContain('</channel>')
+  })
+
+  test('/feed.xml includes at least one blog post item', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+
+    expect(body).toContain('<item>')
+  })
+
+  test('/feed.xml items link to /blog/ paths', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+
+    // All post links should be under /blog/
+    const linkMatches = body.match(/<link>(.*?)<\/link>/g) ?? []
+    const postLinks = linkMatches.filter(link => link.includes('/blog/'))
+    expect(postLinks.length).toBeGreaterThan(0)
+  })
+
+  test('/feed.xml exposes per-item categories from tags', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+
+    expect(body).toContain('<category>')
+  })
+
+  test('/feed.xml exposes the dc:creator namespace and value', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+
+    expect(body).toMatch(/xmlns:dc=/)
+    expect(body).toContain('<dc:creator>')
+  })
+
+  test('/feed.xml attributes every item through dc:creator, never a name-only <author>', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+    const items = body.match(/<item>[\s\S]*?<\/item>/g) ?? []
+
+    expect(items.length).toBeGreaterThan(0)
+    // RSS 2.0 reserves <author> for an email address.
+    expect(body).not.toMatch(/<author>/)
+
+    for (const item of items) {
+      expect(item).toMatch(/<dc:creator>(?:Santiago Molina|<!\[CDATA\[Santiago Molina\]\]>)<\/dc:creator>/u)
+    }
+  })
+
+  test('/feed.xml carries every article in full, as portable HTML', async ({ page }) => {
+    await page.goto('/')
+
+    const items = await page.evaluate(async () => {
+      const feed = new DOMParser().parseFromString(await (await fetch('/feed.xml')).text(), 'application/xml')
+
+      return [...feed.querySelectorAll('item')].map(item => {
+        const encoded = item.getElementsByTagNameNS('http://purl.org/rss/1.0/modules/content/', 'encoded')[0]?.textContent ?? ''
+        const body = new DOMParser().parseFromString(encoded, 'text/html').body
+        const elements = [...body.querySelectorAll('*')]
+
+        return {
+          controls: body.querySelectorAll('button, input, script, style, svg, template').length,
+          relativeUrls: elements.flatMap(element => [element.getAttribute('href'), element.getAttribute('src')])
+            .filter(url => url !== null && !/^(?:https:|mailto:)/u.test(url)),
+          styled: elements.filter(element => [...element.attributes].some(({ name }) => name === 'class' || name === 'style' || name.startsWith('data-'))).length,
+          textLength: body.textContent.trim().length
+        }
+      })
+    })
+
+    expect(items.length).toBeGreaterThan(0)
+
+    for (const item of items) {
+      expect(item).toMatchObject({ controls: 0, relativeUrls: [], styled: 0 })
+      expect(item.textLength).toBeGreaterThan(500)
+    }
+  })
+})
+
+test.describe('JSON Feed', () => {
+  test('/feed.json responds with 200 and feed+json content-type', async ({ request }) => {
+    const response = await request.get('/feed.json')
+    expect(response.status()).toBe(200)
+    expect(response.headers()['content-type'] ?? '').toMatch(/(feed\+)?json/)
+  })
+
+  test('/feed.json declares JSON Feed 1.1 and includes posts', async ({ request }) => {
+    const response = await request.get('/feed.json')
+    const json = JSON.parse(await response.text()) as unknown
+
+    assertJsonFeed(json)
+    const feed: JsonFeed = json
+    expect(feed.version).toBe('https://jsonfeed.org/version/1.1')
+    expect(feed.icon).toBe('https://santi020k.com/icons/icon-512.webp')
+    expect(feed.favicon).toBe('https://santi020k.com/favicon.webp')
+    expect(feed.items.length).toBeGreaterThan(0)
+    expect(feed.items[0]).toHaveProperty('id')
+    expect(feed.items[0]).toHaveProperty('url')
+    expect(feed.items[0]).toHaveProperty('image')
+    expect(feed.items[0]).toHaveProperty('date_published')
+    expect(feed.items.some(item => typeof item.external_url === 'string')).toBe(true)
+    // The full article, the same HTML as the RSS feed's content:encoded.
+    expect(feed.items.every(item => typeof item.content_html === 'string' && item.content_html.length > 500)).toBe(true)
+  })
+
+  test('home page advertises the JSON feed via <link rel="alternate">', async ({ page }) => {
+    await page.goto('/')
+    const link = page.locator('link[rel="alternate"][type="application/feed+json"]')
+    await expect(link).toHaveAttribute('href', /^\/feed\.json$/)
+  })
+})
+
+test.describe('Spanish feeds', () => {
+  test('/es/feed.xml lists only translated articles at their Spanish addresses', async ({ request }) => {
+    const response = await request.get('/es/feed.xml')
+
+    expect(response.status()).toBe(200)
+
+    const body = await response.text()
+    const links = [...body.matchAll(/<item>.*?<link>([^<]+)<\/link>/gsu)].map(match => match[1])
+
+    expect(body).toContain('<language>es-419</language>')
+    expect(links.length).toBeGreaterThan(0)
+
+    for (const link of links) expect(link).toMatch(/^https:\/\/santi020k\.com\/es\/blog\/[^/]+\/$/u)
+  })
+
+  test('/es/feed.json mirrors the Spanish RSS feed', async ({ request }) => {
+    const response = await request.get('/es/feed.json')
+
+    expect(response.status()).toBe(200)
+    expect(response.headers()['content-type'] ?? '').toMatch(/(feed\+)?json/u)
+
+    const feed = await response.json() as {
+      feed_url: string
+      home_page_url: string
+      items: { url: string }[]
+      language: string
+    }
+
+    const rss = await (await request.get('/es/feed.xml')).text()
+
+    expect(feed.language).toBe('es-419')
+    expect(feed.feed_url).toBe('https://santi020k.com/es/feed.json')
+    expect(feed.home_page_url).toBe('https://santi020k.com/es/')
+    expect(feed.items).toHaveLength(rss.match(/<item>/gu)?.length ?? 0)
+    expect(feed.items.every(item => item.url.startsWith('https://santi020k.com/es/blog/'))).toBe(true)
+  })
+
+  test('Spanish pages advertise the Spanish feeds and English pages keep theirs', async ({ page }) => {
+    await page.goto('/es/')
+    await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute('href', '/es/feed.xml')
+    await expect(page.locator('link[rel="alternate"][type="application/feed+json"]')).toHaveAttribute('href', '/es/feed.json')
+
+    await page.goto('/blog/')
+    await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute('href', '/feed.xml')
+
+    await page.goto('/es/')
+    await expect(page.getByRole('link', { name: 'Sígueme por RSS' })).toHaveAttribute('href', '/es/feed.xml')
+  })
+})

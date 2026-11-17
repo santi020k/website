@@ -62,6 +62,27 @@ describe('imported article code', () => {
     expect(result.querySelector('[data-scroll-cue-message]')?.hasAttribute('id')).toBe(false)
   })
 
+  test.each([1, 25])('escapes every imported input in a %i-line code folio', async lineCount => {
+    const markup = '<img data-injected="true" src="x" onerror="alert(1)"><script>alert(1)</script>'
+    const code = Array.from({ length: lineCount }, () => `</code></pre>${markup}`).join('\n')
+    const label = `source "><span data-injected="true">${markup}</span>.txt`
+    const codeLabel = `Example " onfocus="alert(1)">${markup}`
+    const language = 'unknown"><img data-injected="true" src="x" onerror="alert(1)">'
+    const html = await renderArticleCode({ code, codeLabel, label, language })
+    const result = document.createElement('div')
+
+    result.innerHTML = html
+
+    expect(result.querySelector('[data-injected], script, img, [onerror], [onfocus]')).toBeNull()
+    expect(result.querySelector('figcaption')?.textContent).toContain(label)
+    expect(result.querySelector('[data-copy-value]')?.getAttribute('data-copy-value')).toBe(code)
+    const completeCode = lineCount > 24 ? result.querySelector('details pre') : result.querySelector('pre')
+
+    expect(completeCode?.getAttribute('aria-label')).toBe(codeLabel)
+    expect(completeCode?.textContent).toBe(code)
+    expect(result.querySelector('details') !== null).toBe(lineCount > 24)
+  })
+
   test('keeps shell alternatives in one imported example', async () => {
     const source = 'npm install example\n# or\npnpm add example'
     const result = await render(source, 'bash')

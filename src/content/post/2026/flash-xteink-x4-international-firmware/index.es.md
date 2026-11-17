@@ -4,6 +4,7 @@ seoTitle: "Xteink X4: instalar el firmware en inglés por microSD"
 description: "Guía probada para reemplazar el firmware chino del Xteink X4 por la versión internacional mediante microSD cuando la instalación por USB no está disponible."
 coverImage:
   alt: "Una tarjeta microSD atraviesa tres controles de verificación hacia un lector compacto de tinta electrónica"
+sourceHash: "02149cf9a4a6"
 ---
 
 <!-- cspell:words diskutil unbootable unlocker Xteink -->
@@ -187,7 +188,7 @@ verifica después el hardware y la imagen exactos, y escribe solo cuando ambos c
 
 ## Referencias
 
-- [Actualizaciones del sistema Xteink X4](https://www.xteink.com/pages/xteink-x4-system-update)
+- [Actualizaciones del sistema Xteink X4 (archivada en mayo de 2026)](https://web.archive.org/web/20260511155150/https://www.xteink.com/pages/xteink-x4-system-update)
 - [Herramientas de navegador y firmware original de CrossPoint](https://github.com/crosspoint-reader/crosspoint-tools)
 - [Advertencia de CrossPoint para dispositivos Xteink con USB bloqueado](https://github.com/crosspoint-reader/crosspoint-reader#usb-locked-devices-xteink-unlocker)
 

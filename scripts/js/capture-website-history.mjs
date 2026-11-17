@@ -15,10 +15,10 @@ try {
   await mkdir(output, { recursive: true })
 
   for (const id of [...versions.map(version => version.id), current.id]) {
-    for (const [device, viewport] of [
+    for (const [device, viewport] of /** @type {const} */ ([
       ['desktop', { width: 1440, height: 1000 }],
       ['mobile', { width: 390, height: 844 }]
-    ]) {
+    ])) {
       const page = await browser.newPage({ viewport, colorScheme: 'light', reducedMotion: 'reduce' })
       const url = `${baseUrl}${id === current.id ? '/' : `/${id}/`}`
       const response = await page.goto(url, { waitUntil: 'networkidle' })

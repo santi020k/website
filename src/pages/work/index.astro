@@ -5,6 +5,7 @@ import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
+import { localizeProject } from '@/utils/content-translations'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
@@ -24,7 +25,7 @@ import { siteConfig } from '@/site.config'
 const pageLocale = getLocale(Astro.url.pathname)
 const t = pageTranslator(pageLocale)
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
-const workProjects = allProjects.filter(p => p.data.typesId === 'professional')
+const workProjects = await Promise.all(allProjects.filter(p => p.data.typesId === 'professional').map(project => localizeProject(project, pageLocale)))
 const allTechnologies = getUniqueTechnologiesWithCount(workProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 
@@ -83,7 +84,7 @@ const breadcrumbs = [
   { name: t('nav.work'), url: localizePath('/work/', pageLocale) }
 ]
 
-const workListSchema = createProjectCollectionSchema(t('page.workExperienceSantiagoMolina'), localizePath('/work/', pageLocale), workProjects, Astro.site)
+const workListSchema = createProjectCollectionSchema(t('page.workExperienceSantiagoMolina'), '/work/', workProjects, Astro.site, pageLocale)
 ---
 
 <PageLayout

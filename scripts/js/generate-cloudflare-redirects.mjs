@@ -1,17 +1,16 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { load as loadYaml } from 'js-yaml'
-
+import { readContentFiles } from './utils/frontmatter.mjs'
 import { prepareCloudflareRedirects, validateRedirectDestinations } from './cloudflare-redirects.mjs'
 
 const rootDirectory = fileURLToPath(new URL('../..', import.meta.url))
 const projectDirectory = path.join(rootDirectory, 'src/content/project')
 const baseRedirectsPath = path.join(rootDirectory, 'public/_redirects')
 const outputPath = path.join(rootDirectory, 'dist/_redirects')
-const frontmatterPattern = /^---\r?\n([\s\S]*?)\r?\n---/
 
+/** @param {string} technology */
 const getTechnologySlug = technology => technology
   .normalize('NFKD')
   .replace(/[\u0300-\u036f]/g, '')
@@ -22,38 +21,13 @@ const getTechnologySlug = technology => technology
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-+|-+$/g, '')
 
-const findContentFiles = async directory => {
-  const entries = await readdir(directory, { withFileTypes: true })
-
-  const nestedFiles = await Promise.all(entries.map(async entry => {
-    const entryPath = path.join(directory, entry.name)
-
-    if (entry.isDirectory()) return findContentFiles(entryPath)
-
-    return entry.isFile() && /\.mdx?$/.test(entry.name) ? [entryPath] : []
-  }))
-
-  return nestedFiles.flat()
-}
-
 const getLegacyTechnologyRedirects = async () => {
-  const files = await findContentFiles(projectDirectory)
+  /** @type {Set<string>} */
   const technologies = new Set()
 
-  for (const file of files) {
-    const source = await readFile(file, 'utf8')
-    const match = frontmatterPattern.exec(source)
-
-    if (!match) continue
-
-    const frontmatter = loadYaml(match[1] ?? '')
-
-    if (
-      !frontmatter ||
-      typeof frontmatter !== 'object' ||
-      frontmatter.draft === true ||
-      !Array.isArray(frontmatter.technologies)
-    ) continue
+  // Translations share the original's technologies, so English entries cover every slug.
+  for (const { frontmatter } of await readContentFiles(projectDirectory)) {
+    if (frontmatter.draft === true || !Array.isArray(frontmatter.technologies)) continue
 
     for (const technology of frontmatter.technologies) {
       if (typeof technology === 'string') technologies.add(technology)

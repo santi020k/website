@@ -3,6 +3,7 @@ title: "Patrones de Astro y Alpine para sitios rápidos con mucho contenido"
 description: "Los patrones de Astro y Alpine.js que mantienen rápidos los sitios con mucho contenido sin renunciar a los detalles interactivos que les dan un acabado cuidado."
 coverImage:
   alt: "Un plano de contenido estático conectado a islas ligeras de medios, controles y rendimiento"
+sourceHash: "a3b6fa9ee9c0"
 ---
 
 Astro no envía JavaScript de forma predeterminada. Alpine añade interactividad con un tamaño pequeño y un propósito definido. Juntos encajan muy bien en sitios con mucho contenido, siempre que los patrones se mantengan bajo control.

@@ -1,4 +1,6 @@
-import { addArchiveNotice, archiveHeaderRules, archiveHtml, archiveSearchIndex, archiveUrl, isArchiveExit } from '@santi020k/website-history/archive'
+import { readFile } from 'node:fs/promises'
+
+import { addArchiveNotice, archiveHeaderRules, archiveHtml, archiveSearchIndex, archiveUrl, isArchiveExit, readHeaderPolicy } from '@santi020k/website-history/archive'
 import { describe, expect, test } from 'vitest'
 
 describe('Website archive boundaries', () => {
@@ -92,6 +94,18 @@ describe('Website archive boundaries', () => {
     expect(rules).toContain('\n/v2/*\n  X-Robots-Tag: noindex, follow\n')
     expect(rules).toContain('\n/v2/_astro/*\n  Cache-Control: public, max-age=31536000, immutable\n')
     expect(rules.match(/immutable/g)).toHaveLength(1)
+    expect(rules).not.toContain('Content-Security-Policy')
+  })
+
+  test('restores the source script policy for archived pages after detaching the current one', async () => {
+    const policy = readHeaderPolicy(await readFile('public/_headers', 'utf8')) ?? ''
+
+    expect(policy).toContain('script-src \'self\' \'unsafe-inline\'')
+
+    const rules = archiveHeaderRules('v2', policy)
+
+    expect(rules).toContain(`\n/v2/*\n  X-Robots-Tag: noindex, follow\n  ! Content-Security-Policy\n  Content-Security-Policy: ${policy}\n`)
+    expect(rules.match(/Content-Security-Policy/g)).toHaveLength(2)
   })
 
   test('keeps search result destinations and thumbnails inside the archive', () => {

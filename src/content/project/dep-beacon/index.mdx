@@ -48,14 +48,14 @@ relatedWriting:
     label: "Tool ecosystem"
 ---
 
-import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
-import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
-import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
-import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
-import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
-import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
-import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
-import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+import ProjectArchitectureBrief from '@/components/project/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/project/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/project/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/project/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/project/ProjectIntentBrief.astro'
+import ProjectOutcomesCard from '@/components/project/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/project/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/project/ProjectSectionHeading.astro'
 
 <ProjectContextLead projectId="dep-beacon" headingId="building-dependency-signals-for-vs-code-and-zed">
 
@@ -65,7 +65,7 @@ Dep Beacon is a dependency intelligence engine for npm projects with extensions 
 
 The project includes a shared analysis core, a VS Code extension, a language server with a Zed adapter, and an Astro documentation site at [beacon.santi020k.com](https://beacon.santi020k.com/). The VS Code extension is available from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=santi020k.vscode-dep-beacon) and [Open VSX](https://open-vsx.org/extension/santi020k/vscode-dep-beacon).
 
-The [Dep Beacon Zed extension](https://zed.dev/extensions/dep-beacon-lsp) is now available in the Zed extension registry. It brings dependency diagnostics, hovers, npm links, and individual or bulk update actions into Zed through the Language Server Protocol. See the [Zed installation guide](https://beacon.santi020k.com/docs/zed-extension) for setup and usage.
+The [Dep Beacon Zed extension](https://zed.dev/extensions/dep-beacon-lsp) is now available in the Zed extension registry. It brings dependency diagnostics, hovers, npm links, and individual or bulk update actions into Zed through the Language Server Protocol. See the [Zed installation guide](https://beacon.santi020k.com/docs/zed-extension/) for setup and usage.
 
 ![Dep Beacon showing package.json and pnpm workspace dependency signals](usage-preview.webp)
 

@@ -63,7 +63,8 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('normalizes reader names and renders
 
     symlinkSync(join(projectRoot, 'node_modules'), join(root, 'node_modules'), 'dir')
     mkdirSync(join(root, 'src/pages'), { recursive: true })
-    copyFileSync(join(projectRoot, 'src/components/molecules/WebmentionsSection.astro'), join(root, 'src/WebmentionsSection.astro'))
+    for (const collection of ['post', 'project']) mkdirSync(join(root, 'src/content', collection), { recursive: true })
+    copyFileSync(join(projectRoot, 'src/components/article/WebmentionsSection.astro'), join(root, 'src/WebmentionsSection.astro'))
     copyFileSync(join(projectRoot, 'src/components/atoms/ArrowExchange.astro'), join(root, 'src/ArrowExchange.astro'))
     writeFileSync(join(root, 'src/pages/index.astro'), [
       '---',

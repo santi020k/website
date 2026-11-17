@@ -1,6 +1,5 @@
 ---
 import { getImage } from 'astro:assets'
-import { getCollection } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
@@ -26,6 +25,7 @@ import RevealGroup from '@santi020k/lumen-astro/components/RevealGroup'
 import { getLocale, localizePath } from '@/i18n'
 import { localizePageSource, pageTranslator } from '@/i18n/page-copy'
 import { getLocalizedProfile } from '@/i18n/profile'
+import { getSpeakingTalks, withPublishedPostCount } from '@/loaders/speaking'
 import {
   AUTHOR_JOB_TITLE,
   createAuthorSchema,
@@ -38,18 +38,9 @@ import {
 const pageLocale = getLocale(Astro.url.pathname)
 const t = pageTranslator(pageLocale)
 const { speakingFormats, speakingHighlights, speakingTopics, testimonials } = getLocalizedProfile(pageLocale)
-
-const talks = (await getCollection('talk', ({ data }) => !data.draft))
-  .map(({ data }) => ({ ...data, title: localizePageSource(pageLocale, data.title), description: localizePageSource(pageLocale, data.description), audience: data.audience ? localizePageSource(pageLocale, data.audience) : undefined, location: data.location ? localizePageSource(pageLocale, data.location) : undefined, tags: data.tags.map(tag => localizePageSource(pageLocale, tag)) }))
-  .sort((a, b) => {
-    const aSortDate = a.date?.valueOf() ?? Date.UTC(a.year, 11, 31)
-    const bSortDate = b.date?.valueOf() ?? Date.UTC(b.year, 11, 31)
-
-    return (bSortDate - aSortDate) || (a.order - b.order)
-  })
-
+const talks = await getSpeakingTalks(pageLocale)
 const postCount = (await getCachedPosts()).length
-const highlights = speakingHighlights.map(h => h.label === t('page.publishedWriting') ? { ...h, value: String(postCount) } : h)
+const highlights = withPublishedPostCount(speakingHighlights, t('page.publishedWriting'), postCount)
 const communityWork = (await getCachedProjects()).find(project => project.data.typesId === 'community')
 
 const speakingChapters = [

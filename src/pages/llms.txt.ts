@@ -48,9 +48,12 @@ export const GET = async ({ site }: APIContext) => {
     `> ${siteConfig.description}`,
     [
       `This is the personal website of ${siteConfig.author} (santi020k), based in ${siteConfig.location}.`,
-      'English is the primary language. Spanish interface pages live under `/es/`; articles and case',
-      'studies are written in English. New articles are announced in the',
-      `[RSS feed](${absolute('/feed.xml')}) and [JSON Feed](${absolute('/feed.json')}).`
+      'English is the primary language. A Latin American Spanish edition lives under `/es/`, with',
+      'translated articles and case studies; entries without a translation are shown in English there.',
+      'New articles are announced in the',
+      `[RSS feed](${absolute('/feed.xml')}) and [JSON Feed](${absolute('/feed.json')}), and translated`,
+      `articles in the [Spanish RSS feed](${absolute('/es/feed.xml')}) and`,
+      `[Spanish JSON Feed](${absolute('/es/feed.json')}).`
     ].join(' '),
     formatLlmsSection('Pages', pages.map(page => formatLlmsLink(page.title, absolute(page.path), page.description))),
     formatLlmsSection('Case studies', caseStudies.map(projectLink)),
@@ -63,6 +66,8 @@ export const GET = async ({ site }: APIContext) => {
     ))),
     formatLlmsSection('Optional', [
       formatLlmsLink('Spanish home', absolute('/es/'), 'The same site with a Latin American Spanish interface.'),
+      formatLlmsLink('Now', absolute('/now/'), 'What Santiago is focused on at the moment, with the date it was last updated.'),
+      formatLlmsLink('Uses', absolute('/uses/'), 'The hardware, editor, terminal, and self-built tools he works with.'),
       formatLlmsLink('Accessibility statement', absolute('/accessibility/'), 'Accessibility scope and how to report a problem.'),
       formatLlmsLink('Sitemap', absolute('/sitemap.xml'), 'Every indexable page, including other santi020k.com sites.')
     ])

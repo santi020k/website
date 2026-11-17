@@ -26,6 +26,32 @@ describe('Cloudflare Pages redirects', () => {
     }
   })
 
+  test('sends guessed contact and feed addresses to the real pages', async () => {
+    const source = await readFile(new URL('../../../public/_redirects', import.meta.url), 'utf8')
+    const { rules } = prepareCloudflareRedirects(source)
+
+    for (const [guess, destination] of [
+      ['/contact', '/work-with-me/'],
+      ['/hire', '/work-with-me/'],
+      ['/es/contact', '/es/work-with-me/'],
+      ['/es/contacto', '/es/work-with-me/'],
+      ['/rss', '/feed.xml'],
+      ['/feed', '/feed.xml']
+    ] as const) {
+      for (const suffix of ['', '/']) {
+        expect(rules).toContainEqual({ from: `${guess}${suffix}`, to: destination, status: 301 })
+      }
+    }
+
+    for (const [guess, destination] of [
+      ['/rss.xml', '/feed.xml'],
+      ['/atom.xml', '/feed.xml'],
+      ['/es/rss.xml', '/es/feed.xml']
+    ] as const) {
+      expect(rules).toContainEqual({ from: guess, to: destination, status: 301 })
+    }
+  })
+
   test('preserves historical technology aliases with and without a trailing slash', async () => {
     const source = await readFile(new URL('../../../public/_redirects', import.meta.url), 'utf8')
     const { rules } = prepareCloudflareRedirects(source)

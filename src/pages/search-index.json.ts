@@ -1,5 +1,6 @@
 // cspell:words Archivo Biografía Carrera Casos Charlas Comunidad Conferencias Contacto Contratar Currículum estudio
 // cspell:words Experiencia Historia Hoja juntos Mapa mí Países Perfil Portafolio Proyectos Sobre Sitio Talleres Trabajemos Trayectoria Versiones Viajes vida
+// cspell:words Ahora Enfoque Actualidad Herramientas Equipo Configuración
 import { getImage } from 'astro:assets'
 
 import type { SearchIndexEntry } from '@/types/search'
@@ -80,6 +81,22 @@ const corePageEntries = (locale: Locale): SearchIndexEntry[] => {
       path: '/history/',
       tags: [],
       title: 'Website history',
+      type: 'page'
+    },
+    {
+      description: t('search.page.now'),
+      keywords: ['Ahora', 'Enfoque', 'Actualidad', 'Now', 'Focus', 'Current projects'],
+      path: '/now/',
+      tags: [],
+      title: 'Now',
+      type: 'page'
+    },
+    {
+      description: t('search.page.uses'),
+      keywords: ['Herramientas', 'Equipo', 'Configuración', 'Uses', 'Setup', 'Tools', 'Hardware'],
+      path: '/uses/',
+      tags: [],
+      title: 'Uses',
       type: 'page'
     }
   ]

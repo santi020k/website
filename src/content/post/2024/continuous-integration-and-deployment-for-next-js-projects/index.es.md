@@ -4,6 +4,7 @@ description: "Crea un flujo CI/CD práctico para Next.js con GitHub Actions: ins
 seoTitle: "CI/CD de Next.js con GitHub Actions"
 coverImage:
   alt: "Artefactos de código atraviesan cinco controles verificados de entrega hacia una versión protegida"
+sourceHash: "f85e10cbb979"
 ---
 
 [Lee el artículo anterior: pruebas de componentes React con Vitest y React Testing Library](/es/blog/testing-react-components-with-vitest-and-react-testing-library/)

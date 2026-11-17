@@ -17,12 +17,28 @@
         "dist/**"
       ],
       "cache": false
+    },
+    "lint": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/eslint.shared.js"
+      ],
+      "outputs": [],
+      "cache": true
+    },
+    "check": {
+      "inputs": [
+        "$TURBO_DEFAULT$"
+      ],
+      "outputs": [],
+      "cache": true
     }
   },
   "globalEnv": [
     "BASE_URL",
     "CI",
     "CLOUDFLARE_WEB_ANALYTICS_TOKEN",
+    "CSP_REPORT_URL",
     "DEBUG",
     "DEV",
     "ENABLE_PRODUCTION_SOURCE_MAPS",

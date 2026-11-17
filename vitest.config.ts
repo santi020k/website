@@ -15,6 +15,10 @@ export default defineConfig({
           return '\0astro:content'
         }
 
+        if (id === 'astro:container') {
+          return '\0astro:container'
+        }
+
         return null
       },
       load(id) {
@@ -24,6 +28,10 @@ export default defineConfig({
 
         if (id === '\0astro:content') {
           return 'export const getCollection = () => Promise.resolve([]);'
+        }
+
+        if (id === '\0astro:container') {
+          return 'export const loadRenderers = () => Promise.resolve([]);'
         }
 
         return null

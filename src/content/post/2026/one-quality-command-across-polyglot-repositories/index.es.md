@@ -3,6 +3,7 @@ title: "Un comando de calidad para repositorios con varios lenguajes"
 description: "Cómo construí una CLI nativa que coordina analizadores de Rust, Swift, Android, Kotlin, JavaScript y Astro sin perder las fortalezas de cada ecosistema."
 coverImage:
   alt: "Ecosistemas de lenguajes diferentes ejecutan verificaciones especializadas mediante un núcleo de coordinación"
+sourceHash: "b45d128fb61c"
 ---
 
 <!-- cspell:words Clippy detekt ktlint SARIF -->

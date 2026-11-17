@@ -11,7 +11,7 @@ export const stripLocale = (pathname: string): string => pathname.replace(/^\/es
 export const localeLanguage = (locale: Locale): string => locale === 'es' ? 'es-419' : 'en-US'
 export const localeOg = (locale: Locale): string => locale === 'es' ? 'es_CO' : 'en_US'
 
-const translatedRoots = new Set(['', 'about', 'work', 'resume', 'speaking', 'privacy', 'terms', 'accessibility', 'travel', 'history', 'developer-experience', 'blog', 'projects', 'portfolio', 'technologies', 'offline', '404', 'work-with-me'])
+const translatedRoots = new Set(['', 'about', 'work', 'resume', 'speaking', 'privacy', 'terms', 'accessibility', 'travel', 'history', 'developer-experience', 'blog', 'projects', 'portfolio', 'technologies', 'offline', '404', 'work-with-me', 'uses', 'now'])
 
 /** Only page routes are localized. Downloads, feeds, endpoints and archives stay canonical. */
 export const hasTranslation = (path: string): boolean => {
@@ -22,6 +22,9 @@ export const hasTranslation = (path: string): boolean => {
 
   return translatedRoots.has(first) && !/\.[a-z\d]+$/iu.test(pathname)
 }
+
+/** Each language has its own feeds; the Spanish ones list only translated articles. */
+export const getFeedPath = (locale: Locale, format: 'json' | 'xml' = 'xml') => `${locale === 'es' ? '/es' : ''}/feed.${format}`
 
 /** Match the existing Giscus pathname term so locales share the same discussion. */
 export const getDiscussionTerm = (pathname: string): string => {

@@ -245,9 +245,9 @@ coverImage:
     expect(buildProjectSvg(project, hero)).not.toContain('Sample Project')
     expect(buildProjectSvg(project, portrait)).not.toContain('Sample Project')
     expect(buildProjectSvg(project, background)).not.toContain('<g filter="url(#shadow)">')
-    expect(hero?.kind).toBe('hero')
-    expect(portrait?.kind).toBe('portrait')
-    expect(background?.kind).toBe('background')
+    expect(hero.kind).toBe('hero')
+    expect(portrait.kind).toBe('portrait')
+    expect(background.kind).toBe('background')
   })
 
   test('generates a logo-free background only when the project opts in', () => {

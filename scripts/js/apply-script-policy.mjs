@@ -12,8 +12,8 @@ import { html as markup, parse } from 'parse5'
  */
 
 const projectRoot = fileURLToPath(new URL('../..', import.meta.url))
-// Archived sites are assembled into v1/, v2/… after this step and keep the header policy,
-// which still allows their inline event handlers.
+// Archived sites are assembled into v1/, v2/… after this step. Their header rules restore the
+// source policy, which still allows their inline event handlers.
 const archivePath = /^v\d+\//u
 const urlAttributes = new Set(['action', 'formaction', 'href', 'src'])
 const policyMeta = /<meta\s+http-equiv=(["'])content-security-policy\1[^>]*>\s*/giu
@@ -151,20 +151,71 @@ export const inspectDocument = html => {
   return { findings, hashes }
 }
 
+const policyHeader = /^(\s*Content-Security-Policy:\s*)(.+)$/imu
+// Cloudflare ignores a _headers line longer than this, which would drop the whole policy.
+const headerLineLimit = 2000
+
 /**
- * The deployed header policy names the allowed script origins; the page policy keeps
- * those and swaps 'unsafe-inline' for the hashes of this build's inline scripts.
+ * The source header policy names the allowed script origins; the built policies keep
+ * those and swap 'unsafe-inline' for the hashes of this build's inline scripts. Hashes
+ * from an earlier run are dropped so the step can run twice on one build.
  * @param {string} headers
  */
 export const readHeaderScriptSources = headers => {
-  const policy = /^\s*Content-Security-Policy:\s*(.+)$/imu.exec(headers)?.[1]
+  const policy = policyHeader.exec(headers)?.[2]
 
   const scriptSources = policy?.split(';').map(directive => directive.trim().split(/\s+/u))
     .find(([name]) => name === 'script-src')
 
   if (!scriptSources) throw new Error('dist/_headers has no Content-Security-Policy script-src directive.')
 
-  return scriptSources.slice(1).filter(source => source !== '\'unsafe-inline\'')
+  return scriptSources.slice(1).filter(source => source !== '\'unsafe-inline\'' && !source.startsWith('\'sha256-'))
+}
+
+/**
+ * Validates the optional violation-report collector. Reports carry page URLs, so they may
+ * only go to an HTTPS endpoint the site owner configured.
+ * @param {string | undefined} value
+ */
+export const readReportUrl = value => {
+  if (!value?.trim()) return undefined
+
+  const url = new URL(value.trim())
+
+  if (url.protocol !== 'https:') throw new Error(`CSP_REPORT_URL must use https; received ${url.protocol}`)
+
+  return url.href
+}
+
+/**
+ * Rewrites the header policy's script-src so the response header is as strict as the page
+ * policy. With a report URL, browsers also send violations there: `report-to` for current
+ * engines and `report-uri` for those without the Reporting API. A page meta policy cannot
+ * report, so only the header carries these. Archived sites get the source policy back from
+ * archive assembly.
+ * @param {string} headers @param {string} scriptPolicy @param {string} [reportUrl]
+ */
+export const applyHeaderPolicy = (headers, scriptPolicy, reportUrl) => {
+  // Running twice on one build must not stack endpoint lines, so earlier ones are dropped first.
+  const next = headers.replace(/^[\t ]*Reporting-Endpoints:.*(?:\r?\n|$)/gmu, '').replace(policyHeader, (_, name, policy) => {
+    const directives = policy.split(';').map((/** @type {string} */ directive) => directive.trim()).filter(Boolean)
+      .filter((/** @type {string} */ directive) => !/^report-(?:uri|to)(?:\s|$)/u.test(directive))
+      .map((/** @type {string} */ directive) => /^script-src(?:\s|$)/u.test(directive) ? scriptPolicy : directive)
+
+    const reporting = reportUrl ? [`report-uri ${reportUrl}`, 'report-to csp'] : []
+    const line = `${name}${[...directives, ...reporting].join('; ')}`
+    const indent = /^\s*/u.exec(name)?.[0] ?? ''
+
+    return reportUrl ? `${line}\n${indent}Reporting-Endpoints: csp="${reportUrl}"` : line
+  })
+
+  const line = next.split('\n').find(candidate => policyHeader.test(candidate)) ?? ''
+
+  if (line.length > headerLineLimit) {
+    throw new Error(`The Content-Security-Policy header line is ${line.length} characters; Cloudflare allows ${headerLineLimit}. Move repeated inline scripts into processed modules.`)
+  }
+
+  return next
 }
 
 /** @param {string} html @param {string} policy */
@@ -183,7 +234,8 @@ export const injectPolicy = (html, policy) => {
 /** @param {string} [root] */
 export const applyScriptPolicy = async (root = projectRoot) => {
   const dist = join(root, 'dist')
-  const sources = readHeaderScriptSources(await readFile(join(dist, '_headers'), 'utf8'))
+  const headers = await readFile(join(dist, '_headers'), 'utf8')
+  const sources = readHeaderScriptSources(headers)
 
   const files = (await Array.fromAsync(glob('**/*.html', { cwd: dist })))
     .map(file => file.split(sep).join('/'))
@@ -220,6 +272,8 @@ export const applyScriptPolicy = async (root = projectRoot) => {
 
     if (next !== html) await writeFile(join(dist, file), next)
   }
+
+  await writeFile(join(dist, '_headers'), applyHeaderPolicy(headers, policy, readReportUrl(process.env.CSP_REPORT_URL)))
 
   return { files: files.length, hashes: [...hashes].sort(), policy }
 }

@@ -6,6 +6,7 @@ coverImage:
 startHere:
   label: "Cómo pienso"
   reason: "Un pequeño hábito de escritura que me ayuda a detectar desviaciones, explicar decisiones y dejar contexto útil para el equipo."
+sourceHash: "8aaef2675d65"
 ---
 
 Empecé a escribir notas breves de arquitectura hace unos catorce meses. No era documentación formal. Tampoco registros completos de decisiones de arquitectura. Eran notas mensuales sobre lo que estaba revisando, lo que parecía funcionar, lo que empezaba a desviarse y aquello sobre lo que tenía dudas.

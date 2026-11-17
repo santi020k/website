@@ -40,3 +40,16 @@ Lighthouse CI reports. Keep private analytics exports outside the repository.
 - Lab performance coverage comes from **`pnpm run lighthouse`** / CI.
 - Changes to analytics or error reporting require explicit authorization and
   corresponding privacy, environment-schema, and CSP updates.
+
+## Outbound links
+
+- [`link-check.yml`](../.github/workflows/link-check.yml) runs every Monday and on demand. It
+  reads every page in the production sitemap and checks the links that leave `santi020k.com`;
+  links between this site's own pages are covered by `audit:pages` during the build.
+- While any link is broken, the workflow keeps one open issue, "Broken outbound links on
+  santi020k.com", and comments on it with each new report. Close it once the links are fixed.
+- Share buttons, the IndieAuth endpoints, and hosts that refuse automated requests (LinkedIn,
+  X, WhatsApp, Medium, npm, marcone.com) are excluded in the workflow arguments. A rate-limited
+  response (429) counts as working.
+- For a site that closed, link a Web Archive snapshot instead of removing the reference; project
+  pages label `web.archive.org` destinations as archives.

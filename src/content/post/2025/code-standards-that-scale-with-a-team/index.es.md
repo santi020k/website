@@ -3,6 +3,7 @@ title: "Estándares de código que crecen con el equipo"
 description: "La versión de los estándares de código que hoy entregaría a un equipo frontend en crecimiento."
 coverImage:
   alt: "Varios módulos de proyecto alineados mediante un núcleo compartido de estándares"
+sourceHash: "2dd7147ec124"
 ---
 
 Muchos «estándares» de equipo fallan porque son demasiado abstractos, rígidos o anticuados para ayudar en el trabajo real. Un estándar útil debería facilitar la siguiente decisión. Si agrega debate sin reducir la ambigüedad, probablemente no sea bueno.

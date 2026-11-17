@@ -1,0 +1,211 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import CoverSpread from '@/components/molecules/CoverSpread.astro'
+import ProjectHeroCover from '@/components/project/ProjectHeroCover.astro'
+import ProjectHeroDestinations from '@/components/project/ProjectHeroDestinations.astro'
+import ProjectHeroStack from '@/components/project/ProjectHeroStack.astro'
+import ProjectTimeline from '@/components/project/ProjectTimeline.astro'
+
+import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectDurationLabel, getProjectTypeLabel } from '@/utils/project-meta'
+
+import Breadcrumb from '@santi020k/lumen-astro/components/Breadcrumb'
+
+import { getLocale, localizePath } from '@/i18n'
+import { collectionTranslator, localizeCollectionSource } from '@/i18n/collection-copy'
+
+const locale = getLocale(Astro.url.pathname)
+const t = collectionTranslator(locale)
+
+interface Props {
+  hasProductPreviews?: boolean
+  parentPage?: { name: string, url: string }
+  project: CollectionEntry<'project'>
+}
+
+const { hasProductPreviews = false, parentPage = { name: t('collection.portfolio'), url: localizePath('/portfolio/', locale) }, project } = Astro.props
+const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
+const heroImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
+const useWideCoverFrame = Boolean(heroImage && heroImage.width / heroImage.height > 1.08)
+const titleWords = project.data.title.split(' ')
+const gradientWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : project.data.title
+const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : ''
+
+---
+
+<section class="editorial-detail-hero space-y-12" data-project-opening>
+  {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up space-y-4
+      motion-reduce:animate-none
+    "
+  >
+    <div class="
+      flex min-w-0 flex-col items-start gap-3
+      sm:flex-row sm:items-center sm:justify-between
+    "
+    >
+      <Eyebrow label={localizeCollectionSource(locale, projectTypeLabel)} tone="brand" />
+      <Breadcrumb
+        class="
+          flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 text-sm
+          font-medium text-ink-muted
+        "
+      >
+        <ol>
+          <li>
+            <a
+              href={localizePath(parentPage.url, locale)}
+              class="
+                whitespace-nowrap transition-colors
+                hover:text-brand
+                motion-reduce:transition-none
+              "
+            >{localizeCollectionSource(locale, parentPage.name)}
+            </a>
+          </li>
+          <li>
+            <span aria-current="page" class="min-w-0 text-ink-soft">{localizeCollectionSource(locale, projectTypeLabel)}</span>
+          </li>
+        </ol>
+      </Breadcrumb>
+    </div>
+  </div>
+
+  {/* ── Cover spread + description ──────────────────────────────────── */}
+  <div
+    class="
+      animate-reveal-lcp
+      motion-reduce:animate-none
+    "
+  >
+    <CoverSpread kind="project" hasCover={Boolean(heroImage)} wide={useWideCoverFrame}>
+      <h1 lang={project.data.contentLocale} slot="heading">
+        {plainWords && <span>{plainWords} </span>}
+        <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
+      </h1>
+      <ProjectHeroCover project={project} />
+    </CoverSpread>
+    <p
+lang={project.data.contentLocale}
+data-editorial-summary
+class="text-ink-soft"
+    >{project.data.description}</p>
+  </div>
+
+  {/* ── Margin imprint ──────────────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up [animation-delay:160ms]
+      motion-reduce:animate-none
+    "
+    data-editorial-meta-group
+  >
+
+    <dl data-project-imprint>
+      <div data-project-meta="role">
+        <dt>{t('collection.role')}</dt>
+        <dd>{project.data.role ? localizeCollectionSource(locale, project.data.role) : t('collection.handsOnBuilder')}</dd>
+      </div>
+      <div data-project-meta="timeline">
+        <dt>{t('collection.timeline')}</dt>
+        <dd><ProjectTimeline endingDate={project.data.endingDate} startingDate={project.data.startingDate} /></dd>
+      </div>
+      <div data-project-meta="duration">
+        <dt>{t('collection.duration')}</dt>
+        <dd>{durationLabel}</dd>
+      </div>
+    </dl>
+  </div>
+
+  {/* ── CTAs ────────────────────────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up [animation-delay:240ms]
+      motion-reduce:animate-none
+    "
+  >
+    <ProjectHeroDestinations hasProductPreviews={hasProductPreviews} parentPage={parentPage} project={project} />
+  </div>
+
+  {/* ── Technologies strip ───────────────────────────────────── */}
+  <ProjectHeroStack technologies={project.data.technologies} />
+</section>
+
+<style>
+  [data-project-opening] { container: project-opening / inline-size; }
+  [data-project-opening] [data-editorial-summary] {
+    max-width: 45rem;
+    margin-top: 1.75rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: -0.015em;
+  }
+  @container project-opening (width < 23.75rem) {
+    [data-project-opening] [data-editorial-summary] { font-size: 0.9375rem; margin-top: 1.375rem; }
+  }
+
+  [data-project-imprint] {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 0.65fr);
+    gap: 1.5rem;
+    padding-block: 1.5rem;
+    border-block: 1px solid hsl(var(--line) / 0.65);
+    color: hsl(var(--ink));
+  }
+  [data-project-meta] {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    padding-inline-start: 1.125rem;
+    border-inline-start: 1px solid hsl(var(--line) / 0.65);
+  }
+  [data-project-meta] dt {
+    margin-block-end: 0.4375rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  [data-project-meta] dd {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  [data-project-meta='role'] {
+    border-inline-start: 2px solid hsl(var(--brand));
+  }
+  [data-project-meta='role'] dd {
+    font-size: 1.4375rem;
+    line-height: 1.4;
+    letter-spacing: -0.04em;
+  }
+  :global(:root[data-theme='santi020k-dark']) [data-project-meta='role'] {
+    border-inline-start-color: hsl(var(--accent));
+  }
+  @container editorial-meta (width < 37rem) {
+    [data-project-imprint] {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 1.25rem;
+    }
+    [data-project-meta='role'] { grid-column: 1 / -1; }
+  }
+  @container editorial-meta (width < 22.5rem) {
+    [data-project-imprint] { grid-template-columns: minmax(0, 1fr); }
+  }
+  @container editorial-meta (width < 12rem) {
+    [data-project-meta='role'] dd { font-size: 1.125rem; }
+  }
+  [data-project-title-gradient] {
+    background-image: linear-gradient(to right, var(--project-title-primary-readable), var(--project-title-secondary-readable), var(--project-title-primary-readable));
+  }
+  :global(:root[data-theme='santi020k-dark']) [data-project-title-gradient] {
+    background-image: linear-gradient(to right, var(--project-title-primary-readable-dark), var(--project-title-secondary-readable-dark), var(--project-title-primary-readable-dark));
+  }
+</style>

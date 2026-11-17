@@ -1,12 +1,19 @@
 import type { APIContext } from 'astro'
 
+import type { Locale } from '@/i18n'
+import { getFeedPath, localeLanguage, localizePath } from '@/i18n'
+import { collectionTranslator } from '@/i18n/collection-copy'
+
 import { ogManifest } from '../data/og-manifest'
 import { siteConfig } from '../site.config'
-import { getCachedPosts } from '../utils/content'
+import { renderFeedContent } from '../utils/feed-content'
 import { getPostPath } from '../utils/links'
 import { getSocialImageURL } from '../utils/social-image'
 
+import { getFeedPosts } from './feed.xml'
+
 const jsonFeedKeys = {
+  contentHtml: 'content_html',
   contentText: 'content_text',
   dateModified: 'date_modified',
   datePublished: 'date_published',
@@ -19,29 +26,30 @@ const jsonFeedKeys = {
  * JSON Feed 1.1 endpoint mirroring the RSS feed for reader apps that prefer
  * JSON (NetNewsWire, Feedbin, Inoreader, etc.). Spec: https://jsonfeed.org/version/1.1
  */
-export const GET = async (context: APIContext) => {
-  const posts = await getCachedPosts()
+export const createJsonFeed = async (context: APIContext, locale: Locale) => {
+  const t = collectionTranslator(locale)
+  const posts = await getFeedPosts(locale)
   const site = (context.site ?? new URL('https://santi020k.com/')).toString()
 
   const feed = {
     version: 'https://jsonfeed.org/version/1.1',
-    title: `${siteConfig.title} JSON Feed`,
-    description:
-      'Writing on software, reading, gaming, and everyday discoveries.',
-    [jsonFeedKeys.homePageUrl]: site,
-    [jsonFeedKeys.feedUrl]: new URL('/feed.json', site).toString(),
+    title: t('feed.jsonTitle', { title: siteConfig.title }),
+    description: t('feed.description'),
+    [jsonFeedKeys.homePageUrl]: new URL(localizePath('/', locale), site).toString(),
+    [jsonFeedKeys.feedUrl]: new URL(getFeedPath(locale, 'json'), site).toString(),
     icon: new URL('/icons/icon-512.webp', site).toString(),
     favicon: new URL('/favicon.webp', site).toString(),
-    language: siteConfig.lang,
+    language: localeLanguage(locale),
     authors: [
       {
         name: siteConfig.author,
         url: site
       }
     ],
-    items: posts.map(post => {
-      const postPath = getPostPath(post.id)
+    items: await Promise.all(posts.map(async post => {
+      const postPath = localizePath(getPostPath(post.id), locale)
       const postUrl = new URL(postPath, site).toString()
+      const content = await renderFeedContent(post, locale, new URL(postUrl))
 
       return {
         id: postUrl,
@@ -51,14 +59,14 @@ export const GET = async (context: APIContext) => {
           {}),
         title: post.data.title,
         summary: post.data.description,
-        [jsonFeedKeys.contentText]: post.data.description,
+        ...(content ? { [jsonFeedKeys.contentHtml]: content } : { [jsonFeedKeys.contentText]: post.data.description }),
         image: getSocialImageURL(postPath, site, undefined, ogManifest),
         [jsonFeedKeys.datePublished]: post.data.publishDate.toISOString(),
         ...(post.data.updatedDate ? { [jsonFeedKeys.dateModified]: post.data.updatedDate.toISOString() } : {}),
         tags: post.data.tags,
         authors: [{ name: siteConfig.author }]
       }
-    })
+    }))
   }
 
   return new Response(JSON.stringify(feed, null, 2), {
@@ -67,3 +75,5 @@ export const GET = async (context: APIContext) => {
     }
   })
 }
+
+export const GET = (context: APIContext) => createJsonFeed(context, 'en')

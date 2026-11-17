@@ -2,19 +2,11 @@ import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 import { join, relative, resolve as resolvePath } from 'node:path'
 
-const projectRoot = resolvePath(import.meta.dirname, '../..')
+import { resumeProjectIds } from '../../src/data/resume.ts'
 
-const resumeProjectFiles = [
-  'datagran/index.mdx',
-  'justbit/index.mdx',
-  'nebular/index.mdx',
-  'optic-power/index.mdx',
-  'pads/index.mdx',
-  'react-js-colombia/index.mdx',
-  'smith-commerce/index.mdx',
-  'void/index.mdx',
-  'xgames/index.mdx'
-]
+const projectRoot = resolvePath(import.meta.dirname, '../..')
+// The résumé's projects come from one list, so the fingerprint can't miss a newly shown project.
+const resumeProjectFiles = Object.values(resumeProjectIds).flat().map(id => `${id}/index.mdx`)
 
 export const resumeSourcePaths = [
   'package.json',
@@ -37,12 +29,17 @@ export const resumeSourcePaths = [
   'src/components/atoms/ThemeToggle.astro',
   'src/components/molecules/LanguageSwitcher.astro',
   'src/components/molecules/LinkRecovery.astro',
-  'src/components/molecules/SearchDialog.astro',
+  'src/components/search/SearchDialog.astro',
   'src/components/molecules/ResumeEvidenceNote.astro',
-  'src/components/molecules/SiteSearch.astro',
-  'src/components/molecules/site-search.ts',
-  'src/components/organisms/SiteFooter.astro',
-  'src/components/organisms/SiteHeader.astro',
+  'src/components/search/SiteSearch.astro',
+  'src/components/search/site-search.ts',
+  'src/components/search/copy.ts',
+  'src/components/search/dom.ts',
+  'src/components/search/index-loader.ts',
+  'src/components/search/recent-searches.ts',
+  'src/components/search/results-view.ts',
+  'src/components/layout/SiteFooter.astro',
+  'src/components/layout/SiteHeader.astro',
   'src/components/shared/BaseHead.astro',
   'src/components/shared/NavProgress.astro',
   'src/components/shared/ServiceWorkerRegistration.astro',
@@ -51,6 +48,7 @@ export const resumeSourcePaths = [
   'src/content-translations.ts',
   'src/data/og-manifest.ts',
   'src/data/project.ts',
+  'src/data/resume.ts',
   'src/i18n/index.ts',
   'src/i18n/locale.ts',
   'src/i18n/messages.ts',
@@ -61,6 +59,8 @@ export const resumeSourcePaths = [
   'src/i18n/page-copy.ts',
   'src/i18n/collection-copy.ts',
   'src/layouts/Base.astro',
+  'src/loaders/projects.ts',
+  'src/loaders/resume.ts',
   'src/utils/arrow-sprite.ts',
   'src/utils/content.ts',
   'src/utils/content-translations.ts',

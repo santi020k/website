@@ -3,6 +3,7 @@ title: "Un proceso de publicación que reduce el drama"
 description: "Un proceso de publicación debería reducir el estrés, acortar los ciclos de retroalimentación y facilitar la confianza en los cambios de producción."
 coverImage:
   alt: "Fragmentos inestables de una versión atraviesan controles y se convierten en un artefacto protegido y estable"
+sourceHash: "124d704c5157"
 ---
 
 Los procesos de publicación suelen volverse más ceremoniales que útiles. Los equipos acumulan pasos de incidentes pasados, herramientas antiguas y hábitos históricos hasta que publicar se siente más pesado de lo necesario.

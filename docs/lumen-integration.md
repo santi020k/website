@@ -563,7 +563,7 @@ enlarged text sizes. No new client controller is introduced.
   platform-native share sheet on supported touch devices. Its copy and native-share actions use
   the server-rendered article permalink from `data-share-url`, the same URL as the social links,
   so address-bar queries, fragments, and preview origins are never shared.
-- Package-manager `CodeTabs` (`src/components/molecules/PackageManagerCodeTabs.astro` and the
+- Package-manager `CodeTabs` (`src/components/article/PackageManagerCodeTabs.astro` and the
   markdown-time equivalent built by `src/plugins/rehype-lumen-code.ts`) share one consumer-owned
   `data-package-manager-code-tabs` attribute plus Lumen's public `data-slot="code-tabs"` hook
   as their styling root.
@@ -812,8 +812,8 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   cell borders travel with the pinned labels. Below 12rem of table space (including enlarged
   text), labels scroll with the values so the pinned column cannot crowd out the viewport.
   This is article styling; project tables and the shared Lumen component stay unchanged.
-  `tests/article-table-scroll-cue.spec.ts` covers resize, themes, text zoom, and navigation.
-  `tests/legacy-article-content.spec.ts` checks normal and enlarged text.
+  `tests/article/article-table-scroll-cue.spec.ts` covers resize, themes, text zoom, and navigation.
+  `tests/archive/legacy-article-content.spec.ts` checks normal and enlarged text.
   Prose styles use site ink tokens for cells and Lumen's code foreground token for language badges in both themes.
 - Article endings use Reader colophon. `CommentsSection` owns a semantic heading and
   open margin layout with a decorative Lumen `Icon` on its native GitHub reply link.
@@ -850,7 +850,7 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
 Lumen 5 activates a heading when it reaches the greater of `activationOffset` and the
 native fragment landing line. The latter includes the root scroll padding and the heading's
 scroll margin, so the marker tracks the fragment destination when root text is enlarged.
-`tests/responsive-reading.spec.ts` checks the marker and heading clearance.
+`tests/article/responsive-reading.spec.ts` checks the marker and heading clearance.
 
 ## Article prose typography
 
@@ -884,7 +884,7 @@ visible; an empty target remains at zero. An absent or unresolved target preserv
 progress. Scroll, viewport resizing, font and content reflow update the same indicator;
 resize observation reconnects when the runtime initializes after Astro navigation.
 
-`tests/article-progress.spec.ts` covers completion, scrolling back,
+`tests/article/article-progress.spec.ts` covers completion, scrolling back,
 enlarged text, both themes, reflow, short/empty content, client navigation, restored history,
 and document fallback. No site-owned parallel scroll controller is introduced.
 
@@ -924,12 +924,13 @@ stay hidden. Project viewers retain their direct-image fallback links and defer 
 Landscape article artwork and project covers opt into the local
 `HoverableCover` wrapper's `unstyled` prop, which removes only the wrapper's rounded frame
 and shadow; Astro still supplies native dimensions, AVIF/WebP sources, loading priority,
-and article view transitions. Project covers remain unnamed transition regions and preserve
-their native aspect ratio. Square and portrait articles retain Lumen's contained `CoverImage`.
+and article view transitions. Project covers share a `project-cover-<id>` transition name with
+their portfolio, project-index, and related-work cards, and preserve their native aspect ratio. Square and portrait articles retain Lumen's contained `CoverImage`.
 The default wrapper remains unchanged. No new client runtime is needed.
 
 Route snapshot styling lives in `view-transitions.css`. Astro keeps its existing
-navigation lifecycle and named article covers; the site uses Lumen's public
+navigation lifecycle and named article and project covers, cropping both cover snapshots to the
+moving frame through the `cover-art` transition class; the site uses Lumen's public
 `--ui-ease-emphasized` token for snapshot movement. Destination documents receive
 `data-client-navigation` before the swap to suppress duplicate hero entrances and
 the header logo's public draw/pop/reveal hooks. First-load animations remain intact.
@@ -943,7 +944,7 @@ previously patched into 4.4.0. It settles cue visibility before scrolling, skips
 scrolling for a fully visible trigger, and briefly suspends scroll anchoring during layout.
 It batches initial cue measurements and observes font load events once per document.
 The current site uses the unpatched v5 package. The 4.4.0 patch remains only for archived
-consumers. `tests/package-manager-scroll.spec.ts` covers distant synchronized groups.
+consumers. `tests/article/package-manager-scroll.spec.ts` covers distant synchronized groups.
 
 ## V5 theme and runtime migration
 
@@ -965,7 +966,7 @@ Restore the root manifest, named catalog, lockfile, and theme migration together
 Lumen 5 exposes Astro Picture's `fallbackFormat` on `CoverImage`. Project galleries
 and detail covers use `fallbackFormat="webp"` to keep AVIF sources with a responsive WebP
 fallback. The isolated render regression in `scripts/js/__tests__/cover-image-render.test.ts`
-checks both opt-in and default output. `tests/site-resources.spec.ts` checks image responses.
+checks both opt-in and default output. `tests/site/site-resources.spec.ts` checks image responses.
 
 ## Tall reveal groups
 
@@ -981,9 +982,9 @@ timing for other Lumen consumers. Observing `[0, threshold]` globally also revea
 with custom thresholds on entry, so that runtime change was rejected.
 
 Before removing the overrides, verify a compatible upstream solution that preserves custom
-threshold timing. Run `tests/reveal-entry.spec.ts` with native browser observers: it checks a
+threshold timing. Run `tests/site/reveal-entry.spec.ts` with native browser observers: it checks a
 group too tall to reach the default ratio, actual painted opacity, keyboard navigation, and a
-desktop entrance below that ratio. The route traversal in `tests/legacy-card-interactions.spec.ts`
+desktop entrance below that ratio. The route traversal in `tests/archive/legacy-card-interactions.spec.ts`
 covers the remaining consumers at mobile and desktop widths with 100% and 200% text.
 
 ## Motion and effects

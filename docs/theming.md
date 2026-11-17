@@ -47,7 +47,7 @@ The server renders `santi020k-light` as the no-JavaScript fallback.
 
 Dark mode is controlled with `data-theme="santi020k-dark"` on `<html>`. Do not use `class="dark"` for theme switching; the Tailwind custom variant is defined against the data attribute.
 
-Article comments (`src/components/molecules/CommentsSection.astro`) follow the site theme. The
+Article comments (`src/components/article/CommentsSection.astro`) follow the site theme. The
 Giscus client loads when the comments section is within 400 pixels of the viewport or receives
 keyboard focus, using the current theme at that moment. Browsers without `IntersectionObserver`
 load it immediately; the GitHub Discussions link remains available without JavaScript. Pending

@@ -5,13 +5,14 @@ import type { CollectionEntry } from 'astro:content'
 
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import TechnologyArchiveChapter from '@/components/molecules/TechnologyArchiveChapter.astro'
-import TechnologyStackConnections from '@/components/molecules/TechnologyStackConnections.astro'
-import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
+import ProjectsGallery from '@/components/project/ProjectsGallery.astro'
+import TechnologyArchiveChapter from '@/components/technology/TechnologyArchiveChapter.astro'
+import TechnologyStackConnections from '@/components/technology/TechnologyStackConnections.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { isIndexedArchive } from '@/utils/archive-indexing'
 import { getCachedProjects } from '@/utils/content'
+import { localizeProject } from '@/utils/content-translations'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
 import { getSocialImageURL } from '@/utils/social-image'
@@ -52,13 +53,14 @@ interface Props {
 }
 
 const { page, technology } = Astro.props
+const projects = await Promise.all(page.data.map(project => localizeProject(project, locale)))
 
-const projectMatches = page.data.filter(
+const projectMatches = projects.filter(
   project => project.data.typesId === 'personal' || project.data.typesId === 'experimental'
 )
 
-const communityMatches = page.data.filter(project => project.data.typesId === 'community')
-const workExperienceMatches = page.data.filter(project => project.data.typesId === 'professional')
+const communityMatches = projects.filter(project => project.data.typesId === 'community')
+const workExperienceMatches = projects.filter(project => project.data.typesId === 'professional')
 
 const evidenceGroups = [
   { count: workExperienceMatches.length, label: t('collection.workExperience'), context: t('technology.professionalContext'), href: '#technology-work-heading' },
@@ -81,7 +83,7 @@ const breadcrumbs = [
 ]
 
 const technologyListSchema = createProjectCollectionSchema(
-  t('technology.title', { technology: technology }), Astro.url.pathname, page.data, Astro.site
+  t('technology.title', { technology: technology }), Astro.url.pathname, projects, Astro.site, locale
 )
 
 const meta = {
@@ -174,7 +176,7 @@ const meta = {
     </section>
   )}
 
-  <TechnologyStackConnections paginated={page.lastPage > 1} projects={page.data} technology={technology} />
+  <TechnologyStackConnections paginated={page.lastPage > 1} projects={projects} technology={technology} />
 </PageLayout>
 
 <style>

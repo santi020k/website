@@ -4,6 +4,7 @@ description: "PostLens 2 está disponible para iPhone y iPad con edición enfoca
 cardDescription: "PostLens 2 ya está en iPhone y iPad. Esto puedes usar hoy y esta es la razón por la que la publicación directa en Instagram sigue sin estar disponible."
 coverImage:
   alt: "Marcos horizontales morados conducen a una foto terminada, con una pequeña puerta de cristal cerrada al final de una conexión separada."
+sourceHash: "12aa9248567e"
 ---
 
 **PostLens 2 ya está disponible para iPhone y iPad.**

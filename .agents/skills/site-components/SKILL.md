@@ -1,6 +1,6 @@
 ---
 name: site-components
-description: Choose an existing Astro composition (atoms, molecules, organisms, page sections, layouts) before building new UI for this website.
+description: Choose an existing Astro composition (feature folders, shared atoms/molecules/organisms, page sections, layouts) before building new UI for this website.
 ---
 
 # Site components
@@ -11,10 +11,22 @@ current `Props` interface before using it.
 
 ## Structure
 
+Feature folders hold UI that belongs to one feature; put new feature-specific components there:
+
+- `article/`: article and series pages, reading contents, code, sharing, comments, and webmentions.
+- `project/`: project case studies, the project hero and sidebar, and project galleries.
+- `search/`: the site search dialog and its controller modules.
+- `technology/`: technology archive sections.
+- `layout/`: the site header and footer.
+
+Shared UI used across features stays in the atomic folders:
+
 - `atoms/`: site adapters for Lumen buttons, links, typography, dates, and images.
-- `molecules/`: composed content units, search, sharing, reading controls, and forms.
-- `organisms/`: navigation, footer, galleries, timelines, and article/project headers.
+- `molecules/`: composed content units such as section headers, cards, pagination, and forms.
+- `organisms/`: page sections, stats grids, and the career timeline.
 - `pages/`: compositions specific to Home, About, Work, Projects, Travel, and Speaking.
+
+Data a page needs is loaded and shaped in `src/loaders/`, not in the page's frontmatter.
 
 ## Reuse the current compositions
 
@@ -25,11 +37,11 @@ current `Props` interface before using it.
 | Homepage writing rows | `pages/home/HomeWriting.astro` |
 | Homepage community links | `pages/home/HomeCommunity.astro` |
 | Shared section introduction | `molecules/SectionHeader.astro` |
-| Article and project contents | `molecules/ReadingContents.astro` |
-| Mobile reading contents wrapper | `molecules/ReadingChapterOpener.astro` |
+| Article and project contents | `article/ReadingContents.astro` |
+| Mobile reading contents wrapper | `article/ReadingChapterOpener.astro` |
 | Supporting page introduction | `molecules/PageHero.astro` |
-| Article listings | `organisms/PostsGallery.astro` |
-| Project listings | `organisms/ProjectsGallery.astro` |
+| Article listings | `article/PostsGallery.astro` |
+| Project listings | `project/ProjectsGallery.astro` |
 | Recommendations | `molecules/TestimonialCard.astro` |
 | Personal principles | `molecules/PrincipleCard.astro` |
 | Page shell | `layouts/Base.astro` |

@@ -16,11 +16,15 @@ Redirects, cache headers, and security headers are versioned in the repo:
 Cloudflare Pages picks both files up at the edge automatically. The header defaults include:
 
 - **Content-Security-Policy**: allows the configured Giscus, Webmention, Buttondown, and optional Cloudflare Web Analytics integrations. The analytics beacon is emitted only in production with `CLOUDFLARE_WEB_ANALYTICS_TOKEN` set at build time.
-  The header still lists `'unsafe-inline'` for scripts because the archived sites (`/v1/`–`/v4/`)
-  use inline event handlers. Current-site pages add a second, stricter policy: after `astro build`,
-  [`scripts/js/apply-script-policy.mjs`](../scripts/js/apply-script-policy.mjs) hashes every inline
-  script and writes one `<meta http-equiv="Content-Security-Policy">` with the header's script
-  origins plus those hashes and without `'unsafe-inline'`. Browsers enforce both policies, so only
+  [`public/_headers`](../public/_headers) lists `'unsafe-inline'` for scripts only as the source
+  policy for the archived sites (`/v1/`–`/v4/`), which use inline event handlers. After
+  `astro build`, [`scripts/js/apply-script-policy.mjs`](../scripts/js/apply-script-policy.mjs)
+  hashes every inline script of the current site and writes the same `script-src` (the header's
+  script origins plus those hashes, without `'unsafe-inline'`) in two places: one
+  `<meta http-equiv="Content-Security-Policy">` per page and the `/*` rule of `dist/_headers`.
+  Archive assembly then gives each `/vN/*` rule `! Content-Security-Policy` followed by the source
+  policy, so archived pages keep working. Cloudflare ignores `_headers` lines over 2,000
+  characters; the build fails before the policy line grows past that. Only
   hashed inline scripts run. Every page gets the same list because `<ClientRouter />` swaps pages into
   the first document; when the next page carries a different policy (a new deployment or an
   archive), the router loads it as a full document instead. The build fails if a current page uses
@@ -29,11 +33,18 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
   inline module scripts. Neither policy allows `data:` scripts, so the console reports that one
   blocked load when the last new module script on the page is inline, as on `/blog/`. The module is
   empty and the router treats its error like a load, so pages keep working.
+  With `CSP_REPORT_URL` set at build time (an `https` URL), the `/*` header policy also gets
+  `report-uri` and `report-to csp`, and a `Reporting-Endpoints` header names the collector.
+  Page meta policies cannot report, so only the header does. See
+  [Violation reports](#violation-reports).
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
-- **Strict-Transport-Security**: `max-age=31536000`, so browsers keep using HTTPS for a year after
-  a visit. Add `includeSubDomains` (and later `preload`) only after every `*.santi020k.com` host is
-  confirmed HTTPS-only; preload is hard to undo.
+- **Strict-Transport-Security**: `max-age=31536000; includeSubDomains; preload`, so browsers keep
+  using HTTPS for a year on `santi020k.com` and every subdomain. On November 12, 2026 the project
+  hosts in the cross-site sitemap all redirected HTTP to HTTPS. Every future `*.santi020k.com`
+  host must serve HTTPS from its first day. The header only makes the domain eligible: submit it
+  at <https://hstspreload.org/> to enter browser preload lists, which is slow to undo.
+- **Cross-Origin-Opener-Policy**: `same-origin`, so pages opened from the site get no handle on it.
 - **X-Content-Type-Options**: `nosniff`
 - **`/_astro/*`** → 1 year `immutable`.
 - **`/v1/_astro/*` through `/v4/_astro/*`** → 1 year `immutable`, added by archive assembly.
@@ -43,6 +54,23 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
 - **HTML / `/feed.xml` / `/feed.json` / `/sitemap*.xml`** → `CDN-Cache-Control: s-maxage=3600, stale-while-revalidate=86400` so the edge stays fresh while keeping browser caches conservative.
 
 Editing those defaults: update [`public/_headers`](../public/_headers) and [`public/_redirects`](../public/_redirects) directly. Do not maintain a separate `vercel.json` — the project no longer targets Vercel.
+
+### Localized missing pages
+
+Cloudflare Pages serves the nearest parent directory's `404.html` for a missing path.
+Astro emits the English fallback at `dist/404.html`, but treats `/es/404/` as a regular
+page at `dist/es/404/index.html`. The [localized error-page generator](../scripts/js/generate-localized-error-pages.mjs)
+copies that Spanish document to `dist/es/404.html`, preserving both the direct route and English fallback.
+The step runs before the script policy so the copied HTML receives the same CSP and
+passes the normal build audits. Both Spanish error documents retain `noindex`; neither
+is added to the sitemap or Pagefind search index.
+
+Astro's local preview always uses the root `404.html` for missing paths and does not
+implement Cloudflare's directory fallback. On a Cloudflare preview deployment or after
+an authorized production deployment, request `/es/missing-page-check/` and
+`/es/blog/missing-page-check/`: both must return HTTP 404, Spanish recovery copy, and
+links to Spanish destinations. `/missing-page-check/` must retain the English recovery
+page and HTTP 404. Visiting `/es/404/` directly alone does not verify this behavior.
 
 ### Redirect validation and canonical hosts
 
@@ -81,13 +109,58 @@ a 404 or a loop. Local Astro preview does not execute Cloudflare's redirect file
 
 ### Future-dated content
 
-`publishDate` is evaluated during the static build. Reaching that date does not
-change the deployed site by itself, and this repository does not configure a
-scheduled production rebuild. A future-dated post becomes eligible for the next
-authorized deployment after its publication time; it is not a publishing timer.
-Plan that deployment through the release flow below, then verify the article,
-its feed entry, and sitemap entry in production. Adding automatic deployment
-triggers or shared deploy-hook secrets requires separate authorization.
+`publishDate` is evaluated during the static build, so reaching that date does not change the
+deployed site by itself. [`scheduled-publish.yml`](../.github/workflows/scheduled-publish.yml)
+closes that gap: at 14:17, 15:17 and 17:17 UTC, after the hours posts are scheduled for, it lists the posts on `main` that are not drafts and whose
+`publishDate` has passed, compares them with the production `/feed.json`, and requests a
+Cloudflare Pages deployment only when one is missing. It deploys `main` as it is, so a post
+must be merged, reviewed, and have `draft: false` before its date; the workflow never changes
+content. A post kept as `draft: true` is never published by the schedule.
+
+The publish job installs the pinned workspace dependencies on Node.js 24 and reads YAML
+through the shared frontmatter parser. Inline comments and quoted dates follow the same
+rules as the site's content rather than a separate line-based parser.
+
+Setup, once: create a deploy hook for the production branch in the Cloudflare Pages project
+(Settings → Builds → Deploy hooks) and store its URL as the `CLOUDFLARE_DEPLOY_HOOK_URL`
+repository secret. Without the secret the workflow reports due posts and deploys nothing.
+Anyone holding the hook URL can trigger a deployment, so rotate it if it leaks. After a
+scheduled deployment, verify the article, its feed entry, and its sitemap entry in production.
+
+A due post whose cover is still the shared placeholder (alt text starting "Placeholder cover" or
+"Portada provisional") is reported as a warning and not deployed. `pnpm run lint:content` already
+rejects that cover on any post without `draft: true`, so this only catches a post that reached
+`main` without passing lint.
+
+When the workflow requested a deployment, its `announce` job runs
+[`announce-published-posts.mjs`](../scripts/js/announce-published-posts.mjs). It waits up to
+45 minutes for the production feed to list the new posts, then submits them to
+[IndexNow](https://www.indexnow.org/) (Bing, Yandex and other participating engines) with the key
+in [`public/indexnow-key.txt`](../public/indexnow-key.txt), and sends a Webmention to every
+outbound link in each article that advertises an endpoint. The key is public by design; replace
+the file's value to rotate it. Posts published by an ordinary merge are not announced.
+
+### Security contact and violation reports
+
+`/.well-known/security.txt` ([RFC 9116](https://www.rfc-editor.org/rfc/rfc9116)) is generated by
+[`src/pages/.well-known/security.txt.ts`](../src/pages/.well-known/security.txt.ts) from
+`siteConfig.contact.email`. Its required `Expires` field is six months after the build, so any
+deployment renews it; deploy at least twice a year.
+
+<a id="violation-reports"></a>
+Content Security Policy violations can be collected by the Worker in
+[`workers/csp-report/`](../workers/csp-report/). It accepts both report formats, keeps only
+reports from `*.santi020k.com` pages, drops query strings, and writes one log line per violation
+to Workers Logs (kept seven days). It stores nothing else. Setup, once:
+
+1. From `workers/csp-report/`, run `npx wrangler deploy` and note the `workers.dev` URL (or add a
+   route such as `csp-report.santi020k.com`).
+2. In the Cloudflare Pages project, set the `CSP_REPORT_URL` build variable to that URL and
+   redeploy. `curl -sI https://santi020k.com/` then shows `report-to csp` and
+   `Reporting-Endpoints`.
+3. Read reports in the Worker's **Logs** tab, filtering on `csp.directive`.
+
+Without the variable the build emits no reporting directives, as before.
 
 ### Reviewed deployment
 
@@ -164,7 +237,7 @@ result: it fails when any selected job fails or is cancelled and passes when a
 documentation-only change skips the build-dependent jobs. Keep `Quality gate` as
 the required status check.
 
-**E2E Matrix (Weekly/Manual)** runs every browser project in six shards each
+**E2E Matrix (Weekly/Manual)** runs every browser project in eight shards each
 Monday against the default branch. Dispatch it manually to check another branch.
 Unlike the pull request suite, which runs in Google Chrome, its Chromium projects use
 Playwright's own Chromium build. Each shard has a 60-minute job limit to leave room for
@@ -172,11 +245,11 @@ browser dependency installation, with a 40-minute limit on the test step.
 
 ## Current release integration
 
-`release/v5.2.0` builds on v5.1.0. The current site uses published Lumen 5 packages
-and the santi020k theme. The historical sites retain their pinned Lumen versions,
-including Lumen 4.4.0 where applicable. Install from the committed lockfile using
-Node 24 and the pnpm version in `package.json`. Regenerate social cards and résumé
-downloads when their inputs change.
+`release/v5.3.0` builds on v5.2.0 and supersedes `release/v5.2.1`. The current site
+uses published Lumen 5 packages and the santi020k theme. The historical sites retain
+their pinned Lumen versions, including Lumen 4.4.0 where applicable. Install from the
+committed lockfile using Node 24 and the pnpm version in `package.json`. Regenerate
+social cards and résumé downloads when their inputs change.
 
 Commit finished work into the active release branch and validate the integrated
 revision. Check worktree status, commit ancestry and the resulting behavior before
@@ -250,7 +323,7 @@ mix another run's results.
 If a production regression is detected:
 
 1. Promote the previous healthy Cloudflare Pages production deployment. For a
-   regression in v5.2.0, use the verified v5.1.0 deployment.
+   regression in v5.3.0, use the verified v5.2.0 deployment.
 2. Re-run the release smoke checks against the restored deployment.
 3. Prepare a revert or fix through a reviewed pull request and validate the
    resulting production deployment. Preserve any published version tag and use a

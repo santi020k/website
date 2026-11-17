@@ -1,8 +1,8 @@
 ---
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import PortfolioCollectionHeading from '@/components/molecules/PortfolioCollectionHeading.astro'
-import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSpotlight.astro'
+import PortfolioCollectionHeading from '@/components/project/PortfolioCollectionHeading.astro'
+import PortfolioProjectSpotlight from '@/components/project/PortfolioProjectSpotlight.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
@@ -78,7 +78,7 @@ mainClass="remaining-pages"
       <div data-portfolio-paths-footer>
         <p>{t('collection.problemDecisionsOutcome')}</p>
         <Link data-portfolio-history-link href={localizePath('/work/', locale)} variant="inherit">
-          View work history <ArrowExchange direction="right" />
+          {t('collection.viewWorkHistory')} <ArrowExchange direction="right" />
         </Link>
       </div>
     </div>

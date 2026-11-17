@@ -157,7 +157,7 @@ describe('series publication and navigation', () => {
       collection: 'postTranslation',
       id: first.id,
       body: 'palabra '.repeat(401),
-      data: { title: 'Primer capítulo', description: 'Un artículo de la serie.' }
+      data: { title: 'Primer capítulo', description: 'Un artículo de la serie.', sourceHash: '0123456789ab' }
     })
 
     const { getSeriesSummaries } = await import('../series')

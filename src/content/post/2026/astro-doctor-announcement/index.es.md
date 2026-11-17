@@ -3,6 +3,7 @@ title: "Astro Doctor: un diagnóstico para bases de código Astro"
 description: "Por qué creé Astro Doctor: una CLI, un plugin de ESLint, una extensión de editor, una acción de GitHub y habilidades para agentes que detectan pronto los antipatrones de Astro."
 coverImage:
   alt: "Una lente de diagnóstico examina módulos de código conectados e informa sobre rendimiento, accesibilidad y estado del flujo de trabajo"
+sourceHash: "12dd2ddf5857"
 ---
 
 Astro ofrece una buena base: primero HTML estático y JavaScript solo cuando lo pides.

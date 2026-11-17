@@ -3,6 +3,7 @@ title: "Cómo detectar y corregir la falta de texto alternativo en Astro"
 description: "Detecta imágenes sin texto alternativo en Astro, elige el texto adecuado para diagramas e imágenes decorativas y comprueba la página en el navegador."
 coverImage:
   alt: "Una lente de diagnóstico de vidrio revela una pieza ámbar incrustada en una pila de bloques de páginas violetas"
+sourceHash: "3dd935568db6"
 ---
 
 Una página de Astro puede compilar correctamente y publicar una etiqueta `<img>` sin el atributo `alt`. [Astro Doctor](/es/blog/astro-doctor-announcement/) puede detectar el atributo ausente en el código fuente. Para corregirlo, decide qué aporta la imagen y comprueba que la página ofrezca la misma información a quienes no puedan verla.

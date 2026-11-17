@@ -1,16 +1,6 @@
 {
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
-    "noUnusedLocals": true,
-    "noUnusedParameters": false,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noUncheckedIndexedAccess": true,
-    "baseUrl": ".",
     "lib": [
       "es2022",
       "dom",
@@ -23,23 +13,22 @@
     ],
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
-    },
+    }
   },
   "include": [
     ".astro/types.d.ts",
-    "**/*"
+    "src",
+    "src/pages/.well-known/*.ts",
+    "workers",
+    "packages",
+    "tests",
+    "scripts",
+    "*.ts",
+    "*.mjs"
   ],
   "exclude": [
-    "apps",
-    "node_modules",
-    "**/node_modules/*",
-    ".vscode",
-    "dist",
-    "coverage",
-    "playwright-report",
-    "test-results",
-    "eslint.config.js"
+    "dist"
   ]
 }

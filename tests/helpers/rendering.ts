@@ -15,3 +15,10 @@ export const waitForImages = async (images: Locator) => {
     element => element instanceof HTMLImageElement && element.complete && element.naturalWidth > 0
   ))).toBe(true)
 }
+
+/** Wait for Lumen's reading controllers before measuring geometry for a scripted scroll. */
+export const waitForReadingRuntime = async (page: Page) => {
+  // The runtime initializes code overflow cues before document navigation. This
+  // marker confirms their initial layout changes are complete, even with slow modules.
+  await expect(page.locator('[data-ui-scroll-progress]')).toHaveAttribute('data-ui-bound', 'true')
+}

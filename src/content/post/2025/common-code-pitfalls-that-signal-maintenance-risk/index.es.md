@@ -3,6 +3,7 @@ title: "Problemas comunes del código que advierten riesgos de mantenimiento"
 description: "Las señales del código que suelen anticipar un mayor costo de mantenimiento antes de que el equipo sienta todo su impacto."
 coverImage:
   alt: "Módulos de software agrietados y dependencias enredadas que emiten advertencias sobre riesgos de mantenimiento"
+sourceHash: "f467daa0801a"
 ---
 
 La mayoría de las bases de código no se vuelven difíciles de mantener de un día para otro. Se deterioran poco a poco. Las señales aparecen temprano, pero los equipos suelen normalizarlas porque el código todavía «funciona».

@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path'
 
 import { afterEach, describe, expect, test } from 'vitest'
 
-import { applyScriptPolicy, hashScript, inspectDocument, readHeaderScriptSources } from '../apply-script-policy.mjs'
+import { applyHeaderPolicy, applyScriptPolicy, hashScript, inspectDocument, readHeaderScriptSources, readReportUrl } from '../apply-script-policy.mjs'
 
 const directories: string[] = []
 
@@ -67,8 +67,55 @@ describe('script policy', () => {
     expect(about).toContain(`<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${result.policy}">`)
     expect(result.policy).not.toContain('unsafe-inline')
     expect(result.policy).toContain(sha256('copy()'))
-    // Archives keep the header policy, which still allows their inline handlers.
+    // Archive header rules restore the source policy, which still allows their inline handlers.
     expect(await readFile(join(root, 'dist/v1/index.html'), 'utf8')).not.toContain('Content-Security-Policy')
+  })
+
+  test('gives the response header the same hashed script policy as the pages', async () => {
+    const root = await createBuild({ 'index.html': page('<script>theme()</script>') })
+    const { policy } = await applyScriptPolicy(root)
+    const headers = await readFile(join(root, 'dist/_headers'), 'utf8')
+    const lines = headers.split('\n').filter(line => line.trim().startsWith('Content-Security-Policy:'))
+
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toContain(`; ${policy}; style-src`)
+    expect(lines[0]).not.toMatch(/script-src[^;]*'unsafe-inline'/u)
+    expect(lines[0]).toContain('default-src \'self\'')
+    expect(lines[0]).toContain('upgrade-insecure-requests')
+
+    // A second run reads the rewritten header and must not keep stale hashes as origins.
+    await writeFile(join(root, 'dist/index.html'), page('<script>next()</script>'))
+
+    const second = await applyScriptPolicy(root)
+
+    expect(second.policy).toContain(sha256('next()'))
+    expect(second.policy).not.toContain(sha256('theme()'))
+    expect(await readFile(join(root, 'dist/_headers'), 'utf8')).not.toContain(sha256('theme()'))
+  })
+
+  test('sends violation reports to a configured collector from the header policy only', async () => {
+    const headers = await readFile('public/_headers', 'utf8')
+    const url = 'https://csp-report.santi020k.workers.dev/'
+    const scriptPolicy = 'script-src \'self\''
+    const once = applyHeaderPolicy(headers, scriptPolicy, url)
+    const lines = once.split('\n')
+    const policyIndex = lines.findIndex(line => line.includes('Content-Security-Policy:'))
+
+    expect(lines[policyIndex]).toMatch(/; report-uri https:\/\/csp-report\.santi020k\.workers\.dev\/; report-to csp$/u)
+    expect(lines[policyIndex + 1]?.trim()).toBe(`Reporting-Endpoints: csp="${url}"`)
+    expect(applyHeaderPolicy(once, scriptPolicy, url)).toBe(once)
+    expect(applyHeaderPolicy(once, scriptPolicy)).not.toMatch(/report-uri|report-to|Reporting-Endpoints/u)
+    expect(applyHeaderPolicy(headers, scriptPolicy)).not.toMatch(/report-uri|Reporting-Endpoints/u)
+    expect(readReportUrl(undefined)).toBeUndefined()
+    expect(readReportUrl(' ')).toBeUndefined()
+    expect(() => readReportUrl('http://example.com/report')).toThrow(/https/u)
+  })
+
+  test('fails instead of emitting a header line Cloudflare would ignore', async () => {
+    const headers = await readFile('public/_headers', 'utf8')
+    const hashes = Array.from({ length: 40 }, (_, index) => sha256(`script${index}()`)).join(' ')
+
+    expect(() => applyHeaderPolicy(headers, `script-src 'self' ${hashes}`)).toThrow(/Cloudflare allows 2000/u)
   })
 
   test('replaces an earlier policy instead of stacking a second one', async () => {

@@ -37,7 +37,7 @@ const translation: CollectionEntry<'postTranslation'> = {
   collection: 'postTranslation',
   id: post.id,
   body: 'Cuerpo en español',
-  data: { title: 'Ejemplo', description: 'Descripción traducida', startHere: { label: 'Empieza', reason: 'Conoce el sistema' } }
+  data: { title: 'Ejemplo', description: 'Descripción traducida', sourceHash: '0123456789ab', startHere: { label: 'Empieza', reason: 'Conoce el sistema' } }
 }
 
 const project: CollectionEntry<'project'> = {
@@ -64,7 +64,8 @@ const translated: CollectionEntry<'projectTranslation'> = {
   collection: 'projectTranslation',
   id: project.id,
   body: 'Traducción',
-  data: { title: 'Proyecto',
+  data: { sourceHash: '0123456789ab',
+    title: 'Proyecto',
     description: 'Descripción',
     impactMetrics: ['Un resultado'],
     focusAreas: [{ label: 'Uno', description: 'Primero' }, { label: 'Dos', description: 'Segundo' }],

@@ -2,11 +2,12 @@
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import SculptedTag from '@/components/atoms/SculptedTag.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
-import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
-import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
+import ProjectsGallery from '@/components/project/ProjectsGallery.astro'
+import TechnologyPillGrid from '@/components/technology/TechnologyPillGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
+import { localizeProject } from '@/utils/content-translations'
 import { collectionDateSortProjects, collectionRelevanceSortProjects } from '@/utils/date'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
@@ -24,7 +25,7 @@ import { siteConfig } from '@/site.config'
 const locale = getLocale(Astro.url.pathname)
 const t = collectionTranslator(locale)
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
-const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
+const sideProjects = await Promise.all(allProjects.filter(p => p.data.typesId === 'personal').map(project => localizeProject(project, locale)))
 const rankedProjects = [...sideProjects].sort(collectionRelevanceSortProjects)
 
 const purposeGroups = projectPurposeIds.map(purpose => ({
@@ -42,7 +43,7 @@ const breadcrumbs = [
   { name: t('nav.projects'), url: localizePath('/projects/', locale) }
 ]
 
-const projectsListSchema = createProjectCollectionSchema(t('collection.sideProjectsSantiagoMolina'), '/projects/', showcaseProjects, Astro.site)
+const projectsListSchema = createProjectCollectionSchema(t('collection.sideProjectsSantiagoMolina'), '/projects/', showcaseProjects, Astro.site, locale)
 ---
 
 <PageLayout

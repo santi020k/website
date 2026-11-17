@@ -1,0 +1,74 @@
+name: Link check
+
+# Linked sites move, close, or go private, and the build cannot notice: audit:pages only checks
+# links between this site's own pages. Once a week this reads every page in the production
+# sitemap, checks the links that leave santi020k.com, and keeps one issue open while any are broken.
+'on':
+  schedule:
+    - cron: '23 13 * * 1'
+  workflow_dispatch: {}
+
+concurrency:
+  group: link-check
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: Check outbound links
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: List production pages from the sitemap
+        run: |
+          locations() { grep -o '<loc>[^<]*</loc>' | sed -e 's#<loc>##' -e 's#</loc>##'; }
+          curl --fail --silent --show-error --max-time 30 https://santi020k.com/sitemap-index.xml | locations > sitemaps.txt
+          while read -r sitemap; do
+            curl --fail --silent --show-error --max-time 30 "$sitemap" | locations
+          done < sitemaps.txt > pages.txt
+          echo "Checking outbound links on $(wc -l < pages.txt) pages."
+
+      # Excluded: this site's own pages (audit:pages covers them), share buttons, the IndieAuth
+      # endpoints (they answer 400 without parameters), and hosts that refuse automated requests.
+      - name: Check links
+        id: lychee
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          fail: false
+          args: >-
+            --no-progress
+            --max-concurrency 8
+            --max-retries 2
+            --timeout 30
+            --accept '200..=299,429'
+            --user-agent 'Mozilla/5.0 (compatible; santi020k-link-check; +https://github.com/santi020k/website)'
+            --exclude '^https://santi020k\.com/'
+            --exclude '^https://(www\.)?linkedin\.com/'
+            --exclude '^https://(www\.)?(twitter|x)\.com/'
+            --exclude '^https://(api\.whatsapp\.com|wa\.me)/'
+            --exclude '^https://(tokens\.)?indieauth\.com/'
+            --exclude '^https://(www\.)?medium\.com/'
+            --exclude '^https://(www\.)?npmjs\.com/'
+            --exclude '^https://(www\.)?marcone\.com/'
+            --files-from pages.txt
+
+      - name: Open or update the broken-links issue
+        if: steps.lychee.outputs.exit_code != '0'
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title='Broken outbound links on santi020k.com'
+          number=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --body-file lychee/out.md
+          else
+            gh issue create --title "$title" --body-file lychee/out.md
+          fi
+          echo "::error::Broken outbound links found; see the issue and the job summary."
+          exit 1

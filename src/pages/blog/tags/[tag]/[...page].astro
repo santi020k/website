@@ -3,11 +3,11 @@ import type { GetStaticPaths, Page } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
+import PostsGallery from '@/components/article/PostsGallery.astro'
 import ArrowExchange from '@/components/atoms/ArrowExchange.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
-import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { isIndexedArchive } from '@/utils/archive-indexing'

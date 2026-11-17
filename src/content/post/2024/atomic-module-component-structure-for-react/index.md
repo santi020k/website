@@ -26,7 +26,7 @@ This first post is about a base project and how I handle the initial scaffold. T
 
 [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/)
 
-[GitHub Repository](https://github.com/santi020k/posts/tree/post-1)
+[GitHub Repository](https://github.com/santi020k/medium-posts/tree/post-1)
 
 ## The initial stack includes
 

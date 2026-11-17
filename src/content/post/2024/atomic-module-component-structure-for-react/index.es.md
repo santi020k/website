@@ -3,6 +3,7 @@ title: "Estructura de componentes con módulos atómicos para React"
 description: "Organiza proyectos React con componentes de módulos atómicos: estructura de archivos, convenciones de nombres y patrones para escalar bases de código TypeScript."
 coverImage:
   alt: "Primitivas de interfaz conectadas en módulos de componentes React anidados y capas de aplicación"
+sourceHash: "13885346d09e"
 ---
 
 En este artículo comparto ideas para establecer una estructura sólida en proyectos React mediante un enfoque de componentes con módulos atómicos. Desde la organización inicial hasta las convenciones de nombres, veremos buenas prácticas para mantener una base de código organizada y preparada para crecer.
@@ -19,7 +20,7 @@ Este primer artículo trata sobre un proyecto base y cómo organizo su estructur
 
 [Diseño atómico](https://bradfrost.com/blog/post/atomic-web-design/)
 
-[Repositorio de GitHub](https://github.com/santi020k/posts/tree/post-1)
+[Repositorio de GitHub](https://github.com/santi020k/medium-posts/tree/post-1)
 
 ## La tecnología inicial incluye
 

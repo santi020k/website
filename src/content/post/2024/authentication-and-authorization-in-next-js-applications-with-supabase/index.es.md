@@ -4,6 +4,7 @@ description: "Implementa autenticación mantenible en Next.js con Supabase SSR, 
 seoTitle: "Autenticación con Supabase en Next.js: SSR y rutas protegidas"
 coverImage:
   alt: "Tarjeta de identidad que atraviesa controles de verificación y autorización hacia servicios protegidos"
+sourceHash: "45a0bb215819"
 ---
 
 [Lee el artículo anterior: integración y despliegue continuos para proyectos Next.js](/es/blog/continuous-integration-and-deployment-for-next-js-projects/)

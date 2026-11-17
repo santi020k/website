@@ -1,0 +1,13 @@
+{
+  // Deploy from this folder with `npx wrangler deploy`; see docs/deployment.md.
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "csp-report",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  // Workers Logs keeps each violation for seven days, searchable in the dashboard.
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
