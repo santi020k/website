@@ -90,6 +90,10 @@ jobs:
         uses: santi020k/quality/actions/setup-pnpm@ff490e9efbd5fdfbdb1e6c404f1741d04c57f585 # v2.0.0
         with:
           node-version: 24.x
+          # Archive and motion lint and type-check results are Turbo tasks; an unchanged
+          # app replays its recorded result instead of running again.
+          task-cache-path: .turbo/cache
+          task-cache-key: static
 
       - name: Check documentation
         if: steps.changes.outputs.checks == 'true' && steps.changes.outputs.full != 'true'
