@@ -225,8 +225,9 @@ they should appear in a release. GitHub Releases remain deployment markers, not
 a second deployment gate, and the workflow never publishes the private website
 package to npm.
 
-CodeQL scans pull requests and also runs monthly or on demand against the
-protected default branch. The pull-request jobs stay read-only, and the
+CodeQL scans pull requests that change JavaScript, TypeScript, Astro, HTML, package
+manifests or its own workflow, every push to `main`, and also runs monthly or on demand
+against the protected default branch. The pull-request jobs stay read-only, and the
 dependency audit reuses the static job's dependency installation.
 
 CI runs for pull requests into `main` and `release/**`. The static job runs the
