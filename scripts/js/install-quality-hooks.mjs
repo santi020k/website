@@ -1,7 +1,8 @@
 import { execFileSync } from 'node:child_process'
+import { readFileSync } from 'node:fs'
 
 const legacyHuskyHooksPath = '.husky/_'
-const qualityRelease = 'v1.3.0'
+const qualityRelease = `v${readFileSync(new URL('../../.quality-version', import.meta.url), 'utf8').trim()}`
 const qualityVersionOutput = `quality ${qualityRelease.slice(1)}`
 
 if (process.env.CI) {
@@ -32,7 +33,7 @@ if (!hasCompatibleQualityCli()) {
   process.stderr.write(
     [
       `[hooks] Quality CLI ${qualityRelease} is required to install repository hooks.`,
-      `Install it with: curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/santi020k/quality/main/install.sh | sh -s -- santi020k/quality ${qualityRelease}`,
+      `Install it with: curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/santi020k/quality/ff490e9efbd5fdfbdb1e6c404f1741d04c57f585/install.sh | sh -s -- santi020k/quality ${qualityRelease}`,
       'Then run: pnpm run hooks:install',
       ''
     ].join('\n')

@@ -4,23 +4,14 @@ One page for the release in flight. The [deployment runbook](deployment.md) expl
 evidence from earlier releases lives in [`docs/archive/`](archive/README.md). Record new evidence in the
 pull request rather than growing a log here.
 
-## Current release: v5.3.0
+## Current release: v5.4.0
 
-`release/v5.3.0` supersedes `release/v5.2.1` and builds on the `v5.2.0` integration
-(`#162`). From that branch it carries the `5.2.0` version metadata and changelog,
-homepage `<title>` and contact CTA label alignment, refreshed résumé PDFs and
-locale-catalog fingerprint tracking, and GitHub Actions workflow dependency updates.
-
-It adds Spanish RSS and JSON feeds, a lighter technologies index, the hashed script
-policy in the response header with a separate rule for each archive,
-`Strict-Transport-Security` preload and opener-isolation headers, scheduled publishing,
-Renovate, catalog dependency updates,
-and connected project covers with scroll-driven motion. The historical sites retain
-their pinned Lumen versions and compatibility patches. Public URLs stay compatible and
-visitors need no migration.
-
-The pending minor and patch Changesets request v5.3.0 from v5.2.0. The GitHub
-Release workflow generates the version bump and changelog after integration into `main`.
+Published v5.3.0 is the base. `release/v5.4.0` adopts published Quality v2,
+committed-source shadow impact plans, and archive caching with explicit clock,
+runtime and Git-history inputs. Full release, security and deployment gates remain.
+The minor Changeset has been consumed with `pnpm run version-packages`; package
+metadata and the generated changelog now declare v5.4.0. The GitHub Release
+workflow creates the tag and release from the merged `main` commit.
 
 ### Before the pull request
 
@@ -37,8 +28,7 @@ Release workflow generates the version bump and changelog after integration into
 
 ### Pull request
 
-- [ ] Push the completed `release/v5.3.0` revision to its existing pull request, #167, into `main`; close the
-  `release/v5.2.1` pull request as superseded.
+- [ ] Push the completed `release/v5.4.0` revision and open its pull request into `main`.
   The **Quality gate** check covers static checks, the production build, six
   Chromium browser shards and Lighthouse.
 - [ ] Run **E2E Matrix (Weekly/Manual)** once for Firefox, WebKit and the mobile projects.
@@ -46,12 +36,15 @@ Release workflow generates the version bump and changelog after integration into
 
 ### Merge and deploy
 
+- [ ] Record the current healthy Cloudflare production deployment ID and its source
+  commit before merging, so v5.4.0 can be rolled back without moving published tags.
+
 - [ ] Add the `CLOUDFLARE_DEPLOY_HOOK_URL` repository secret so scheduled publishing can deploy
   due posts (see [deployment](deployment.md)), and install the Renovate GitHub app (see
   [dependency security](dependency-security.md)).
 - [ ] Merge once into `main`; Cloudflare Pages deploys it. Follow [reviewed deployment](deployment.md#reviewed-deployment).
 - [ ] Merge the **Release** workflow's `chore(release): version website` pull request if one opens,
-  then confirm the `v5.3.0` tag and GitHub Release point to the merged version commit.
+  then confirm the `v5.4.0` tag and GitHub Release point to the merged version commit.
 
 ### After deploy
 

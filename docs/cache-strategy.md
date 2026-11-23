@@ -139,6 +139,37 @@ After previewing drafts with `OG_INCLUDE_DRAFTS=1`, regenerate without that flag
 Remove an obsolete draft image explicitly if it is absent from `.og-cache.json`;
 do not delete every unlisted image, since custom artwork and utility fallbacks are valid.
 
+### Runtime identity for task caches
+
+Every CI job that persists Turbo outputs exports `QUALITY_TASK_RUNTIME` after
+setup using the resolved Node and pnpm versions, OS and architecture. Turbo hashes
+this value for all tasks, including static lint and type checks. A broad cache
+restore therefore cannot reuse a success produced by a different runtime patch.
+Local runs without the variable have a separate task identity. Regression checks
+exercise actual Turbo hashes and execute each cached job's runtime export step.
+
+### Archive task outputs
+
+CI and the weekly browser matrix persist `.turbo/cache` between runs. The canonical
+`pnpm run build` prepares the archive cache identity before invoking Turbo. Turbo
+still checks source files, resolved dependencies and declared environment inputs;
+the restored Actions cache is only a collection of candidate task outputs.
+
+The identity also includes the exact Node runtime, OS, architecture, timezone,
+calendar day and Git history used by archive résumé metadata. Project durations
+in v2 and v3 use that captured day throughout the build, including when a build
+crosses midnight. The v1 article date always comes from its required content date.
+Missing or shallow Git history forces execution with a unique identity, so those
+outputs cannot become a later verified cache hit. Use a full-history checkout in CI.
+
+Each archive owns `apps/vN/dist/`. The current site remains uncached, and assembly
+runs only after all app builds finish; it copies archives into root `dist/` and
+applies current navigation/header rules there. Tracked OG assets are never restored
+from this cache. Use `node scripts/js/build-sites.mjs --force` to rebuild the five
+apps without reuse; run `pnpm run build` afterward for complete assembly and audits.
+Direct `turbo run build:site` bypasses context preparation and is not the supported
+cached build entry point. Cloudflare deployment and its production inputs are unchanged.
+
 ### Portable OG fingerprints
 
 The pinned `@santi020k/og@1.2.0` dependency uses
@@ -164,3 +195,26 @@ and verifies hits, stable public URLs, changed sources, and corrupted outputs.
   ~420 KiB riding along inside each of the ~440 pages and every prefetched document.
 - Feed/sitemap updates need to propagate quickly for SEO freshness.
 - HTML can be served stale briefly while the CDN refreshes in background.
+
+## Quality v2 impact rollout
+
+`.quality-version` pins CLI 2.0.0; shared workflow setup and the installer are
+pinned to its immutable release commit. `quality-impact.json` describes the
+current site, historical sites, motion studio, assembled build, browser checks,
+Lighthouse, documentation and fresh dependency audit. Shared or unknown paths select the
+full graph. Build consumers follow their prerequisites. Quality plans commands;
+it does not execute them or deploy this site.
+
+CI saves a plan bound to the checked-out commit in a separate parallel shadow
+job. Release branches and manual runs request the full graph. This job must pass
+the final gate, but the plan does not replace the established checks. Regression
+fixtures cover source changes, dependency propagation, renames, deletions,
+lockfile changes, unknown paths and missing Git baselines. Compare shadow plans with
+full runs before qualifying further selective execution.
+
+Rollback: revert the archive cache and workflow changes, or force Turbo tasks with
+`node scripts/js/build-sites.mjs --force` to rebuild every site.
+Keep the normal assembly and audits through `pnpm run build` afterward.
+Cloudflare Pages continues its existing Git-triggered production build. CI
+artifacts are reused for browser/Lighthouse validation; production artifact
+promotion requires a separately reviewed provider configuration change.

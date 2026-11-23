@@ -124,7 +124,8 @@ export const getProjectDateRangeLabel = (startingDate: Date, endingDate?: Date):
 }
 
 export const getProjectDurationLabel = (startingDate: Date, endingDate?: Date): string => {
-  const totalMonths = getMonthDifference(startingDate, endingDate ?? new Date())
+  const buildDate = new Date(process.env.WEBSITE_ARCHIVE_BUILD_DATE ?? Date.now())
+  const totalMonths = getMonthDifference(startingDate, endingDate ?? buildDate)
 
   if (totalMonths < 12) return `${totalMonths} mo`
 

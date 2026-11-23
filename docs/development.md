@@ -142,13 +142,13 @@ article prose (`src/styles/prose.css`) loads only with the `Post` and `Projects`
 
 ## Git hooks
 
-[Quality CLI](https://github.com/santi020k/quality) v1.3.0 powers repository Git hooks. Install it
+[Quality CLI](https://github.com/santi020k/quality) v2.0.0 powers repository Git hooks. Install it
 with the checksum-verifying installer, then mount the hooks:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -fsSL \
-  https://raw.githubusercontent.com/santi020k/quality/main/install.sh \
-  | sh -s -- santi020k/quality v1.3.0
+  https://raw.githubusercontent.com/santi020k/quality/ff490e9efbd5fdfbdb1e6c404f1741d04c57f585/install.sh \
+  | sh -s -- santi020k/quality v2.0.0
 pnpm run hooks:install
 ```
 

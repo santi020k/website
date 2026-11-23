@@ -225,14 +225,18 @@ they should appear in a release. GitHub Releases remain deployment markers, not
 a second deployment gate, and the workflow never publishes the private website
 package to npm.
 
-CodeQL scans pull requests and also runs monthly or on demand against the
-protected default branch. The pull-request jobs stay read-only, and the
+CodeQL scans pull requests that change JavaScript, TypeScript, Astro, HTML, package
+manifests or its own workflow, every push to `main`, and also runs monthly or on demand
+against the protected default branch. The pull-request jobs stay read-only, and the
 dependency audit reuses the static job's dependency installation.
 
 CI runs for pull requests into `main` and `release/**`. The static job runs the
 selected checks while the build job produces the site in parallel and uploads `dist/`
 as a one-day artifact. Six stable Chromium shards and the Lighthouse job reuse that
-build, so each job stays well inside its timeout. `Quality gate` reports their combined
+build, so each job stays well inside its timeout. Shards split the suite by test and run
+two Playwright workers each (`PW_WORKERS`). Lighthouse audits each route once on ordinary
+pull requests and three times on release pull requests and manual runs; assertions keep
+the best run, so a single-run failure can be noise and is worth one rerun before a fix. `Quality gate` reports their combined
 result: it fails when any selected job fails or is cancelled and passes when a
 documentation-only change skips the build-dependent jobs. Keep `Quality gate` as
 the required status check.

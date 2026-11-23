@@ -1,9 +1,28 @@
 name: CodeQL
 
 on:
+  # Pull requests are scanned only when they change code CodeQL analyzes or this workflow.
+  # Every push to main is scanned, so the default branch always has a current baseline.
   pull_request:
     branches: [main, 'release/**']
     types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - '**/*.js'
+      - '**/*.mjs'
+      - '**/*.cjs'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.mts'
+      - '**/*.cts'
+      - '**/*.tsx'
+      - '**/*.astro'
+      - '**/*.html'
+      - '**/package.json'
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - .github/workflows/codeql.yml
+  push:
+    branches: [main]
   schedule:
     - cron: '23 7 1 * *'
   workflow_dispatch: {}

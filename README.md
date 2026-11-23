@@ -91,7 +91,7 @@ Architecture notes, content authoring rules, search, and date handling are colle
 | [Santi020k Theme](https://github.com/santi020k/santi020k-theme) | Shared brand tokens and canonical product URLs. |
 | [OG](https://github.com/santi020k/og) | Generated social artwork, versioned manifests, and metadata audits. |
 | [ESLint Config Basic](https://github.com/santi020k/eslint-config-basic) | Coordinated Astro, TypeScript, browser-test, and tooling rules. |
-| [Quality](https://github.com/santi020k/quality) / [Commitprompt](https://github.com/santi020k/commitprompt) | Repository hooks and validated Conventional Commits. |
+| [Quality](https://github.com/santi020k/quality) / [Commitprompt](https://github.com/santi020k/commitprompt) | Quality v2 hooks, impact shadow plans and validated Conventional Commits. |
 | [Astro Doctor](https://github.com/santi020k/astro-doctor) | Changed-code diagnostics in pull requests. |
 
 ## Run it locally
