@@ -70,6 +70,7 @@
     "GITHUB_EVENT_NAME",
     "GITHUB_HEAD_REF",
     "GITHUB_OUTPUT",
-    "PATH"
+    "PATH",
+    "PW_WORKERS"
   ]
 }

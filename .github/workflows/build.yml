@@ -179,8 +179,8 @@ jobs:
           include-hidden-files: true
           retention-days: 1
 
-  # Shards split the stable Chromium suite by file so each job stays well inside
-  # its timeout. Every shard previews the same build the build job produced.
+  # Shards split the stable Chromium suite by test so each job takes a similar share and
+  # stays well inside its timeout. Every shard previews the same build the build job produced.
   browser:
     name: Browser tests (${{ matrix.shard }}/6)
     needs: build
@@ -208,23 +208,22 @@ jobs:
           name: production-build
           path: dist/
 
-      - name: Cache Playwright browser
-        id: playwright-cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-
-      - name: Install Chromium browser
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: Install Chromium system dependencies
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm exec playwright install-deps chromium
+      # The stable suite sets PW_CHROMIUM_CHANNEL=chrome, so Playwright drives the Google Chrome
+      # that the runner image already provides. Downloading Playwright's Chromium build and its
+      # system packages added about a minute to every shard without being used.
+      - name: Use the runner's Google Chrome
+        run: |
+          if [[ -x /opt/google/chrome/chrome ]]; then
+            /opt/google/chrome/chrome --version
+          else
+            pnpm exec playwright install --with-deps chrome
+          fi
 
       - name: Run stable browser tests
         run: pnpm run test:e2e:ci:stable --shard=${{ matrix.shard }}/6
+        env:
+          # Standard public runners have four vCPUs; the preview server shares them.
+          PW_WORKERS: '2'
 
       - name: Upload browser diagnostics on failure
         if: failure()

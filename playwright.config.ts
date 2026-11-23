@@ -16,7 +16,21 @@ const isSkipBuildRun = Boolean(process.env.SKIP_BUILD)
 const shouldRunChromiumOnly = process.env.PW_ONLY_CHROMIUM === 'true'
 const chromiumChannel = process.env.PW_CHROMIUM_CHANNEL
 const shouldBuildPreviewServer = (!isCiLikeRun && !isSkipBuildRun) || isSnapshotUpdateRun
-const shouldRunSerially = isCiLikeRun
+// CI-like runs default to two workers: every spec reads the same static preview build and keeps
+// its state in its own browser context. Standard public runners have four vCPUs shared with the
+// preview server, and screenshots and timing assertions need headroom. Set PW_WORKERS to tune it.
+const defaultCiWorkers = 2
+
+const resolveCiWorkers = (value: string | undefined): number => {
+  if (value === undefined || value === '') return defaultCiWorkers
+
+  const workers = Number(value)
+
+  if (!Number.isInteger(workers) || workers < 1) throw new TypeError(`PW_WORKERS must be a positive integer, received "${value}".`)
+
+  return workers
+}
+
 const previewHost = '127.0.0.1'
 const previewPort = Number(process.env.PW_PREVIEW_PORT ?? 4173)
 const previewURL = `http://${previewHost}:${previewPort}`
@@ -83,10 +97,12 @@ export default defineConfig({
       maxDiffPixels: 3_000
     }
   },
-  fullyParallel: !isCiLikeRun,
+  // Test-level parallelism also makes --shard split by test instead of by file, which keeps
+  // shards even when a few specs hold most of the tests.
+  fullyParallel: true,
   forbidOnly: isCiLikeRun,
   retries: isCiLikeRun ? 2 : 0,
-  workers: shouldRunSerially ? 1 : '50%',
+  workers: isCiLikeRun ? resolveCiWorkers(process.env.PW_WORKERS) : '50%',
   reporter: 'html',
   use: {
     baseURL: previewURL,
