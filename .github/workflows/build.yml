@@ -243,8 +243,13 @@ jobs:
     needs: build
     if: needs.build.outputs.full == 'true'
     runs-on: ubuntu-latest
-    # Three runs per route; assertions keep each route's best run.
+    # Assertions keep each route's best run. Release pull requests and manual runs audit every
+    # route three times; other pull requests audit once, so a noisy run can fail them. Rerun the
+    # job, or raise LIGHTHOUSE_PULL_REQUEST_RUNS, if that proves too sensitive.
     timeout-minutes: 30
+    env:
+      LIGHTHOUSE_PULL_REQUEST_RUNS: '1'
+      LIGHTHOUSE_RELEASE_RUNS: '3'
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -263,7 +268,15 @@ jobs:
           path: dist/
 
       - name: Run Lighthouse assertions
-        run: pnpm exec lhci autorun --config=.lighthouserc.json
+        env:
+          CI_HEAD_REF: ${{ github.head_ref }}
+        run: |
+          runs="$LIGHTHOUSE_RELEASE_RUNS"
+          if [[ "$GITHUB_EVENT_NAME" == pull_request && "$CI_HEAD_REF" != release/* && "$CI_HEAD_REF" != changeset-release/* ]]; then
+            runs="$LIGHTHOUSE_PULL_REQUEST_RUNS"
+          fi
+          echo "Lighthouse runs per route: $runs"
+          pnpm exec lhci autorun --config=.lighthouserc.json --collect.numberOfRuns="$runs"
 
       - name: Upload Lighthouse diagnostics on failure
         if: failure()
