@@ -38,6 +38,7 @@
     }
   },
   "globalEnv": [
+    "QUALITY_TASK_RUNTIME",
     "BASE_URL",
     "CI",
     "CLOUDFLARE_WEB_ANALYTICS_TOKEN",

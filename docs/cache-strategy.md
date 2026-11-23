@@ -139,6 +139,15 @@ After previewing drafts with `OG_INCLUDE_DRAFTS=1`, regenerate without that flag
 Remove an obsolete draft image explicitly if it is absent from `.og-cache.json`;
 do not delete every unlisted image, since custom artwork and utility fallbacks are valid.
 
+### Runtime identity for task caches
+
+Every CI job that persists Turbo outputs exports `QUALITY_TASK_RUNTIME` after
+setup using the resolved Node and pnpm versions, OS and architecture. Turbo hashes
+this value for all tasks, including static lint and type checks. A broad cache
+restore therefore cannot reuse a success produced by a different runtime patch.
+Local runs without the variable have a separate task identity. Regression checks
+exercise actual Turbo hashes and execute each cached job's runtime export step.
+
 ### Archive task outputs
 
 CI and the weekly browser matrix persist `.turbo/cache` between runs. The canonical
